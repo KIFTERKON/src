@@ -33,7 +33,6 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	//DECLARACION PARA CREAR UNA TABLA
 	DefaultTableModel model = new DefaultTableModel(0,5){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -157,7 +156,9 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 					"  from tb_empleado, tb_establecimiento"+
 
 					"  where "+
-						"  tb_empleado.establecimiento_id = tb_establecimiento.folio");
+						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
+						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1'");
+			
 			
 			while (rs.next())
 			{ 

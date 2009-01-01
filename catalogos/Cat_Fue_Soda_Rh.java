@@ -12,10 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -58,7 +54,7 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	JTable tabla                   = new JTable(modelo);
 	JScrollPane panelScroll        = new JScrollPane(tabla);
 	
-	
+	JLabel txtFolio_Empleado = new JLabel();
 	JLabel txtNombre_Completo = new JLabel();
 	JTextField txtCantidad = new JTextField();
 	JTextField txtFecha = new JTextField();
@@ -75,16 +71,20 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	
 	public Cat_Fue_Soda_Rh(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
+		this.setTitle("Fuente de Sodas RRHH");
 		int x = 40, y=30, ancho=140;
 		txtCantidad.requestFocus();
 		panel.setBorder(BorderFactory.createTitledBorder("Fuente de Sodas RRHH"));
 		
-		panel.add(new JLabel("Nombre Completo:")).setBounds(x,y,ancho,20);
+		panel.add(new JLabel("Folio Empleado:")).setBounds(x,y,ancho,20);
+		panel.add(txtFolio_Empleado).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(new JLabel("Nombre Completo:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtNombre_Completo).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(btnFiltro).setBounds(x+ancho+ancho+90,y,32,20);
 		
-		panel.add(panelScroll).setBounds(x+ancho+x+40+ancho+ancho-80+30,y,ancho+130,280);
+		panel.add(panelScroll).setBounds(x+ancho+x+40+ancho+ancho-80+30,y,ancho+130,260);
 		panel.add(btnEliminar).setBounds(x+ancho+x+40+ancho+ancho-80+30+ancho+130,y,32,20);
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
@@ -117,6 +117,7 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		btnFiltro.addActionListener(filtro);
 		btnCalendario.addMouseListener(OpCalendario);
 		btnEliminar.addActionListener(opEliminar);
+		btnListado.addActionListener(opComprobar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
 	
@@ -125,6 +126,7 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		Obj_Empleado re = new Obj_Empleado();
 		
 		re = re.buscar(Integer.parseInt(algo));
+		txtFolio_Empleado.setText(re.getFolio()+"");
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
 		
 		panelEnabledTrue();
@@ -147,6 +149,14 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		this.setLocationRelativeTo(null);
 
 	}
+	
+	ActionListener opComprobar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			dispose();
+			new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
+		}
+	};
+	
 	ActionListener opEliminar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			int cantidadFilasSeleccionadas = tabla.getSelectedRowCount();
@@ -183,7 +193,6 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			
 			if(validaCampos()!="") {
 				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 				return;
@@ -192,7 +201,8 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 				int nroFila = tabla.getSelectedRow();
 				if(cantidadFilasSeleccionadas == 0){
 					Obj_fuente_sodas_rh fsrh = new Obj_fuente_sodas_rh();
-							
+					
+					fsrh.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
 					fsrh.setNombre_Completo(txtNombre_Completo.getText());
 					fsrh.setCantidad(Double.parseDouble(txtCantidad.getText()));
 					fsrh.setFecha(txtFecha.getText());
@@ -339,37 +349,37 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		
 		DateTime calendar = new DateTime (shell, SWT.CALENDAR);
 		calendar.addSelectionListener (new SelectionAdapter () {
-			@SuppressWarnings("deprecation")
 			public void widgetSelected (SelectionEvent e) {
 				String fecha = e.toString().substring(25,35);
 				fecha = fecha.replace("}", "");
-								
 				String[] splits = fecha.split("/");
-					int diaInicial  = Integer.parseInt(splits[1]);
-					int mesInicial  = Integer.parseInt(splits[0]);	
-					int anioInicial = Integer.parseInt(splits[2]);
+				System.out.println(splits.length);
+				
+					String diaInicial  = splits[1];
+					String mesInicial  = splits[0];	
+					String anioInicial = splits[2];
 					
 					txtFecha.setText(diaInicial+"/"+mesInicial+"/"+anioInicial);
-					Calendar calendar = Calendar.getInstance();
-					Date fechaInicial = new Date();
-					
-					fechaInicial.setMonth(mesInicial-1); 
-					fechaInicial.setDate(diaInicial);
-					
-					calendar.setTime(fechaInicial);
-										
-					int calendarTime = Calendar.DAY_OF_MONTH;
-					int diaSumar = calendar.get(calendarTime);
-					calendar.set(calendarTime, diaSumar+7);
-					
-					SimpleDateFormat formatoFecha = new SimpleDateFormat();
-					
-					formatoFecha.setTimeZone(TimeZone.getTimeZone("GMT-6"));
-					
-					Date fechaSum = calendar.getTime();
-					
-					formatoFecha.applyPattern("dd/MM/yyyy");
-					formatoFecha.format(fechaSum);
+//					Calendar calendar = Calendar.getInstance();
+//					Date fechaInicial = new Date();
+//					
+//					fechaInicial.setMonth(mesInicial-1); 
+//					fechaInicial.setDate(diaInicial);
+//					
+//					calendar.setTime(fechaInicial);
+//										
+//					int calendarTime = Calendar.DAY_OF_MONTH;
+//					int diaSumar = calendar.get(calendarTime);
+//					calendar.set(calendarTime, diaSumar+7);
+//					
+//					SimpleDateFormat formatoFecha = new SimpleDateFormat();
+//					
+//					formatoFecha.setTimeZone(TimeZone.getTimeZone("GMT-6"));
+//					
+//					Date fechaSum = calendar.getTime();
+//					
+//					formatoFecha.applyPattern("dd/MM/yyyy");
+//					formatoFecha.format(fechaSum);
 
 			}
 		});

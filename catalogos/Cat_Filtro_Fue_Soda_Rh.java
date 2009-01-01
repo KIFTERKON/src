@@ -157,7 +157,8 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 					"  from tb_empleado, tb_establecimiento"+
 
 					"  where "+
-						"  tb_empleado.establecimiento_id = tb_establecimiento.folio");
+						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
+						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1'");
 			
 			while (rs.next())
 			{ 
