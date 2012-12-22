@@ -78,6 +78,9 @@ create table tb_fuente_sodas_rh(
 	status int
 );
 
+select max(folio) as 'Maximo' from tb_fuente_sodas_auxf
+select * from tb_fuente_sodas_auxf
+
 create table tb_fuente_sodas_auxf(
 	folio int primary key identity,
 	ticket varchar(15),

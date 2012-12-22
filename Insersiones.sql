@@ -1,0 +1,80 @@
+
+USE Grupo_Izagar
+
+-- Inserta los establecimientosç
+INSERT INTO tb_establecimiento(folio,nombre,abreviatura,status) VALUES(4,'Super IV','Spr 4',1);
+INSERT INTO tb_establecimiento(folio,nombre,abreviatura,status) VALUES(3,'Super III','Spr 3',1);
+INSERT INTO tb_establecimiento(folio,nombre,abreviatura,status) VALUES(2,'Super II','Spr 2',1);
+INSERT INTO tb_establecimiento(folio,nombre,abreviatura,status) VALUES(1,'Super I','Spr 1',1);
+
+-- Inserta los puestos
+INSERT INTO tb_puesto(nombre,abreviatura,status) VALUES('Gerente','Grt','1');
+
+-- Inserta los sueldos
+INSERT INTO tb_sueldo(sueldo,abreviatura,status) VALUES(1000.00,'Bas',1);
+INSERT INTO tb_sueldo(sueldo,abreviatura,status) VALUES(1000.55,'Medio',1);
+
+-- Inserta los bonos
+INSERT INTO tb_bono(bono,abreviatura,status) VALUES(60,'base',1);
+
+-- Inserta los empleados del super I
+INSERT INTO tb_empleado VALUES(1,'ALMA' , 'CEBREROS' , 'TORRES',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(2,'ANA ISABEL' , 'MENDEZ' , 'ROMERO',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(3,'BEATRIZ ADRIANA' , 'OSUNA' , 'C.',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(4,'BEATRIZ' , 'ALEYDA' , 'ZAZUETA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(5,'BLANCA GARDENIA' , 'ARMIENTA' , 'SICAIROS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(6,'CARLOS ALONSO' , 'VERDE' , 'BARRAZA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(7,'CECILIA' , 'VALENZUELA' , 'LOAIZA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(8,'CINTHIA KARELY' , 'OJEDA' , 'CERVANTES',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(9,'CLAUDIA JANETH' , 'GARCIA' , 'VERDUGO',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(10,'CRISTIAN' , 'JAMIR' , 'VALENZUELA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(11,'DANIEL' , 'RIOS' , 'RAMIREZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(12,'DAVID' , 'RAMOS' , 'CORTEZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(13,'FRANCISCO ARSENIO' , 'TAPIA' , 'CARRASCO',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(14,'GUADALUPE' , 'ELIZABETH' , 'LEON',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(15,'HEYDY' , 'VIZCARRA' , 'TAMAYO',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(16,'JAHAIRA SOEZ' , 'SAINZ' , 'VEGA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(17,'JESUS ALBERTO' , 'DIAZ' , 'FELIX',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(18,'JESUS MANUEL' , 'PONCE' , 'RIVERA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(19,'JOSE IRAN' , 'CASTILLO' , 'MEZA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(20,'JOSE GUADALUPE' , 'RAMOS' , 'ONTIVEROS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(21,'JOSEFINA' , 'MORAN' , 'CEBREROS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(22,'JOSE FRANCISCO' , 'BARRAZA' , 'CRUZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(23,'JOSE GERMAN' , 'LANDEROS' , 'T.',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(24,'JOSE PABLO' , 'GUTIERREZ' , 'LEZAMA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(25,'KARELY' , 'AGUIRRE' , 'GERARDO',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(26,'KARINA GUADALUPE' , 'ROJO' , 'RODRIGUEZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(27,'LORETO' , 'MILLAN' , 'FELIX',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(28,'JOSE ALBERTO' , 'LOPEZ' , 'SALAZAR',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(29,'JOSE ENRIQUE' , 'SANCHEZ' , 'VEGA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(30,'JOSE RICARDO' , 'FIERRO' , 'LANDEROS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(31,'MAIRENA ARCELIA' , 'SAINZ' , 'LOPEZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(32,'MANUEL DE JESUS' , 'MARTINEZ' , 'V.',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(33,'MARBELY BIRIDIANA' , 'INZUNZA' , 'BASTIDAS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(34,'MARELY ELIZABETH' , 'ZAMORA' , 'ALMAZAN',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(35,'MARCO ANTONIO' , 'MEDRANO' , 'OJEDA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(36,'MARGARITA' , 'SANTANA' , 'ROCHIN',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(37,'MARIA FELICITAS' , 'BERNAL' , 'ONTIVEROS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(38,'MARIA MAGDALENA' , 'CARDENAS' , 'OSUNA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(39,'MARIA MAGDALENA' , 'LARRAÑAGA' , 'LIZARRAGA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(40,'MARTHA' , 'NABIA' , 'PEREZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(41,'MIGUEL ANGEL' , 'BAEZ' , 'CHAVEZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(42,'MIGUEL' , 'ANGEL' , 'URREA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(43,'MIGUEL ANGEL' , 'VALENZUELA' , 'MELLADO',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(44,'PATSY' , 'RENTERIA' , 'PINEDA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(45,'RAUL ARMANDO' , 'GONZALEZ' , 'ROBLES',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(46,'SAIDHT OSWALDO' , 'MILLAN' , 'ROCHA',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(47,'SERGIO FERNANDO' , 'MARTINEZ' , 'RIOS',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(48,'SANTA LUCIA' , 'LARA' , 'DORAME',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(49,'SUSANA' , 'MORENO' , 'GODINEZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(50,'WILLIAMS' , 'ACOSTA' , 'RAMIREZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012');
+INSERT INTO tb_empleado VALUES(51,'VICENTE' , 'GOMEZ' , 'HERNANDEZ',1,1,1,1,1,1,1,'Fri Nov 09 16:22:03 MST 2012'); 
+
+-- Inserta los permisos
+INSERT INTO tb_permiso(nombre,status) VALUES('Administrador',1);
+
+-- Inserta un usuario
+INSERT INTO tb_usuario VALUES('Edgar Eduardo Jimenez','8ea11d45f78bc15ea237e6d44c11e979',1,'Sun Nov 18 11:25:36 MST 2012','Sun Nov 18 11:25:36 MST 2012',1);
+
+-- Seleccionar un usuario
+select * from tb_empleado;

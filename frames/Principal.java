@@ -2,6 +2,7 @@ package frames;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +21,8 @@ import objetos.Obj_Usuario;
 import catalogos.Cat_Bono;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
-import catalogos.Cat_Filtro_Fue_Soda;
+import catalogos.Cat_Filtro_Fue_Soda_Auxf;
+import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Usuario;
@@ -50,7 +52,8 @@ public class Principal extends JFrame{
 		
 		JMenuItem Archivo_Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
 	JMenu Alimentacion = new JMenu("Alimentación");
-		JMenuItem Fuente_Sodas = new JMenuItem("Fuente de Sodas");
+		JMenuItem Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
+		JMenuItem Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
 		JMenuItem Bancos = new JMenuItem("Bancos");
 		JMenuItem Prestamos = new JMenuItem("Prestamos");
 	JMenu Lista_Raya = new JMenu("Lista de Raya");	
@@ -70,10 +73,10 @@ public class Principal extends JFrame{
 		tabbedPane.setBackground(Color.white);
 		tabbedPane.addTab("Lista de Raya", new ImageIcon("imagen/Report.png"), new Frm_Principal2().getBase());
 		cont.add(tabbedPane);
-		this.setSize(1280,700);
-		this.setResizable(false);
 		
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -109,8 +112,10 @@ public class Principal extends JFrame{
 		
 			Alimentacion.add(Bancos);
 			Bancos.addActionListener(Opciones);
-			Alimentacion.add(Fuente_Sodas);
-			Fuente_Sodas.addActionListener(Opciones);
+			Alimentacion.add(Fuente_Sodas_rh);
+			Fuente_Sodas_rh.addActionListener(Opciones);
+			Alimentacion.add(Fuente_Sodas_auxf);
+			Fuente_Sodas_auxf.addActionListener(Opciones);
 			Alimentacion.add(Prestamos);
 			Prestamos.addActionListener(Opciones);
 		
@@ -134,8 +139,11 @@ public class Principal extends JFrame{
 			if(e.getActionCommand().equals("Establecimiento"))
 				new Cat_Establecimiento().setVisible(true);
 //PENDIENTES-----------------------------------------------------------------------------------		
-			if(e.getActionCommand().equals("Fuente de Sodas"))
-				new Cat_Filtro_Fue_Soda().setVisible(true);
+			if(e.getActionCommand().equals("Fuente de Sodas RRHH"))
+				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
+			
+			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
+				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
 //			if(e.getActionCommand().equals("Bancos"))
 //				dispose();
 //			if(e.getActionCommand().equals("Permisos de Usuario"))

@@ -9,6 +9,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
+import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class ActualizarSQL extends Connexion{
@@ -153,6 +154,26 @@ public class ActualizarSQL extends Connexion{
 		return true;
 	}
 	
+	public boolean eliminarListaFuenteSodas_auxf(int id){
+		String query = "update tb_fuente_sodas_auxf set status=? where folio="+id;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, "0");
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	public boolean fuente_sodas(Obj_fuente_sodas_rh ftsds, int folio){
 		String query = "update tb_fuente_sodas_rh set fecha=?, cantidad=? where folio="+folio;
 		PreparedStatement pstmt = null;
@@ -174,5 +195,25 @@ public class ActualizarSQL extends Connexion{
 		return true;
 	}
 	
+	public boolean fuente_sodas_auxf(Obj_fuente_sodas_auxf ftsds, int folio){
+		String query = "update tb_fuente_sodas_auxf set fecha=?, cantidad=? where folio="+folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, ftsds.getFecha());
+			pstmt.setDouble(2, ftsds.getCantidad());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}	
 	
 }

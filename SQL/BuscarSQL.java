@@ -8,6 +8,7 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
+import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class BuscarSQL extends Connexion{
@@ -344,6 +345,30 @@ public class BuscarSQL extends Connexion{
 	public Obj_fuente_sodas_rh MaximoFuente(){
 		Obj_fuente_sodas_rh bono = new Obj_fuente_sodas_rh();
 		String query = "select max(folio) as 'Maximo' from tb_fuente_sodas_rh";
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				bono.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bono;
+	}
+	
+	public Obj_fuente_sodas_auxf MaximoFuente_auxf(){
+		Obj_fuente_sodas_auxf bono = new Obj_fuente_sodas_auxf();
+		String query = "select max(folio) as 'Maximo' from tb_fuente_sodas_auxf";
 		try {
 			java.sql.Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);

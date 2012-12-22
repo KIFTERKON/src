@@ -1,27 +1,26 @@
 package catalogos;
 
-
 import java.awt.Container;
+import java.util.Calendar;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
-/**
- *
- * @author beastieux
- */
+
+
 @SuppressWarnings("serial")
 public class Ejm17_JCalendar extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
-	
+	JDateChooser calEjemplo1=new  JDateChooser();
 	JTextField txtFecha = new JTextField();
 	
     public Ejm17_JCalendar()
     {
-    	JDateChooser calEjemplo1=new  JDateChooser();
+    	
 //      JCalendar calEjemplo1=new  JCalendar();
  	
     	panel.add(new JLabel("Fecha :")).setBounds(20,150,80,20);

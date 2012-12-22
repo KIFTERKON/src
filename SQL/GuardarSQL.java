@@ -10,6 +10,7 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
+import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class GuardarSQL extends Connexion{
@@ -177,6 +178,32 @@ public class GuardarSQL extends Connexion{
 				pstmt.setString(2, fuentesodasrh.getNombre_Completo().toUpperCase());
 				pstmt.setDouble(3, fuentesodasrh.getCantidad());
 				pstmt.setString(4, fuentesodasrh.getFecha());
+				pstmt.setString(5, "1");
+				
+			 	pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_fuente_sodas_auxf(Obj_fuente_sodas_auxf fuentesodasauxf){
+		String query = "insert into tb_fuente_sodas_auxf(ticket,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, fuentesodasauxf.getTicket().toUpperCase());
+				pstmt.setString(2, fuentesodasauxf.getNombre_Completo().toUpperCase());
+				pstmt.setDouble(3, fuentesodasauxf.getCantidad());
+				pstmt.setString(4, fuentesodasauxf.getFecha());
 				pstmt.setString(5, "1");
 				
 			 	pstmt.executeUpdate();

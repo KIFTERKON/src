@@ -28,13 +28,13 @@ import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
 @SuppressWarnings("serial")
-public class Cat_Filtro_Emp extends JDialog{
+public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	
 	Container cont = getContentPane();
-	JLayeredPane campo = new JLayeredPane();
+	JLayeredPane panel = new JLayeredPane();
 	
 	//DECLARACION PARA CREAR UNA TABLA
-	DefaultTableModel model = new DefaultTableModel(0,9){
+	DefaultTableModel model = new DefaultTableModel(0,5){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -50,13 +50,13 @@ public class Cat_Filtro_Emp extends JDialog{
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
+	String busqueda[] = {"Folio","Nombre Completo","Otra Cosa"};
 	@SuppressWarnings("unchecked")
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
 	@SuppressWarnings("unchecked")
-	public Cat_Filtro_Emp()	{
-		this.setTitle("..:: Filtro ::..");
+	public Cat_Filtro_Fue_Soda_Auxf()	{
+		this.setTitle("..:: Filtro Fuente de Sodas AuxF ::..");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -70,17 +70,17 @@ public class Cat_Filtro_Emp extends JDialog{
 		
 		
 		cmbBuscar.setSelectedIndex(1);
-		campo.add(getPanelTabla()).setBounds(10,70,710,327);
+		panel.add(getPanelTabla()).setBounds(10,70,710,327);
 		
 		agregar(tabla);
 		
-		campo.add(lblBuscar).setBounds(10,30,70,20);
-		campo.add(txtBuscar).setBounds(90,30,220,20);
+		panel.add(lblBuscar).setBounds(10,30,70,20);
+		panel.add(txtBuscar).setBounds(90,30,220,20);
 		
-		campo.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-		campo.add(cmbBuscar).setBounds(410, 30, 160, 20);
+		panel.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
+		panel.add(cmbBuscar).setBounds(410, 30, 160, 20);
 	
-		cont.add(campo);
+		cont.add(panel);
 		
 		this.setModal(true);
 		this.setSize(740,450);
@@ -95,7 +95,7 @@ public class Cat_Filtro_Emp extends JDialog{
 	        		dispose();
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
-	    			new Cat_Empleado(folio+"").setVisible(true);
+	    			new Cat_Fue_Soda_Auxf(folio+"").setVisible(true);
 	        	}
 	        }
         });
@@ -103,17 +103,18 @@ public class Cat_Filtro_Emp extends JDialog{
 	
    	@SuppressWarnings("unchecked")
 	public void filtro() { 
+   		
 		// Busca segun el combo
 		switch (cmbBuscar.getSelectedIndex()){
 			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
-			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase().trim(), 1)); break;
-			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase().trim(), 2)); break;	
+			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 1)); break;
+//			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
 		}		 
 	}  
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 		Connection conn = Connexion.conexion();
-		
+
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -122,90 +123,60 @@ public class Cat_Filtro_Emp extends JDialog{
 		tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		
+
 		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
+		tabla.getColumnModel().getColumn(0).setMinWidth(45);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
 		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
 		tabla.getColumnModel().getColumn(1).setMinWidth(230);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
-		tabla.getColumnModel().getColumn(3).setHeaderValue("Puesto");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(3).setMinWidth(50);
-		tabla.getColumnModel().getColumn(4).setHeaderValue("Sueldo");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(4).setMinWidth(50);
-		tabla.getColumnModel().getColumn(5).setHeaderValue("Bono");
-		tabla.getColumnModel().getColumn(5).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(5).setMinWidth(50);
-		tabla.getColumnModel().getColumn(6).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(6).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(6).setMinWidth(50);
-		tabla.getColumnModel().getColumn(7).setHeaderValue("F Sodas");
-		tabla.getColumnModel().getColumn(7).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(7).setMinWidth(50);
-		tabla.getColumnModel().getColumn(8).setHeaderValue("Gafete");
-		tabla.getColumnModel().getColumn(8).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(8).setMinWidth(50);
+		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
+		tabla.getColumnModel().getColumn(3).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(3).setMinWidth(70);
+		tabla.getColumnModel().getColumn(4).setHeaderValue("F Sodas");
+		tabla.getColumnModel().getColumn(4).setMaxWidth(60);
+		tabla.getColumnModel().getColumn(4).setMinWidth(60);
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = conn.createStatement();
 			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
-								 "  tb_empleado.nombre as [Nombre], "+
-								 "  tb_empleado.ap_paterno as [Paterno], "+
-								 "  tb_empleado.ap_materno as [Materno], "+ 
-								 "  tb_establecimiento.nombre as [Establecimiento], "+
-								 "  tb_puesto.nombre as [Puesto], "+
-								 "  tb_sueldo.sueldo as [Sueldo], "+
-								 "  tb_bono.bono as [Bono], "+
-								 "  tb_empleado.status as [Status], "+
-								 "  tb_empleado.fuente_sodas as [Fuentes], "+
-								 "  tb_empleado.gafete as [Gafete]  "+
+					 "  tb_empleado.nombre as [Nombre], "+
+					 "  tb_empleado.ap_paterno as [Paterno], "+
+					 "  tb_empleado.ap_materno as [Materno], "+ 
+					 "  tb_establecimiento.nombre as [Establecimiento], "+
+					
+					 "  tb_empleado.status as [Status], "+
+					 "  tb_empleado.fuente_sodas as [Fuentes]"+
 
-								"  from tb_empleado, tb_establecimiento, tb_puesto, tb_sueldo, tb_bono "+
+					"  from tb_empleado, tb_establecimiento"+
 
-								"  where "+
-									"  tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-									"  tb_empleado.puesto_id = tb_puesto.folio and "+
-									"  tb_empleado.sueldo_id = tb_sueldo.folio and "+
-									"  tb_empleado.bono_id = tb_bono.folio");
-//			rs = s.executeQuery("select * from tb_empleado");
+					"  where "+
+						"  tb_empleado.establecimiento_id = tb_establecimiento.folio");
 			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[9];
+			   String [] fila = new String[5];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim();
-			   fila[3] = rs.getString(6).trim();
-			   fila[4] = rs.getString(7).trim();
-			   fila[5] = rs.getString(8).trim();
+			   fila[2] = rs.getString(5).trim(); 
+			  
+			   switch (Integer.parseInt(rs.getString(6).trim())){
+				case 1 : fila[3] = "Vigente"; break;
+				case 2 : fila[3] = "Vacaciones"; break;
+				case 3 : fila[3] = "Baja"; break;	
+			}	
+			   if(Integer.parseInt(rs.getString(7).trim()) == 1){
+					  fila[4] = "Si";
+				   }else {
+					  fila[4] = "No";
+				   }
 			   
-		   switch(Integer.parseInt(rs.getString(9).trim())){
-		   case 1:  fila[6] = "Vigente";break;
-		   case 2:  fila[6] = "Vacaciones";break;
-		   case 3:  fila[6] = "Baja";break;
-		   }
-			   if(Integer.parseInt(rs.getString(10).trim()) == 1){
-				  fila[7] = "Si";
-			   }else {
-				  fila[7] = "No";
-			   }
-			   if(Integer.parseInt(rs.getString(11).trim()) == 1){
-					  fila[8] = "Si";
-			   }else {
-					  fila[8] = "No";
-			   }
 			   
 			   model.addRow(fila); 
 			}	
@@ -256,3 +227,4 @@ public class Cat_Filtro_Emp extends JDialog{
 	};
 
 }
+

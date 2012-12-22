@@ -43,7 +43,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_fuente_sodas_rh;
 
 @SuppressWarnings("serial")
-public class Cat_Fue_Soda extends JDialog{
+public class Cat_Fue_Soda_Rh extends JDialog{
 
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -73,11 +73,11 @@ public class Cat_Fue_Soda extends JDialog{
 	JButton btnEliminar = new JButton(new ImageIcon("imagen/Delete.png"));
 	JButton btnListado = new JButton("Listado F. Sodas");
 	
-	public Cat_Fue_Soda(String algo) {
+	public Cat_Fue_Soda_Rh(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
 		int x = 40, y=30, ancho=140;
 		txtCantidad.requestFocus();
-		panel.setBorder(BorderFactory.createTitledBorder("Fuente de Sodas"));
+		panel.setBorder(BorderFactory.createTitledBorder("Fuente de Sodas RRHH"));
 		
 		panel.add(new JLabel("Nombre Completo:")).setBounds(x,y,ancho,20);
 		panel.add(txtNombre_Completo).setBounds(x+ancho,y,ancho*2,20);
@@ -142,7 +142,7 @@ public class Cat_Fue_Soda extends JDialog{
 		panelLimpiar();
 		
 		this.setModal(true);
-		this.setSize(800,390);
+		this.setSize(805,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 
@@ -157,6 +157,7 @@ public class Cat_Fue_Soda extends JDialog{
 	 				fuente_sodas.borrar(Integer.parseInt(modelo.getValueAt(nroFila,0)+""));
 	 				modelo.removeRow(nroFila);
 	 				suma();
+	 				panelLimpiar();
 				}else{
 					return;
 				}
@@ -196,6 +197,7 @@ public class Cat_Fue_Soda extends JDialog{
 					fsrh.setCantidad(Double.parseDouble(txtCantidad.getText()));
 					fsrh.setFecha(txtFecha.getText());
 					fsrh.guardar();
+					
 					Object[] fila = new Object[tabla.getColumnCount()]; 
 					Obj_fuente_sodas_rh maximo = new Obj_fuente_sodas_rh().maximo();
 					fila[0]=maximo.getFolio();
@@ -224,7 +226,7 @@ public class Cat_Fue_Soda extends JDialog{
 	ActionListener filtro = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
-			new Cat_Filtro_Fue_Soda().setVisible(true);
+			new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
 			
 		}
 	};	
@@ -368,7 +370,6 @@ public class Cat_Fue_Soda extends JDialog{
 					
 					formatoFecha.applyPattern("dd/MM/yyyy");
 					formatoFecha.format(fechaSum);
-				
 
 			}
 		});

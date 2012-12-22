@@ -18,6 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -26,7 +28,7 @@ import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
 @SuppressWarnings("serial")
-public class Cat_Filtro_Fue_Soda extends JDialog{
+public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -53,8 +55,8 @@ public class Cat_Filtro_Fue_Soda extends JDialog{
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
 	@SuppressWarnings("unchecked")
-	public Cat_Filtro_Fue_Soda()	{
-		this.setTitle("..:: Filtro Fuente de Sodas ::..");
+	public Cat_Filtro_Fue_Soda_Rh()	{
+		this.setTitle("..:: Filtro Fuente de Sodas RRHH ::..");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -93,7 +95,7 @@ public class Cat_Filtro_Fue_Soda extends JDialog{
 	        		dispose();
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
-	    			new Cat_Fue_Soda(folio+"").setVisible(true);
+	    			new Cat_Fue_Soda_Rh(folio+"").setVisible(true);
 	        	}
 	        }
         });
@@ -101,6 +103,7 @@ public class Cat_Filtro_Fue_Soda extends JDialog{
 	
    	@SuppressWarnings("unchecked")
 	public void filtro() { 
+   		
 		// Busca segun el combo
 		switch (cmbBuscar.getSelectedIndex()){
 			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
@@ -111,11 +114,20 @@ public class Cat_Filtro_Fue_Soda extends JDialog{
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 		Connection conn = Connexion.conexion();
+		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		int a=2;
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 
 		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
+		tabla.getColumnModel().getColumn(0).setMinWidth(45);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
 		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
 		tabla.getColumnModel().getColumn(1).setMinWidth(230);
@@ -123,30 +135,48 @@ public class Cat_Filtro_Fue_Soda extends JDialog{
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(3).setMinWidth(50);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(3).setMinWidth(70);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("F Sodas");
 		tabla.getColumnModel().getColumn(4).setMaxWidth(60);
-		tabla.getColumnModel().getColumn(4).setMinWidth(69);
+		tabla.getColumnModel().getColumn(4).setMinWidth(60);
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = conn.createStatement();
-			rs = s.executeQuery("select folio,nombre,ap_paterno,ap_materno,establecimiento_id,status,fuente_sodas from tb_empleado where fuente_sodas='1' and status ='1' or status ='2'");
+			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
+					 "  tb_empleado.nombre as [Nombre], "+
+					 "  tb_empleado.ap_paterno as [Paterno], "+
+					 "  tb_empleado.ap_materno as [Materno], "+ 
+					 "  tb_establecimiento.nombre as [Establecimiento], "+
+					
+					 "  tb_empleado.status as [Status], "+
+					 "  tb_empleado.fuente_sodas as [Fuentes]"+
+
+					"  from tb_empleado, tb_establecimiento"+
+
+					"  where "+
+						"  tb_empleado.establecimiento_id = tb_establecimiento.folio");
 			
 			while (rs.next())
 			{ 
 			   String [] fila = new String[5];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim();
-			   fila[3] = rs.getString(6).trim();
-			   fila[4] = rs.getString(7).trim();
+			   fila[2] = rs.getString(5).trim(); 
+			 
+			   switch (Integer.parseInt(rs.getString(6).trim())){
+				case 1 : fila[3] = "Vigente"; break;
+				case 2 : fila[3] = "Vacaciones"; break;
+				case 3 : fila[3] = "Baja"; break;	
+			}	
+			   if(Integer.parseInt(rs.getString(7).trim()) == 1){
+					  fila[4] = "Si";
+				   }else {
+					  fila[4] = "No";
+				   }
 			   
-//			   for (int i=0;i<3;i++){
-//			      fila[i] = rs.getObject(i+1);
-//			   }
 			   model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
@@ -194,6 +224,5 @@ public class Cat_Filtro_Fue_Soda extends JDialog{
 		public void keyReleased(KeyEvent e){}
 								
 	};
-
 }
 
