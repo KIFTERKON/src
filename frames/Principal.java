@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import objetos.Obj_Usuario;
 
 import catalogos.Cat_Bono;
+import catalogos.Cat_Comprobar_Fuente_Sodas;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
@@ -34,8 +35,6 @@ public class Principal extends JFrame{
 	 ***	   Frame Principal							   ***
 	 ***       autores: Jimenez Molina Edgar Eduardo       ***
 	 ***			 Rodriguez Sanchez Jose Mario.         ***
-	 ***      sistemas_izagar@hotmail.com -> 123456789/    ***
-	 ***      RguezMario 					 abc123456	   ***
 	 ********************************************************/
 	
 	JTabbedPane tabbedPane = new JTabbedPane();
@@ -112,10 +111,13 @@ public class Principal extends JFrame{
 		
 			Alimentacion.add(Bancos);
 			Bancos.addActionListener(Opciones);
+			
 			Alimentacion.add(Fuente_Sodas_rh);
 			Fuente_Sodas_rh.addActionListener(Opciones);
+			
 			Alimentacion.add(Fuente_Sodas_auxf);
 			Fuente_Sodas_auxf.addActionListener(Opciones);
+						
 			Alimentacion.add(Prestamos);
 			Prestamos.addActionListener(Opciones);
 		
@@ -141,7 +143,8 @@ public class Principal extends JFrame{
 //PENDIENTES-----------------------------------------------------------------------------------		
 			if(e.getActionCommand().equals("Fuente de Sodas RRHH"))
 				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
-			
+			if(e.getActionCommand().equals("Comprobar Lista de Sodas RRHH"))
+				new Cat_Comprobar_Fuente_Sodas().setVisible(true);
 			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
 				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
 //			if(e.getActionCommand().equals("Bancos"))

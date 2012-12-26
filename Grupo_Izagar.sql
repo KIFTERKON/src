@@ -67,28 +67,31 @@ create table tb_usuario(
 	status int,
 	foreign key (permiso_id) references tb_permiso(folio)
 );
-
+select * from tb_empleado
 select * from tb_fuente_sodas_rh
 create table tb_fuente_sodas_rh(
 	folio int primary key identity,
 	ticket varchar(15),
+	folio_empleado int ,
 	nombre_completo varchar(120),
 	cantidad money,
 	fecha varchar(14),
 	status int
 );
+ALTER TABLE tb_fuente_sodas_auxf  ALTER COLUMN status_ticket char(1)
+EXEC SP_RENAME 'tb_fuente_sodas_auxf.ticket', 'status_ticket'
 
-select max(folio) as 'Maximo' from tb_fuente_sodas_auxf
-select * from tb_fuente_sodas_auxf
-
-create table tb_fuente_sodas_auxf(
+select * from tb_fuente_sodas_rh
+alter table tb_fuente_sodas_auxf insert column(
 	folio int primary key identity,
 	ticket varchar(15),
+	folio_empleado int, 
 	nombre_completo varchar(120),
 	cantidad money,
 	fecha varchar(14),
 	status int
 );
+
 
 select tb_empleado.folio as [Folio],
 	   tb_empleado.nombre as [Nombre],
