@@ -170,11 +170,12 @@ public class GuardarSQL extends Connexion{
 		return true;
 	}
 	public boolean Guardar_fuente_sodas_rh(Obj_fuente_sodas_rh fuentesodasrh){
-		String query = "insert into tb_fuente_sodas_rh(ticket,folio_empleado,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?,?)";
+		String query = "insert into tb_fuente_sodas_rh(status_ticket,folio_empleado,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-				pstmt.setString(1, fuentesodasrh.getTicket().toUpperCase());
+			
+				pstmt.setString(1, "0");
 				pstmt.setInt(2, fuentesodasrh.getFolio());
 				pstmt.setString(3, fuentesodasrh.getNombre_Completo().toUpperCase());
 				pstmt.setDouble(4, fuentesodasrh.getCantidad());
@@ -197,11 +198,11 @@ public class GuardarSQL extends Connexion{
 	}
 	
 	public boolean Guardar_fuente_sodas_auxf(Obj_fuente_sodas_auxf fuentesodasauxf){
-		String query = "insert into tb_fuente_sodas_auxf(ticket,folio_empleado,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?,?)";
+		String query = "insert into tb_fuente_sodas_auxf(status_ticket,folio_empleado,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-				pstmt.setString(1, fuentesodasauxf.getTicket().toUpperCase());
+				pstmt.setString(1, "0");
 				pstmt.setInt(2,fuentesodasauxf.getFolio());
 				pstmt.setString(3, fuentesodasauxf.getNombre_Completo().toUpperCase());
 				pstmt.setDouble(4, fuentesodasauxf.getCantidad());

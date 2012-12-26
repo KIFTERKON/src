@@ -2,12 +2,15 @@ package catalogos;
 
 import java.awt.Container;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -69,6 +72,8 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	JLabel lblTotalAX = new JLabel();
 	
 	JButton btnAceptar = new JButton();
+	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
+	
 	public Cat_Comprobar_Fuente_Sodas_RH(){
 		this.setTitle("Comparación Fuente de Sodas RRHH");
 		
@@ -85,6 +90,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		panel.add(scrollAx).setBounds(450,35,320,290);
 		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Operaciones")).setBounds(450,335,250,20);
 		panel.add(scrollTotalAX).setBounds(450,360,320,290);
+		
+		panel.add(btnActualizar).setBounds(550,10,32,32);
+		
+		btnActualizar.addActionListener(opActualizar);
 		
 		String[][] TablaRH = getMatrizRH();
 		Object[] filaRH = new Object[tablaRh.getColumnCount()]; 
@@ -122,6 +131,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			}
 		}
 		sumaRH();
+		
 		sumaAX();
 		cont.add(panel);
 		agregar(tablaRh);
@@ -134,14 +144,60 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
-	        		int fila = tablaRh.getSelectedRow();
-	    			Object folio =  tablaRh.getValueAt(fila, 0);
-	    			new Cat_Fue_Soda_Rh(folio+"").setVisible(true);
+
+	               	if(tablaRh.rowAtPoint(e.getPoint())+1 == tablaRh.getRowCount() ){
+	               		return;
+	               	}else{
+	               		int fila = tablaRh.getSelectedRow();
+	               		Object folio =  tablaRh.getValueAt(fila, 0);
+	               		
+	               		new Cat_Fue_Soda_Rh(folio+"").setVisible(true);
+	               	}
+	        		    			
 	        	}
 	        }
         });
     }
-	
+	ActionListener opActualizar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			
+			String[][] TablaRH = getMatrizRH();
+			Object[] filaRH = new Object[tablaRh.getColumnCount()]; 
+			for(int i=0; i<TablaRH.length; i++){
+				modelRh.addRow(filaRH); 
+				for(int j=0; j<3; j++){
+					modelRh.setValueAt(TablaRH[i][j]+"", i,j);
+				}
+			}
+			
+			String[][] TablaAux = getMatrizAux();
+			Object[] filaAux = new Object[tablaAx.getColumnCount()]; 
+			for(int i=0; i<TablaAux.length; i++){
+				modelAx.addRow(filaAux); 
+				for(int j=0; j<3; j++){
+					modelAx.setValueAt(TablaAux[i][j]+"", i,j);
+				}
+			}
+			
+			String[][] TablaDifRH = getMatrizDifRH();
+			Object[] filaDifRH = new Object[tablaTotalRH.getColumnCount()]; 
+			for(int i=0; i<TablaDifRH.length; i++){
+				modelTotalRH.addRow(filaDifRH); 
+				for(int j=0; j<3; j++){
+					modelTotalRH.setValueAt(TablaDifRH[i][j]+"", i,j);
+				}
+			}
+			
+			String[][] TablaDifAX = getMatrizDifAX();
+			Object[] filaDifAX = new Object[tablaTotalAX.getColumnCount()]; 
+			for(int i=0; i<TablaDifAX.length; i++){
+				modelTotalAX.addRow(filaDifAX); 
+				for(int j=0; j<3; j++){
+					modelTotalAX.setValueAt(TablaDifAX[i][j]+"", i,j);
+				}
+			}
+		}
+	};
 	public void Etiqueta(){
 		int fila=0;
 		tablaRh.getColumnModel().getColumn(fila).setHeaderValue("Folio");
@@ -150,7 +206,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaRh.getColumnModel().getColumn(fila+=1).setHeaderValue("Nombre");
 		tablaRh.getColumnModel().getColumn(fila).setMaxWidth(200);
 		tablaRh.getColumnModel().getColumn(fila).setMinWidth(200);
-		tablaRh.getColumnModel().getColumn(fila+=1).setHeaderValue("Cantidad");
+		tablaRh.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaRh.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaRh.getColumnModel().getColumn(fila).setMinWidth(70);
 	
@@ -160,7 +216,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaAx.getColumnModel().getColumn(fila+=1).setHeaderValue("Nombre");
 		tablaAx.getColumnModel().getColumn(fila).setMaxWidth(200);
 		tablaAx.getColumnModel().getColumn(fila).setMinWidth(200);
-		tablaAx.getColumnModel().getColumn(fila+=1).setHeaderValue("Cantidad");
+		tablaAx.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaAx.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaAx.getColumnModel().getColumn(fila).setMinWidth(70);
 		
@@ -170,7 +226,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaTotalRH.getColumnModel().getColumn(fila+=1).setHeaderValue("Nombre");
 		tablaTotalRH.getColumnModel().getColumn(fila).setMaxWidth(200);
 		tablaTotalRH.getColumnModel().getColumn(fila).setMinWidth(200);
-		tablaTotalRH.getColumnModel().getColumn(fila+=1).setHeaderValue("Cantidad");
+		tablaTotalRH.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaTotalRH.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaTotalRH.getColumnModel().getColumn(fila).setMinWidth(70);
 		
@@ -180,7 +236,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaTotalAX.getColumnModel().getColumn(fila+=1).setHeaderValue("Nombre");
 		tablaTotalAX.getColumnModel().getColumn(fila).setMaxWidth(200);
 		tablaTotalAX.getColumnModel().getColumn(fila).setMinWidth(200);
-		tablaTotalAX.getColumnModel().getColumn(fila+=1).setHeaderValue("Cantidad");
+		tablaTotalAX.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaTotalAX.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaTotalAX.getColumnModel().getColumn(fila).setMinWidth(70);
 		
@@ -345,17 +401,30 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			float datos= Float.parseFloat(modelRh.getValueAt(i,2).toString());
 			suma=(suma+datos); 
 		} 
-		lblTotalRH.setText("$ "+String.valueOf(suma));
+		Object[] filaSuma = new Object[tablaRh.getColumnCount()]; 
+		filaSuma[0]=".....";
+		filaSuma[1]="Total General";
+		filaSuma[2]=suma;
+		
+		modelRh.addRow(filaSuma);
 	}
 	
 	public void sumaAX(){
 		float suma = 0;
-		
-		for(int i=0;i<modelAx.getRowCount(); i++) {
-			float datos= Float.parseFloat(modelAx.getValueAt(i,2).toString());
-			suma=(suma+datos); 
-		} 
-		lblTotalAX.setText("$ "+String.valueOf(suma));
+		int cont = 0;
+			for(int i=0;i<modelAx.getRowCount(); i++) {
+				float datos= Float.parseFloat(modelAx.getValueAt(i,2).toString());
+				suma=(suma+datos); 
+				cont ++;
+			} 
+		Object[] filaSuma = new Object[tablaAx.getColumnCount()]; 
+			filaSuma[0]=".....";
+			filaSuma[1]="Total General";
+			filaSuma[2]=suma;
+			
+			modelAx.addRow(filaSuma);
+			
 	}
+	
 			
 }
