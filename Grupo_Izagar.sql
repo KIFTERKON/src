@@ -29,6 +29,19 @@ create table tb_bono(
 	status int
 );
 
+-- tabla de rango de prestamos se tiene que crear primero que la del empleado para la llave foranea
+-- para agregar la tabla voy a alterar la tabla de empleado para agregar la clave foranea de prestamos
+create table tb_rango_prestamos(
+	folio int identity primary key,
+	minimo money,
+	maximo money,
+	descuento money,
+	status int
+)
+
+alter table tb_empleado add rango_prestamo_id int -- para agregar esta columna
+alter table tb_empleado add foreign key (rango_prestamo_id) references tb_rango_prestamos(folio) -- agregar el foreing key
+
 create table tb_empleado(
 	folio int identity primary key,
 	no_checador int,
@@ -39,12 +52,14 @@ create table tb_empleado(
 	puesto_id int,
 	sueldo_id int,
 	bono_id int,
+	rango_prestamo_id int, -- agregue esta columna
 	fuente_sodas int,
 	gafete int,
 	status int,
 	fecha varchar(30),
 
 	foreign key (establecimiento_id) references tb_establecimiento(folio),
+	foreign key (rango_prestamo_id) references tb_rango_prestamos(folio), -- agregue el foreign key
 	foreign key (puesto_id) references tb_puesto(folio),
 	foreign key (sueldo_id) references tb_sueldo(folio),
 	foreign key (bono_id) references tb_bono(folio)
@@ -80,8 +95,9 @@ create table tb_fuente_sodas_rh(
 );
 ALTER TABLE tb_fuente_sodas_auxf  ALTER COLUMN status_ticket char(1)
 EXEC SP_RENAME 'tb_fuente_sodas_auxf.ticket', 'status_ticket'
+sp_columns tb_fuente_sodas_auxf
 
-select * from tb_fuente_sodas_rh
+select * from tb_fuente_sodas_auxf
 alter table tb_fuente_sodas_auxf insert column(
 	folio int primary key identity,
 	ticket varchar(15),

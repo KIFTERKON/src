@@ -8,6 +8,7 @@ import objetos.Obj_Bono;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
+import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
@@ -17,7 +18,7 @@ public class GuardarSQL extends Connexion{
 	
 	/** METODO DE ESCRITURA DE UN EMPLEADO A SQL SERVER*/
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "insert into tb_empleado(no_checador,nombre,ap_paterno,ap_materno,establecimiento_id,puesto_id,sueldo_id,bono_id,fuente_sodas,gafete,status,fecha) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "insert into tb_empleado(no_checador,nombre,ap_paterno,ap_materno,establecimiento_id,puesto_id,sueldo_id,bono_id,fuente_sodas,gafete,status,fecha,rango_prestamo_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -33,6 +34,7 @@ public class GuardarSQL extends Connexion{
 			pstmt.setBoolean(10, (empleado.getGafete())? true: false);
 			pstmt.setInt(11, empleado.getStatus());				
 			pstmt.setString(12, empleado.getFecha());
+			pstmt.setInt(13, empleado.getPrestamo());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -211,6 +213,31 @@ public class GuardarSQL extends Connexion{
 				
 			 	pstmt.executeUpdate();
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Rango_Prestamos(Obj_Rango_Prestamos rango_prestamo){
+		String query = "insert into tb_rango_prestamos(minimo,maximo,descuento,status) values(?,?,?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+				pstmt.setDouble(1, rango_prestamo.getPrestamo_minimo());
+				pstmt.setDouble(2, rango_prestamo.getPrestamo_maximo());
+				pstmt.setDouble(3, rango_prestamo.getDescuento());
+				pstmt.setString(4, (rango_prestamo.isStatus())?"1":"0");
+				pstmt.executeUpdate();
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
