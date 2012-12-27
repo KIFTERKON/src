@@ -96,9 +96,6 @@ public class Cat_Rango_Prestamos extends JFrame {
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 	}
-	public JComponent getBase(){
-			return panel;
-	}
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -119,7 +116,11 @@ public class Cat_Rango_Prestamos extends JFrame {
 							rango_prestamo.setPrestamo_maximo(Double.parseDouble(txtPrestamoMaximo.getText()));
 							rango_prestamo.setDescuento(Double.parseDouble(txtDescuento.getText()));
 							rango_prestamo.setStatus(chStatus.isSelected());
-							rango_prestamo.actualizar(Integer.parseInt(txtFolio.getText()));						
+							rango_prestamo.actualizar(Integer.parseInt(txtFolio.getText()));
+							panelLimpiar();
+							panelEnabledFalse();
+							txtFolio.setEnabled(true);
+							txtPrestamoMinimo.requestFocus();
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -138,6 +139,9 @@ public class Cat_Rango_Prestamos extends JFrame {
 						rango_prestamo.setDescuento(Double.parseDouble(txtDescuento.getText()));
 						rango_prestamo.setStatus(chStatus.isSelected());
 						rango_prestamo.guardar();
+						panelLimpiar();
+						panelEnabledFalse();
+						txtFolio.setEnabled(true);
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
