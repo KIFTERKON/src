@@ -24,6 +24,7 @@ import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
+import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Usuario;
@@ -136,24 +137,30 @@ public class Principal extends JFrame{
 	
 	ActionListener Opciones = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
+			
 			if(e.getActionCommand().equals("Alta Empleado"))
 				new Cat_Empleado().setVisible(true);
+			
 			if(e.getActionCommand().equals("Establecimiento"))
 				new Cat_Establecimiento().setVisible(true);
+			
 //PENDIENTES-----------------------------------------------------------------------------------		
 			if(e.getActionCommand().equals("Fuente de Sodas RRHH"))
 				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
+			
 			if(e.getActionCommand().equals("Comprobar Lista de Sodas RRHH"))
 				new Cat_Comprobar_Fuente_Sodas().setVisible(true);
+			
 			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
 				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
+			
 //			if(e.getActionCommand().equals("Bancos"))
 //				dispose();
 //			if(e.getActionCommand().equals("Permisos de Usuario"))
 //				dispose();
 //---------------------------------------------------------------------------------------------		
 			if(e.getActionCommand().equals("Prestamos"))
-				dispose();
+				new Cat_Filtro_Prestamo().setVisible(true);
 			if(e.getActionCommand().equals("Usuario"))
 				new Cat_Usuario().setVisible(true);
 			if(e.getActionCommand().equals("Bono"))
