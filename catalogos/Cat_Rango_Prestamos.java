@@ -145,32 +145,37 @@ public class Cat_Rango_Prestamos extends JFrame {
 		}
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			Obj_Rango_Prestamos rango_prestamo = new Obj_Rango_Prestamos().buscar(Integer.parseInt(txtFolio.getText()));
-			
-			if(rango_prestamo != null){
-			
-			txtFolio.setText(rango_prestamo.getFolio()+"");
-			txtPrestamoMinimo.setText(rango_prestamo.getPrestamo_minimo()+"");
-			txtPrestamoMaximo.setText(rango_prestamo.getPrestamo_maximo()+"");
-			txtDescuento.setText(rango_prestamo.getDescuento()+"");
-			if(rango_prestamo.isStatus() == true){chStatus.setSelected(true);}
-			else{chStatus.setSelected(false);}
-			
-			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(true);
-			panelEnabledFalse();
-			txtFolio.setEnabled(true);
-			txtFolio.requestFocus();
-			
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+	ActionListener buscar = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Necesita un folio para buscar","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
+			}else{
+				Obj_Rango_Prestamos rango_prestamo = new Obj_Rango_Prestamos().buscar(Integer.parseInt(txtFolio.getText()));
+				
+				if(rango_prestamo != null){
+					txtFolio.setText(rango_prestamo.getFolio()+"");
+					txtPrestamoMinimo.setText(rango_prestamo.getPrestamo_minimo()+"");
+					txtPrestamoMaximo.setText(rango_prestamo.getPrestamo_maximo()+"");
+					txtDescuento.setText(rango_prestamo.getDescuento()+"");
+					if(rango_prestamo.isStatus() == true){chStatus.setSelected(true);}
+					else{chStatus.setSelected(false);}
+					
+					btnNuevo.setEnabled(false);
+					btnEditar.setEnabled(true);
+					panelEnabledFalse();
+					txtFolio.setEnabled(true);
+					txtFolio.requestFocus();
+				
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+					return;
+				}
 			}
+
+
+			
 		}
 	};
 	
