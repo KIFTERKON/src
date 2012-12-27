@@ -353,9 +353,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 			public void widgetSelected (SelectionEvent e) {
 				String fecha = e.toString().substring(25,35);
 				fecha = fecha.replace("}", "");
-				String[] splits = fecha.split("/");
-				System.out.println(splits.length);
-				
+				String[] splits = fecha.split("/");				
 					String diaInicial  = splits[1];
 					String mesInicial  = splits[0];	
 					String anioInicial = splits[2];

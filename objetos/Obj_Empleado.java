@@ -15,13 +15,14 @@ public class Obj_Empleado {
 	private int puesto;
 	private int sueldo;
 	private int bono;
+	private int prestamo;
 	private boolean fuente_sodas;
 	private boolean gafete;
 	private int status;
 	private String fecha;
 	
 	public Obj_Empleado(){
-		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0;
+		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0;
 		puesto=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false;
 	}
 
@@ -129,8 +130,14 @@ public class Obj_Empleado {
 		this.fecha = fecha;
 	}
 	
+	public int getPrestamo() {
+		return prestamo;
+	}
 
-	
+	public void setPrestamo(int prestamo) {
+		this.prestamo = prestamo;
+	}
+
 	// Funcion Guardar Empleado
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }
 	

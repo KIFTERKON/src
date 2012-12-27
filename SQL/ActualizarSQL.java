@@ -7,6 +7,7 @@ import java.util.Date;
 import objetos.Obj_Bono;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
@@ -15,7 +16,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class ActualizarSQL extends Connexion{
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, sueldo_id=?, bono_id=?, fuente_sodas=?, status=? where folio=" + folio;
+		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?,fuente_sodas=?, status=? where folio=" + folio;
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -26,8 +27,9 @@ public class ActualizarSQL extends Connexion{
 			pstmt.setInt(5, empleado.getPuesto());
 			pstmt.setInt(6, empleado.getSueldo());
 			pstmt.setInt(7, empleado.getBono());
-			pstmt.setInt(8, (empleado.getFuente_sodas())?1:0);
-			pstmt.setInt(9, empleado.getStatus());
+			pstmt.setInt(8, empleado.getPrestamo());
+			pstmt.setInt(9, (empleado.getFuente_sodas())?1:0);
+			pstmt.setInt(10, empleado.getStatus());
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -215,5 +217,29 @@ public class ActualizarSQL extends Connexion{
 		}		
 		return true;
 	}	
+	
+	public boolean Rango_Prestamos(Obj_Rango_Prestamos rango_prestamo, int folio){
+		String query = "update tb_rango_prestamos set minimo=?, maximo=?, descuento=?, status=? where folio=" + folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setDouble(1, rango_prestamo.getPrestamo_minimo());
+			pstmt.setDouble(2, rango_prestamo.getPrestamo_maximo());
+			pstmt.setDouble(3, rango_prestamo.getDescuento());
+			pstmt.setString(4, (rango_prestamo.isStatus())?"1":"0");
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 }

@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -25,6 +24,7 @@ import objetos.Obj_Bono;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
+import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 
 @SuppressWarnings("serial")
@@ -56,6 +56,10 @@ public class Cat_Empleado extends JDialog{
 	String bono[] = new Obj_Bono().Combo_Bono();
 	@SuppressWarnings("unchecked")
 	JComboBox cmbBono = new JComboBox(bono);
+	
+	String rango_prestamo[] = new Obj_Rango_Prestamos().Combo_Prestamos();
+	@SuppressWarnings("unchecked")
+	JComboBox cmbPrestamos = new JComboBox(rango_prestamo);
 	
 	JCheckBox chbFuente_Sodas = new JCheckBox("Fnt de Sodas");
 	JCheckBox chbGafete = new JCheckBox("Gafete");
@@ -111,6 +115,9 @@ public class Cat_Empleado extends JDialog{
 		panel.add(new JLabel("Bono:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbBono).setBounds(x+ancho,y,ancho*2,20);
 		
+		panel.add(new JLabel("Prestamo:")).setBounds(x,y+=25,ancho,20);
+		panel.add(cmbPrestamos).setBounds(x+ancho,y,ancho*2,20);
+		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-10,20);
 		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
@@ -148,15 +155,12 @@ public class Cat_Empleado extends JDialog{
 		txtFolio.setEnabled(true);
 		
 		this.setModal(true);
-		this.setSize(500,390);
+		this.setSize(500,405);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 
 	}
 	
-	public JComponent getBase(){
-		return panel;
-	}
 	ActionListener buscar = new ActionListener() {
 		public void actionPerformed(ActionEvent e){
 			
@@ -177,6 +181,7 @@ public class Cat_Empleado extends JDialog{
 					cmbPuesto.setSelectedIndex(re.getPuesto()-1);
 					cmbSueldo.setSelectedIndex(re.getSueldo()-1);
 					cmbBono.setSelectedIndex(re.getBono()-1);
+					cmbPrestamos.setSelectedIndex(re.getPrestamo()-1);
 					if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
 					else{chbFuente_Sodas.setSelected(false);}
 					if(re.getGafete() == true){chbGafete.setSelected(true);}
@@ -224,6 +229,7 @@ public class Cat_Empleado extends JDialog{
 							empleado.setPuesto(cmbPuesto.getSelectedIndex()+1);
 							empleado.setSueldo(cmbSueldo.getSelectedIndex()+1);
 							empleado.setBono(cmbBono.getSelectedIndex()+1);
+							empleado.setPrestamo(cmbPrestamos.getSelectedIndex()+1);
 							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
 							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -252,6 +258,7 @@ public class Cat_Empleado extends JDialog{
 						empleado.setPuesto(cmbPuesto.getSelectedIndex()+1);
 						empleado.setSueldo(cmbSueldo.getSelectedIndex()+1);
 						empleado.setBono(cmbBono.getSelectedIndex()+1);
+						empleado.setPrestamo(cmbPrestamos.getSelectedIndex()+1);
 						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -298,6 +305,7 @@ public class Cat_Empleado extends JDialog{
 		cmbPuesto.setEnabled(true);
 		cmbSueldo.setEnabled(true);
 		cmbBono.setEnabled(true);
+		cmbPrestamos.setEnabled(true);
 		chbFuente_Sodas.setEnabled(true);
 		chbGafete.setEnabled(true);
 		cmbStatus.setEnabled(true);
@@ -314,6 +322,7 @@ public class Cat_Empleado extends JDialog{
 		cmbPuesto.setEnabled(false);
 		cmbSueldo.setEnabled(false);
 		cmbBono.setEnabled(false);
+		cmbPrestamos.setEnabled(false);
 		chbFuente_Sodas.setEnabled(false);
 		chbGafete.setEnabled(false);
 		cmbStatus.setEnabled(false);
@@ -330,6 +339,7 @@ public class Cat_Empleado extends JDialog{
 		cmbPuesto.setSelectedIndex(0);
 		cmbSueldo.setSelectedIndex(0);
 		cmbBono.setSelectedIndex(0);
+		cmbPrestamos.setSelectedIndex(0);
 		chbFuente_Sodas.setSelected(false);
 		chbGafete.setSelected(false);
 		cmbStatus.setSelectedIndex(0);
@@ -543,5 +553,6 @@ public class Cat_Empleado extends JDialog{
 		this.setLocationRelativeTo(null);
 
 	}
+	
 	
 }

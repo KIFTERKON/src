@@ -6,6 +6,7 @@ import objetos.Obj_Bono;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
+import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
@@ -246,7 +247,7 @@ public class BuscarSQL extends Connexion{
 				empleado.setGafete(rs.getBoolean("gafete") ? true : false);
 				empleado.setStatus(rs.getInt("status"));
 				empleado.setFecha(rs.getString("fecha"));
-				
+				empleado.setPrestamo(rs.getInt("rango_prestamo_id"));
 			}
 			
 		} catch (Exception e) {
@@ -388,6 +389,60 @@ public class BuscarSQL extends Connexion{
 			}
 		}
 		return bono;
+	}
+	
+	
+	public Obj_Rango_Prestamos Rango_Prestamos(int folio){
+		Obj_Rango_Prestamos prestamos = new Obj_Rango_Prestamos();
+		String query = "select * from tb_rango_prestamos where folio ="+ folio;
+		
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				prestamos.setFolio(rs.getInt("folio"));
+				prestamos.setPrestamo_minimo(rs.getDouble("minimo"));
+				prestamos.setPrestamo_maximo(rs.getDouble("maximo"));
+				prestamos.setDescuento(rs.getDouble("descuento"));
+				prestamos.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return prestamos;
+	}
+	
+	public Obj_Rango_Prestamos Rango_Prestamos_Nuevo(){
+		Obj_Rango_Prestamos rango_nuevo = new Obj_Rango_Prestamos();
+		String query = "select max(folio) as 'Maximo' from tb_rango_prestamos";
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				rango_nuevo.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return rango_nuevo;
 	}
 	
 }

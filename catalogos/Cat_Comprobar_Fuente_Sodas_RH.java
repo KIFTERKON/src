@@ -150,7 +150,6 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	               	}else{
 	               		int fila = tablaRh.getSelectedRow();
 	               		Object folio =  tablaRh.getValueAt(fila, 0);
-	               		
 	               		new Cat_Fue_Soda_Rh(folio+"").setVisible(true);
 	               	}
 	        		    			
