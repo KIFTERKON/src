@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Bono;
@@ -555,16 +554,5 @@ public class Cat_Empleado extends JDialog{
 
 	}
 	
-
-	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Empleado().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	}
 	
 }

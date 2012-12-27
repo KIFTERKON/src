@@ -25,6 +25,7 @@ import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Puesto;
+import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Usuario;
 
@@ -46,6 +47,7 @@ public class Principal extends JFrame{
 		JMenuItem Catalogo_Establecimiento = new JMenuItem("Establecimiento", new ImageIcon("///"));
 		JMenuItem Catalogo_Puesto = new JMenuItem("Puesto", new ImageIcon(""));
 		JMenuItem Catalogo_Sueldo = new JMenuItem("Sueldo", new ImageIcon(""));
+		JMenuItem Catalogo_Prestamo = new JMenuItem("Rango de Prestamo", new ImageIcon(""));
 		JMenuItem Catalogo_Status = new JMenuItem("Status", new ImageIcon(""));
 		JMenuItem Catalogo_Usuario = new JMenuItem("Usuario", new ImageIcon(""));
 		
@@ -99,6 +101,9 @@ public class Principal extends JFrame{
 			
 			Catalogo.add(Catalogo_Sueldo);
 			Catalogo_Sueldo.addActionListener(Opciones);
+			
+			Catalogo.add(Catalogo_Prestamo);
+			Catalogo_Prestamo.addActionListener(Opciones);
 			
 			Catalogo.add(Catalogo_Status);
 			Catalogo_Status.addActionListener(Opciones);
@@ -158,6 +163,8 @@ public class Principal extends JFrame{
 				new Cat_Usuario().setVisible(true);
 			if(e.getActionCommand().equals("Bono"))
 				new Cat_Bono().setVisible(true);
+			if(e.getActionCommand().equals("Rango de Prestamo"))
+				new Cat_Rango_Prestamos().setVisible(true);
 			if(e.getActionCommand().equals("Puesto"))
 				new Cat_Puesto().setVisible(true);
 			if(e.getActionCommand().equals("Sueldo"))
