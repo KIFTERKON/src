@@ -310,8 +310,9 @@ public class Cat_Rango_Prestamos extends JFrame {
 		String error="";
 		
 		if(txtFolio.getText().equals("")) 			error+= "Folio\n";
-		if(txtPrestamoMinimo.getText().equals("")) 		error+= "Nombre\n";
-		if(txtDescuento.getText().equals(""))		error+= "Abreviatura\n";
+		if(txtPrestamoMinimo.getText().equals("")) 	error+= "Prestamo Minimo\n";
+		if(txtPrestamoMaximo.getText().equals(""))	error+= "PrestamoMaximo\n";
+		if(txtDescuento.getText().equals(""))		error+= "Descuento\n";
 				
 		return error;
 	}
