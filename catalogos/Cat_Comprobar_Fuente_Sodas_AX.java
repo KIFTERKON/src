@@ -2,12 +2,15 @@ package catalogos;
 
 import java.awt.Container;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -69,6 +72,8 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 	JLabel lblTotalAX = new JLabel();
 	
 	JButton btnAceptar = new JButton();
+	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
+	
 	public Cat_Comprobar_Fuente_Sodas_AX(){
 		this.setTitle("Comparación Fuente de Sodas");
 		
@@ -85,6 +90,10 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 		panel.add(scrollAx).setBounds(450,35,320,290);
 		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Operaciones")).setBounds(450,335,250,20);
 		panel.add(scrollTotalAX).setBounds(450,360,320,290);
+		
+		panel.add(btnActualizar).setBounds(370,5,32,25);
+		
+		btnActualizar.addActionListener(opActualizar);
 		
 		String[][] TablaRH = getMatrizRH();
 		Object[] filaRH = new Object[tablaRh.getColumnCount()]; 
@@ -146,6 +155,67 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 	        }
         });
     }
+	
+	ActionListener opActualizar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			while(modelRh.getRowCount()>0){
+				modelRh.removeRow(0);
+			}
+			
+			while(modelAx.getRowCount()>0){
+				modelAx.removeRow(0);
+			}
+			
+			while(modelTotalRH.getRowCount()>0){
+				modelTotalRH.removeRow(0);
+			}
+			
+			while(modelTotalAX.getRowCount()>0){
+				modelTotalAX.removeRow(0);
+			}
+			
+			
+			String[][] TablaRH = getMatrizRH();
+			Object[] filaRH = new Object[tablaRh.getColumnCount()]; 
+			for(int i=0; i<TablaRH.length; i++){
+				modelRh.addRow(filaRH); 
+				for(int j=0; j<3; j++){
+					modelRh.setValueAt(TablaRH[i][j]+"", i,j);
+				}
+			}
+			
+			String[][] TablaAux = getMatrizAux();
+			Object[] filaAux = new Object[tablaAx.getColumnCount()]; 
+			for(int i=0; i<TablaAux.length; i++){
+				modelAx.addRow(filaAux); 
+				for(int j=0; j<3; j++){
+					modelAx.setValueAt(TablaAux[i][j]+"", i,j);
+				}
+			}
+			
+			String[][] TablaDifRH = getMatrizDifRH();
+			Object[] filaDifRH = new Object[tablaTotalRH.getColumnCount()]; 
+			for(int i=0; i<TablaDifRH.length; i++){
+				modelTotalRH.addRow(filaDifRH); 
+				for(int j=0; j<3; j++){
+					modelTotalRH.setValueAt(TablaDifRH[i][j]+"", i,j);
+				}
+			}
+			
+			String[][] TablaDifAX = getMatrizDifAX();
+			Object[] filaDifAX = new Object[tablaTotalAX.getColumnCount()]; 
+			for(int i=0; i<TablaDifAX.length; i++){
+				modelTotalAX.addRow(filaDifAX); 
+				for(int j=0; j<3; j++){
+					modelTotalAX.setValueAt(TablaDifAX[i][j]+"", i,j);
+				}
+			}
+			sumaRH();
+			
+			sumaAX();
+
+		}
+	};
 	
 	public void Etiqueta(){
 		int fila=0;

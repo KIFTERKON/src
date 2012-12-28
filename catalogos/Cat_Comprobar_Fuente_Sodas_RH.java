@@ -21,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 
 import SQL.Connexion;
 
-
 @SuppressWarnings("serial")
 public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	
@@ -71,7 +70,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	JLabel lblTotalRH = new JLabel();
 	JLabel lblTotalAX = new JLabel();
 	
-	JButton btnAceptar = new JButton();
+	JButton btnAceptar = new JButton(new ImageIcon("imagen/Aplicar.png"));
 	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
 	
 	public Cat_Comprobar_Fuente_Sodas_RH(){
@@ -91,7 +90,8 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Operaciones")).setBounds(450,335,250,20);
 		panel.add(scrollTotalAX).setBounds(450,360,320,290);
 		
-		panel.add(btnActualizar).setBounds(550,10,32,32);
+		panel.add(btnActualizar).setBounds(355,5,32,25);
+		panel.add(btnAceptar).setBounds(395,5,32,25);
 		
 		btnActualizar.addActionListener(opActualizar);
 		
@@ -159,6 +159,22 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
     }
 	ActionListener opActualizar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
+			while(modelRh.getRowCount()>0){
+				modelRh.removeRow(0);
+			}
+			
+			while(modelAx.getRowCount()>0){
+				modelAx.removeRow(0);
+			}
+			
+			while(modelTotalRH.getRowCount()>0){
+				modelTotalRH.removeRow(0);
+			}
+			
+			while(modelTotalAX.getRowCount()>0){
+				modelTotalAX.removeRow(0);
+			}
+			
 			
 			String[][] TablaRH = getMatrizRH();
 			Object[] filaRH = new Object[tablaRh.getColumnCount()]; 
@@ -195,6 +211,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 					modelTotalAX.setValueAt(TablaDifAX[i][j]+"", i,j);
 				}
 			}
+			sumaRH();
+			
+			sumaAX();
+
 		}
 	};
 	public void Etiqueta(){
