@@ -93,8 +93,11 @@ create table tb_fuente_sodas_rh(
 	fecha varchar(14),
 	status int
 );
-ALTER TABLE tb_fuente_sodas_auxf  ALTER COLUMN status_ticket char(1)
+
 EXEC SP_RENAME 'tb_fuente_sodas_auxf.ticket', 'status_ticket'
+
+ALTER TABLE tb_fuente_sodas_auxf  ALTER COLUMN status_ticket char(1)
+
 sp_columns tb_fuente_sodas_auxf
 
 select * from tb_fuente_sodas_auxf
