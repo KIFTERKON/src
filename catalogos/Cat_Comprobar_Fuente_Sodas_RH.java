@@ -24,7 +24,6 @@ import objetos.Obj_fuente_sodas_rh;
 
 import SQL.Connexion;
 
-
 @SuppressWarnings("serial")
 public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	
@@ -96,6 +95,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		
 		panel.add(btnActualizar).setBounds(555,5,32,20);
 		panel.add(btnAceptar).setBounds(595,5,32,20);
+
 		
 		btnActualizar.addActionListener(opActualizar);
 		btnAceptar.addActionListener(opAceptar);
@@ -190,7 +190,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			if(TablaDifAX.length == 0 && TablaDifRH.length == 0){
 				btnAceptar.setEnabled(true);
 			}else{
-				btnAceptar.setEnabled(false);
+				btnAceptar.setEnabled(false);		
 			}
 		}	
 	};
@@ -245,6 +245,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			for(int j=0; j<3; j++){
 				modelTotalRH.setValueAt(TablaDifRH[i][j]+"", i,j);
 			}
+			sumaRH();
+			
+			sumaAX();
+
 		}
 		
 		String[][] TablaDifAX = getMatrizDifAX();

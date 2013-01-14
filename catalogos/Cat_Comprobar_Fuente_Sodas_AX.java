@@ -73,6 +73,7 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 	JLabel lblTotalAX = new JLabel();
 	
 	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
+
 	public Cat_Comprobar_Fuente_Sodas_AX(){
 		this.setTitle("Comparación Fuente de Sodas");
 		
@@ -91,6 +92,10 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 		panel.add(scrollTotalAX).setBounds(650,360,320,290);
 		
 		panel.add(btnActualizar).setBounds(575,5,32,20);
+		
+		btnActualizar.addActionListener(opActualizar);
+		
+		panel.add(btnActualizar).setBounds(370,5,32,25);
 		
 		btnActualizar.addActionListener(opActualizar);
 		
@@ -162,6 +167,7 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 	
 	ActionListener opActualizar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
+
 			Actualizar();
 			
 		}	
@@ -231,6 +237,7 @@ public class Cat_Comprobar_Fuente_Sodas_AX extends JDialog{
 		
 		sumaAX();
 	}
+
 	
 	public void Etiqueta(){
 		int fila=0;
