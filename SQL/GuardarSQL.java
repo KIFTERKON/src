@@ -4,7 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
-import objetos.Obj_Bono;
+import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Deduccion_Asistencia;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
@@ -98,7 +99,7 @@ public class GuardarSQL extends Connexion{
 		return true;
 	}
 	
-	public boolean Guardar_Bono(Obj_Bono bono){
+	public boolean Guardar_Bono(Obj_Bono_Complemento_Sueldo bono){
 		String query = "insert into tb_bono(bono,abreviatura,status) values(?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
@@ -238,6 +239,34 @@ public class GuardarSQL extends Connexion{
 				pstmt.setString(4, (rango_prestamo.isStatus())?"1":"0");
 				pstmt.executeUpdate();
 				
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Asistencia deduccion){
+		String query = "insert into tb_deduccion_asistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,status) " +
+						"values(?,?,?,?,?,?,?,?);";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, deduccion.getFolioEmpleado());
+			pstmt.setString(2, deduccion.getNombre_completo().toUpperCase());
+			pstmt.setString(3, deduccion.getEstablecimiento().toUpperCase());
+			pstmt.setString(4, deduccion.getPuntualidad());
+			pstmt.setString(5, deduccion.getFalta());
+			pstmt.setInt(6, deduccion.getDia_faltas());
+			pstmt.setString(7, deduccion.getAsistencia());
+			pstmt.setInt(8 , 1);
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

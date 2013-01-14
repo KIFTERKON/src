@@ -18,8 +18,9 @@ import javax.swing.UIManager;
 
 import objetos.Obj_Usuario;
 
-import catalogos.Cat_Bono;
+import catalogos.Cat_Bono_Complemento_Sueldo;
 import catalogos.Cat_Comprobar_Fuente_Sodas;
+import catalogos.Cat_Deduccion_Asistencia;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
@@ -56,6 +57,7 @@ public class Principal extends JFrame{
 	JMenu Alimentacion = new JMenu("Alimentación");
 		JMenuItem Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
 		JMenuItem Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
+		JMenuItem Deducciones_Asistencia = new JMenuItem("Deducción por Asistencia");
 		JMenuItem Bancos = new JMenuItem("Bancos");
 		JMenuItem Prestamos = new JMenuItem("Prestamos");
 	JMenu Lista_Raya = new JMenu("Lista de Raya");	
@@ -117,6 +119,9 @@ public class Principal extends JFrame{
 		
 			Alimentacion.add(Bancos);
 			Bancos.addActionListener(Opciones);
+
+			Alimentacion.add(Deducciones_Asistencia);
+			Deducciones_Asistencia.addActionListener(Opciones);
 			
 			Alimentacion.add(Fuente_Sodas_rh);
 			Fuente_Sodas_rh.addActionListener(Opciones);
@@ -142,6 +147,9 @@ public class Principal extends JFrame{
 	
 	ActionListener Opciones = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
+					
+			if(e.getActionCommand().equals("Deducción por Asistencia"))
+				new Cat_Deduccion_Asistencia().setVisible(true);
 			
 			if(e.getActionCommand().equals("Alta Empleado"))
 				new Cat_Empleado().setVisible(true);
@@ -169,7 +177,7 @@ public class Principal extends JFrame{
 			if(e.getActionCommand().equals("Usuario"))
 				new Cat_Usuario().setVisible(true);
 			if(e.getActionCommand().equals("Bono"))
-				new Cat_Bono().setVisible(true);
+				new Cat_Bono_Complemento_Sueldo().setVisible(true);
 			if(e.getActionCommand().equals("Rango de Prestamo"))
 				new Cat_Rango_Prestamos().setVisible(true);
 			if(e.getActionCommand().equals("Puesto"))

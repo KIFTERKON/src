@@ -2,7 +2,7 @@ package SQL;
 
 import java.sql.ResultSet;
 
-import objetos.Obj_Bono;
+import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
@@ -120,8 +120,8 @@ public class BuscarSQL extends Connexion{
 		return sueldo;
 	}
 	
-	public Obj_Bono Bono(int folio){
-		Obj_Bono bono = new Obj_Bono();
+	public Obj_Bono_Complemento_Sueldo Bono(int folio){
+		Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo();
 		
 		
 		String query = "select * from tb_bono where folio ="+ folio;
@@ -149,8 +149,8 @@ public class BuscarSQL extends Connexion{
 		return bono;
 	}
 	
-	public Obj_Bono Bono_Nuevo(){
-		Obj_Bono bono = new Obj_Bono();
+	public Obj_Bono_Complemento_Sueldo Bono_Nuevo(){
+		Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo();
 		String query = "select max(folio) as 'Maximo' from tb_bono";
 		try {
 			java.sql.Statement stmt = conn.createStatement();

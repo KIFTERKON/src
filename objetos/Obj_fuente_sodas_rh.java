@@ -6,15 +6,15 @@ import SQL.GuardarSQL;
 
 public class Obj_fuente_sodas_rh {
 	private int folio;
-	private String ticket;
+	private char ticket;
 	private String nombre_completo;
     private double cantidad;
     private String fecha;
     
     public Obj_fuente_sodas_rh(){
-    	this.ticket = "";
+    	this.ticket = ' ';
     	this.nombre_completo = "";
-    	this.cantidad =0.0;
+    	this.cantidad = 0.0;
     	this.fecha = "";
 
     }
@@ -35,11 +35,11 @@ public class Obj_fuente_sodas_rh {
 		nombre_completo = nombreCompleto;
 	}
 
-	public String getTicket() {
+	public char getTicket() {
 		return ticket;
 	}
 
-	public void setTicket(String folio) {
+	public void setTicket(char folio) {
 		this.ticket = folio;
 	}
 
@@ -69,13 +69,9 @@ public class Obj_fuente_sodas_rh {
 	// Funcion Guardar Empleado
 	public boolean guardar(){ return new GuardarSQL().Guardar_fuente_sodas_rh(this); }
 	
-	//public Obj_Empleado buscar(int folio){ return new BuscarSQL().FuenteSodasRh(folio); }
-	
-	// METODO PARA ACTUALIZAR UN EMPLEADO
 	public boolean actualizar(int folio){ return new ActualizarSQL().fuente_sodas(this,folio); }
 	
-	// METODO BUSCAR EMPLEADO
-	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
+	public boolean actualizar_status_ticket(){ return new ActualizarSQL().fuente_sodas_Rh(); }
 	
 	public Obj_fuente_sodas_rh maximo(){ return new BuscarSQL().MaximoFuente(); }
 	

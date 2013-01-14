@@ -5,13 +5,13 @@ import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
-public class Obj_Bono {
+public class Obj_Bono_Complemento_Sueldo {
 	private int folio;
 	private float bono;
 	private String abreviatura;
 	private boolean status;
 	
-	public Obj_Bono(){
+	public Obj_Bono_Complemento_Sueldo(){
 		this.folio=0; this.bono=0; this.abreviatura=""; this.status=false;
 	}
 
@@ -48,11 +48,11 @@ public class Obj_Bono {
 	}
 	public String[] Combo_Bono(){ return new Cargar_Combo().Bono("tb_bono"); }
 	
-	public Obj_Bono buscar(int folio){ return new BuscarSQL().Bono(folio); }
+	public Obj_Bono_Complemento_Sueldo buscar(int folio){ return new BuscarSQL().Bono(folio); }
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Bono(this); }
 	
-	public Obj_Bono buscar_nuevo(){ return new BuscarSQL().Bono_Nuevo(); }
+	public Obj_Bono_Complemento_Sueldo buscar_nuevo(){ return new BuscarSQL().Bono_Nuevo(); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Bono(this,folio); }
 	
