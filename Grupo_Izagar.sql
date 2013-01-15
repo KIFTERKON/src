@@ -129,3 +129,9 @@ create table tb_deduccion_asistencia(
 
 delete tb_deduccion_asistencia 
 select * from tb_deduccion_asistencia;
+
+create table tb_asistencia_puntualidad(
+	folio int primary key identity,
+	asistencia money,
+	puntualidad money
+)
