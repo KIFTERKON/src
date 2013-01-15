@@ -2,6 +2,7 @@ package SQL;
 
 import java.sql.ResultSet;
 
+import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
@@ -443,6 +444,55 @@ public class BuscarSQL extends Connexion{
 			}
 		}
 		return rango_nuevo;
+	}
+	
+	public Obj_Asistencia_Puntualidad Asistencia_Puntualidad(){
+		Obj_Asistencia_Puntualidad numero = new Obj_Asistencia_Puntualidad();
+		String query = "select max(folio) as 'Maximo' from tb_asistencia_puntualidad";
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				numero.setExiste(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return numero;
+	}
+	
+	public Obj_Asistencia_Puntualidad Asistencia_Puntualidad(int folio){
+		Obj_Asistencia_Puntualidad numero = new Obj_Asistencia_Puntualidad();
+		String query = "select * from tb_asistencia_puntualidad where folio="+folio;
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				numero.setValorAsistencia(rs.getFloat("asistencia"));
+				numero.setValorPuntualidad(rs.getFloat("puntualidad"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return numero;
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Asistencia;
 import objetos.Obj_Empleado;
@@ -266,6 +267,28 @@ public class GuardarSQL extends Connexion{
 			pstmt.setInt(6, deduccion.getDia_faltas());
 			pstmt.setString(7, deduccion.getAsistencia());
 			pstmt.setInt(8 , 1);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Asistencia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad){
+		String query = "insert into tb_asistencia_puntualidad(asistencia,puntualidad) values(?,?);";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
+			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
+			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

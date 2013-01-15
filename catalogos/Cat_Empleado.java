@@ -322,8 +322,8 @@ public class Cat_Empleado extends JDialog{
 		cmbBono.setEnabled(false);
 		cmbPrestamos.setEnabled(false);
 		chbFuente_Sodas.setEnabled(false);
-		chbGafete.setEnabled(false);
-		cmbStatus.setEnabled(false);
+		chbGafete.setFocusable(false);
+		cmbStatus.setEditable(false);
 		
 	}
 	

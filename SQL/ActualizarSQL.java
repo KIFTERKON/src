@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Asistencia;
 import objetos.Obj_Empleado;
@@ -290,4 +291,26 @@ public class ActualizarSQL extends Connexion{
 		}		
 		return true;
 	}	
+	
+	public boolean Asistecia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad, int folio){
+		String query = "update tb_asistencia_puntualidad set asistencia=?, puntualidad=? where folio=" + folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
+			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 }
