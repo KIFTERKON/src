@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
-import objetos.Obj_Bono;
+import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Deduccion_Asistencia;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Prestamo;
@@ -93,7 +95,7 @@ public class ActualizarSQL extends Connexion{
 		return true;
 	}
 	
-	public boolean Bono(Obj_Bono bono, int folio){
+	public boolean Bono(Obj_Bono_Complemento_Sueldo bono, int folio){
 		String query = "update tb_bono set bono=?, abreviatura=?, status=? where folio=" + folio;
 		PreparedStatement pstmt = null;
 		try {
@@ -218,6 +220,29 @@ public class ActualizarSQL extends Connexion{
 		return true;
 	}
 	
+	public boolean fuente_sodas_Rh(){
+		String query = "update tb_fuente_sodas_rh set status_ticket=? where status=?; update tb_fuente_sodas_auxf set status_ticket=? where status=?;";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, "1");
+			pstmt.setInt(2, 1);
+			pstmt.setString(3, "1");
+			pstmt.setInt(4, 1);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	public boolean fuente_sodas_auxf(Obj_fuente_sodas_auxf ftsds, int folio){
 		String query = "update tb_fuente_sodas_auxf set fecha=?, cantidad=? where folio="+folio;
 		PreparedStatement pstmt = null;
@@ -286,4 +311,50 @@ public class ActualizarSQL extends Connexion{
 		return true;
 	}
 	
+	
+	public boolean Actualizar_Deduccion_Asistencia(Obj_Deduccion_Asistencia lista, int folio){
+		String query = "update tb_deduccion_asistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=? where folio_empleado="+folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, lista.getPuntualidad());
+			pstmt.setString(2, lista.getFalta());
+			pstmt.setInt(3, lista.getDia_faltas());
+			pstmt.setString(4, lista.getAsistencia());
+	
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}	
+	
+	public boolean Asistecia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad, int folio){
+		String query = "update tb_asistencia_puntualidad set asistencia=?, puntualidad=? where folio=" + folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
+			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 }

@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Bono;
+import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
@@ -53,7 +53,7 @@ public class Cat_Empleado extends JDialog{
 	@SuppressWarnings("unchecked")
 	JComboBox cmbSueldo = new JComboBox(sueldo);
 	
-	String bono[] = new Obj_Bono().Combo_Bono();
+	String bono[] = new Obj_Bono_Complemento_Sueldo().Combo_Bono();
 	@SuppressWarnings("unchecked")
 	JComboBox cmbBono = new JComboBox(bono);
 	
@@ -163,8 +163,6 @@ public class Cat_Empleado extends JDialog{
 	
 	ActionListener buscar = new ActionListener() {
 		public void actionPerformed(ActionEvent e){
-			
-			
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
@@ -266,7 +264,7 @@ public class Cat_Empleado extends JDialog{
 						panelEnabledTrue();
 						empleado.guardar();	
 						panelLimpiar();
-						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+						JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
 			}			
@@ -324,8 +322,8 @@ public class Cat_Empleado extends JDialog{
 		cmbBono.setEnabled(false);
 		cmbPrestamos.setEnabled(false);
 		chbFuente_Sodas.setEnabled(false);
-		chbGafete.setEnabled(false);
-		cmbStatus.setEnabled(false);
+		chbGafete.setFocusable(false);
+		cmbStatus.setEditable(false);
 		
 	}
 	

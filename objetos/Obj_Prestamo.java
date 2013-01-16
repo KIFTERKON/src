@@ -2,7 +2,6 @@ package objetos;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
-import SQL.GuardarSQL;
 
 public class Obj_Prestamo {
 	private int folio;
@@ -109,20 +108,17 @@ public class Obj_Prestamo {
 	}
 
 	// Funcion Guardar Empleado
-	public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
+	//public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
 	
 	//public Obj_Empleado buscar(int folio){ return new BuscarSQL().FuenteSodasRh(folio); }
 	
 	// METODO PARA ACTUALIZAR UN EMPLEADO
-	public boolean actualizar(int folio){ return new ActualizarSQL().prestamo(this,folio); }
+	//public boolean actualizar(int folio){ return new ActualizarSQL().prestamo(this,folio); }
 	
 	// METODO BUSCAR EMPLEADO
 	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
 	
 	public Obj_Prestamo maximo(){ return new BuscarSQL().maximoPrestamo(); }
-//--------------------------------->>>>>>>	
 	public boolean borrar(int Id){ return new ActualizarSQL().eliminarPrestamo(Id); }
-	
-	
 
 }

@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Bono;
+import objetos.Obj_Bono_Complemento_Sueldo;
 
 @SuppressWarnings("serial")
-public class Cat_Bono extends JFrame{
+public class Cat_Bono_Complemento_Sueldo extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -38,9 +38,9 @@ public class Cat_Bono extends JFrame{
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 	
-	public Cat_Bono(){
+	public Cat_Bono_Complemento_Sueldo(){
 		
-		super("..:: Bono ::..");
+		super("Bonos complemento de Sueldo");
 	
 		chStatus.setSelected(true);
 		
@@ -97,7 +97,7 @@ public class Cat_Bono extends JFrame{
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_Bono bono = new Obj_Bono().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(Integer.parseInt(txtFolio.getText()));
 				
 				if(bono.getFolio() == Integer.parseInt(txtFolio.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
@@ -224,7 +224,7 @@ public class Cat_Bono extends JFrame{
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-				Obj_Bono re = new Obj_Bono();
+				Obj_Bono_Complemento_Sueldo re = new Obj_Bono_Complemento_Sueldo();
 				re = re.buscar(Integer.parseInt(txtFolio.getText()));
 				
 				if(re.getFolio() != 0){
@@ -267,7 +267,7 @@ public class Cat_Bono extends JFrame{
 	
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			Obj_Bono bono = new Obj_Bono().buscar_nuevo();
+			Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar_nuevo();
 			if(bono.getFolio() != 0){
 				panelLimpiar();
 				panelEnabledTrue();

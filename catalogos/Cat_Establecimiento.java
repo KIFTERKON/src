@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Bono;
+import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Establecimiento;
 
 @SuppressWarnings("serial")
@@ -135,7 +135,7 @@ public class Cat_Establecimiento extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			Obj_Bono re = new Obj_Bono();
+			Obj_Bono_Complemento_Sueldo re = new Obj_Bono_Complemento_Sueldo();
 			re = re.buscar(Integer.parseInt(txtFolio.getText()));
 			
 			if(re != null){

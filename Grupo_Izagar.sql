@@ -41,7 +41,7 @@ create table tb_rango_prestamos(
 
 alter table tb_empleado add rango_prestamo_id int -- para agregar esta columna
 alter table tb_empleado add foreign key (rango_prestamo_id) references tb_rango_prestamos(folio) -- agregar el foreing key
-
+select * from tb_empleado where folio=1
 create table tb_empleado(
 	folio int identity primary key,
 	no_checador int,
@@ -65,6 +65,7 @@ create table tb_empleado(
 	foreign key (bono_id) references tb_bono(folio)
 	
 );
+
 
 create table tb_permiso(
 	folio int primary key identity,
@@ -196,3 +197,27 @@ select
 from tb_prestamo,tb_establecimiento,tb_empleado
 where tb_prestamo.status='1' 
 and tb_prestamo.folio_empleado= tb_empleado.folio and tb_empleado.establecimiento_id = tb_establecimiento.folio
+
+
+-- Tabla de Deducciòn de Asistencia
+
+create table tb_deduccion_asistencia(
+	folio int primary key identity,
+	folio_empleado int,
+	establecimiento varchar(20),
+	nombre_completo varchar(120),
+	puntualidad char(5),
+	falta char(5),
+	dia_faltas int,
+	asistencia char(5),
+	status int
+)
+
+delete tb_deduccion_asistencia 
+select * from tb_deduccion_asistencia;
+
+create table tb_asistencia_puntualidad(
+	folio int primary key identity,
+	asistencia money,
+	puntualidad money
+)
