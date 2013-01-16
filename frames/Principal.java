@@ -25,6 +25,7 @@ import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Sueldo;
@@ -42,7 +43,6 @@ public class Principal extends JFrame{
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
 	JMenu Catalogo = new JMenu("Catalogo");
-	
 		JMenuItem Catalogo_Alta = new JMenuItem("Alta Empleado", new ImageIcon("Imagen/Usuario.png"));
 		JMenuItem Catalogo_Bono = new JMenuItem("Bono", new ImageIcon(""));
 		JMenuItem Catalogo_Establecimiento = new JMenuItem("Establecimiento", new ImageIcon("///"));
@@ -53,14 +53,17 @@ public class Principal extends JFrame{
 		JMenuItem Catalogo_Usuario = new JMenuItem("Usuario", new ImageIcon(""));
 		
 		JMenuItem Archivo_Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
+		
 	JMenu Alimentacion = new JMenu("Alimentación");
 		JMenuItem Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
 		JMenuItem Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
 		JMenuItem Bancos = new JMenuItem("Bancos");
 		JMenuItem Prestamos = new JMenuItem("Prestamos");
+		JMenuItem LPrestamos = new JMenuItem("Lista de Prestamos");
+		
 	JMenu Lista_Raya = new JMenu("Lista de Raya");	
 		
-		JMenu Ayuda = new JMenu("Ayuda");
+	JMenu Ayuda = new JMenu("Ayuda");
 		JMenuItem Edicion_AcercaDe = new JMenuItem("Acerca de", new ImageIcon("foto/help.png"));
 		JMenuItem Permiso_user = new JMenuItem("Permisos de Usuario", new ImageIcon("foto/help.png"));
 		
@@ -126,6 +129,9 @@ public class Principal extends JFrame{
 						
 			Alimentacion.add(Prestamos);
 			Prestamos.addActionListener(Opciones);
+			
+			Alimentacion.add(LPrestamos);
+			LPrestamos.addActionListener(Opciones);
 		
 		Ayuda.add(Edicion_AcercaDe);
 		Ayuda.add(Permiso_user);
@@ -166,20 +172,30 @@ public class Principal extends JFrame{
 //---------------------------------------------------------------------------------------------		
 			if(e.getActionCommand().equals("Prestamos"))
 				new Cat_Filtro_Prestamo().setVisible(true);
+			
+			if(e.getActionCommand().equals("Lista de Prestamos"))
+				new Cat_Lista_Deudores_Prestamo().setVisible(true);
+			
 			if(e.getActionCommand().equals("Usuario"))
 				new Cat_Usuario().setVisible(true);
+			
 			if(e.getActionCommand().equals("Bono"))
 				new Cat_Bono().setVisible(true);
+			
 			if(e.getActionCommand().equals("Rango de Prestamo"))
 				new Cat_Rango_Prestamos().setVisible(true);
+			
 			if(e.getActionCommand().equals("Puesto"))
 				new Cat_Puesto().setVisible(true);
+			
 			if(e.getActionCommand().equals("Sueldo"))
 				new Cat_Sueldo().setVisible(true);
+			
 //			if(e.getActionCommand().equals("Catalogo_Status"))
+//			new CatPassword().setVisible(true);
+
 			if(e.getActionCommand().equals("Cerrar"))
 				dispose();
-//				new CatPassword().setVisible(true);
 		}
 	};
 	

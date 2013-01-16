@@ -7,6 +7,7 @@ import java.util.Date;
 import objetos.Obj_Bono;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
@@ -210,6 +211,35 @@ public class GuardarSQL extends Connexion{
 				pstmt.setDouble(4, fuentesodasauxf.getCantidad());
 				pstmt.setString(5, fuentesodasauxf.getFecha());
 				pstmt.setString(6, "1");
+				
+			 	pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_prestamo(Obj_Prestamo pres){
+		String query = "insert into tb_prestamo(folio_empleado,nombre_completo,fecha,cantidad,descuento,status,saldo,status_descuento) values(?,?,?,?,?,?,?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1,pres.getFolio_empleado());
+				pstmt.setString(2, pres.getNombre_Completo().toUpperCase());
+				pstmt.setString(3, pres.getFecha());
+				pstmt.setDouble(4, pres.getCantidad());
+				pstmt.setDouble(5, pres.getDescuento());
+				pstmt.setString(6, "1");
+				pstmt.setDouble(7, pres.getSaldo());
+				pstmt.setString(8, "1");
 				
 			 	pstmt.executeUpdate();
 			
