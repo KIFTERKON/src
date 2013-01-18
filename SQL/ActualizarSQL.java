@@ -9,6 +9,7 @@ import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Asistencia;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Prestamo;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
@@ -179,6 +180,26 @@ public class ActualizarSQL extends Connexion{
 		return true;
 	}
 	
+	public boolean eliminarPrestamo(int id){
+		String query = "update tb_prestamo set status=? where folio="+id;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, "0");
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	public boolean fuente_sodas(Obj_fuente_sodas_rh ftsds, int folio){
 		String query = "update tb_fuente_sodas_rh set fecha=?, cantidad=? where folio="+folio;
 		PreparedStatement pstmt = null;
@@ -230,6 +251,29 @@ public class ActualizarSQL extends Connexion{
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, ftsds.getFecha());
 			pstmt.setDouble(2, ftsds.getCantidad());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}	
+	
+	public boolean prestamo(Obj_Prestamo pres, int folio){
+		String query = "update tb_prestamo set fecha=?, cantidad=?, descuento=?, status=? where folio="+folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, pres.getFecha());
+			pstmt.setDouble(2, pres.getCantidad());
+			pstmt.setDouble(3, pres.getDescuento());
+			pstmt.setInt(4, pres.getStatus());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,17 +1,28 @@
 package objetos;
 
+import SQL.ActualizarSQL;
+import SQL.BuscarSQL;
+
 public class Obj_Prestamo {
 	private int folio;
-	private String ticket;
+	private int folio_empleado;
 	private String nombre_completo;
     private double cantidad;
+    private double descuento;
+    private double saldo;
     private String fecha;
+    private int status;
+    private int status_descuento;
     
     public Obj_Prestamo(){
-    	this.ticket = "";
+    	this.folio_empleado=0;
     	this.nombre_completo = "";
     	this.cantidad =0.0;
+    	this.descuento=0.0;
     	this.fecha = "";
+    	this.status=0;
+    	this.saldo=0.0;
+    	this.status_descuento=0;
 
     }
 
@@ -22,6 +33,15 @@ public class Obj_Prestamo {
 	public void setFolio(int folio) {
 		this.folio = folio;
 	}
+	
+
+	public int getFolio_empleado() {
+		return folio_empleado;
+	}
+
+	public void setFolio_empleado(int folioEmpleado) {
+		folio_empleado = folioEmpleado;
+	}
 
 	public String getNombre_completo() {
 		return nombre_completo;
@@ -29,14 +49,6 @@ public class Obj_Prestamo {
 
 	public void setNombre_completo(String nombreCompleto) {
 		nombre_completo = nombreCompleto;
-	}
-
-	public String getTicket() {
-		return ticket;
-	}
-
-	public void setTicket(String folio) {
-		this.ticket = folio;
 	}
 
 	public String getNombre_Completo() {
@@ -55,6 +67,22 @@ public class Obj_Prestamo {
 		this.cantidad = cantidad;
 	}
 
+	public double getDescuento() {
+		return descuento;
+	}
+
+	public void setDescuento(double descuento) {
+		this.descuento = descuento;
+	}
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
 	public String getFecha() {
 		return fecha;
 	}
@@ -62,6 +90,23 @@ public class Obj_Prestamo {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
+	public int getStatus_descuento() {
+		return status_descuento;
+	}
+
+	public void setStatus_descuento(int statusDescuento) {
+		status_descuento = statusDescuento;
+	}
+
 	// Funcion Guardar Empleado
 	//public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
 	
@@ -73,10 +118,7 @@ public class Obj_Prestamo {
 	// METODO BUSCAR EMPLEADO
 	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
 	
-	//public Obj_Prestamo maximo(){ return new BuscarSQL().MaximoPuesto(); }
-//--------------------------------->>>>>>>	
-	//public boolean borrar(int Id){ return new ActualizarSQL().eliminarListaFuenteSodas(Id); }
-	
-	
+	public Obj_Prestamo maximo(){ return new BuscarSQL().maximoPrestamo(); }
+	public boolean borrar(int Id){ return new ActualizarSQL().eliminarPrestamo(Id); }
 
 }

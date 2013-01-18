@@ -61,7 +61,7 @@ create table tb_empleado(
 	fecha varchar(30),
 
 	foreign key (establecimiento_id) references tb_establecimiento(folio),
-	foreign key (rango_prestamo_id) references tb_rango_prestamos(folio), -- agregue el foreign key
+	foreign key (rango_prestamo_id) references tb_rango_prestamos(folio), 
 	foreign key (puesto_id) references tb_puesto(folio),
 	foreign key (sueldo_id) references tb_sueldo(folio),
 	foreign key (bono_id) references tb_bono(folio)
@@ -85,8 +85,19 @@ create table tb_usuario(
 	status int,
 	foreign key (permiso_id) references tb_permiso(folio)
 );
-select * from tb_empleado
-select * from tb_fuente_sodas_rh
+
+create table tb_prestamo(
+	folio int primary key identity,
+	folio_empleado int, 
+	nombre_completo varchar(120),
+	fecha varchar(14),
+	cantidad money,
+	descuento money,
+	saldo money, 
+	status int,
+	status_descuento int
+);
+
 create table tb_fuente_sodas_rh(
 	folio int primary key identity,
 	ticket varchar(15),
@@ -103,7 +114,6 @@ ALTER TABLE tb_fuente_sodas_auxf  ALTER COLUMN status_ticket char(1)
 
 sp_columns tb_fuente_sodas_auxf
 
-select * from tb_fuente_sodas_auxf
 alter table tb_fuente_sodas_auxf insert column(
 	folio int primary key identity,
 	ticket varchar(15),
@@ -113,6 +123,79 @@ alter table tb_fuente_sodas_auxf insert column(
 	fecha varchar(14),
 	status int
 );
+
+select tb_empleado.folio as [Folio],
+	   tb_empleado.nombre as [Nombre],
+	   tb_empleado.ap_paterno as [Paterno],
+	   tb_empleado.ap_materno as [Materno],
+	   tb_establecimiento.nombre as [Establecimiento],
+	   tb_puesto.nombre as [Puesto],
+	   tb_sueldo.sueldo as [Sueldo],
+	   tb_bono.bono as [Bono],
+	   tb_empleado.status as [Status],
+	   tb_empleado.fuente_sodas as [Fuentes],
+	   tb_empleado.gafete as [Gafete] 
+
+from tb_empleado, tb_establecimiento, tb_puesto, tb_sueldo, tb_bono
+
+where
+	  tb_empleado.establecimiento_id = tb_establecimiento.folio and
+	  tb_empleado.puesto_id = tb_puesto.folio and
+	  tb_empleado.sueldo_id = tb_sueldo.folio and
+	  tb_empleado.bono_id = tb_bono.folio
+
+
+select tb_empleado.folio as [Folio],
+	   tb_empleado.nombre as [Nombre],
+	   tb_empleado.ap_paterno as [Paterno],
+	   tb_empleado.ap_materno as [Materno],
+	   tb_establecimiento.nombre as [Establecimiento],
+		
+	   tb_empleado.status as [Status],
+	   tb_rango_prestamos.minimo as [RangoMin],
+	   tb_rango_prestamos.maximo as [RangoMax],
+
+	   tb_sueldo.sueldo as [Sueldo] 
+
+from tb_empleado, tb_establecimiento, tb_sueldo, tb_rango_prestamos 
+
+where 
+	  tb_empleado.establecimiento_id = tb_establecimiento.folio and
+	  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and
+	  tb_empleado.sueldo_id = tb_sueldo.folio and 
+	  tb_empleado.rango_prestamo_id = tb_rango_prestamos.folio  and
+	  tb_empleado.sueldo_id = tb_sueldo.folio
+
+select * from tb_empleado
+select * from tb_sueldo
+select * from tb_puesto
+select * from tb_establecimiento
+select * from tb_bono
+select * from tb_prestamo
+select * from tb_rango_prestamos
+select * from tb_usuario
+select * from tb_permiso
+select * from tb_fuente_sodas_rh
+select * from tb_fuente_sodas_auxf
+
+select minimo,maximo 
+from tb_empleado,tb_rango_prestamos 
+where 
+tb_empleado.rango_prestamo_id = tb_rango_prestamos.folio
+
+
+select 
+		tb_prestamo.folio as [folio],
+		tb_prestamo.folio_empleado as [folio_Emp],
+		tb_prestamo.nombre_completo as [nombre],
+		tb_establecimiento.nombre as [establecimiento],
+		tb_prestamo.fecha as [fecha],
+		tb_prestamo.cantidad as [prestamo],
+		tb_prestamo.descuento as[desc],
+		tb_prestamo.saldo as [saldo]
+from tb_prestamo,tb_establecimiento,tb_empleado
+where tb_prestamo.status='1' 
+and tb_prestamo.folio_empleado= tb_empleado.folio and tb_empleado.establecimiento_id = tb_establecimiento.folio
 
 
 -- Tabla de Deducciòn de Asistencia
@@ -137,7 +220,6 @@ create table tb_asistencia_puntualidad(
 	asistencia money,
 	puntualidad money
 )
-
 
 select * from tb_fuente_sodas_rh where status_ticket = 1
 

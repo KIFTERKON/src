@@ -154,16 +154,19 @@ public class Cat_Filtro_Prestamo extends JDialog{
 					 "  tb_establecimiento.nombre as [Establecimiento], "+
 					
 					 "  tb_empleado.status as [Status], "+
-					 "  tb_empleado.fuente_sodas as [Fuentes], "+
+					 "  ROUND(tb_rango_prestamos.minimo,2) as [RangoMin], "+
+					 "  ROUND(tb_rango_prestamos.maximo,2) as [RangoMax], "+
 					 
 					 "  tb_sueldo.sueldo as [Sueldo] "+
 
-					"  from tb_empleado, tb_establecimiento, tb_sueldo"+
+					"  from tb_empleado, tb_establecimiento, tb_sueldo, tb_rango_prestamos "+
 
 					"  where "+
 						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
 						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and" +
-						"  tb_empleado.sueldo_id = tb_sueldo.folio" );
+						"  tb_empleado.sueldo_id = tb_sueldo.folio and " +
+						"  tb_empleado.rango_prestamo_id = tb_rango_prestamos.folio and" +
+						"  tb_empleado.sueldo_id = tb_sueldo.folio");
 			
 			
 			while (rs.next())
@@ -178,14 +181,8 @@ public class Cat_Filtro_Prestamo extends JDialog{
 				case 2 : fila[3] = "Vacaciones"; break;
 				case 3 : fila[3] = "Baja"; break;	
 			   }	
-			   
-			   if(Integer.parseInt(rs.getString(7).trim()) == 1){
-					  fila[4] = "900.00  -  1400.00";
-				   }else {
-					  fila[4] ="0  -  0";
-				   }
-			   
-			   fila[5] = rs.getString(8).trim(); 
+			   fila[4] =(Math.rint(rs.getDouble(7)*100)/100 +"  -  "+ Math.rint(rs.getDouble(8)*100)/100);			   
+			   fila[5] = rs.getString(9).trim(); 
 			   
 			   model.addRow(fila); 
 			}	

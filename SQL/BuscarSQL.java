@@ -6,6 +6,7 @@ import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
@@ -393,6 +394,29 @@ public class BuscarSQL extends Connexion{
 		return bono;
 	}
 	
+	public Obj_Prestamo maximoPrestamo(){
+		Obj_Prestamo bono = new Obj_Prestamo();
+		String query = "select max(folio) as 'Maximo' from tb_prestamo";
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				bono.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bono;
+	}
 	
 	public Obj_Rango_Prestamos Rango_Prestamos(int folio){
 		Obj_Rango_Prestamos prestamos = new Obj_Rango_Prestamos();

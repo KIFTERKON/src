@@ -133,7 +133,7 @@ public class Principal extends JFrame{
 			Configuracion_Prestamo.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Usuario);
 			Configuracion_Usuario.addActionListener(Opciones);
-			
+
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 		Ayuda.add(Edicion_AcercaDe);
 		Ayuda.add(Permiso_user);
@@ -174,7 +174,7 @@ public class Principal extends JFrame{
 				new Cat_Puesto().setVisible(true);
 			if(e.getActionCommand().equals("Sueldo"))
 				new Cat_Sueldo().setVisible(true);
-			
+
 			// Listas
 			if(e.getActionCommand().equals("Lista de Raya"))
 				dispose();
