@@ -39,9 +39,10 @@ create table tb_rango_prestamos(
 	status int
 )
 
-alter table tb_empleado add rango_prestamo_id int -- para agregar esta columna
-alter table tb_empleado add foreign key (rango_prestamo_id) references tb_rango_prestamos(folio) -- agregar el foreing key
-select * from tb_empleado where folio=1
+select * from tb_empleado --where folio=1
+
+alter table tb_empleado add infonavit money
+
 create table tb_empleado(
 	folio int identity primary key,
 	no_checador int,
@@ -52,7 +53,8 @@ create table tb_empleado(
 	puesto_id int,
 	sueldo_id int,
 	bono_id int,
-	rango_prestamo_id int, -- agregue esta columna
+	rango_prestamo_id int, 
+	infonavit money, -- agregar esta columna
 	fuente_sodas int,
 	gafete int,
 	status int,
@@ -135,3 +137,20 @@ create table tb_asistencia_puntualidad(
 	asistencia money,
 	puntualidad money
 )
+
+
+select * from tb_fuente_sodas_rh where status_ticket = 1
+
+
+select
+		tb_empleado.folio as folio,
+		tb_empleado.nombre as nombre,
+		tb_empleado.ap_paterno as ap_paterno,
+		tb_empleado.ap_materno as ap_materno,
+		tb_sueldo.sueldo as sueldo,
+		tb_bono.bono as bono
+
+from tb_empleado, tb_sueldo, tb_bono
+
+where tb_empleado.sueldo_id = tb_sueldo.folio and
+	  tb_empleado.bono_id = tb_bono.folio

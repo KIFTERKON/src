@@ -87,10 +87,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		panel.add(new JLabel("Tabla de Diferencia RRHH")).setBounds(210,335,200,20);
 		panel.add(scrollTotalRH).setBounds(210,360,320,290);
 
-		panel.add(new JLabel("Tabla Auxiliar")).setBounds(650,10,200,20);
+		panel.add(new JLabel("Tabla Auxiliar de Finanzas")).setBounds(650,10,200,20);
 		panel.add(lblTotalAX).setBounds(910,10,200,20);
 		panel.add(scrollAx).setBounds(650,35,320,290);
-		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Operaciones")).setBounds(650,335,250,20);
+		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Finanzas")).setBounds(650,335,250,20);
 		panel.add(scrollTotalAX).setBounds(650,360,320,290);
 		
 		panel.add(btnActualizar).setBounds(555,5,32,20);

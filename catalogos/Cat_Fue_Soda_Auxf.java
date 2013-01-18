@@ -67,7 +67,6 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnEliminar = new JButton(new ImageIcon("imagen/Delete.png"));
-	JButton btnListado = new JButton("Listado F. Sodas");
 	
 	public Cat_Fue_Soda_Auxf(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Pesos.png"));
@@ -109,7 +108,6 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		lblTotal.setFont(new java.awt.Font("Algerian",0,60));
 		panel.add(lblTotal).setBounds(ancho-30,y, 400, 200);
 		
-		panel.add(btnListado).setBounds(x+ancho+x+40+ancho+ancho-80+30,320, 120, 20);
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(salir);
@@ -117,7 +115,6 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		btnFiltro.addActionListener(filtro);
 		btnCalendario.addMouseListener(OpCalendario);
 		btnEliminar.addActionListener(opEliminar);
-		btnListado.addActionListener(opComprobar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
 	
@@ -130,7 +127,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
 		
 		panelEnabledTrue();
-		txtFecha.setEnabled(false);
+		txtFecha.setEditable(false);
 		
 		String[][] Tabla = getMatriz(txtNombre_Completo.getText());
 		Object[] fila = new Object[tabla.getColumnCount()]; 
@@ -149,13 +146,6 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		this.setLocationRelativeTo(null);
 
 	}
-	
-	ActionListener opComprobar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			dispose();
-			new Cat_Comprobar_Fuente_Sodas_AX().setVisible(true);
-		}
-	};
 	
 	ActionListener opEliminar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
@@ -183,9 +173,22 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount()==1){
 	        		int fila = tabla.getSelectedRow();
-	    			txtFecha.setText(modelo.getValueAt(fila,1)+"");
-	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
-	    			suma();
+	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        		Obj_fuente_sodas_auxf fuente_sodas = new Obj_fuente_sodas_auxf().buscar(id);
+	        		if(fuente_sodas.getStatus_ticket() != 1){
+	        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+	        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+	        			suma();
+	        			txtCantidad.setEditable(true);
+	        			btnEliminar.setEnabled(true);
+	        		}else{
+	        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+	        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+	        			suma();
+	        			txtCantidad.setEditable(false);
+	        			btnEliminar.setEnabled(false);
+	        		}
+	    			
 	        	}
 	        }
         });
@@ -243,12 +246,12 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	};	
 	
 	public void panelEnabledTrue(){	
-		txtCantidad.setEnabled(true);
+		txtCantidad.setEditable(true);
 		
 	}
 	
 	public void panelEnabledFalse(){	
-		txtCantidad.setEnabled(false);
+		txtCantidad.setEditable(false);
 		
 	}
 	

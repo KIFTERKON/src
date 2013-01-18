@@ -10,13 +10,14 @@ public class Obj_fuente_sodas_auxf {
 	private String nombre_completo;
     private double cantidad;
     private String fecha;
+    private int status_ticket;
     
     public Obj_fuente_sodas_auxf(){
     	this.ticket = "";
     	this.nombre_completo = "";
     	this.cantidad =0.0;
     	this.fecha = "";
-
+    	this.status_ticket=0;
     }
 
 	public int getFolio() {
@@ -66,16 +67,21 @@ public class Obj_fuente_sodas_auxf {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
+	
+	public int getStatus_ticket() {
+		return status_ticket;
+	}
+
+	public void setStatus_ticket(int statusTicket) {
+		status_ticket = statusTicket;
+	}
+	
 	// Funcion Guardar Empleado
 	public boolean guardar(){ return new GuardarSQL().Guardar_fuente_sodas_auxf(this); }
 	
-	//public Obj_Empleado buscar(int folio){ return new BuscarSQL().FuenteSodasRh(folio); }
-	
-	// METODO PARA ACTUALIZAR UN EMPLEADO
 	public boolean actualizar(int folio){ return new ActualizarSQL().fuente_sodas_auxf(this,folio); }
 	
-	// METODO BUSCAR EMPLEADO
-	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
+	public Obj_fuente_sodas_auxf buscar(int folio){ return new BuscarSQL().fuente_sodas_ax(folio); }
 	
 	public Obj_fuente_sodas_auxf maximo(){ return new BuscarSQL().MaximoFuente_auxf(); }
 	

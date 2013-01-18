@@ -16,6 +16,7 @@ public class Obj_Empleado {
 	private int sueldo;
 	private int bono;
 	private int prestamo;
+	private float infonavit;
 	private boolean fuente_sodas;
 	private boolean gafete;
 	private int status;
@@ -23,7 +24,7 @@ public class Obj_Empleado {
 	
 	public Obj_Empleado(){
 		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0;
-		puesto=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false;
+		puesto=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; infonavit=0;
 	}
 
 	public boolean getFuente_sodas() {
@@ -137,24 +138,21 @@ public class Obj_Empleado {
 	public void setPrestamo(int prestamo) {
 		this.prestamo = prestamo;
 	}
+	
+	public float getInfonavit() {
+		return infonavit;
+	}
 
-	// Funcion Guardar Empleado
+	public void setInfonavit(float infonavit) {
+		this.infonavit = infonavit;
+	}
+
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }
 	
 	public Obj_Empleado buscar(int folio){ return new BuscarSQL().Empleado(folio); }
 	
-	// METODO PARA ACTUALIZAR UN EMPLEADO
 	public boolean actualizar(int folio){ return new ActualizarSQL().Empleado(this,folio); }
 	
-	// METODO BUSCAR EMPLEADO
-	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
-	
-	// METODO BUSCAR EL NUMERO ID MAXIMO
 	public Obj_Empleado buscar_nuevo(){ return new BuscarSQL().Empleado_Nuevo(); }
-	
-	// METODO BORRAR EMPLEADO
-	//public boolean borrar(int Id){ return new ActualizarSQL().eliminarEmpleado(Id);	}
-	
-	
 	
 }

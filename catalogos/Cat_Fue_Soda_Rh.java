@@ -51,8 +51,8 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 			return false;
 		}
 	};
-	JTable tabla                   = new JTable(modelo);
-	JScrollPane panelScroll        = new JScrollPane(tabla);
+	JTable tabla = new JTable(modelo);
+	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JLabel txtFolio_Empleado = new JLabel();
 	JLabel txtNombre_Completo = new JLabel();
@@ -130,7 +130,7 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
 		
 		panelEnabledTrue();
-		txtFecha.setEnabled(false);
+		txtFecha.setEditable(false);
 		
 		String[][] Tabla = getMatriz(txtNombre_Completo.getText());
 		Object[] fila = new Object[tabla.getColumnCount()]; 
@@ -180,12 +180,25 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
-	        public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount()==1){
 	        		int fila = tabla.getSelectedRow();
-	    			txtFecha.setText(modelo.getValueAt(fila,1)+"");
-	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
-	    			suma();
+	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        		Obj_fuente_sodas_rh fuente_sodas = new Obj_fuente_sodas_rh().buscar(id);
+	        		
+	        		if(fuente_sodas.getStatus_ticket() != 1){
+	        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+	        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+	        			suma();
+	        			txtCantidad.setEditable(true);
+	        			btnEliminar.setEnabled(true);
+	        		}else{
+	        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+	        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+	        			suma();
+	        			txtCantidad.setEditable(false);
+	        			btnEliminar.setEnabled(false);
+	        		}
 	        	}
 	        }
         });
@@ -242,12 +255,12 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	};	
 	
 	public void panelEnabledTrue(){	
-		txtCantidad.setEnabled(true);
+		txtCantidad.setEditable(true);
 		
 	}
 	
 	public void panelEnabledFalse(){	
-		txtCantidad.setEnabled(false);
+		txtCantidad.setEditable(false);
 		
 	}
 	
@@ -436,9 +449,7 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 			float datos= Float.parseFloat(modelo.getValueAt(i,2).toString());
 			suma=(suma+datos); 
 		} 
-		
 		lblTotal.setText("$ "+String.valueOf(suma));
-	
 	}
 	
 }

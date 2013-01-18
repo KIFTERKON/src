@@ -249,6 +249,7 @@ public class BuscarSQL extends Connexion{
 				empleado.setStatus(rs.getInt("status"));
 				empleado.setFecha(rs.getString("fecha"));
 				empleado.setPrestamo(rs.getInt("rango_prestamo_id"));
+				empleado.setInfonavit(rs.getFloat("infonavit"));
 			}
 			
 		} catch (Exception e) {
@@ -493,6 +494,56 @@ public class BuscarSQL extends Connexion{
 			}
 		}
 		return numero;
+	}
+	
+	public Obj_fuente_sodas_rh fuente_sodas_rh(int folio){
+		Obj_fuente_sodas_rh fuente_sodas = new Obj_fuente_sodas_rh();
+		
+		String query = "select status_ticket from tb_fuente_sodas_rh where folio ="+ folio;
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				fuente_sodas.setStatus_ticket(rs.getInt("status_ticket"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return fuente_sodas;
+	}
+	
+	public Obj_fuente_sodas_auxf fuente_sodas_ax(int folio){
+		Obj_fuente_sodas_auxf fuente_sodas = new Obj_fuente_sodas_auxf();
+		
+		String query = "select status_ticket from tb_fuente_sodas_auxf where folio ="+ folio;
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				fuente_sodas.setStatus_ticket(rs.getInt("status_ticket"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return fuente_sodas;
 	}
 	
 }
