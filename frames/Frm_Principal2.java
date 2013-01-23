@@ -1,5 +1,6 @@
 package frames;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -120,29 +121,29 @@ public class Frm_Principal2 extends JDialog{
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
-//		int a=2;
-//		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-//		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+		DefaultTableCellRenderer tcrR = new DefaultTableCellRenderer();
+		tcrR.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		int a=2;
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(a).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
 
-		int ancho= 60;
+		int ancho= 80;
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Nº");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
 		tabla.getColumnModel().getColumn(0).setMinWidth(45);
@@ -153,8 +154,8 @@ public class Frm_Principal2 extends JDialog{
 		tabla.getColumnModel().getColumn(2).setMaxWidth(ancho);
 		tabla.getColumnModel().getColumn(2).setMinWidth(ancho);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("P Bono_C");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(45);
-		tabla.getColumnModel().getColumn(3).setMinWidth(45);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(ancho);
+		tabla.getColumnModel().getColumn(3).setMinWidth(ancho);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("SP Inicial");
 		tabla.getColumnModel().getColumn(4).setMaxWidth(ancho);
 		tabla.getColumnModel().getColumn(4).setMinWidth(ancho);
@@ -206,7 +207,7 @@ public class Frm_Principal2 extends JDialog{
 		tabla.getColumnModel().getColumn(20).setHeaderValue("Obs2");
 		tabla.getColumnModel().getColumn(20).setMaxWidth(ancho*5);
 		tabla.getColumnModel().getColumn(20).setMinWidth(ancho*5);
-				
+		
 		Statement s;
 		ResultSet rs;
 		try {
@@ -219,7 +220,17 @@ public class Frm_Principal2 extends JDialog{
 			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
 			   
 			   model.addRow(fila); 
-			}	
+			}
+		
+//			for(int i=0; i<=tabla.getRowCount()-1; i++)
+//			{
+//				System.out.println(Integer.parseInt(tabla.getValueAt(i,0)+"")%2);
+//				if(Integer.valueOf(Integer.parseInt(tabla.getValueAt(i,0)+"")%2).equals(0)) 
+//				{
+//					setBackground(Color.blue);	
+//				}
+//			}
+		
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

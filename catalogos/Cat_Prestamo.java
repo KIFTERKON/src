@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -50,7 +51,7 @@ public class Cat_Prestamo extends JDialog{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	DefaultTableModel	 modelo       = new DefaultTableModel(0,6)	{
+	DefaultTableModel	 modelo       = new DefaultTableModel(0,7)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -79,29 +80,18 @@ public class Cat_Prestamo extends JDialog{
 	JLabel lblTotal = new JLabel("");
 	
 	JButton btnFiltro = new JButton(new ImageIcon("imagen/Text preview.png"));
-	JLabel btnEditar = new JLabel(new ImageIcon("imagen//Report.png"));
-	JButton btnSalir = new JButton("Salir");
-	JButton btnGuardar = new JButton("Guardar");
-	JButton btnDeshacer = new JButton("Deshacer");
+	JLabel btnEditar = new JLabel(new ImageIcon("imagen//Modify.png"));
+	JLabel btnSalir = new JLabel(new ImageIcon("imagen//Delete.png"));
+	JLabel btnGuardar = new JLabel(new ImageIcon("imagen//Guardar.png"));
+//	JButton btnDeshacer = new JButton("Deshacer");
 	
 	public Cat_Prestamo(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
 		this.setTitle("Prestamos");
-		int x = 40, y=30, ancho=140;
+		int x = 40, y=50, ancho=140;
 		txtCantidad.requestFocus();
-		panel.setBorder(BorderFactory.createTitledBorder("Prestamo"));
-		
-		panel.add(new JLabel("Folio Empleado:")).setBounds(x,y,ancho,20);
-		panel.add(txtFolio_Empleado).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(new JLabel("Nombre Completo:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtNombre_Completo).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(btnFiltro).setBounds(x+ancho+ancho+90,y,32,20);
-		
-		panel.add(btnEditar).setBounds(x+ancho+ancho+150,y+=25,55,46);
-		
-		panel.add(panelScroll).setBounds(x+ancho+x+40+ancho+ancho-80+50,y,ancho+330,260);
+		panel.setBorder(BorderFactory.createTitledBorder("Prestamo"));		
+//		panel.add(btnFiltro).setBounds(x+ancho+ancho+90,y,32,20);
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
@@ -118,18 +108,27 @@ public class Cat_Prestamo extends JDialog{
 		tabla.getColumnModel().getColumn(4).setHeaderValue("Saldo");
 		tabla.getColumnModel().getColumn(4).setMinWidth(80);
 		tabla.getColumnModel().getColumn(4).setMaxWidth(80);
-		tabla.getColumnModel().getColumn(5).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(5).setMinWidth(100);
-		tabla.getColumnModel().getColumn(5).setMaxWidth(100);
+		tabla.getColumnModel().getColumn(5).setHeaderValue("Abono");
+		tabla.getColumnModel().getColumn(5).setMinWidth(80);
+		tabla.getColumnModel().getColumn(5).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(6).setHeaderValue("Status");
+		tabla.getColumnModel().getColumn(6).setMinWidth(100);
+		tabla.getColumnModel().getColumn(6).setMaxWidth(100);
 		
 		agregar(tabla);
+		
+		panel.add(new JLabel("Folio Empleado:")).setBounds(x,y,ancho,20);
+		panel.add(txtFolio_Empleado).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(new JLabel("Nombre Completo:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtNombre_Completo).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtFecha).setBounds(x+ancho,y,ancho-15,20);
 		panel.add(btnCalendario).setBounds(x+ancho+ancho-27,y,50,20);
 		
-		panel.add(lblEtiquetaRango).setBounds(x,y+=25,ancho,20);
-		panel.add(lblRango).setBounds(x+ancho,y,ancho,20);
+		panel.add(lblEtiquetaRango).setBounds(x,y+=25,ancho+20,20);
+		panel.add(lblRango).setBounds(x+ancho+35,y,ancho+40,20);
 		
 		panel.add(new JLabel("Cantidad:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtCantidad).setBounds(x+ancho,y,ancho-15,20);
@@ -140,21 +139,28 @@ public class Cat_Prestamo extends JDialog{
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-15,20);
 		
-		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
-		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
-		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,y,ancho-20,20);
+		panel.add(panelScroll).setBounds(x,y+=25+10,ancho+420,80);
+		
+//		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
+		panel.add(btnFiltro).setBounds(20,15,16,16);
+		panel.add(btnEditar).setBounds(46,15,16,16);
+		panel.add(btnGuardar).setBounds(73,15,16,16);
 		panel.add(lblTotal).setBounds(ancho-30,y-30, 400, 200);
+		panel.add(btnSalir).setBounds(620,15,16,16);
 		
 		lblTotal.setFont(new java.awt.Font("Algerian",0,60));
-		lblRango.setFont(new java.awt.Font("SansSerif",0,12));
-		lblEtiquetaRango.setFont(new java.awt.Font("SansSerif",0,12));		
+		lblRango.setFont(new java.awt.Font("SansSerif",5,18));
+		lblEtiquetaRango.setFont(new java.awt.Font("SansSerif",5,18));	
 		
-		btnSalir.addActionListener(salir);
-		btnDeshacer.addActionListener(deshacer);
+		lblRango.setForeground(Color.blue);
+		lblEtiquetaRango.setForeground(Color.blue);
+		
+		btnSalir.addMouseListener(salir);
+//		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
 		btnEditar.addMouseListener(ValidarCampos);
 		btnCalendario.addMouseListener(OpCalendario);
-		btnGuardar.addActionListener(guardar);
+		btnGuardar.addMouseListener(guardar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
 		txtDescuento.addKeyListener(validaNumericoConPunto);
@@ -162,7 +168,6 @@ public class Cat_Prestamo extends JDialog{
 		cont.add(panel);
 		
 		Obj_Empleado re = new Obj_Empleado();
-				
 		re = re.buscar(Integer.parseInt(algo));
 	
 		txtFolio_Empleado.setText(re.getFolio()+"");
@@ -174,28 +179,36 @@ public class Cat_Prestamo extends JDialog{
 		String Rango =rango_prestamo[re.getPrestamo()-1];
 		Rango = Rango.replace(" - ", "-");
 		String[] splits = Rango.split("-");
-		System.out.println(splits.length);
-		
-			rangoIn  = Double.parseDouble(splits[0]);
-			rangoFin = Double.parseDouble(splits[1]);	
 			
-			System.out.println(rangoIn);
-			System.out.println(rangoFin);
-						
+			rangoIn  = Double.parseDouble(splits[0]);
+			rangoFin = Double.parseDouble(splits[1]);
+								
 		String[][] Tabla = getMatriz(txtNombre_Completo.getText());
-		Object[] fila = new Object[tabla.getColumnCount()]; 
+		Object[] fila = new Object[tabla.getColumnCount()];
 		for(int i=0; i<Tabla.length; i++){
 			modelo.addRow(fila); 
-			for(int j=0; j<6; j++){
+			for(int j=0; j<tabla.getColumnCount(); j++){
 				modelo.setValueAt(Tabla[i][j]+"", i,j);
 			}
 		}
-				
-		suma();
-		panelLimpiar();
 		
+		if(tabla.getRowCount() != 0){
+			
+			txtFecha.setText(modelo.getValueAt(0,1)+"");
+			txtCantidad.setText(modelo.getValueAt(0, 2)+"");
+			txtDescuento.setText(modelo.getValueAt(0, 3)+"");
+			if(modelo.getValueAt(0, 6).equals("Vigente")){
+				cmbStatus.setSelectedIndex(0);
+			}else{
+				cmbStatus.setSelectedIndex(1);
+			}
+			panelEnabledFalse();
+//			btnDeshacer.setEnabled(false);
+			btnGuardar.setEnabled(false);
+		}
+				
 		this.setModal(true);
-		this.setSize(1005,390);
+		this.setSize(650,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 
@@ -205,56 +218,57 @@ public class Cat_Prestamo extends JDialog{
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	
-	        	if(e.getClickCount()==1){	
+//	        	if(e.getClickCount()==1){	
 	        		panelEnabledFalse();
+	        		btnGuardar.setEnabled(false);
 	        		int fila = tabla.getSelectedRow();
 	        		
 	    			txtFecha.setText(modelo.getValueAt(fila,1)+"");
 	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
 	    			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
-	    			
-	    			if(modelo.getValueAt(fila, 5).equals("Vigente")){
+	    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
 	    				cmbStatus.setSelectedIndex(0);
 	    			}else{
 	    				cmbStatus.setSelectedIndex(1);
 	    				 }
-	    			suma();
-	        	}
+//	        	}
 	        }
         });
     }
-	
-	ActionListener guardar = new ActionListener(){
-		public void actionPerformed(ActionEvent e){			
-				
+	MouseListener guardar = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
 			if(validaCampos()!="") {
 				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 				return;
-			}
-			if(Double.parseDouble(txtCantidad.getText())> rangoFin){
-				JOptionPane.showMessageDialog(null,"Solo se le puede autorizar la cantidad de $"+rangoFin, "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-				return;
-			}
-			else{
-				int cantidadFilasSeleccionadas = tabla.getSelectedRowCount();
-				int nroFila = tabla.getSelectedRow();
-				if(cantidadFilasSeleccionadas == 0){
-					Obj_Prestamo pres = new Obj_Prestamo();
-					
-					pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
-					pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
-					pres.setNombre_Completo(txtNombre_Completo.getText());
-					pres.setFecha(txtFecha.getText());
-					pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
-					pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
-					
-					pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
-					pres.setStatus(cmbStatus.getSelectedIndex()+1);
-					pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
-					
-					pres.guardar();
-					
-					if(pres.getStatus_descuento()==1){
+			}else{
+				if(Double.parseDouble(txtCantidad.getText())> rangoFin){
+					JOptionPane.showMessageDialog(null,"Solo se le puede autorizar la cantidad de $"+rangoFin, "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+					return;
+				}
+				if(Double.parseDouble(txtDescuento.getText())>Double.parseDouble(txtCantidad.getText())){
+					JOptionPane.showMessageDialog(null,"El Descuento es mayor que el prestamo", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+					return;
+				}
+				Obj_Prestamo pres = new Obj_Prestamo();
+				
+				switch(tabla.getRowCount()){
+					case 0: 
+						pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
+						pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
+						pres.setNombre_Completo(txtNombre_Completo.getText());
+						pres.setFecha(txtFecha.getText());
+						pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
+						pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
+						pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
+						pres.setStatus(cmbStatus.getSelectedIndex()+1);
+						pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
+		
+						pres.guardar();
+						
+						JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						
+						if(pres.getStatus_descuento()==1){
 							Object[] fila = new Object[tabla.getColumnCount()]; 
 							Obj_Prestamo maximo = new Obj_Prestamo().maximo();
 							fila[0]=maximo.getFolio();
@@ -262,48 +276,58 @@ public class Cat_Prestamo extends JDialog{
 							fila[2]=txtCantidad.getText();
 							fila[3]=txtDescuento.getText();
 							fila[4]=txtCantidad.getText();
-					
-						switch(cmbStatus.getSelectedIndex()){
-								case 0: fila[5]="Vigente";break;	
-								case 1: fila[5]="Cancelado Temporal";break;
-					}
-						
-					modelo.addRow(fila); 
-					suma();
-					panelLimpiar();
-				}
-				}else{
-					if(JOptionPane.showConfirmDialog(null, "Seguro que quiere Actualizar el registro "+ modelo.getValueAt(nroFila,0) +" ?") == JOptionPane.YES_OPTION){
-						Obj_Prestamo pres = new Obj_Prestamo();
-					
-						pres.setFecha(txtFecha.getText());
-						pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
-						pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
-						pres.setStatus(cmbStatus.getSelectedIndex()+1);
-						pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
-						pres.actualizar(Integer.parseInt(modelo.getValueAt(nroFila,0)+""));
-						
-						int filas=  tabla.getRowCount();
-						while(filas > 0){
-							modelo.removeRow(0);
-							filas--;
-						}
-						
-						String[][] Tabla = getMatriz(txtNombre_Completo.getText());
-						Object[] fila = new Object[tabla.getColumnCount()]; 
-						for(int i=0; i<Tabla.length; i++){
-							modelo.addRow(fila); 
-							for(int j=0; j<6; j++){
-								modelo.setValueAt(Tabla[i][j]+"", i,j);
+							fila[5]=0.00;
+							
+							
+							switch(cmbStatus.getSelectedIndex()){
+								case 0: fila[6]="Vigente";break;	
+								case 1: fila[6]="Cancelado Temporal";break;
 							}
+							modelo.addRow(fila); 						
 						}
 						
-						suma();
-						panelLimpiar();
-					}
-				}	
+						break;
+					case 1: 
+						
+						int nroFila = tabla.getSelectedRow();
+//						if(nroFila == -1){
+//							JOptionPane.showMessageDialog(null,"Seleccione un registro para poder actualizar", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+//							return;
+//						}else{
+							if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
+								
+								pres.setFecha(txtFecha.getText());
+								pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
+								pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
+								pres.setStatus(cmbStatus.getSelectedIndex()+1);
+								pres.actualizar(Integer.parseInt(modelo.getValueAt(0,0)+""));
+										
+								int filas=  tabla.getRowCount();
+								while(filas > 0){
+									modelo.removeRow(0);
+									filas--;
+								}
+										
+								String[][] Tabla = getMatriz(txtNombre_Completo.getText());
+								Object[] fila = new Object[tabla.getColumnCount()]; 
+								for(int i=0; i<Tabla.length; i++){
+									modelo.addRow(fila); 
+									for(int j=0; j<7; j++){
+										modelo.setValueAt(Tabla[i][j]+"", i,j);
+									}
+								}
+							}
+							
+//						}
+						break;
+				}
+				panelEnabledFalse();
 			}
-		}			
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
 	};
 	
 	ActionListener filtro = new ActionListener(){
@@ -317,6 +341,7 @@ public class Cat_Prestamo extends JDialog{
 		@Override
 		public void mousePressed(MouseEvent e) {
 			panelEnabledTrue();
+			btnGuardar.setEnabled(true);
 		}
 		public void mouseReleased(MouseEvent e) {}		
 		public void mouseExited(MouseEvent e) {}
@@ -348,21 +373,26 @@ public class Cat_Prestamo extends JDialog{
 		
 	}
 	
-	ActionListener deshacer = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			panelLimpiar();
-			panelEnabledTrue();
-			txtCantidad.setText("");
-			txtDescuento.setText("");
-			txtCantidad.requestFocus();
-			tabla.setSelectionMode(0);
-		}
-	};
+//	ActionListener deshacer = new ActionListener(){
+//		public void actionPerformed(ActionEvent e){
+//			panelLimpiar();
+//			panelEnabledTrue();
+//			txtCantidad.setText("");
+//			txtDescuento.setText("");
+//			txtCantidad.requestFocus();
+//			tabla.setSelectionMode(0);
+//		}
+//	};
 	
-	ActionListener salir = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
+	MouseListener salir = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
 			dispose();
 		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
 	};
 	
 	KeyListener numerico_action = new KeyListener() {
@@ -461,9 +491,9 @@ public class Cat_Prestamo extends JDialog{
 		display.dispose();
 	}
 	public String[][] getMatriz(String NombreCompleto){
-		String qry = "select folio,fecha,cantidad,descuento,saldo,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1";
+		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
 		
-		String[][] Matriz = new String[getFilas(qry)][6];
+		String[][] Matriz = new String[getFilas(qry)][7];
 		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
@@ -477,16 +507,15 @@ public class Cat_Prestamo extends JDialog{
 
 					Matriz[i][0] = rs.getString(1).trim();
 					Matriz[i][1] = rs.getString(2).trim();
-					Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)+""));
-					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)+""));
-					Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)+""));
-				
-					if(rs.getInt(6)==1){
-						Matriz[i][5]= "Vigente";
+					Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)));
+					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
+					Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)));
+					Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)));
+					if(rs.getInt(7)==1){
+						Matriz[i][6]= "Vigente";
 					}else{
-						Matriz[i][5]="Cancelado Temporal";
+						Matriz[i][6]="Cancelado Temporal";
 					}
-					System.out.println("=====NO APLICA===="+Integer.parseInt(rs.getString(7)));
 					i++;
 			}
 			

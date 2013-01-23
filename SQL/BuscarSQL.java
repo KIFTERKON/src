@@ -268,6 +268,44 @@ public class BuscarSQL extends Connexion{
 		return empleado;
 	}
 	
+	public Obj_Prestamo Prestamo(int folio){
+		Obj_Prestamo pre = new Obj_Prestamo();
+		
+		
+		String query = "select * from tb_prestamo where folio_empleado ="+ folio;
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				pre.setFolio(rs.getInt("folio"));
+				pre.setFolio(rs.getInt("folio_empleado"));
+				pre.setNombre_Completo(rs.getString("nombre_completo").trim());
+				pre.setFecha(rs.getString("fecha"));
+				
+				pre.setCantidad(rs.getDouble("cantidad"));
+				pre.setDescuento(rs.getDouble("descuento"));
+				pre.setSaldo(rs.getDouble("saldo"));
+				pre.setAbonos(rs.getInt("abonos"));
+				pre.setStatus(rs.getInt("status"));
+				pre.setStatus(rs.getInt("status_descuento"));
+				
+//				pre.setPrestamo(rs.getInt("rango_prestamo_id"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return pre;
+	}
+	
 	public Obj_Empleado Empleado_Nuevo(){
 		Obj_Empleado empleado = new Obj_Empleado();
 		String query = "select max(folio) as 'Maximo' from tb_empleado";

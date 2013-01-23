@@ -86,6 +86,7 @@ create table tb_usuario(
 	foreign key (permiso_id) references tb_permiso(folio)
 );
 
+
 create table tb_prestamo(
 	folio int primary key identity,
 	folio_empleado int, 
@@ -93,7 +94,8 @@ create table tb_prestamo(
 	fecha varchar(14),
 	cantidad money,
 	descuento money,
-	saldo money, 
+	saldo money,
+	abonos int,-- para agregar esta columna
 	status int,
 	status_descuento int
 );
@@ -197,9 +199,6 @@ from tb_prestamo,tb_establecimiento,tb_empleado
 where tb_prestamo.status='1' 
 and tb_prestamo.folio_empleado= tb_empleado.folio and tb_empleado.establecimiento_id = tb_establecimiento.folio
 
-
--- Tabla de Deducciòn de Asistencia
-select puntualidad,falta,asistencia from tb_deduccion_asistencia where folio_empleado = 1
 create table tb_deduccion_inasistencia(
 	folio int primary key identity,
 	folio_empleado int,
@@ -272,3 +271,44 @@ create table tb_bancos(
 )
 
 select * from tb_bancos
+select  tb_prestamo.folio_empleado as [Empleado],
+		tb_prestamo.fecha as [fecha],
+		tb_prestamo.saldo as [saldo],
+		tb_prestamo.descuento as [desc],
+		tb_prestamo.status_descuento as [statusD]
+from    tb_prestamo,tb_empleado
+where   tb_prestamo.folio_empleado= tb_empleado.folio
+
+select sum(descuento) 
+from tb_prestamo
+left join tb_empleado on tb_empleado.folio=tb_prestamo.folio_empleado
+where tb_prestamo.folio_empleado=3 and tb_prestamo.status_descuento=0
+
+
+select (sum(tb_prestamo.cantidad)-sum(tb_prestamo.descuento))
+from tb_prestamo
+where tb_prestamo.folio_empleado=3 and tb_prestamo.status_descuento=0
+
+select distinct folio_empleado				
+from tb_prestamo
+
+select  tb_empleado.folio as [Folio],
+		tb_empleado.nombre as [Nombre], 
+		tb_empleado.ap_paterno as [Paterno], 
+		tb_empleado.ap_materno as [Materno], 
+		tb_establecimiento.nombre as [Establecimiento], 
+		tb_empleado.status as [Status], 
+		ROUND(tb_rango_prestamos.minimo,2) as [RangoMin], 
+		ROUND(tb_rango_prestamos.maximo,2) as [RangoMax],
+
+		tb_sueldo.sueldo as [sueldo]					 
+		--sum(tb_prestamo.cantidad) as [Cantidad], 
+		--sum(tb_prestamo.descuento) as [Descuento] 
+
+from   tb_empleado, tb_establecimiento, tb_sueldo, tb_rango_prestamos
+
+where   tb_empleado.establecimiento_id = tb_establecimiento.folio and
+		tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and
+		tb_empleado.sueldo_id = tb_sueldo.folio and 
+		tb_empleado.rango_prestamo_id = tb_rango_prestamos.folio and
+		tb_empleado.sueldo_id = tb_sueldo.folio

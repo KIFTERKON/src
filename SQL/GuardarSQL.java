@@ -233,7 +233,7 @@ public class GuardarSQL extends Connexion{
 	}
 	
 	public boolean Guardar_prestamo(Obj_Prestamo pres){
-		String query = "insert into tb_prestamo(folio_empleado,nombre_completo,fecha,cantidad,descuento,status,saldo,status_descuento) values(?,?,?,?,?,?,?,?)";
+		String query = "insert into tb_prestamo(folio_empleado,nombre_completo,fecha,cantidad,descuento,status,saldo,status_descuento,abonos) values(?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -245,6 +245,7 @@ public class GuardarSQL extends Connexion{
 				pstmt.setString(6, "1");
 				pstmt.setDouble(7, pres.getSaldo());
 				pstmt.setString(8, "1");
+				pstmt.setDouble(9, 0);
 				
 			 	pstmt.executeUpdate();
 			

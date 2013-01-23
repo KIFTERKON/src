@@ -28,6 +28,7 @@ import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Persecciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
@@ -62,8 +63,10 @@ public class Principal extends JFrame{
 		JMenuItem Catalogo_Sueldo = new JMenuItem("Sueldo", new ImageIcon(""));
 		JMenuItem Catalogo_Status = new JMenuItem("Status", new ImageIcon(""));
 		
+
 	JMenu Listas = new JMenu("Listas");	
 		JMenuItem Listas_Raya = new JMenuItem("Lista de Raya");
+		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamo");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
 		
 	JMenu Configuracion = new JMenu("Configuración");
@@ -123,8 +126,11 @@ public class Principal extends JFrame{
 		Catalogo.add(Catalogo_Sueldo);
 			Catalogo_Sueldo.addActionListener(Opciones);
 			
+
 		Listas.add(Listas_Raya);
 			Listas_Raya.addActionListener(Opciones);
+		Listas.add(Listas_Prestamo);
+			Listas_Prestamo.addActionListener(Opciones);
 		Listas.add(Listas_Comparacion_Fuente_Soda);
 			Listas_Comparacion_Fuente_Soda.addActionListener(Opciones);
 			
@@ -200,10 +206,10 @@ public class Principal extends JFrame{
 			if(e.getActionCommand().equals("Usuario"))
 				new Cat_Usuario().setVisible(true);
 			
-//			if(e.getActionCommand().equals("Permisos de Usuario"))
-//				dispose();
-			
-			
+			//listas
+			if(e.getActionCommand().equals("Lista de Prestamo"))
+				new Cat_Lista_Deudores_Prestamo().setVisible(true);
+
 		}
 	};
 	
