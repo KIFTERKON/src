@@ -2,6 +2,7 @@ package objetos;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.GuardarSQL;
 
 public class Obj_Prestamo {
 	private int folio;
@@ -10,6 +11,7 @@ public class Obj_Prestamo {
     private double cantidad;
     private double descuento;
     private double saldo;
+    private double abonos;
     private String fecha;
     private int status;
     private int status_descuento;
@@ -22,6 +24,7 @@ public class Obj_Prestamo {
     	this.fecha = "";
     	this.status=0;
     	this.saldo=0.0;
+    	this.abonos=0.0;
     	this.status_descuento=0;
 
     }
@@ -82,6 +85,16 @@ public class Obj_Prestamo {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
+	
+	
+
+	public double getAbonos() {
+		return abonos;
+	}
+
+	public void setAbonos(double abonos) {
+		this.abonos = abonos;
+	}
 
 	public String getFecha() {
 		return fecha;
@@ -108,12 +121,13 @@ public class Obj_Prestamo {
 	}
 
 	// Funcion Guardar Empleado
-	//public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
+	public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
 	
+	public Obj_Prestamo buscar(int folio){ return new BuscarSQL().Prestamo(folio); }
 	//public Obj_Empleado buscar(int folio){ return new BuscarSQL().FuenteSodasRh(folio); }
 	
 	// METODO PARA ACTUALIZAR UN EMPLEADO
-	//public boolean actualizar(int folio){ return new ActualizarSQL().prestamo(this,folio); }
+	public boolean actualizar(int folio){ return new ActualizarSQL().prestamo(this,folio); }
 	
 	// METODO BUSCAR EMPLEADO
 	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }

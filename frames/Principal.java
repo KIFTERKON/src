@@ -27,6 +27,7 @@ import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Sueldo;
@@ -64,7 +65,8 @@ public class Principal extends JFrame{
 		JMenuItem Catalogo_Usuario = new JMenuItem("Usuario", new ImageIcon(""));
 		
 
-	JMenu Lista_Raya = new JMenu("Lista de Raya");	
+	JMenu Listas = new JMenu("Listas");
+		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamo");
 		
 	JMenu Configuracion = new JMenu("Configuración");
 		JMenuItem Asistencia_Puntualidad = new JMenuItem("Asistencia y Puntualidad", new ImageIcon(""));
@@ -125,6 +127,8 @@ public class Principal extends JFrame{
 		Catalogo.add(Catalogo_Usuario);
 			Catalogo_Usuario.addActionListener(Opciones);
 			
+		Listas.add(Listas_Prestamo);
+			Listas_Prestamo.addActionListener(Opciones);
 
 		Configuracion.add(Asistencia_Puntualidad);
 			Asistencia_Puntualidad.addActionListener(Opciones);
@@ -136,7 +140,7 @@ public class Principal extends JFrame{
 		Barra.add(Archivo);
 		Barra.add(Alimentacion);
 		Barra.add(Catalogo);
-		Barra.add(Lista_Raya);
+		Barra.add(Listas);
 		Barra.add(Configuracion);
 		Barra.add(Ayuda);
 						
@@ -151,8 +155,8 @@ public class Principal extends JFrame{
 				dispose();
 			
 			//Alimentación
-//			if(e.getActionCommand().equals("Bancos"))
-//			dispose();
+			if(e.getActionCommand().equals("Bancos"))
+			dispose();
 			
 			if(e.getActionCommand().equals("Deducción por Asistencia"))
 				new Cat_Deduccion_Asistencia().setVisible(true);
@@ -193,6 +197,10 @@ public class Principal extends JFrame{
 			// Configuración
 			if(e.getActionCommand().equals("Asistencia y Puntualidad"))
 				new Cat_Asistencia_Puntualidad().setVisible(true);
+			
+			//listas
+			if(e.getActionCommand().equals("Lista de Prestamo"))
+				new Cat_Lista_Deudores_Prestamo().setVisible(true);
 						
 			
 		}

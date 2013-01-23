@@ -1,6 +1,7 @@
 package SQL;
 
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 
 public class Cargar_Combo extends Connexion{
 		
@@ -176,6 +177,8 @@ public class Cargar_Combo extends Connexion{
 		try {
 			java.sql.Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+			
 			while(rs.next()){
 				miVector.add(Math.rint(rs.getDouble("minimo")*100)/100+" - "+Math.rint(rs.getDouble("maximo")*100)/100);
 			}

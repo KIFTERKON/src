@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -150,16 +151,20 @@ public class Cat_Rango_Prestamos extends JFrame {
 	
 	ActionListener buscar = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			
+			DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+			
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Necesita un folio para buscar","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
-			}else{
+			}
+			else{
 				Obj_Rango_Prestamos rango_prestamo = new Obj_Rango_Prestamos().buscar(Integer.parseInt(txtFolio.getText()));
 				
-				if(rango_prestamo != null){
+				if(rango_prestamo.getFolio()!=0){
 					txtFolio.setText(rango_prestamo.getFolio()+"");
-					txtPrestamoMinimo.setText(rango_prestamo.getPrestamo_minimo()+"");
-					txtPrestamoMaximo.setText(rango_prestamo.getPrestamo_maximo()+"");
+					txtPrestamoMinimo.setText(decimalFormat.format(rango_prestamo.getPrestamo_minimo()));
+					txtPrestamoMaximo.setText(decimalFormat.format(rango_prestamo.getPrestamo_maximo()));
 					txtDescuento.setText(rango_prestamo.getDescuento()+"");
 					if(rango_prestamo.isStatus() == true){chStatus.setSelected(true);}
 					else{chStatus.setSelected(false);}
@@ -176,9 +181,6 @@ public class Cat_Rango_Prestamos extends JFrame {
 					return;
 				}
 			}
-
-
-			
 		}
 	};
 	
@@ -319,5 +321,4 @@ public class Cat_Rango_Prestamos extends JFrame {
 				
 		return error;
 	}
-	
 }
