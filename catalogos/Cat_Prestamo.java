@@ -471,8 +471,6 @@ public class Cat_Prestamo extends JDialog{
 			s = conn.createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
-			
-			int desc=0;
 			while(rs.next()){
 				
 					DecimalFormat decimalFormat = new DecimalFormat("#0.00");

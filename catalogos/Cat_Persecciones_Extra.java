@@ -1,0 +1,418 @@
+package catalogos;
+
+import java.awt.Container;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+
+import objetos.Obj_Establecimiento;
+import objetos.Obj_Persecciones_Extra;
+import SQL.Connexion;
+
+@SuppressWarnings({ "serial", "unchecked" })
+public class Cat_Persecciones_Extra extends JDialog {
+	
+	Container cont = getContentPane();
+	JLayeredPane panel = new JLayeredPane();
+	
+	TableRowSorter filter;
+	
+	Object[][] Matriz ;
+	
+	JTextField txtFolio = new JTextField();
+	JTextField txtNombre = new JTextField();
+	
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+    JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+	    
+	JCheckBox chbHabilitar = new JCheckBox("Habilitar");
+	JCheckBox chbTodos = new JCheckBox("Todos");
+	
+	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
+	DefaultTableModel model = new DefaultTableModel(Tabla,
+            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "Dia Extra", "Cantidad Dias"}
+			){
+	     Class[] types = new Class[]{
+	    	java.lang.Object.class,
+	    	java.lang.Object.class, 
+	    	java.lang.Object.class, 
+	    	java.lang.Object.class, 
+	    	java.lang.Boolean.class, 
+	    	java.lang.Object.class
+	    	
+         };
+	     public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false; 
+        	 	case 3 : 
+        	 		if(chbHabilitar.isSelected()){
+        	 			return true; 
+        	 		}
+        	 		return false;
+        	 	case 4 : 
+        	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) == true){
+        	 			model.setValueAt(0, fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
+	};
+	JTable tabla = new JTable(model);
+    JScrollPane scroll = new JScrollPane(tabla);
+	
+    TableColumn ColumnaDias = tabla.getColumnModel().getColumn(5);
+   
+    String lista[] = {"0","1","2","3","4","5","6","7"};
+    JComboBox cmbDias = new JComboBox(lista);
+    JComboBox cmbDia = new JComboBox(lista);
+    
+    JToolBar menu = new JToolBar();
+	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
+	
+	public Cat_Persecciones_Extra(){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
+		this.setTitle("Persecciones Extra");
+		
+		txtNombre.addKeyListener(new KeyAdapter() { 
+			public void keyReleased(final KeyEvent e) { 
+                filtro(); 
+            } 
+        });
+		
+		txtFolio.addKeyListener(new KeyAdapter() { 
+			public void keyReleased(final KeyEvent e) { 
+                filtroFolio(); 
+            } 
+        });
+		
+		filter = new TableRowSorter(model); 
+		tabla.setRowSorter(filter);  
+		
+		panel.add(txtFolio).setBounds(100,45,60,20);
+		panel.add(txtNombre).setBounds(170,45,345,20);
+		panel.add(cmbEstablecimientos).setBounds(590,45,90,20);
+		panel.add(chbHabilitar).setBounds(750,45,70,20);
+		panel.add(chbTodos).setBounds(875,45,70,20);
+		panel.add(cmbDia).setBounds(1000,45,70,20);
+		
+		panel.add(scroll).setBounds(100,70,1020,580);
+		
+		menu.add(btnGuardar);
+		menu.setBounds(0,0,150,25);
+		panel.add(menu);
+		cont.add(panel);
+	
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tabla.getColumnModel().getColumn(0).setMaxWidth(72);
+		tabla.getColumnModel().getColumn(0).setMinWidth(72);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(360);
+		tabla.getColumnModel().getColumn(1).setMinWidth(360);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(210);
+		tabla.getColumnModel().getColumn(2).setMinWidth(210);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(120);
+		tabla.getColumnModel().getColumn(3).setMinWidth(120);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(120);
+		tabla.getColumnModel().getColumn(4).setMinWidth(120);
+		tabla.getColumnModel().getColumn(5).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(5).setMaxWidth(120);
+		tabla.getColumnModel().getColumn(5).setMinWidth(120);
+		ColumnaDias.setCellEditor(new javax.swing.DefaultCellEditor(cmbDias));
+
+		cmbDia.addActionListener(opDias);
+		chbTodos.addActionListener(opTodos);
+		btnGuardar.addActionListener(opGuardar);
+		cmbEstablecimientos.addActionListener(opFiltrar);
+		this.setModal(true);
+		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
+		this.setLocationRelativeTo(null);
+	
+	}
+	
+	public void filtroFolio(){ 
+		filter.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0)); 
+	}
+	
+	public void filtro(){ 
+		filter.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase(), 1)); 
+	}  
+	
+	ActionListener opDias = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			for(int i=0; i<tabla.getRowCount(); i++) {
+				if(Boolean.parseBoolean(model.getValueAt(i,4).toString()) != true){
+					model.setValueAt(0, i,5);
+				}else{
+					model.setValueAt(cmbDia.getSelectedIndex(), i,5);
+				}
+			}			
+		}
+	};
+	
+	ActionListener opTodos = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			if(chbTodos.isSelected()){
+				for(int j=0; j<tabla.getRowCount(); j++){
+					model.setValueAt(Boolean.parseBoolean("true"), j,4);
+				}
+			}else{
+				for(int j=0; j<tabla.getRowCount(); j++){
+					model.setValueAt(Boolean.parseBoolean("false"), j,4);
+					model.setValueAt(0, j,5);
+				}
+			}
+			
+		}
+	};
+	
+	ActionListener opFiltrar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			int numero = tabla.getRowCount();
+			while(numero > 0){
+				model.removeRow(0);
+				numero --;
+			}
+			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedIndex());
+			Object[] fila = new Object[tabla.getColumnCount()]; 
+			for(int i=0; i<Tabla1.length; i++){
+				model.addRow(fila); 
+				for(int j=0; j<6; j++){
+					model.setValueAt(Tabla1[i][j], i,j);
+				}
+			}
+		}
+	};
+	
+	ActionListener opGuardar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			tabla.setSelectionMode(1);
+			guardar();
+		}
+	};
+		
+	public void guardar(){
+		Vector miVector = new Vector();
+		if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
+			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
+				for(int i=0; i<model.getRowCount(); i++){
+					for(int j=0; j<model.getColumnCount(); j++){
+						miVector.add(model.getValueAt(i,j)+" ");
+					}
+					Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
+					
+					perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+					perseccion.setNombre_completo(miVector.get(1).toString().trim());
+					perseccion.setEstablecimiento(miVector.get(2).toString().trim());
+					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+					perseccion.setDia_extra(miVector.get(4).toString().trim());
+					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+					perseccion.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
+					
+					miVector.clear();
+				}
+				JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+			}else{
+				return;
+			}
+			
+		}else{
+			for(int i=0; i<model.getRowCount(); i++){
+				for(int j=0; j<model.getColumnCount(); j++){
+					miVector.add(model.getValueAt(i,j)+" ");
+				}
+				Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
+				
+				perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+				perseccion.setNombre_completo(miVector.get(1).toString().trim());
+				perseccion.setEstablecimiento(miVector.get(2).toString().trim());
+				perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+				perseccion.setDia_extra(miVector.get(4).toString().trim());
+				perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+				perseccion.guardar();
+				
+				miVector.clear();
+			}
+			JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	public Object[][] getTabla(int establecimiento){
+		
+		String qry = "select tb_empleado.folio," +
+						"tb_empleado.nombre," +
+						"tb_empleado.ap_paterno," +
+						"tb_empleado.ap_materno," +
+						"tb_establecimiento.nombre as establecimiento " +
+					  "from tb_empleado, tb_establecimiento " +
+					  "where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
+					  "tb_empleado.establecimiento_id = "+establecimiento;
+		
+		String qry1 ="select tb_empleado.folio," +
+						    "tb_empleado.nombre," +
+	                        "tb_empleado.ap_paterno," +
+                            "tb_empleado.ap_materno," +
+                            "tb_establecimiento.nombre as establecimiento," +
+                            "tb_persecciones_extra.bono," +
+                            "tb_persecciones_extra.dia_extra," +
+                            "tb_persecciones_extra.dias " +
+
+                    "from tb_empleado, tb_establecimiento, tb_persecciones_extra "+ 
+                    "where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
+                    	   "tb_empleado.folio = tb_persecciones_extra.folio_empleado and "+
+                    	   "tb_persecciones_extra.status=1 and tb_empleado.establecimiento_id = "+establecimiento;
+		
+		String todos = "select tb_empleado.folio," +
+							"tb_empleado.nombre," +
+							"tb_empleado.ap_paterno," +
+							"tb_empleado.ap_materno," +
+							"tb_establecimiento.nombre as establecimiento " +
+						"from tb_empleado, tb_establecimiento " +
+						"where tb_empleado.establecimiento_id = tb_establecimiento.folio";
+		
+		String todos1 = "select tb_empleado.folio," +
+						    "tb_empleado.nombre," +
+					        "tb_empleado.ap_paterno," +
+					        "tb_empleado.ap_materno," +
+					        "tb_establecimiento.nombre as establecimiento," +
+					        "tb_persecciones_extra.bono," +
+					        "tb_persecciones_extra.dia_extra," +
+					        "tb_persecciones_extra.dias " +
+					
+					"from tb_empleado, tb_establecimiento, tb_persecciones_extra "+ 
+					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
+						   "tb_empleado.folio = tb_persecciones_extra.folio_empleado and "+
+						   "tb_persecciones_extra.status=1";
+
+		Connection conn = Connexion.conexion();
+		Statement s;
+		ResultSet rs;
+		try {
+			if(establecimiento > 0){
+				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
+					s = conn.createStatement();
+					rs = s.executeQuery(qry1);
+					Matriz = new Object[getFilas(qry1)][6];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = rs.getString(6).trim();
+						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
+						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
+						i++;
+					}
+				}else{
+					s = conn.createStatement();
+					rs = s.executeQuery(qry);
+					Matriz = new Object[getFilas(qry)][6];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = "0";
+						Matriz[i][4] = false;
+						Matriz[i][5] = 0;
+						i++;
+					}
+				}
+			}else{
+				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
+					s = conn.createStatement();
+					rs = s.executeQuery(todos1);
+					Matriz = new Object[getFilas(todos1)][6];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = rs.getString(6).trim();
+						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
+						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
+						i++;
+					}
+				}else{
+					s = conn.createStatement();
+					rs = s.executeQuery(todos);
+					Matriz = new Object[getFilas(todos)][6];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = "0";
+						Matriz[i][4] = false;
+						Matriz[i][5] = 0;
+						i++;
+					}
+				}
+			}
+		
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return Matriz; 
+	}
+	
+	public static int getFilas(String qry){
+		int filas=0;
+		try {
+			Connection conn = Connexion.conexion();
+			Statement s = conn.createStatement();
+			ResultSet rs = s.executeQuery(qry);
+			while(rs.next()){
+				filas++;
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return filas;
+	}	
+
+}

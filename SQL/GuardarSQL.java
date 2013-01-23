@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
-import objetos.Obj_Deduccion_Asistencia;
+import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
@@ -284,20 +286,23 @@ public class GuardarSQL extends Connexion{
 		return true;
 	}
 	
-	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Asistencia deduccion){
-		String query = "insert into tb_deduccion_asistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,status) " +
-						"values(?,?,?,?,?,?,?,?);";
+	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia deduccion){
+		String query = "insert into tb_deduccion_inasistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,gafete,dia_gafete,status) " +
+						"values(?,?,?,?,?,?,?,?,?,?);";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, deduccion.getFolioEmpleado());
+			pstmt.setInt(1, deduccion.getFolio_empleado());
 			pstmt.setString(2, deduccion.getNombre_completo().toUpperCase());
 			pstmt.setString(3, deduccion.getEstablecimiento().toUpperCase());
 			pstmt.setString(4, deduccion.getPuntualidad());
 			pstmt.setString(5, deduccion.getFalta());
 			pstmt.setInt(6, deduccion.getDia_faltas());
 			pstmt.setString(7, deduccion.getAsistencia());
-			pstmt.setInt(8 , 1);
+			pstmt.setString(8, deduccion.getGafete());
+			pstmt.setInt(9, deduccion.getDia_gafete());
+			pstmt.setInt(10 , 1);
+		
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -319,6 +324,63 @@ public class GuardarSQL extends Connexion{
 			pstmt = conn.prepareStatement(query);
 			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
 			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar(Obj_Persecciones_Extra persecciones){
+		String query = "insert into tb_persecciones_extra(folio_empleado,nombre_completo,establecimiento,bono,dia_extra,dias,status) " +
+						"values(?,?,?,?,?,?,?);";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, persecciones.getFolio_empleado());
+			pstmt.setString(2, persecciones.getNombre_completo().toUpperCase());
+			pstmt.setString(3, persecciones.getEstablecimiento().toUpperCase());
+			pstmt.setFloat(4, persecciones.getBono());
+			pstmt.setString(5, persecciones.getDia_extra());
+			pstmt.setInt(6, persecciones.getDias());
+			pstmt.setInt(7 , 1);
+		
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Bancos(Obj_Bancos bancos){
+		String query = "insert into tb_bancos(folio_empleado,nombre_completo,establecimiento,banamex,banorte,mas_menos,cooperacion,status) " +
+						"values(?,?,?,?,?,?,?,?);";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bancos.getFolio_empleado());
+			pstmt.setString(2, bancos.getNombre_completo().toUpperCase());
+			pstmt.setString(3, bancos.getEstablecimiento().toUpperCase());
+			pstmt.setString(4, bancos.getBanamex());
+			pstmt.setString(5, bancos.getBanorte());
+			pstmt.setString(6, bancos.getMas_menos());
+			pstmt.setInt(7, bancos.getCooperacion());
+			pstmt.setString(8, "1");
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {

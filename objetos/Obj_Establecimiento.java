@@ -50,6 +50,8 @@ public class Obj_Establecimiento {
 		this.status = b;
 	}
 	
+	public String[] Combo_Establecimiento_Empleados(){ return new Cargar_Combo().Establecimiento_Empleado("tb_establecimiento"); }
+	
 	public String[] Combo_Establecimiento(){ return new Cargar_Combo().Establecimiento("tb_establecimiento"); }
 
 	public Obj_Establecimiento buscar(int folio){ return new BuscarSQL().Establecimiento(folio); }

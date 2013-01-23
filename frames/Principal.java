@@ -19,14 +19,16 @@ import javax.swing.UIManager;
 import objetos.Obj_Usuario;
 
 import catalogos.Cat_Asistencia_Puntualidad;
+import catalogos.Cat_Bancos;
 import catalogos.Cat_Bono_Complemento_Sueldo;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
-import catalogos.Cat_Deduccion_Asistencia;
+import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Persecciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Sueldo;
@@ -49,8 +51,9 @@ public class Principal extends JFrame{
 	JMenu Alimentacion = new JMenu("Alimentación");
 		JMenuItem Alimentacion_Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
 		JMenuItem Alimentacion_Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
-		JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Deducción por Asistencia");
+		JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Deducción por Inasistencia");
 		JMenuItem Alimentacion_Bancos = new JMenuItem("Bancos");
+		JMenuItem Alimentacion_Persecciones_Extra = new JMenuItem("Persecciones Extra");
 		JMenuItem Alimentacion_Prestamos = new JMenuItem("Prestamos");
 		
 	JMenu Catalogo = new JMenu("Catalogo");
@@ -107,6 +110,8 @@ public class Principal extends JFrame{
 			Alimentacion_Fuente_Sodas_rh.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Fuente_Sodas_auxf);
 			Alimentacion_Fuente_Sodas_auxf.addActionListener(Opciones);
+		Alimentacion.add(Alimentacion_Persecciones_Extra);
+			Alimentacion_Persecciones_Extra.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Prestamos);
 			Alimentacion_Prestamos.addActionListener(Opciones);
 			
@@ -157,13 +162,15 @@ public class Principal extends JFrame{
 			
 			//Alimentación
 			if(e.getActionCommand().equals("Bancos"))
-				dispose();
-			if(e.getActionCommand().equals("Deducción por Asistencia"))
-				new Cat_Deduccion_Asistencia().setVisible(true);
+				new Cat_Bancos().setVisible(true);
+			if(e.getActionCommand().equals("Deducción por Inasistencia"))
+				new Cat_Deduccion_Inasistencia().setVisible(true);
 			if(e.getActionCommand().equals("Fuente de Sodas RRHH"))
 				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
 			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
 				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
+			if(e.getActionCommand().equals("Persecciones Extra"))
+				new Cat_Persecciones_Extra().setVisible(true);
 			if(e.getActionCommand().equals("Prestamos"))
 				new Cat_Filtro_Prestamo().setVisible(true);
 

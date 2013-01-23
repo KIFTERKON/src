@@ -1,9 +1,10 @@
 package objetos;
 
 import SQL.ActualizarSQL;
+import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
-public class Obj_Deduccion_Asistencia {
+public class Obj_Deduccion_Iasistencia {
 	
 	private int folio_empleado;
 	private String nombre_completo;
@@ -12,19 +13,21 @@ public class Obj_Deduccion_Asistencia {
 	private String falta;
 	private int dia_faltas;
 	private String asistencia;
+	private String gafete;
+	private int dia_gafete;
 	private int status;
 	
-	public Obj_Deduccion_Asistencia(){
+	public Obj_Deduccion_Iasistencia(){
 		this.folio_empleado=0; this.nombre_completo=""; this.establecimiento=""; this.puntualidad=""; this.falta="";
-		this.dia_faltas=0; this.asistencia=""; this.status=0;
+		this.dia_faltas=0; this.asistencia=""; this.gafete=""; this.dia_gafete=0; this.status=0;
 	}
 
-	public int getFolioEmpleado() {
+	public int getFolio_empleado() {
 		return folio_empleado;
 	}
 
-	public void setFolioEmpleado(int folio) {
-		this.folio_empleado = folio;
+	public void setFolio_empleado(int folioEmpleado) {
+		folio_empleado = folioEmpleado;
 	}
 
 	public String getNombre_completo() {
@@ -34,7 +37,7 @@ public class Obj_Deduccion_Asistencia {
 	public void setNombre_completo(String nombreCompleto) {
 		nombre_completo = nombreCompleto;
 	}
-	
+
 	public String getEstablecimiento() {
 		return establecimiento;
 	}
@@ -75,6 +78,22 @@ public class Obj_Deduccion_Asistencia {
 		this.asistencia = asistencia;
 	}
 
+	public String getGafete() {
+		return gafete;
+	}
+
+	public void setGafete(String gafete) {
+		this.gafete = gafete;
+	}
+
+	public int getDia_gafete() {
+		return dia_gafete;
+	}
+
+	public void setDia_gafete(int diaGafete) {
+		dia_gafete = diaGafete;
+	}
+
 	public int getStatus() {
 		return status;
 	}
@@ -82,8 +101,10 @@ public class Obj_Deduccion_Asistencia {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 	public boolean guardar(){ return new GuardarSQL().Guardar_Deduccion_Asistencia(this); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar_Deduccion_Asistencia(this,folio); }
+	
+	public Obj_Deduccion_Iasistencia buscar(int folio){ return new BuscarSQL().Deduccion(folio); }
 }

@@ -41,7 +41,7 @@ public class Cat_Empleado extends JDialog{
 	JTextField txtApMaterno = new JTextField();
 	JTextField txtFecha = new JTextField(new Date().toString());
 	
-	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento();
+	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
 	@SuppressWarnings("unchecked")
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
@@ -83,7 +83,7 @@ public class Cat_Empleado extends JDialog{
 		int x = 40, y=30, ancho=140;
 		panel.setBorder(BorderFactory.createTitledBorder("Empleado"));
 		
-		txtFecha.setEnabled(false);
+		txtFecha.setEditable(false);
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
 		panel.add(txtFolio).setBounds(x+ancho,y,ancho-15,20);
@@ -159,7 +159,7 @@ public class Cat_Empleado extends JDialog{
 		cont.add(panel);
 		
 		panelEnabledFalse();
-		txtFolio.setEnabled(true);
+		txtFolio.setEditable(true);
 		
 		this.setModal(true);
 		this.setSize(500,430);
@@ -182,7 +182,7 @@ public class Cat_Empleado extends JDialog{
 					txtNombre.setText(re.getNombre()+"");
 					txtApPaterno.setText(re.getAp_paterno()+"");
 					txtApMaterno.setText(re.getAp_materno()+"");	
-					cmbEstablecimiento.setSelectedIndex(re.getEstablecimiento()-1);
+					cmbEstablecimiento.setSelectedIndex(re.getEstablecimiento());
 					cmbPuesto.setSelectedIndex(re.getPuesto()-1);
 					cmbSueldo.setSelectedIndex(re.getSueldo()-1);
 					cmbBono.setSelectedIndex(re.getBono()-1);
@@ -198,14 +198,14 @@ public class Cat_Empleado extends JDialog{
 					btnNuevo.setVisible(false);
 					btnEditar.setVisible(true);
 					panelEnabledFalse();
-					txtFolio.setEnabled(true);
+					txtFolio.setEditable(true);
 					txtFolio.requestFocus();
 					
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 					panelEnabledFalse();
-					txtFolio.setEnabled(true);
+					txtFolio.setEditable(true);
 					panelLimpiar();
 					return;
 				}
@@ -231,7 +231,7 @@ public class Cat_Empleado extends JDialog{
 							empleado.setNombre(txtNombre.getText());
 							empleado.setAp_paterno(txtApPaterno.getText());
 							empleado.setAp_materno(txtApMaterno.getText());
-							empleado.setEstablecimiento(cmbEstablecimiento.getSelectedIndex()+1);
+							empleado.setEstablecimiento(cmbEstablecimiento.getSelectedIndex());
 							empleado.setPuesto(cmbPuesto.getSelectedIndex()+1);
 							empleado.setSueldo(cmbSueldo.getSelectedIndex()+1);
 							empleado.setBono(cmbBono.getSelectedIndex()+1);
@@ -241,13 +241,14 @@ public class Cat_Empleado extends JDialog{
 							empleado.setGafete(chbGafete.isSelected());
 							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
 							empleado.setFecha(txtFecha.getText());
-							panelEnabledTrue();
 							empleado.actualizar(Integer.parseInt(txtFolio.getText()));
 							panelLimpiar();
+							panelEnabledFalse();
+							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
-							
+							JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 						}
-						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+						
 					}else{
 						return;
 					}
@@ -261,7 +262,7 @@ public class Cat_Empleado extends JDialog{
 						empleado.setNombre(txtNombre.getText());
 						empleado.setAp_paterno(txtApPaterno.getText());
 						empleado.setAp_materno(txtApMaterno.getText());
-						empleado.setEstablecimiento(cmbEstablecimiento.getSelectedIndex()+1);
+						empleado.setEstablecimiento(cmbEstablecimiento.getSelectedIndex());
 						empleado.setPuesto(cmbPuesto.getSelectedIndex()+1);
 						empleado.setSueldo(cmbSueldo.getSelectedIndex()+1);
 						empleado.setBono(cmbBono.getSelectedIndex()+1);
@@ -271,9 +272,11 @@ public class Cat_Empleado extends JDialog{
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
 						empleado.setFecha(txtFecha.getText());
-						panelEnabledTrue();
 						empleado.guardar();	
 						panelLimpiar();
+						panelEnabledFalse();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -294,7 +297,7 @@ public class Cat_Empleado extends JDialog{
 			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 			if(empleado.getFolio() != 0){
 				panelEnabledTrue();
-				txtFolio.setEnabled(false);
+				txtFolio.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
 			}else{
@@ -335,7 +338,7 @@ public class Cat_Empleado extends JDialog{
 		txtInfonavit.setEditable(false);
 		chbFuente_Sodas.setEnabled(false);
 		chbGafete.setFocusable(false);
-		cmbStatus.setEditable(false);
+		cmbStatus.setEnabled(false);
 		
 	}
 	
@@ -355,9 +358,6 @@ public class Cat_Empleado extends JDialog{
 		chbGafete.setSelected(false);
 		cmbStatus.setSelectedIndex(0);
 		
-		panelEnabledFalse();
-		txtFolio.setEnabled(true);
-		
 	}
 	
 	ActionListener nuevo = new ActionListener(){
@@ -367,7 +367,7 @@ public class Cat_Empleado extends JDialog{
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(empleado.getFolio()+1+"");
-				txtFolio.setEnabled(false);
+				txtFolio.setEditable(false);
 				txtChecador.requestFocus();
 				txtFecha.setText(new Date().toString());
 			}
@@ -377,7 +377,8 @@ public class Cat_Empleado extends JDialog{
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelLimpiar();
-			panelEnabledTrue();
+			panelEnabledFalse();
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnEditar.setVisible(false);
 			btnNuevo.setVisible(true);
@@ -437,7 +438,7 @@ public class Cat_Empleado extends JDialog{
 		   if (caracter==KeyEvent.VK_PERIOD){
 		    		    	
 		    	String texto = txtInfonavit.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();
+				if (texto.indexOf(".")>-1) e.consume();
 				
 			}
 		    		    		       	
@@ -457,6 +458,7 @@ public class Cat_Empleado extends JDialog{
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
 		if(txtApMaterno.getText().equals(""))	error+= "Ap Materno\n";
+		if(cmbEstablecimiento.getSelectedItem().equals("Selecciona un Establecimiento")) error += "Establecimiento\n";
 		if(txtInfonavit.getText().equals(""))	error+= "Infonavit\n";		
 		
 		return error;

@@ -199,8 +199,8 @@ and tb_prestamo.folio_empleado= tb_empleado.folio and tb_empleado.establecimient
 
 
 -- Tabla de Deducciòn de Asistencia
-
-create table tb_deduccion_asistencia(
+select puntualidad,falta,asistencia from tb_deduccion_asistencia where folio_empleado = 1
+create table tb_deduccion_inasistencia(
 	folio int primary key identity,
 	folio_empleado int,
 	establecimiento varchar(20),
@@ -209,11 +209,13 @@ create table tb_deduccion_asistencia(
 	falta char(5),
 	dia_faltas int,
 	asistencia char(5),
+	gafete char(5),
+	dia_gafete int,
 	status int
 )
 
 delete tb_deduccion_asistencia 
-select * from tb_deduccion_asistencia;
+select * from tb_deduccion_inasistencia;
 
 create table tb_asistencia_puntualidad(
 	folio int primary key identity,
@@ -236,3 +238,37 @@ from tb_empleado, tb_sueldo, tb_bono
 
 where tb_empleado.sueldo_id = tb_sueldo.folio and
 	  tb_empleado.bono_id = tb_bono.folio
+
+alter table tb_persecciones_extra add status int
+
+
+
+select * from tb_persecciones_extra
+
+
+
+create table tb_persecciones_extra(
+	folio int primary key identity,
+	folio_empleado int,
+	nombre_completo varchar(120),
+	establecimiento varchar(20),
+	bono int,
+	dia_extra char(5),
+	dias int,
+	status int
+)
+
+
+create table tb_bancos(
+	folio int primary key identity,
+	folio_empleado int,
+	nombre_completo varchar(120),
+	establecimiento varchar(20),
+	banamex int,
+	banorte int,
+	mas_menos char(5),
+	cooperacion int,
+	status int
+)
+
+select * from tb_bancos

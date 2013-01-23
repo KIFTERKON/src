@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
-import objetos.Obj_Deduccion_Asistencia;
+import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
@@ -313,8 +315,8 @@ public class ActualizarSQL extends Connexion{
 	}
 	
 	
-	public boolean Actualizar_Deduccion_Asistencia(Obj_Deduccion_Asistencia lista, int folio){
-		String query = "update tb_deduccion_asistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=? where folio_empleado="+folio;
+	public boolean Actualizar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia lista, int folio){
+		String query = "update tb_deduccion_inasistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=?, gafete=?, dia_gafete=? where folio_empleado="+folio +" and status=1";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -322,6 +324,8 @@ public class ActualizarSQL extends Connexion{
 			pstmt.setString(2, lista.getFalta());
 			pstmt.setInt(3, lista.getDia_faltas());
 			pstmt.setString(4, lista.getAsistencia());
+			pstmt.setString(5, lista.getFalta());
+			pstmt.setInt(6, lista.getDia_gafete());
 	
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -358,4 +362,51 @@ public class ActualizarSQL extends Connexion{
 		}		
 		return true;
 	}
+	
+	public boolean Actualizar(Obj_Persecciones_Extra lista, int folio){
+		String query = "update tb_persecciones_extra set bono=?, dia_extra=?, dias=? where folio_empleado="+folio +" and status=1";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setFloat(1, lista.getBono());
+			pstmt.setString(2, lista.getDia_extra());
+			pstmt.setInt(3, lista.getDias());
+	
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Actualizar_Bancos(Obj_Bancos bancos, int folio){
+		String query = "update tb_bancos set banamex=?, banorte=?, mas_menos=?, cooperacion=? where folio_empleado="+folio +" and status=1";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bancos.getBanamex());
+			pstmt.setString(2, bancos.getBanorte());
+			pstmt.setString(3, bancos.getMas_menos());
+			pstmt.setInt(4, bancos.getCooperacion());
+				
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}	
 }

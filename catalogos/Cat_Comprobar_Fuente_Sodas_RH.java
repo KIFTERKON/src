@@ -247,8 +247,6 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			}
 			sumaRH();
 			
-			sumaAX();
-
 		}
 		
 		String[][] TablaDifAX = getMatrizDifAX();
@@ -259,8 +257,6 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 				modelTotalAX.setValueAt(TablaDifAX[i][j]+"", i,j);
 			}
 		}
-		sumaRH();
-		
 		sumaAX();
 	}
 	public void Etiqueta(){
@@ -274,7 +270,6 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaRh.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaRh.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaRh.getColumnModel().getColumn(fila).setMinWidth(70);
-	
 		tablaAx.getColumnModel().getColumn(fila=0).setHeaderValue("Folio");
 		tablaAx.getColumnModel().getColumn(fila).setMaxWidth(50);
 		tablaAx.getColumnModel().getColumn(fila).setMinWidth(50);
