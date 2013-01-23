@@ -10,12 +10,14 @@ public class Obj_fuente_sodas_rh {
 	private String nombre_completo;
     private double cantidad;
     private String fecha;
+    private int status_ticket;
     
-    public Obj_fuente_sodas_rh(){
+	public Obj_fuente_sodas_rh(){
     	this.ticket = ' ';
     	this.nombre_completo = "";
     	this.cantidad = 0.0;
     	this.fecha = "";
+    	this.status_ticket =0;
 
     }
 
@@ -66,6 +68,15 @@ public class Obj_fuente_sodas_rh {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
+	
+	public int getStatus_ticket() {
+		return status_ticket;
+	}
+
+	public void setStatus_ticket(int statusTicket) {
+		status_ticket = statusTicket;
+	}
+	
 	// Funcion Guardar Empleado
 	public boolean guardar(){ return new GuardarSQL().Guardar_fuente_sodas_rh(this); }
 	
@@ -77,6 +88,7 @@ public class Obj_fuente_sodas_rh {
 	
 	public boolean borrar(int Id){ return new ActualizarSQL().eliminarListaFuenteSodas(Id); }
 	
+	public Obj_fuente_sodas_rh buscar(int folio){ return new BuscarSQL().fuente_sodas_rh(folio); }
 	
 
 }

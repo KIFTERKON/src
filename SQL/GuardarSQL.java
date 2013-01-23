@@ -21,7 +21,7 @@ public class GuardarSQL extends Connexion{
 	
 	/** METODO DE ESCRITURA DE UN EMPLEADO A SQL SERVER*/
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "insert into tb_empleado(no_checador,nombre,ap_paterno,ap_materno,establecimiento_id,puesto_id,sueldo_id,bono_id,fuente_sodas,gafete,status,fecha,rango_prestamo_id) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "insert into tb_empleado(no_checador,nombre,ap_paterno,ap_materno,establecimiento_id,puesto_id,sueldo_id,bono_id,fuente_sodas,gafete,status,fecha,rango_prestamo_id,infonavit) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -38,6 +38,7 @@ public class GuardarSQL extends Connexion{
 			pstmt.setInt(11, empleado.getStatus());				
 			pstmt.setString(12, empleado.getFecha());
 			pstmt.setInt(13, empleado.getPrestamo());
+			pstmt.setFloat(14,empleado.getInfonavit());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

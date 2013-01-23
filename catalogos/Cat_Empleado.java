@@ -61,6 +61,8 @@ public class Cat_Empleado extends JDialog{
 	@SuppressWarnings("unchecked")
 	JComboBox cmbPrestamos = new JComboBox(rango_prestamo);
 	
+	JTextField txtInfonavit = new JTextField();
+	
 	JCheckBox chbFuente_Sodas = new JCheckBox("Fnt de Sodas");
 	JCheckBox chbGafete = new JCheckBox("Gafete");
 	
@@ -118,8 +120,12 @@ public class Cat_Empleado extends JDialog{
 		panel.add(new JLabel("Prestamo:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbPrestamos).setBounds(x+ancho,y,ancho*2,20);
 		
+		panel.add(new JLabel("Infonavit:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtInfonavit).setBounds(x+ancho,y,ancho*2,20);
+		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-10,20);
+		
 		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
 		panel.add(chbGafete).setBounds((x*3)+(ancho*2)+5,y,80,20);
 		
@@ -148,6 +154,7 @@ public class Cat_Empleado extends JDialog{
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
 		txtChecador.addKeyListener(numerico_action);
+		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		
 		cont.add(panel);
 		
@@ -155,7 +162,7 @@ public class Cat_Empleado extends JDialog{
 		txtFolio.setEnabled(true);
 		
 		this.setModal(true);
-		this.setSize(500,405);
+		this.setSize(500,430);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 
@@ -180,6 +187,7 @@ public class Cat_Empleado extends JDialog{
 					cmbSueldo.setSelectedIndex(re.getSueldo()-1);
 					cmbBono.setSelectedIndex(re.getBono()-1);
 					cmbPrestamos.setSelectedIndex(re.getPrestamo()-1);
+					txtInfonavit.setText(re.getInfonavit()+"");					
 					if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
 					else{chbFuente_Sodas.setSelected(false);}
 					if(re.getGafete() == true){chbGafete.setSelected(true);}
@@ -228,6 +236,7 @@ public class Cat_Empleado extends JDialog{
 							empleado.setSueldo(cmbSueldo.getSelectedIndex()+1);
 							empleado.setBono(cmbBono.getSelectedIndex()+1);
 							empleado.setPrestamo(cmbPrestamos.getSelectedIndex()+1);
+							empleado.setInfonavit(Float.parseFloat(txtInfonavit.getText()));
 							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
 							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -257,6 +266,7 @@ public class Cat_Empleado extends JDialog{
 						empleado.setSueldo(cmbSueldo.getSelectedIndex()+1);
 						empleado.setBono(cmbBono.getSelectedIndex()+1);
 						empleado.setPrestamo(cmbPrestamos.getSelectedIndex()+1);
+						empleado.setInfonavit(Float.parseFloat(txtInfonavit.getText()));
 						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -294,16 +304,17 @@ public class Cat_Empleado extends JDialog{
 		}		
 	};
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
-		txtChecador.setEnabled(true);
-		txtNombre.setEnabled(true);
-		txtApPaterno.setEnabled(true);
-		txtApMaterno.setEnabled(true);
+		txtFolio.setEditable(true);
+		txtChecador.setEditable(true);
+		txtNombre.setEditable(true);
+		txtApPaterno.setEditable(true);
+		txtApMaterno.setEditable(true);
 		cmbEstablecimiento.setEnabled(true);
 		cmbPuesto.setEnabled(true);
 		cmbSueldo.setEnabled(true);
 		cmbBono.setEnabled(true);
 		cmbPrestamos.setEnabled(true);
+		txtInfonavit.setEditable(true);
 		chbFuente_Sodas.setEnabled(true);
 		chbGafete.setEnabled(true);
 		cmbStatus.setEnabled(true);
@@ -311,16 +322,17 @@ public class Cat_Empleado extends JDialog{
 	}
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEnabled(false);
-		txtChecador.setEnabled(false);
-		txtNombre.setEnabled(false);
-		txtApPaterno.setEnabled(false);
-		txtApMaterno.setEnabled(false);
+		txtFolio.setEditable(false);
+		txtChecador.setEditable(false);
+		txtNombre.setEditable(false);
+		txtApPaterno.setEditable(false);
+		txtApMaterno.setEditable(false);
 		cmbEstablecimiento.setEnabled(false);
 		cmbPuesto.setEnabled(false);
 		cmbSueldo.setEnabled(false);
 		cmbBono.setEnabled(false);
 		cmbPrestamos.setEnabled(false);
+		txtInfonavit.setEditable(false);
 		chbFuente_Sodas.setEnabled(false);
 		chbGafete.setFocusable(false);
 		cmbStatus.setEditable(false);
@@ -338,6 +350,7 @@ public class Cat_Empleado extends JDialog{
 		cmbSueldo.setSelectedIndex(0);
 		cmbBono.setSelectedIndex(0);
 		cmbPrestamos.setSelectedIndex(0);
+		txtInfonavit.setText("");
 		chbFuente_Sodas.setSelected(false);
 		chbGafete.setSelected(false);
 		cmbStatus.setSelectedIndex(0);
@@ -415,7 +428,6 @@ public class Cat_Empleado extends JDialog{
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.' )){
@@ -424,8 +436,8 @@ public class Cat_Empleado extends JDialog{
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){
 		    		    	
-//		    	String texto = txtDepocito.getText().toString();
-//				if (texto.indexOf(".")>0) e.consume();
+		    	String texto = txtInfonavit.getText().toString();
+				if (texto.indexOf(".")>0) e.consume();
 				
 			}
 		    		    		       	
@@ -445,7 +457,8 @@ public class Cat_Empleado extends JDialog{
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
 		if(txtApMaterno.getText().equals(""))	error+= "Ap Materno\n";
-				
+		if(txtInfonavit.getText().equals(""))	error+= "Infonavit\n";		
+		
 		return error;
 	}
 	
@@ -488,14 +501,20 @@ public class Cat_Empleado extends JDialog{
 		panel.add(new JLabel("Bono:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbBono).setBounds(x+ancho,y,ancho*2,20);
 		
+		panel.add(new JLabel("Prestamo:")).setBounds(x,y+=25,ancho,20);
+		panel.add(cmbPrestamos).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(new JLabel("Infonavit:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtInfonavit).setBounds(x+ancho,y,ancho*2,20);
+		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-10,20);
+		
 		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
 		panel.add(chbGafete).setBounds((x*3)+(ancho*2)+5,y,80,20);
 		
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtFecha).setBounds(x+ancho,y,ancho+50,20);
-		
 		
 		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
@@ -520,37 +539,40 @@ public class Cat_Empleado extends JDialog{
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
 		txtChecador.addKeyListener(numerico_action);
+		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		
 		cont.add(panel);
 		
 		Obj_Empleado re = new Obj_Empleado();
 		
 		re = re.buscar(Integer.parseInt(algo));
-			txtFolio.setText(re.getFolio()+"");
-			txtChecador.setText(re.getNo_checador()+"");
-			txtNombre.setText(re.getNombre()+"");
-			txtApPaterno.setText(re.getAp_paterno()+"");
-			txtApMaterno.setText(re.getAp_materno()+"");	
-			cmbEstablecimiento.setSelectedIndex(re.getEstablecimiento()-1);
-			cmbPuesto.setSelectedIndex(re.getPuesto()-1);
-			cmbSueldo.setSelectedIndex(re.getSueldo()-1);
-			cmbBono.setSelectedIndex(re.getBono()-1);
-			if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
-			else{chbFuente_Sodas.setSelected(false);}
-			if(re.getGafete() == true){chbGafete.setSelected(true);}
-			else{chbGafete.setSelected(false);}
-			cmbStatus.setSelectedIndex(re.getStatus()-1);
-			txtFecha.setText(re.getFecha());
+		
+		txtFolio.setText(re.getFolio()+"");
+		txtChecador.setText(re.getNo_checador()+"");
+		txtNombre.setText(re.getNombre()+"");
+		txtApPaterno.setText(re.getAp_paterno()+"");
+		txtApMaterno.setText(re.getAp_materno()+"");	
+		cmbEstablecimiento.setSelectedIndex(re.getEstablecimiento()-1);
+		cmbPuesto.setSelectedIndex(re.getPuesto()-1);
+		cmbSueldo.setSelectedIndex(re.getSueldo()-1);
+		cmbBono.setSelectedIndex(re.getBono()-1);
+		cmbPrestamos.setSelectedIndex(re.getPrestamo()-1);
+		txtInfonavit.setText(re.getInfonavit()+"");					
+		if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
+		else{chbFuente_Sodas.setSelected(false);}
+		if(re.getGafete() == true){chbGafete.setSelected(true);}
+		else{chbGafete.setSelected(false);}
+		cmbStatus.setSelectedIndex(re.getStatus()-1);
+		txtFecha.setText(re.getFecha());
 		
 		panelEnabledFalse();
 		txtFolio.setEnabled(true);
 		
 		this.setModal(true);
-		this.setSize(500,390);
+		this.setSize(500,430);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 
 	}
-	
 	
 }

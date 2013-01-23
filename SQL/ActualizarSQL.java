@@ -19,7 +19,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class ActualizarSQL extends Connexion{
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?,fuente_sodas=?, status=? where folio=" + folio;
+		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?,fuente_sodas=?, status=?, infonavit=? where folio=" + folio;
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -33,6 +33,7 @@ public class ActualizarSQL extends Connexion{
 			pstmt.setInt(8, empleado.getPrestamo());
 			pstmt.setInt(9, (empleado.getFuente_sodas())?1:0);
 			pstmt.setInt(10, empleado.getStatus());
+			pstmt.setFloat(11, empleado.getInfonavit());
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {

@@ -11,9 +11,13 @@ public class Cargar_Combo extends Connexion{
 		try {
 			java.sql.Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			
+			int j=0;
 			while(rs.next()){
-				miVector.add(rs.getString("nombre"));				
+				if(j == 0){
+					miVector.add("Todos");
+				}
+				miVector.add(rs.getString("nombre"));
+				j++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -30,7 +34,6 @@ public class Cargar_Combo extends Connexion{
 		String[] pila= new String[miVector.size()];
 		
 		while(i < miVector.size()){
-			
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}

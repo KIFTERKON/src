@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -26,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import objetos.Obj_Deduccion_Asistencia;
+import objetos.Obj_Establecimiento;
 import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
@@ -34,7 +36,14 @@ public class Cat_Deduccion_Asistencia extends JDialog {
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	Object[][] Tabla = getTabla();
+	Object[][] Matriz ;
+	
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+    JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+	    
+	JButton btnFiltrar = new JButton(new ImageIcon("imagen/buscar.png"));
+	
+	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
 	DefaultTableModel model = new DefaultTableModel(Tabla,
             new String[]{"Folio", "Nombre Completo", "Establecimiento", "Puntualidad", "Falta", "Dias Falta", "Asistencia" }
 			){
@@ -83,7 +92,11 @@ public class Cat_Deduccion_Asistencia extends JDialog {
 	public Cat_Deduccion_Asistencia(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
 		this.setTitle("Deducción por Asistencia");
-
+		
+		panel.add(new JLabel("Buscar por: ")).setBounds(200,25,70,20);
+		panel.add(cmbEstablecimientos).setBounds(270,25,90,20);
+		panel.add(btnFiltrar).setBounds(370,25,30,20);
+		
 		panel.add(scroll).setBounds(100,70,1150,580);
 		
 		menu.add(btnGuardar);
@@ -113,13 +126,26 @@ public class Cat_Deduccion_Asistencia extends JDialog {
 		ColumnaDias.setCellEditor(new javax.swing.DefaultCellEditor(cmbDias));
 
 		btnGuardar.addActionListener(opGuardar);
+		btnFiltrar.addActionListener(opFiltrar);
 		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 	}
-	ActionListener opActualizar = new ActionListener(){
+	ActionListener opFiltrar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			System.out.println("Se actualizo");
+			int numero = tabla.getRowCount();
+			while(numero > 0){
+				model.removeRow(0);
+				numero --;
+			}
+			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedIndex());
+			Object[] fila = new Object[tabla.getColumnCount()]; 
+			for(int i=0; i<Tabla1.length; i++){
+				model.addRow(fila); 
+				for(int j=0; j<7; j++){
+					model.setValueAt(Tabla1[i][j], i,j);
+				}
+			}
 		}
 	};
 	ActionListener opGuardar = new ActionListener(){
@@ -176,15 +202,17 @@ public class Cat_Deduccion_Asistencia extends JDialog {
 			JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	public Object[][] getTabla(){
 	
+	public Object[][] getTabla(int establecimiento){
+		
 		String qry = "select tb_empleado.folio," +
 						"tb_empleado.nombre," +
 						"tb_empleado.ap_paterno," +
 						"tb_empleado.ap_materno," +
 						"tb_establecimiento.nombre as establecimiento " +
 					  "from tb_empleado, tb_establecimiento " +
-					  "where tb_empleado.establecimiento_id = tb_establecimiento.folio";
+					  "where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
+					  "tb_empleado.establecimiento_id = "+establecimiento;
 		
 		String qry1 ="select tb_empleado.folio," +
 						    "tb_empleado.nombre," +
@@ -199,43 +227,101 @@ public class Cat_Deduccion_Asistencia extends JDialog {
                     "from tb_empleado, tb_establecimiento, tb_deduccion_asistencia "+ 
                     "where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
                     	   "tb_empleado.folio = tb_deduccion_asistencia.folio_empleado and "+
-                    	   "tb_deduccion_asistencia.status=1";
+                    	   "tb_deduccion_asistencia.status=1 and tb_empleado.establecimiento_id = "+establecimiento;
 		
-		Object[][] Matriz = new Object[getFilas(qry)][7];
+		String todos = "select tb_empleado.folio," +
+							"tb_empleado.nombre," +
+							"tb_empleado.ap_paterno," +
+							"tb_empleado.ap_materno," +
+							"tb_establecimiento.nombre as establecimiento " +
+						"from tb_empleado, tb_establecimiento " +
+						"where tb_empleado.establecimiento_id = tb_establecimiento.folio";
+		
+		String todos1 = "select tb_empleado.folio," +
+						    "tb_empleado.nombre," +
+					        "tb_empleado.ap_paterno," +
+					        "tb_empleado.ap_materno," +
+					        "tb_establecimiento.nombre as establecimiento," +
+					        "tb_deduccion_asistencia.puntualidad," +
+					        "tb_deduccion_asistencia.falta," +
+					        "tb_deduccion_asistencia.dia_faltas," +
+					        "tb_deduccion_asistencia.asistencia " +
+					
+					"from tb_empleado, tb_establecimiento, tb_deduccion_asistencia "+ 
+					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
+						   "tb_empleado.folio = tb_deduccion_asistencia.folio_empleado and "+
+						   "tb_deduccion_asistencia.status=1";
+		Object[][] Matriz = new Object[getFilas(qry1)][7];
 		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			if(getFilas("select * from tb_deduccion_asistencia where status = 1") > 1){
-				s = conn.createStatement();
-				rs = s.executeQuery(qry1);
-				int i=0;
-				while(rs.next()){
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-					Matriz[i][2] = rs.getString(5).trim();
-					Matriz[i][3] = Boolean.parseBoolean(rs.getString(6).trim());
-					Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-					Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
-					Matriz[i][6] = Boolean.parseBoolean(rs.getString(9).trim());
-					i++;
+			if(establecimiento > 0){
+				if(getFilas("select * from tb_deduccion_asistencia where status = 1") > 1){
+					s = conn.createStatement();
+					rs = s.executeQuery(qry1);
+					Matriz = new Object[getFilas(qry1)][7];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = Boolean.parseBoolean(rs.getString(6).trim());
+						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
+						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
+						Matriz[i][6] = Boolean.parseBoolean(rs.getString(9).trim());
+						i++;
+					}
+				}else{
+					s = conn.createStatement();
+					rs = s.executeQuery(qry);
+					Matriz = new Object[getFilas(qry)][7];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = false;
+						Matriz[i][4] = false;
+						Matriz[i][5] = 0;
+						Matriz[i][6] = false;
+						i++;
+					}
 				}
 			}else{
-				s = conn.createStatement();
-				rs = s.executeQuery(qry);
-				int i=0;
-				while(rs.next()){
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-					Matriz[i][2] = rs.getString(5).trim();
-					Matriz[i][3] = false;
-					Matriz[i][4] = false;
-					Matriz[i][5] = 0;
-					Matriz[i][6] = false;
-					i++;
+				if(getFilas("select * from tb_deduccion_asistencia where status = 1") > 1){
+					s = conn.createStatement();
+					rs = s.executeQuery(todos1);
+					Matriz = new Object[getFilas(todos1)][7];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = Boolean.parseBoolean(rs.getString(6).trim());
+						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
+						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
+						Matriz[i][6] = Boolean.parseBoolean(rs.getString(9).trim());
+						i++;
+					}
+				}else{
+					s = conn.createStatement();
+					rs = s.executeQuery(todos);
+					Matriz = new Object[getFilas(todos)][7];
+					int i=0;
+					while(rs.next()){
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = rs.getString(5).trim();
+						Matriz[i][3] = false;
+						Matriz[i][4] = false;
+						Matriz[i][5] = 0;
+						Matriz[i][6] = false;
+						i++;
+					}
 				}
 			}
-				
+		
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
