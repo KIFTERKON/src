@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
@@ -13,11 +14,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -28,8 +31,11 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
+
+import frames.WholeNumberField;
 
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
@@ -52,17 +58,17 @@ public class Cat_Persecciones_Extra extends JDialog {
     JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	    
 	JCheckBox chbHabilitar = new JCheckBox("Habilitar");
-	JCheckBox chbTodos = new JCheckBox("Todos");
+	JCheckBox chbTodos = new JCheckBox("");
 	
 	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
 	DefaultTableModel model = new DefaultTableModel(Tabla,
-            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "Dia Extra", "Cantidad Dias"}
+            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "DE", "Cantidad Dias"}
 			){
 	     Class[] types = new Class[]{
 	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
-	    	java.lang.Object.class, 
+	    	java.lang.Integer.class, 
 	    	java.lang.Boolean.class, 
 	    	java.lang.Object.class
 	    	
@@ -132,15 +138,17 @@ public class Cat_Persecciones_Extra extends JDialog {
 		panel.add(txtNombre).setBounds(170,45,345,20);
 		panel.add(cmbEstablecimientos).setBounds(590,45,90,20);
 		panel.add(chbHabilitar).setBounds(750,45,70,20);
-		panel.add(chbTodos).setBounds(875,45,70,20);
-		panel.add(cmbDia).setBounds(1000,45,70,20);
+		panel.add(chbTodos).setBounds(865,45,20,20);
+		panel.add(cmbDia).setBounds(900,45,70,20);
 		
-		panel.add(scroll).setBounds(100,70,1020,580);
+		panel.add(scroll).setBounds(100,70,935,580);
 		
 		menu.add(btnGuardar);
 		menu.setBounds(0,0,150,25);
 		panel.add(menu);
 		cont.add(panel);
+		
+		setUpIntegerEditor(tabla);
 	
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -156,12 +164,31 @@ public class Cat_Persecciones_Extra extends JDialog {
 		tabla.getColumnModel().getColumn(3).setMaxWidth(120);
 		tabla.getColumnModel().getColumn(3).setMinWidth(120);
 		tabla.getColumnModel().getColumn(3).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(4).setMaxWidth(120);
-		tabla.getColumnModel().getColumn(4).setMinWidth(120);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(30);
+		tabla.getColumnModel().getColumn(4).setMinWidth(30);
 		tabla.getColumnModel().getColumn(5).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(5).setMaxWidth(120);
 		tabla.getColumnModel().getColumn(5).setMinWidth(120);
 		ColumnaDias.setCellEditor(new javax.swing.DefaultCellEditor(cmbDias));
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(5).setCellRenderer(render);
 
 		cmbDia.addActionListener(opDias);
 		chbTodos.addActionListener(opTodos);
@@ -173,7 +200,20 @@ public class Cat_Persecciones_Extra extends JDialog {
 	
 	}
 	
-	public void filtroFolio(){ 
+	 private void setUpIntegerEditor(JTable table) {
+	        final WholeNumberField integerField = new WholeNumberField(0, 5);
+	        integerField.setHorizontalAlignment(WholeNumberField.RIGHT);
+
+	        DefaultCellEditor integerEditor = 
+	            new DefaultCellEditor(integerField) {
+	                public Object getCellEditorValue() {
+	                    return new Integer(integerField.getValue());
+	                }
+	            };
+	        table.setDefaultEditor(Integer.class, integerEditor);
+	    }
+	
+	 public void filtroFolio(){ 
 		filter.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0)); 
 	}
 	
@@ -254,7 +294,6 @@ public class Cat_Persecciones_Extra extends JDialog {
 					}else{
 						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
 					}
-					
 					perseccion.setDia_extra(miVector.get(4).toString().trim());
 					if(miVector.get(5).toString().trim() == null){
 						perseccion.setDias(0);
@@ -281,7 +320,6 @@ public class Cat_Persecciones_Extra extends JDialog {
 				perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
 				perseccion.setNombre_completo(miVector.get(1).toString().trim());
 				perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-				
 				if(miVector.get(3) != ""){
 					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
 				}else{

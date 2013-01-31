@@ -62,7 +62,6 @@ create table tb_empleado(
 	
 );
 
-
 create table tb_permiso(
 	folio int primary key identity,
 	nombre varchar(50),
@@ -79,7 +78,6 @@ create table tb_usuario(
 	status int,
 	foreign key (permiso_id) references tb_permiso(folio)
 );
-
 
 create table tb_prestamo(
 	folio int primary key identity,
@@ -104,7 +102,7 @@ create table tb_fuente_sodas_rh(
 	status int
 );
 
-alter table tb_fuente_sodas_auxf insert column(
+create table tb_fuente_sodas_auxf(
 	folio int primary key identity,
 	ticket varchar(15),
 	folio_empleado int, 
@@ -114,20 +112,40 @@ alter table tb_fuente_sodas_auxf insert column(
 	status int
 );
 
-select * from tb_bancos
-select * from tb_empleado
-select * from tb_sueldo
-select * from tb_puesto
-select * from tb_establecimiento
-select * from tb_bono
-select * from tb_rango_prestamos
-select * from tb_usuario
-select * from tb_permiso
-select * from tb_fuente_sodas_rh
-select * from tb_fuente_sodas_auxf
-select * from tb_persecciones_extra
-select * from tb_deduccion_inasistencia
-select * from tb_asistencia_puntualidad
+create table tb_persecciones_extra(
+	folio int primary key identity,
+	folio_empleado int,
+	nombre_completo varchar(120),
+	establecimiento varchar(20),
+	bono int,
+	dia_extra char(5),
+	dias int,
+	status int
+)
+
+create table tb_bancos(
+	folio int primary key identity,
+	folio_empleado int,
+	nombre_completo varchar(120),
+	establecimiento varchar(20),
+	banamex int,
+	banorte int,
+	cooperacion int,
+	status int
+)
+
+create table tb_diferencia_cortes(
+	folio int primary key identity,
+	folio_empleado int, 
+	nombre_completo varchar(120),
+	fecha varchar(14),
+	cantidad money,
+	descuento money,
+	saldo money,
+	abonos int,
+	status int,
+	status_descuento int
+);
 
 
 create table tb_deduccion_inasistencia(
@@ -147,53 +165,5 @@ create table tb_deduccion_inasistencia(
 create table tb_asistencia_puntualidad(
 	folio int primary key identity,
 	asistencia money,
-	puntualidad money,
-	gafete money
+	puntualidad money
 )
-
-create table tb_persecciones_extra(
-	folio int primary key identity,
-	folio_empleado int,
-	nombre_completo varchar(120),
-	establecimiento varchar(20),
-	bono int,
-	dia_extra char(5),
-	dias int,
-	status int
-)
-
-
-create table tb_bancos(
-	folio int primary key identity,
-	folio_empleado int,
-	nombre_completo varchar(120),
-	establecimiento varchar(20),
-	banamex int,
-	banorte int,
-	mas_menos char(5),
-	cooperacion int,
-	status int
-)
-
-
-select * from tb_diferencia_cortes
-
-select cantidad, descuento, saldo from tb_prestamo
-
-select descuento from tb_diferencia_cortes
-select cantidad, descuento, saldo from tb_diferencia_cortes where saldo > 0 and  folio_empleado=1
-
-create table tb_diferencia_cortes(
-	folio int primary key identity,
-	folio_empleado int, 
-	nombre_completo varchar(120),
-	fecha varchar(14),
-	cantidad money,
-	descuento money,
-	saldo money,
-	abonos int,
-	status int,
-	status_descuento int
-);
-
-

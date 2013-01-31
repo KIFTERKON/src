@@ -1,5 +1,6 @@
 package objetos;
 
+import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
@@ -53,6 +54,8 @@ public class Obj_Puesto {
 	public boolean guardar(){ return new GuardarSQL().Guardar_Puesto(this); }
 	
 	public Obj_Puesto buscar_nuevo(){ return new BuscarSQL().Puesto_Nuevo(); }
+	
+	public boolean actualizar(int folio){ return new ActualizarSQL().Puesto(this,folio); }
 	
 	//public Obj_Establecimiento buscar(int folio){ return new BuscarSQL().Establecimiento(folio); }
 	
