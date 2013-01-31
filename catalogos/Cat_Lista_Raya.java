@@ -1,9 +1,12 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +14,17 @@ import java.sql.Statement;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 
 import objetos.Obj_Establecimiento;
 import SQL.Connexion;
@@ -110,16 +118,13 @@ public class Cat_Lista_Raya extends JFrame {
 	
 	
 
-//	JScrollPane scroll = new JScrollPane(tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,);
-//	@SuppressWarnings("unchecked")
-//	private TableRowSorter trsfiltro;
+	private TableRowSorter trsfiltro;
 	
-//	JLabel lblBuscar = new JLabel("BUSCAR : ");
-//	JTextField txtBuscar = new JTextField();
+	JLabel lblBuscar = new JLabel("BUSCAR : ");
+	JTextField txtBuscar = new JTextField();
 	
-//	String busqueda[] = new Obj_Establecimiento().Combo_Establecimiento();
-//	@SuppressWarnings("unchecked")
-//	JComboBox cmbBuscar = new JComboBox(busqueda);
+	String busqueda[] = new Obj_Establecimiento().Combo_Establecimiento();
+	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
 //	JButton btnAgregar = new JButton("Agregar");
 	
@@ -193,29 +198,59 @@ public class Cat_Lista_Raya extends JFrame {
 		tabla.getColumnModel().getColumn(22).setMaxWidth(230*5);
 		tabla.getColumnModel().getColumn(22).setMinWidth(230*5);
 		
+		TableCellRenderer render = new TableCellRenderer()	{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+				
+				if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+					
+				} 
+				return lbl; 
+			} 
+		}; 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(5).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(6).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(7).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(8).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(9).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(10).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(11).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(12).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(13).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(14).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(15).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(16).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(17).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(18).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(19).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(20).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(21).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(22).setCellRenderer(render); 
 		
 		
-//		txtBuscar.setDocument(new JTextFieldLimit(10));
-//		
-//		txtBuscar.addKeyListener(new KeyAdapter() { 
-//			public void keyReleased(final KeyEvent e) { 
-//                filtro(); 
-//            } 
-//        });
-//	
-//		trsfiltro = new TableRowSorter(model); 
-//		tabla.setRowSorter(trsfiltro);  
+		txtBuscar.addKeyListener(new KeyAdapter() { 
+			public void keyReleased(final KeyEvent e) { 
+                filtro(); 
+            } 
+        });
+	
+		trsfiltro = new TableRowSorter(model); 
+		tabla.setRowSorter(trsfiltro);  
 		
 		campo.add(scroll).setBounds(10,70,1250,600);
         
-//		campo.add(lblBuscar).setBounds(10,30,70,20);
-//		campo.add(txtBuscar).setBounds(90,30,220,20);
-//		
-//		campo.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-//		campo.add(cmbBuscar).setBounds(410, 30, 160, 20);
-//	
-//		campo.add(btnAgregar).setBounds(590,30,80,20);
-//		btnAgregar.addActionListener(agregar);
+		campo.add(lblBuscar).setBounds(10,30,70,20);
+		campo.add(txtBuscar).setBounds(90,30,220,20);
+		
+		campo.add(cmbBuscar).setBounds(400, 30, 160, 20);
+	
 		cont.add(campo);
 		
 		this.setResizable(false);
@@ -235,11 +270,11 @@ public class Cat_Lista_Raya extends JFrame {
 	};
 	
 	public void filtro(){ 
-//		switch (cmbBuscar.getSelectedIndex()){
-//			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
-//			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 1)); break;
-//			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 2)); break;	
-//		}	
+		switch (cmbBuscar.getSelectedIndex()){
+			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;
+			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 3)); break;
+			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 4)); break;	
+		}	
 	}  
 	
 	private Object[][] getMatriz(int establecimiento){

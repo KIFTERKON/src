@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -196,12 +195,12 @@ public class Cat_Bancos extends JDialog {
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(5).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(5).setCellRenderer(render);
 						
 		
 		btnGuardar.addActionListener(opGuardar);

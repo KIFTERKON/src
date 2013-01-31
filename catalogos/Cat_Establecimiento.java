@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Establecimiento;
 
 @SuppressWarnings("serial")
