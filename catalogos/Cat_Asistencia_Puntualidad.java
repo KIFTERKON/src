@@ -27,6 +27,7 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 	
 	JTextField txtValorAsistencia = new JTextField();
 	JTextField txtValorPuntualidad = new JTextField();
+	JTextField txtGafete = new JTextField();
 	
 	JButton btnNuevo = new JButton("Nuevo");
 	JButton btnEditar = new JButton("Editar");
@@ -39,11 +40,13 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
 		int x=25, y=25, z=80;
 		panel.setBorder(BorderFactory.createTitledBorder("Asistencia y Puntualidad"));
-		panel.add(new JLabel("Asistencia")).setBounds(x,y,z,20);		
-		panel.add(txtValorAsistencia).setBounds(x+z,y,z+50,20);
 		
-		panel.add(new JLabel("Puntualidad")).setBounds(x,y+=30,z,20);
+		panel.add(new JLabel("Asistencia:")).setBounds(x,y,z,20);		
+		panel.add(txtValorAsistencia).setBounds(x+z,y,z+50,20);
+		panel.add(new JLabel("Puntualidad:")).setBounds(x,y+=30,z,20);
 		panel.add(txtValorPuntualidad).setBounds(x+z,y,z+50,20);
+		panel.add(new JLabel("Gafete:")).setBounds(x,y+=25,z+50,20);
+		panel.add(txtGafete).setBounds(x+z,y,z+50,20);
 		
 		panel.add(btnSalir).setBounds(x,y+=30,z-20,20);
 		panel.add(btnEditar).setBounds(x+z-10,y,z,20);
@@ -74,6 +77,7 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 		public void actionPerformed(ActionEvent arg0) {
 			txtValorAsistencia.setEditable(true);
 			txtValorPuntualidad.setEditable(true);
+			txtGafete.setEditable(true);
 		}
 	};
 	
@@ -85,9 +89,11 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 				
 				asistencia_puntualidad.setValorAsistencia(Float.parseFloat(txtValorAsistencia.getText()));
 				asistencia_puntualidad.setValorPuntualidad(Float.parseFloat(txtValorPuntualidad.getText()));
+				asistencia_puntualidad.setValorGafete(Float.parseFloat(txtGafete.getText()));
 				asistencia_puntualidad.actualizar(1);	
 				txtValorAsistencia.setEditable(false);
 				txtValorPuntualidad.setEditable(false);
+				txtGafete.setEditable(false);
 			}else{
 				if(validaCampos()!="") {
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -97,9 +103,11 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 					
 					asistencia_puntualidad.setValorAsistencia(Float.parseFloat(txtValorAsistencia.getText()));
 					asistencia_puntualidad.setValorPuntualidad(Float.parseFloat(txtValorPuntualidad.getText()));
+					asistencia_puntualidad.setValorGafete(Float.parseFloat(txtGafete.getText()));
 					asistencia_puntualidad.guardar();	
 					txtValorAsistencia.setEditable(false);
 					txtValorPuntualidad.setEditable(false);
+					txtGafete.setEditable(false);
 					JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				}
 			}
@@ -111,7 +119,7 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 		
 		if(txtValorAsistencia.getText().equals("")) 	error+= "     Valor de Asistencia\n";
 		if(txtValorPuntualidad.getText().equals("")) 	error+= "     Valor de Puntualidad\n";
-				
+		if(txtGafete.getText().equals("")) 		error+= "     Valor de Gafete\n";		
 		return error;
 	}
 	
@@ -122,8 +130,10 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 			Obj_Asistencia_Puntualidad llenar = new Obj_Asistencia_Puntualidad().buscar(1);
 			txtValorAsistencia.setText(llenar.getValorAsistencia()+"");
 			txtValorPuntualidad.setText(llenar.getValorPuntualidad()+"");
+			txtGafete.setText(llenar.getValorGafete()+"");
 			txtValorAsistencia.setEditable(false);
 			txtValorPuntualidad.setEditable(false);
+			txtGafete.setEditable(false);
 		}
 	}
 	

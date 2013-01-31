@@ -4,7 +4,7 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
-public class Obj_Prestamo {
+public class Obj_Diferencia_Cortes {
 	private int folio;
 	private int folio_empleado;
 	private String nombre_completo;
@@ -16,7 +16,7 @@ public class Obj_Prestamo {
     private int status;
     private int status_descuento;
     
-    public Obj_Prestamo(){
+    public Obj_Diferencia_Cortes(){
     	this.folio_empleado=0;
     	this.nombre_completo = "";
     	this.cantidad =0.0;
@@ -120,12 +120,10 @@ public class Obj_Prestamo {
 		status_descuento = statusDescuento;
 	}
 
-	public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
+	public boolean guardar(){ return new GuardarSQL().Guardar(this); }
 	
-	public Obj_Prestamo buscar(int folio){ return new BuscarSQL().Prestamo(folio); }
+	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar(this,folio); }
 	
-	public boolean actualizar(int folio){ return new ActualizarSQL().prestamo(this,folio); }
-	
-	public Obj_Prestamo maximo(){ return new BuscarSQL().maximoPrestamo(); }
+	public Obj_Diferencia_Cortes maximo(){ return new BuscarSQL().maximo_diferencia_cortes(); }
 
 }

@@ -91,10 +91,10 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
-	        		dispose();
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
 	    			new Cat_Fue_Soda_Auxf(folio+"").setVisible(true);
+	    			dispose();
 	        	}
 	        }
         });

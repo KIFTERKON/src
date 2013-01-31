@@ -49,13 +49,13 @@ public class Cat_Filtro_Prestamo extends JDialog{
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-	String busqueda[] = {"Folio","Nombre Completo","Otra Cosa"};
+	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
 	@SuppressWarnings("unchecked")
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
 	@SuppressWarnings("unchecked")
 	public Cat_Filtro_Prestamo()	{
-		this.setTitle("..:: Filtro De Prestamos ::..");
+		this.setTitle("Filtro De Prestamos");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -91,10 +91,10 @@ public class Cat_Filtro_Prestamo extends JDialog{
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
-	        		dispose();
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
 	    			new Cat_Prestamo(folio+"").setVisible(true);
+	    			dispose();
 	        	}
 	        }
         });
@@ -102,12 +102,10 @@ public class Cat_Filtro_Prestamo extends JDialog{
 	
    	@SuppressWarnings("unchecked")
 	public void filtro() { 
-   		
-		// Busca segun el combo
 		switch (cmbBuscar.getSelectedIndex()){
 			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
 			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 1)); break;
-//			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
+			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
 		}		 
 	}  
 	private JScrollPane getPanelTabla()	{		
@@ -124,7 +122,6 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 
-		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
 		tabla.getColumnModel().getColumn(0).setMinWidth(45);
@@ -172,32 +169,50 @@ public class Cat_Filtro_Prestamo extends JDialog{
 						);
 			
 			
-			while (rs.next())
-			{ 
+			while (rs.next()) {
 				@SuppressWarnings("unused")
 				DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 				
-			   String [] fila = new String[6];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim(); 
-			  
-			   switch (Integer.parseInt(rs.getString(6).trim())){
-				case 1 : fila[3] = "Vigente"; break;
-				case 2 : fila[3] = "Vacaciones"; break;
-				case 3 : fila[3] = "Baja"; break;	
-			   }	
-			   fila[4] =(Math.rint(rs.getDouble(7)*100)/100 +"  -  "+ Math.rint(rs.getDouble(8)*100)/100);	
-
-			   fila[5] =rs.getString(9).trim(); 
+				String [] fila = new String[6];
+				String folio_empleado = rs.getString(1).trim();
 			   
-			   model.addRow(fila); 
+			   
+				fila[0] = folio_empleado;
+				fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
+				fila[2] = rs.getString(5).trim(); 
+			  
+				switch (Integer.parseInt(rs.getString(6).trim())){
+					case 1 : fila[3] = "Vigente"; break;
+					case 2 : fila[3] = "Vacaciones"; break;
+					case 3 : fila[3] = "Baja"; break;	
+				}	
+				fila[4] =(Math.rint(rs.getDouble(7)*100)/100 +"  -  "+ Math.rint(rs.getDouble(8)*100)/100);	
+
+				fila[5] = getSaldo(Integer.parseInt(folio_empleado.trim()))+"";
+			   
+				model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		 JScrollPane scrol = new JScrollPane(tabla);	   
 	    return scrol; 
+	}
+
+	public static float getSaldo(int folio){
+		float valores= 0;
+		try {
+			Connection conn = Connexion.conexion();
+			Statement s = conn.createStatement();
+			ResultSet rs = s.executeQuery("select saldo from tb_prestamo where folio_empleado="+folio);
+			while(rs.next()){
+				valores = Float.parseFloat(rs.getString(1));
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valores;
 	}
 	
 	KeyListener validaCantidad = new KeyListener() {
@@ -223,7 +238,6 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){

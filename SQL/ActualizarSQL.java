@@ -8,6 +8,7 @@ import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Iasistencia;
+import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
@@ -342,12 +343,13 @@ public class ActualizarSQL extends Connexion{
 	}	
 	
 	public boolean Asistecia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad, int folio){
-		String query = "update tb_asistencia_puntualidad set asistencia=?, puntualidad=? where folio=" + folio;
+		String query = "update tb_asistencia_puntualidad set asistencia=?, puntualidad=?, gafete=? where folio=" + folio;
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
 			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
+			pstmt.setFloat(3, asistencia_puntualidad.getValorGafete());
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -396,6 +398,29 @@ public class ActualizarSQL extends Connexion{
 			pstmt.setString(3, bancos.getMas_menos());
 			pstmt.setInt(4, bancos.getCooperacion());
 				
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}	
+	
+	public boolean Actualizar(Obj_Diferencia_Cortes pres, int folio){
+		String query = "update tb_diferencia_cortes set fecha=?, cantidad=?, descuento=?, status=? where folio="+folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, pres.getFecha());
+			pstmt.setDouble(2, pres.getCantidad());
+			pstmt.setDouble(3, pres.getDescuento());
+			pstmt.setInt(4, pres.getStatus());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

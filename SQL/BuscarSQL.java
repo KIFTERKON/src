@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Iasistencia;
+import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Prestamo;
@@ -270,8 +271,6 @@ public class BuscarSQL extends Connexion{
 	
 	public Obj_Prestamo Prestamo(int folio){
 		Obj_Prestamo pre = new Obj_Prestamo();
-		
-		
 		String query = "select * from tb_prestamo where folio_empleado ="+ folio;
 		try {
 			java.sql.Statement stmt = conn.createStatement();
@@ -281,7 +280,6 @@ public class BuscarSQL extends Connexion{
 				pre.setFolio(rs.getInt("folio_empleado"));
 				pre.setNombre_Completo(rs.getString("nombre_completo").trim());
 				pre.setFecha(rs.getString("fecha"));
-				
 				pre.setCantidad(rs.getDouble("cantidad"));
 				pre.setDescuento(rs.getDouble("descuento"));
 				pre.setSaldo(rs.getDouble("saldo"));
@@ -289,7 +287,6 @@ public class BuscarSQL extends Connexion{
 				pre.setStatus(rs.getInt("status"));
 				pre.setStatus(rs.getInt("status_descuento"));
 				
-//				pre.setPrestamo(rs.getInt("rango_prestamo_id"));
 			}
 			
 		} catch (Exception e) {
@@ -543,6 +540,7 @@ public class BuscarSQL extends Connexion{
 			while(rs.next()){
 				numero.setValorAsistencia(rs.getFloat("asistencia"));
 				numero.setValorPuntualidad(rs.getFloat("puntualidad"));
+				numero.setValorGafete(rs.getFloat("gafete"));
 			}
 			
 		} catch (Exception e) {
@@ -634,6 +632,30 @@ public class BuscarSQL extends Connexion{
 			}
 		}
 		return deduccion;
+	}
+	
+	public Obj_Diferencia_Cortes maximo_diferencia_cortes(){
+		Obj_Diferencia_Cortes bono = new Obj_Diferencia_Cortes();
+		String query = "select max(folio) as 'Maximo' from tb_prestamo";
+		try {
+			java.sql.Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				bono.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return bono;
 	}
 	
 }

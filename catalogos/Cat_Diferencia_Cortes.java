@@ -1,6 +1,5 @@
 package catalogos;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -39,15 +38,11 @@ import org.eclipse.swt.widgets.Shell;
 import SQL.Connexion;
 
 import objetos.Obj_Empleado;
-import objetos.Obj_Prestamo;
-import objetos.Obj_Rango_Prestamos;
+import objetos.Obj_Diferencia_Cortes;
 
 @SuppressWarnings("serial")
-public class Cat_Prestamo extends JDialog{
+public class Cat_Diferencia_Cortes extends JDialog{
 	
-	Double rangoIn;
-	Double rangoFin;
-
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -64,10 +59,6 @@ public class Cat_Prestamo extends JDialog{
 	JLabel txtFolio_Empleado = new JLabel();
 	JLabel txtNombre_Completo = new JLabel();
 	
-	String rango_prestamo[] = new Obj_Rango_Prestamos().Combo_Prestamos();
-	JLabel lblRango = new JLabel();
-	JLabel lblEtiquetaRango = new JLabel("Limite de Prestamo:");
-	
 	JTextField txtCantidad = new JTextField();
 	JTextField txtDescuento = new JTextField();
 	JTextField txtFecha = new JTextField();
@@ -83,15 +74,13 @@ public class Cat_Prestamo extends JDialog{
 	JLabel btnEditar = new JLabel(new ImageIcon("imagen//Modify.png"));
 	JLabel btnSalir = new JLabel(new ImageIcon("imagen//Delete.png"));
 	JLabel btnGuardar = new JLabel(new ImageIcon("imagen//Guardar.png"));
-//	JButton btnDeshacer = new JButton("Deshacer");
 	
-	public Cat_Prestamo(String algo) {
+	public Cat_Diferencia_Cortes(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
-		this.setTitle("Prestamos");
+		this.setTitle("Diferencia de Cortes");
 		int x = 40, y=50, ancho=140;
 		txtCantidad.requestFocus();
-		panel.setBorder(BorderFactory.createTitledBorder("Prestamo"));		
-//		panel.add(btnFiltro).setBounds(x+ancho+ancho+90,y,32,20);
+		panel.setBorder(BorderFactory.createTitledBorder("Cortes"));		
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
@@ -127,9 +116,6 @@ public class Cat_Prestamo extends JDialog{
 		panel.add(txtFecha).setBounds(x+ancho,y,ancho-15,20);
 		panel.add(btnCalendario).setBounds(x+ancho+ancho-27,y,50,20);
 		
-		panel.add(lblEtiquetaRango).setBounds(x,y+=25,ancho+20,20);
-		panel.add(lblRango).setBounds(x+ancho+35,y,ancho+40,20);
-		
 		panel.add(new JLabel("Cantidad:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtCantidad).setBounds(x+ancho,y,ancho-15,20);
 		
@@ -141,7 +127,6 @@ public class Cat_Prestamo extends JDialog{
 		
 		panel.add(panelScroll).setBounds(x,y+=25+10,ancho+420,80);
 		
-//		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
 		panel.add(btnFiltro).setBounds(20,15,16,16);
 		panel.add(btnEditar).setBounds(46,15,16,16);
 		panel.add(btnGuardar).setBounds(73,15,16,16);
@@ -149,14 +134,8 @@ public class Cat_Prestamo extends JDialog{
 		panel.add(btnSalir).setBounds(620,15,16,16);
 		
 		lblTotal.setFont(new java.awt.Font("Algerian",0,60));
-		lblRango.setFont(new java.awt.Font("SansSerif",5,18));
-		lblEtiquetaRango.setFont(new java.awt.Font("SansSerif",5,18));	
-		
-		lblRango.setForeground(Color.blue);
-		lblEtiquetaRango.setForeground(Color.blue);
 		
 		btnSalir.addMouseListener(salir);
-//		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
 		btnEditar.addMouseListener(ValidarCampos);
 		btnCalendario.addMouseListener(OpCalendario);
@@ -172,16 +151,9 @@ public class Cat_Prestamo extends JDialog{
 	
 		txtFolio_Empleado.setText(re.getFolio()+"");
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
-		lblRango.setText(rango_prestamo[re.getPrestamo()-1]);
 		panelEnabledTrue();
-		txtFecha.setEnabled(false);
+		txtFecha.setEditable(false);
 		
-		String Rango =rango_prestamo[re.getPrestamo()-1];
-		Rango = Rango.replace(" - ", "-");
-		String[] splits = Rango.split("-");
-			
-			rangoIn  = Double.parseDouble(splits[0]);
-			rangoFin = Double.parseDouble(splits[1]);
 								
 		String[][] Tabla = getMatriz(txtNombre_Completo.getText());
 		Object[] fila = new Object[tabla.getColumnCount()];
@@ -203,7 +175,6 @@ public class Cat_Prestamo extends JDialog{
 				cmbStatus.setSelectedIndex(1);
 			}
 			panelEnabledFalse();
-//			btnDeshacer.setEnabled(false);
 			btnGuardar.setEnabled(false);
 		}
 				
@@ -217,24 +188,22 @@ public class Cat_Prestamo extends JDialog{
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
-	        	
-//	        	if(e.getClickCount()==1){	
-	        		panelEnabledFalse();
-	        		btnGuardar.setEnabled(false);
-	        		int fila = tabla.getSelectedRow();
-	        		
-	    			txtFecha.setText(modelo.getValueAt(fila,1)+"");
-	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
-	    			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
-	    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
-	    				cmbStatus.setSelectedIndex(0);
-	    			}else{
-	    				cmbStatus.setSelectedIndex(1);
-	    				 }
-//	        	}
+        		panelEnabledFalse();
+        		btnGuardar.setEnabled(false);
+        		int fila = tabla.getSelectedRow();
+        		
+    			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+    			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
+    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
+    				cmbStatus.setSelectedIndex(0);
+    			}else{
+    				cmbStatus.setSelectedIndex(1);
+    			}
 	        }
         });
     }
+	
 	MouseListener guardar = new MouseListener() {
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -242,15 +211,7 @@ public class Cat_Prestamo extends JDialog{
 				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 				return;
 			}else{
-				if(Double.parseDouble(txtCantidad.getText())> rangoFin){
-					JOptionPane.showMessageDialog(null,"Solo se le puede autorizar la cantidad de $"+rangoFin, "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					return;
-				}
-				if(Double.parseDouble(txtDescuento.getText())>Double.parseDouble(txtCantidad.getText())){
-					JOptionPane.showMessageDialog(null,"El Descuento es mayor que el prestamo", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					return;
-				}
-				Obj_Prestamo pres = new Obj_Prestamo();
+				Obj_Diferencia_Cortes pres = new Obj_Diferencia_Cortes();
 				
 				switch(tabla.getRowCount()){
 					case 0: 
@@ -270,14 +231,13 @@ public class Cat_Prestamo extends JDialog{
 						
 						if(pres.getStatus_descuento()==1){
 							Object[] fila = new Object[tabla.getColumnCount()]; 
-							Obj_Prestamo maximo = new Obj_Prestamo().maximo();
+							Obj_Diferencia_Cortes maximo = new Obj_Diferencia_Cortes().maximo();
 							fila[0]=maximo.getFolio();
 							fila[1]=txtFecha.getText();
 							fila[2]=txtCantidad.getText();
 							fila[3]=txtDescuento.getText();
 							fila[4]=txtCantidad.getText();
 							fila[5]=0.00;
-							
 							
 							switch(cmbStatus.getSelectedIndex()){
 								case 0: fila[6]="Vigente";break;	
@@ -312,7 +272,7 @@ public class Cat_Prestamo extends JDialog{
 									}
 								}
 							}
-						
+							
 						break;
 				}
 				panelEnabledFalse();
@@ -327,7 +287,7 @@ public class Cat_Prestamo extends JDialog{
 	ActionListener filtro = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
-			new Cat_Filtro_Prestamo().setVisible(true);
+			new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
 			
 		}
 	};	
@@ -344,15 +304,15 @@ public class Cat_Prestamo extends JDialog{
 	};
 	
 	public void panelEnabledTrue(){	
-		txtCantidad.setEnabled(true);
-		txtDescuento.setEnabled(true);
+		txtCantidad.setEditable(true);
+		txtDescuento.setEditable(true);
 		cmbStatus.setEnabled(true);
 		
 	}
 	
 	public void panelEnabledFalse(){	
-		txtCantidad.setEnabled(false);
-		txtDescuento.setEnabled(false);
+		txtCantidad.setEditable(false);
+		txtDescuento.setEditable(false);
 		cmbStatus.setEnabled(false);
 		
 	}
@@ -366,17 +326,6 @@ public class Cat_Prestamo extends JDialog{
 		tabla.setSelectionMode(0);
 		
 	}
-	
-//	ActionListener deshacer = new ActionListener(){
-//		public void actionPerformed(ActionEvent e){
-//			panelLimpiar();
-//			panelEnabledTrue();
-//			txtCantidad.setText("");
-//			txtDescuento.setText("");
-//			txtCantidad.requestFocus();
-//			tabla.setSelectionMode(0);
-//		}
-//	};
 	
 	MouseListener salir = new MouseListener() {
 		@Override
@@ -485,7 +434,7 @@ public class Cat_Prestamo extends JDialog{
 		display.dispose();
 	}
 	public String[][] getMatriz(String NombreCompleto){
-		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
+		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_diferencia_cortes where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
 		Connection conn = Connexion.conexion();
@@ -497,20 +446,20 @@ public class Cat_Prestamo extends JDialog{
 			int i=0;
 			while(rs.next()){
 				
-					DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+				DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2).trim();
-					Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)));
-					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
-					Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)));
-					Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)));
-					if(rs.getInt(7)==1){
-						Matriz[i][6]= "Vigente";
-					}else{
-						Matriz[i][6]="Cancelado Temporal";
-					}
-					i++;
+				Matriz[i][0] = rs.getString(1).trim();
+				Matriz[i][1] = rs.getString(2).trim();
+				Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)));
+				Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
+				Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)));
+				Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)));
+				if(rs.getInt(7)==1){
+					Matriz[i][6]= "Vigente";
+				}else{
+					Matriz[i][6]="Cancelado Temporal";
+				}
+				i++;
 			}
 			
 		} catch (SQLException e1) {
@@ -534,17 +483,5 @@ public class Cat_Prestamo extends JDialog{
 		}
 		return filas;
 	}
-	
-	public void suma(){
-		float suma = 0;
-		
-		for(int i=0;i<modelo.getRowCount(); i++) {
-			float datos= Float.parseFloat(modelo.getValueAt(i,4).toString());
-			suma=(suma+datos); 
-		} 
-		
-		lblTotal.setText("$ "+String.valueOf(suma));
-	
-	}
-	
+
 }

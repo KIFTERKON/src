@@ -229,7 +229,9 @@ public class Cat_Persecciones_Extra extends JDialog {
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			tabla.setSelectionMode(1);
+			if(tabla.isEditing()){
+				tabla.getCellEditor().stopCellEditing();
+			}
 			guardar();
 		}
 	};
@@ -247,9 +249,19 @@ public class Cat_Persecciones_Extra extends JDialog {
 					perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
 					perseccion.setNombre_completo(miVector.get(1).toString().trim());
 					perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+					if(miVector.get(3).toString().trim() == null){
+						perseccion.setBono(0);
+					}else{
+						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+					}
+					
 					perseccion.setDia_extra(miVector.get(4).toString().trim());
-					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+					if(miVector.get(5).toString().trim() == null){
+						perseccion.setDias(0);
+					}else{
+						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+					}
+				
 					perseccion.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
 					
 					miVector.clear();
@@ -262,16 +274,28 @@ public class Cat_Persecciones_Extra extends JDialog {
 		}else{
 			for(int i=0; i<model.getRowCount(); i++){
 				for(int j=0; j<model.getColumnCount(); j++){
-					miVector.add(model.getValueAt(i,j)+" ");
+					miVector.add(model.getValueAt(i,j));
 				}
 				Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
-				
+		
 				perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
 				perseccion.setNombre_completo(miVector.get(1).toString().trim());
 				perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-				perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+				
+				if(miVector.get(3) != ""){
+					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+				}else{
+					miVector.set(3,0);
+					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+				}
 				perseccion.setDia_extra(miVector.get(4).toString().trim());
-				perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+				
+				if(miVector.get(5) != ""){
+					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+				}else{
+					miVector.set(5,0);
+					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+				}
 				perseccion.guardar();
 				
 				miVector.clear();
@@ -341,9 +365,19 @@ public class Cat_Persecciones_Extra extends JDialog {
 						Matriz[i][0] = rs.getString(1).trim();
 						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = rs.getString(6).trim();
+						int bono = Integer.parseInt(rs.getString(6));
+						if(bono != 0){
+							Matriz[i][3] = bono;
+						}else{
+							Matriz[i][3] = "";
+						}
 						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
+						int dias = Integer.parseInt(rs.getString(8).trim());
+						if(dias != 0){
+							Matriz[i][5] = dias;
+						}else{
+							Matriz[i][5] = "";
+						}
 						i++;
 					}
 				}else{
@@ -355,9 +389,9 @@ public class Cat_Persecciones_Extra extends JDialog {
 						Matriz[i][0] = rs.getString(1).trim();
 						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = "0";
+						Matriz[i][3] = "";
 						Matriz[i][4] = false;
-						Matriz[i][5] = 0;
+						Matriz[i][5] = "";
 						i++;
 					}
 				}
@@ -371,9 +405,19 @@ public class Cat_Persecciones_Extra extends JDialog {
 						Matriz[i][0] = rs.getString(1).trim();
 						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = rs.getString(6).trim();
+						int bono = Integer.parseInt(rs.getString(6));
+						if(bono != 0){
+							Matriz[i][3] = bono;
+						}else{
+							Matriz[i][3] = "";
+						}
 						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
+						int dias = Integer.parseInt(rs.getString(8).trim());
+						if(dias != 0){
+							Matriz[i][5] = dias;
+						}else{
+							Matriz[i][5] = "";
+						}
 						i++;
 					}
 				}else{
@@ -385,9 +429,9 @@ public class Cat_Persecciones_Extra extends JDialog {
 						Matriz[i][0] = rs.getString(1).trim();
 						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = "0";
+						Matriz[i][3] = "";
 						Matriz[i][4] = false;
-						Matriz[i][5] = 0;
+						Matriz[i][5] = "";
 						i++;
 					}
 				}

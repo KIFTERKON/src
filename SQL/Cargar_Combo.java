@@ -217,6 +217,7 @@ public class Cargar_Combo extends Connexion{
 		try {
 			java.sql.Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			@SuppressWarnings("unused")
 			DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 			
 			while(rs.next()){

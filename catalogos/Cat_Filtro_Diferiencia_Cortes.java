@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -25,15 +26,13 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
-
 import objetos.JTextFieldLimit;
 @SuppressWarnings("serial")
-public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
+public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	//DECLARACION PARA CREAR UNA TABLA
 	DefaultTableModel model = new DefaultTableModel(0,5){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -50,13 +49,13 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-	String busqueda[] = {"Folio","Nombre Completo","Otra Cosa"};
+	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
 	@SuppressWarnings("unchecked")
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
 	@SuppressWarnings("unchecked")
-	public Cat_Filtro_Fue_Soda_Rh()	{
-		this.setTitle("..:: Filtro Fuente de Sodas RRHH ::..");
+	public Cat_Filtro_Diferiencia_Cortes()	{
+		this.setTitle("Filtro de Diferencia de Cortes");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -70,15 +69,15 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		
 		
 		cmbBuscar.setSelectedIndex(1);
-		panel.add(getPanelTabla()).setBounds(10,70,710,327);
+		panel.add(getPanelTabla()).setBounds(80,70,580,327);
 		
 		agregar(tabla);
 		
-		panel.add(lblBuscar).setBounds(10,30,70,20);
-		panel.add(txtBuscar).setBounds(90,30,220,20);
+		panel.add(lblBuscar).setBounds(80,30,70,20);
+		panel.add(txtBuscar).setBounds(160,30,220,20);
 		
-		panel.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-		panel.add(cmbBuscar).setBounds(410, 30, 160, 20);
+		panel.add(new JLabel("Buscar por: ")).setBounds(400, 30, 80, 20);
+		panel.add(cmbBuscar).setBounds(480, 30, 160, 20);
 	
 		cont.add(panel);
 		
@@ -94,7 +93,7 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	        	if(e.getClickCount() == 2){
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
-	    			new Cat_Fue_Soda_Rh(folio+"").setVisible(true);
+	    			new Cat_Diferencia_Cortes(folio.toString().trim()).setVisible(true);
 	    			dispose();
 	        	}
 	        }
@@ -103,41 +102,41 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	
    	@SuppressWarnings("unchecked")
 	public void filtro() { 
-   		
-		// Busca segun el combo
 		switch (cmbBuscar.getSelectedIndex()){
 			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
 			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 1)); break;
-//			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
+			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;
 		}		 
 	}  
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 		Connection conn = Connexion.conexion();
-		
+
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		DefaultTableCellRenderer tcrR = new DefaultTableCellRenderer();
+		tcrR.setHorizontalAlignment(SwingConstants.RIGHT);
+		DefaultTableCellRenderer tcrL = new DefaultTableCellRenderer();
+		tcrL.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		int a=2;
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcrR);
 		tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 
-		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
-		tabla.getColumnModel().getColumn(0).setMinWidth(45);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(0).setMinWidth(70);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(1).setMinWidth(230);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(250);
+		tabla.getColumnModel().getColumn(1).setMinWidth(250);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
 		tabla.getColumnModel().getColumn(3).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(3).setMinWidth(70);
-		tabla.getColumnModel().getColumn(4).setHeaderValue("F Sodas");
+		tabla.getColumnModel().getColumn(4).setHeaderValue("Saldo");
 		tabla.getColumnModel().getColumn(4).setMaxWidth(60);
 		tabla.getColumnModel().getColumn(4).setMinWidth(60);
 		
@@ -145,46 +144,49 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		ResultSet rs;
 		try {
 			s = conn.createStatement();
-			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
+			rs = s.executeQuery(
+					"select tb_empleado.folio as [Folio],"+
 					 "  tb_empleado.nombre as [Nombre], "+
 					 "  tb_empleado.ap_paterno as [Paterno], "+
 					 "  tb_empleado.ap_materno as [Materno], "+ 
 					 "  tb_establecimiento.nombre as [Establecimiento], "+
 					
-					 "  tb_empleado.status as [Status], "+
-					 "  tb_empleado.fuente_sodas as [Fuentes]"+
+					 "  tb_empleado.status as [Status], "+					 
+					 "tb_sueldo.sueldo as [sueldo] "+
 
-					"  from tb_empleado, tb_establecimiento"+
+					"  from tb_empleado, tb_establecimiento, tb_sueldo"+
 
 					"  where "+
 						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
-						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1'");
+						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and" +
+						"  tb_empleado.sueldo_id = tb_sueldo.folio and " +
+						"  tb_empleado.sueldo_id = tb_sueldo.folio"
+						);
+			
 			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[5];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
+				@SuppressWarnings("unused")
+				DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+				
+			   String [] fila = new String[6];
+			   fila[0] = rs.getString(1)+"  ";
+			   fila[1] = "    "+rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
 			   fila[2] = rs.getString(5).trim(); 
-			 
+			  
 			   switch (Integer.parseInt(rs.getString(6).trim())){
 				case 1 : fila[3] = "Vigente"; break;
 				case 2 : fila[3] = "Vacaciones"; break;
 				case 3 : fila[3] = "Baja"; break;	
-			}	
-			   if(Integer.parseInt(rs.getString(7).trim()) == 1){
-					  fila[4] = "Si";
-				   }else {
-					  fila[4] = "No";
-				   }
+			   }	
+			   fila[4] =rs.getString(7).trim(); 
 			   
 			   model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-		   
+		 JScrollPane scrol = new JScrollPane(tabla);	   
 	    return scrol; 
 	}
 	
@@ -211,19 +213,16 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){
 		    	e.consume();
-		    	}
-		    		    		       	
+		    	}    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
+		public void keyReleased(KeyEvent e){}								
 	};
 }
 

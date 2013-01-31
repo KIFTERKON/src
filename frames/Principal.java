@@ -25,10 +25,12 @@ import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
+import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Lista_Deudores_Prestamo;
+import catalogos.Cat_Lista_Raya;
 import catalogos.Cat_Persecciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
@@ -53,6 +55,7 @@ public class Principal extends JFrame{
 		JMenuItem Alimentacion_Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
 		JMenuItem Alimentacion_Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
 		JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Deducción por Inasistencia");
+		JMenuItem Alimentacion_Diferencia_Cortes = new JMenuItem("Diferencia de Cortes");
 		JMenuItem Alimentacion_Bancos = new JMenuItem("Bancos");
 		JMenuItem Alimentacion_Persecciones_Extra = new JMenuItem("Persecciones Extra");
 		JMenuItem Alimentacion_Prestamos = new JMenuItem("Prestamos");
@@ -89,7 +92,7 @@ public class Principal extends JFrame{
 		Container cont = getContentPane();
 		
 		tabbedPane.setBackground(Color.white);
-		tabbedPane.addTab("Lista de Raya", new ImageIcon("imagen/Report.png"), new Frm_Principal2().getBase());
+		//tabbedPane.addTab("Lista de Raya", new ImageIcon("imagen/Report.png"), new Frm_Principal2().getBase());
 		cont.add(tabbedPane);
 		
 		this.setResizable(false);
@@ -109,6 +112,8 @@ public class Principal extends JFrame{
 			Alimentacion_Bancos.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Deducciones_Asistencia);
 			Alimentacion_Deducciones_Asistencia.addActionListener(Opciones);
+		Alimentacion.add(Alimentacion_Diferencia_Cortes);
+			Alimentacion_Diferencia_Cortes.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Fuente_Sodas_rh);
 			Alimentacion_Fuente_Sodas_rh.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Fuente_Sodas_auxf);
@@ -171,6 +176,8 @@ public class Principal extends JFrame{
 				new Cat_Bancos().setVisible(true);
 			if(e.getActionCommand().equals("Deducción por Inasistencia"))
 				new Cat_Deduccion_Inasistencia().setVisible(true);
+			if(e.getActionCommand().equals("Diferencia de Cortes"))
+				new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
 			if(e.getActionCommand().equals("Fuente de Sodas RRHH"))
 				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
 			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
@@ -190,7 +197,7 @@ public class Principal extends JFrame{
 
 			// Listas
 			if(e.getActionCommand().equals("Lista de Raya"))
-				dispose();
+				new Cat_Lista_Raya().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
 			

@@ -8,6 +8,7 @@ import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Iasistencia;
+import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
@@ -319,12 +320,13 @@ public class GuardarSQL extends Connexion{
 	}
 	
 	public boolean Asistencia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad){
-		String query = "insert into tb_asistencia_puntualidad(asistencia,puntualidad) values(?,?);";
+		String query = "insert into tb_asistencia_puntualidad(asistencia,puntualidad,gafete) values(?,?,?);";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
 			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
+			pstmt.setFloat(3, asistencia_puntualidad.getValorGafete());
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -396,4 +398,35 @@ public class GuardarSQL extends Connexion{
 		}		
 		return true;
 	}
+	
+	public boolean Guardar(Obj_Diferencia_Cortes pres){
+		String query = "insert into tb_diferencia_cortes(folio_empleado,nombre_completo,fecha,cantidad,descuento,status,saldo,status_descuento,abonos) values(?,?,?,?,?,?,?,?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1,pres.getFolio_empleado());
+				pstmt.setString(2, pres.getNombre_Completo().toUpperCase());
+				pstmt.setString(3, pres.getFecha());
+				pstmt.setDouble(4, pres.getCantidad());
+				pstmt.setDouble(5, pres.getDescuento());
+				pstmt.setString(6, "1");
+				pstmt.setDouble(7, pres.getSaldo());
+				pstmt.setString(8, "1");
+				pstmt.setDouble(9, 0);
+				
+			 	pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 }
