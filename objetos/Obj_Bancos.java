@@ -8,15 +8,14 @@ public class Obj_Bancos {
 	private int folio_empleado;
 	private String nombre_completo;
 	private String establecimiento;
-	private String banamex;
-	private String banorte;
-	private String mas_menos;
+	private int banamex;
+	private int banorte;
 	private int cooperacion;
 	private int status;
 	
 	public Obj_Bancos(){
-		this.folio_empleado=0; this.nombre_completo=""; this.establecimiento=""; this.banamex="";
-		this.banorte=""; this.mas_menos=""; this.cooperacion=0; this.status=0;
+		this.folio_empleado=0; this.nombre_completo=""; this.establecimiento=""; this.banamex=0;
+		this.banorte=0;this.cooperacion=0; this.status=0;
 	}
 
 	public int getFolio_empleado() {
@@ -43,28 +42,20 @@ public class Obj_Bancos {
 		this.establecimiento = establecimiento;
 	}
 
-	public String getBanamex() {
+	public int getBanamex() {
 		return banamex;
 	}
 
-	public void setBanamex(String banamex) {
+	public void setBanamex(int banamex) {
 		this.banamex = banamex;
 	}
 
-	public String getBanorte() {
+	public int getBanorte() {
 		return banorte;
 	}
 
-	public void setBanorte(String banorte) {
+	public void setBanorte(int banorte) {
 		this.banorte = banorte;
-	}
-
-	public String getMas_menos() {
-		return mas_menos;
-	}
-
-	public void setMas_menos(String masMenos) {
-		mas_menos = masMenos;
 	}
 
 	public int getCooperacion() {

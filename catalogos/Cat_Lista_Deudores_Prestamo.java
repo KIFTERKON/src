@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,12 +9,14 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
@@ -57,7 +60,6 @@ public class Cat_Lista_Deudores_Prestamo extends JDialog{
 		this.setBounds( 10, 10, 910, 660);
 	}
 	
-
 	public void Etiqueta(){
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -98,7 +100,27 @@ public class Cat_Lista_Deudores_Prestamo extends JDialog{
 		tabla.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(fila).setMinWidth(70);
 		
-	
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
 	}
 	
 	public String[][] getMatriz(){
@@ -134,7 +156,6 @@ String qry = ("select tb_prestamo.folio as [folio], "+
 				Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)+""));
 				Matriz[i][6] = decimalFormat.format(Double.parseDouble(rs.getString(7)+""));
 				Matriz[i][7] = decimalFormat.format(Double.parseDouble(rs.getString(8)+""));
-//				System.out.println(decimalFormat);
 
 				i++;
 			}

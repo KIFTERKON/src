@@ -71,8 +71,7 @@ public class CatPassword extends JDialog {
 		this.setModal(true);
 		this.setSize(450,180);
 		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		
+		this.setLocationRelativeTo(null);	
 	}
 	
 	ActionListener deshacer = new ActionListener(){
@@ -130,8 +129,7 @@ public class CatPassword extends JDialog {
 					JOptionPane.showMessageDialog(null,"El Usuario no existe", "Aviso", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-			}
-									
+			}							
 		}	
 	};
 			
@@ -152,16 +150,14 @@ public class CatPassword extends JDialog {
 			}else{
 				JOptionPane.showMessageDialog(null, "Ingrese el Folio del Usuario","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
-			}
-			
+			}	
 		}
 	};
 	
 	public void Limpiar() {
 		txtFolio			   .setText("");
 		txtNombre			   .setText("");
-		pxpClave			   .setText("");
-				
+		pxpClave			   .setText("");		
 	}
 	
 	KeyListener validaBuscar = new KeyListener() {
@@ -208,9 +204,6 @@ public class CatPassword extends JDialog {
 		@Override
 		public void keyPressed(KeyEvent e){}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
-	};
-	
-	
+		public void keyReleased(KeyEvent e){}							
+	};	
 }

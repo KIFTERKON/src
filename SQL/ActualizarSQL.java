@@ -12,6 +12,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
+import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Usuario;
@@ -106,6 +107,28 @@ public class ActualizarSQL extends Connexion{
 			pstmt.setFloat(1, bono.getBono());
 			pstmt.setString(2, bono.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (bono.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Puesto(Obj_Puesto puesto, int folio){
+		String query = "update tb_puesto set nombre=?, abreviatura=?, status=? where folio=" + folio;
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, puesto.getPuesto());
+			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
+			pstmt.setString(3, (puesto.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -387,14 +410,13 @@ public class ActualizarSQL extends Connexion{
 	}
 	
 	public boolean Actualizar_Bancos(Obj_Bancos bancos, int folio){
-		String query = "update tb_bancos set banamex=?, banorte=?, mas_menos=?, cooperacion=? where folio_empleado="+folio +" and status=1";
+		String query = "update tb_bancos set banamex=?, banorte=?, cooperacion=? where folio_empleado="+folio +" and status=1";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, bancos.getBanamex());
-			pstmt.setString(2, bancos.getBanorte());
-			pstmt.setString(3, bancos.getMas_menos());
-			pstmt.setInt(4, bancos.getCooperacion());
+			pstmt.setInt(1, bancos.getBanamex());
+			pstmt.setInt(2, bancos.getBanorte());
+			pstmt.setInt(3, bancos.getCooperacion());
 				
 			pstmt.executeUpdate();
 		} catch (Exception e) {

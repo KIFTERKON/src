@@ -36,7 +36,7 @@ public class Cat_Establecimiento extends JFrame {
 	JButton btnSalir = new JButton("Salir");
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-	JButton btnDeshacer = new JButton("Deshcer");
+	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnNuevo = new JButton("Nuevo");
 	JButton btnEditar = new JButton("Editar");
 
@@ -64,6 +64,10 @@ public class Cat_Establecimiento extends JFrame {
 		panel.add(btnDeshacer).setBounds(x+ancho,y+=25,ancho,20);
 		panel.add(btnSalir).setBounds(x,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
+		
+		chStatus.setEnabled(false);
+		txtNombre.setEnabled(false);
+		txtAbreviatura.setEnabled(false);
 	
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtNombre.setDocument(new JTextFieldLimit(16));
@@ -107,7 +111,12 @@ public class Cat_Establecimiento extends JFrame {
 							establecimiento.setNombre(txtNombre.getText());
 							establecimiento.setAbreviatura(txtAbreviatura.getText());
 							establecimiento.setStatus(chStatus.isSelected());
-							establecimiento.actualizar(Integer.parseInt(txtFolio.getText()));						
+							establecimiento.actualizar(Integer.parseInt(txtFolio.getText()));	
+							
+							panelLimpiar();
+							panelEnabledFalse();
+							txtFolio.setEnabled(true);
+							txtFolio.requestFocus();
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -135,16 +144,20 @@ public class Cat_Establecimiento extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			Obj_Bono_Complemento_Sueldo re = new Obj_Bono_Complemento_Sueldo();
-			re = re.buscar(Integer.parseInt(txtFolio.getText()));
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
+				return;
+			}else{
+			Obj_Establecimiento es = new Obj_Establecimiento();
+			es = es.buscar(Integer.parseInt(txtFolio.getText()));
 			
-			if(re != null){
+			if(es.getFolio() != 0){
 			
-			txtFolio.setText(re.getFolio()+"");
-			txtNombre.setText(re.getBono()+"");
-			txtAbreviatura.setText(re.getAbreviatura()+"");
-			System.out.println(re.getStatus());
-			if(re.getStatus() == true){chStatus.setSelected(true);}
+			txtFolio.setText(es.getFolio()+"");
+			txtNombre.setText(es.getNombre()+"");
+			txtAbreviatura.setText(es.getAbreviatura()+"");
+			System.out.println(es.getStatus());
+			if(es.getStatus() == true){chStatus.setSelected(true);}
 			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
@@ -157,6 +170,7 @@ public class Cat_Establecimiento extends JFrame {
 			else{
 				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 				return;
+				}
 			}
 		}
 	};
@@ -164,16 +178,19 @@ public class Cat_Establecimiento extends JFrame {
 	ActionListener cerrar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
-		}
-		
+		}	
 	};
 	
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			
+			
 			panelLimpiar();
-			panelEnabledTrue();
+			panelEnabledFalse();
+			txtFolio.setEnabled(true);
 			txtFolio.requestFocus();
+			btnNuevo.setEnabled(true);
+			btnEditar.setEnabled(true);
 		}
 	};
 	
@@ -228,8 +245,7 @@ public class Cat_Establecimiento extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e){}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
+		public void keyReleased(KeyEvent e){}							
 	};
 	
 	public void panelEnabledTrue(){	

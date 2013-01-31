@@ -83,7 +83,6 @@ public class Cat_Prestamo extends JDialog{
 	JLabel btnEditar = new JLabel(new ImageIcon("imagen//Modify.png"));
 	JLabel btnSalir = new JLabel(new ImageIcon("imagen//Delete.png"));
 	JLabel btnGuardar = new JLabel(new ImageIcon("imagen//Guardar.png"));
-//	JButton btnDeshacer = new JButton("Deshacer");
 	
 	public Cat_Prestamo(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
@@ -91,7 +90,6 @@ public class Cat_Prestamo extends JDialog{
 		int x = 40, y=50, ancho=140;
 		txtCantidad.requestFocus();
 		panel.setBorder(BorderFactory.createTitledBorder("Prestamo"));		
-//		panel.add(btnFiltro).setBounds(x+ancho+ancho+90,y,32,20);
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
@@ -141,7 +139,6 @@ public class Cat_Prestamo extends JDialog{
 		
 		panel.add(panelScroll).setBounds(x,y+=25+10,ancho+420,80);
 		
-//		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
 		panel.add(btnFiltro).setBounds(20,15,16,16);
 		panel.add(btnEditar).setBounds(46,15,16,16);
 		panel.add(btnGuardar).setBounds(73,15,16,16);
@@ -156,7 +153,6 @@ public class Cat_Prestamo extends JDialog{
 		lblEtiquetaRango.setForeground(Color.blue);
 		
 		btnSalir.addMouseListener(salir);
-//		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
 		btnEditar.addMouseListener(ValidarCampos);
 		btnCalendario.addMouseListener(OpCalendario);
@@ -203,7 +199,6 @@ public class Cat_Prestamo extends JDialog{
 				cmbStatus.setSelectedIndex(1);
 			}
 			panelEnabledFalse();
-//			btnDeshacer.setEnabled(false);
 			btnGuardar.setEnabled(false);
 		}
 				
@@ -218,7 +213,6 @@ public class Cat_Prestamo extends JDialog{
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	
-//	        	if(e.getClickCount()==1){	
 	        		panelEnabledFalse();
 	        		btnGuardar.setEnabled(false);
 	        		int fila = tabla.getSelectedRow();
@@ -231,7 +225,6 @@ public class Cat_Prestamo extends JDialog{
 	    			}else{
 	    				cmbStatus.setSelectedIndex(1);
 	    				 }
-//	        	}
 	        }
         });
     }
@@ -290,10 +283,7 @@ public class Cat_Prestamo extends JDialog{
 					case 1: 
 						
 						int nroFila = tabla.getSelectedRow();
-//						if(nroFila == -1){
-//							JOptionPane.showMessageDialog(null,"Seleccione un registro para poder actualizar", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-//							return;
-//						}else{
+						
 							if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
 								
 								pres.setFecha(txtFecha.getText());
@@ -317,8 +307,6 @@ public class Cat_Prestamo extends JDialog{
 									}
 								}
 							}
-							
-//						}
 						break;
 				}
 				panelEnabledFalse();
@@ -373,17 +361,6 @@ public class Cat_Prestamo extends JDialog{
 		
 	}
 	
-//	ActionListener deshacer = new ActionListener(){
-//		public void actionPerformed(ActionEvent e){
-//			panelLimpiar();
-//			panelEnabledTrue();
-//			txtCantidad.setText("");
-//			txtDescuento.setText("");
-//			txtCantidad.requestFocus();
-//			tabla.setSelectionMode(0);
-//		}
-//	};
-	
 	MouseListener salir = new MouseListener() {
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -426,16 +403,13 @@ public class Cat_Prestamo extends JDialog{
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){    	
 		    	String texto = txtCantidad.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();
-				
-			}
-		    		    		       	
+				if (texto.indexOf(".")>0) e.consume();	
+			} 		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
+		public void keyReleased(KeyEvent e){}							
 	};
 	
 	private String validaCampos(){
@@ -448,8 +422,6 @@ public class Cat_Prestamo extends JDialog{
 				
 		return error;
 	}
-	
-	
 	MouseListener OpCalendario = new MouseListener() {
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -550,7 +522,6 @@ public class Cat_Prestamo extends JDialog{
 		} 
 		
 		lblTotal.setText("$ "+String.valueOf(suma));
-	
 	}
 	
 }

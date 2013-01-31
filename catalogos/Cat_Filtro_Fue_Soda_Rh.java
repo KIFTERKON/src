@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
@@ -50,7 +52,7 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-	String busqueda[] = {"Folio","Nombre Completo","Otra Cosa"};
+	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
 	@SuppressWarnings("unchecked")
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
@@ -64,26 +66,26 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
                 filtro(); 
             } 
         });
-	
+
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
 		
 		cmbBuscar.setSelectedIndex(1);
-		panel.add(getPanelTabla()).setBounds(10,70,710,327);
+		panel.add(getPanelTabla()).setBounds(10,70,625,327);
 		
 		agregar(tabla);
 		
-		panel.add(lblBuscar).setBounds(10,30,70,20);
-		panel.add(txtBuscar).setBounds(90,30,220,20);
+		panel.add(lblBuscar).setBounds(15,30,70,20);
+		panel.add(txtBuscar).setBounds(85,30,220,20);
 		
-		panel.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-		panel.add(cmbBuscar).setBounds(410, 30, 160, 20);
+		panel.add(new JLabel("Buscar por: ")).setBounds(390, 30, 80, 20);
+		panel.add(cmbBuscar).setBounds(470, 30, 160, 20);
 	
 		cont.add(panel);
 		
 		this.setModal(true);
-		this.setSize(740,450);
+		this.setSize(650,450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -108,12 +110,29 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		switch (cmbBuscar.getSelectedIndex()){
 			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
 			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 1)); break;
-//			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
+			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
 		}		 
 	}  
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 		Connection conn = Connexion.conexion();
+
+		// Creamos las columnas.
+		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		tabla.getColumnModel().getColumn(0).setMaxWidth(60);
+		tabla.getColumnModel().getColumn(0).setMinWidth(60);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
+		tabla.getColumnModel().getColumn(1).setMaxWidth(260);
+		tabla.getColumnModel().getColumn(1).setMinWidth(260);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
+		tabla.getColumnModel().getColumn(2).setMaxWidth(120);
+		tabla.getColumnModel().getColumn(2).setMinWidth(120);
+		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
+		tabla.getColumnModel().getColumn(3).setMaxWidth(90);
+		tabla.getColumnModel().getColumn(3).setMinWidth(90);
+		tabla.getColumnModel().getColumn(4).setHeaderValue("F Sodas");
+		tabla.getColumnModel().getColumn(4).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(4).setMinWidth(80);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,23 +142,25 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-
-		// Creamos las columnas.
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
-		tabla.getColumnModel().getColumn(0).setMinWidth(45);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(1).setMinWidth(230);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
-		tabla.getColumnModel().getColumn(2).setMinWidth(100);
-		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(3).setMinWidth(70);
-		tabla.getColumnModel().getColumn(4).setHeaderValue("F Sodas");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(60);
-		tabla.getColumnModel().getColumn(4).setMinWidth(60);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;

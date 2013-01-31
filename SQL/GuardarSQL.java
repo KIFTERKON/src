@@ -342,7 +342,7 @@ public class GuardarSQL extends Connexion{
 	
 	public boolean Guardar(Obj_Persecciones_Extra persecciones){
 		String query = "insert into tb_persecciones_extra(folio_empleado,nombre_completo,establecimiento,bono,dia_extra,dias,status) " +
-						"values(?,?,?,?,?,?,?);";
+						"values(?,?,?,?,?,?);";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -369,19 +369,18 @@ public class GuardarSQL extends Connexion{
 	}
 	
 	public boolean Guardar_Bancos(Obj_Bancos bancos){
-		String query = "insert into tb_bancos(folio_empleado,nombre_completo,establecimiento,banamex,banorte,mas_menos,cooperacion,status) " +
-						"values(?,?,?,?,?,?,?,?);";
+		String query = "insert into tb_bancos(folio_empleado,nombre_completo,establecimiento,banamex,banorte,cooperacion,status) " +
+						"values(?,?,?,?,?,?,?);";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, bancos.getFolio_empleado());
 			pstmt.setString(2, bancos.getNombre_completo().toUpperCase());
 			pstmt.setString(3, bancos.getEstablecimiento().toUpperCase());
-			pstmt.setString(4, bancos.getBanamex());
-			pstmt.setString(5, bancos.getBanorte());
-			pstmt.setString(6, bancos.getMas_menos());
-			pstmt.setInt(7, bancos.getCooperacion());
-			pstmt.setString(8, "1");
+			pstmt.setInt(4, bancos.getBanamex());
+			pstmt.setInt(5, bancos.getBanorte());
+			pstmt.setInt(6, bancos.getCooperacion());
+			pstmt.setString(7, "1");
 			
 			pstmt.executeUpdate();
 		} catch (Exception e) {

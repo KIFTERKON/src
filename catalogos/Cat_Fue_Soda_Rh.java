@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -94,6 +98,31 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		tabla.getColumnModel().getColumn(1).setMinWidth(80);
 		tabla.getColumnModel().getColumn(1).setMaxWidth(80);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Cantidad");
+		
+		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		agregar(tabla);
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtFecha).setBounds(x+ancho,y,ancho-15,20);
@@ -371,27 +400,6 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 					String anioInicial = splits[2];
 					
 					txtFecha.setText(diaInicial+"/"+mesInicial+"/"+anioInicial);
-//					Calendar calendar = Calendar.getInstance();
-//					Date fechaInicial = new Date();
-//					
-//					fechaInicial.setMonth(mesInicial-1); 
-//					fechaInicial.setDate(diaInicial);
-//					
-//					calendar.setTime(fechaInicial);
-//										
-//					int calendarTime = Calendar.DAY_OF_MONTH;
-//					int diaSumar = calendar.get(calendarTime);
-//					calendar.set(calendarTime, diaSumar+7);
-//					
-//					SimpleDateFormat formatoFecha = new SimpleDateFormat();
-//					
-//					formatoFecha.setTimeZone(TimeZone.getTimeZone("GMT-6"));
-//					
-//					Date fechaSum = calendar.getTime();
-//					
-//					formatoFecha.applyPattern("dd/MM/yyyy");
-//					formatoFecha.format(fechaSum);
-
 			}
 		});
 		shell.pack ();

@@ -2,6 +2,7 @@ package frames;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -59,6 +60,7 @@ public class Frm_Principal2 extends JDialog{
 	
 	JButton btnAgregar = new JButton("Agregar");
 	
+	private Dimension dim; 
 	@SuppressWarnings("unchecked")
 	public Frm_Principal2()	{
 		txtBuscar.setDocument(new JTextFieldLimit(10));
@@ -85,8 +87,14 @@ public class Frm_Principal2 extends JDialog{
 		btnAgregar.addActionListener(agregar);
 		cont.add(campo);
 		
+		dim=super.getToolkit().getScreenSize(); 
+		this.setSize(dim); 
+//		super.setUndecorated(true); 
+//		super.setVisible(true); 
+		
+	
 		this.setModal(true);
-		this.setSize(730,620);
+//		campo.setSize(730,620);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -101,8 +109,7 @@ public class Frm_Principal2 extends JDialog{
 			dispose();
 			int fila = tabla.getSelectedRow();
 			Object folio =  tabla.getValueAt(fila, 0);
-			new Cat_Empleado(folio+"").setVisible(true);	
-			
+			new Cat_Empleado(folio+"").setVisible(true);		
 		}	
 	};
 	
@@ -221,15 +228,6 @@ public class Frm_Principal2 extends JDialog{
 			   
 			   model.addRow(fila); 
 			}
-		
-//			for(int i=0; i<=tabla.getRowCount()-1; i++)
-//			{
-//				System.out.println(Integer.parseInt(tabla.getValueAt(i,0)+"")%2);
-//				if(Integer.valueOf(Integer.parseInt(tabla.getValueAt(i,0)+"")%2).equals(0)) 
-//				{
-//					setBackground(Color.blue);	
-//				}
-//			}
 		
 		} catch (SQLException e1) {
 			e1.printStackTrace();

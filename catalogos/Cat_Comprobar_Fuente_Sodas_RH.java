@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
@@ -18,7 +19,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import objetos.Obj_fuente_sodas_rh;
 
@@ -270,6 +274,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaRh.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaRh.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaRh.getColumnModel().getColumn(fila).setMinWidth(70);
+		
 		tablaAx.getColumnModel().getColumn(fila=0).setHeaderValue("Folio");
 		tablaAx.getColumnModel().getColumn(fila).setMaxWidth(50);
 		tablaAx.getColumnModel().getColumn(fila).setMinWidth(50);
@@ -299,6 +304,36 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		tablaTotalAX.getColumnModel().getColumn(fila+=1).setHeaderValue("Totales");
 		tablaTotalAX.getColumnModel().getColumn(fila).setMaxWidth(70);
 		tablaTotalAX.getColumnModel().getColumn(fila).setMinWidth(70);
+		
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+		tablaRh.getColumnModel().getColumn(0).setCellRenderer(render);
+		tablaRh.getColumnModel().getColumn(1).setCellRenderer(render);
+		tablaRh.getColumnModel().getColumn(2).setCellRenderer(render);
+		
+		tablaAx.getColumnModel().getColumn(0).setCellRenderer(render);
+		tablaAx.getColumnModel().getColumn(1).setCellRenderer(render);
+		tablaAx.getColumnModel().getColumn(2).setCellRenderer(render);
+		
+		tablaTotalRH.getColumnModel().getColumn(0).setCellRenderer(render);
+		tablaTotalRH.getColumnModel().getColumn(1).setCellRenderer(render);
+		tablaTotalRH.getColumnModel().getColumn(2).setCellRenderer(render);
+		
+		tablaTotalAX.getColumnModel().getColumn(0).setCellRenderer(render);
+		tablaTotalAX.getColumnModel().getColumn(1).setCellRenderer(render);
+		tablaTotalAX.getColumnModel().getColumn(2).setCellRenderer(render);
 		
 	}
 	

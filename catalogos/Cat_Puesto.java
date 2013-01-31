@@ -61,6 +61,14 @@ public class Cat_Puesto extends JFrame{
 		panel.add(btnSalir).setBounds(x,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
 		
+		chStatus.setEnabled(false);
+		txtPuesto.setEnabled(false);
+		txtAbreviatura.setEnabled(false);
+		
+		txtFolio.requestFocus();
+		txtFolio.addKeyListener(buscar_action);
+		txtFolio.addKeyListener(numerico_action);
+		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
 		btnBuscar.addActionListener(buscar);
@@ -94,7 +102,12 @@ public class Cat_Puesto extends JFrame{
 							puesto.setPuesto(txtPuesto.getText());
 							puesto.setAbreviatura(txtAbreviatura.getText());
 							puesto.setStatus(chStatus.isSelected());
-//							bono.actualizar(Integer.parseInt(txtFolio.getText()));						
+							puesto.actualizar(Integer.parseInt(txtFolio.getText()));
+							
+							panelLimpiar();
+							panelEnabledFalse();
+							txtFolio.setEnabled(true);
+							txtFolio.requestFocus();
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -116,31 +129,20 @@ public class Cat_Puesto extends JFrame{
 			}			
 		}
 	};
-	KeyListener validaNumericoConPunto = new KeyListener() {
+	
+	KeyListener buscar_action = new KeyListener() {
 		@Override
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
-		    if(((caracter < '0') ||	
-		    	(caracter > '9')) && 
-		    	(caracter != '.' )){
-		    	e.consume();
-		    	}
-		    	
-		   if (caracter==KeyEvent.VK_PERIOD){
-		    		    	
-		    	String texto = txtPuesto.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();
-				
-			}
-		    		    		       	
+		public void keyTyped(KeyEvent e){
 		}
 		@Override
-		public void keyPressed(KeyEvent e){}
+		public void keyReleased(KeyEvent e) {	
+		}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				btnBuscar.doClick();
+			}
+		}
 	};
 	
 	KeyListener numerico_action = new KeyListener() {
@@ -165,10 +167,14 @@ public class Cat_Puesto extends JFrame{
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
+				return;
+			}else{
 			Obj_Puesto puesto = new Obj_Puesto();
 			puesto = puesto.buscar(Integer.parseInt(txtFolio.getText()));
 			
-			if(puesto != null){
+			if(puesto.getFolio() != 0){
 			
 			txtFolio.setText(puesto.getFolio()+"");
 			txtPuesto.setText(puesto.getPuesto()+"");
@@ -187,6 +193,7 @@ public class Cat_Puesto extends JFrame{
 			else{
 				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 				return;
+				}
 			}
 		}
 	};
@@ -210,6 +217,7 @@ public class Cat_Puesto extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			Obj_Puesto puesto = new Obj_Puesto().buscar_nuevo();
 			if(puesto.getFolio() != 0){
+			
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(puesto.getFolio()+1+"");
@@ -223,8 +231,11 @@ public class Cat_Puesto extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			
 			panelLimpiar();
-			panelEnabledTrue();
+			panelEnabledFalse();
+			txtFolio.setEnabled(true);
 			txtFolio.requestFocus();
+			btnNuevo.setEnabled(true);
+			btnEditar.setEnabled(true);
 		}
 	};
 	

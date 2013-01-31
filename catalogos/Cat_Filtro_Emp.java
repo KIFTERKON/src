@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,7 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
@@ -155,6 +157,29 @@ public class Cat_Filtro_Emp extends JDialog{
 		tabla.getColumnModel().getColumn(8).setHeaderValue("Gafete");
 		tabla.getColumnModel().getColumn(8).setMaxWidth(50);
 		tabla.getColumnModel().getColumn(8).setMinWidth(50);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;

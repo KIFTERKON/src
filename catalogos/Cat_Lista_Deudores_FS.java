@@ -103,13 +103,7 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
-//			rs = s.executeQuery("select folio,nombre_completo,cantidad,fecha " +
-//								"from " +
-//								"tb_fuente_sodas_rh " +
-//								"where status='1' " +
-//								"order by nombre_completo ASC");
-			
+			s = conn.createStatement();		
 			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
 					 "  tb_fuente_sodas_rh.nombre_completo as [Nombre], "+
 					 "  tb_establecimiento.nombre as [Establecimiento] "+
@@ -126,7 +120,6 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
 			   fila[2] = rs.getString(3).trim(); 
-//			   fila[3] = rs.getString(4).trim(); 
 			   model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
