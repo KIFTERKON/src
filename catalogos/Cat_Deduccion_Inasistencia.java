@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,6 +42,8 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	TableRowSorter filter;
 	
@@ -428,13 +429,12 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
 						   "tb_empleado.folio = tb_deduccion_inasistencia.folio_empleado and "+
 						   "tb_deduccion_inasistencia.status=1";
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
 			if(establecimiento > 0){
 				if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(qry1);
 					Matriz = new Object[getFilas(qry1)][9];
 					int i=0;
@@ -451,7 +451,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(qry);
 					Matriz = new Object[getFilas(qry)][9];
 					int i=0;
@@ -470,7 +470,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 				}
 			}else{
 				if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(todos1);
 					Matriz = new Object[getFilas(todos1)][9];
 					int i=0;
@@ -487,7 +487,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(todos);
 					Matriz = new Object[getFilas(todos)][9];
 					int i=0;
@@ -512,12 +512,12 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	    return Matriz; 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
+		Statement stmt = null;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
-			ResultSet rs = s.executeQuery(qry);
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(qry);
 			while(rs.next()){
 				filas++;
 			}

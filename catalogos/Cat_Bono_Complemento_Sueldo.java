@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -97,45 +98,50 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(Integer.parseInt(txtFolio.getText()));
-				
-				if(bono.getFolio() == Integer.parseInt(txtFolio.getText())){
-					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
+				try {
+					Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(Integer.parseInt(txtFolio.getText()));
+					
+					
+					if(bono.getFolio() == Integer.parseInt(txtFolio.getText())){
+						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
+							if(validaCampos()!="") {
+								JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+								return;
+							}else{
+								bono.setBono(Float.parseFloat(txtBono.getText()));
+								bono.setAbreviatura(txtAbreviatura.getText());
+								bono.setStatus(chStatus.isSelected());
+								bono.actualizar(Integer.parseInt(txtFolio.getText()));	
+								
+								panelLimpiar();
+								panelEnabledFalse();
+								txtFolio.setEnabled(true);
+								txtFolio.requestFocus();
+							}
+							
+							JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+						}else{
+							return;
+						}
+					}else{
 						if(validaCampos()!="") {
-							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
 							bono.setBono(Float.parseFloat(txtBono.getText()));
 							bono.setAbreviatura(txtAbreviatura.getText());
 							bono.setStatus(chStatus.isSelected());
-							bono.actualizar(Integer.parseInt(txtFolio.getText()));	
-							
+							bono.guardar();
 							panelLimpiar();
 							panelEnabledFalse();
 							txtFolio.setEnabled(true);
 							txtFolio.requestFocus();
+							JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 						}
-						
-						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-					}else{
-						return;
 					}
-				}else{
-					if(validaCampos()!="") {
-						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						return;
-					}else{
-						bono.setBono(Float.parseFloat(txtBono.getText()));
-						bono.setAbreviatura(txtAbreviatura.getText());
-						bono.setStatus(chStatus.isSelected());
-						bono.guardar();
-						panelLimpiar();
-						panelEnabledFalse();
-						txtFolio.setEnabled(true);
-						txtFolio.requestFocus();
-						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-					}
-				}
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} 				
 			}			
 		}
 	};
@@ -224,28 +230,30 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-				Obj_Bono_Complemento_Sueldo re = new Obj_Bono_Complemento_Sueldo();
-				re = re.buscar(Integer.parseInt(txtFolio.getText()));
+				try {
+					Obj_Bono_Complemento_Sueldo re = new Obj_Bono_Complemento_Sueldo().buscar(Integer.parseInt(txtFolio.getText()));
+					if(re.getFolio() != 0){
+						
+						txtFolio.setText(re.getFolio()+"");
+						txtBono.setText(re.getBono()+"");
+						txtAbreviatura.setText(re.getAbreviatura()+"");
+						if(re.getStatus() == true){chStatus.setSelected(true);}
+						else{chStatus.setSelected(false);}
+						
+						btnNuevo.setEnabled(false);
+						btnEditar.setEnabled(true);
+						panelEnabledFalse();
+						txtFolio.setEnabled(true);
+						txtFolio.requestFocus();
+						
+					} else{
+						JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 				
-				if(re.getFolio() != 0){
-				
-				txtFolio.setText(re.getFolio()+"");
-				txtBono.setText(re.getBono()+"");
-				txtAbreviatura.setText(re.getAbreviatura()+"");
-				if(re.getStatus() == true){chStatus.setSelected(true);}
-				else{chStatus.setSelected(false);}
-				
-				btnNuevo.setEnabled(false);
-				btnEditar.setEnabled(true);
-				panelEnabledFalse();
-				txtFolio.setEnabled(true);
-				txtFolio.requestFocus();
-				
-				}
-				else{
-					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-					return;
-				}
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} 			
 			}
 		}
 	};
@@ -267,14 +275,20 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 	
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar_nuevo();
-			if(bono.getFolio() != 0){
-				panelLimpiar();
-				panelEnabledTrue();
-				txtFolio.setText(bono.getFolio()+1+"");
-				txtFolio.setEnabled(false);
-				txtBono.requestFocus();
+			try {
+				Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar_nuevo();
+				
+				if(bono.getFolio() != 0){
+					panelLimpiar();
+					panelEnabledTrue();
+					txtFolio.setText(bono.getFolio()+1+"");
+					txtFolio.setEnabled(false);
+					txtBono.requestFocus();
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
+			
 		}
 	};
 	

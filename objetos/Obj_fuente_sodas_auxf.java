@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -81,9 +83,9 @@ public class Obj_fuente_sodas_auxf {
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().fuente_sodas_auxf(this,folio); }
 	
-	public Obj_fuente_sodas_auxf buscar(int folio){ return new BuscarSQL().fuente_sodas_ax(folio); }
+	public Obj_fuente_sodas_auxf buscar(int folio) throws SQLException{ return new BuscarSQL().fuente_sodas_ax(folio); }
 	
-	public Obj_fuente_sodas_auxf maximo(){ return new BuscarSQL().MaximoFuente_auxf(); }
+	public Obj_fuente_sodas_auxf maximo() throws SQLException{ return new BuscarSQL().MaximoFuente_auxf(); }
 	
 	public boolean borrar(int Id){ return new ActualizarSQL().eliminarListaFuenteSodas_auxf(Id); }
 	

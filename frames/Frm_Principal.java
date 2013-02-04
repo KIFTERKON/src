@@ -62,7 +62,7 @@ public Frm_Principal(){
 	private JScrollPane getPanelTabla() 
 	{		
 		new Connexion();
-		Connection conn = Connexion.conexion();
+		Connexion conn = new Connexion();
 
 		// Creamos las columnas.
 		modelo.addColumn("Id");
@@ -72,7 +72,7 @@ public Frm_Principal(){
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = conn.conexion().createStatement();
 			rs = s.executeQuery("select folio,nombre,ap_paterno from tb_empleado");
 			
 			while (rs.next())

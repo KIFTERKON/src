@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,6 +46,8 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -202,20 +203,27 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	        	if(e.getClickCount()==1){
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
-	        		Obj_fuente_sodas_auxf fuente_sodas = new Obj_fuente_sodas_auxf().buscar(id);
-	        		if(fuente_sodas.getStatus_ticket() != 1){
-	        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
-	        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
-	        			suma();
-	        			txtCantidad.setEditable(true);
-	        			btnEliminar.setEnabled(true);
-	        		}else{
-	        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
-	        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
-	        			suma();
-	        			txtCantidad.setEditable(false);
-	        			btnEliminar.setEnabled(false);
-	        		}
+	        		try {
+						Obj_fuente_sodas_auxf fuente_sodas = new Obj_fuente_sodas_auxf().buscar(id);
+						
+						if(fuente_sodas.getStatus_ticket() != 1){
+		        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+		        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+		        			suma();
+		        			txtCantidad.setEditable(true);
+		        			btnEliminar.setEnabled(true);
+		        		}else{
+		        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+		        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
+		        			suma();
+		        			txtCantidad.setEditable(false);
+		        			btnEliminar.setEnabled(false);
+		        		}
+						
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+	        	
 	    			
 	        	}
 	        }
@@ -241,11 +249,18 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 					fsauxf.guardar();
 					
 					Object[] fila = new Object[tabla.getColumnCount()]; 
-					Obj_fuente_sodas_auxf maximo = new Obj_fuente_sodas_auxf().maximo();
-					fila[0]=maximo.getFolio();
-					fila[1]=txtFecha.getText();
-					fila[2]=txtCantidad.getText();
-					modelo.addRow(fila); 
+					try {
+						Obj_fuente_sodas_auxf maximo = new Obj_fuente_sodas_auxf().maximo();
+						
+						fila[0]=maximo.getFolio();
+						fila[1]=txtFecha.getText();
+						fila[2]=txtCantidad.getText();
+						modelo.addRow(fila); 
+						
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					
 					suma();
 					panelLimpiar();
 				}else{
@@ -404,11 +419,10 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		String qry = "select folio,fecha,cantidad from tb_fuente_sodas_auxf where nombre_completo='"+NombreCompleto+"' and status='1'";
 		
 		String[][] Matriz = new String[getFilas(qry)][3];
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -425,11 +439,10 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	    return Matriz; 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery(qry);
 			while(rs.next()){
 				filas++;

@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
@@ -50,16 +52,43 @@ public class Obj_Establecimiento {
 		this.status = b;
 	}
 	
-	public String[] Combo_Establecimiento_Empleados(){ return new Cargar_Combo().Establecimiento_Empleado("tb_establecimiento"); }
+	public String[] Combo_Establecimiento_Empleados() {
+		try {
+			return new Cargar_Combo().Establecimiento_Empleado("tb_establecimiento");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
-	public String[] Combo_Establecimiento(){ return new Cargar_Combo().Establecimiento("tb_establecimiento"); }
+	public String[] Combo_Establecimiento(){
+		try {
+			return new Cargar_Combo().Establecimiento("tb_establecimiento");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; }
 
-	public Obj_Establecimiento buscar(int folio){ return new BuscarSQL().Establecimiento(folio); }
+	public Obj_Establecimiento buscar(int folio) { 
+		try {
+			return new BuscarSQL().Establecimiento(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Establecimiento(this,folio); }
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Establecimiento(this); }
 	
-	public Obj_Establecimiento buscar_nuevo(){ return new BuscarSQL().Establecimiento_Nuevo(); }	
+	public Obj_Establecimiento buscar_nuevo() { 
+		try {
+			return new BuscarSQL().Establecimiento_Nuevo();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}	
 
 }

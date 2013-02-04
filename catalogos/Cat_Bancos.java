@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,6 +44,8 @@ public class Cat_Bancos extends JDialog {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	TableRowSorter filter;
 	
@@ -221,26 +221,8 @@ public class Cat_Bancos extends JDialog {
 	                }
 	            };
 	        table.setDefaultEditor(Integer.class, integerEditor);
-	    }
-	
-	KeyListener validaCantidad = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e){
-			char caracter = e.getKeyChar();				
-			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
-			    	}
-		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-		}	
-	};
-	
+	}
+		
 	public void filtroFolio(){ 
 		filter.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0)); 
 	}
@@ -260,7 +242,7 @@ public class Cat_Bancos extends JDialog {
 			Object[] fila = new Object[tabla.getColumnCount()]; 
 			for(int i=0; i<Tabla1.length; i++){
 				model.addRow(fila); 
-				for(int j=0; j<7; j++){
+				for(int j=0; j<6; j++){
 					model.setValueAt(Tabla1[i][j], i,j);
 				}
 			}
@@ -401,14 +383,14 @@ public class Cat_Bancos extends JDialog {
 					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
 						   "tb_empleado.folio = tb_bancos.folio_empleado and "+
 						   "tb_bancos.status=1";
-		Connection conn = Connexion.conexion();
-		Statement s;
+		
+		Statement stmt = null;
 		ResultSet rs;
 		try {
 			if(establecimiento > 0){
 				if(getFilas("select * from tb_bancos where status = 1") > 1){
-					s = conn.createStatement();
-					rs = s.executeQuery(qry1);
+					stmt = con.conexion().createStatement();
+					rs = stmt.executeQuery(qry1);
 					Matriz = new Object[getFilas(qry1)][6];
 					int i=0;
 					while(rs.next()){
@@ -440,8 +422,8 @@ public class Cat_Bancos extends JDialog {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
-					rs = s.executeQuery(qry);
+					stmt = con.conexion().createStatement();
+					rs = stmt.executeQuery(qry);
 					Matriz = new Object[getFilas(qry)][6];
 					int i=0;
 					while(rs.next()){
@@ -456,8 +438,8 @@ public class Cat_Bancos extends JDialog {
 				}
 			}else{
 				if(getFilas("select * from tb_bancos where status = 1") > 1){
-					s = conn.createStatement();
-					rs = s.executeQuery(todos1);
+					stmt = con.conexion().createStatement();
+					rs = stmt.executeQuery(todos1);
 					Matriz = new Object[getFilas(todos1)][7];
 					int i=0;
 					while(rs.next()){
@@ -489,8 +471,8 @@ public class Cat_Bancos extends JDialog {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
-					rs = s.executeQuery(todos);
+					stmt = con.conexion().createStatement();
+					rs = stmt.executeQuery(todos);
 					Matriz = new Object[getFilas(todos)][7];
 					int i=0;
 					while(rs.next()){
@@ -511,12 +493,12 @@ public class Cat_Bancos extends JDialog {
 	    return Matriz; 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
+		Statement stmt = null;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
-			ResultSet rs = s.executeQuery(qry);
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(qry);
 			while(rs.next()){
 				filas++;
 			}

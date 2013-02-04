@@ -6,7 +6,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,6 +31,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
+	Connexion con = new Connexion();
 	DefaultTableModel modelRh = new DefaultTableModel(0,3){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -345,11 +345,11 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
         					"order by tb_fuente_sodas_rh.folio_empleado";
 		
 		String[][] Matriz = new String[getFilas(qry)][3];
-		Connection conn = Connexion.conexion();
+		
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -376,11 +376,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
         					"order by tb_fuente_sodas_auxf.folio_empleado";
 		
 		String[][] Matriz = new String[getFilas(qry)][3];
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -413,11 +412,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
           						"group by tb_fuente_sodas_auxf.nombre_completo,tb_fuente_sodas_auxf.folio_empleado))";
 		
 		String[][] Matriz = new String[getFilas(qry)][3];
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -450,11 +448,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
         					"group by tb_fuente_sodas_rh.nombre_completo,tb_fuente_sodas_rh.folio_empleado))";
 		
 		String[][] Matriz = new String[getFilas(qry)][3];
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -471,12 +468,12 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	    return Matriz; 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
+		Statement stmt = null;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
-			ResultSet rs = s.executeQuery(qry);
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(qry);
 			while(rs.next()){
 				filas++;
 			}

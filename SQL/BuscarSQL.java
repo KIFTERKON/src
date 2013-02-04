@@ -1,7 +1,8 @@
 package SQL;
 
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
+import java.sql.Statement;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Deduccion_Iasistencia;
@@ -16,16 +17,17 @@ import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
-public class BuscarSQL extends Connexion{
+public class BuscarSQL {
 	
-	public Obj_Establecimiento Establecimiento(int folio){
+	Connexion con = new Connexion();
+	
+	public Obj_Establecimiento Establecimiento(int folio) throws SQLException{
 		Obj_Establecimiento establecimiento = new Obj_Establecimiento();
-		
-		
 		String query = "select * from tb_establecimiento where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				establecimiento.setFolio(rs.getInt("folio"));
 				establecimiento.setNombre(rs.getString("nombre").trim());
@@ -35,23 +37,21 @@ public class BuscarSQL extends Connexion{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("Error");
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			 if (stmt != null) { stmt.close(); }
 		}
 		return establecimiento;
 	}
 	
-	public Obj_Establecimiento Establecimiento_Nuevo(){
+	public Obj_Establecimiento Establecimiento_Nuevo() throws SQLException{
 		Obj_Establecimiento establecimiento = new Obj_Establecimiento();
 		String query = "select max(folio) as 'Maximo' from tb_establecimiento";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				establecimiento.setFolio(rs.getInt("Maximo"));
@@ -62,22 +62,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			 if (stmt != null) { stmt.close(); }
 		}
 		return establecimiento;
 	}
 	
-	public Obj_Sueldo Sueldo(int folio){
+	public Obj_Sueldo Sueldo(int folio) throws SQLException{
 		Obj_Sueldo sueldo = new Obj_Sueldo();
-		
-		
 		String query = "select * from tb_sueldo where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				sueldo.setFolio(rs.getInt("folio"));
@@ -91,20 +86,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt != null){stmt.close();}
 		}
 		return sueldo;
 	}
-	
-	public Obj_Sueldo Sueldo_Nuevo(){
+
+	public Obj_Sueldo Sueldo_Nuevo() throws SQLException{
 		Obj_Sueldo sueldo = new Obj_Sueldo();
 		String query = "select max(folio) as 'Maximo' from tb_sueldo";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				sueldo.setFolio(rs.getInt("Maximo"));
@@ -115,22 +107,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return sueldo;
 	}
 	
-	public Obj_Bono_Complemento_Sueldo Bono(int folio){
+	public Obj_Bono_Complemento_Sueldo Bono(int folio) throws SQLException{
 		Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo();
-		
-		
 		String query = "select * from tb_bono where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				bono.setFolio(rs.getInt("folio"));
@@ -144,20 +131,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return bono;
 	}
 	
-	public Obj_Bono_Complemento_Sueldo Bono_Nuevo(){
+	public Obj_Bono_Complemento_Sueldo Bono_Nuevo() throws SQLException{
 		Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo();
 		String query = "select max(folio) as 'Maximo' from tb_bono";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				bono.setFolio(rs.getInt("Maximo"));
@@ -168,21 +152,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return bono;
 	}
 	
-	public Obj_Puesto Puesto(int folio){
+	public Obj_Puesto Puesto(int folio) throws SQLException{
 		Obj_Puesto puesto = new Obj_Puesto();
-				
 		String query = "select * from tb_puesto where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				puesto.setFolio(rs.getInt("folio"));
@@ -196,20 +176,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
 	}
 	
-	public Obj_Puesto Puesto_Nuevo(){
+	public Obj_Puesto Puesto_Nuevo() throws SQLException{
 		Obj_Puesto puesto = new Obj_Puesto();
 		String query = "select max(folio) as 'Maximo' from tb_puesto";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				puesto.setFolio(rs.getInt("Maximo"));
@@ -220,22 +197,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
 	}
 	
-	public Obj_Empleado Empleado(int folio){
+	public Obj_Empleado Empleado(int folio) throws SQLException{
 		Obj_Empleado empleado = new Obj_Empleado();
-		
-		
 		String query = "select * from tb_empleado where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				empleado.setFolio(rs.getInt("folio"));
@@ -260,20 +232,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return empleado;
 	}
 	
-	public Obj_Prestamo Prestamo(int folio){
+	public Obj_Prestamo Prestamo(int folio) throws SQLException{
 		Obj_Prestamo pre = new Obj_Prestamo();
 		String query = "select * from tb_prestamo where folio_empleado ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				pre.setFolio(rs.getInt("folio"));
@@ -294,20 +263,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return pre;
 	}
 	
-	public Obj_Empleado Empleado_Nuevo(){
+	public Obj_Empleado Empleado_Nuevo() throws SQLException{
 		Obj_Empleado empleado = new Obj_Empleado();
 		String query = "select max(folio) as 'Maximo' from tb_empleado";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				empleado.setFolio(rs.getInt("Maximo"));
@@ -318,30 +284,25 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return empleado;
 	}
 	
-	public Obj_Usuario Usuario(int folio){
+	public Obj_Usuario Usuario(int folio) throws SQLException{
 		Obj_Usuario usuario = new Obj_Usuario();
 		String query = "select * from tb_usuario where folio ="+folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-			
+			while(rs.next()){			
 				usuario.setFolio(rs.getInt("folio"));
 				usuario.setNombre_completo(rs.getString("nombre_completo").trim());
 				usuario.setContrasena(rs.getString("contrasena").trim());
 				usuario.setPermiso_id(rs.getInt("permiso_id"));
 				usuario.setFecha_alta(rs.getString("fecha").trim());
 				usuario.setStatus(rs.getInt("status"));
-						
 			}
 			
 		} catch (Exception e) {
@@ -349,20 +310,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return usuario;
 	}
 	
-	public Obj_Usuario Maximo(){
+	public Obj_Usuario Maximo() throws SQLException{
 		Obj_Usuario usuario = new Obj_Usuario();
 		String query = "select max(folio) as 'Maximo' from tb_usuario";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				usuario.setFolio(rs.getInt("Maximo"));
@@ -370,23 +328,21 @@ public class BuscarSQL extends Connexion{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("Error");
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			 if (stmt != null) { stmt.close(); }
 		}
 		return usuario;
 	}
 	
-	public Obj_fuente_sodas_rh MaximoFuente(){
+	public Obj_fuente_sodas_rh MaximoFuente() throws SQLException{
 		Obj_fuente_sodas_rh bono = new Obj_fuente_sodas_rh();
 		String query = "select max(folio) as 'Maximo' from tb_fuente_sodas_rh";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				bono.setFolio(rs.getInt("Maximo"));
@@ -397,20 +353,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return bono;
 	}
 	
-	public Obj_fuente_sodas_auxf MaximoFuente_auxf(){
+	public Obj_fuente_sodas_auxf MaximoFuente_auxf() throws SQLException{
 		Obj_fuente_sodas_auxf bono = new Obj_fuente_sodas_auxf();
 		String query = "select max(folio) as 'Maximo' from tb_fuente_sodas_auxf";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				bono.setFolio(rs.getInt("Maximo"));
@@ -421,20 +374,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return bono;
 	}
 	
-	public Obj_Prestamo maximoPrestamo(){
+	public Obj_Prestamo maximoPrestamo() throws SQLException{
 		Obj_Prestamo bono = new Obj_Prestamo();
 		String query = "select max(folio) as 'Maximo' from tb_prestamo";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				bono.setFolio(rs.getInt("Maximo"));
@@ -445,21 +395,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return bono;
 	}
 	
-	public Obj_Rango_Prestamos Rango_Prestamos(int folio){
+	public Obj_Rango_Prestamos Rango_Prestamos(int folio) throws SQLException{
 		Obj_Rango_Prestamos prestamos = new Obj_Rango_Prestamos();
 		String query = "select * from tb_rango_prestamos where folio ="+ folio;
-		
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				prestamos.setFolio(rs.getInt("folio"));
@@ -474,20 +420,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return prestamos;
 	}
 	
-	public Obj_Rango_Prestamos Rango_Prestamos_Nuevo(){
+	public Obj_Rango_Prestamos Rango_Prestamos_Nuevo() throws SQLException{
 		Obj_Rango_Prestamos rango_nuevo = new Obj_Rango_Prestamos();
 		String query = "select max(folio) as 'Maximo' from tb_rango_prestamos";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				rango_nuevo.setFolio(rs.getInt("Maximo"));
@@ -498,20 +441,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return rango_nuevo;
 	}
 	
-	public Obj_Asistencia_Puntualidad Asistencia_Puntualidad(){
+	public Obj_Asistencia_Puntualidad Asistencia_Puntualidad() throws SQLException{
 		Obj_Asistencia_Puntualidad numero = new Obj_Asistencia_Puntualidad();
 		String query = "select max(folio) as 'Maximo' from tb_asistencia_puntualidad";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				numero.setExiste(rs.getInt("Maximo"));
@@ -522,20 +462,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return numero;
 	}
 	
-	public Obj_Asistencia_Puntualidad Asistencia_Puntualidad(int folio){
+	public Obj_Asistencia_Puntualidad Asistencia_Puntualidad(int folio) throws SQLException{
 		Obj_Asistencia_Puntualidad numero = new Obj_Asistencia_Puntualidad();
 		String query = "select * from tb_asistencia_puntualidad where folio="+folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				numero.setValorAsistencia(rs.getFloat("asistencia"));
@@ -548,21 +485,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return numero;
 	}
 	
-	public Obj_fuente_sodas_rh fuente_sodas_rh(int folio){
+	public Obj_fuente_sodas_rh fuente_sodas_rh(int folio) throws SQLException {
 		Obj_fuente_sodas_rh fuente_sodas = new Obj_fuente_sodas_rh();
-		
 		String query = "select status_ticket from tb_fuente_sodas_rh where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				fuente_sodas.setStatus_ticket(rs.getInt("status_ticket"));
@@ -573,21 +506,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return fuente_sodas;
 	}
 	
-	public Obj_fuente_sodas_auxf fuente_sodas_ax(int folio){
+	public Obj_fuente_sodas_auxf fuente_sodas_ax(int folio) throws SQLException{
 		Obj_fuente_sodas_auxf fuente_sodas = new Obj_fuente_sodas_auxf();
-		
 		String query = "select status_ticket from tb_fuente_sodas_auxf where folio ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				fuente_sodas.setStatus_ticket(rs.getInt("status_ticket"));
@@ -598,21 +527,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return fuente_sodas;
 	}
 	
-	public Obj_Deduccion_Iasistencia Deduccion(int folio){
+	public Obj_Deduccion_Iasistencia Deduccion(int folio) throws SQLException{
 		Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
-		
 		String query = "select puntualidad,falta,asistencia from tb_deduccion_asistencia where folio_empleado ="+ folio;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				deduccion.setPuntualidad(rs.getString("puntualidad"));
@@ -625,20 +550,17 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return deduccion;
 	}
 	
-	public Obj_Diferencia_Cortes maximo_diferencia_cortes(){
+	public Obj_Diferencia_Cortes maximo_diferencia_cortes() throws SQLException{
 		Obj_Diferencia_Cortes bono = new Obj_Diferencia_Cortes();
 		String query = "select max(folio) as 'Maximo' from tb_prestamo";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				bono.setFolio(rs.getInt("Maximo"));
@@ -649,11 +571,7 @@ public class BuscarSQL extends Connexion{
 			return null;
 		}
 		finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		return bono;
 	}

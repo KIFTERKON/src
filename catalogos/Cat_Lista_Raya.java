@@ -5,9 +5,6 @@ import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +16,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -35,11 +31,13 @@ public class Cat_Lista_Raya extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 
+	Connexion con = new Connexion();
+	
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
     
 	Object[][] Matriz;
-	Object[][] Tabla = getMatriz(cmbEstablecimientos.getSelectedIndex());
+	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
 	DefaultTableModel model = new DefaultTableModel(Tabla,
 		new String[]{"","Folio", "Nombre Completo", "Establecimiento", "Sueldo",
 		"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
@@ -106,8 +104,8 @@ public class Cat_Lista_Raya extends JFrame {
         	 	case 19 : return false;
         	 	
         	 	case 20 : return false; 
-        	 	case 21 : return false; 
-        	 	case 22 : return false; 
+        	 	case 21 : return true; 
+        	 	case 22 : return true; 
         	 }
  			return false;
  		}
@@ -123,9 +121,7 @@ public class Cat_Lista_Raya extends JFrame {
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-	String busqueda[] = new Obj_Establecimiento().Combo_Establecimiento();
-	JComboBox cmbBuscar = new JComboBox(busqueda);
-	
+		
 //	JButton btnAgregar = new JButton("Agregar");
 	
 	public Cat_Lista_Raya()	{
@@ -193,10 +189,10 @@ public class Cat_Lista_Raya extends JFrame {
 		
 		tabla.getColumnModel().getColumn(20).setMaxWidth(90);
 		tabla.getColumnModel().getColumn(20).setMinWidth(90);
-		tabla.getColumnModel().getColumn(21).setMaxWidth(230*5);
-		tabla.getColumnModel().getColumn(21).setMinWidth(230*5);
-		tabla.getColumnModel().getColumn(22).setMaxWidth(230*5);
-		tabla.getColumnModel().getColumn(22).setMinWidth(230*5);
+		tabla.getColumnModel().getColumn(21).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(21).setMinWidth(230);
+		tabla.getColumnModel().getColumn(22).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(22).setMinWidth(230);
 		
 		TableCellRenderer render = new TableCellRenderer()	{ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -235,11 +231,11 @@ public class Cat_Lista_Raya extends JFrame {
 		tabla.getColumnModel().getColumn(22).setCellRenderer(render); 
 		
 		
-		txtBuscar.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
+//		txtBuscar.addKeyListener(new KeyAdapter() { 
+//			public void keyReleased(final KeyEvent e) { 
+//                filtro(); 
+//            } 
+//        });
 	
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
@@ -249,9 +245,11 @@ public class Cat_Lista_Raya extends JFrame {
 		campo.add(lblBuscar).setBounds(10,30,70,20);
 		campo.add(txtBuscar).setBounds(90,30,220,20);
 		
-		campo.add(cmbBuscar).setBounds(400, 30, 160, 20);
-	
+		campo.add(cmbEstablecimientos).setBounds(400, 30, 160, 20);
+		
 		cont.add(campo);
+		
+		cmbEstablecimientos.addActionListener(opFiltrar);
 		
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -269,15 +267,33 @@ public class Cat_Lista_Raya extends JFrame {
 		}	
 	};
 	
-	public void filtro(){ 
-		switch (cmbBuscar.getSelectedIndex()){
-			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;
-			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 3)); break;
-			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 4)); break;	
-		}	
-	}  
+	ActionListener opFiltrar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			int numero = tabla.getRowCount();
+			while(numero > 0){
+				model.removeRow(0);
+				numero --;
+			}
+//			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedIndex());
+//			Object[] fila = new Object[tabla.getColumnCount()]; 
+//			for(int i=0; i<Tabla1.length; i++){
+//				model.addRow(fila); 
+//				for(int j=0; j<23; j++){
+//					model.setValueAt(Tabla1[i][j], i,j);
+//				}
+//			}
+		}
+	};
 	
-	private Object[][] getMatriz(int establecimiento){
+//	public void filtro(){ 
+//		switch (cmbBuscar.getSelectedIndex()){
+//			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;
+//			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 3)); break;
+//			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 4)); break;	
+//		}	
+//	}  
+	
+	private Object[][] getTabla(int establecimiento){
 		String qry = "select tb_empleado.folio," +
 					"tb_empleado.nombre," +
 					"tb_empleado.ap_paterno," +
@@ -290,32 +306,34 @@ public class Cat_Lista_Raya extends JFrame {
 					"tb_empleado.establecimiento_id = "+establecimiento +" and " +
 					"tb_empleado.sueldo_id = tb_sueldo.folio";
 		
-		String qry1 ="select tb_empleado.folio," +
-				    "tb_empleado.nombre," +
-		            "tb_empleado.ap_paterno," +
-		            "tb_empleado.ap_materno," +
-		            "tb_establecimiento.nombre as establecimiento," +
-		            "tb_sueldo.sueldo," +
-		            "tb_persecciones_extra.bono," +
-		            "tb_persecciones_extra.dia_extra," +
-		            "tb_persecciones_extra.dias " +
 		
-		    "from tb_empleado, tb_establecimiento, tb_sueldo, tb_persecciones_extra "+ 
-		    "where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
-		    	   "tb_empleado.sueldo_id = tb_sueldo.folio and "+
-		    	   "tb_empleado.folio = tb_persecciones_extra.folio_empleado and "+
-		    	   "tb_persecciones_extra.status=1 and tb_empleado.establecimiento_id = "+establecimiento;
-		
+		String qry1 = "select tb_empleado.folio," +
+	    			"tb_empleado.nombre," +
+	    			"tb_empleado.ap_paterno," +
+	    			"tb_empleado.ap_materno," +
+	    			"tb_establecimiento.nombre as establecimiento," +
+        			"tb_sueldo.sueldo," +
+        			"tb_bono.bono," +
+        			"tb_empleado.infonavit," +
+        			"tb_bancos.banamex," +
+        			"tb_bancos.banorte," +
+        			"tb_bancos.cooperacion " +
+
+        			"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono, tb_bancos "+ 
+        		"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
+        			"tb_empleado.sueldo_id = tb_sueldo.folio and " +
+        			"tb_empleado.bono_id = tb_bono.folio and " +
+        			"tb_bancos.folio_empleado = tb_empleado.folio and " +
+        			"tb_empleado.establecimiento_id = "+establecimiento;
+	
 		String todos = "select tb_empleado.folio," +
 					"tb_empleado.nombre," +
 					"tb_empleado.ap_paterno," +
 					"tb_empleado.ap_materno," +
-					"tb_establecimiento.nombre as establecimiento," +
-					"tb_sueldo.sueldo " +
+					"tb_establecimiento.nombre as establecimiento " +
 					
-					"from tb_empleado, tb_establecimiento, tb_sueldo " +
-				"where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
-					  "tb_empleado.sueldo_id = tb_sueldo.folio";
+					"from tb_empleado, tb_establecimiento " +
+				"where tb_empleado.establecimiento_id = tb_establecimiento.folio";
 		
 		String todos1 = "select tb_empleado.folio," +
 				    "tb_empleado.nombre," +
@@ -336,7 +354,6 @@ public class Cat_Lista_Raya extends JFrame {
 			 	   "tb_bancos.folio_empleado = tb_empleado.folio";
 				   
 
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		
@@ -347,39 +364,94 @@ public class Cat_Lista_Raya extends JFrame {
 		try {
 			if(establecimiento > 0){
 				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(qry1);
-					Matriz = new Object[getFilas(qry1)][7];
+					Matriz = new Object[getFilas(qry1)][21];
 					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = false;
-						Matriz[i][1] = rs.getString(1).trim();
+						int folio_empleado =  Integer.parseInt(rs.getString(1));
+						Matriz[i][1] = folio_empleado;
 						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][3] = "   "+rs.getString(5).trim();
-						Matriz[i][4] = rs.getString(6).trim();
-						Matriz[i][5] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][6] = Integer.parseInt(rs.getString(8).trim());
+						float sueldo = Float.parseFloat(rs.getString(6).trim());
+						Matriz[i][4] = sueldo;
+						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
+						Matriz[i][5] = bono_complemento;
+						float[] prestamos = getPrestamos(folio_empleado);
+					
+						Matriz[i][6] = prestamos[0];
+						float DescuentoPrestamo = prestamos[1];
+						Matriz[i][7] = DescuentoPrestamo;
+						Matriz[i][8] = prestamos[2];
+						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
+						Matriz[i][9] = DescuentoFuenteSodas;
+						
+						Object[] puntualidades = getPuntualidad(folio_empleado);
+						boolean puntualidades1 = Boolean.parseBoolean(puntualidades[0].toString().trim());
+						if(puntualidades1 != true){
+							Matriz[i][10] = 0;
+						}else{
+							Matriz[i][10] = puntualidad;
+						}
+						boolean dias = Boolean.parseBoolean(puntualidades[1].toString().trim());
+						int dias_faltas = Integer.parseInt(puntualidades[2].toString());
+						float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * dias_faltas);
+						if(dias != true){
+							Matriz[i][11] = 0;
+						}else{
+							Matriz[i][11] = descuentoDias;
+							
+						}
+						boolean asis = Boolean.parseBoolean(puntualidades[3].toString().trim());
+						if(asis != true){
+							Matriz[i][12] = 0;
+						}else{
+							Matriz[i][12] = asistencia;
+						}
+						float cortes = getDescuento_Cortes(folio_empleado);
+						Matriz[i][13] = cortes;
+						float infonavit = Float.parseFloat(rs.getString(8).trim());
+						Matriz[i][14] = infonavit;
+						float banamex = Float.parseFloat(rs.getString(9).trim());
+						Matriz[i][15] = banamex;
+						float banorte = Float.parseFloat(rs.getString(10).trim());
+						Matriz[i][16] = banorte;
+						float cooperacion =  Float.parseFloat(rs.getString(11).trim());
+						Matriz[i][17] = cooperacion;
+						
+						Object[] persecciones = getPersecciones(folio_empleado);
+						boolean perseccion = Boolean.parseBoolean(persecciones[0].toString());
+						float diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * Float.parseFloat(persecciones[1].toString().trim()));
+						float bono = Float.parseFloat(persecciones[2]+"");
+						if(perseccion == true){
+							Matriz[i][18] = diasPerseccion;
+						}
+						else {
+							Matriz[i][18] = 0;
+						}
+						Matriz[i][19] = bono;
+						
+						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puntualidad - descuentoDias -
+									asistencia - cortes - infonavit - banamex - banorte + (cooperacion) + diasPerseccion + bono ;
+						Matriz[i][20] = suma;
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(qry);
-					Matriz = new Object[getFilas(qry)][7];
+					Matriz = new Object[getFilas(qry)][4];
 					int i=0;
 					while(rs.next()){
-						Matriz[i][0] = false;
-						Matriz[i][1] = rs.getString(1).trim();
-						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][3] = "   "+rs.getString(5).trim();
-						Matriz[i][4] = "0";
-						Matriz[i][5] = false;
-						Matriz[i][6] = 0;
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = "   "+rs.getString(5).trim();
 						i++;
 					}
 				}
 			}else{
 				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(todos1);
 					Matriz = new Object[getFilas(todos1)][21];
 					int i=0;
@@ -454,18 +526,14 @@ public class Cat_Lista_Raya extends JFrame {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(todos);
-					Matriz = new Object[getFilas(todos)][6];
+					Matriz = new Object[getFilas(todos)][4];
 					int i=0;
 					while(rs.next()){
-						Matriz[i][0] = false;
-						Matriz[i][1] = rs.getString(1).trim();
-						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][3] = "   "+rs.getString(5).trim();
-						Matriz[i][4] = "0";
-						Matriz[i][5] = false;
-						Matriz[i][6] = 0;
+						Matriz[i][0] = rs.getString(1).trim();
+						Matriz[i][1] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+						Matriz[i][2] = "   "+rs.getString(5).trim();
 						i++;
 					}
 				}
@@ -478,11 +546,10 @@ public class Cat_Lista_Raya extends JFrame {
 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery(qry);
 			while(rs.next()){
 				filas++;
@@ -494,11 +561,10 @@ public class Cat_Lista_Raya extends JFrame {
 		return filas;
 	}	
 	
-	public static float[] getPrestamos(int folio){
+	public float[] getPrestamos(int folio){
 		float[] valores= new float[3];
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select cantidad, descuento, saldo from tb_prestamo where saldo > 0 and  folio_empleado="+folio);
 			while(rs.next()){
 				valores[0] = Float.parseFloat(rs.getString(1));
@@ -512,11 +578,10 @@ public class Cat_Lista_Raya extends JFrame {
 		return valores;
 	}
 	
-	public static float getFuenteSodas(int folio){
+	public float getFuenteSodas(int folio){
 		float valor= 0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select " +
 											     "sum(tb_fuente_sodas_rh.cantidad)as Total " +
 										  "from  tb_fuente_sodas_rh " +
@@ -534,11 +599,10 @@ public class Cat_Lista_Raya extends JFrame {
 		return valor;
 	}
 	
-	public static Object[] getPuntualidad(int folio){
+	public Object[] getPuntualidad(int folio){
 		Object[] valores= new Object[4];
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select puntualidad, falta, dia_faltas, asistencia from tb_deduccion_inasistencia where status = '1' and folio_empleado="+folio);
 			while(rs.next()){
 				valores[0] = rs.getString(1);
@@ -553,11 +617,10 @@ public class Cat_Lista_Raya extends JFrame {
 		return valores;
 	}
 	
-	public static float[] getValoresPuntualidad(){
+	public float[] getValoresPuntualidad(){
 		float[] valores= new float[2];
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select puntualidad, asistencia from tb_asistencia_puntualidad");
 			while(rs.next()){
 				valores[0] = Float.parseFloat(rs.getString(1));
@@ -570,11 +633,10 @@ public class Cat_Lista_Raya extends JFrame {
 		return valores;
 	}
 	
-	public static float getDescuento_Cortes(int folio){
+	public float getDescuento_Cortes(int folio){
 		float valor= 0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select descuento from tb_diferencia_cortes where saldo > 0 and folio_empleado="+folio);
 			while(rs.next()){
 				valor = Float.parseFloat(rs.getString(1));
@@ -586,11 +648,10 @@ public class Cat_Lista_Raya extends JFrame {
 		return valor;
 	}
 	
-	public static Object[] getPersecciones(int folio){
+	public Object[] getPersecciones(int folio){
 		String[] valores= new String[3];
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select dia_extra, dias, bono from tb_persecciones_extra where folio_empleado="+folio);
 			while(rs.next()){
 				valores[0] = rs.getString(1);			

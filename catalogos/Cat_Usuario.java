@@ -115,25 +115,27 @@ public class Cat_Usuario extends JFrame{
 			}else{
 				Obj_Usuario usuario = new Obj_Usuario();
 				usuario = usuario.buscar(Integer.parseInt(txtFolio.getText()));
-			if(usuario.getFolio() != 0){
-				txtFolio.setText(usuario.getFolio()+"");
-				txtNombre_Completo.setText(usuario.getNombre_completo().trim());
-				txtContrasena.setText(usuario.getContrasena().substring(0,15)+"");
-				txtContrasena1.setText(usuario.getContrasena().substring(0,15)+"");
-				cmbPermisos.setSelectedIndex(usuario.getPermiso_id()-1);
-				cmbStatus.setSelectedIndex(usuario.getStatus()-1);		
-				btnEditar.setEnabled(true);
-				btnNuevo.setEnabled(false);
-				btnGuardar.setEnabled(false);
+				
+				if(usuario.getFolio() != 0){
+					txtFolio.setText(usuario.getFolio()+"");
+					txtNombre_Completo.setText(usuario.getNombre_completo().trim());
+					txtContrasena.setText(usuario.getContrasena().substring(0,15)+"");
+					txtContrasena1.setText(usuario.getContrasena().substring(0,15)+"");
+					cmbPermisos.setSelectedIndex(usuario.getPermiso_id()-1);
+					cmbStatus.setSelectedIndex(usuario.getStatus()-1);		
+					btnEditar.setEnabled(true);
+					btnNuevo.setEnabled(false);
+					btnGuardar.setEnabled(false);
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+					panelEnabledFalse();
+					txtFolio.setEnabled(true);
+					panelLimpiar();
+					return;
+				}
+			
 			}
-			else{
-				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-				panelEnabledFalse();
-				txtFolio.setEnabled(true);
-				panelLimpiar();
-				return;
-			}
-		}
 		}
 	};
 	

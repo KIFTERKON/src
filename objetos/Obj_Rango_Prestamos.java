@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
@@ -61,14 +63,35 @@ public class Obj_Rango_Prestamos {
 		this.status = status;
 	}
 	
-	public Obj_Rango_Prestamos buscar(int folio){ return new BuscarSQL().Rango_Prestamos(folio); }
+	public Obj_Rango_Prestamos buscar(int folio){
+		try {
+			return new BuscarSQL().Rango_Prestamos(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Rango_Prestamos(this,folio); }
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Rango_Prestamos(this); }
 	
-	public Obj_Rango_Prestamos buscar_nuevo(){ return new BuscarSQL().Rango_Prestamos_Nuevo(); }
+	public Obj_Rango_Prestamos buscar_nuevo(){ 
+		try {
+			return new BuscarSQL().Rango_Prestamos_Nuevo();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
-	public String[] Combo_Prestamos(){ return new Cargar_Combo().Rango_Prestamos("tb_rango_prestamos"); }
+	public String[] Combo_Prestamos(){ 
+		try {
+			return new Cargar_Combo().Rango_Prestamos("tb_rango_prestamos");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

@@ -2,7 +2,6 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,6 +25,8 @@ public class Cat_Lista_Deudores_Prestamo extends JDialog{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	DefaultTableModel model = new DefaultTableModel(0,8){
 		public boolean isCellEditable(int fila, int columna){
@@ -137,11 +138,10 @@ String qry = ("select tb_prestamo.folio as [folio], "+
 " tb_empleado.establecimiento_id = tb_establecimiento.folio");
 		
 		String[][] Matriz = new String[getFilas(qry)][8];
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -166,11 +166,10 @@ String qry = ("select tb_prestamo.folio as [folio], "+
 	    return Matriz; 
 	}
 
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery(qry);
 			while(rs.next()){
 				filas++;

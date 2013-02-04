@@ -5,7 +5,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,6 +31,8 @@ public class Cat_Filtro_Prestamo extends JDialog{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	DefaultTableModel model = new DefaultTableModel(0,6){
 		public boolean isCellEditable(int fila, int columna){
@@ -110,7 +111,6 @@ public class Cat_Filtro_Prestamo extends JDialog{
 	}  
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
-		Connection conn = Connexion.conexion();
 
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -144,7 +144,7 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(
 					"select tb_empleado.folio as [Folio],"+
 					 "  tb_empleado.nombre as [Nombre], "+
@@ -199,11 +199,10 @@ public class Cat_Filtro_Prestamo extends JDialog{
 	    return scrol; 
 	}
 
-	public static float getSaldo(int folio){
+	public float getSaldo(int folio){
 		float valores= 0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select saldo from tb_prestamo where folio_empleado="+folio);
 			while(rs.next()){
 				valores = Float.parseFloat(rs.getString(1));

@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -149,10 +151,17 @@ public class Obj_Empleado {
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }
 	
-	public Obj_Empleado buscar(int folio){ return new BuscarSQL().Empleado(folio); }
+	public Obj_Empleado buscar(int folio){ 
+		try {
+			return new BuscarSQL().Empleado(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
+	}
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Empleado(this,folio); }
 	
-	public Obj_Empleado buscar_nuevo(){ return new BuscarSQL().Empleado_Nuevo(); }
+	public Obj_Empleado buscar_nuevo() throws SQLException{ return new BuscarSQL().Empleado_Nuevo(); }
 	
 }

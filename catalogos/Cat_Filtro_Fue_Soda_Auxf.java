@@ -7,7 +7,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,6 +34,8 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	DefaultTableModel model = new DefaultTableModel(0,5){
 		public boolean isCellEditable(int fila, int columna){
@@ -126,8 +127,6 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	}  
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
-		Connection conn = Connexion.conexion();
-
 		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(60);
@@ -176,7 +175,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
 					 "  tb_empleado.nombre as [Nombre], "+
 					 "  tb_empleado.ap_paterno as [Paterno], "+

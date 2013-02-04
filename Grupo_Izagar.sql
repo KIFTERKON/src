@@ -167,3 +167,35 @@ create table tb_asistencia_puntualidad(
 	asistencia money,
 	puntualidad money
 )
+
+create table tb_pre_listaraya(
+	folio int primary key identity,
+	numero_lista int,
+	boolean char(5),
+	folio_empleado int,
+	nombre_completo varchar(120),
+	establecimiento varchar(20),
+	sueldo money,
+	p_bono_complementario money,
+	saldo_prestamo_inicial money,
+	d_prestamo money,
+	saldo_final money,
+	d_fuente_sodas money,
+	d_puntualidad money,
+	d_faltas money,
+	d_asistencia money,
+	d_cortes money,
+	d_infonavit money,
+	d_banamex money,
+	d_banorte money,
+	d_cooperacion money,
+	p_dias_extra money,
+	p_bono_extra money,
+	a_pagar money,
+	observasion_i varchar(200),
+	observasion_ii varchar(200),
+	status int
+	
+)
+
+select max(numero_lista)  from tb_pre_listaraya

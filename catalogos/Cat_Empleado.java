@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -362,15 +363,20 @@ public class Cat_Empleado extends JDialog{
 	
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			Obj_Empleado empleado = new Obj_Empleado().buscar_nuevo();
-			if(empleado.getFolio() != 0){
-				panelLimpiar();
-				panelEnabledTrue();
-				txtFolio.setText(empleado.getFolio()+1+"");
-				txtFolio.setEditable(false);
-				txtChecador.requestFocus();
-				txtFecha.setText(new Date().toString());
+			try {
+				Obj_Empleado empleado = new Obj_Empleado().buscar_nuevo();
+				if(empleado.getFolio() != 0){
+					panelLimpiar();
+					panelEnabledTrue();
+					txtFolio.setText(empleado.getFolio()+1+"");
+					txtFolio.setEditable(false);
+					txtChecador.requestFocus();
+					txtFecha.setText(new Date().toString());
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
+		
 		}
 	};
 	

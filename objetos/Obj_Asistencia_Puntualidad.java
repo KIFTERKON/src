@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -50,8 +52,8 @@ public class Obj_Asistencia_Puntualidad {
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Asistecia_Puntualidad(this,folio); }
 	
-	public Obj_Asistencia_Puntualidad nuevo(){ return new BuscarSQL().Asistencia_Puntualidad(); }
+	public Obj_Asistencia_Puntualidad nuevo() throws SQLException { return new BuscarSQL().Asistencia_Puntualidad(); }
 	
-	public Obj_Asistencia_Puntualidad buscar(int folio){ return new BuscarSQL().Asistencia_Puntualidad(folio); }
+	public Obj_Asistencia_Puntualidad buscar(int folio) throws SQLException { return new BuscarSQL().Asistencia_Puntualidad(folio); }
 
 }

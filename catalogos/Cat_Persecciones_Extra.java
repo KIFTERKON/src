@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,6 +45,8 @@ public class Cat_Persecciones_Extra extends JDialog {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	TableRowSorter filter;
 	
@@ -389,13 +390,12 @@ public class Cat_Persecciones_Extra extends JDialog {
 						   "tb_empleado.folio = tb_persecciones_extra.folio_empleado and "+
 						   "tb_persecciones_extra.status=1";
 
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
 			if(establecimiento > 0){
 				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(qry1);
 					Matriz = new Object[getFilas(qry1)][6];
 					int i=0;
@@ -419,7 +419,7 @@ public class Cat_Persecciones_Extra extends JDialog {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(qry);
 					Matriz = new Object[getFilas(qry)][6];
 					int i=0;
@@ -435,7 +435,7 @@ public class Cat_Persecciones_Extra extends JDialog {
 				}
 			}else{
 				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(todos1);
 					Matriz = new Object[getFilas(todos1)][6];
 					int i=0;
@@ -459,7 +459,7 @@ public class Cat_Persecciones_Extra extends JDialog {
 						i++;
 					}
 				}else{
-					s = conn.createStatement();
+					s = con.conexion().createStatement();
 					rs = s.executeQuery(todos);
 					Matriz = new Object[getFilas(todos)][6];
 					int i=0;
@@ -481,11 +481,10 @@ public class Cat_Persecciones_Extra extends JDialog {
 	    return Matriz; 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery(qry);
 			while(rs.next()){
 				filas++;

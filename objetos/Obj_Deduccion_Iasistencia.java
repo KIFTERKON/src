@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -106,5 +108,5 @@ public class Obj_Deduccion_Iasistencia {
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar_Deduccion_Asistencia(this,folio); }
 	
-	public Obj_Deduccion_Iasistencia buscar(int folio){ return new BuscarSQL().Deduccion(folio); }
+	public Obj_Deduccion_Iasistencia buscar(int folio) throws SQLException{ return new BuscarSQL().Deduccion(folio); }
 }

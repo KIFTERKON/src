@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -89,15 +91,28 @@ public class Obj_Usuario {
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Usuario(this); }
 	
-	public Obj_Usuario buscar(int folio){ return new BuscarSQL().Usuario(folio); }
+	public Obj_Usuario buscar(int folio){ 
+		try {
+			return new BuscarSQL().Usuario(folio);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Usuario(this,folio); }
 	
-	// METODO BUSCAR EMPLEADO
 	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
 	
-	// METODO BUSCAR EL NUMERO ID MAXIMO
-	public Obj_Usuario buscarMaximo(){ return new BuscarSQL().Maximo(); }
+	public Obj_Usuario buscarMaximo() {
+		try {
+			return new BuscarSQL().Maximo();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	// METODO BORRAR EMPLEADO
 	//public boolean borrar(int Id){ return new ActualizarSQL().eliminarEmpleado(Id);	}

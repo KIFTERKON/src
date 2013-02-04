@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
@@ -47,13 +49,27 @@ public class Obj_Sueldo {
 		this.status = status;
 	}
 	
-	public String[] Combo_Sueldo(){ return new Cargar_Combo().Sueldo("tb_sueldo"); }
+	public String[] Combo_Sueldo(){
+		try {
+			return new Cargar_Combo().Sueldo("tb_sueldo");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
-	public Obj_Sueldo buscar(int folio){ return new BuscarSQL().Sueldo(folio); }
+	public Obj_Sueldo buscar(int folio){
+		try {
+			return new BuscarSQL().Sueldo(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Sueldo(this); }
 	
-	public Obj_Sueldo buscar_nuevo(){ return new BuscarSQL().Sueldo_Nuevo(); }
+	public Obj_Sueldo buscar_nuevo() throws SQLException{ return new BuscarSQL().Sueldo_Nuevo(); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Sueldo(this,folio); }
 	

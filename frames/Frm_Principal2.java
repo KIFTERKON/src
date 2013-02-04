@@ -1,6 +1,5 @@
 package frames;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -8,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,6 +39,8 @@ public class Frm_Principal2 extends JDialog{
 		
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	DefaultTableModel model = new DefaultTableModel(0,21);
 	JTable tabla = new JTable(model);
@@ -123,7 +123,6 @@ public class Frm_Principal2 extends JDialog{
 	}  
 	private JScrollPane getPanelTabla()	{
 		new Connexion();
-		Connection conn = Connexion.conexion();
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -218,7 +217,7 @@ public class Frm_Principal2 extends JDialog{
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery("select folio,nombre,ap_paterno,ap_materno from tb_empleado");
 			
 			while (rs.next()) {

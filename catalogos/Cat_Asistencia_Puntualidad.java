@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -83,34 +84,43 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			Obj_Asistencia_Puntualidad objeto = new Obj_Asistencia_Puntualidad().nuevo();
-			if(objeto.getExiste() != 0){
-				Obj_Asistencia_Puntualidad asistencia_puntualidad = new Obj_Asistencia_Puntualidad();
+			Obj_Asistencia_Puntualidad objeto = new Obj_Asistencia_Puntualidad();
+			try {
+				objeto = objeto.nuevo();
 				
-				asistencia_puntualidad.setValorAsistencia(Float.parseFloat(txtValorAsistencia.getText()));
-				asistencia_puntualidad.setValorPuntualidad(Float.parseFloat(txtValorPuntualidad.getText()));
-				asistencia_puntualidad.setValorGafete(Float.parseFloat(txtGafete.getText()));
-				asistencia_puntualidad.actualizar(1);	
-				txtValorAsistencia.setEditable(false);
-				txtValorPuntualidad.setEditable(false);
-				txtGafete.setEditable(false);
-			}else{
-				if(validaCampos()!="") {
-					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					return;
-				}else{
+				if(objeto.getExiste() != 0){
 					Obj_Asistencia_Puntualidad asistencia_puntualidad = new Obj_Asistencia_Puntualidad();
 					
 					asistencia_puntualidad.setValorAsistencia(Float.parseFloat(txtValorAsistencia.getText()));
 					asistencia_puntualidad.setValorPuntualidad(Float.parseFloat(txtValorPuntualidad.getText()));
 					asistencia_puntualidad.setValorGafete(Float.parseFloat(txtGafete.getText()));
-					asistencia_puntualidad.guardar();	
+					asistencia_puntualidad.actualizar(1);	
 					txtValorAsistencia.setEditable(false);
 					txtValorPuntualidad.setEditable(false);
 					txtGafete.setEditable(false);
-					JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+				}else{
+					if(validaCampos()!="") {
+						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+					}else{
+						Obj_Asistencia_Puntualidad asistencia_puntualidad = new Obj_Asistencia_Puntualidad();
+						
+						asistencia_puntualidad.setValorAsistencia(Float.parseFloat(txtValorAsistencia.getText()));
+						asistencia_puntualidad.setValorPuntualidad(Float.parseFloat(txtValorPuntualidad.getText()));
+						asistencia_puntualidad.setValorGafete(Float.parseFloat(txtGafete.getText()));
+						asistencia_puntualidad.guardar();	
+						txtValorAsistencia.setEditable(false);
+						txtValorPuntualidad.setEditable(false);
+						txtGafete.setEditable(false);
+						JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+					}
 				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.err.println("Error");
 			}
+		
 		}
 	};
 	
@@ -124,17 +134,31 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 	}
 	
 	public void obtener(){
-		Obj_Asistencia_Puntualidad objeto = new Obj_Asistencia_Puntualidad().nuevo();
-		
-		if(objeto.getExiste() != 0){
-			Obj_Asistencia_Puntualidad llenar = new Obj_Asistencia_Puntualidad().buscar(1);
-			txtValorAsistencia.setText(llenar.getValorAsistencia()+"");
-			txtValorPuntualidad.setText(llenar.getValorPuntualidad()+"");
-			txtGafete.setText(llenar.getValorGafete()+"");
-			txtValorAsistencia.setEditable(false);
-			txtValorPuntualidad.setEditable(false);
-			txtGafete.setEditable(false);
+		Obj_Asistencia_Puntualidad objeto = new Obj_Asistencia_Puntualidad();
+		try {
+			objeto = objeto.nuevo();
+			if(objeto.getExiste() != 0){
+				Obj_Asistencia_Puntualidad llenar;
+				try {
+					llenar = new Obj_Asistencia_Puntualidad().buscar(1);
+					txtValorAsistencia.setText(llenar.getValorAsistencia()+"");
+					txtValorPuntualidad.setText(llenar.getValorPuntualidad()+"");
+					txtGafete.setText(llenar.getValorGafete()+"");
+					txtValorAsistencia.setEditable(false);
+					txtValorPuntualidad.setEditable(false);
+					txtGafete.setEditable(false);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					
+				}
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error");
 		}
+		
 	}
 	
 	KeyListener validaNumericoConPunto = new KeyListener() {

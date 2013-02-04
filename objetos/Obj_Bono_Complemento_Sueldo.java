@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
@@ -46,13 +48,27 @@ public class Obj_Bono_Complemento_Sueldo {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public String[] Combo_Bono(){ return new Cargar_Combo().Bono("tb_bono"); }
+	public String[] Combo_Bono() { 
+		try {
+			return new Cargar_Combo().Bono("tb_bono");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
-	public Obj_Bono_Complemento_Sueldo buscar(int folio){ return new BuscarSQL().Bono(folio); }
+	public Obj_Bono_Complemento_Sueldo buscar(int folio) {
+		try {
+			return new BuscarSQL().Bono(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Bono(this); }
 	
-	public Obj_Bono_Complemento_Sueldo buscar_nuevo(){ return new BuscarSQL().Bono_Nuevo(); }
+	public Obj_Bono_Complemento_Sueldo buscar_nuevo() throws SQLException{ return new BuscarSQL().Bono_Nuevo(); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Bono(this,folio); }
 	

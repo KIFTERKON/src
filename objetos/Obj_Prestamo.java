@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -122,10 +124,10 @@ public class Obj_Prestamo {
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_prestamo(this); }
 	
-	public Obj_Prestamo buscar(int folio){ return new BuscarSQL().Prestamo(folio); }
+	public Obj_Prestamo buscar(int folio) throws SQLException{ return new BuscarSQL().Prestamo(folio); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().prestamo(this,folio); }
 	
-	public Obj_Prestamo maximo(){ return new BuscarSQL().maximoPrestamo(); }
+	public Obj_Prestamo maximo() throws SQLException{ return new BuscarSQL().maximoPrestamo(); }
 
 }

@@ -1,16 +1,23 @@
 package SQL;
 
 import java.sql.ResultSet;
-import java.text.DecimalFormat;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 
-public class Cargar_Combo extends Connexion{
-		
+public class Cargar_Combo {
+	Connexion con = new Connexion();
 	@SuppressWarnings("unchecked")
-	public String[] Establecimiento(String tabla){
+	Vector miVector = new Vector();
+	
+	@SuppressWarnings("unchecked")
+	public String[] Establecimiento(String tabla) throws SQLException{
 		String query = "select nombre from " + tabla + " order by folio asc";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			
 			int j=0;
 			while(rs.next()){
 				if(j == 0){
@@ -23,13 +30,8 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
-		
 		int i=0;
 		String[] pila= new String[miVector.size()];
 		
@@ -37,16 +39,17 @@ public class Cargar_Combo extends Connexion{
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}
-		
 		return pila;
 			
 	}
-	
+
+
 	@SuppressWarnings("unchecked")
-	public String[] Establecimiento_Empleado(String tabla){
+	public String[] Establecimiento_Empleado(String tabla) throws SQLException{
 		String query = "select nombre from " + tabla + " order by folio asc";
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			int j=0;
 			while(rs.next()){
@@ -60,11 +63,7 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		
 		int i=0;
@@ -74,16 +73,16 @@ public class Cargar_Combo extends Connexion{
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}
-		
 		return pila;
 			
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Puesto(String tabla){
+	public String[] Puesto(String tabla) throws SQLException{
 		String query = "select nombre from " + tabla;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
 			while(rs.next()){
@@ -93,11 +92,7 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		
 		int i=0;
@@ -114,12 +109,12 @@ public class Cargar_Combo extends Connexion{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Sueldo(String tabla){
+	public String[] Sueldo(String tabla) throws SQLException{
 		String query = "select sueldo from " + tabla;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			
 			while(rs.next()){
 				miVector.add(rs.getString("sueldo"));
 			}
@@ -127,11 +122,7 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		
 		int i=0;
@@ -142,16 +133,16 @@ public class Cargar_Combo extends Connexion{
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}
-		
 		return pila;
 			
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Bono(String tabla){
+	public String[] Bono(String tabla) throws SQLException {
 		String query = "select bono from " + tabla;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
 			while(rs.next()){
@@ -161,11 +152,7 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		
 		int i=0;
@@ -180,10 +167,11 @@ public class Cargar_Combo extends Connexion{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Permiso(String tabla){
+	public String[] Permiso(String tabla) throws SQLException{
 		String query = "select nombre from " + tabla;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
 			while(rs.next()){
@@ -193,11 +181,7 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){	stmt.close(); }
 		}
 		
 		int i=0;
@@ -212,14 +196,12 @@ public class Cargar_Combo extends Connexion{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Rango_Prestamos(String tabla){
+	public String[] Rango_Prestamos(String tabla) throws SQLException {
 		String query = "select minimo,maximo from " + tabla;
+		Statement stmt = null;
 		try {
-			java.sql.Statement stmt = conn.createStatement();
+			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			@SuppressWarnings("unused")
-			DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-			
 			while(rs.next()){
 				miVector.add(Math.rint(rs.getDouble("minimo")*100)/100+" - "+Math.rint(rs.getDouble("maximo")*100)/100);
 			}
@@ -227,11 +209,7 @@ public class Cargar_Combo extends Connexion{
 			e.printStackTrace();
 			return null;
 		}finally{
-			try {
-				conn.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			if(stmt!=null){stmt.close();}
 		}
 		
 		int i=0;

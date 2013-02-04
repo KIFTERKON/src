@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -124,6 +126,13 @@ public class Obj_Diferencia_Cortes {
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar(this,folio); }
 	
-	public Obj_Diferencia_Cortes maximo(){ return new BuscarSQL().maximo_diferencia_cortes(); }
+	public Obj_Diferencia_Cortes maximo() {
+		try {
+			return new BuscarSQL().maximo_diferencia_cortes();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

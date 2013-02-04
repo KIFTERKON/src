@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,6 +45,7 @@ public class Cat_Diferencia_Cortes extends JDialog{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
+	Connexion con = new Connexion();
 	DefaultTableModel	 modelo       = new DefaultTableModel(0,7)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -437,11 +437,10 @@ public class Cat_Diferencia_Cortes extends JDialog{
 		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_diferencia_cortes where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
-		Connection conn = Connexion.conexion();
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();
+			s = con.conexion().createStatement();
 			rs = s.executeQuery(qry);
 			int i=0;
 			while(rs.next()){
@@ -468,11 +467,10 @@ public class Cat_Diferencia_Cortes extends JDialog{
 	    return Matriz; 
 	}
 	
-	public static int getFilas(String qry){
+	public int getFilas(String qry){
 		int filas=0;
 		try {
-			Connection conn = Connexion.conexion();
-			Statement s = conn.createStatement();
+			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery(qry);
 			while(rs.next()){
 				filas++;

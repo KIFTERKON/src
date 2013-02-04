@@ -4,7 +4,6 @@ import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,6 +29,8 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+	Connexion con = new Connexion();
 	
 	//DECLARACION PARA CREAR UNA TABLA
 	DefaultTableModel model = new DefaultTableModel(0,19){
@@ -95,15 +96,10 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 		}		 
 	}  
 	private JScrollPane getPanelTabla()	{		
-		new Connexion();
-		Connection conn = Connexion.conexion();
-
-		// Creamos las columnas.
-		
 		Statement s;
 		ResultSet rs;
 		try {
-			s = conn.createStatement();		
+			s = con.conexion().createStatement();		
 			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
 					 "  tb_fuente_sodas_rh.nombre_completo as [Nombre], "+
 					 "  tb_establecimiento.nombre as [Establecimiento] "+

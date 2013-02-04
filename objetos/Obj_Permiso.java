@@ -1,5 +1,7 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.Cargar_Combo;
 
 public class Obj_Permiso {
@@ -34,5 +36,12 @@ public class Obj_Permiso {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public String[] Combo_Permiso(){ return new Cargar_Combo().Permiso("tb_permiso"); }
+	public String[] Combo_Permiso() {
+		try {
+			return new Cargar_Combo().Permiso("tb_permiso");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 }
