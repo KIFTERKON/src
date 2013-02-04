@@ -30,6 +30,7 @@ import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Lista_Deudores_Prestamo;
+import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Lista_Raya;
 import catalogos.Cat_Persecciones_Extra;
 import catalogos.Cat_Puesto;
@@ -69,6 +70,7 @@ public class Principal extends JFrame{
 
 	JMenu Listas = new JMenu("Listas");	
 		JMenuItem Listas_Raya = new JMenuItem("Lista de Raya");
+		JMenuItem Listas_Firma = new JMenuItem("Lista de Firmas");
 		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamo");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
 		
@@ -134,6 +136,8 @@ public class Principal extends JFrame{
 
 		Listas.add(Listas_Raya);
 			Listas_Raya.addActionListener(Opciones);
+		Listas.add(Listas_Firma);
+			Listas_Firma.addActionListener(Opciones);
 		Listas.add(Listas_Prestamo);
 			Listas_Prestamo.addActionListener(Opciones);
 		Listas.add(Listas_Comparacion_Fuente_Soda);
@@ -198,6 +202,8 @@ public class Principal extends JFrame{
 			// Listas
 			if(e.getActionCommand().equals("Lista de Raya"))
 				new Cat_Lista_Raya().setVisible(true);
+			if(e.getActionCommand().equals("Lista de Firmas"))
+				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
 			

@@ -198,7 +198,4 @@ public class Cat_Lista_Pago extends JDialog{
 								
 	};
 	
-	public static void main(String [] arg){
-		new Cat_Lista_Pago().setVisible(true);
-	}
 }
