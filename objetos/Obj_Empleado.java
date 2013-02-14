@@ -15,6 +15,10 @@ public class Obj_Empleado {
 	private String ap_materno;
 	private int establecimiento;
 	private int puesto;
+	private int turno;
+	private int descanso;
+	private int dobla;
+	private float pension_alimenticia;
 	private int sueldo;
 	private int bono;
 	private int prestamo;
@@ -23,10 +27,12 @@ public class Obj_Empleado {
 	private boolean gafete;
 	private int status;
 	private String fecha;
+	private String observasiones;
+	private String foto;
 	
 	public Obj_Empleado(){
-		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0;
-		puesto=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; infonavit=0;
+		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto ="";
+		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; infonavit=0; observasiones="";
 	}
 
 	public boolean getFuente_sodas() {
@@ -100,6 +106,38 @@ public class Obj_Empleado {
 	public void setPuesto(int puesto) {
 		this.puesto = puesto;
 	}
+	
+	public int getTurno() {
+		return turno;
+	}
+
+	public void setTurno(int turno) {
+		this.turno = turno;
+	}
+
+	public int getDescanso() {
+		return descanso;
+	}
+
+	public void setDescanso(int descanso) {
+		this.descanso = descanso;
+	}
+
+	public int getDobla() {
+		return dobla;
+	}
+
+	public void setDobla(int dobla) {
+		this.dobla = dobla;
+	}
+
+	public float getPension_alimenticia() {
+		return pension_alimenticia;
+	}
+
+	public void setPension_alimenticia(float pensionAlimenticia) {
+		pension_alimenticia = pensionAlimenticia;
+	}
 
 	public int getSueldo() {
 		return sueldo;
@@ -147,6 +185,22 @@ public class Obj_Empleado {
 
 	public void setInfonavit(float infonavit) {
 		this.infonavit = infonavit;
+	}
+
+	public String getObservasiones() {
+		return observasiones;
+	}
+
+	public void setObservasiones(String observasiones) {
+		this.observasiones = observasiones;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }

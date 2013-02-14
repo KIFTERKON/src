@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,13 +38,15 @@ public class Cat_Rango_Prestamos extends JFrame {
 	JButton btnSalir = new JButton("Salir");
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-	JButton btnDeshacer = new JButton("Deshcer");
+	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnNuevo = new JButton("Nuevo");
 	JButton btnEditar = new JButton("Editar");
 
 	public Cat_Rango_Prestamos(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Contables.png"));
-		this.setTitle("..:: Rango de Prestamos ::..");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
+		panel.setBorder(BorderFactory.createTitledBorder("Rango de Prestamos"));
+		
+		this.setTitle("Rango de Prestamos");
 		
 		chStatus.setSelected(true);
 		
@@ -89,11 +92,11 @@ public class Cat_Rango_Prestamos extends JFrame {
 		txtPrestamoMaximo.addKeyListener(validaNumericoConPunto);
 		txtDescuento.addKeyListener(validaNumericoConPunto);
 		panelEnabledFalse();
-		txtFolio.setEnabled(true);
+		txtFolio.setEditable(true);
 		cont.add(panel);
 		
-		this.setSize(400,270);
-		this.setResizable(true);
+		this.setSize(400,220);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
@@ -119,7 +122,7 @@ public class Cat_Rango_Prestamos extends JFrame {
 							rango_prestamo.actualizar(Integer.parseInt(txtFolio.getText()));
 							panelLimpiar();
 							panelEnabledFalse();
-							txtFolio.setEnabled(true);
+							txtFolio.setEditable(true);
 							txtPrestamoMinimo.requestFocus();
 						}
 						
@@ -141,7 +144,7 @@ public class Cat_Rango_Prestamos extends JFrame {
 						rango_prestamo.guardar();
 						panelLimpiar();
 						panelEnabledFalse();
-						txtFolio.setEnabled(true);
+						txtFolio.setEditable(true);
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -172,7 +175,7 @@ public class Cat_Rango_Prestamos extends JFrame {
 					btnNuevo.setEnabled(false);
 					btnEditar.setEnabled(true);
 					panelEnabledFalse();
-					txtFolio.setEnabled(true);
+					txtFolio.setEditable(true);
 					txtFolio.requestFocus();
 				
 				}
@@ -207,13 +210,18 @@ public class Cat_Rango_Prestamos extends JFrame {
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(rango_prestamo.getFolio()+1+"");
-				txtFolio.setEnabled(false);
-				txtPrestamoMinimo.requestFocus();
+				txtPrestamoMinimo.setText(1+"");
+				txtPrestamoMinimo.setEditable(false);
+				txtFolio.setEditable(false);
+				txtPrestamoMaximo.requestFocus();
 			}else{
-				txtFolio.setText("1");
+				panelLimpiar();
 				panelEnabledTrue();
-				txtFolio.setEnabled(false);
-				txtPrestamoMinimo.requestFocus();
+				txtFolio.setText(1+"");
+				txtPrestamoMinimo.setText(1+"");
+				txtPrestamoMinimo.setEditable(false);
+				txtFolio.setEditable(false);
+				txtPrestamoMaximo.requestFocus();
 			}
 		}
 	};
@@ -221,7 +229,7 @@ public class Cat_Rango_Prestamos extends JFrame {
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
-			txtFolio.setEnabled(false);
+			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		
@@ -287,18 +295,18 @@ public class Cat_Rango_Prestamos extends JFrame {
 								
 	};
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
-		txtPrestamoMinimo.setEnabled(true);
-		txtPrestamoMaximo.setEnabled(true);
-		txtDescuento.setEnabled(true);
+		txtFolio.setEditable(true);
+		txtPrestamoMinimo.setEditable(true);
+		txtPrestamoMaximo.setEditable(true);
+		txtDescuento.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEnabled(false);
-		txtPrestamoMinimo.setEnabled(false);
-		txtPrestamoMaximo.setEnabled(false);
-		txtDescuento.setEnabled(false);
+		txtFolio.setEditable(false);
+		txtPrestamoMinimo.setEditable(false);
+		txtPrestamoMaximo.setEditable(false);
+		txtDescuento.setEditable(false);
 		chStatus.setEnabled(false);
 	}
 	

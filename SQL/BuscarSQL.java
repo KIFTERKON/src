@@ -1,10 +1,17 @@
 package SQL;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
+
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Conexion_BD;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
@@ -13,6 +20,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -77,7 +85,7 @@ public class BuscarSQL {
 			while(rs.next()){
 				sueldo.setFolio(rs.getInt("folio"));
 				sueldo.setSueldo(rs.getFloat("sueldo"));
-				sueldo.setAbreviatura(rs.getString("abreviatura").trim());
+				sueldo.setPuesto(rs.getInt("puesto_id"));
 				sueldo.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			
@@ -217,14 +225,20 @@ public class BuscarSQL {
 				empleado.setAp_materno(rs.getString("ap_materno").trim());
 				empleado.setEstablecimiento(rs.getInt("establecimiento_id"));
 				empleado.setPuesto(rs.getInt("puesto_id"));
+				empleado.setTurno(rs.getInt("turno_id"));
+				empleado.setDescanso(rs.getInt("descanso"));
+				empleado.setDobla(rs.getInt("dia_dobla"));
 				empleado.setSueldo(rs.getInt("sueldo_id"));				
 				empleado.setBono(rs.getInt("bono_id"));
+				empleado.setPrestamo(rs.getInt("rango_prestamo_id"));
+				empleado.setPension_alimenticia(rs.getFloat("pension_alimenticia"));
+				empleado.setInfonavit(rs.getFloat("infonavit"));
 				empleado.setFuente_sodas(rs.getBoolean("fuente_sodas") ? true : false);
 				empleado.setGafete(rs.getBoolean("gafete") ? true : false);
 				empleado.setStatus(rs.getInt("status"));
 				empleado.setFecha(rs.getString("fecha"));
-				empleado.setPrestamo(rs.getInt("rango_prestamo_id"));
-				empleado.setInfonavit(rs.getFloat("infonavit"));
+				empleado.setObservasiones(rs.getString("observaciones"));
+				empleado.setFoto(rs.getString("foto"));
 			}
 			
 		} catch (Exception e) {
@@ -575,5 +589,202 @@ public class BuscarSQL {
 		}
 		return bono;
 	}
+	
+	public Obj_Turno Turno(int folio) throws SQLException{
+		Obj_Turno turno = new Obj_Turno();
+		String query = "select * from tb_turno where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno.setFolio(rs.getInt("folio"));
+				turno.setNombre(rs.getString("nombre").trim());
+				turno.setHorario(rs.getString("horario").trim());
+				turno.setStatus(rs.getBoolean("status"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt != null){stmt.close();}
+		}
+		return turno;
+	}
+	
+	public Obj_Turno Turno_Nuevo() throws SQLException{
+		Obj_Turno turno = new Obj_Turno();
+		String query = "select max(folio) as 'Maximo' from tb_turno";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Obj_Conexion_BD Conexion_BD() throws IOException {
+		Vector myVector = new Vector();
+		Obj_Conexion_BD config = new Obj_Conexion_BD();
+		
+		try{
+			FileReader archivo = new FileReader(System.getProperty("user.dir")+"\\Config\\config");
+			BufferedReader bufferedWriter = new BufferedReader(archivo);
+			String cadena = "";
+			while( (cadena = bufferedWriter.readLine()) !=null)
+				myVector.addElement(cadena);
+				
+				config.setDireccionIPV4(myVector.get(0).toString());
+				config.setNombreBD(myVector.get(1).toString());
+				config.setUsuario(myVector.get(2).toString());
+				config.setContrasena(myVector.get(3).toString());
+				
+		}catch(FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			return config=null;
+		}
+		return config;
+			
+	}
+	
+	public Obj_Establecimiento Establ_buscar(String nombre) throws SQLException{
+		Obj_Establecimiento estab = new Obj_Establecimiento();
+		String query = "select folio from tb_establecimiento where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				estab.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return estab;
+	}
+	
+	public Obj_Puesto Pues_buscar(String nombre) throws SQLException{
+		Obj_Puesto puest = new Obj_Puesto();
+		String query = "select folio from tb_puesto where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				puest.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return puest;
+	}
+	
+	public Obj_Turno Turn_buscar(String nombre) throws SQLException{
+		Obj_Turno turno = new Obj_Turno();
+		String query = "select folio from tb_turno where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno;
+	}
+	
+	public Obj_Establecimiento Establ_buscar_folio(int folio) throws SQLException{
+		Obj_Establecimiento estab = new Obj_Establecimiento();
+		String query = "select nombre from tb_establecimiento where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				estab.setNombre(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return estab;
+	}
+	
+	public Obj_Puesto Pues_buscar(int folio) throws SQLException{
+		Obj_Puesto puest = new Obj_Puesto();
+		String query = "select nombre from tb_puesto where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				puest.setPuesto(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return puest;
+	}
+	
+	public Obj_Turno Turn_buscar(int folio) throws SQLException{
+		Obj_Turno turno = new Obj_Turno();
+		String query = "select nombre from tb_turno where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno.setNombre(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno;
+	}
+	
 	
 }

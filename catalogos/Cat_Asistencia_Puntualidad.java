@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -21,7 +21,7 @@ import javax.swing.UIManager;
 import objetos.Obj_Asistencia_Puntualidad;
 
 @SuppressWarnings("serial")
-public class Cat_Asistencia_Puntualidad extends JDialog {
+public class Cat_Asistencia_Puntualidad extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -62,9 +62,8 @@ public class Cat_Asistencia_Puntualidad extends JDialog {
 		obtener();
 		cont.add(panel);
 			
-		this.setModal(true);
 		this.setSize(305,180);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	

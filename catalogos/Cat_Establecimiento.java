@@ -1,11 +1,13 @@
 package catalogos;
 
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -40,9 +42,9 @@ public class Cat_Establecimiento extends JFrame {
 	JButton btnEditar = new JButton("Editar");
 
 	public Cat_Establecimiento(){
-		
-		super("..:: Establecimiento ::..");
-		
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Establecimiento.png"));
+		this.setTitle("Establecimiento");
+		panel.setBorder(BorderFactory.createTitledBorder("Establecimiento"));
 		chStatus.setSelected(true);
 		
 	int x = 45, y=30, ancho=100;
@@ -65,8 +67,8 @@ public class Cat_Establecimiento extends JFrame {
 		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
 		
 		chStatus.setEnabled(false);
-		txtNombre.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtNombre.setEditable(false);
+		txtAbreviatura.setEditable(false);
 	
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtNombre.setDocument(new JTextFieldLimit(16));
@@ -86,7 +88,7 @@ public class Cat_Establecimiento extends JFrame {
 		cont.add(panel);
 		
 		this.setSize(400,190);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	public JComponent getBase(){
@@ -114,7 +116,7 @@ public class Cat_Establecimiento extends JFrame {
 							
 							panelLimpiar();
 							panelEnabledFalse();
-							txtFolio.setEnabled(true);
+							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
 						}
 						
@@ -132,6 +134,10 @@ public class Cat_Establecimiento extends JFrame {
 						establecimiento.setAbreviatura(txtAbreviatura.getText());
 						establecimiento.setStatus(chStatus.isSelected());
 						establecimiento.guardar();
+						panelLimpiar();
+						panelEnabledFalse();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -139,8 +145,7 @@ public class Cat_Establecimiento extends JFrame {
 		}
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
+	ActionListener buscar = new ActionListener() {
 		public void actionPerformed(ActionEvent e)
 		{
 			if(txtFolio.getText().equals("")){
@@ -162,7 +167,7 @@ public class Cat_Establecimiento extends JFrame {
 			btnNuevo.setEnabled(false);
 			btnEditar.setEnabled(true);
 			panelEnabledFalse();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			
 			}
@@ -186,7 +191,7 @@ public class Cat_Establecimiento extends JFrame {
 			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(true);
@@ -196,11 +201,18 @@ public class Cat_Establecimiento extends JFrame {
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			Obj_Establecimiento establecimiento = new Obj_Establecimiento().buscar_nuevo();
+			System.out.println(establecimiento.getFolio());
 			if(establecimiento.getFolio() != 0){
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(establecimiento.getFolio()+1+"");
-				txtFolio.setEnabled(false);
+				txtFolio.setEditable(false);
+				txtNombre.requestFocus();
+			}else{
+				panelLimpiar();
+				panelEnabledTrue();
+				txtFolio.setText(1+"");
+				txtFolio.setEditable(false);
 				txtNombre.requestFocus();
 			}
 		}
@@ -209,7 +221,7 @@ public class Cat_Establecimiento extends JFrame {
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
-			txtFolio.setEnabled(false);
+			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		
@@ -248,9 +260,9 @@ public class Cat_Establecimiento extends JFrame {
 	};
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
-		txtNombre.setEnabled(true);
-		txtAbreviatura.setEnabled(true);
+		txtFolio.setEditable(true);
+		txtNombre.setEditable(true);
+		txtAbreviatura.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
@@ -273,9 +285,9 @@ public class Cat_Establecimiento extends JFrame {
 	}
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEnabled(false);
-		txtNombre.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtFolio.setEditable(false);
+		txtNombre.setEditable(false);
+		txtAbreviatura.setEditable(false);
 		chStatus.setEnabled(false);
 	}
 }

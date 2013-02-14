@@ -17,6 +17,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -24,23 +25,34 @@ import objetos.Obj_fuente_sodas_rh;
 public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?,fuente_sodas=?, status=?, infonavit=? where folio=" + folio;
+		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=? where folio=" + folio;
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
+		
 			pstmt.setString(1, empleado.getNombre().toUpperCase());
 			pstmt.setString(2, empleado.getAp_paterno().toUpperCase());
 			pstmt.setString(3, empleado.getAp_materno().toUpperCase());
 			pstmt.setInt(4, empleado.getEstablecimiento());
 			pstmt.setInt(5, empleado.getPuesto());
-			pstmt.setInt(6, empleado.getSueldo());
-			pstmt.setInt(7, empleado.getBono());
-			pstmt.setInt(8, empleado.getPrestamo());
-			pstmt.setInt(9, (empleado.getFuente_sodas())?1:0);
-			pstmt.setInt(10, empleado.getStatus());
-			pstmt.setFloat(11, empleado.getInfonavit());
+			pstmt.setInt(6, empleado.getTurno());
+			pstmt.setInt(7, empleado.getDescanso());
+			pstmt.setInt(8, empleado.getDobla());
+			pstmt.setInt(9, empleado.getSueldo());
+			pstmt.setInt(10, empleado.getBono());
+			pstmt.setInt(11, empleado.getPrestamo());
+			pstmt.setFloat(12, empleado.getPension_alimenticia());
+			pstmt.setFloat(13, empleado.getInfonavit());
+			pstmt.setInt(14, (empleado.getFuente_sodas())?1:0);
+			pstmt.setBoolean(15, (empleado.getGafete())? true: false);
+			pstmt.setInt(16, empleado.getStatus());
+			pstmt.setString(17,empleado.getObservasiones());
+			pstmt.setString(18, empleado.getFoto());
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -173,7 +185,7 @@ public class ActualizarSQL {
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, puesto.getPuesto());
+			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
 			pstmt.executeUpdate();
@@ -200,14 +212,14 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Sueldo(Obj_Sueldo sueldo, int folio){
-		String query = "update tb_sueldo set sueldo=?, abreviatura=?, status=? where folio=" + folio;
+		String query = "update tb_sueldo set sueldo=?, puesto_id=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setFloat(1, sueldo.getSueldo());
-			pstmt.setString(2, sueldo.getAbreviatura().toUpperCase());
+			pstmt.setInt(2, sueldo.getPuesto());
 			pstmt.setString(3, (sueldo.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
@@ -502,7 +514,7 @@ public class ActualizarSQL {
 			pstmt.setString(2, lista.getFalta());
 			pstmt.setInt(3, lista.getDia_faltas());
 			pstmt.setString(4, lista.getAsistencia());
-			pstmt.setString(5, lista.getFalta());
+			pstmt.setString(5, lista.getGafete());
 			pstmt.setInt(6, lista.getDia_gafete());
 			pstmt.executeUpdate();
 			con.commit();
@@ -594,7 +606,7 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Actualizar_Bancos(Obj_Bancos bancos, int folio){
-		String query = "update tb_bancos set banamex=?, banorte=?, cooperacion=? where folio_empleado="+folio +" and status=1";
+		String query = "update tb_bancos set banamex=?, banorte=? where folio_empleado="+folio +" and status=1";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -602,7 +614,6 @@ public class ActualizarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, bancos.getBanamex());
 			pstmt.setInt(2, bancos.getBanorte());
-			pstmt.setInt(3, bancos.getCooperacion());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -659,4 +670,38 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}	
+	
+	public boolean Turno(Obj_Turno turno, int folio){
+		String query = "update tb_turno set nombre=?, horario=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, turno.getNombre().toUpperCase());
+			pstmt.setString(2, turno.getHorario().toUpperCase());
+			pstmt.setString(3, (turno.isStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 }

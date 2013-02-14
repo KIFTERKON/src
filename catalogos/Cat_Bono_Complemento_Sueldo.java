@@ -1,16 +1,17 @@
 package catalogos;
 
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -41,7 +42,10 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 	
 	public Cat_Bono_Complemento_Sueldo(){
 		
-		super("Bonos complemento de Sueldo");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
+		panel.setBorder(BorderFactory.createTitledBorder("Bono complemento de Sueldo"));
+		
+		this.setTitle("Bono complemento de Sueldo");
 	
 		chStatus.setSelected(true);
 		
@@ -65,8 +69,8 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
 		
 		chStatus.setEnabled(false);
-		txtBono.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtBono.setEditable(false);
+		txtAbreviatura.setEditable(false);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtBono.setDocument(new JTextFieldLimit(8));
@@ -84,13 +88,9 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 		btnEditar.addActionListener(editar);
 		
 		cont.add(panel);
-		
 		this.setSize(400,190);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-	}
-	public JComponent getBase(){
-			return panel;
 	}
 	
 	ActionListener guardar = new ActionListener(){
@@ -115,7 +115,7 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 								
 								panelLimpiar();
 								panelEnabledFalse();
-								txtFolio.setEnabled(true);
+								txtFolio.setEditable(true);
 								txtFolio.requestFocus();
 							}
 							
@@ -134,7 +134,7 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 							bono.guardar();
 							panelLimpiar();
 							panelEnabledFalse();
-							txtFolio.setEnabled(true);
+							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
 							JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 						}
@@ -146,16 +146,16 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 		}
 	};
 	public void panelEnabledFalse(){	
-		txtFolio.setEnabled(false);
-		txtBono.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtFolio.setEditable(false);
+		txtBono.setEditable(false);
+		txtAbreviatura.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
-		txtBono.setEnabled(true);
-		txtAbreviatura.setEnabled(true);
+		txtFolio.setEditable(true);
+		txtBono.setEditable(true);
+		txtAbreviatura.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
@@ -282,7 +282,13 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 					panelLimpiar();
 					panelEnabledTrue();
 					txtFolio.setText(bono.getFolio()+1+"");
-					txtFolio.setEnabled(false);
+					txtFolio.setEditable(false);
+					txtBono.requestFocus();
+				}else{
+					panelLimpiar();
+					panelEnabledTrue();
+					txtFolio.setText(1+"");
+					txtFolio.setEditable(false);
 					txtBono.requestFocus();
 				}
 			} catch (SQLException e1) {
@@ -294,10 +300,9 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 	
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(true);
@@ -311,7 +316,7 @@ public class Cat_Bono_Complemento_Sueldo extends JFrame{
 				return;
 			}else{
 				panelEnabledTrue();
-				txtFolio.setEnabled(false);
+				txtFolio.setEditable(false);
 				btnEditar.setEnabled(false);
 				btnNuevo.setEnabled(true);
 			}

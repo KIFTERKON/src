@@ -173,12 +173,15 @@ public class Cat_Prestamo extends JDialog{
 		panelEnabledTrue();
 		txtFecha.setEnabled(false);
 		
-		String Rango =rango_prestamo[re.getPrestamo()-1];
+		String Rango =rango_prestamo[re.getPrestamo()];
 		Rango = Rango.replace(" - ", "-");
 		String[] splits = Rango.split("-");
-			
-			rangoIn  = Double.parseDouble(splits[0]);
-			rangoFin = Double.parseDouble(splits[1]);
+		
+		double uno = Double.parseDouble(splits[0]);
+		double dos = Double.parseDouble(splits[1]);
+
+		rangoIn  = uno;
+		rangoFin = dos;
 								
 		String[][] Tabla = getMatriz(txtNombre_Completo.getText());
 		Object[] fila = new Object[tabla.getColumnCount()];

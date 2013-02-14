@@ -10,12 +10,11 @@ public class Obj_Bancos {
 	private String establecimiento;
 	private int banamex;
 	private int banorte;
-	private int cooperacion;
 	private int status;
 	
 	public Obj_Bancos(){
 		this.folio_empleado=0; this.nombre_completo=""; this.establecimiento=""; this.banamex=0;
-		this.banorte=0;this.cooperacion=0; this.status=0;
+		this.banorte=0; this.status=0;
 	}
 
 	public int getFolio_empleado() {
@@ -56,14 +55,6 @@ public class Obj_Bancos {
 
 	public void setBanorte(int banorte) {
 		this.banorte = banorte;
-	}
-
-	public int getCooperacion() {
-		return cooperacion;
-	}
-
-	public void setCooperacion(int cooperacion) {
-		this.cooperacion = cooperacion;
 	}
 
 	public int getStatus() {

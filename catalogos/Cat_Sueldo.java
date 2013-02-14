@@ -1,15 +1,18 @@
 package catalogos;
 
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import objetos.JTextFieldLimit;
+import objetos.Obj_Puesto;
 import objetos.Obj_Sueldo;
 
 @SuppressWarnings("serial")
@@ -28,7 +32,10 @@ public class Cat_Sueldo extends JFrame{
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtSueldo = new JTextField();
-	JTextField txtAbreviatura = new JTextField();
+	
+	String puesto[] = new Obj_Puesto().Combo_Puesto();
+	@SuppressWarnings("unchecked")
+	JComboBox cmbPuesto = new JComboBox(puesto);
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -40,37 +47,38 @@ public class Cat_Sueldo extends JFrame{
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 	
 	public Cat_Sueldo(){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
+		panel.setBorder(BorderFactory.createTitledBorder("Sueldo"));
 		
-		super("..:: Sueldo ::..");
+		this.setTitle("Sueldo");
 	
 		chStatus.setSelected(true);
 		
 		int x = 45, y=30, ancho=100;
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
-		panel.add(txtFolio).setBounds(x+ancho,y,ancho,20);
+		panel.add(txtFolio).setBounds(ancho,y,ancho,20);
 		panel.add(btnBuscar).setBounds(x+ancho+ancho+5,y,32,20);
 		
 		panel.add(chStatus).setBounds(x+43+(ancho*2),y,ancho,20);
 		
-		panel.add(new JLabel("Cantidad:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtSueldo).setBounds(x+ancho,y,ancho,20);
+		panel.add(new JLabel("Sueldo:")).setBounds(x,y+=30,ancho,20);
+		panel.add(txtSueldo).setBounds(ancho,y,ancho+x,20);
 		panel.add(btnNuevo).setBounds(x+200,y,ancho,20);
 		
-		panel.add(new JLabel("Abreviatura:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtAbreviatura).setBounds(x+ancho,y,ancho,20);
+		panel.add(new JLabel("Puesto:")).setBounds(x,y+=30,ancho,20);
+		panel.add(cmbPuesto).setBounds(ancho,y,ancho+x,20);
 		panel.add(btnEditar).setBounds(x+200,y,ancho,20);
 		panel.add(btnDeshacer).setBounds(x+ancho,y+=25,ancho,20);
 		panel.add(btnSalir).setBounds(x,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
 		
 		chStatus.setEnabled(false);
-		txtSueldo.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtSueldo.setEditable(false);
+		cmbPuesto.setEnabled(false);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtSueldo.setDocument(new JTextFieldLimit(8));
-		txtAbreviatura.setDocument(new JTextFieldLimit(5));
 		
 		txtFolio.addKeyListener(numerico_action);
 		txtSueldo.addKeyListener(validaNumericoConPunto);
@@ -86,7 +94,7 @@ public class Cat_Sueldo extends JFrame{
 		cont.add(panel);
 		
 		this.setSize(400,190);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	public JComponent getBase(){
@@ -107,13 +115,13 @@ public class Cat_Sueldo extends JFrame{
 							return;
 						}else{
 							sueldo.setSueldo(Float.parseFloat(txtSueldo.getText()));
-							sueldo.setAbreviatura(txtAbreviatura.getText());
+							sueldo.setPuesto(cmbPuesto.getSelectedIndex());
 							sueldo.setStatus(chStatus.isSelected());
 							sueldo.actualizar(Integer.parseInt(txtFolio.getText()));	
 							
 							panelLimpiar();
 							panelEnabledFalse();
-							txtFolio.setEnabled(true);
+							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
 						}
 						
@@ -127,12 +135,12 @@ public class Cat_Sueldo extends JFrame{
 						return;
 					}else{
 						sueldo.setSueldo(Float.parseFloat(txtSueldo.getText()));
-						sueldo.setAbreviatura(txtAbreviatura.getText());
+						sueldo.setPuesto(cmbPuesto.getSelectedIndex());
 						sueldo.setStatus(chStatus.isSelected());
 						sueldo.guardar();
 						panelLimpiar();
 						panelEnabledFalse();
-						txtFolio.setEnabled(true);
+						txtFolio.setEditable(true);
 						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
@@ -142,23 +150,23 @@ public class Cat_Sueldo extends JFrame{
 	};
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEnabled(false);
-		txtSueldo.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtFolio.setEditable(false);
+		txtSueldo.setEditable(false);
+		cmbPuesto.setEnabled(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
-		txtSueldo.setEnabled(true);
-		txtAbreviatura.setEnabled(true);
+		txtFolio.setEditable(true);
+		txtSueldo.setEditable(true);
+		cmbPuesto.setEnabled(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
 		txtFolio.setText("");
 		txtSueldo.setText("");
-		txtAbreviatura.setText("");
+		cmbPuesto.setSelectedItem("Selecciona un Puesto");
 		chStatus.setSelected(true);
 	}
 	
@@ -233,14 +241,14 @@ public class Cat_Sueldo extends JFrame{
 				
 				txtFolio.setText(re.getFolio()+"");
 				txtSueldo.setText(re.getSueldo()+"");
-				txtAbreviatura.setText(re.getAbreviatura()+"");
+				cmbPuesto.setSelectedIndex(re.getPuesto());
 				if(re.getStatus() == true){chStatus.setSelected(true);}
 				else{chStatus.setSelected(false);}
 				
 				btnNuevo.setEnabled(false);
 				btnEditar.setEnabled(true);
 				panelEnabledFalse();
-				txtFolio.setEnabled(true);
+				txtFolio.setEditable(true);
 				txtFolio.requestFocus();
 				
 				}
@@ -261,8 +269,8 @@ public class Cat_Sueldo extends JFrame{
 	
 	private String validaCampos(){
 		String error="";
-		if(txtSueldo.getText().equals("")) 			error+= "Bono\n";
-		if(txtAbreviatura.getText().equals(""))		error+= "Abreviatura\n";
+		if(txtSueldo.getText().equals("")) 			error+= "Sueldo\n";
+		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto") )		error+= "Puesto\n";
 				
 		return error;
 	}
@@ -275,7 +283,13 @@ public class Cat_Sueldo extends JFrame{
 					panelLimpiar();
 					panelEnabledTrue();
 					txtFolio.setText(sueldo.getFolio()+1+"");
-					txtFolio.setEnabled(false);
+					txtFolio.setEditable(false);
+					txtSueldo.requestFocus();
+				}else{
+					panelLimpiar();
+					panelEnabledTrue();
+					txtFolio.setText(1+"");
+					txtFolio.setEditable(false);
 					txtSueldo.requestFocus();
 				}
 			} catch (SQLException e1) {
@@ -290,7 +304,7 @@ public class Cat_Sueldo extends JFrame{
 			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(true);
@@ -304,7 +318,7 @@ public class Cat_Sueldo extends JFrame{
 				return;
 			}else{
 				panelEnabledTrue();
-				txtFolio.setEnabled(false);
+				txtFolio.setEditable(false);
 				btnEditar.setEnabled(false);
 				btnNuevo.setEnabled(true);
 			}

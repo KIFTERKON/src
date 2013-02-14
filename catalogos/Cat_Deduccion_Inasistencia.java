@@ -320,7 +320,9 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	};
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			tabla.setSelectionMode(1);
+			if(tabla.isEditing()){
+				tabla.getCellEditor().stopCellEditing();
+			}
 			guardar();
 		}
 	};
@@ -331,11 +333,11 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
 				for(int i=0; i<model.getRowCount(); i++){
 					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j)+" ");
+						miVector.add(model.getValueAt(i,j));
 					}
 					Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
-					
-					deduccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+					int index = Integer.parseInt(miVector.get(0).toString().trim());
+					deduccion.setFolio_empleado(index);
 					deduccion.setNombre_completo(miVector.get(1).toString().trim());
 					deduccion.setEstablecimiento(miVector.get(2).toString().trim());
 					deduccion.setPuntualidad(miVector.get(3).toString().trim());
@@ -344,7 +346,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 					deduccion.setAsistencia(miVector.get(6).toString().trim());
 					deduccion.setGafete(miVector.get(7).toString().trim());
 					deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString().trim()));
-					deduccion.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
+					deduccion.actualizar(index);
 					
 					miVector.clear();
 				}
@@ -356,7 +358,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}else{
 			for(int i=0; i<model.getRowCount(); i++){
 				for(int j=0; j<model.getColumnCount(); j++){
-					miVector.add(model.getValueAt(i,j)+" ");
+					miVector.add(model.getValueAt(i,j));
 				}
 				Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
 				

@@ -1,5 +1,10 @@
 package SQL;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -8,6 +13,7 @@ import java.util.Date;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Conexion_BD;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
@@ -17,6 +23,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -25,26 +32,41 @@ public class GuardarSQL {
 	
 	
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "insert into tb_empleado(no_checador,nombre,ap_paterno,ap_materno,establecimiento_id,puesto_id,sueldo_id,bono_id,fuente_sodas,gafete,status,fecha,rango_prestamo_id,infonavit) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "insert into tb_empleado(" +
+				"no_checador,nombre,ap_paterno,ap_materno,establecimiento_id," +
+				"puesto_id,turno_id,descanso,dia_dobla,sueldo_id," +
+				"bono_id,rango_prestamo_id,pension_alimenticia,infonavit,fuente_sodas," +
+				"gafete,status,fecha,observaciones,foto) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
+					
 			pstmt.setInt(1, empleado.getNo_checador());
 			pstmt.setString(2, empleado.getNombre().toUpperCase());
 			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
 			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
 			pstmt.setInt(5, empleado.getEstablecimiento());
+			
 			pstmt.setInt(6, empleado.getPuesto());
-			pstmt.setInt(7,empleado.getSueldo());
-			pstmt.setInt(8, empleado.getBono());
-			pstmt.setBoolean(9, (empleado.getFuente_sodas())? true: false);
-			pstmt.setBoolean(10, (empleado.getGafete())? true: false);
-			pstmt.setInt(11, empleado.getStatus());				
-			pstmt.setString(12, empleado.getFecha());
-			pstmt.setInt(13, empleado.getPrestamo());
+			pstmt.setInt(7, empleado.getTurno());
+			pstmt.setInt(8, empleado.getDescanso());
+			pstmt.setInt(9, empleado.getDobla());
+			pstmt.setInt(10,empleado.getSueldo());
+			
+			pstmt.setInt(11, empleado.getBono());
+			pstmt.setInt(12, empleado.getPrestamo());
+			pstmt.setFloat(13, empleado.getPension_alimenticia());
 			pstmt.setFloat(14,empleado.getInfonavit());
+			pstmt.setBoolean(15, (empleado.getFuente_sodas())? true: false);
+			
+			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
+			pstmt.setInt(17, empleado.getStatus());				
+			pstmt.setString(18, empleado.getFecha());
+			pstmt.setString(19, empleado.getObservasiones());
+			pstmt.setString(20, empleado.getFoto());
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -70,16 +92,15 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Establecimiento(Obj_Establecimiento establecimiento){
-		String query = "insert into tb_establecimiento(folio,nombre,abreviatura,status) values(?,?,?,?)";
+		String query = "insert into tb_establecimiento(nombre,abreviatura,status) values(?,?,?)";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, establecimiento.getFolio());
-			pstmt.setString(2, establecimiento.getNombre().toUpperCase());
-			pstmt.setString(3, establecimiento.getAbreviatura().toUpperCase());
-			pstmt.setString(4, (establecimiento.getStatus())?"1":"0");
+			pstmt.setString(1, establecimiento.getNombre().toUpperCase());
+			pstmt.setString(2, establecimiento.getAbreviatura().toUpperCase());
+			pstmt.setString(3, (establecimiento.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -111,8 +132,8 @@ public class GuardarSQL {
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, puesto.getPuesto());
-			pstmt.setString(2, puesto.getAbreviatura());
+			pstmt.setString(1, puesto.getPuesto().toUpperCase());
+			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
@@ -171,14 +192,14 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Sueldo(Obj_Sueldo sueldo){
-		String query = "insert into tb_sueldo(sueldo,abreviatura,status) values(?,?,?)";
+		String query = "insert into tb_sueldo(sueldo,puesto_id,status) values(?,?,?)";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setFloat(1, sueldo.getSueldo());
-			pstmt.setString(2, sueldo.getAbreviatura().toUpperCase());
+			pstmt.setInt(2, sueldo.getPuesto());
 			pstmt.setString(3, (sueldo.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
@@ -500,8 +521,8 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Bancos(Obj_Bancos bancos){
-		String query = "insert into tb_bancos(folio_empleado,nombre_completo,establecimiento,banamex,banorte,cooperacion,status) " +
-						"values(?,?,?,?,?,?,?);";
+		String query = "insert into tb_bancos(folio_empleado,nombre_completo,establecimiento,banamex,banorte,status) " +
+						"values(?,?,?,?,?,?);";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -512,7 +533,6 @@ public class GuardarSQL {
 			pstmt.setString(3, bancos.getEstablecimiento().toUpperCase());
 			pstmt.setInt(4, bancos.getBanamex());
 			pstmt.setInt(5, bancos.getBanorte());
-			pstmt.setInt(6, bancos.getCooperacion());
 			pstmt.setString(7, "1");
 			pstmt.executeUpdate();
 			con.commit();
@@ -576,4 +596,86 @@ public class GuardarSQL {
 		return true;
 	}
 	
+	
+	public boolean Guardar_Turno(Obj_Turno turno){
+		String query = "insert into tb_turno(nombre,horario,status) values(?,?,?)";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, turno.getNombre().toUpperCase());
+			pstmt.setString(2, turno.getHorario().toUpperCase());
+			pstmt.setString(3, (turno.isStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	
+	
+	public boolean Guardar_ConfigBD(Obj_Conexion_BD config){
+		BufferedWriter bufferedWriter = null;
+		String nomArchivo = System.getProperty("user.dir")+"\\Config\\config";
+		try{
+			File archivo = new File(nomArchivo);
+			if(archivo.exists()){
+				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
+				
+				bufferedWriter.write(config.getDireccionIPV4()+    		"\n");
+				bufferedWriter.write(config.getNombreBD()+      		"\n");
+				bufferedWriter.write(config.getUsuario()+ 	    		"\n");
+				bufferedWriter.write(config.getContrasena()+       		"\n");
+				
+			}else{
+				archivo.createNewFile();
+				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
+				
+				bufferedWriter.write(config.getDireccionIPV4()+    		"\n");
+				bufferedWriter.write(config.getNombreBD()+      		"\n");
+				bufferedWriter.write(config.getUsuario()+ 	    		"\n");
+				bufferedWriter.write(config.getContrasena()+       		"\n");
+				
+			}
+			
+		}
+		catch(FileNotFoundException ex)
+		{
+			ex.printStackTrace();
+		}catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}finally
+		{
+			try
+			{
+				if(bufferedWriter!=null)
+				{
+					bufferedWriter.flush();
+					bufferedWriter.close();
+				}
+			}catch(IOException ex)
+			{
+				ex.printStackTrace();
+			}
+		}return true;
+	}
 }

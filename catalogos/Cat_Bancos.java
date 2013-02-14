@@ -65,7 +65,7 @@ public class Cat_Bancos extends JDialog {
 	    
 	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
 	DefaultTableModel model = new DefaultTableModel(Tabla,
-            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Banamex", "Banorte", "Cooperación" }
+            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Banamex", "Banorte", "Total a Pagar" }
 			){
 	     Class[] types = new Class[]{
 	    	java.lang.Object.class,
@@ -86,7 +86,7 @@ public class Cat_Bancos extends JDialog {
         	 	case 1 : return false; 
         	 	case 2 : return false; 
         	 	case 3 : if(chbHabilitarBanamex.isSelected()){
-        	 				if((model.getValueAt(fila,4).toString() != "")){
+        	 				if(model.getValueAt(fila,4).toString() != ""){
         	 					return false;
         	 				}else{
         	 					return true;
@@ -95,7 +95,7 @@ public class Cat_Bancos extends JDialog {
         	 				 return false;
         	 			 }
         	 	case 4 : if(chbHabilitarBanorte.isSelected()){
-        	 				if(model.getValueAt(fila,3).toString() != ""){
+        	 				if(model.getValueAt(fila,3).toString().trim() != ""){
         	 					return false;
         	 				}else{
         	 					return true;
@@ -126,8 +126,8 @@ public class Cat_Bancos extends JDialog {
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
 	public Cat_Bancos(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
-		this.setTitle("Deducción por Inasistencia");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
+		this.setTitle("Bancos");
 		
 		txtNombre.addKeyListener(new KeyAdapter() { 
 			public void keyReleased(final KeyEvent e) { 
@@ -171,7 +171,6 @@ public class Cat_Bancos extends JDialog {
 		tabla.getColumnModel().getColumn(4).setMinWidth(120);		
 		tabla.getColumnModel().getColumn(5).setMaxWidth(130);
 		tabla.getColumnModel().getColumn(5).setMinWidth(130);
-		
 
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -182,8 +181,7 @@ public class Cat_Bancos extends JDialog {
 		tabla.getColumnModel().getColumn(4).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(5).setCellRenderer(tcr);		
 	
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
@@ -284,12 +282,6 @@ public class Cat_Bancos extends JDialog {
 						miVector.set(4,0);
 						bancos.setBanorte(Integer.parseInt(miVector.get(4).toString().trim()));
 					}
-					if(miVector.get(5) != ""){
-						bancos.setCooperacion(Integer.parseInt(miVector.get(5).toString().trim()));
-					}else{
-						miVector.set(5,0);
-						bancos.setCooperacion(Integer.parseInt(miVector.get(5).toString().trim()));
-					}
 					bancos.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
 					
 					miVector.clear();
@@ -322,12 +314,6 @@ public class Cat_Bancos extends JDialog {
 					miVector.set(4,0);
 					bancos.setBanorte(Integer.parseInt(miVector.get(4).toString().trim()));
 				}
-				if(miVector.get(5) != ""){
-					bancos.setCooperacion(Integer.parseInt(miVector.get(5).toString().trim()));
-				}else{
-					miVector.set(5,0);
-					bancos.setCooperacion(Integer.parseInt(miVector.get(5).toString().trim()));
-				}
 				bancos.guardar();
 				
 				miVector.clear();
@@ -354,8 +340,7 @@ public class Cat_Bancos extends JDialog {
                             "tb_establecimiento.nombre as establecimiento," +
                             "tb_bancos.banamex," +
                             "tb_bancos.banorte," +
-                            "tb_bancos.mas_menos," +
-                            "tb_bancos.cooperacion " +
+                            "tb_bancos.mas_menos " +
 
                     "from tb_empleado, tb_establecimiento, tb_bancos "+ 
                     "where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
@@ -376,8 +361,7 @@ public class Cat_Bancos extends JDialog {
 					        "tb_empleado.ap_materno," +
 					        "tb_establecimiento.nombre as establecimiento," +
 					        "tb_bancos.banamex," +
-                            "tb_bancos.banorte," +
-                            "tb_bancos.cooperacion " +
+                            "tb_bancos.banorte " +
 					
 					"from tb_empleado, tb_establecimiento, tb_bancos "+ 
 					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
@@ -394,7 +378,8 @@ public class Cat_Bancos extends JDialog {
 					Matriz = new Object[getFilas(qry1)][6];
 					int i=0;
 					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
+						int folio_empleado = rs.getInt(1);
+						Matriz[i][0] = folio_empleado;
 						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][2] = rs.getString(5).trim();
 
@@ -412,9 +397,9 @@ public class Cat_Bancos extends JDialog {
 							Matriz[i][4] = "";
 						}
 					
-						int cooperacion = Integer.parseInt(rs.getString(9));
-						if(cooperacion != 0){
-							Matriz[i][5] = cooperacion;
+						float pagototal = getPagoTotal(folio_empleado);
+						if(pagototal != 0){
+							Matriz[i][5] = pagototal;
 						}else {
 							Matriz[i][5] = "";
 						}
@@ -443,6 +428,7 @@ public class Cat_Bancos extends JDialog {
 					Matriz = new Object[getFilas(todos1)][7];
 					int i=0;
 					while(rs.next()){
+						int folio_empleado = rs.getInt(1);
 						Matriz[i][0] = rs.getString(1).trim();
 						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][2] = rs.getString(5).trim();
@@ -461,9 +447,9 @@ public class Cat_Bancos extends JDialog {
 							Matriz[i][4] = "";
 						}
 					
-						int cooperacion = Integer.parseInt(rs.getString(8));
-						if(cooperacion != 0){
-							Matriz[i][5] = cooperacion;
+						float pagototal = getPagoTotal(folio_empleado);
+						if(pagototal != 0){
+							Matriz[i][5] = pagototal;
 						}else {
 							Matriz[i][5] = "";
 						}
@@ -491,6 +477,22 @@ public class Cat_Bancos extends JDialog {
 			e1.printStackTrace();
 		}
 	    return Matriz; 
+	}
+	
+	public float getPagoTotal(int folio){
+		float valores = 0;
+		try {
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select a_pagar from tb_pre_listaraya where folio_empleado="+folio);
+			while(rs.next()){
+				valores = rs.getFloat(1);			
+			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valores;
 	}
 	
 	public int getFilas(String qry){

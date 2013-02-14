@@ -10,11 +10,12 @@ import SQL.GuardarSQL;
 public class Obj_Sueldo {
 	private int folio;
 	private float sueldo;
-	private String abreviatura;
+	private int puesto;
 	private boolean status;
 	
+	
 	public Obj_Sueldo(){
-		this.folio=0; this.sueldo=0; this.abreviatura=""; this.status=false;
+		this.folio=0; this.sueldo=0; this.puesto=0; this.status=false;
 	}
 
 	public int getFolio() {
@@ -33,12 +34,12 @@ public class Obj_Sueldo {
 		this.sueldo = sueldo;
 	}
 
-	public String getAbreviatura() {
-		return abreviatura;
+	public int getPuesto() {
+		return puesto;
 	}
 
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
+	public void setPuesto(int puesto) {
+		this.puesto = puesto;
 	}
 
 	public boolean getStatus() {

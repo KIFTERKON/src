@@ -65,7 +65,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		dim=super.getToolkit().getScreenSize(); 
 		this.setSize(dim.width,dim.height-30); 
 		
-		this.setTitle("..:: Filtro Fuente de Sodas AuxF ::..");
+		this.setTitle("Filtro Fuente de Sodas Auxiliar y Finanzas");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 

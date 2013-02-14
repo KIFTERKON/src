@@ -7,12 +7,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
@@ -22,6 +24,7 @@ import catalogos.Cat_Asistencia_Puntualidad;
 import catalogos.Cat_Bancos;
 import catalogos.Cat_Bono_Complemento_Sueldo;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
+import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
@@ -32,10 +35,11 @@ import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Lista_Raya;
-import catalogos.Cat_Persecciones_Extra;
+import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Sueldo;
+import catalogos.Cat_Turno;
 import catalogos.Cat_Usuario;
 
 @SuppressWarnings("serial")
@@ -53,16 +57,16 @@ public class Principal extends JFrame{
 		JMenuItem Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
 		
 	JMenu Alimentacion = new JMenu("Alimentación");
-		JMenuItem Alimentacion_Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
+		JMenuItem Alimentacion_Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas DH");
 		JMenuItem Alimentacion_Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
 		JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Deducción por Inasistencia");
 		JMenuItem Alimentacion_Diferencia_Cortes = new JMenuItem("Diferencia de Cortes");
 		JMenuItem Alimentacion_Bancos = new JMenuItem("Bancos");
-		JMenuItem Alimentacion_Persecciones_Extra = new JMenuItem("Persecciones Extra");
+		JMenuItem Alimentacion_Percepciones_Extra = new JMenuItem("Percepciones Extras");
 		JMenuItem Alimentacion_Prestamos = new JMenuItem("Prestamos");
 		
 	JMenu Catalogo = new JMenu("Catalogo");
-		JMenuItem Catalogo_Alta = new JMenuItem("Alta Empleado", new ImageIcon(""));
+		JMenuItem Catalogo_Alta = new JMenuItem("Alta Empleados", new ImageIcon(""));
 		JMenuItem Catalogo_Puesto = new JMenuItem("Puesto", new ImageIcon(""));
 		JMenuItem Catalogo_Sueldo = new JMenuItem("Sueldo", new ImageIcon(""));
 		JMenuItem Catalogo_Status = new JMenuItem("Status", new ImageIcon(""));
@@ -71,15 +75,17 @@ public class Principal extends JFrame{
 	JMenu Listas = new JMenu("Listas");	
 		JMenuItem Listas_Raya = new JMenuItem("Lista de Raya");
 		JMenuItem Listas_Firma = new JMenuItem("Lista de Firmas");
-		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamo");
+		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamos");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
 		
 	JMenu Configuracion = new JMenu("Configuración");
 		JMenuItem Configuracion_Asistencia_Puntualidad = new JMenuItem("Asistencia y Puntualidad", new ImageIcon(""));
 		JMenuItem Configuracion_Bono = new JMenuItem("Bono", new ImageIcon(""));
+		JMenuItem Configuracion_ConexionBD = new JMenuItem("Configuración BD", new ImageIcon(""));
 		JMenuItem Configuracion_Establecimiento = new JMenuItem("Establecimiento", new ImageIcon("///"));
 		JMenuItem Configuracion_Prestamo = new JMenuItem("Rango de Prestamo", new ImageIcon(""));
 		JMenuItem Configuracion_Usuario = new JMenuItem("Usuario", new ImageIcon(""));
+		JMenuItem Configuracion_Turno = new JMenuItem("Turno", new ImageIcon(""));
 		
 	JMenu Ayuda = new JMenu("Ayuda");
 		JMenuItem Edicion_AcercaDe = new JMenuItem("Acerca de", new ImageIcon("foto/help.png"));
@@ -94,7 +100,7 @@ public class Principal extends JFrame{
 		Container cont = getContentPane();
 		
 		tabbedPane.setBackground(Color.white);
-		//tabbedPane.addTab("Lista de Raya", new ImageIcon("imagen/Report.png"), new Frm_Principal2().getBase());
+		tabbedPane.addTab("Lista de Raya", new ImageIcon("imagen/Report.png"), new Frm_Principal2().getBase());
 		cont.add(tabbedPane);
 		
 		this.setResizable(false);
@@ -120,8 +126,8 @@ public class Principal extends JFrame{
 			Alimentacion_Fuente_Sodas_rh.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Fuente_Sodas_auxf);
 			Alimentacion_Fuente_Sodas_auxf.addActionListener(Opciones);
-		Alimentacion.add(Alimentacion_Persecciones_Extra);
-			Alimentacion_Persecciones_Extra.addActionListener(Opciones);
+		Alimentacion.add(Alimentacion_Percepciones_Extra);
+			Alimentacion_Percepciones_Extra.addActionListener(Opciones);
 		Alimentacion.add(Alimentacion_Prestamos);
 			Alimentacion_Prestamos.addActionListener(Opciones);
 			
@@ -147,13 +153,18 @@ public class Principal extends JFrame{
 			Configuracion_Asistencia_Puntualidad.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Bono);
 			Configuracion_Bono.addActionListener(Opciones);
+		Configuracion.add(Configuracion_ConexionBD);
+			Configuracion_ConexionBD.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Establecimiento);
 			Configuracion_Establecimiento.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Prestamo);
 			Configuracion_Prestamo.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Usuario);
 			Configuracion_Usuario.addActionListener(Opciones);
+		Configuracion.add(Configuracion_Turno);
+			Configuracion_Turno.addActionListener(Opciones);
 
+			
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 		Ayuda.add(Edicion_AcercaDe);
 		Ayuda.add(Permiso_user);
@@ -182,17 +193,17 @@ public class Principal extends JFrame{
 				new Cat_Deduccion_Inasistencia().setVisible(true);
 			if(e.getActionCommand().equals("Diferencia de Cortes"))
 				new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
-			if(e.getActionCommand().equals("Fuente de Sodas RRHH"))
+			if(e.getActionCommand().equals("Fuente de Sodas DH"))
 				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
 			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
 				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
-			if(e.getActionCommand().equals("Persecciones Extra"))
-				new Cat_Persecciones_Extra().setVisible(true);
+			if(e.getActionCommand().equals("Percepciones Extras"))
+				new Cat_Percepciones_Extra().setVisible(true);
 			if(e.getActionCommand().equals("Prestamos"))
 				new Cat_Filtro_Prestamo().setVisible(true);
 
 			// Catalogo
-			if(e.getActionCommand().equals("Alta Empleado"))
+			if(e.getActionCommand().equals("Alta Empleados"))
 				new Cat_Empleado().setVisible(true);
 			if(e.getActionCommand().equals("Puesto"))
 				new Cat_Puesto().setVisible(true);
@@ -212,15 +223,19 @@ public class Principal extends JFrame{
 				new Cat_Asistencia_Puntualidad().setVisible(true);
 			if(e.getActionCommand().equals("Bono"))
 				new Cat_Bono_Complemento_Sueldo().setVisible(true);
+			if(e.getActionCommand().equals("Configuración BD"))
+				new Cat_Conexion_BD().setVisible(true);
 			if(e.getActionCommand().equals("Establecimiento"))
 				new Cat_Establecimiento().setVisible(true);	
 			if(e.getActionCommand().equals("Rango de Prestamo"))
 				new Cat_Rango_Prestamos().setVisible(true);
 			if(e.getActionCommand().equals("Usuario"))
 				new Cat_Usuario().setVisible(true);
-			
+			if(e.getActionCommand().equals("Turno"))
+				new Cat_Turno().setVisible(true);
+		
 			//listas
-			if(e.getActionCommand().equals("Lista de Prestamo"))
+			if(e.getActionCommand().equals("Lista de Prestamos"))
 				new Cat_Lista_Deudores_Prestamo().setVisible(true);
 
 		}
@@ -228,18 +243,26 @@ public class Principal extends JFrame{
 	
 	public static void main(String[] args) {
 		try{
-			// 6677914218
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			@SuppressWarnings("unused")
-			Obj_Usuario usuario = new Obj_Usuario().buscarMaximo();
+			String ruta = System.getProperty("user.dir")+"\\Config\\config";
 			
-			new Principal().setVisible(true);
-			
-//			if(usuario.getFolio()  0){
-//				new Cat_Usuario().setVisible(true);
-//			}else{
-			//	new CatPassword().setVisible(true);
-//			}	
+			File archivo = new File(ruta);
+			if(archivo.exists()){
+				@SuppressWarnings("unused")
+				Obj_Usuario usuario = new Obj_Usuario().buscarMaximo();
+				
+				new Principal().setVisible(true);
+						
+//				if(usuario.getFolio()  0){
+//					new Cat_Usuario().setVisible(true);
+//				}else{
+				//	new CatPassword().setVisible(true);
+//				}	
+			}else{
+				JOptionPane.showMessageDialog(null, "Configure las variables de la conexion a la Base de Datos","Error",JOptionPane.WARNING_MESSAGE);
+				new Cat_Conexion_BD().setVisible(true);
+			}
+
 		}catch(Exception e){
 			e.printStackTrace();
 		}

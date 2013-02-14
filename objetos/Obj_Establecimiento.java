@@ -68,6 +68,8 @@ public class Obj_Establecimiento {
 			e.printStackTrace();
 		}
 	return null; }
+	
+	
 
 	public Obj_Establecimiento buscar(int folio) { 
 		try {
@@ -91,4 +93,21 @@ public class Obj_Establecimiento {
 		return null; 
 	}	
 
+	public Obj_Establecimiento buscar_estab(String nombre){
+		try{
+			return new BuscarSQL().Establ_buscar(nombre); 
+		} catch(SQLException e){
+			
+		}
+		return null;
+	}
+	
+	public Obj_Establecimiento buscar_estab(int folio){
+		try{
+			return new BuscarSQL().Establ_buscar_folio(folio); 
+		} catch(SQLException e){
+			
+		}
+		return null;
+	}
 }

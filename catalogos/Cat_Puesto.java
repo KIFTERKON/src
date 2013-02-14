@@ -1,15 +1,16 @@
 package catalogos;
 
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -38,11 +39,13 @@ public class Cat_Puesto extends JFrame{
 	JButton btnNuevo = new JButton("Nuevo");
 	
 	public Cat_Puesto(){
-	
-		super("..:: Puesto ::..");
-	
 		
-	int x = 45, y=30, ancho=100;
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+		panel.setBorder(BorderFactory.createTitledBorder("Puestos"));
+		
+		this.setTitle("Puesto");
+		
+		int x = 45, y=30, ancho=100;
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
 		panel.add(txtFolio).setBounds(x+ancho,y,ancho,20);
@@ -50,7 +53,7 @@ public class Cat_Puesto extends JFrame{
 		
 		panel.add(chStatus).setBounds(x+43+(ancho*2),y,ancho,20);
 		
-		panel.add(new JLabel("Bono:")).setBounds(x,y+=30,ancho,20);
+		panel.add(new JLabel("Puesto:")).setBounds(x,y+=30,ancho,20);
 		panel.add(txtPuesto).setBounds(x+ancho,y,ancho,20);
 		panel.add(btnNuevo).setBounds(x+200,y,ancho,20);
 		
@@ -62,8 +65,8 @@ public class Cat_Puesto extends JFrame{
 		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
 		
 		chStatus.setEnabled(false);
-		txtPuesto.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtPuesto.setEditable(false);
+		txtAbreviatura.setEditable(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
@@ -79,11 +82,8 @@ public class Cat_Puesto extends JFrame{
 		cont.add(panel);
 		
 		this.setSize(400,190);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-	}
-	public JComponent getBase(){
-			return panel;
 	}
 	
 	ActionListener guardar = new ActionListener(){
@@ -106,7 +106,7 @@ public class Cat_Puesto extends JFrame{
 							
 							panelLimpiar();
 							panelEnabledFalse();
-							txtFolio.setEnabled(true);
+							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
 						}
 						
@@ -123,6 +123,10 @@ public class Cat_Puesto extends JFrame{
 						puesto.setAbreviatura(txtAbreviatura.getText());
 						puesto.setStatus(chStatus.isSelected());
 						puesto.guardar();
+						panelLimpiar();
+						panelEnabledFalse();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -186,7 +190,7 @@ public class Cat_Puesto extends JFrame{
 			btnNuevo.setEnabled(false);
 			btnEditar.setEnabled(true);
 			panelEnabledFalse();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			
 			}
@@ -217,11 +221,16 @@ public class Cat_Puesto extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			Obj_Puesto puesto = new Obj_Puesto().buscar_nuevo();
 			if(puesto.getFolio() != 0){
-			
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(puesto.getFolio()+1+"");
-				txtFolio.setEnabled(false);
+				txtFolio.setEditable(false);
+				txtPuesto.requestFocus();
+			}else{
+				panelLimpiar();
+				panelEnabledTrue();
+				txtFolio.setText(1+"");
+				txtFolio.setEditable(false);
 				txtPuesto.requestFocus();
 			}
 		}
@@ -232,7 +241,7 @@ public class Cat_Puesto extends JFrame{
 			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(true);
@@ -242,23 +251,23 @@ public class Cat_Puesto extends JFrame{
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
-			txtFolio.setEnabled(false);
+			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		
 	};
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEnabled(false);
-		txtPuesto.setEnabled(false);
-		txtAbreviatura.setEnabled(false);
+		txtFolio.setEditable(false);
+		txtPuesto.setEditable(false);
+		txtAbreviatura.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
-		txtPuesto.setEnabled(true);
-		txtAbreviatura.setEnabled(true);
+		txtFolio.setEditable(true);
+		txtPuesto.setEditable(true);
+		txtAbreviatura.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	

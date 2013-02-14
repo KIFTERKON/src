@@ -2,99 +2,191 @@ package frames;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 
+import catalogos.Cat_Bancos;
+import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
+import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Empleado;
+import catalogos.Cat_Filtro_Diferiencia_Cortes;
+import catalogos.Cat_Filtro_Fue_Soda_Auxf;
+import catalogos.Cat_Filtro_Fue_Soda_Rh;
+import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Lista_Deudores_Prestamo;
+import catalogos.Cat_Lista_Pago;
+import catalogos.Cat_Lista_Raya;
+import catalogos.Cat_Percepciones_Extra;
+import catalogos.Cat_Puesto;
+import catalogos.Cat_Sueldo;
 
-import SQL.Connexion;
-
-
-import objetos.JTextFieldLimit;
-import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
 public class Frm_Principal2 extends JDialog{
 		
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 	
-	Connexion con = new Connexion();
+	String Inasistencia =("Deduccion por Inasistencia");
+		
+	JButton lblBanco= new JButton(new ImageIcon("imagen/banco.png"));
+	JLabel lblBanco2= new JLabel("Banco");
+	JButton lblInasistencia= new JButton(new ImageIcon("imagen/inasistencia.png"));
+	JLabel lblInasistencia2= new JLabel("Deduccion por");
+	JLabel lblInasistencia3= new JLabel("Inasistencia");
 	
-	DefaultTableModel model = new DefaultTableModel(0,21);
-	JTable tabla = new JTable(model);
-	JScrollPane panelScroll        = new JScrollPane(tabla);
-
-	JLabel Imagen = new JLabel(new ImageIcon("imgen/LogoPrincipal.png"));
-
-	@SuppressWarnings("unchecked")
-	private TableRowSorter trsfiltro;
+	JButton lblCaja= new JButton(new ImageIcon("imagen/caja2.png"));
+	JLabel lblCaja2= new JLabel("Diferencia de");
+	JLabel lblCaja3= new JLabel("Cortes");
 	
-	JLabel lblBuscar = new JLabel("BUSCAR : ");
-	JTextField txtBuscar = new JTextField();
+	JButton lblFsRH= new JButton(new ImageIcon("imagen/fsRH.png"));
+	JLabel lblFsRH2= new JLabel("Fuente de Sodas");
+	JLabel lblFsRH3= new JLabel("DH");
 	
-	String busqueda[] = new Obj_Establecimiento().Combo_Establecimiento();
-	@SuppressWarnings("unchecked")
-	JComboBox cmbBuscar = new JComboBox(busqueda);
+	JButton lblFsAux= new JButton(new ImageIcon("imagen/fsAux.png"));
+	JLabel lblFsAux2= new JLabel("Fuente de Sodas");
+	JLabel lblFsAux3= new JLabel("Auxiliar y Finanzas");
 	
-	JButton btnAgregar = new JButton("Agregar");
+	JButton lblPExtras= new JButton(new ImageIcon("imagen/PExtra.png"));
+	JLabel lblPExtras2= new JLabel("Percepciones");
+	JLabel lblPExtras3= new JLabel("Extras");
+	
+	JButton lblPrestamo= new JButton(new ImageIcon("imagen/prestamo.png"));
+	JLabel lblPrestamo2= new JLabel("Prestamos");
+	
+	JButton lblAltaEmp= new JButton(new ImageIcon("imagen/altaEmp.png"));
+	JLabel lblAltaEmp2= new JLabel("Alta");
+	JLabel lblAltaEmp3= new JLabel("Empleados");
+	
+	JButton lblPuesto= new JButton(new ImageIcon("imagen/puesto.png"));
+	JLabel lblPuesto2= new JLabel("Puesto");
+	JButton lblSueldo= new JButton(new ImageIcon("imagen/sueldo.png"));
+	JLabel lblSueldo2= new JLabel("Sueldo");
+	
+	JButton lblRevicion= new JButton(new ImageIcon("imagen/rebicionTotales.png"));
+	JLabel lblRevicion2= new JLabel("Revision de");
+	JLabel lblRevicion3= new JLabel("Totales");
+	
+	JButton lblListaRaya= new JButton(new ImageIcon("imagen/listaR.png"));
+	JLabel lblListaRaya2= new JLabel("Lista de");
+	JLabel lblListaRaya3= new JLabel("Raya");
+	
+	JButton lblListaFirma= new JButton(new ImageIcon("imagen/listaF.png"));
+	JLabel lblListaFirma2= new JLabel("Lista de");
+	JLabel lblListaFirma3= new JLabel("Firmas");
+	
+	JButton lblListaPrestamo= new JButton(new ImageIcon("imagen/listaP.png"));
+	JLabel lblListaPrestamo2= new JLabel("Lista de");
+	JLabel lblListaPrestamo3= new JLabel("Prestamos");
+	
+	JButton lblListaComparacion= new JButton(new ImageIcon("imagen/comparacion.png"));
+	JLabel lblListaComparacion2= new JLabel("Lista de");
+	JLabel lblListaComparacion3= new JLabel("Comparacion FS");
 	
 	private Dimension dim; 
-	@SuppressWarnings("unchecked")
 	public Frm_Principal2()	{
-		txtBuscar.setDocument(new JTextFieldLimit(10));
+
+		campo.add(new JLabel(new ImageIcon("imagen/LogPrincipal.png"))).setBounds(980,0,400,218);
+		campo.add(lblBanco).setBounds(30,40,64,64);
+		campo.add(lblInasistencia).setBounds(30,164,64,64);
+		campo.add(lblCaja).setBounds(30,288,64,64);
+		campo.add(lblFsRH).setBounds(30,412,64,64);
+		campo.add(lblFsAux).setBounds(30,536,64,64);		
 		
-		txtBuscar.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
-	
-		trsfiltro = new TableRowSorter(model); 
-		tabla.setRowSorter(trsfiltro);  
+		campo.add(lblBanco2).setBounds(124,60,60,20);
+		campo.add(lblInasistencia2).setBounds(124,184,120,20);
+		campo.add(lblInasistencia3).setBounds(124,194,120,20);
+		campo.add(lblCaja2).setBounds(124,308,64,20);
+		campo.add(lblCaja3).setBounds(124,318,64,20);
+		campo.add(lblFsRH2).setBounds(124,432,90,20);
+		campo.add(lblFsRH3).setBounds(124,442,64,20);
+		campo.add(lblFsAux2).setBounds(124,556,90,20);
+		campo.add(lblFsAux3).setBounds(124,566,90,20);
 		
-		campo.add(getPanelTabla()).setBounds(10,70,1250,327);
-        
-		campo.add(lblBuscar).setBounds(10,30,70,20);
-		campo.add(txtBuscar).setBounds(90,30,220,20);
+		campo.add(lblPExtras).setBounds(218,40,64,64);
+		campo.add(lblPrestamo).setBounds(218,164,64,64);
 		
-		campo.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-		campo.add(cmbBuscar).setBounds(410, 30, 160, 20);
-	
-		campo.add(btnAgregar).setBounds(590,30,80,20);
-		campo.add(new JLabel(new ImageIcon("imagen/LogPrincipal.png"))).setBounds(0,395,400,218);
-		btnAgregar.addActionListener(agregar);
+		campo.add(lblPExtras2).setBounds(312,60,64,20);
+		campo.add(lblPExtras3).setBounds(312,70,64,20);
+		campo.add(lblPrestamo2).setBounds(312,184,64,20);
+
+		campo.add(lblAltaEmp).setBounds(406,40,64,64);
+		campo.add(lblPuesto).setBounds(406,164,64,64);
+		campo.add(lblSueldo).setBounds(406,288,64,64);
+		
+		campo.add(lblAltaEmp2).setBounds(500,60,64,20);
+		campo.add(lblAltaEmp3).setBounds(500,70,64,20);
+		campo.add(lblPuesto2).setBounds(500,184,64,20);
+		campo.add(lblSueldo2).setBounds(500,308,64,20);
+		
+		campo.add(lblListaRaya).setBounds(594,40,64,64);
+		campo.add(lblListaFirma).setBounds(594,164,64,64);
+		campo.add(lblListaPrestamo).setBounds(594,288,64,64);
+		campo.add(lblListaComparacion).setBounds(594,412,64,64);
+		campo.add(lblRevicion).setBounds(594,536,64,64);
+		
+		campo.add(lblListaRaya2).setBounds(688,60,64,20);
+		campo.add(lblListaRaya3).setBounds(688,70,64,20);
+		campo.add(lblListaFirma2).setBounds(688,184,64,20);
+		campo.add(lblListaFirma3).setBounds(688,194,64,20);
+		campo.add(lblListaPrestamo2).setBounds(688,308,64,20);
+		campo.add(lblListaPrestamo3).setBounds(688,318,64,20);
+		campo.add(lblListaComparacion2).setBounds(688,432,64,20);
+		campo.add(lblListaComparacion3).setBounds(688,442,90,20);
+		campo.add(lblRevicion2).setBounds(688,556,64,20);
+		campo.add(lblRevicion3).setBounds(688,566,64,20);
+		
+		lblBanco.addMouseListener(opBanco);
+//		lblBanco2.addMouseListener(opBanco);
+		lblInasistencia.addMouseListener(opInasistencia);
+//		lblInasistencia2.addMouseListener(opInasistencia);
+//		lblInasistencia3.addMouseListener(opInasistencia);
+		lblCaja.addMouseListener(opCortes);
+//		lblCaja2.addMouseListener(opCortes);
+//		lblCaja3.addMouseListener(opCortes);
+		lblFsRH.addMouseListener(opFSRH);
+//		lblFsRH2.addMouseListener(opFSRH);
+//		lblFsRH3.addMouseListener(opFSRH);
+		lblFsAux.addMouseListener(opFSAuxF);
+//		lblFsAux2.addMouseListener(opFSAuxF);
+//		lblFsAux3.addMouseListener(opFSAuxF);
+		lblPExtras.addMouseListener(opPersecciones);
+//		lblPExtras2.addMouseListener(opPersecciones);
+//		lblPExtras3.addMouseListener(opPersecciones);
+		lblPrestamo.addMouseListener(opPrestamo);
+//		lblPrestamo2.addMouseListener(opPrestamo);
+		lblAltaEmp.addMouseListener(opEmpleado);
+//		lblAltaEmp2.addMouseListener(opEmpleado);
+//		lblAltaEmp3.addMouseListener(opEmpleado);
+		lblPuesto.addMouseListener(opPuesto);
+//		lblPuesto2.addMouseListener(opPuesto);
+		lblSueldo.addMouseListener(opSueldo);
+//		lblSueldo2.addMouseListener(opSueldo);
+		lblListaRaya.addMouseListener(opLRaya);
+//		lblListaRaya2.addMouseListener(opLRaya);
+//		lblListaRaya3.addMouseListener(opLRaya);
+		lblListaFirma.addMouseListener(opLPago);
+//		lblListaFirma2.addMouseListener(opLPago);
+//		lblListaFirma3.addMouseListener(opLPago);
+		lblListaPrestamo.addMouseListener(opLDeudores);
+//		lblListaPrestamo2.addMouseListener(opLDeudores);
+//		lblListaPrestamo3.addMouseListener(opLDeudores);
+		lblListaComparacion.addMouseListener(opComprobarFS);
+//		lblListaComparacion2.addMouseListener(opComprobarFS);
+//		lblListaComparacion3.addMouseListener(opComprobarFS);
+			
 		cont.add(campo);
 		
 		dim=super.getToolkit().getScreenSize(); 
-		this.setSize(dim); 
-//		super.setUndecorated(true); 
-//		super.setVisible(true); 
-		
+		this.setSize(dim); 		
 	
 		this.setModal(true);
-//		campo.setSize(730,620);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -103,175 +195,144 @@ public class Frm_Principal2 extends JDialog{
 	public JComponent getBase(){
 		return campo;
 	}
-	
-	ActionListener agregar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0) {
-			dispose();
-			int fila = tabla.getSelectedRow();
-			Object folio =  tabla.getValueAt(fila, 0);
-			new Cat_Empleado(folio+"").setVisible(true);		
-		}	
+	MouseListener opBanco = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Bancos().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
 	};
-	
-	@SuppressWarnings("unchecked")
-	public void filtro(){ 
-		switch (cmbBuscar.getSelectedIndex()){
-			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
-			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 1)); break;
-			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 2)); break;	
-		}	
-	}  
-	private JScrollPane getPanelTabla()	{
-		new Connexion();
-		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		DefaultTableCellRenderer tcrR = new DefaultTableCellRenderer();
-		tcrR.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		int a=2;
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcrR);
-
-		int ancho= 80;
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Nº");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
-		tabla.getColumnModel().getColumn(0).setMinWidth(45);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(1).setMinWidth(230);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Sueldo");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(2).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(3).setHeaderValue("P Bono_C");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(3).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(4).setHeaderValue("SP Inicial");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(4).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(5).setHeaderValue("D Prestamo");
-		tabla.getColumnModel().getColumn(5).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(5).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(6).setHeaderValue("Sal. Final");
-		tabla.getColumnModel().getColumn(6).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(6).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(7).setHeaderValue("D FSodas");
-		tabla.getColumnModel().getColumn(7).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(7).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(8).setHeaderValue("D Punt.");
-		tabla.getColumnModel().getColumn(8).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(8).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(9).setHeaderValue("D Falt.");
-		tabla.getColumnModel().getColumn(9).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(9).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(10).setHeaderValue("D Asist.");
-		tabla.getColumnModel().getColumn(10).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(10).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(11).setHeaderValue("D Cortes");
-		tabla.getColumnModel().getColumn(11).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(11).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(12).setHeaderValue("D Infonavit");
-		tabla.getColumnModel().getColumn(12).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(12).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(13).setHeaderValue("D Banorte");
-		tabla.getColumnModel().getColumn(13).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(13).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(14).setHeaderValue("D Banamex");
-		tabla.getColumnModel().getColumn(14).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(14).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(15).setHeaderValue("D Coop");
-		tabla.getColumnModel().getColumn(15).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(15).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(16).setHeaderValue("P Día Ext");
-		tabla.getColumnModel().getColumn(16).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(16).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(17).setHeaderValue("P Bono");
-		tabla.getColumnModel().getColumn(17).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(17).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(18).setHeaderValue("A pagar");
-		tabla.getColumnModel().getColumn(18).setMaxWidth(ancho);
-		tabla.getColumnModel().getColumn(18).setMinWidth(ancho);
-		tabla.getColumnModel().getColumn(19).setHeaderValue("Obs");
-		tabla.getColumnModel().getColumn(19).setMaxWidth(ancho*5);
-		tabla.getColumnModel().getColumn(19).setMinWidth(ancho*5);
-		tabla.getColumnModel().getColumn(20).setHeaderValue("Obs2");
-		tabla.getColumnModel().getColumn(20).setMaxWidth(ancho*5);
-		tabla.getColumnModel().getColumn(20).setMinWidth(ancho*5);
-		
-		Statement s;
-		ResultSet rs;
-		try {
-			s = con.conexion().createStatement();
-			rs = s.executeQuery("select folio,nombre,ap_paterno,ap_materno from tb_empleado");
-			
-			while (rs.next()) {
-			   String  fila[] = new String[4];
-			   fila[0] = rs.getString(1);
-			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   
-			   model.addRow(fila); 
-			}
-		
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		 JScrollPane scrol = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);   
-			tabla.setAutoResizeMode ( JTable.AUTO_RESIZE_OFF );
-		    return scrol; 
-
-	}
-		
-	KeyListener validaCantidad = new KeyListener() {
+	MouseListener opInasistencia = new MouseListener() {
 		@Override
-		public void keyTyped(KeyEvent e){
-			char caracter = e.getKeyChar();				
-			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
-			    	}
+		public void mousePressed(MouseEvent e) {
+			new Cat_Deduccion_Inasistencia().setVisible(true);
 		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				btnAgregar.doClick();
-			}
-		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
 	};
-	
-	KeyListener validaNumericoConPunto = new KeyListener() {
+	MouseListener opCortes = new MouseListener() {
 		@Override
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-		    if(((caracter < '0') ||	
-		    	(caracter > '9')) && 
-		    	(caracter != '.')){
-		    	e.consume();
-		    	} 		    		       	
+		public void mousePressed(MouseEvent e) {
+			new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
 		}
-		@Override
-		public void keyPressed(KeyEvent e){}
-		@Override
-		public void keyReleased(KeyEvent e){}						
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
 	};
+	MouseListener opFSRH = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};
+	MouseListener opFSAuxF = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};	
+	MouseListener opPersecciones = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Percepciones_Extra().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};	
+	MouseListener opPrestamo = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Filtro_Prestamo().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};	
+	MouseListener opEmpleado = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Empleado().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};	
+	MouseListener opPuesto = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Puesto().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};
+	MouseListener opSueldo = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Sueldo().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};
+	MouseListener opLRaya = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Lista_Raya().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};
+	MouseListener opLPago = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Lista_Pago().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};
+	MouseListener opLDeudores = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Lista_Deudores_Prestamo().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};
+	MouseListener opComprobarFS = new MouseListener() {
+		@Override
+		public void mousePressed(MouseEvent e) {
+			new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
+		}
+		public void mouseReleased(MouseEvent e) {}		
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
+	};		
 }

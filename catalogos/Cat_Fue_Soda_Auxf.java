@@ -75,7 +75,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		
 	public Cat_Fue_Soda_Auxf(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Pesos.png"));
-		this.setTitle("Fuente de Sodas AuxF");
+		this.setTitle("Fuente de Sodas Auxiliar y Finanzas");
 		int x = 40, y=30, ancho=140;
 		txtCantidad.requestFocus();
 		panel.setBorder(BorderFactory.createTitledBorder("Fuente de Sodas AuxF"));

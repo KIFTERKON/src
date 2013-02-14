@@ -79,14 +79,14 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
 	
 	public Cat_Comprobar_Fuente_Sodas_RH(){
-		this.setTitle("Comparación Fuente de Sodas RRHH");
+		this.setTitle("Comparación Fuente de Sodas DH");
 		
 		Etiqueta();
 		
-		panel.add(new JLabel("Tabla Recursos Humanos")).setBounds(210,10,200,20);
+		panel.add(new JLabel("Tabla Desarrollo Humanos")).setBounds(210,10,200,20);
 		panel.add(lblTotalRH).setBounds(470,10,200,20);
 		panel.add(scrollRh).setBounds(210,35,320,290);
-		panel.add(new JLabel("Tabla de Diferencia RRHH")).setBounds(210,335,200,20);
+		panel.add(new JLabel("Tabla de Diferencia Desarrollo Humanos")).setBounds(210,335,200,20);
 		panel.add(scrollTotalRH).setBounds(210,360,320,290);
 
 		panel.add(new JLabel("Tabla Auxiliar de Finanzas")).setBounds(650,10,200,20);

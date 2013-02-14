@@ -41,7 +41,7 @@ import objetos.Obj_Persecciones_Extra;
 import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Persecciones_Extra extends JDialog {
+public class Cat_Percepciones_Extra extends JDialog {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -116,9 +116,9 @@ public class Cat_Persecciones_Extra extends JDialog {
     JToolBar menu = new JToolBar();
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
-	public Cat_Persecciones_Extra(){
+	public Cat_Percepciones_Extra(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
-		this.setTitle("Persecciones Extra");
+		this.setTitle("Percepciones Extras");
 		
 		txtNombre.addKeyListener(new KeyAdapter() { 
 			public void keyReleased(final KeyEvent e) { 

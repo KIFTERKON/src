@@ -18,7 +18,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Empleado;
@@ -312,25 +311,6 @@ public class Cat_Usuario extends JFrame{
 		txtNombre_Completo.setEnabled(true);
 		txtContrasena.setEnabled(true);
 		txtContrasena1.setEnabled(true);	
-	}
-	
-	public static void main(String args[]){
-		try{
-			// 6677914218
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//Obj_Usuario usuario = new Obj_Usuario().buscarMaximo();
-			new Cat_Usuario().setVisible(true);
-			//new Principal().setVisible(true);
-			
-//			if(usuario.getFolio()  0){
-//				new Cat_Usuario().setVisible(true);
-//			}else{
-			//	new CatPassword().setVisible(true);
-//			}	
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
 	}
 	
 }

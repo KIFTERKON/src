@@ -80,6 +80,21 @@ public class Obj_Puesto {
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Puesto(this,folio); }
 	
-	//public Obj_Establecimiento buscar(int folio){ return new BuscarSQL().Establecimiento(folio); }
+	public Obj_Puesto buscar_pues(String nombre){
+		try{
+			return new BuscarSQL().Pues_buscar(nombre); 
+		} catch(SQLException e){
+			
+		}
+		return null;
+	}	
 	
+	public Obj_Puesto buscar_pues(int folio){
+		try{
+			return new BuscarSQL().Pues_buscar(folio); 
+		} catch(SQLException e){
+			
+		}
+		return null;
+	}	
 }

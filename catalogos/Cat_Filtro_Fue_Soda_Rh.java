@@ -59,7 +59,7 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	
 	@SuppressWarnings("unchecked")
 	public Cat_Filtro_Fue_Soda_Rh()	{
-		this.setTitle("..:: Filtro Fuente de Sodas RRHH ::..");
+		this.setTitle("Filtro Fuente de Sodas DH");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 

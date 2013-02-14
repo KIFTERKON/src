@@ -76,7 +76,7 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	
 	public Cat_Fue_Soda_Rh(String algo) {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
-		this.setTitle("Fuente de Sodas RRHH");
+		this.setTitle("Fuente de Sodas DH");
 		int x = 40, y=30, ancho=140;
 		txtCantidad.requestFocus();
 		panel.setBorder(BorderFactory.createTitledBorder("Fuente de Sodas RRHH"));
