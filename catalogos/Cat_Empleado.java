@@ -101,7 +101,7 @@ public class Cat_Empleado extends JFrame{
 	JButton btnStatus = new JButton();
 	JButton btnExaminar = new JButton("Examinar");
 	
-	JTextArea txaObservaciones = new JTextArea();
+	JTextArea txaObservaciones = new JTextArea(5,5);
 	JScrollPane Observasiones = new JScrollPane(txaObservaciones);
 	
 	public String img = "";
@@ -128,9 +128,9 @@ public class Cat_Empleado extends JFrame{
 		btnEditar.setVisible(false);
 		
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
-		
+	
 		panel.add(btnFoto).setBounds(x*2+ancho*3-20,y,ancho+95,200);
-		panel.add(Observasiones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90,445);
+		panel.add(txaObservaciones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
 		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+205,80,25);
 		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+235,ancho+95,210);
 		
@@ -188,6 +188,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
 		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,y,ancho-20,20);
+
+		txaObservaciones.setLineWrap(true); 
+		txaObservaciones.setWrapStyleWord(true);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtChecador.setDocument(new JTextFieldLimit(9));
@@ -205,6 +208,8 @@ public class Cat_Empleado extends JFrame{
 		btnFoto.addActionListener(opFoto);
 		btnExaminar.addActionListener(opExaminar);
 		
+		btnExaminar.setEnabled(false);
+		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
@@ -221,7 +226,7 @@ public class Cat_Empleado extends JFrame{
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 		
-		this.setSize(980,530);
+		this.setSize(1100,530);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
@@ -249,7 +254,7 @@ public class Cat_Empleado extends JFrame{
 			
 			FileDialog f = new FileDialog(new Frame());
 			f.setTitle("Selecciona una Imagen");
-			f.setMode(FileDialog.LOAD);// or FileDialog.SAVE OR LOAD
+			f.setMode(FileDialog.LOAD);
 			f.setVisible(true);
 			String ruta = f.getDirectory();
 			
@@ -276,7 +281,7 @@ public class Cat_Empleado extends JFrame{
 				fis.close(); 
 				fos.close();
 				}catch (IOException e) {
-				System.err.println("Error al Generar Copia");
+					System.err.println("Error al Generar Copia");
 				}
 			
 			}
@@ -496,6 +501,7 @@ public class Cat_Empleado extends JFrame{
 				txtFolio.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
+				btnExaminar.setEnabled(true);
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;
