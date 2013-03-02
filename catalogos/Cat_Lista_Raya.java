@@ -27,12 +27,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import export.exportar_excel;
+
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Lista_Raya;
 import SQL.Connexion;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Lista_Raya extends JFrame {
@@ -140,7 +148,8 @@ public class Cat_Lista_Raya extends JFrame {
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-		
+//	new ImageIcon(getClass().getResource("/export_excel.png"))+
+	JButton boto_expor = new JButton(" Export");
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
 	JLabel lblAuditoria = new JLabel(new ImageIcon("imagen/Aplicar.png"));
@@ -276,7 +285,10 @@ public class Cat_Lista_Raya extends JFrame {
 		campo.add(new JLabel("Autorizado por finanzas:")).setBounds(755,30,125,20);
 		campo.add(lblFinanzas).setBounds(880,30,20,20);
 		
+		campo.add(boto_expor).setBounds(1100, 20, 120, 45);
 		campo.add(btnGenerarLista).setBounds(920,30,130,20);
+		
+		boto_expor.addActionListener(opExportar);
 		
 		lblAuditoria.setEnabled(auto_auditoria);
 		lblFinanzas.setEnabled(auto_finanza);
@@ -300,6 +312,30 @@ public class Cat_Lista_Raya extends JFrame {
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		
 	}
+	
+	ActionListener opExportar = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+		 try {
+				Calendar c = new GregorianCalendar();
+				String nombre = "Lista de Raya["+c.get(Calendar.DATE)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.YEAR)+"]";
+				
+	            List<JTable> tb = new ArrayList<JTable>();
+	            List<String> nom = new ArrayList<String>();
+	            tb.add(tabla);
+	            nom.add("LISTA");
+	            
+	            exportar_excel excelExporter = new exportar_excel(tb, new File(nombre+".xls"), nom);
+	            if (excelExporter.export()) {
+	                JOptionPane.showMessageDialog(null, "DATOS EXPORTADOS CON EXITO!");
+	            	Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+nombre+".xls");
+	            }
+	            
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    
+		}
+	};
 	
 	public void opBono10_12(){
 		if(bono_10_12 == true){
