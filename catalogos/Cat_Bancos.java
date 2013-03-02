@@ -293,7 +293,7 @@ public class Cat_Bancos extends JDialog {
 			
 		}else{
 			for(int i=0; i<model.getRowCount(); i++){
-				for(int j=0; j<model.getColumnCount(); j++){
+				for(int j=0; j<model.getColumnCount()-1; j++){
 					model.isCellEditable(i,j);
 					miVector.add(model.getValueAt(i,j).toString());
 				}

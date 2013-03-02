@@ -90,4 +90,13 @@ public class Obj_Turno {
 		return null;
 	}
 	
+	public Obj_Turno buscar_hora(int folio){
+		try{
+			return new BuscarSQL().Horario_buscar(folio); 
+		} catch(SQLException e){
+			
+		}
+		return null;
+	}
+	
 }

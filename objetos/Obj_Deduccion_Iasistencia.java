@@ -17,6 +17,7 @@ public class Obj_Deduccion_Iasistencia {
 	private String asistencia;
 	private String gafete;
 	private int dia_gafete;
+	private float extra;
 	private int status;
 	
 	public Obj_Deduccion_Iasistencia(){
@@ -102,6 +103,14 @@ public class Obj_Deduccion_Iasistencia {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	public float getExtra() {
+		return extra;
+	}
+
+	public void setExtra(float extra) {
+		this.extra = extra;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Deduccion_Asistencia(this); }

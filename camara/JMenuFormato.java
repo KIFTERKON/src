@@ -25,7 +25,6 @@ public class JMenuFormato extends JMenuItem implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-       //modificable.setSize(ancho,alto);
-       padre.setSize(ancho, alto+200);
+        padre.setSize(ancho, alto+200);
     }
 }

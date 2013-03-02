@@ -283,22 +283,25 @@ public class Cat_Percepciones_Extra extends JDialog {
 			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
 				for(int i=0; i<model.getRowCount(); i++){
 					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j)+" ");
+						miVector.add(model.getValueAt(i,j));
 					}
 					Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
 					
 					perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
 					perseccion.setNombre_completo(miVector.get(1).toString().trim());
 					perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-					if(miVector.get(3).toString().trim() == null){
-						perseccion.setBono(0);
+					if(miVector.get(3) != ""){
+						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
 					}else{
+						miVector.set(3,0);
 						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
 					}
 					perseccion.setDia_extra(miVector.get(4).toString().trim());
-					if(miVector.get(5).toString().trim() == null){
-						perseccion.setDias(0);
+					
+					if(miVector.get(5) != ""){
+						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
 					}else{
+						miVector.set(5,0);
 						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
 					}
 				

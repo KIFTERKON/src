@@ -1,27 +1,36 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Puesto;
 import objetos.Obj_Sueldo;
 
 @SuppressWarnings("serial")
@@ -30,12 +39,24 @@ public class Cat_Sueldo extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
+Connexion con = new Connexion();
+	
+	DefaultTableModel modelo       = new DefaultTableModel(0,2)	{
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
+	JTable tabla = new JTable(modelo);
+	JScrollPane panelScroll = new JScrollPane(tabla);
+		
 	JTextField txtFolio = new JTextField();
 	JTextField txtSueldo = new JTextField();
 	
-	String puesto[] = new Obj_Puesto().Combo_Puesto();
+	/*String puesto[] = new Obj_Puesto().Combo_Puesto();
 	@SuppressWarnings("unchecked")
-	JComboBox cmbPuesto = new JComboBox(puesto);
+	JComboBox cmbPuesto = new JComboBox(puesto);*/
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -54,28 +75,31 @@ public class Cat_Sueldo extends JFrame{
 	
 		chStatus.setSelected(true);
 		
-		int x = 45, y=30, ancho=100;
+		int x = 45, y=40, ancho=100;
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
 		panel.add(txtFolio).setBounds(ancho,y,ancho,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho+5,y,32,20);
+		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+43+(ancho*2),y,ancho,20);
+		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
 		panel.add(new JLabel("Sueldo:")).setBounds(x,y+=30,ancho,20);
 		panel.add(txtSueldo).setBounds(ancho,y,ancho+x,20);
-		panel.add(btnNuevo).setBounds(x+200,y,ancho,20);
+		panel.add(btnNuevo).setBounds(x+210,y,ancho,20);
+
+//		panel.add(new JLabel("Puesto:")).setBounds(x,y+=30,ancho,20);
+//		panel.add(cmbPuesto).setBounds(ancho,y,ancho+x,20);
 		
-		panel.add(new JLabel("Puesto:")).setBounds(x,y+=30,ancho,20);
-		panel.add(cmbPuesto).setBounds(ancho,y,ancho+x,20);
-		panel.add(btnEditar).setBounds(x+200,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho,y+=25,ancho,20);
-		panel.add(btnSalir).setBounds(x,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
+		panel.add(btnEditar).setBounds(x+210,y,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho,y+=30,ancho,20);
+		panel.add(btnSalir).setBounds(x-10,y,ancho,20);
+		panel.add(btnGuardar).setBounds(x+210,y,ancho,20);
+		
+		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho-80+30,20,ancho+230,130);
 		
 		chStatus.setEnabled(false);
 		txtSueldo.setEditable(false);
-		cmbPuesto.setEnabled(false);
+//		cmbPuesto.setEnabled(false);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtSueldo.setDocument(new JTextFieldLimit(8));
@@ -90,15 +114,90 @@ public class Cat_Sueldo extends JFrame{
 		btnDeshacer.addActionListener(deshacer);
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
-		
+		agregar(tabla);
 		cont.add(panel);
-		
-		this.setSize(400,190);
+
+		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
-	public JComponent getBase(){
-			return panel;
+
+	@SuppressWarnings("unused")
+	private void agregar(final JTable tbl) {
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+	        	if(e.getClickCount()==1){
+	        		int fila = tabla.getSelectedRow();
+	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        
+						Obj_Sueldo fuente_sodas = new Obj_Sueldo().buscar(id);
+						
+						txtFolio.setText(id+"");
+						txtSueldo.setText(modelo.getValueAt(fila,1)+"");
+						chStatus.setSelected(true);
+						btnNuevo.setVisible(false);
+						btnEditar.setVisible(true);
+					
+	        	}
+	        }
+        });
+    }
+	
+	private JScrollPane getPanelTabla()	{		
+		new Connexion();
+
+		// Creamos las columnas.
+		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Sueldo");
+		tabla.getColumnModel().getColumn(1).setMinWidth(160);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		
+		Statement s;
+		ResultSet rs;
+		try {
+			s = con.conexion().createStatement();
+			rs = s.executeQuery("select folio,"+
+					 			" sueldo"+
+					" from tb_sueldo ");
+			
+			while (rs.next())
+			{ 
+			   String [] fila = new String[2];
+			   fila[0] = rs.getString(1).trim();
+			   fila[1] = rs.getString(2).trim();
+			   
+			   modelo.addRow(fila); 
+			}	
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		 JScrollPane scrol = new JScrollPane(tabla);
+		   
+	    return scrol; 
 	}
 	
 	ActionListener guardar = new ActionListener(){
@@ -114,13 +213,19 @@ public class Cat_Sueldo extends JFrame{
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
+							int nroFila = tabla.getSelectedRow();
 							sueldo.setSueldo(Float.parseFloat(txtSueldo.getText()));
-							sueldo.setPuesto(cmbPuesto.getSelectedIndex());
+//							sueldo.setPuesto(cmbPuesto.getSelectedIndex());
 							sueldo.setStatus(chStatus.isSelected());
-							sueldo.actualizar(Integer.parseInt(txtFolio.getText()));	
+							sueldo.actualizar(Integer.parseInt(txtFolio.getText()));
+							
+							modelo.setValueAt(txtFolio.getText(),nroFila,0);
+							modelo.setValueAt(txtSueldo.getText(),nroFila,1);
 							
 							panelLimpiar();
 							panelEnabledFalse();
+							btnEditar.setVisible(false);
+							btnNuevo.setVisible(true);
 							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
 						}
@@ -135,11 +240,21 @@ public class Cat_Sueldo extends JFrame{
 						return;
 					}else{
 						sueldo.setSueldo(Float.parseFloat(txtSueldo.getText()));
-						sueldo.setPuesto(cmbPuesto.getSelectedIndex());
+//						sueldo.setPuesto(cmbPuesto.getSelectedIndex());
 						sueldo.setStatus(chStatus.isSelected());
 						sueldo.guardar();
+						
+						Object[] fila = new Object[tabla.getColumnCount()]; 
+						
+						fila[0]=txtFolio.getText();
+						fila[1]=txtSueldo.getText();
+						
+						modelo.addRow(fila); 
+						
 						panelLimpiar();
 						panelEnabledFalse();
+						btnEditar.setVisible(false);
+						btnNuevo.setVisible(true);
 						txtFolio.setEditable(true);
 						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -152,21 +267,21 @@ public class Cat_Sueldo extends JFrame{
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);
 		txtSueldo.setEditable(false);
-		cmbPuesto.setEnabled(false);
+//		cmbPuesto.setEnabled(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
 		txtFolio.setEditable(true);
 		txtSueldo.setEditable(true);
-		cmbPuesto.setEnabled(true);
+//		cmbPuesto.setEnabled(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
 		txtFolio.setText("");
 		txtSueldo.setText("");
-		cmbPuesto.setSelectedItem("Selecciona un Puesto");
+//		cmbPuesto.setSelectedItem("Selecciona un Puesto");
 		chStatus.setSelected(true);
 	}
 	
@@ -241,13 +356,17 @@ public class Cat_Sueldo extends JFrame{
 				
 				txtFolio.setText(re.getFolio()+"");
 				txtSueldo.setText(re.getSueldo()+"");
-				cmbPuesto.setSelectedIndex(re.getPuesto());
+//				cmbPuesto.setSelectedIndex(re.getPuesto());
 				if(re.getStatus() == true){chStatus.setSelected(true);}
 				else{chStatus.setSelected(false);}
 				
-				btnNuevo.setEnabled(false);
-				btnEditar.setEnabled(true);
+				
+				
 				panelEnabledFalse();
+				
+				btnEditar.setVisible(false);
+				btnNuevo.setVisible(true);
+				
 				txtFolio.setEditable(true);
 				txtFolio.requestFocus();
 				
@@ -270,7 +389,7 @@ public class Cat_Sueldo extends JFrame{
 	private String validaCampos(){
 		String error="";
 		if(txtSueldo.getText().equals("")) 			error+= "Sueldo\n";
-		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto") )		error+= "Puesto\n";
+//		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto") )		error+= "Puesto\n";
 				
 		return error;
 	}
@@ -306,8 +425,9 @@ public class Cat_Sueldo extends JFrame{
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
-			btnNuevo.setEnabled(true);
-			btnEditar.setEnabled(true);
+
+			btnEditar.setVisible(false);
+			btnNuevo.setVisible(true);
 		}
 	};
 	
@@ -319,8 +439,9 @@ public class Cat_Sueldo extends JFrame{
 			}else{
 				panelEnabledTrue();
 				txtFolio.setEditable(false);
-				btnEditar.setEnabled(false);
-				btnNuevo.setEnabled(true);
+				
+				btnEditar.setVisible(false);
+				btnNuevo.setVisible(true);
 			}
 			
 		}		

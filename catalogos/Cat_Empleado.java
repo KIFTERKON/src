@@ -56,6 +56,7 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtApMaterno = new JTextField();
 	JTextField txtFecha = new JTextField(new Date().toString());
 	JTextField txtPensionAli = new JTextField();
+	JTextField txtHorario = new JTextField();
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
@@ -155,6 +156,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Turno:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbTurno).setBounds(x+ancho,y,ancho*2,20);
 		
+		panel.add(new JLabel("Horario:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtHorario).setBounds(x+ancho,y,ancho*2,20);
+		
 		panel.add(new JLabel("Descanso:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbDescanso).setBounds(x+ancho,y,ancho*2,20);
 		
@@ -198,6 +202,7 @@ public class Cat_Empleado extends JFrame{
 		txtApPaterno.setDocument(new JTextFieldLimit(20));
 		txtApMaterno.setDocument(new JTextFieldLimit(20));
 		
+		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
 		btnBuscar.addActionListener(buscar);
 		btnGuardar.addActionListener(guardar);
@@ -210,6 +215,7 @@ public class Cat_Empleado extends JFrame{
 		
 		btnExaminar.setEnabled(false);
 		
+		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
@@ -217,19 +223,26 @@ public class Cat_Empleado extends JFrame{
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		
 		cont.add(panel);
-		
+		txtHorario.setEditable(false);
 		txtFecha.setEditable(false);
 		panelEnabledFalse();
 		txtFolio.setEditable(true);
-		
 		String file = "X:\\Empleados\\Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 		
-		this.setSize(1100,530);
+		this.setSize(1100,555);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
+	
+	ActionListener opHorario_Turno = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			Obj_Turno horario = new Obj_Turno().buscar_hora(cmbTurno.getSelectedIndex());
+			
+			txtHorario.setText(horario.getHorario());
+		}
+	};
 	ActionListener opFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().length() != 0){
@@ -406,8 +419,10 @@ public class Cat_Empleado extends JFrame{
 							}else{
 								empleado.setObservasiones("");
 							}
-							if(img != ""){
-								empleado.setFoto(img);
+							String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
+							File fichero = new File(file);
+							if(fichero.exists()){
+								empleado.setFoto(file);
 							}else{
 								empleado.setFoto("X:\\Empleados\\Un.JPG");
 							}
@@ -468,8 +483,10 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setObservasiones("");
 						}
-						if(img != ""){
-							empleado.setFoto(img);
+						String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
+						File fichero = new File(file);
+						if(fichero.exists()){
+							empleado.setFoto(file);
 						}else{
 							empleado.setFoto("X:\\Empleados\\Un.JPG");
 						}
@@ -765,10 +782,7 @@ public class Cat_Empleado extends JFrame{
 		panelEnabledFalse();
 		txtFolio.setEnabled(true);
 		
-		this.setSize(980,530);
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-
+	
 	}
 	
 }

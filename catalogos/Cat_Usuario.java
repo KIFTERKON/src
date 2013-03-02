@@ -18,11 +18,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Empleado;
 import objetos.Obj_MD5;
-import objetos.Obj_Permiso;
 import objetos.Obj_Usuario;
 
 @SuppressWarnings("serial")
@@ -36,7 +36,8 @@ public class Cat_Usuario extends JFrame{
 	JPasswordField txtContrasena = new JPasswordField();
 	JPasswordField txtContrasena1 = new JPasswordField();
 	
-	String permiso[]=new Obj_Permiso().Combo_Permiso();
+	
+	String permiso[]={"Seleccionar Permiso de usuario","Administrador","Desarrollo Humanos","Auxiliar y Finanzas","Auditoria","Contador","Consulta"};
 	@SuppressWarnings("unchecked")
 	JComboBox cmbPermisos = new JComboBox(permiso);
 	
@@ -88,6 +89,8 @@ public class Cat_Usuario extends JFrame{
 		panel.add(btnGuardar).setBounds((x*4)+30,y,ancho-20,20);
 		
 		btnEditar.setEnabled(false);
+		btnDeshacer.setEnabled(false);
+		btnGuardar.setEnabled(false);
 		panelEnabledFalse();
 		txtFolio.setEnabled(true);
 		
@@ -120,11 +123,18 @@ public class Cat_Usuario extends JFrame{
 					txtNombre_Completo.setText(usuario.getNombre_completo().trim());
 					txtContrasena.setText(usuario.getContrasena().substring(0,15)+"");
 					txtContrasena1.setText(usuario.getContrasena().substring(0,15)+"");
-					cmbPermisos.setSelectedIndex(usuario.getPermiso_id()-1);
-					cmbStatus.setSelectedIndex(usuario.getStatus()-1);		
+					cmbPermisos.setSelectedIndex(usuario.getPermiso_id());
+					cmbStatus.setSelectedIndex(usuario.getStatus()-1);
+					
+					txtNombre_Completo.setEditable(false);
+					txtContrasena.setEnabled(false);
+					txtContrasena1.setEnabled(false);
 					btnEditar.setEnabled(true);
 					btnNuevo.setEnabled(false);
+					cmbPermisos.setEnabled(false);
+					cmbStatus.setEnabled(false);
 					btnGuardar.setEnabled(false);
+					btnDeshacer.setEnabled(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
@@ -152,9 +162,16 @@ public class Cat_Usuario extends JFrame{
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
-							
+							Obj_MD5 algoritmo = new Obj_MD5();
+							String cadena1 = algoritmo.cryptMD5(txtContrasena.getText(),"izagar");
+							String cadena2 = algoritmo.cryptMD5(txtContrasena1.getText(),"izagar");						
+							if(!cadena1.equals(cadena2)){
+								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+								return;							
+							}else{							
 							usuario.setNombre_completo(txtNombre_Completo.getText());
-							usuario.setPermiso_id(cmbPermisos.getSelectedIndex()+1);
+							usuario.setContrasena(cadena1);
+							usuario.setPermiso_id(cmbPermisos.getSelectedIndex());
 							usuario.setStatus(cmbStatus.getSelectedIndex()+1);
 							usuario.setFecha_alta(new Date().toString());
 							usuario.actualizar(Integer.parseInt(txtFolio.getText()));	
@@ -164,7 +181,7 @@ public class Cat_Usuario extends JFrame{
 							txtFolio.setEnabled(true);
 							txtFolio.requestFocus();
 							JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-							
+							}
 						}
 					}else{
 						return;
@@ -176,7 +193,11 @@ public class Cat_Usuario extends JFrame{
 					}else{
 						Obj_MD5 algoritmo = new Obj_MD5();
 						String cadena1 = algoritmo.cryptMD5(txtContrasena.getText(),"izagar");
-						String cadena2 = algoritmo.cryptMD5(txtContrasena1.getText(),"izagar");						
+						String cadena2 = algoritmo.cryptMD5(txtContrasena1.getText(),"izagar");		
+						
+						System.out.println(cadena1);
+						System.out.println(usuario.getContrasena());
+						
 						if(!cadena1.equals(cadena2)){
 							JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;							
@@ -184,7 +205,7 @@ public class Cat_Usuario extends JFrame{
 							usuario.setFolio(Integer.parseInt(txtFolio.getText()));
 							usuario.setNombre_completo(txtNombre_Completo.getText());
 							usuario.setContrasena(cadena1);
-							usuario.setPermiso_id(cmbPermisos.getSelectedIndex()+1);
+							usuario.setPermiso_id(cmbPermisos.getSelectedIndex());
 							usuario.setStatus(cmbStatus.getSelectedIndex()+1);
 							usuario.guardar();	
 							panelLimpiar();
@@ -203,16 +224,13 @@ public class Cat_Usuario extends JFrame{
 	
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
+			@SuppressWarnings("unused")
 			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-			if(empleado.getFolio() != 0){
+
 				panelEnabledTrue();
 				txtFolio.setEnabled(false);
 				btnEditar.setEnabled(false);
 				btnGuardar.setEnabled(true);
-			}else{
-				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-				return;
-			}
 		}		
 	};
 	
@@ -262,10 +280,11 @@ public class Cat_Usuario extends JFrame{
 	private String validaCampos(){
 		String error="";
 		
-		if(txtFolio.getText().equals(""))error+= "Folio\n";
-		if(txtNombre_Completo.getText().equals(""))error+= "Numero Checador\n";
-		if(txtContrasena.getText().equals(""))error+= "Contraseña\n";
-		if(txtContrasena1.getText().equals(""))error+= "Confirmar Contraseña\n";
+		if(txtFolio.getText().equals(""))											error+= "Folio\n";
+		if(txtNombre_Completo.getText().equals(""))									error+= "Numero Checador\n";
+		if(txtContrasena.getText().equals(""))										error+= "Contraseña\n";
+		if(txtContrasena1.getText().equals(""))										error+= "Confirmar Contraseña\n";
+		if(cmbPermisos.getSelectedItem().equals("Seleccionar Permiso de usuario"))	error+= "Permiso\n";
 				
 		return error;
 	}
@@ -275,7 +294,7 @@ public class Cat_Usuario extends JFrame{
 			Obj_Usuario usuario = new Obj_Usuario().buscarMaximo();
 			txtFolio.setText(usuario.getFolio()+1+"");
 			panelEnabledTrue();
-			btnEditar.setEnabled(true);
+			btnGuardar.setEnabled(true);
 			txtFolio.setEnabled(false);
 			txtNombre_Completo.requestFocus();
 			
@@ -284,12 +303,13 @@ public class Cat_Usuario extends JFrame{
 	
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
+			
 			panelLimpiar();
+			btnEditar.setEnabled(false);
+			btnDeshacer.setEnabled(false);
+			btnGuardar.setEnabled(false);
 			panelEnabledFalse();
 			txtFolio.setEnabled(true);
-			txtFolio.requestFocus();
-			btnNuevo.setEnabled(true);
-			btnEditar.setEnabled(false);
 		}
 	};
 	
@@ -303,14 +323,37 @@ public class Cat_Usuario extends JFrame{
 		txtFolio.setEnabled(false);
 		txtNombre_Completo.setEnabled(false);
 		txtContrasena.setEnabled(false);
-		txtContrasena1.setEnabled(false);	
+		txtContrasena1.setEnabled(false);
+		cmbPermisos.setEnabled(false);
+		cmbStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEnabled(true);
+//		txtFolio.setEnabled(true);
 		txtNombre_Completo.setEnabled(true);
 		txtContrasena.setEnabled(true);
-		txtContrasena1.setEnabled(true);	
+		txtContrasena1.setEnabled(true);
+		cmbPermisos.setEnabled(true);
+		cmbStatus.setEnabled(true);
+	}
+	
+	public static void main(String args[]){
+		try{
+			// 6677914218
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//Obj_Usuario usuario = new Obj_Usuario().buscarMaximo();
+			new Cat_Usuario().setVisible(true);
+			//new Principal().setVisible(true);
+			
+//			if(usuario.getFolio()  0){
+//				new Cat_Usuario().setVisible(true);
+//			}else{
+			//	new CatPassword().setVisible(true);
+//			}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

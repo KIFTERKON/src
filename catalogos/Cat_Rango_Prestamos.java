@@ -1,11 +1,16 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
@@ -16,7 +21,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Rango_Prestamos;
@@ -26,6 +39,18 @@ public class Cat_Rango_Prestamos extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+Connexion con = new Connexion();
+	
+	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
+	JTable tabla = new JTable(modelo);
+	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtPrestamoMinimo = new JTextField();
@@ -54,23 +79,25 @@ public class Cat_Rango_Prestamos extends JFrame {
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
 		panel.add(txtFolio).setBounds(ancho+10,y,ancho+30,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho+5,y,32,20);
+		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+43+(ancho*2),y,ancho,20);
+		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
 		panel.add(new JLabel("Minimo:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtPrestamoMinimo).setBounds(ancho+10,y,ancho+30,20);
 		
 		panel.add(new JLabel("Maximo:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtPrestamoMaximo).setBounds(ancho+10,y,ancho+30,20);
-		panel.add(btnNuevo).setBounds(x+200,y,ancho,20);
+		panel.add(btnNuevo).setBounds(x+210,y,ancho,20);
 		
 		panel.add(new JLabel("Descuento:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtDescuento).setBounds(ancho+10,y,ancho+30,20);
-		panel.add(btnEditar).setBounds(x+200,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho,y+=27,ancho,20);
-		panel.add(btnSalir).setBounds(x,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
+		panel.add(btnEditar).setBounds(x+210,y,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho-5,y+=27,ancho,20);
+		panel.add(btnSalir).setBounds(x-10,y,ancho,20);
+		panel.add(btnGuardar).setBounds(x+210,y,ancho,20);
+		
+		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho-80+30,20,ancho+230,140);
 	
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtPrestamoMinimo.setDocument(new JTextFieldLimit(10));
@@ -95,9 +122,105 @@ public class Cat_Rango_Prestamos extends JFrame {
 		txtFolio.setEditable(true);
 		cont.add(panel);
 		
-		this.setSize(400,220);
+		btnEditar.setEnabled(false);
+		
+		agregar(tabla);
+		txtPrestamoMinimo.setEditable(false);
+		this.setSize(760,220);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+	}
+	
+	private void agregar(final JTable tbl) {
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+	        	if(e.getClickCount()==1){
+	        		int fila = tabla.getSelectedRow();
+	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        
+						Obj_Rango_Prestamos rango = new Obj_Rango_Prestamos().buscar(id);
+						
+						txtFolio.setText(id+"");
+						txtPrestamoMinimo.setText("1");
+						txtPrestamoMaximo.setText(rango.getPrestamo_maximo()+"");
+						txtDescuento.setText(rango.getDescuento()+"");
+						btnEditar.setEnabled(true);
+					
+	        	}
+	        }
+        });
+    }
+	
+	private JScrollPane getPanelTabla()	{		
+		new Connexion();
+
+		// Creamos las columnas.
+		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Rango");
+		tabla.getColumnModel().getColumn(1).setMinWidth(160);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Descuento");
+		tabla.getColumnModel().getColumn(2).setMinWidth(80);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		
+		Statement s;
+		ResultSet rs;
+		try {
+			s = con.conexion().createStatement();
+			rs = s.executeQuery("select tb_rango_prestamos.folio as [Folio],"+
+					 "  tb_rango_prestamos.minimo as [Minimo], " +
+					 "	tb_rango_prestamos.maximo as [Maximo], " +
+					 "  tb_rango_prestamos.descuento as [Descuento] "+
+					
+					"  from tb_rango_prestamos");
+			
+			while (rs.next())
+			{ 
+				DecimalFormat DF = new DecimalFormat("#0.00");
+				
+				double minimo	=Double.parseDouble(rs.getString(2).trim());
+				double maximo	=Double.parseDouble(rs.getString(3).trim());
+				double descuent	=Double.parseDouble(rs.getString(4).trim());
+				
+			   String [] fila = new String[3];
+			   fila[0] = rs.getString(1).trim();
+			   fila[1] = DF.format(minimo)+"   -   "+DF.format(maximo);
+			   fila[2] = DF.format(descuent); 
+			   
+			   modelo.addRow(fila); 
+			}	
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		 JScrollPane scrol = new JScrollPane(tabla);
+		   
+	    return scrol; 
 	}
 	
 	ActionListener guardar = new ActionListener(){
@@ -114,16 +237,24 @@ public class Cat_Rango_Prestamos extends JFrame {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
+							int nroFila = tabla.getSelectedRow();
 							rango_prestamo.setFolio(Integer.parseInt(txtFolio.getText()));
 							rango_prestamo.setPrestamo_minimo(Double.parseDouble(txtPrestamoMinimo.getText()));
 							rango_prestamo.setPrestamo_maximo(Double.parseDouble(txtPrestamoMaximo.getText()));
 							rango_prestamo.setDescuento(Double.parseDouble(txtDescuento.getText()));
 							rango_prestamo.setStatus(chStatus.isSelected());
 							rango_prestamo.actualizar(Integer.parseInt(txtFolio.getText()));
+
+							modelo.setValueAt(txtFolio.getText(),nroFila,0);
+							modelo.setValueAt(txtPrestamoMinimo.getText()+"   -   "+txtPrestamoMaximo.getText(),nroFila,1);
+							modelo.setValueAt(txtDescuento.getText(), nroFila, 2);
+							
 							panelLimpiar();
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
 							txtPrestamoMinimo.requestFocus();
+
+							btnEditar.setEnabled(false);
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -142,9 +273,18 @@ public class Cat_Rango_Prestamos extends JFrame {
 						rango_prestamo.setDescuento(Double.parseDouble(txtDescuento.getText()));
 						rango_prestamo.setStatus(chStatus.isSelected());
 						rango_prestamo.guardar();
+						
+						Object[] fila = new Object[tabla.getColumnCount()]; 
+						
+						fila[0]=txtFolio.getText();
+						fila[1]=txtPrestamoMinimo.getText()+"   -   "+txtPrestamoMaximo.getText();
+						fila[2]=txtDescuento.getText();
+						modelo.addRow(fila); 
+						
 						panelLimpiar();
 						panelEnabledFalse();
 						txtFolio.setEditable(true);
+						btnEditar.setEnabled(false);
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -173,7 +313,7 @@ public class Cat_Rango_Prestamos extends JFrame {
 					else{chStatus.setSelected(false);}
 					
 					btnNuevo.setEnabled(false);
-					btnEditar.setEnabled(true);
+					btnEditar.setEnabled(false);
 					panelEnabledFalse();
 					txtFolio.setEditable(true);
 					txtFolio.requestFocus();
@@ -199,7 +339,9 @@ public class Cat_Rango_Prestamos extends JFrame {
 			panelLimpiar();
 			panelEnabledFalse();
 			txtFolio.requestFocus();
-			txtFolio.setEnabled(true);
+			txtFolio.setEditable(true);
+			btnNuevo.setEnabled(true);
+			btnEditar.setEnabled(false);
 		}
 	};
 	
@@ -230,6 +372,7 @@ public class Cat_Rango_Prestamos extends JFrame {
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
 			txtFolio.setEditable(false);
+			txtPrestamoMinimo.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		

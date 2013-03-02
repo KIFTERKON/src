@@ -1,11 +1,16 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,8 +20,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
+import SQL.Connexion;
+
+import objetos.JTextFieldLimit;
 import objetos.Obj_Puesto;
 
 @SuppressWarnings("serial")
@@ -24,6 +38,18 @@ public class Cat_Puesto extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+Connexion con = new Connexion();
+	
+	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
+	JTable tabla = new JTable(modelo);
+	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtPuesto = new JTextField();
@@ -45,24 +71,30 @@ public class Cat_Puesto extends JFrame{
 		
 		this.setTitle("Puesto");
 		
-		int x = 45, y=30, ancho=100;
+		int x = 15, y=30, ancho=100;
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
-		panel.add(txtFolio).setBounds(x+ancho,y,ancho,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho+5,y,32,20);
+		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
+		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+43+(ancho*2),y,ancho,20);
+		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
 		panel.add(new JLabel("Puesto:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtPuesto).setBounds(x+ancho,y,ancho,20);
-		panel.add(btnNuevo).setBounds(x+200,y,ancho,20);
+		panel.add(txtPuesto).setBounds(ancho-20,y,ancho+ancho,20);
+		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
 		
 		panel.add(new JLabel("Abreviatura:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtAbreviatura).setBounds(x+ancho,y,ancho,20);
-		panel.add(btnEditar).setBounds(x+200,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho,y+=25,ancho,20);
-		panel.add(btnSalir).setBounds(x,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+200,y,ancho,20);
+		panel.add(txtAbreviatura).setBounds(ancho-20,y,ancho+ancho,20);
+		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
+		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
+		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
+		
+		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
+		
+		txtFolio.setDocument(new JTextFieldLimit(9));
+		txtPuesto.setDocument(new JTextFieldLimit(100));
+		txtAbreviatura.setDocument(new JTextFieldLimit(20));
 		
 		chStatus.setEnabled(false);
 		txtPuesto.setEditable(false);
@@ -78,13 +110,100 @@ public class Cat_Puesto extends JFrame{
 		btnDeshacer.addActionListener(deshacer);
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
-		
+		btnEditar.setEnabled(false);
 		cont.add(panel);
 		
-		this.setSize(400,190);
+		agregar(tabla);
+		
+		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
+	
+	private JScrollPane getPanelTabla()	{		
+		new Connexion();
+
+		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+		tabla.getColumnModel().getColumn(1).setMinWidth(160);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Abreviatura");
+		tabla.getColumnModel().getColumn(2).setMinWidth(80);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		
+		Statement s;
+		ResultSet rs;
+		try {
+			s = con.conexion().createStatement();
+			rs = s.executeQuery("select tb_puesto.folio as [Folio],"+
+					 "  tb_puesto.nombre as [Nombre], "+
+					 "  tb_puesto.abreviatura as [Abreviatura] "+
+					
+					"  from tb_puesto where status=1");
+			
+			while (rs.next())
+			{ 
+			   String [] fila = new String[3];
+			   fila[0] = rs.getString(1).trim();
+			   fila[1] = rs.getString(2).trim();
+			   fila[2] = rs.getString(3).trim(); 
+			   
+			   modelo.addRow(fila); 
+			}	
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		 JScrollPane scrol = new JScrollPane(tabla);
+		   
+	    return scrol; 
+	}
+	
+	@SuppressWarnings("unused")
+	private void agregar(final JTable tbl) {
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+	        	if(e.getClickCount()==1){
+	        		int fila = tabla.getSelectedRow();
+	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        
+						Obj_Puesto fuente_sodas = new Obj_Puesto().buscar(id);
+						
+						txtFolio.setText(id+"");
+						txtPuesto.setText(modelo.getValueAt(fila,1)+"");
+						txtAbreviatura.setText(modelo.getValueAt(fila,2)+"");
+						btnEditar.setEnabled(true);
+						chStatus.setSelected(true);
+					
+	        	}
+	        }
+        });
+    }
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -99,10 +218,15 @@ public class Cat_Puesto extends JFrame{
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
+							int nroFila = tabla.getSelectedRow();
 							puesto.setPuesto(txtPuesto.getText());
 							puesto.setAbreviatura(txtAbreviatura.getText());
 							puesto.setStatus(chStatus.isSelected());
 							puesto.actualizar(Integer.parseInt(txtFolio.getText()));
+							
+							modelo.setValueAt(txtFolio.getText(),nroFila,0);
+							modelo.setValueAt(txtPuesto.getText(),nroFila,1);
+							modelo.setValueAt(txtAbreviatura.getText(), nroFila, 2);
 							
 							panelLimpiar();
 							panelEnabledFalse();
@@ -123,6 +247,14 @@ public class Cat_Puesto extends JFrame{
 						puesto.setAbreviatura(txtAbreviatura.getText());
 						puesto.setStatus(chStatus.isSelected());
 						puesto.guardar();
+						
+						Object[] fila = new Object[tabla.getColumnCount()]; 
+							
+						fila[0]=txtFolio.getText();
+						fila[1]=txtPuesto.getText();
+						fila[2]=txtAbreviatura.getText();
+						modelo.addRow(fila); 
+						
 						panelLimpiar();
 						panelEnabledFalse();
 						txtFolio.setEditable(true);
@@ -188,7 +320,7 @@ public class Cat_Puesto extends JFrame{
 			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(true);
+			btnEditar.setEnabled(false);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
@@ -244,7 +376,8 @@ public class Cat_Puesto extends JFrame{
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
-			btnEditar.setEnabled(true);
+			btnEditar.setEnabled(false);
+			chStatus.setSelected(false);
 		}
 	};
 	

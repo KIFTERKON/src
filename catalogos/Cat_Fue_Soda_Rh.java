@@ -267,7 +267,6 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
-					
 					suma();
 					panelLimpiar();
 				}else{

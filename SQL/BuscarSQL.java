@@ -10,12 +10,16 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Auto_Auditoria;
+import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
+import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Lista_Raya;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
@@ -548,7 +552,7 @@ public class BuscarSQL {
 	
 	public Obj_Deduccion_Iasistencia Deduccion(int folio) throws SQLException{
 		Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
-		String query = "select puntualidad,falta,asistencia from tb_deduccion_asistencia where folio_empleado ="+ folio;
+		String query = "select puntualidad,falta,asistencia,extra from tb_deduccion_asistencia where folio_empleado ="+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -557,6 +561,7 @@ public class BuscarSQL {
 				deduccion.setPuntualidad(rs.getString("puntualidad"));
 				deduccion.setFalta(rs.getString("falta"));
 				deduccion.setAsistencia(rs.getString("asistencia"));
+				deduccion.setExtra(rs.getFloat("extra"));
 			}
 			
 		} catch (Exception e) {
@@ -786,5 +791,138 @@ public class BuscarSQL {
 		return turno;
 	}
 	
+	
+	public Obj_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
+		Obj_Lista_Raya lista = new Obj_Lista_Raya();
+		String query = "select folio from tb_pre_listaraya where folio_empleado = "+folio+" and status = 1;";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				lista.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return lista;
+	}
+	
+	
+	public Obj_Configuracion_Sistema Configuracion_sistema() throws SQLException{
+		Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema();
+		String query ="select count(bono_10_12) as 'Couns' from tb_configuracion_sistema";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				configs.setCouns(rs.getInt("Couns"));
+			
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return configs;
+	}
+	
+	public Obj_Configuracion_Sistema Configuracion_sistema2() throws SQLException{
+		Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema();
+		String query ="select * from tb_configuracion_sistema";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				configs.setBono_10_12(rs.getBoolean("bono_10_12"));
+				configs.setBono_dia_extra(rs.getBoolean("bono_dia_extra"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return configs;
+	}
+	
+	public Obj_Turno Horario_buscar(int folio) throws SQLException{
+		Obj_Turno horario = new Obj_Turno();
+		String query = "select horario from tb_turno where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				horario.setHorario(rs.getString("horario"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return horario;
+	}
+	public Obj_Auto_Auditoria Autorizar_Audi() throws SQLException{
+		Obj_Auto_Auditoria auditoria = new Obj_Auto_Auditoria();
+		String query = "select autorizar_auditoria from tb_autorizaciones";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				auditoria.setAutorizar(rs.getBoolean(1));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return auditoria;
+	}
+	
+	public Obj_Auto_Finanzas Autorizar_Finanzas() throws SQLException{
+		Obj_Auto_Finanzas auditoria = new Obj_Auto_Finanzas();
+		String query = "select autorizar_finanzas from tb_autorizaciones";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				auditoria.setAutorizar(rs.getBoolean(1));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return auditoria;
+	}
 	
 }

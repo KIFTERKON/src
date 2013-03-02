@@ -39,8 +39,7 @@ public class Dispositivos {
 		
 	}
 	
-	public Dispositivos(MainCamara padre)
-    {
+	public Dispositivos(MainCamara padre){
         this.padre=padre;
     }
 
@@ -51,14 +50,12 @@ public class Dispositivos {
       String rpta="";
       Vector listaDispositivos = null;
       
-      //Buscamos los dispositivos instalados
-      listaDispositivos = CaptureDeviceManager.getDeviceList();
-      Iterator it = listaDispositivos.iterator();
+     listaDispositivos = CaptureDeviceManager.getDeviceList();
+     Iterator it = listaDispositivos.iterator();
       while (it.hasNext())
       {
         CaptureDeviceInfo cdi = (CaptureDeviceInfo)it.next();
         rpta+=cdi.getName()+"\n";
-        //cdi.getName() --> Obtiene el nombre del Dispositivo Detectado
       }
       if(rpta.compareTo("")!=0)
           rpta="Dispositivos detectados:\n\n"+rpta;
@@ -75,7 +72,6 @@ public class Dispositivos {
 	public void detectarDispositivos(JMenu dispositivos)
     {
       Vector listaDispositivos = null;
-      //Buscamos los dispositivos instalados
       listaDispositivos = CaptureDeviceManager.getDeviceList();
       Iterator it = listaDispositivos.iterator();
 
@@ -119,35 +115,35 @@ public class Dispositivos {
       }
     }
 
-	public void MuestraWebCam(JPanel panelCam,String dispositivo,String FormatoColor) {
-        if(player != null)
+	public void MuestraWebCam(JPanel panelCam,String dispositivo,String FormatoColor) throws IOException, CannotRealizeException {
+		if(player != null)
             return;
         
         CaptureDeviceInfo dev = CaptureDeviceManager.getDevice(dispositivo);
-        //obtengo el locator del dispositivo
         MediaLocator loc = dev.getLocator();
-            try {
+        try {
                 player = Manager.createRealizedPlayer(loc);
-                
-            } catch (IOException ex) {
-            } catch (NoPlayerException ex) {
-                
-            } catch (CannotRealizeException ex) {
+                System.out.println(player);
                
+            } catch (IOException ex) {
+            	System.out.println("Ponga la camara 0");
+            } catch (NoPlayerException ex) {
+            	System.out.println("Ponga la camara 1");
+            } catch (CannotRealizeException ex) { 
+            	System.out.println("Ponga la camara 3");
             }
-            player.start();
-
+          
+    
+        player.start();
+           
         try {
         	
             Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            
-        }
+        } catch (InterruptedException ex) { }
 
         Component comp;
 
-        if ((comp = player.getVisualComponent())!= null)
-        {
+        if ((comp = player.getVisualComponent())!= null) {
           panelCam.add(comp,BorderLayout.CENTER);
           padre.pack();
         }
@@ -182,7 +178,7 @@ public class Dispositivos {
                     	  System.out.println("Error al guardar la imagen");
                       }
             	}else{
-            		JOptionPane.showMessageDialog(null, "El directorio '\\192.168.2.180\\FOTOS MME' no está conectado a la unidad de red ");	
+            		JOptionPane.showMessageDialog(null, "El directorio '\\192.168.2.180\\RRHH' no está conectado a la unidad de red ");	
             	}
               
             }

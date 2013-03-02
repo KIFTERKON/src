@@ -169,7 +169,7 @@ public class Cat_Prestamo extends JDialog{
 	
 		txtFolio_Empleado.setText(re.getFolio()+"");
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
-		lblRango.setText(rango_prestamo[re.getPrestamo()-1]);
+		lblRango.setText(rango_prestamo[re.getPrestamo()]);
 		panelEnabledTrue();
 		txtFecha.setEnabled(false);
 		

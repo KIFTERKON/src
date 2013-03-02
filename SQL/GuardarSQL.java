@@ -14,10 +14,12 @@ import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
+import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
@@ -192,15 +194,14 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Sueldo(Obj_Sueldo sueldo){
-		String query = "insert into tb_sueldo(sueldo,puesto_id,status) values(?,?,?)";
+		String query = "insert into tb_sueldo(sueldo,status) values(?,?)";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setFloat(1, sueldo.getSueldo());
-			pstmt.setInt(2, sueldo.getPuesto());
-			pstmt.setString(3, (sueldo.getStatus())?"1":"0");
+			pstmt.setString(2, (sueldo.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -409,8 +410,8 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia deduccion){
-		String query = "insert into tb_deduccion_inasistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,gafete,dia_gafete,status) " +
-						"values(?,?,?,?,?,?,?,?,?,?);";
+		String query = "insert into tb_deduccion_inasistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,gafete,dia_gafete,extra,status) " +
+						"values(?,?,?,?,?,?,?,?,?,?,?);";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -425,7 +426,8 @@ public class GuardarSQL {
 			pstmt.setString(7, deduccion.getAsistencia());
 			pstmt.setString(8, deduccion.getGafete());
 			pstmt.setInt(9, deduccion.getDia_gafete());
-			pstmt.setInt(10 , 1);
+			pstmt.setFloat(10, deduccion.getExtra());
+			pstmt.setInt(11 , 1);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -484,7 +486,8 @@ public class GuardarSQL {
 	
 	public boolean Guardar(Obj_Persecciones_Extra persecciones){
 		String query = "insert into tb_persecciones_extra(folio_empleado,nombre_completo,establecimiento,bono,dia_extra,dias,status) " +
-						"values(?,?,?,?,?,?);";
+						"values(?,?,?,?,?,?,?);";
+		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -533,7 +536,7 @@ public class GuardarSQL {
 			pstmt.setString(3, bancos.getEstablecimiento().toUpperCase());
 			pstmt.setInt(4, bancos.getBanamex());
 			pstmt.setInt(5, bancos.getBanorte());
-			pstmt.setString(7, "1");
+			pstmt.setString(6, "1");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -678,4 +681,146 @@ public class GuardarSQL {
 			}
 		}return true;
 	}
+	
+	
+	public boolean Guardar_Pre_Lista(Obj_Lista_Raya raya){
+		
+		String query ="insert into tb_pre_listaraya(boolean,folio_empleado,observasion_i,observasion_ii,status)" +
+				" values(?,?,?,?,?);";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, (raya.isChecado()) ? "true": "false");
+			pstmt.setInt(2, raya.getFolio_empleado());
+			pstmt.setString(3, raya.getObservasion_i());
+			pstmt.setString(4, raya.getObservasion_ii());
+			pstmt.setInt(5, 1);
+
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortado");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar(Obj_Configuracion_Sistema configs){
+		String query = "insert into tb_configuracion_sistema(bono_10_12,bono_dia_extra) values(?,?)";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, (configs.isBono_10_12())? "true" : "false");
+			pstmt.setString(2, (configs.isBono_dia_extra())? "true" : "false");
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar(Obj_Lista_Raya raya){
+		
+		String query ="insert into tb_lista_raya(numero_lista,folio_empleado,nombre_completo,establecimiento,sueldo,"+
+						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
+						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,"+
+						 "d_banamex,d_banorte,d_extra,p_dias_extra,p_bono_extra,"+
+						 "a_pagar,observaciones,status) " +
+						 "values(?,?,?,?,?," +
+						 "?,?,?,?,?," +
+						 "?,?,?,?,?," +
+						 "?,?,?,?,?," +
+						 "?,?,?);";
+
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, 1);
+			pstmt.setInt(2, raya.getFolio_empleado());
+			pstmt.setString(3, raya.getNombre_completo().toUpperCase());
+			pstmt.setString(4, raya.getEstablecimiento().toUpperCase());
+			pstmt.setFloat(5, raya.getSueldo());
+			pstmt.setFloat(6, raya.getP_bono_complementario());
+			pstmt.setFloat(7, raya.getSaldo_prestamo_inicial());
+			pstmt.setFloat(8, raya.getD_prestamo());
+			pstmt.setFloat(9, raya.getSaldo_final());
+			pstmt.setFloat(10, raya.getD_fuente_sodas());
+			pstmt.setFloat(11, raya.getD_puntualidad());
+			pstmt.setFloat(12, raya.getD_faltas());
+			pstmt.setFloat(13, raya.getD_asistencia());
+			pstmt.setFloat(14, raya.getD_cortes());
+			pstmt.setFloat(15, raya.getD_infonavit());
+			pstmt.setFloat(16, raya.getD_banamex());
+			pstmt.setFloat(17, raya.getD_banorte());
+			pstmt.setFloat(18, raya.getD_extra());
+			pstmt.setFloat(19, raya.getP_dias_extra());
+			pstmt.setFloat(20, raya.getP_bono_extra());
+			pstmt.setFloat(21, raya.getA_pagar());
+			pstmt.setString(22, raya.getObservasion_i());
+			pstmt.setInt(23, 1);
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 }

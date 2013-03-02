@@ -1,31 +1,27 @@
 package camara;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.media.CannotRealizeException;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "restriction" })
 public class MainCamara extends javax.swing.JFrame {
 	
 	
     private Dispositivos misDispositivos;
     String nombre;
-    JButton jButton2 = new JButton("Ver");
-    JMenu jMenu1 = new JMenu();
-    JMenuBar jMenuBar1 = new JMenuBar();
-    JMenu jMenuDispositivos = new JMenu();
-    JMenuItem jMenuItem1 = new JMenuItem();
-    JMenuItem jMenuItem2 = new JMenuItem();
+    JButton btnGuardar = new JButton("Guardar");
+    JButton btnSalir = new JButton("Salir");
     JPanel jPWebCam = new JPanel();
     JPanel jPanel1 = new JPanel();
     JScrollPane jScrollPane1 = new JScrollPane();
@@ -36,14 +32,14 @@ public class MainCamara extends javax.swing.JFrame {
     	nombre=folio;
         initComponents();
         misDispositivos= new Dispositivos(this);
-        misDispositivos.detectarDispositivos(jMenuDispositivos);
+        btnGuardar.setEnabled(false);
         setLocationRelativeTo(null);
-        
+        ver();
     }
 
     private void initComponents() {
-
-        setTitle("Captura Foto");
+    	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/camera.png"));
+        this.setTitle("Captura Foto");
  
         jPWebCam.setBorder(javax.swing.BorderFactory.createTitledBorder("Wisky!"));
         jPWebCam.setLayout(new java.awt.BorderLayout());
@@ -57,13 +53,23 @@ public class MainCamara extends javax.swing.JFrame {
         txtInfo.setRows(5);
         jScrollPane1.setViewportView(txtInfo);
         
-        jButton2.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-            	 infoDispositivo();
-            	 misDispositivos.MuestraWebCam(jPWebCam,"vfw:Microsoft WDM Image Capture (Win32):0","yuv");
+        btnSalir.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent evt){
+        		misDispositivos.salir();
+        		dispose();
+        	}
+        });
+        btnGuardar.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+            	 misDispositivos.CapturaFoto(nombre);
             }
+        });
+        
+        addWindowListener( new java.awt.event.WindowAdapter() {
+        	public void windowClosing(java.awt.event.WindowEvent e ) { 
+        		misDispositivos.salir();
+        		dispose();
+        	} 
         });
 
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
@@ -74,8 +80,10 @@ public class MainCamara extends javax.swing.JFrame {
             .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(110, 110, 110))
+                .addComponent(btnGuardar)
+                .addGap(20, 20, 20)
+                .addComponent(btnSalir)
+                .addGap(10, 10, 10))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
@@ -88,44 +96,28 @@ public class MainCamara extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2))
+                    .addComponent(btnGuardar)
+                    .addComponent(btnSalir))
                 .addContainerGap()));
-
+      
         getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
 
-        jMenu1.setText("Archivo");
-
-        jMenuItem2.setText("Capturar y Guardar");
-        jMenuItem2.addActionListener(new ActionListener() 
-        {
-            public void actionPerformed(ActionEvent evt)
-            {
-            	 misDispositivos.CapturaFoto(nombre);
-            }
-        });
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem1.setText("Salir");
-        jMenuItem1.addActionListener(new ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				misDispositivos.salir();
-            	dispose();
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenuDispositivos.setText("Dispositivos");
-        jMenuBar1.add(jMenuDispositivos);
-
-        setJMenuBar(jMenuBar1);
-
-        setSize(new java.awt.Dimension(413, 513));
+        setSize(new java.awt.Dimension(430, 513));
     }
 
-    private void infoDispositivo()
-    {
+    public void ver(){
+    	btnGuardar.setEnabled(true);
+    	infoDispositivo();
+    	try {
+			misDispositivos.MuestraWebCam(jPWebCam,"vfw:Microsoft WDM Image Capture (Win32):0","yuv");
+		} catch (CannotRealizeException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    private void infoDispositivo() {
         txtInfo.setText(misDispositivos.verInfoDispositivos());
     }
 

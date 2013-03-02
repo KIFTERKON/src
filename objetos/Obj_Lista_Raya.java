@@ -1,10 +1,16 @@
 package objetos;
 
+import java.sql.SQLException;
+
+import SQL.ActualizarSQL;
+import SQL.BuscarSQL;
+import SQL.GuardarSQL;
+
 public class Obj_Lista_Raya {
 	
-	private int folio;
 	private int numero_lista;
 	private boolean checado;
+	private int folio;
 	private int folio_empleado;
 	private String nombre_completo;
 	private String establecimiento;
@@ -21,7 +27,7 @@ public class Obj_Lista_Raya {
 	private float d_infonavit;
 	private float d_banamex;
 	private float d_banorte;
-	private float d_cooperacion;
+	private float d_extra;
 	private float p_dias_extra;
 	private float p_bono_extra;
 	private float a_pagar;
@@ -32,7 +38,7 @@ public class Obj_Lista_Raya {
 	public Obj_Lista_Raya(){
 		this.folio=0; numero_lista=0; checado=false; folio_empleado=0; nombre_completo=""; establecimiento=""; sueldo=0;
 		this.p_bono_complementario=0; saldo_prestamo_inicial=0; d_prestamo=0; saldo_final=0; d_fuente_sodas=0; d_puntualidad=0;
-		this.d_faltas=0; d_asistencia=0; d_cortes=0; d_infonavit=0; d_banamex=0; d_banorte=0; d_cooperacion=0; p_dias_extra=0;
+		this.d_faltas=0; d_asistencia=0; d_cortes=0; d_infonavit=0; d_banamex=0; d_banorte=0; d_extra = 0; p_dias_extra=0;
 		this.p_bono_extra=0; a_pagar=0; observasion_i=""; observasion_ii=""; status=0;
 	}
 
@@ -188,12 +194,12 @@ public class Obj_Lista_Raya {
 		d_banorte = dBanorte;
 	}
 
-	public float getD_cooperacion() {
-		return d_cooperacion;
+	public float getD_extra() {
+		return d_extra;
 	}
 
-	public void setD_cooperacion(float dCooperacion) {
-		d_cooperacion = dCooperacion;
+	public void setD_extra(float D_extra) {
+		d_extra = D_extra;
 	}
 
 	public float getP_dias_extra() {
@@ -244,6 +250,19 @@ public class Obj_Lista_Raya {
 		this.status = status;
 	}
 	
+	public boolean guardar(){ return new GuardarSQL().Guardar_Pre_Lista(this); }
 	
+	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar_Pre_Lista(this,folio); }
+	
+	public Obj_Lista_Raya buscar_folio(int nombre_completo){
+		try{
+			return new BuscarSQL().Lista_buscar_folio(nombre_completo); 
+		} catch(SQLException e){
+			
+		}
+		return null;
+	}
+	
+	public boolean guardar_lista(){ return new GuardarSQL().Guardar(this); }
 	
 }

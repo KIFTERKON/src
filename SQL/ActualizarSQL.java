@@ -6,12 +6,16 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Auto_Auditoria;
+import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
@@ -27,7 +31,7 @@ public class ActualizarSQL {
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
 				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=? where folio=" + folio;
-		
+		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -111,17 +115,18 @@ public class ActualizarSQL {
 	
 	
 	public boolean Usuario(Obj_Usuario usuario, int folio){
-		String query = "update tb_usuario set nombre_completo=?, permiso_id=?, fecha_actu=?, status=? where folio=" + folio;
+		String query = "update tb_usuario set nombre_completo=?,contrasena=?, permiso_id=?, fecha_actu=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, usuario.getNombre_completo().toUpperCase());
-			pstmt.setInt(2, usuario.getPermiso_id());
+			pstmt.setString(2, usuario.getContrasena());
+			pstmt.setInt(3, usuario.getPermiso_id());
 			String fecha = new Date().toString();
-			pstmt.setString(3, fecha);
-			pstmt.setInt(4, usuario.getStatus());
+			pstmt.setString(4, fecha);
+			pstmt.setInt(5, usuario.getStatus());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -212,15 +217,14 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Sueldo(Obj_Sueldo sueldo, int folio){
-		String query = "update tb_sueldo set sueldo=?, puesto_id=?, status=? where folio=" + folio;
+		String query = "update tb_sueldo set sueldo=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setFloat(1, sueldo.getSueldo());
-			pstmt.setInt(2, sueldo.getPuesto());
-			pstmt.setString(3, (sueldo.getStatus())?"1":"0");
+			pstmt.setString(2, (sueldo.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -504,7 +508,7 @@ public class ActualizarSQL {
 	
 	
 	public boolean Actualizar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia lista, int folio){
-		String query = "update tb_deduccion_inasistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=?, gafete=?, dia_gafete=? where folio_empleado="+folio +" and status=1";
+		String query = "update tb_deduccion_inasistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=?, gafete=?, dia_gafete=?, extra=? where folio_empleado="+folio +" and status=1";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -516,6 +520,7 @@ public class ActualizarSQL {
 			pstmt.setString(4, lista.getAsistencia());
 			pstmt.setString(5, lista.getGafete());
 			pstmt.setInt(6, lista.getDia_gafete());
+			pstmt.setFloat(7, lista.getExtra());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -681,6 +686,145 @@ public class ActualizarSQL {
 			pstmt.setString(1, turno.getNombre().toUpperCase());
 			pstmt.setString(2, turno.getHorario().toUpperCase());
 			pstmt.setString(3, (turno.isStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	
+	public boolean Actualizar_Pre_Lista(Obj_Lista_Raya raya, int folio){
+		String query ="update tb_pre_listaraya set boolean=?, observasion_i=?, observasion_ii=?, folio_empleado=? where folio="+folio+" and status=1";
+
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, (raya.isChecado()) ? "true": "false");
+			pstmt.setString(2, raya.getObservasion_i());
+			pstmt.setString(3, raya.getObservasion_ii());
+			pstmt.setInt(4, raya.getFolio_empleado());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}	
+	
+	public boolean Configurar_Sistema(Obj_Configuracion_Sistema configs){
+		String query = "update tb_configuracion_sistema set bono_10_12=?, bono_dia_extra=?";
+				
+		System.out.println(query);
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+		
+			pstmt.setString(1, (configs.isBono_10_12())? "true" : "false");
+			pstmt.setString(2, (configs.isBono_dia_extra())? "true" : "false");
+						
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
+	
+	
+	public boolean Auditoria(Obj_Auto_Auditoria auditoria){
+		String query = "update tb_autorizaciones set autorizar_auditoria=? ";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, (auditoria.isAutorizar())? "true" : "false");
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Autorizar_Finanzas(Obj_Auto_Finanzas auditoria){
+		String query = "update tb_autorizaciones set autorizar_finanzas=? ";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, (auditoria.isAutorizar())? "true" : "false");
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

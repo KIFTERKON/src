@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.text.MessageFormat;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -35,19 +34,14 @@ public class Cat_Lista_Pago extends JDialog{
 	JLayeredPane campo = new JLayeredPane();
 	
 	//DECLARACION PARA CREAR UNA TABLA
-	DefaultTableModel model = new DefaultTableModel(0,3){
+	DefaultTableModel model = new DefaultTableModel(0,2){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
 			return false;
 		}
 	};
-	
 	JTable tabla = new JTable(model);
-	
-	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
-	@SuppressWarnings("unchecked")
-	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
 	JLabel lblImprimir = new JLabel(new ImageIcon("imagen//imprimir-32.png"));
 	
@@ -63,7 +57,6 @@ public class Cat_Lista_Pago extends JDialog{
 		cont.add(campo);
 		this.setModal(true);
 		this.setSize(520,GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
-//		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
 	}
@@ -71,24 +64,18 @@ public class Cat_Lista_Pago extends JDialog{
 	private JScrollPane getPanelTabla()	{	
 		Connection conn = new Connexion().conexion();
 		
-//		cont.setBackground(new java.awt.Color(214,214,214));
-		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
 		
-
 		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(245);
-		tabla.getColumnModel().getColumn(0).setMinWidth(245);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Estab");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(55);
-		tabla.getColumnModel().getColumn(1).setMinWidth(55);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Firma");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(150);
-		tabla.getColumnModel().getColumn(2).setMinWidth(150);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(220);
+		tabla.getColumnModel().getColumn(0).setMinWidth(220);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Firma");
+		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(1).setMinWidth(230);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
@@ -107,7 +94,6 @@ public class Cat_Lista_Pago extends JDialog{
 		}; 
 						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		Statement s;
 		ResultSet rs;
 		try {
@@ -121,17 +107,47 @@ public class Cat_Lista_Pago extends JDialog{
 
 								"  where "+
 									"  tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-									"  tb_empleado.status < 3 "+
+									"  tb_empleado.status = 1 "+
 								" order by Establecimiento asc");
 			
+			String aux="";
+			int cont =0;
 			while (rs.next())
 			{ 
 			   String [] fila = new String[3];
-			   fila[0] ="  "+rs.getString(1).trim()+" "+rs.getString(2).trim()+" "+rs.getString(3).trim();
-			   fila[1] ="  "+rs.getString(4).trim();
-			   fila[2] = "";
- 
+			   
+			   String nombre= 	rs.getString(1).trim()+" "+rs.getString(2).trim()+" "+rs.getString(3).trim();
+			   String stab= 	rs.getString(4).trim();
+			   
+			   if(stab.equals(aux)){
+				   
+				    fila[0] ="  "+nombre;
+					fila[1] ="";
+					
+			   }else{
+				  if(cont>=1){
+					  
+					  model.addRow(fila);
+					  fila[0] ="                        "+stab;
+					  model.addRow(fila);
+					  fila[0] ="  "+nombre;
+					  fila[1] ="";
+					  aux = stab;
+				  
+				  }else{
+					  
+					  	fila[0] ="                        "+stab;
+						model.addRow(fila);
+						fila[0] ="  "+nombre;
+						fila[1] ="";
+						
+						aux = stab;
+						cont++;
+				  }
+			   }
+			   
 			   model.addRow(fila); 
+			   
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -144,7 +160,7 @@ public class Cat_Lista_Pago extends JDialog{
 	MouseListener OpImprimir = new MouseListener() {
 		@Override
 		public void mousePressed(MouseEvent e) {
-			MessageFormat encabezado = new MessageFormat("Lista de pago {0,number,integer}");
+			MessageFormat encabezado = new MessageFormat("Lista de pago pag.({0,number,integer})");
 			try {
 //			tabla.print(JTable.PrintMode.FIT_WIDTH, encabezado, null);
 			tabla.print(JTable.PrintMode.NORMAL, encabezado, null);

@@ -50,19 +50,19 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre = new JTextField();
 	
-	JCheckBox chbPuntualidad = new JCheckBox("Puntualidad");
+	JCheckBox chbPuntualidad = new JCheckBox("Inpuntualidad");
 	JCheckBox chbFalta = new JCheckBox("Falta");
-	JCheckBox chbAsistencia = new JCheckBox("Asistencia");
 	JCheckBox chbGafete = new JCheckBox("Gafete");
+	JCheckBox chbHabilitar = new JCheckBox("Habilitar");
 	
 	Object[][] Matriz ;
 	
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
     JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	    
-	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
+	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedItem()+"");
 	DefaultTableModel model = new DefaultTableModel(Tabla,
-            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Puntualidad", "Falta", "Días Falta", "Asistencia", "Gafete", "Días" }
+            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Inpuntualidad", "Falta", "Días Falta", "Asistencia", "Gafete", "Días Gafete","Extra" }
 			){
 	     Class[] types = new Class[]{
 	    	java.lang.Object.class,
@@ -73,6 +73,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	    	java.lang.Object.class,
 	    	java.lang.Boolean.class,
 	    	java.lang.Boolean.class,
+	    	java.lang.Object.class,
 	    	java.lang.Object.class
 	    	
          };
@@ -85,15 +86,42 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
         	 	case 1 : return false; 
         	 	case 2 : return false; 
         	 	case 3 : return true; 
-        	 	case 4 : return true; 
+        	 	case 4 : 
+        	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) != true){
+        	 			model.setValueAt(1, fila, 5);
+        	 			return true; 
+        	 		}else {
+        	 			model.setValueAt(0, fila, 5);
+        	 			model.setValueAt(false, fila, 6);
+        	 			return true; 
+        	 		}
         	 	case 5 : 
         	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) == true){
         	 			return true;
         	 		}
         	 		return false;
-        	 	case 6 : return true;
-        	 	case 7 : return true;
+        	 	case 6 : 
+        	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) == true){
+        	 			return true;
+        	 		}else{
+        	 			return false;
+        	 		}
+        	 	case 7 :
+        	 		if(Boolean.parseBoolean(model.getValueAt(fila,7).toString()) != true){
+        	 			model.setValueAt(1, fila, 8);
+        	 			return true;
+        	 		}else {
+        	 			model.setValueAt(0, fila, 8);
+        	 			return true;
+        	 		}
         	 	case 8 : return true;
+        	 	case 9 :
+        	 		if(chbHabilitar.isSelected()){
+        	 			return true;
+        	 		}else{
+        	 			return false;
+        	 		}
+        	 		
         	 } 				
  			return false;
  		}
@@ -105,7 +133,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
     TableColumn ColumnaDias = tabla.getColumnModel().getColumn(5);
     TableColumn ColumnaDiasGf = tabla.getColumnModel().getColumn(8);
    
-    String lista[] = {"0","1","2","3","4","5","6","7"};
+    String lista[] = {"1","2","3","4","5","6","7"};
     JComboBox cmbDias = new JComboBox(lista);
     JComboBox cmbDia = new JComboBox(lista);
     JComboBox cmbDias_Gafete = new JComboBox(lista);
@@ -133,17 +161,17 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		filter = new TableRowSorter(model); 
 		tabla.setRowSorter(filter);  
 		
-		panel.add(txtFolio).setBounds(160,45,70,20);
-		panel.add(txtNombre).setBounds(231,45,360,20);
-		panel.add(cmbEstablecimientos).setBounds(592,45,100,20);
-		panel.add(chbPuntualidad).setBounds(693,45,85,20);
-		panel.add(chbFalta).setBounds(775,45,55,20);
-		panel.add(cmbDia).setBounds(830,45,65,20);
-		panel.add(chbAsistencia).setBounds(900,45,80,20);
-		panel.add(chbGafete).setBounds(980,45,60,20);
-		panel.add(cmbGafete).setBounds(1050,45,89,20);
+		panel.add(txtFolio).setBounds(110,45,70,20);
+		panel.add(txtNombre).setBounds(181,45,310,20);
+		panel.add(cmbEstablecimientos).setBounds(492,45,130,20);
+		panel.add(chbPuntualidad).setBounds(623,45,94,20);
+		panel.add(chbFalta).setBounds(713,45,55,20);
+		panel.add(cmbDia).setBounds(770,45,60,20);
+		panel.add(chbGafete).setBounds(910,45,60,20);
+		panel.add(cmbGafete).setBounds(980,45,65,20);
+		panel.add(chbHabilitar).setBounds(1060,45,65,20);
 		
-		panel.add(scroll).setBounds(160,70,980,580);
+		panel.add(scroll).setBounds(110,70,1050,580);
 		
 		menu.add(btnGuardar);
 		menu.setBounds(0,0,150,25);
@@ -155,13 +183,13 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		
 		tabla.getColumnModel().getColumn(0).setMaxWidth(72);
 		tabla.getColumnModel().getColumn(0).setMinWidth(72);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(360);
-		tabla.getColumnModel().getColumn(1).setMinWidth(360);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(310);
+		tabla.getColumnModel().getColumn(1).setMinWidth(310);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
-		tabla.getColumnModel().getColumn(2).setMinWidth(100);
-		tabla.getColumnModel().getColumn(3).setMaxWidth(85);
-		tabla.getColumnModel().getColumn(3).setMinWidth(85);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(130);
+		tabla.getColumnModel().getColumn(2).setMinWidth(130);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(90);
+		tabla.getColumnModel().getColumn(3).setMinWidth(90);
 		tabla.getColumnModel().getColumn(4).setMaxWidth(50);
 		tabla.getColumnModel().getColumn(4).setMinWidth(50);
 		tabla.getColumnModel().getColumn(5).setCellRenderer(tcr);
@@ -173,6 +201,12 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		tabla.getColumnModel().getColumn(7).setMinWidth(70);
 		tabla.getColumnModel().getColumn(8).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(8).setMinWidth(70);
+		tabla.getColumnModel().getColumn(9).setMaxWidth(90);
+		tabla.getColumnModel().getColumn(9).setMinWidth(90);
+		
+		DefaultTableCellRenderer tcrR = new DefaultTableCellRenderer();
+		tcrR.setHorizontalAlignment(SwingConstants.RIGHT);
+		tabla.getColumnModel().getColumn(9).setCellRenderer(tcrR);
 		
 		ColumnaDias.setCellEditor(new javax.swing.DefaultCellEditor(cmbDias));
 		ColumnaDiasGf.setCellEditor(new javax.swing.DefaultCellEditor(cmbDias_Gafete));
@@ -199,7 +233,6 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		chbGafete.addActionListener(opGafete);
 		btnGuardar.addActionListener(opGuardar);
 		cmbGafete.addActionListener(opDiasGafete);
-		chbAsistencia.addActionListener(opAsistencia);
 		chbPuntualidad.addActionListener(opPuntualidad);
 		cmbEstablecimientos.addActionListener(opFiltrar);
 		
@@ -228,6 +261,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			if(chbFalta.isSelected()){
 				for(int j=0; j<tabla.getRowCount(); j++){
 					model.setValueAt(Boolean.parseBoolean("true"), j,4);
+					model.setValueAt(1, j,5);
 				}
 			}else{
 				for(int j=0; j<tabla.getRowCount(); j++){
@@ -251,30 +285,19 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}
 	};
 	
-	ActionListener opAsistencia = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			if(chbAsistencia.isSelected()){
-				for(int j=0; j<tabla.getRowCount(); j++){
-					model.setValueAt(Boolean.parseBoolean("true"), j,6);
-				}
-			}else{
-				for(int j=0; j<tabla.getRowCount(); j++){
-					model.setValueAt(Boolean.parseBoolean("false"), j,6);
-				}
-			}
-			
-		}
-	};
+	
 	
 	ActionListener opGafete = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(chbGafete.isSelected()){
 				for(int j=0; j<tabla.getRowCount(); j++){
 					model.setValueAt(Boolean.parseBoolean("true"), j,7);
+					model.setValueAt(1, j, 8);
 				}
 			}else{
 				for(int j=0; j<tabla.getRowCount(); j++){
 					model.setValueAt(Boolean.parseBoolean("false"), j,7);
+					model.setValueAt(0, j, 8);
 				}
 			}
 			
@@ -308,11 +331,11 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 				model.removeRow(0);
 				numero --;
 			}
-			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedIndex());
+			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedItem()+"");
 			Object[] fila = new Object[tabla.getColumnCount()]; 
 			for(int i=0; i<Tabla1.length; i++){
 				model.addRow(fila); 
-				for(int j=0; j<7; j++){
+				for(int j=0; j<tabla.getColumnCount(); j++){
 					model.setValueAt(Tabla1[i][j], i,j);
 				}
 			}
@@ -345,7 +368,16 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 					deduccion.setDia_faltas(Integer.parseInt(miVector.get(5).toString().trim()));
 					deduccion.setAsistencia(miVector.get(6).toString().trim());
 					deduccion.setGafete(miVector.get(7).toString().trim());
-					deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString().trim()));
+					if(miVector.get(8).toString() != ""){
+						deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
+					}else {
+						deduccion.setDia_gafete(0);
+					}
+					if(miVector.get(9).toString() != ""){
+						deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
+					}else {
+						deduccion.setExtra(0);
+					}
 					deduccion.actualizar(index);
 					
 					miVector.clear();
@@ -370,7 +402,18 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 				deduccion.setDia_faltas(Integer.parseInt(miVector.get(5).toString().trim()));
 				deduccion.setAsistencia(miVector.get(6).toString().trim());
 				deduccion.setGafete(miVector.get(7).toString().trim());
-				deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString().trim()));
+				
+				if(miVector.get(8).toString() != ""){
+					deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
+				}else {
+					deduccion.setDia_gafete(0);
+				}
+				if(miVector.get(9).toString() != ""){
+					deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
+				}else {
+					deduccion.setExtra(0);
+				}
+				
 				deduccion.guardar();
 				
 				miVector.clear();
@@ -379,7 +422,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}
 	}
 	
-	public Object[][] getTabla(int establecimiento){
+	public Object[][] getTabla(String establecimiento){
 		
 		String qry = "select tb_empleado.folio," +
 						"tb_empleado.nombre," +
@@ -388,24 +431,19 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						"tb_establecimiento.nombre as establecimiento " +
 					  "from tb_empleado, tb_establecimiento " +
 					  "where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
-					  "tb_empleado.establecimiento_id = "+establecimiento;
-		
-		String qry1 ="select tb_empleado.folio," +
-						    "tb_empleado.nombre," +
-	                        "tb_empleado.ap_paterno," +
-                            "tb_empleado.ap_materno," +
-                            "tb_establecimiento.nombre as establecimiento," +
-                            "tb_deduccion_inasistencia.puntualidad," +
-                            "tb_deduccion_inasistencia.falta," +
-                            "tb_deduccion_inasistencia.dia_faltas," +
-                            "tb_deduccion_inasistencia.asistencia," +
-                            "tb_deduccion_inasistencia.gafete," +
-                            "tb_deduccion_inasistencia.dia_gafete " +
-
-                    "from tb_empleado, tb_establecimiento, tb_deduccion_inasistencia "+ 
-                    "where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-                    	   "tb_empleado.folio = tb_deduccion_inasistencia.folio_empleado and "+
-                    	   "tb_deduccion_inasistencia.status=1 and tb_empleado.establecimiento_id = "+establecimiento;
+					  "tb_establecimiento.nombre = '"+establecimiento+"';";
+	
+		String qry1 ="SELECT folio_empleado," +
+				"nombre_completo," +
+				"establecimiento," +
+				 "puntualidad," +
+                 "falta," +
+                 "dia_faltas," +
+                 "asistencia," +
+                 "gafete," +
+                 "dia_gafete," +
+                 "extra " +
+				"FROM tb_deduccion_inasistencia where establecimiento = '"+establecimiento+"' and status=1;";
 		
 		String todos = "select tb_empleado.folio," +
 							"tb_empleado.nombre," +
@@ -415,47 +453,44 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						"from tb_empleado, tb_establecimiento " +
 						"where tb_empleado.establecimiento_id = tb_establecimiento.folio";
 		
-		String todos1 = "select tb_empleado.folio," +
-						    "tb_empleado.nombre," +
-					        "tb_empleado.ap_paterno," +
-					        "tb_empleado.ap_materno," +
-					        "tb_establecimiento.nombre as establecimiento," +
-					        "tb_deduccion_inasistencia.puntualidad," +
-					        "tb_deduccion_inasistencia.falta," +
-					        "tb_deduccion_inasistencia.dia_faltas," +
-					        "tb_deduccion_inasistencia.asistencia," +
-					        "tb_deduccion_inasistencia.gafete," +
-					        "tb_deduccion_inasistencia.dia_gafete " +
-					
-					"from tb_empleado, tb_establecimiento, tb_deduccion_inasistencia "+ 
-					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-						   "tb_empleado.folio = tb_deduccion_inasistencia.folio_empleado and "+
-						   "tb_deduccion_inasistencia.status=1";
+		String todos1 = "SELECT folio_empleado," +
+				"nombre_completo," +
+				"establecimiento," +
+				 "puntualidad," +
+                 "falta," +
+                 "dia_faltas," +
+                 "asistencia," +
+                 "gafete," +
+                 "dia_gafete," +
+                 "extra " +
+				"FROM tb_deduccion_inasistencia where status = 1";
+		
 		Statement s;
 		ResultSet rs;
 		try {
-			if(establecimiento > 0){
+			if(establecimiento.equals("Todos")){
 				if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
 					s = con.conexion().createStatement();
-					rs = s.executeQuery(qry1);
-					Matriz = new Object[getFilas(qry1)][9];
+					rs = s.executeQuery(todos1);
+					Matriz = new Object[getFilas(todos1)][10];
 					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = Boolean.parseBoolean(rs.getString(6).trim());
-						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
-						Matriz[i][6] = Boolean.parseBoolean(rs.getString(9).trim());
-						Matriz[i][7] = Boolean.parseBoolean(rs.getString(10).trim());
-						Matriz[i][8] = rs.getString(11).trim();
+						Matriz[i][1] = rs.getString(2).trim();
+						Matriz[i][2] = rs.getString(3).trim();
+						Matriz[i][3] = Boolean.parseBoolean(rs.getString(4).trim());
+						Matriz[i][4] = Boolean.parseBoolean(rs.getString(5).trim());
+						Matriz[i][5] = Integer.parseInt(rs.getString(6).trim());
+						Matriz[i][6] = Boolean.parseBoolean(rs.getString(7).trim());
+						Matriz[i][7] = Boolean.parseBoolean(rs.getString(8).trim());
+						Matriz[i][8] = rs.getString(9).trim();
+						Matriz[i][9] = Math.rint(rs.getFloat(10)*100)/100;
 						i++;
 					}
 				}else{
 					s = con.conexion().createStatement();
-					rs = s.executeQuery(qry);
-					Matriz = new Object[getFilas(qry)][9];
+					rs = s.executeQuery(todos);
+					Matriz = new Object[getFilas(todos)][10];
 					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = rs.getString(1).trim();
@@ -467,31 +502,35 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						Matriz[i][6] = false;
 						Matriz[i][7] = false;
 						Matriz[i][8] = 0;
+						Matriz[i][9] = "";
 						i++;
 					}
 				}
 			}else{
 				if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
 					s = con.conexion().createStatement();
-					rs = s.executeQuery(todos1);
-					Matriz = new Object[getFilas(todos1)][9];
+					rs = s.executeQuery(qry1);
+					Matriz = new Object[getFilas(qry1)][10];
 					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = Boolean.parseBoolean(rs.getString(6).trim());
-						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][5] = Integer.parseInt(rs.getString(8).trim());
-						Matriz[i][6] = Boolean.parseBoolean(rs.getString(9).trim());
-						Matriz[i][7] = Boolean.parseBoolean(rs.getString(10).trim());
-						Matriz[i][8] = rs.getString(11).trim();
+						Matriz[i][1] = rs.getString(2).trim();
+						Matriz[i][2] = rs.getString(3).trim();
+						Matriz[i][3] = Boolean.parseBoolean(rs.getString(4).trim());
+						Matriz[i][4] = Boolean.parseBoolean(rs.getString(5).trim());
+						Matriz[i][5] = Integer.parseInt(rs.getString(6).trim());
+						Matriz[i][6] = Boolean.parseBoolean(rs.getString(7).trim());
+						Matriz[i][7] = Boolean.parseBoolean(rs.getString(8).trim());
+						Matriz[i][8] = rs.getString(9).trim();
+						Matriz[i][9] = Math.rint(rs.getFloat(10)*100)/100;
 						i++;
 					}
 				}else{
 					s = con.conexion().createStatement();
-					rs = s.executeQuery(todos);
-					Matriz = new Object[getFilas(todos)][9];
+					System.out.println(qry);
+					rs = s.executeQuery(qry);
+					
+					Matriz = new Object[getFilas(qry)][10];
 					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = rs.getString(1).trim();
@@ -503,6 +542,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						Matriz[i][6] = false;
 						Matriz[i][7] = false;
 						Matriz[i][8] = 0;
+						Matriz[i][9] = "";
 						i++;
 					}
 				}
