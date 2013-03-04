@@ -501,6 +501,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	
 	public void sumaAX(){
 		float suma = 0;
+		@SuppressWarnings("unused")
 		int cont = 0;
 			for(int i=0;i<modelAx.getRowCount(); i++) {
 				float datos= Float.parseFloat(modelAx.getValueAt(i,2).toString());

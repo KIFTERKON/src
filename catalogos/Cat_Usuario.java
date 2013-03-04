@@ -38,11 +38,11 @@ public class Cat_Usuario extends JFrame{
 	
 	
 	String permiso[]={"Seleccionar Permiso de usuario","Administrador","Desarrollo Humanos","Auxiliar y Finanzas","Auditoria","Contador","Consulta"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbPermisos = new JComboBox(permiso);
 	
 	String status[]= {"Vigente","Vacaciones","Baja"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbStatus = new JComboBox(status);
 	
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));

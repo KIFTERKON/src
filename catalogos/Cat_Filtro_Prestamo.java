@@ -1,7 +1,9 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -21,11 +24,12 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
-import objetos.JTextFieldLimit;
+import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
 public class Cat_Filtro_Prestamo extends JDialog{
 	
@@ -44,50 +48,41 @@ public class Cat_Filtro_Prestamo extends JDialog{
 	
 	JTable tabla = new JTable(model);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
+
+	JTextField txtFolio = new JTextField();
+	JTextField txtNombre_Completo = new JTextField();
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
-	JLabel lblBuscar = new JLabel("BUSCAR : ");
-	JTextField txtBuscar = new JTextField();
-	
-	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
-	@SuppressWarnings("unchecked")
-	JComboBox cmbBuscar = new JComboBox(busqueda);
-	
-	@SuppressWarnings("unchecked")
-	public Cat_Filtro_Prestamo()	{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Cat_Filtro_Prestamo() {
 		this.setTitle("Filtro De Prestamos");
-		txtBuscar.setDocument(new JTextFieldLimit(10));
+		panel.setBorder(BorderFactory.createTitledBorder("Filtro De Prestamos"));
 		
-		txtBuscar.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
-	
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
 		
-		cmbBuscar.setSelectedIndex(1);
-		panel.add(getPanelTabla()).setBounds(10,70,710,327);
+		panel.add(getPanelTabla()).setBounds(15,42,655,327);
+		
+		panel.add(txtFolio).setBounds(15,20,68,20);
+		panel.add(txtNombre_Completo).setBounds(85,20,239,20);
+		panel.add(cmbEstablecimientos).setBounds(325,20, 148, 20);
+
+		cont.add(panel);
 		
 		agregar(tabla);
 		
-		panel.add(lblBuscar).setBounds(10,30,70,20);
-		panel.add(txtBuscar).setBounds(90,30,220,20);
-		
-		panel.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-		panel.add(cmbBuscar).setBounds(410, 30, 160, 20);
-	
-		cont.add(panel);
-		
 		this.setModal(true);
-		this.setSize(740,450);
+		this.setSize(690,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
 	}
+	
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
@@ -101,14 +96,37 @@ public class Cat_Filtro_Prestamo extends JDialog{
         });
     }
 	
-   	@SuppressWarnings("unchecked")
-	public void filtro() { 
-		switch (cmbBuscar.getSelectedIndex()){
-			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
-			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 1)); break;
-			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
-		}		 
-	}  
+	KeyListener opFiltroFolio = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}
+		
+	};
+	
+	KeyListener opFiltroNombre = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}
+		
+	};
+	
+	ActionListener opFiltro = new ActionListener(){
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+			}else{
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+			}
+		}
+	};
+   
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 
@@ -123,23 +141,42 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
-		tabla.getColumnModel().getColumn(0).setMinWidth(45);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(0).setMinWidth(70);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(1).setMinWidth(230);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(240);
+		tabla.getColumnModel().getColumn(1).setMinWidth(240);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
-		tabla.getColumnModel().getColumn(2).setMinWidth(100);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(130);
+		tabla.getColumnModel().getColumn(2).setMinWidth(130);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(3).setMinWidth(70);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(50);
+		tabla.getColumnModel().getColumn(3).setMinWidth(50);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("Limite De Prestamo");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(120);
-		tabla.getColumnModel().getColumn(4).setMinWidth(120);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(110);
+		tabla.getColumnModel().getColumn(4).setMinWidth(110);
 		tabla.getColumnModel().getColumn(5).setHeaderValue("Saldo");
-		tabla.getColumnModel().getColumn(5).setMaxWidth(60);
-		tabla.getColumnModel().getColumn(5).setMinWidth(60);
+		tabla.getColumnModel().getColumn(5).setMaxWidth(52);
+		tabla.getColumnModel().getColumn(5).setMinWidth(52);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(5).setCellRenderer(render);
 		
 		Statement s;
 		ResultSet rs;
@@ -248,5 +285,6 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		@Override
 		public void keyReleased(KeyEvent e){}								
 	};
+	
 }
 

@@ -59,27 +59,35 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtHorario = new JTextField();
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
 	String puesto[] = new Obj_Puesto().Combo_Puesto();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbPuesto = new JComboBox(puesto);
 	
 	String turno[] = new Obj_Turno().Combo_Turno();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbTurno = new JComboBox(turno);
 	
 	String dias1[] = {"Selecciona un Día","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbDescanso = new JComboBox(dias1);
 	
 	String dias[] = {"Selecciona un Día","Ninguno","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbDobla = new JComboBox(dias);
 	
 	String sueldo[] = new Obj_Sueldo().Combo_Sueldo();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbSueldo = new JComboBox(sueldo);
 	
 	String bono[] = new Obj_Bono_Complemento_Sueldo().Combo_Bono();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbBono = new JComboBox(bono);
 	
 	String rango_prestamo[] = new Obj_Rango_Prestamos().Combo_Prestamos();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbPrestamos = new JComboBox(rango_prestamo);
 	
 	JTextField txtInfonavit = new JTextField();
@@ -88,6 +96,7 @@ public class Cat_Empleado extends JFrame{
 	JCheckBox chbGafete = new JCheckBox("Gafete");
 	
 	String status[] = {"Vigente","Vacaciones","Incapacidad","Baja"};
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));

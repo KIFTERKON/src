@@ -640,7 +640,7 @@ public class BuscarSQL {
 		return turno;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "resource", "unchecked" })
 	public Obj_Conexion_BD Conexion_BD() throws IOException {
 		Vector myVector = new Vector();
 		Obj_Conexion_BD config = new Obj_Conexion_BD();

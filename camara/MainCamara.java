@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 
-@SuppressWarnings({ "serial", "restriction" })
+@SuppressWarnings("serial")
 public class MainCamara extends javax.swing.JFrame {
 	
 	

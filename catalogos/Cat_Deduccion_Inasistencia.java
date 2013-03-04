@@ -45,6 +45,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	
 	Connexion con = new Connexion();
 	
+	@SuppressWarnings("rawtypes")
 	TableRowSorter filter;
 	
 	JTextField txtFolio = new JTextField();
@@ -58,13 +59,15 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	Object[][] Matriz ;
 	
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-    JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	    
 	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedItem()+"");
 	DefaultTableModel model = new DefaultTableModel(Tabla,
             new String[]{"Folio", "Nombre Completo", "Establecimiento", "Inpuntualidad", "Falta", "Días Falta", "Asistencia", "Gafete", "Días Gafete","Extra" }
 			){
-	     Class[] types = new Class[]{
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
 	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
@@ -77,7 +80,8 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	    	java.lang.Object.class
 	    	
          };
-	     public Class getColumnClass(int columnIndex) {
+	     @SuppressWarnings("rawtypes")
+		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
          }
          public boolean isCellEditable(int fila, int columna){
@@ -134,14 +138,19 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
     TableColumn ColumnaDiasGf = tabla.getColumnModel().getColumn(8);
    
     String lista[] = {"1","2","3","4","5","6","7"};
-    JComboBox cmbDias = new JComboBox(lista);
-    JComboBox cmbDia = new JComboBox(lista);
-    JComboBox cmbDias_Gafete = new JComboBox(lista);
-    JComboBox cmbGafete = new JComboBox(lista);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbDias = new JComboBox(lista);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbDia = new JComboBox(lista);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbDias_Gafete = new JComboBox(lista);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbGafete = new JComboBox(lista);
     	
     JToolBar menu = new JToolBar();
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
+	@SuppressWarnings("rawtypes")
 	public Cat_Deduccion_Inasistencia(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
 		this.setTitle("Deducción por Inasistencia");
@@ -350,6 +359,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}
 	};
 		
+	@SuppressWarnings("rawtypes")
 	public void guardar(){
 		Vector miVector = new Vector();
 		if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){

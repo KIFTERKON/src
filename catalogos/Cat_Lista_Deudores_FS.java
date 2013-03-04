@@ -32,7 +32,6 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 	
 	Connexion con = new Connexion();
 	
-	//DECLARACION PARA CREAR UNA TABLA
 	DefaultTableModel model = new DefaultTableModel(0,19){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -43,17 +42,17 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 	
 	JTable tabla = new JTable(model);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
 	String busqueda[] = {"Folio","Nombre Completo","Otra Cosa"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Lista_Deudores_FS()	{
 		this.setTitle("..:: Filtro Fuente de Sodas ::..");
 		txtBuscar.setDocument(new JTextFieldLimit(10));

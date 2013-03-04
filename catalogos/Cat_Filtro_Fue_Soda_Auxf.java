@@ -2,8 +2,8 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,9 +27,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
+import objetos.Obj_Establecimiento;
 
-
-import objetos.JTextFieldLimit;
 @SuppressWarnings("serial")
 public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	
@@ -47,57 +47,39 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	
 	JTable tabla = new JTable(model);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	private TableRowSorter trsfiltro;
 	
-	JLabel lblBuscar = new JLabel("BUSCAR : ");
-	JTextField txtBuscar = new JTextField();
+	JTextField txtFolio = new JTextField();
+	JTextField txtNombre_Completo = new JTextField();
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
-	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
-	@SuppressWarnings("unchecked")
-	JComboBox cmbBuscar = new JComboBox(busqueda);
-	
-	private Dimension dim; 
-
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_Fue_Soda_Auxf()	{
-		
-		dim=super.getToolkit().getScreenSize(); 
-		this.setSize(dim.width,dim.height-30); 
-		
 		this.setTitle("Filtro Fuente de Sodas Auxiliar y Finanzas");
-		txtBuscar.setDocument(new JTextFieldLimit(10));
-		
-		txtBuscar.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
+		panel.setBorder(BorderFactory.createTitledBorder("Filtro Fuente de Sodas Auxiliar y Finanzas"));
 	
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
+		panel.add(getPanelTabla()).setBounds(15,42,625,327);
 		
-		cmbBuscar.setSelectedIndex(1);
-		panel.add(getPanelTabla()).setBounds(10,70,625,327);
+		panel.add(txtFolio).setBounds(15,20,68,20);
+		panel.add(txtNombre_Completo).setBounds(85,20,239,20);
+		panel.add(cmbEstablecimientos).setBounds(325,20, 148, 20);
+		
+		cont.add(panel);
 		
 		agregar(tabla);
 		
-		panel.add(lblBuscar).setBounds(15,30,70,20);
-		panel.add(txtBuscar).setBounds(85,30,220,20);
-		
-		panel.add(new JLabel("Buscar por: ")).setBounds(390, 30, 80, 20);
-		panel.add(cmbBuscar).setBounds(470, 30, 160, 20);
-	
-		cont.add(panel);
-		
-//		System.out.println("dimenciones en X: "+dim.width);
-//		System.out.println("dimenciones en Y:"+dim.height);
-//		super.setUndecorated(true); 
-//		super.setVisible(true); 
+		txtFolio.addKeyListener(opFiltroFolio);
+		txtNombre_Completo.addKeyListener(opFiltroNombre);
+		cmbEstablecimientos.addActionListener(opFiltro);
 		
 		this.setModal(true);
-		this.setSize(650,450);
+		this.setSize(660,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -114,35 +96,54 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 	        }
         });
     }
+
+	KeyListener opFiltroFolio = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}
+		
+	};
+	KeyListener opFiltroNombre = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}
+		
+	};
+	ActionListener opFiltro = new ActionListener(){
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+			}else{
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+			}
+		}
+	};
 	
-   	@SuppressWarnings("unchecked")
-	public void filtro() { 
-   		
-		// Busca segun el combo
-		switch (cmbBuscar.getSelectedIndex()){
-			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
-			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 1)); break;
-			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase(), 2)); break;	
-		}		 
-	}  
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(60);
-		tabla.getColumnModel().getColumn(0).setMinWidth(60);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(0).setMinWidth(70);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(260);
-		tabla.getColumnModel().getColumn(1).setMinWidth(260);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(240);
+		tabla.getColumnModel().getColumn(1).setMinWidth(240);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(120);
-		tabla.getColumnModel().getColumn(2).setMinWidth(120);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(150);
+		tabla.getColumnModel().getColumn(2).setMinWidth(150);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Status");
 		tabla.getColumnModel().getColumn(3).setMaxWidth(90);
 		tabla.getColumnModel().getColumn(3).setMinWidth(90);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("F Sodas");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(80);
-		tabla.getColumnModel().getColumn(4).setMinWidth(80);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(4).setMinWidth(70);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,8 +154,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
@@ -244,7 +244,6 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){

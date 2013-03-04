@@ -60,6 +60,7 @@ public class Cat_Lista_Raya extends JFrame {
 	boolean bono_dia_extra = configs.isBono_dia_extra();
 	
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
     
 	Object[][] Matriz;
@@ -71,7 +72,8 @@ public class Cat_Lista_Raya extends JFrame {
 		"D Banamex", "D Banorte", "D Extra", "P Día Extras", "P Bono Extra",
 		"A Pagar", "Observasiones I", "Observasiones II" }
 													){
-	     Class[] types = new Class[]{
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
 	    	java.lang.Boolean.class,
 	    	java.lang.Integer.class, 
 	    	java.lang.String.class, 
@@ -101,7 +103,8 @@ public class Cat_Lista_Raya extends JFrame {
 	    	java.lang.String.class
 	    	
          };
-	     public Class getColumnClass(int columnIndex) {
+	     @SuppressWarnings("rawtypes")
+		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
          }
          public boolean isCellEditable(int fila, int columna){
@@ -141,6 +144,7 @@ public class Cat_Lista_Raya extends JFrame {
 	JTable tabla = new JTable(model);
 	JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	 JToolBar menu = new JToolBar();
@@ -157,6 +161,7 @@ public class Cat_Lista_Raya extends JFrame {
 	
 	JButton btnGenerarLista = new JButton("Generar Lista Raya");
 	
+	@SuppressWarnings("rawtypes")
 	public Cat_Lista_Raya()	{
 		this.setTitle("Revisión lista raya");
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -366,6 +371,7 @@ public class Cat_Lista_Raya extends JFrame {
 		}
 	};
 	
+	@SuppressWarnings("rawtypes")
 	public void guardar_lista_raya(){
 		Vector miVector = new Vector();
 		for(int i=0; i<model.getRowCount(); i++){
@@ -401,6 +407,7 @@ public class Cat_Lista_Raya extends JFrame {
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void guardar(){
 		Vector miVector = new Vector();
 		if(getFilas("select * from tb_pre_listaraya where status = 1") > 1){
@@ -636,8 +643,12 @@ public class Cat_Lista_Raya extends JFrame {
 						
 						float otro = Float.parseFloat(extra);
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puntualidad - descuentoDias -
-						asistencia - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						float puns = Float.parseFloat(Matriz[i][10]+"");
+						float asss = Float.parseFloat(Matriz[i][12]+"");
+						
+						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						
 						Matriz[i][20] = suma;
 						Matriz[i][21] = preList[1];
 						Matriz[i][22] = preList[2];
@@ -734,8 +745,12 @@ public class Cat_Lista_Raya extends JFrame {
 						
 						float otro = Float.parseFloat(extra);
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puntualidad - descuentoDias -
-						asistencia - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						float puns = Float.parseFloat(Matriz[i][10]+"");
+						float asss = Float.parseFloat(Matriz[i][12]+"");
+						
+						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						
 						Matriz[i][20] = suma;
 						Matriz[i][21] = preList[1];
 						Matriz[i][22] = preList[2];
@@ -832,8 +847,12 @@ public class Cat_Lista_Raya extends JFrame {
 						
 						float otro = Float.parseFloat(extra);
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puntualidad - descuentoDias -
-						asistencia - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						float puns = Float.parseFloat(Matriz[i][10]+"");
+						float asss = Float.parseFloat(Matriz[i][12]+"");
+						
+						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						
 						Matriz[i][20] = suma;
 						Matriz[i][21] = "";
 						Matriz[i][22] = "";
@@ -927,8 +946,12 @@ public class Cat_Lista_Raya extends JFrame {
 						
 						float otro = Float.parseFloat(extra);
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puntualidad - descuentoDias -
-						asistencia - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						float puns = Float.parseFloat(Matriz[i][10]+"");
+						float asss = Float.parseFloat(Matriz[i][12]+"");
+						
+						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+						
 						Matriz[i][20] = suma;
 						Matriz[i][21] = "";
 						Matriz[i][22] = "";

@@ -48,6 +48,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 	
 	Connexion con = new Connexion();
 	
+	@SuppressWarnings("rawtypes")
 	TableRowSorter filter;
 	
 	Object[][] Matriz ;
@@ -56,7 +57,8 @@ public class Cat_Percepciones_Extra extends JDialog {
 	JTextField txtNombre = new JTextField();
 	
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-    JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	    
 	JCheckBox chbHabilitar = new JCheckBox("Habilitar");
 	JCheckBox chbTodos = new JCheckBox("");
@@ -65,7 +67,8 @@ public class Cat_Percepciones_Extra extends JDialog {
 	DefaultTableModel model = new DefaultTableModel(Tabla,
             new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "DE", "Cantidad Dias"}
 			){
-	     Class[] types = new Class[]{
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
 	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
@@ -74,7 +77,8 @@ public class Cat_Percepciones_Extra extends JDialog {
 	    	java.lang.Object.class
 	    	
          };
-	     public Class getColumnClass(int columnIndex) {
+	     @SuppressWarnings("rawtypes")
+		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
          }
          public boolean isCellEditable(int fila, int columna){
@@ -110,12 +114,15 @@ public class Cat_Percepciones_Extra extends JDialog {
     TableColumn ColumnaDias = tabla.getColumnModel().getColumn(5);
    
     String lista[] = {"0","1","2","3","4","5","6","7"};
-    JComboBox cmbDias = new JComboBox(lista);
-    JComboBox cmbDia = new JComboBox(lista);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbDias = new JComboBox(lista);
+    @SuppressWarnings("rawtypes")
+	JComboBox cmbDia = new JComboBox(lista);
     
     JToolBar menu = new JToolBar();
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
+	@SuppressWarnings("rawtypes")
 	public Cat_Percepciones_Extra(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
 		this.setTitle("Percepciones Extras");
@@ -277,6 +284,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 		}
 	};
 		
+	@SuppressWarnings("rawtypes")
 	public void guardar(){
 		Vector miVector = new Vector();
 		if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){

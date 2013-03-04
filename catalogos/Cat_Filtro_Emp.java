@@ -47,17 +47,17 @@ public class Cat_Filtro_Emp extends JDialog{
 	
 	JTable tabla = new JTable(model);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
 	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbBuscar = new JComboBox(busqueda);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_Emp()	{
 		this.setTitle("..:: Filtro ::..");
 		txtBuscar.setDocument(new JTextFieldLimit(10));

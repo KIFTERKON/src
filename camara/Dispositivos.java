@@ -29,7 +29,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-@SuppressWarnings("restriction")
 public class Dispositivos {
 
     private MainCamara padre;
@@ -44,7 +43,7 @@ public class Dispositivos {
     }
 
    
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public String verInfoDispositivos()
     {
       String rpta="";
@@ -68,7 +67,7 @@ public class Dispositivos {
 		player.close();
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void detectarDispositivos(JMenu dispositivos)
     {
       Vector listaDispositivos = null;

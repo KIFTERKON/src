@@ -64,7 +64,7 @@ public class Cat_Diferencia_Cortes extends JDialog{
 	JTextField txtFecha = new JTextField();
 	
 	String status[] = {"Vigente","Cancelado Temporal"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbStatus = new JComboBox(status);
 	
 	JLabel btnCalendario = new JLabel(new ImageIcon("imagen//Calendar.png"));

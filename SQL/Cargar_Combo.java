@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Cargar_Combo {
 	Connexion con = new Connexion();
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	Vector miVector = new Vector();
 	
 	@SuppressWarnings("unchecked")
