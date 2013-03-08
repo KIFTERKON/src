@@ -784,7 +784,7 @@ public class GuardarSQL {
 		PreparedStatement pstmttt= null;
 		PreparedStatement abonopstmt= null;
 		PreparedStatement prestamopstmt= null;
-		
+
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
@@ -809,6 +809,7 @@ public class GuardarSQL {
 			pstmt.setFloat(8, descuento);
 			float finalSaldo = raya.getSaldo_final();
 			pstmt.setFloat(9, finalSaldo);
+			
 			pstmt.setFloat(10, raya.getD_fuente_sodas());
 			pstmt.setFloat(11, raya.getD_puntualidad());
 			pstmt.setFloat(12, raya.getD_faltas());
@@ -847,6 +848,114 @@ public class GuardarSQL {
 			}
 			
 			pstmttt.execute();
+			pstmt.execute();
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean lista_Imprimir(Obj_Revision_Lista_Raya raya){
+		
+		String query ="delete tb_imprimir_lista_raya";
+
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Imprimir(Obj_Revision_Lista_Raya raya){
+		
+		String query ="insert into tb_imprimir_lista_raya(numero_lista,folio_empleado,nombre_completo,establecimiento,sueldo,"+
+						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
+						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,"+
+						 "d_banamex,d_banorte,d_extra,p_dias_extra,p_bono_extra,"+
+						 "a_pagar,observaciones,status) " +
+						 "values(?,?,?,?,?," +
+						 "?,?,?,?,?," +
+						 "?,?,?,?,?," +
+						 "?,?,?,?,?," +
+						 "?,?,?);";
+
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+
+			int Folio_Empleado = raya.getFolio_empleado();
+			float descuento = raya.getD_prestamo();
+			pstmt.setInt(1, raya.getNumero_lista());
+			pstmt.setInt(2, Folio_Empleado);
+			pstmt.setString(3, raya.getNombre_completo().toUpperCase());
+			pstmt.setString(4, raya.getEstablecimiento().toUpperCase());
+			pstmt.setFloat(5, raya.getSueldo());
+			pstmt.setFloat(6, raya.getP_bono_complementario());
+
+			float saldo_pres_inicial = raya.getSaldo_prestamo_inicial();
+			
+			pstmt.setFloat(7, saldo_pres_inicial);
+			pstmt.setFloat(8, descuento);
+			float finalSaldo = raya.getSaldo_final();
+			pstmt.setFloat(9, finalSaldo);
+			pstmt.setFloat(10, raya.getD_fuente_sodas());
+			pstmt.setFloat(11, raya.getD_puntualidad());
+			pstmt.setFloat(12, raya.getD_faltas());
+			pstmt.setFloat(13, raya.getD_asistencia());
+			pstmt.setFloat(14, raya.getD_cortes());
+			pstmt.setFloat(15, raya.getD_infonavit());
+			pstmt.setFloat(16, raya.getD_banamex());
+			pstmt.setFloat(17, raya.getD_banorte());
+			pstmt.setFloat(18, raya.getD_extra());
+			pstmt.setFloat(19, raya.getP_dias_extra());
+			pstmt.setFloat(20, raya.getP_bono_extra());
+			pstmt.setFloat(21, raya.getA_pagar());
+			pstmt.setString(22, raya.getObservasion_i());
+			pstmt.setInt(23, 1);
+			
 			pstmt.execute();
 			
 			con.commit();

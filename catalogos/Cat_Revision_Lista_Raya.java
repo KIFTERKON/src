@@ -30,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import export.exportar_excel;
 
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
@@ -38,12 +37,6 @@ import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Revision_Lista_Raya;
 import SQL.Connexion;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Revision_Lista_Raya extends JFrame {
@@ -77,7 +70,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		"D Banamex", "D Banorte", "D Extra", "P Día Extras", "P Bono Extra",
 		"A Pagar", "Observasiones I", "Observasiones II" }
 													){
-	     @SuppressWarnings("rawtypes")
+		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
 	    	java.lang.Boolean.class,
 	    	java.lang.Integer.class, 
@@ -108,7 +101,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	    	java.lang.String.class
 	    	
          };
-	     @SuppressWarnings("rawtypes")
+		@SuppressWarnings("rawtypes")
 		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
          }
@@ -156,8 +149,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	 
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
-	
-	JButton boto_expor = new JButton(" Export");
+
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
 	JLabel lblAuditoria = new JLabel(new ImageIcon("imagen/Aplicar.png"));
@@ -165,10 +157,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	JLabel lblNumeroLista = new JLabel("Número de Lista: "+numero_lista);
 	
 	JButton btnGenerarLista = new JButton("Generar Lista Raya");
+	JButton btnImprir = new JButton("Imprimir");
 	
 	@SuppressWarnings("rawtypes")
 	public Cat_Revision_Lista_Raya()	{
 		this.setTitle("Revisión lista raya ["+numero_lista+"]");
+
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		System.out.println(bono_dia_extra);
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -291,10 +285,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		campo.add(new JLabel("Autorizado por finanzas:")).setBounds(755,30,125,20);
 		campo.add(lblFinanzas).setBounds(880,30,20,20);
 		
-		campo.add(boto_expor).setBounds(1100, 20, 120, 45);
-		campo.add(btnGenerarLista).setBounds(920,30,130,20);
-		
-		boto_expor.addActionListener(opExportar);
+		campo.add(btnImprir).setBounds(1180, 20, 80, 45);
+		campo.add(btnGenerarLista).setBounds(920,20,130,45);
 		
 		lblAuditoria.setEnabled(auto_auditoria);
 		lblFinanzas.setEnabled(auto_finanza);
@@ -312,36 +304,14 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		cmbEstablecimientos.addActionListener(opFiltrar);
 		btnGuardar.addActionListener(opGuardar);
 		btnGenerarLista.addActionListener(opGuardarListaRaya);
+		btnImprir.addActionListener(opImprimirListaRaya);
+		
 		opBono10_12();
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		
 	}
-	
-	ActionListener opExportar = new ActionListener(){
-		public void actionPerformed(ActionEvent e) {
-		 try {
-				Calendar c = new GregorianCalendar();
-				String nombre = "Lista de Raya["+c.get(Calendar.DATE)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.YEAR)+"]";
-				
-	            List<JTable> tb = new ArrayList<JTable>();
-	            List<String> nom = new ArrayList<String>();
-	            tb.add(tabla);
-	            nom.add("LISTA");
-	            
-	            exportar_excel excelExporter = new exportar_excel(tb, new File(nombre+".xls"), nom);
-	            if (excelExporter.export()) {
-	                JOptionPane.showMessageDialog(null, "DATOS EXPORTADOS CON EXITO!");
-	            	Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+nombre+".xls");
-	            }
-	            
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
-	    
-		}
-	};
 	
 	public void opBono10_12(){
 		if(bono_10_12 == true){
@@ -360,6 +330,20 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				tabla.getCellEditor().stopCellEditing();
 			}
 			guardar();
+		}
+	};
+	
+	ActionListener opImprimirListaRaya = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			System.out.println("guardar");
+			if(tabla.isEditing()){
+				tabla.getCellEditor().stopCellEditing();
+			}
+			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
+			lista_raya.borrar();
+			
+			Imprimir_lista_raya();
+			new Cat_Imprimir_LR().setVisible(true);
 		}
 	};
 	
@@ -410,7 +394,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}
 	}
 	
-	
 	public int getNumeroLista(){
 		int valor = 0;
 	try {
@@ -425,6 +408,42 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			e1.printStackTrace();
 		}
 		return valor;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void Imprimir_lista_raya(){
+		Vector miVector = new Vector();
+		for(int i=0; i<model.getRowCount(); i++){
+			for(int j=0; j<model.getColumnCount(); j++){
+				miVector.add(model.getValueAt(i,j));
+			}
+			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
+			
+			lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
+			lista_raya.setNombre_completo(miVector.get(2)+"".trim());
+			lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
+			lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
+			lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
+			lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
+			lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
+			lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
+			lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
+			lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
+			lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
+			lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
+			lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
+			lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+			lista_raya.setD_banamex(Float.parseFloat(miVector.get(15)+"".trim()));
+			lista_raya.setD_banorte(Float.parseFloat(miVector.get(16)+"".trim()));
+			lista_raya.setD_extra(Float.parseFloat(miVector.get(17)+"".trim()));
+			lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+			lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+			lista_raya.setA_pagar(Float.parseFloat(miVector.get(20)+"".trim()));
+			lista_raya.setObservasion_i(miVector.get(21)+"".trim());
+			
+			lista_raya.imprimir_lista();
+			miVector.clear();
+		}
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -607,7 +626,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 						
 						Object des = Matriz[i][7];
 						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-						
+
 						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
 						Matriz[i][9] = DescuentoFuenteSodas;
 							
@@ -950,7 +969,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 						
 						Object des = Matriz[i][7];
 						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-						
+
 						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
 							Matriz[i][9] = DescuentoFuenteSodas;
 							
@@ -1098,6 +1117,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		try {
 			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select cantidad, descuento from tb_prestamo where status_descuento = 1 and  folio_empleado="+folio);
+
 			while(rs.next()){
 				valores[0] = Float.parseFloat(rs.getString(1));
 				valores[1] = Float.parseFloat(rs.getString(2));
@@ -1282,4 +1302,5 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			}
 		}	
 	}
+
 }

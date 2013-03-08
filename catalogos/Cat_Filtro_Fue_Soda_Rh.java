@@ -29,7 +29,7 @@ import javax.swing.table.TableRowSorter;
 import SQL.Connexion;
 import objetos.Obj_Establecimiento;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	
 	Container cont = getContentPane();
@@ -47,16 +47,14 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	
 	JTable tabla = new JTable(model);
 	
-	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre_Completo = new JTextField();
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	public Cat_Filtro_Fue_Soda_Rh()	{
 		this.setTitle("Filtro Fuente de Sodas RRHH");
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro Fuente de Sodas RRHH"));

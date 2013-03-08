@@ -255,6 +255,28 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
+	public Obj_Revision_Lista_Raya ListaR(int numero_lista) throws SQLException{
+		Obj_Revision_Lista_Raya LR = new Obj_Revision_Lista_Raya();
+		String query = "select * from tb_lista_raya where numero_lista ="+ numero_lista;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				LR.setFolio(rs.getInt("folio"));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return LR;
+	}
+	
 	public Obj_Prestamo Prestamo(int folio) throws SQLException{
 		Obj_Prestamo pre = new Obj_Prestamo();
 		String query = "select * from tb_prestamo where folio_empleado ="+ folio;

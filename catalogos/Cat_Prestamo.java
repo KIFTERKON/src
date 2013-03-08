@@ -41,7 +41,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Rango_Prestamos;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Prestamo extends JDialog{
 	
 	Double rangoIn;
@@ -77,7 +77,6 @@ public class Cat_Prestamo extends JDialog{
 	JTextField txtFecha = new JTextField();
 	
 	String status[] = {"Vigente","Cancelado Temporal"};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbStatus = new JComboBox(status);
 	
 	JLabel btnCalendario = new JLabel(new ImageIcon("imagen//Calendar.png"));
