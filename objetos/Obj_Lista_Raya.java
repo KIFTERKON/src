@@ -265,4 +265,15 @@ public class Obj_Lista_Raya {
 	
 	public boolean guardar_lista(){ return new GuardarSQL().Guardar(this); }
 	
+	public boolean borrar(){ return new GuardarSQL().lista_Imprimir(this); }
+	public boolean imprimir_lista(){ return new GuardarSQL().Guardar_Imprimir(this); }
+	
+	public Obj_Lista_Raya buscar(int folio){ 
+		try {
+			return new BuscarSQL().ListaR(numero_lista);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
+	}	
 }

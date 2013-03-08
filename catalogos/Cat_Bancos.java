@@ -59,7 +59,6 @@ public class Cat_Bancos extends JDialog {
 	
 	JCheckBox chbHabilitarBanamex = new JCheckBox("Habilitar");
 	JCheckBox chbHabilitarBanorte = new JCheckBox("Habilitar");
-	JCheckBox chbHabilitarCooperacion = new JCheckBox("Habilitar");
 	
 	boolean bandera = false;
 	
@@ -112,12 +111,7 @@ public class Cat_Bancos extends JDialog {
         	 				 return false;
         	 			 }
         	 	
-        	 	case 5 : if(chbHabilitarCooperacion.isSelected()){
-        	 		return true;
-
-	 			 }else{
-	 				 return false;
-	 			 }
+        	 	case 5 : return false;
 
         	 } 				
  			return false;
@@ -159,7 +153,6 @@ public class Cat_Bancos extends JDialog {
 		panel.add(cmbEstablecimientos).setBounds(590,45,90,20);
 		panel.add(chbHabilitarBanamex).setBounds(750,45,90,20);
 		panel.add(chbHabilitarBanorte).setBounds(875,45,90,20);
-		panel.add(chbHabilitarCooperacion).setBounds(1000,45,70,20);
 		panel.add(scroll).setBounds(100,70,1030,580);
 		
 		menu.add(btnGuardar);
