@@ -19,7 +19,7 @@ import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Lista_Raya;
+import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
@@ -792,8 +792,8 @@ public class BuscarSQL {
 	}
 	
 	
-	public Obj_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
-		Obj_Lista_Raya lista = new Obj_Lista_Raya();
+	public Obj_Revision_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
+		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
 		String query = "select folio from tb_pre_listaraya where folio_empleado = "+folio+" and status = 1;";
 		Statement stmt = null;
 		try {

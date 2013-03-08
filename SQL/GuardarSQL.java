@@ -7,7 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 import objetos.Obj_Asistencia_Puntualidad;
@@ -19,7 +21,7 @@ import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Lista_Raya;
+import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
@@ -683,7 +685,7 @@ public class GuardarSQL {
 	}
 	
 	
-	public boolean Guardar_Pre_Lista(Obj_Lista_Raya raya){
+	public boolean Guardar_Pre_Lista(Obj_Revision_Lista_Raya raya){
 		
 		String query ="insert into tb_pre_listaraya(boolean,folio_empleado,observasion_i,observasion_ii,status)" +
 				" values(?,?,?,?,?);";
@@ -756,7 +758,7 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar(Obj_Lista_Raya raya){
+	public boolean Guardar(Obj_Revision_Lista_Raya raya){
 		
 		String query ="insert into tb_lista_raya(numero_lista,folio_empleado,nombre_completo,establecimiento,sueldo,"+
 						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
@@ -768,22 +770,45 @@ public class GuardarSQL {
 						 "?,?,?,?,?," +
 						 "?,?,?,?,?," +
 						 "?,?,?);";
+		String queryI = "insert into tb_abono(folio_prestamo,folio_empleado,descuento,status) values(?,?,?,?);";
 
+		String queryII ="update tb_autorizaciones set autorizar_auditoria=?, autorizar_finanzas=?";
+		
+		String abonosStatus0 = "update tb_abono set status = 0 where folio_empleado = ? and folio_prestamo = ?";
+		
+		String prestamoStatus0 = "update tb_prestamo set  status_descuento = 0 where folio_empleado =?";
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmtt = null;
+		PreparedStatement pstmttt= null;
+		PreparedStatement abonopstmt= null;
+		PreparedStatement prestamopstmt= null;
+		
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
+			pstmtt = con.prepareStatement(queryI);
+			pstmttt = con.prepareStatement(queryII);
+			abonopstmt = con.prepareStatement(abonosStatus0);
+			prestamopstmt = con.prepareStatement(prestamoStatus0);
 			
-			pstmt.setInt(1, 1);
-			pstmt.setInt(2, raya.getFolio_empleado());
+			int Folio_Empleado = raya.getFolio_empleado();
+			float descuento = raya.getD_prestamo();
+			
+			pstmt.setInt(1, raya.getNumero_lista());
+			pstmt.setInt(2, Folio_Empleado);
 			pstmt.setString(3, raya.getNombre_completo().toUpperCase());
 			pstmt.setString(4, raya.getEstablecimiento().toUpperCase());
 			pstmt.setFloat(5, raya.getSueldo());
 			pstmt.setFloat(6, raya.getP_bono_complementario());
-			pstmt.setFloat(7, raya.getSaldo_prestamo_inicial());
-			pstmt.setFloat(8, raya.getD_prestamo());
-			pstmt.setFloat(9, raya.getSaldo_final());
+			
+			float saldo_pres_inicial = raya.getSaldo_prestamo_inicial();
+			
+			pstmt.setFloat(7, saldo_pres_inicial);
+			pstmt.setFloat(8, descuento);
+			float finalSaldo = raya.getSaldo_final();
+			pstmt.setFloat(9, finalSaldo);
 			pstmt.setFloat(10, raya.getD_fuente_sodas());
 			pstmt.setFloat(11, raya.getD_puntualidad());
 			pstmt.setFloat(12, raya.getD_faltas());
@@ -799,7 +824,31 @@ public class GuardarSQL {
 			pstmt.setString(22, raya.getObservasion_i());
 			pstmt.setInt(23, 1);
 			
-			pstmt.executeUpdate();
+			int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
+			
+			if(Folio_prestamo > 0){
+				pstmtt.setInt(1, Folio_prestamo);
+				pstmtt.setInt(2, Folio_Empleado);
+				pstmtt.setFloat(3, descuento);
+				pstmtt.setInt(4, 1);
+				pstmtt.execute();
+			}
+			
+			pstmttt.setString(1, "false");
+			pstmttt.setString(2, "false");
+			
+			if(finalSaldo == 0){
+				abonopstmt.setInt(1, Folio_Empleado);
+				abonopstmt.setInt(2, Folio_prestamo);
+				abonopstmt.execute();
+				
+				prestamopstmt.setInt(1,Folio_Empleado);
+				prestamopstmt.execute();
+			}
+			
+			pstmttt.execute();
+			pstmt.execute();
+			
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
@@ -823,4 +872,20 @@ public class GuardarSQL {
 		return true;
 	}
 	
+	public int getFolio_prestamo(int folio){
+		int valor = 0;
+	try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select folio from tb_prestamo where folio_empleado = "+folio+" and status = 1");
+			while(rs.next()){
+				valor = rs.getInt(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+		
 }

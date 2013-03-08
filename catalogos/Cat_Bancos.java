@@ -59,7 +59,6 @@ public class Cat_Bancos extends JDialog {
 	
 	JCheckBox chbHabilitarBanamex = new JCheckBox("Habilitar");
 	JCheckBox chbHabilitarBanorte = new JCheckBox("Habilitar");
-	JCheckBox chbHabilitarCooperacion = new JCheckBox("Habilitar");
 	
 	boolean bandera = false;
 	
@@ -112,12 +111,7 @@ public class Cat_Bancos extends JDialog {
         	 				 return false;
         	 			 }
         	 	
-        	 	case 5 : if(chbHabilitarCooperacion.isSelected()){
-        	 		return true;
-
-	 			 }else{
-	 				 return false;
-	 			 }
+        	 	case 5 : return false;
 
         	 } 				
  			return false;
@@ -159,7 +153,6 @@ public class Cat_Bancos extends JDialog {
 		panel.add(cmbEstablecimientos).setBounds(590,45,90,20);
 		panel.add(chbHabilitarBanamex).setBounds(750,45,90,20);
 		panel.add(chbHabilitarBanorte).setBounds(875,45,90,20);
-		panel.add(chbHabilitarCooperacion).setBounds(1000,45,70,20);
 		panel.add(scroll).setBounds(100,70,1030,580);
 		
 		menu.add(btnGuardar);
@@ -465,12 +458,12 @@ public class Cat_Bancos extends JDialog {
 							Matriz[i][4] = "";
 						}
 						
-						Cat_Lista_Raya lista = new Cat_Lista_Raya();
+						Cat_Revision_Lista_Raya lista = new Cat_Revision_Lista_Raya();
 						
 						float sueldo = getSueldo(folio_empleado);
 						float bono_complemento = getBono_Complemento(folio_empleado);
 						
-						float[] prestamos = lista.getPrestamos(folio_empleado);
+						float[] prestamos = getPrestamos(folio_empleado);
 						float DescuentoPrestamo = prestamos[1];
 						float DescuentoFuenteSodas = lista.getFuenteSodas(folio_empleado);
 						
@@ -618,5 +611,23 @@ public class Cat_Bancos extends JDialog {
 		}
 		return filas;
 	}	
+	
+	public float[] getPrestamos(int folio){
+	float[] valores= new float[3];
+	valores[0] = 0;
+	valores[1] = 0;
+	try {
+		Statement s = con.conexion().createStatement();
+		ResultSet rs = s.executeQuery("select cantidad, descuento from tb_prestamo where status_descuento = 1 and  folio_empleado="+folio);
+		while(rs.next()){
+			valores[0] = Float.parseFloat(rs.getString(1));
+			valores[1] = Float.parseFloat(rs.getString(2));
+		}
+		
+	} catch (SQLException e1) {
+		e1.printStackTrace();
+	}
+	return valores;
+}
 
 }

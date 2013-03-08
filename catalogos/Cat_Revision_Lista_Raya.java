@@ -2,9 +2,12 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,7 +36,7 @@ import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Lista_Raya;
+import objetos.Obj_Revision_Lista_Raya;
 import SQL.Connexion;
 
 import java.io.File;
@@ -43,7 +46,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Lista_Raya extends JFrame {
+public class Cat_Revision_Lista_Raya extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -63,6 +66,8 @@ public class Cat_Lista_Raya extends JFrame {
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
     
+	int numero_lista = getNumeroLista();
+	
 	Object[][] Matriz;
 	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedItem()+"");
 	DefaultTableModel model = new DefaultTableModel(Tabla,
@@ -152,18 +157,18 @@ public class Cat_Lista_Raya extends JFrame {
 	JLabel lblBuscar = new JLabel("BUSCAR : ");
 	JTextField txtBuscar = new JTextField();
 	
-//	new ImageIcon(getClass().getResource("/export_excel.png"))+
 	JButton boto_expor = new JButton(" Export");
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
 	JLabel lblAuditoria = new JLabel(new ImageIcon("imagen/Aplicar.png"));
 	JLabel lblFinanzas = new JLabel(new ImageIcon("imagen/Aplicar.png"));
+	JLabel lblNumeroLista = new JLabel("Número de Lista: "+numero_lista);
 	
 	JButton btnGenerarLista = new JButton("Generar Lista Raya");
 	
 	@SuppressWarnings("rawtypes")
-	public Cat_Lista_Raya()	{
-		this.setTitle("Revisión lista raya");
+	public Cat_Revision_Lista_Raya()	{
+		this.setTitle("Revisión lista raya ["+numero_lista+"]");
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		System.out.println(bono_dia_extra);
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -267,18 +272,14 @@ public class Cat_Lista_Raya extends JFrame {
 		tabla.getColumnModel().getColumn(20).setCellRenderer(render);
 		tabla.getColumnModel().getColumn(21).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(22).setCellRenderer(render); 
-		
-//		txtBuscar.addKeyListener(new KeyAdapter() { 
-//			public void keyReleased(final KeyEvent e) { 
-//                filtro(); 
-//            } 
-//        });
 	
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
 		campo.add(scroll).setBounds(10,70,1250,600);
-        
+		lblNumeroLista.setFont(new java.awt.Font("Dialog",Font.BOLD,16));
+		
+        campo.add(lblNumeroLista).setBounds(30,50,200,20);
 		campo.add(lblBuscar).setBounds(10,30,70,20);
 		campo.add(txtBuscar).setBounds(90,30,220,20);
 		
@@ -374,12 +375,14 @@ public class Cat_Lista_Raya extends JFrame {
 	@SuppressWarnings("rawtypes")
 	public void guardar_lista_raya(){
 		Vector miVector = new Vector();
+	
 		for(int i=0; i<model.getRowCount(); i++){
 			for(int j=0; j<model.getColumnCount(); j++){
 				miVector.add(model.getValueAt(i,j));
 			}
-			Obj_Lista_Raya lista_raya = new Obj_Lista_Raya();
+			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
 			
+			lista_raya.setNumero_lista(numero_lista);
 			lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
 			lista_raya.setNombre_completo(miVector.get(2)+"".trim());
 			lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
@@ -407,6 +410,23 @@ public class Cat_Lista_Raya extends JFrame {
 		}
 	}
 	
+	
+	public int getNumeroLista(){
+		int valor = 0;
+	try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select max(numero_lista) as numero from tb_lista_raya;");
+			while(rs.next()){
+				valor = rs.getInt(1)+1;			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	public void guardar(){
 		Vector miVector = new Vector();
@@ -417,10 +437,10 @@ public class Cat_Lista_Raya extends JFrame {
 						miVector.add(model.getValueAt(i,j));
 					}
 					
-					Obj_Lista_Raya lis_raya = new Obj_Lista_Raya();
+					Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
 									
 					int foli_emple = Integer.parseInt(miVector.get(1)+"");
-					Obj_Lista_Raya lis_foli = new Obj_Lista_Raya().buscar_folio(foli_emple);
+					Obj_Revision_Lista_Raya lis_foli = new Obj_Revision_Lista_Raya().buscar_folio(foli_emple);
 			
 					lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
 					lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
@@ -441,7 +461,7 @@ public class Cat_Lista_Raya extends JFrame {
 				for(int j=0; j<model.getColumnCount(); j++){
 					miVector.add(model.getValueAt(i,j).toString());
 				}
-				Obj_Lista_Raya lis_raya = new Obj_Lista_Raya();
+				Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
 				
 				lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
 				lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
@@ -516,33 +536,33 @@ public class Cat_Lista_Raya extends JFrame {
 	    					"tb_establecimiento.nombre = '"+establecimiento+"'; ";
 		
 		String datos1 = "select tb_empleado.folio, "+
-				"tb_empleado.nombre, "+
-				"tb_empleado.ap_paterno, "+
-				"tb_empleado.ap_materno, "+
-				"tb_establecimiento.nombre as establecimiento, "+
-				"tb_sueldo.sueldo, "+
-				"tb_bono.bono, "+
-				"tb_empleado.infonavit "+
+							"tb_empleado.nombre, "+
+							"tb_empleado.ap_paterno, "+
+							"tb_empleado.ap_materno, "+
+							"tb_establecimiento.nombre as establecimiento, "+
+							"tb_sueldo.sueldo, "+
+							"tb_bono.bono, "+
+							"tb_empleado.infonavit "+
      
-			"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
-			"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
-				"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-				"tb_empleado.bono_id = tb_bono.folio;";
+						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
+						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
+							"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
+							"tb_empleado.bono_id = tb_bono.folio;";
 		
-		String filtro1 ="select tb_empleado.folio,"+ 
-			"tb_empleado.nombre, "+
-			"tb_empleado.ap_paterno, "+
-			"tb_empleado.ap_materno, "+
-			"tb_establecimiento.nombre as establecimiento, "+
-			"tb_sueldo.sueldo, "+
-			"tb_bono.bono, "+
-			"tb_empleado.infonavit "+
+		String filtro1 = "select tb_empleado.folio,"+ 
+							"tb_empleado.nombre, "+
+							"tb_empleado.ap_paterno, "+
+							"tb_empleado.ap_materno, "+
+							"tb_establecimiento.nombre as establecimiento, "+
+							"tb_sueldo.sueldo, "+
+							"tb_bono.bono, "+
+							"tb_empleado.infonavit "+
  
-		"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+
-		"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+ 
-			"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-			"tb_empleado.bono_id = tb_bono.folio and "+
-			"tb_establecimiento.nombre = '"+establecimiento+"'";
+						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+
+						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+ 
+							"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
+							"tb_empleado.bono_id = tb_bono.folio and "+
+							"tb_establecimiento.nombre = '"+establecimiento+"'";
 		
 		Statement s;
 		ResultSet rs;
@@ -558,7 +578,6 @@ public class Cat_Lista_Raya extends JFrame {
 					rs = s.executeQuery(datos1);
 					Matriz = new Object[getFilas(datos1)][23];
 					int i=0;
-					System.out.println("uno");
 					while(rs.next()){
 						int folio_empleado =  Integer.parseInt(rs.getString(1));
 						String[] preList = getPreLista(folio_empleado);		
@@ -567,16 +586,30 @@ public class Cat_Lista_Raya extends JFrame {
 						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][3] = "   "+rs.getString(5).trim();
 						float sueldo = Float.parseFloat(rs.getString(6).trim());
-							Matriz[i][4] = sueldo;
+						Matriz[i][4] = sueldo;
 						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
 						Matriz[i][5] = bono_complemento;
+						
 						float[] prestamos = getPrestamos(folio_empleado);
-							Matriz[i][6] = prestamos[0];
-						float DescuentoPrestamo = prestamos[1];
-							Matriz[i][7] = DescuentoPrestamo;
-							Matriz[i][8] = prestamos[2];
+						
+						float prestamoAplicado = prestamos[0]; 
+						float sumasAbonos = getDescuentoPrest(folio_empleado); 
+						
+						Matriz[i][6]=prestamoAplicado-sumasAbonos;
+						
+						float descuentoPrestamo = prestamos[1];
+						
+						if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
+							Matriz[i][7]=prestamoAplicado-sumasAbonos;
+						}else{
+							Matriz[i][7]=descuentoPrestamo;
+						}
+						
+						Object des = Matriz[i][7];
+						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
+						
 						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-							Matriz[i][9] = DescuentoFuenteSodas;
+						Matriz[i][9] = DescuentoFuenteSodas;
 							
 						String[] puntualidades = getPuntualidad(folio_empleado);
 						
@@ -646,7 +679,7 @@ public class Cat_Lista_Raya extends JFrame {
 						float puns = Float.parseFloat(Matriz[i][10]+"");
 						float asss = Float.parseFloat(Matriz[i][12]+"");
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
 						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
 						
 						Matriz[i][20] = suma;
@@ -660,7 +693,6 @@ public class Cat_Lista_Raya extends JFrame {
 					rs = s.executeQuery(filtro1);
 					Matriz = new Object[getFilas(filtro1)][23];
 					int i=0;
-					System.out.println("dos");
 					while(rs.next()){
 						int folio_empleado =  Integer.parseInt(rs.getString(1));
 						String[] preList = getPreLista(folio_empleado);
@@ -669,16 +701,29 @@ public class Cat_Lista_Raya extends JFrame {
 						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][3] = "   "+rs.getString(5).trim();
 						float sueldo = Float.parseFloat(rs.getString(6).trim());
-							Matriz[i][4] = sueldo;
+						Matriz[i][4] = sueldo;
 						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-							Matriz[i][5] = bono_complemento;
+						Matriz[i][5] = bono_complemento;
+						
 						float[] prestamos = getPrestamos(folio_empleado);
-							Matriz[i][6] = prestamos[0];
-						float DescuentoPrestamo = prestamos[1];
-							Matriz[i][7] = DescuentoPrestamo;
-							Matriz[i][8] = prestamos[2];
+						
+						float prestamoAplicado = prestamos[0]; 
+						float sumasAbonos = getDescuentoPrest(folio_empleado); 
+						
+						Matriz[i][6]=prestamoAplicado-sumasAbonos;
+						
+						float descuentoPrestamo = prestamos[1];
+						
+						if(descuentoPrestamo > (prestamoAplicado-sumasAbonos)){
+							Matriz[i][7]=prestamoAplicado-sumasAbonos;
+						}else{
+							Matriz[i][7]=descuentoPrestamo;
+						}
+						Object des = Matriz[i][7];
+						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
+						
 						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-							Matriz[i][9] = DescuentoFuenteSodas;
+						Matriz[i][9] = DescuentoFuenteSodas;
 							
 						String[] puntualidades = getPuntualidad(folio_empleado);
 						
@@ -748,7 +793,7 @@ public class Cat_Lista_Raya extends JFrame {
 						float puns = Float.parseFloat(Matriz[i][10]+"");
 						float asss = Float.parseFloat(Matriz[i][12]+"");
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
 						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
 						
 						Matriz[i][20] = suma;
@@ -763,22 +808,36 @@ public class Cat_Lista_Raya extends JFrame {
 					s = con.conexion().createStatement();
 					rs = s.executeQuery(datos);
 					Matriz = new Object[getFilas(datos)][23];
-					int i=0;System.out.println("tres");
+					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = false;
 						int folio_empleado =  Integer.parseInt(rs.getString(1));
-							Matriz[i][1] = folio_empleado;
+						Matriz[i][1] = folio_empleado;
 						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][3] = "   "+rs.getString(5).trim();
 						float sueldo = Float.parseFloat(rs.getString(6).trim());
-							Matriz[i][4] = sueldo;
+						Matriz[i][4] = sueldo;
 						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-							Matriz[i][5] = bono_complemento;
+						Matriz[i][5] = bono_complemento;
+						
 						float[] prestamos = getPrestamos(folio_empleado);
-							Matriz[i][6] = prestamos[0];
-						float DescuentoPrestamo = prestamos[1];
-							Matriz[i][7] = DescuentoPrestamo;
-							Matriz[i][8] = prestamos[2];
+						
+						float prestamoAplicado = prestamos[0]; 
+						float sumasAbonos = getDescuentoPrest(folio_empleado); 
+						
+						Matriz[i][6]=prestamoAplicado-sumasAbonos;
+						
+						float descuentoPrestamo = prestamos[1];
+						
+						if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
+							Matriz[i][7]=prestamoAplicado-sumasAbonos;
+						}else{
+							Matriz[i][7]=descuentoPrestamo;
+						}
+						
+						Object des = Matriz[i][7];
+						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
+						
 						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
 							Matriz[i][9] = DescuentoFuenteSodas;
 							
@@ -850,7 +909,7 @@ public class Cat_Lista_Raya extends JFrame {
 						float puns = Float.parseFloat(Matriz[i][10]+"");
 						float asss = Float.parseFloat(Matriz[i][12]+"");
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
 						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
 						
 						Matriz[i][20] = suma;
@@ -862,7 +921,7 @@ public class Cat_Lista_Raya extends JFrame {
 					s = con.conexion().createStatement();
 					rs = s.executeQuery(filtro);
 					Matriz = new Object[getFilas(filtro)][23];
-					int i=0;System.out.println("cuatro");
+					int i=0;
 					while(rs.next()){
 						Matriz[i][0] = false;
 						int folio_empleado =  Integer.parseInt(rs.getString(1));
@@ -870,14 +929,28 @@ public class Cat_Lista_Raya extends JFrame {
 						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
 						Matriz[i][3] = "   "+rs.getString(5).trim();
 						float sueldo = Float.parseFloat(rs.getString(6).trim());
-							Matriz[i][4] = sueldo;
+						Matriz[i][4] = sueldo;
 						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-							Matriz[i][5] = bono_complemento;
+						Matriz[i][5] = bono_complemento;
+						
 						float[] prestamos = getPrestamos(folio_empleado);
-							Matriz[i][6] = prestamos[0];
-						float DescuentoPrestamo = prestamos[1];
-							Matriz[i][7] = DescuentoPrestamo;
-							Matriz[i][8] = prestamos[2];
+						
+						float prestamoAplicado = prestamos[0]; 
+						float sumasAbonos = getDescuentoPrest(folio_empleado); 
+						
+						Matriz[i][6]=prestamoAplicado-sumasAbonos;
+						
+						float descuentoPrestamo = prestamos[1];
+						
+						if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
+							Matriz[i][7]=prestamoAplicado-sumasAbonos;
+						}else{
+							Matriz[i][7]=descuentoPrestamo;
+						}
+						
+						Object des = Matriz[i][7];
+						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
+						
 						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
 							Matriz[i][9] = DescuentoFuenteSodas;
 							
@@ -949,7 +1022,7 @@ public class Cat_Lista_Raya extends JFrame {
 						float puns = Float.parseFloat(Matriz[i][10]+"");
 						float asss = Float.parseFloat(Matriz[i][12]+"");
 						
-						float suma = sueldo + bono_complemento - DescuentoPrestamo - DescuentoFuenteSodas - puns - descuentoDias -
+						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
 						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
 						
 						Matriz[i][20] = suma;
@@ -1022,14 +1095,12 @@ public class Cat_Lista_Raya extends JFrame {
 		float[] valores= new float[3];
 		valores[0] = 0;
 		valores[1] = 0;
-		valores[2] = 0;
 		try {
 			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select cantidad, descuento, saldo from tb_prestamo where saldo > 0 and  folio_empleado="+folio);
+			ResultSet rs = s.executeQuery("select cantidad, descuento from tb_prestamo where status_descuento = 1 and  folio_empleado="+folio);
 			while(rs.next()){
 				valores[0] = Float.parseFloat(rs.getString(1));
 				valores[1] = Float.parseFloat(rs.getString(2));
-				valores[2] = Float.parseFloat(rs.getString(3));
 			}
 			
 		} catch (SQLException e1) {
@@ -1103,7 +1174,6 @@ public class Cat_Lista_Raya extends JFrame {
 		return valores;
 	}
 	
-	
 	public float getDescuento_Cortes(int folio){
 		float valor= 0;
 		try {
@@ -1154,4 +1224,62 @@ public class Cat_Lista_Raya extends JFrame {
 		return valor;
 	}
 	
+	public float getDescuentoPrest(int folio){
+		float valor = 0;
+		try {
+			
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select sum(descuento)as 'descuento' from tb_abono where folio_empleado = "+folio+" and status = 1");
+			while(rs.next()){
+				valor = rs.getFloat(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+	
+	public int getFolio_prestamo(int folio){
+		int valor = 0;
+	try {
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select folio from tb_prestamo where folio_empleado = "+folio+" and status = 1");
+			while(rs.next()){
+				valor = rs.getInt(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+
+	public void setDescuentoPrestamo(int folio, float Descuento, float abonos){
+		String query = "update tb_prestamo set descuento="+Descuento+", abonos="+abonos+" where folio_empleado="+folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
 }

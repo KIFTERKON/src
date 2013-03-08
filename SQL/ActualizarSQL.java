@@ -15,7 +15,7 @@ import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Lista_Raya;
+import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
@@ -447,6 +447,7 @@ public class ActualizarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, pres.getFecha());
 			pstmt.setDouble(2, pres.getCantidad());
+			System.out.println(pres.getDescuento());
 			pstmt.setDouble(3, pres.getDescuento());
 			pstmt.setInt(4, pres.getStatus());
 			pstmt.executeUpdate();
@@ -710,7 +711,7 @@ public class ActualizarSQL {
 	}
 	
 	
-	public boolean Actualizar_Pre_Lista(Obj_Lista_Raya raya, int folio){
+	public boolean Actualizar_Pre_Lista(Obj_Revision_Lista_Raya raya, int folio){
 		String query ="update tb_pre_listaraya set boolean=?, observasion_i=?, observasion_ii=?, folio_empleado=? where folio="+folio+" and status=1";
 
 		Connection con = new Connexion().conexion();

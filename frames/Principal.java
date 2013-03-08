@@ -45,7 +45,7 @@ import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Lista_Pago;
-import catalogos.Cat_Lista_Raya;
+import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
@@ -482,7 +482,7 @@ public class Principal extends JFrame{
 		};
 		ActionListener opLRaya = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				new Cat_Lista_Raya().setVisible(true);
+				new Cat_Revision_Lista_Raya().setVisible(true);
 			}
 		};
 		ActionListener opLPago = new ActionListener(){
@@ -645,7 +645,7 @@ public class Principal extends JFrame{
 
 			// Listas
 			if(e.getActionCommand().equals("Revision Lista de Raya"))
-				new Cat_Lista_Raya().setVisible(true);
+				new Cat_Revision_Lista_Raya().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Firmas"))
 				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
@@ -707,6 +707,10 @@ public class Principal extends JFrame{
 		Configuracion_Prestamo.setEnabled(false);
 		Configuracion_Usuario.setEnabled(false);
 		Configuracion_Turno.setEnabled(false);
+		Configuracion_Sistema.setEnabled(false);
+		
+		Autorizacion_Auditoria.setEnabled(false);
+		Autorizacion_Finanzas.setEnabled(false);
 
 	}
 	
@@ -736,6 +740,10 @@ public class Principal extends JFrame{
 		Configuracion_Prestamo.setEnabled(true);
 		Configuracion_Usuario.setEnabled(true);
 		Configuracion_Turno.setEnabled(true);
+		Configuracion_Sistema.setEnabled(true);
+		
+		Autorizacion_Auditoria.setEnabled(true);
+		Autorizacion_Finanzas.setEnabled(true);
 }
 	
 public void PrermisoDH(){
@@ -820,6 +828,8 @@ public void PrermisoAudit(){
 	Configuracion_Prestamo.setEnabled(true);
 	Configuracion_Usuario.setEnabled(true);
 	Configuracion_Turno.setEnabled(true);
+	
+	Autorizacion_Auditoria.setEnabled(true);
 }
 
 public void PrermisoCont(){

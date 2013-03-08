@@ -65,7 +65,6 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		
 		panel.add(getPanelTabla()).setBounds(15,42,655,327);
 		
 		panel.add(txtFolio).setBounds(15,20,68,20);
@@ -191,18 +190,15 @@ public class Cat_Filtro_Prestamo extends JDialog{
 					
 					 "  tb_empleado.status as [Status], "+
 					 "  ROUND(tb_rango_prestamos.minimo,2) as [RangoMin], "+
-					 "  ROUND(tb_rango_prestamos.maximo,2) as [RangoMax], "+
+					 "  ROUND(tb_rango_prestamos.maximo,2) as [RangoMax] "+
 					 
-					 "tb_sueldo.sueldo as [sueldo] "+
 
-					"  from tb_empleado, tb_establecimiento, tb_sueldo, tb_rango_prestamos"+
+					"  from tb_empleado, tb_establecimiento, tb_rango_prestamos"+
 
 					"  where "+
 						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
 						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and" +
-						"  tb_empleado.sueldo_id = tb_sueldo.folio and " +
-						"  tb_empleado.rango_prestamo_id = tb_rango_prestamos.folio and" +
-						"  tb_empleado.sueldo_id = tb_sueldo.folio"
+						"  tb_empleado.rango_prestamo_id = tb_rango_prestamos.folio "
 						);
 			
 			
@@ -224,8 +220,10 @@ public class Cat_Filtro_Prestamo extends JDialog{
 					case 3 : fila[3] = "Baja"; break;	
 				}	
 				fila[4] =(Math.rint(rs.getDouble(7)*100)/100 +"  -  "+ Math.rint(rs.getDouble(8)*100)/100);	
-
-				fila[5] = getSaldo(Integer.parseInt(folio_empleado.trim()))+"";
+				
+				float[] prestamoInicial = getPrestamos(Integer.parseInt(folio_empleado));
+				
+				fila[5] = prestamoInicial[0] - getDescuentoPrest(Integer.parseInt(folio_empleado))+"";
 			   
 				model.addRow(fila); 
 			}	
@@ -286,5 +284,38 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		public void keyReleased(KeyEvent e){}								
 	};
 	
+	public float[] getPrestamos(int folio){
+		float[] valores= new float[3];
+		valores[0] = 0;
+		valores[1] = 0;
+		try {
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select cantidad, descuento from tb_prestamo where status_descuento = 1 and  folio_empleado="+folio);
+			while(rs.next()){
+				valores[0] = Float.parseFloat(rs.getString(1));
+				valores[1] = Float.parseFloat(rs.getString(2));
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valores;
+	}
+	
+	public float getDescuentoPrest(int folio){
+		float valor = 0;
+		try {
+			
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select sum(descuento)as 'descuento' from tb_abono where folio_empleado = "+folio+" and status = 1");
+			while(rs.next()){
+				valor = rs.getFloat(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
 }
 

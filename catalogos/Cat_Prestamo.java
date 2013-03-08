@@ -47,6 +47,9 @@ public class Cat_Prestamo extends JDialog{
 	Double rangoIn;
 	Double rangoFin;
 
+	int folio_empleado = 0;
+	float saldo = 0;
+	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -82,7 +85,6 @@ public class Cat_Prestamo extends JDialog{
 	
 	JButton btnFiltro = new JButton(new ImageIcon("imagen/Text preview.png"));
 	JLabel btnEditar = new JLabel(new ImageIcon("imagen//Modify.png"));
-	JLabel btnSalir = new JLabel(new ImageIcon("imagen//Delete.png"));
 	JLabel btnGuardar = new JLabel(new ImageIcon("imagen//Guardar.png"));
 	
 	public Cat_Prestamo(String algo) {
@@ -107,7 +109,7 @@ public class Cat_Prestamo extends JDialog{
 		tabla.getColumnModel().getColumn(4).setHeaderValue("Saldo");
 		tabla.getColumnModel().getColumn(4).setMinWidth(80);
 		tabla.getColumnModel().getColumn(4).setMaxWidth(80);
-		tabla.getColumnModel().getColumn(5).setHeaderValue("Abono");
+		tabla.getColumnModel().getColumn(5).setHeaderValue("Total Abonos");
 		tabla.getColumnModel().getColumn(5).setMinWidth(80);
 		tabla.getColumnModel().getColumn(5).setMaxWidth(80);
 		tabla.getColumnModel().getColumn(6).setHeaderValue("Status");
@@ -144,7 +146,6 @@ public class Cat_Prestamo extends JDialog{
 		panel.add(btnEditar).setBounds(46,15,16,16);
 		panel.add(btnGuardar).setBounds(73,15,16,16);
 		panel.add(lblTotal).setBounds(ancho-30,y-30, 400, 200);
-		panel.add(btnSalir).setBounds(620,15,16,16);
 		
 		lblTotal.setFont(new java.awt.Font("Algerian",0,60));
 		lblRango.setFont(new java.awt.Font("SansSerif",5,18));
@@ -153,7 +154,6 @@ public class Cat_Prestamo extends JDialog{
 		lblRango.setForeground(Color.blue);
 		lblEtiquetaRango.setForeground(Color.blue);
 		
-		btnSalir.addMouseListener(salir);
 		btnFiltro.addActionListener(filtro);
 		btnEditar.addMouseListener(ValidarCampos);
 		btnCalendario.addMouseListener(OpCalendario);
@@ -167,7 +167,8 @@ public class Cat_Prestamo extends JDialog{
 		Obj_Empleado re = new Obj_Empleado();
 		re = re.buscar(Integer.parseInt(algo));
 	
-		txtFolio_Empleado.setText(re.getFolio()+"");
+		folio_empleado= re.getFolio();
+		txtFolio_Empleado.setText(folio_empleado+"");
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
 		lblRango.setText(rango_prestamo[re.getPrestamo()]);
 		panelEnabledTrue();
@@ -232,6 +233,7 @@ public class Cat_Prestamo extends JDialog{
 	        }
         });
     }
+	
 	MouseListener guardar = new MouseListener() {
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -247,6 +249,7 @@ public class Cat_Prestamo extends JDialog{
 					JOptionPane.showMessageDialog(null,"El Descuento es mayor que el prestamo", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
 				}
+				
 				Obj_Prestamo pres = new Obj_Prestamo();
 				
 				switch(tabla.getRowCount()){
@@ -291,7 +294,10 @@ public class Cat_Prestamo extends JDialog{
 						
 						break;
 					case 1: 
-						
+						if(Double.parseDouble(txtDescuento.getText())> saldo-getDescuentoPrest(folio_empleado)){
+							JOptionPane.showMessageDialog(null,"El Descuento que quiere aplicar es mayor que con lo que salda la cuenta", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}
 							if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
 								
 								pres.setFecha(txtFecha.getText());
@@ -474,6 +480,7 @@ public class Cat_Prestamo extends JDialog{
 		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
+		
 		Statement s;
 		ResultSet rs;
 		try {
@@ -483,13 +490,17 @@ public class Cat_Prestamo extends JDialog{
 			while(rs.next()){
 				
 					DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-
-					Matriz[i][0] = rs.getString(1).trim();
+					
+					float suma = getDescuentoPrest(folio_empleado);
+					
+					Matriz[i][0] = rs.getInt(1)+"";
 					Matriz[i][1] = rs.getString(2).trim();
-					Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)));
+					String cantidadd = decimalFormat.format(Double.parseDouble(rs.getString(3)));
+					saldo = Float.parseFloat(cantidadd);
+					Matriz[i][2] = cantidadd+"";
 					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
-					Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)));
-					Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)));
+					Matriz[i][4] = Float.parseFloat(cantidadd)-suma+"";
+					Matriz[i][5] = suma+"";
 					if(rs.getInt(7)==1){
 						Matriz[i][6]= "Vigente";
 					}else{
@@ -528,6 +539,21 @@ public class Cat_Prestamo extends JDialog{
 		} 
 		
 		lblTotal.setText("$ "+String.valueOf(suma));
+	}
+	public float getDescuentoPrest(int folio){
+		float valor = 0;
+		try {
+			
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select sum(descuento)as 'descuento' from tb_abono where folio_empleado = "+folio+" and status = 1");
+			while(rs.next()){
+				valor = rs.getFloat(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
 	}
 	
 }
