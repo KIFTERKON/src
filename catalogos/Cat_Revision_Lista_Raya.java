@@ -4,32 +4,40 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-
 
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
@@ -55,14 +63,11 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	boolean bono_10_12 = configs.isBono_10_12();
 	boolean bono_dia_extra = configs.isBono_dia_extra();
 	
-	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
-    
+   
 	int numero_lista = getNumeroLista();
 	
 	Object[][] Matriz;
-	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedItem()+"");
+	Object[][] Tabla = getTabla();
 	DefaultTableModel model = new DefaultTableModel(Tabla,
 		new String[]{"","Folio", "Nombre Completo", "Establecimiento", "Sueldo",
 		"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
@@ -144,12 +149,15 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
-	
-	 JToolBar menu = new JToolBar();
-	 
-	JLabel lblBuscar = new JLabel("BUSCAR : ");
-	JTextField txtBuscar = new JTextField();
 
+	JTextField txtFolio = new JTextField();
+	JTextField txtNombre_Completo = new JTextField();
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+	
+	JToolBar menu = new JToolBar();
+	 
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
 	JLabel lblAuditoria = new JLabel(new ImageIcon("imagen/Aplicar.png"));
@@ -160,9 +168,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	JButton btnImprir = new JButton("Imprimir");
 	
 	@SuppressWarnings("rawtypes")
-	public Cat_Revision_Lista_Raya()	{
+	public Cat_Revision_Lista_Raya() {
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
 		this.setTitle("Revisión lista raya ["+numero_lista+"]");
 
+		trsfiltro = new TableRowSorter(model); 
+		tabla.setRowSorter(trsfiltro);
+		
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		System.out.println(bono_dia_extra);
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -185,12 +197,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		
 		tabla.getColumnModel().getColumn(0).setMaxWidth(16);
 		tabla.getColumnModel().getColumn(0).setMinWidth(16);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(1).setMinWidth(50);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(235);
-		tabla.getColumnModel().getColumn(2).setMinWidth(235);
-		tabla.getColumnModel().getColumn(3).setMaxWidth(110);
-		tabla.getColumnModel().getColumn(3).setMinWidth(110);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(1).setMinWidth(70);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(240);
+		tabla.getColumnModel().getColumn(2).setMinWidth(240);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(148);
+		tabla.getColumnModel().getColumn(3).setMinWidth(148);
 		tabla.getColumnModel().getColumn(4).setMaxWidth(60);
 		tabla.getColumnModel().getColumn(4).setMinWidth(60);
 		tabla.getColumnModel().getColumn(5).setMaxWidth(130);
@@ -270,23 +282,23 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(scroll).setBounds(10,70,1250,600);
+		campo.add(scroll).setBounds(10,48,1250,650);
 		lblNumeroLista.setFont(new java.awt.Font("Dialog",Font.BOLD,16));
 		
-        campo.add(lblNumeroLista).setBounds(30,50,200,20);
-		campo.add(lblBuscar).setBounds(10,30,70,20);
-		campo.add(txtBuscar).setBounds(90,30,220,20);
+//        campo.add(lblNumeroLista).setBounds(30,50,200,20);
 		
-		campo.add(cmbEstablecimientos).setBounds(400, 30, 160, 20);
+        campo.add(txtFolio).setBounds(27,27,68,20);
+        campo.add(txtNombre_Completo).setBounds(96,27,239,20);
+        campo.add(cmbEstablecimientos).setBounds(337,27, 148, 20);
 		
-		campo.add(new JLabel("Autorizado por auditoria:")).setBounds(600,30,125,20);
-		campo.add(lblAuditoria).setBounds(725,30,20,20);
+		campo.add(new JLabel("Autorizado por auditoria:")).setBounds(550,27,125,20);
+		campo.add(lblAuditoria).setBounds(675,27,20,20);
 		
-		campo.add(new JLabel("Autorizado por finanzas:")).setBounds(755,30,125,20);
-		campo.add(lblFinanzas).setBounds(880,30,20,20);
+		campo.add(new JLabel("Autorizado por finanzas:")).setBounds(755,27,125,20);
+		campo.add(lblFinanzas).setBounds(880,27,20,20);
 		
-		campo.add(btnImprir).setBounds(1180, 20, 80, 45);
-		campo.add(btnGenerarLista).setBounds(920,20,130,45);
+		campo.add(btnImprir).setBounds(1092, 27, 80, 20);
+		campo.add(btnGenerarLista).setBounds(920,27,130,20);
 		
 		lblAuditoria.setEnabled(auto_auditoria);
 		lblFinanzas.setEnabled(auto_finanza);
@@ -301,10 +313,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			btnGenerarLista.setEnabled(false);
 		}
 		
-		cmbEstablecimientos.addActionListener(opFiltrar);
 		btnGuardar.addActionListener(opGuardar);
 		btnGenerarLista.addActionListener(opGuardarListaRaya);
 		btnImprir.addActionListener(opImprimirListaRaya);
+		
+		txtFolio.addKeyListener(opFiltroFolio);
+		txtNombre_Completo.addKeyListener(opFiltroNombre);
+		cmbEstablecimientos.addActionListener(opFiltro);
 		
 		opBono10_12();
 		this.setResizable(false);
@@ -356,42 +371,17 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}
 	};
 	
-	@SuppressWarnings("rawtypes")
 	public void guardar_lista_raya(){
-		Vector miVector = new Vector();
-	
-		for(int i=0; i<model.getRowCount(); i++){
-			for(int j=0; j<model.getColumnCount(); j++){
-				miVector.add(model.getValueAt(i,j));
-			}
-			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
+		if(JOptionPane.showConfirmDialog(null, "¿Desea Guardar la Lista de Raya?") == 0){
+			new Progress_Bar_Guardar().setVisible(true);
+			lblAuditoria.setEnabled(false);
+			lblFinanzas.setEnabled(false);
+			btnGenerarLista.setEnabled(false);
 			
-			lista_raya.setNumero_lista(numero_lista);
-			lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
-			lista_raya.setNombre_completo(miVector.get(2)+"".trim());
-			lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
-			lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
-			lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
-			lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
-			lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
-			lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
-			lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
-			lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
-			lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
-			lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
-			lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
-			lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
-			lista_raya.setD_banamex(Float.parseFloat(miVector.get(15)+"".trim()));
-			lista_raya.setD_banorte(Float.parseFloat(miVector.get(16)+"".trim()));
-			lista_raya.setD_extra(Float.parseFloat(miVector.get(17)+"".trim()));
-			lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(18)+"".trim()));
-			lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(19)+"".trim()));
-			lista_raya.setA_pagar(Float.parseFloat(miVector.get(20)+"".trim()));
-			lista_raya.setObservasion_i(miVector.get(21)+"".trim());
-			
-			lista_raya.guardar_lista();
-			miVector.clear();
+		}else{
+			return;
 		}
+
 	}
 	
 	public int getNumeroLista(){
@@ -463,6 +453,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			
 					lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
 					lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
+					lis_raya.setA_pagar(Float.parseFloat(miVector.get(20)+""));
 					lis_raya.setObservasion_i(miVector.get(21)+"");
 					lis_raya.setObservasion_ii(miVector.get(22)+"");
 								
@@ -484,6 +475,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				
 				lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
 				lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
+				lis_raya.setA_pagar(Float.parseFloat(miVector.get(20)+""));
 				lis_raya.setObservasion_i(miVector.get(21)+"");
 				lis_raya.setObservasion_ii(miVector.get(22)+"");
 			
@@ -505,558 +497,37 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}	
 	};
 	
-	ActionListener opFiltrar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			int numero = tabla.getRowCount();
-			while(numero > 0){
-				model.removeRow(0);
-				numero --;
-			}
+	KeyListener opFiltroFolio = new KeyListener(){
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}
 		
-			Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedItem()+"");
-			Object[] fila = new Object[tabla.getColumnCount()]; 
-			for(int i=0; i<Tabla.length; i++){
-				model.addRow(fila); 
-				for(int j=0; j<tabla.getColumnCount(); j++){
-					model.setValueAt(Tabla[i][j], i,j);
-				}
+	};
+	
+	KeyListener opFiltroNombre = new KeyListener(){
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 2));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}
+		
+	};
+	
+	ActionListener opFiltro = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 3));
+			}else{
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
 			}
 		}
 	};
 	
-	private Object[][] getTabla(String establecimiento){
-		String datos = "select tb_empleado.folio, "+
-						    "tb_empleado.nombre, "+
-					        "tb_empleado.ap_paterno, "+
-					        "tb_empleado.ap_materno, "+
-					        "tb_establecimiento.nombre as establecimiento, "+
-					        "tb_sueldo.sueldo, "+
-					        "tb_bono.bono, "+
-					        "tb_empleado.infonavit "+
-					     
-						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
-						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
-						 	   "tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-						 	   "tb_empleado.bono_id = tb_bono.folio;";
-		
-		String filtro = "select tb_empleado.folio, "+
-	    					"tb_empleado.nombre, "+
-	    					"tb_empleado.ap_paterno, "+
-	    					"tb_empleado.ap_materno, "+
-	    					"tb_establecimiento.nombre as establecimiento, "+
-	    					"tb_sueldo.sueldo, "+
-	    					"tb_bono.bono, "+
-	    					"tb_empleado.infonavit "+
-     
-	    				"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
-	    				"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
-	    					"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-	    					"tb_empleado.bono_id = tb_bono.folio and " +
-	    					"tb_establecimiento.nombre = '"+establecimiento+"'; ";
-		
-		String datos1 = "select tb_empleado.folio, "+
-							"tb_empleado.nombre, "+
-							"tb_empleado.ap_paterno, "+
-							"tb_empleado.ap_materno, "+
-							"tb_establecimiento.nombre as establecimiento, "+
-							"tb_sueldo.sueldo, "+
-							"tb_bono.bono, "+
-							"tb_empleado.infonavit "+
-     
-						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
-						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
-							"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-							"tb_empleado.bono_id = tb_bono.folio;";
-		
-		String filtro1 = "select tb_empleado.folio,"+ 
-							"tb_empleado.nombre, "+
-							"tb_empleado.ap_paterno, "+
-							"tb_empleado.ap_materno, "+
-							"tb_establecimiento.nombre as establecimiento, "+
-							"tb_sueldo.sueldo, "+
-							"tb_bono.bono, "+
-							"tb_empleado.infonavit "+
- 
-						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+
-						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+ 
-							"tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-							"tb_empleado.bono_id = tb_bono.folio and "+
-							"tb_establecimiento.nombre = '"+establecimiento+"'";
-		
-		Statement s;
-		ResultSet rs;
-		
-		float[] valoresAsistencia = getValoresPuntualidad();
-		float puntualidad = valoresAsistencia[0];
-		float asistencia = valoresAsistencia[1];
-				
-		try {
-			if(getFilas("select * from tb_pre_listaraya where status = 1") > 1 ){
-				if(establecimiento.equals("Todos")){
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(datos1);
-					Matriz = new Object[getFilas(datos1)][23];
-					int i=0;
-					while(rs.next()){
-						int folio_empleado =  Integer.parseInt(rs.getString(1));
-						String[] preList = getPreLista(folio_empleado);		
-						Matriz[i][0] = Boolean.parseBoolean(preList[0].toString().trim());
-						Matriz[i][1] = folio_empleado;
-						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][3] = "   "+rs.getString(5).trim();
-						float sueldo = Float.parseFloat(rs.getString(6).trim());
-						Matriz[i][4] = sueldo;
-						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-						Matriz[i][5] = bono_complemento;
-						
-						float[] prestamos = getPrestamos(folio_empleado);
-						
-						float prestamoAplicado = prestamos[0]; 
-						float sumasAbonos = getDescuentoPrest(folio_empleado); 
-						
-						Matriz[i][6]=prestamoAplicado-sumasAbonos;
-						
-						float descuentoPrestamo = prestamos[1];
-						
-						if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
-							Matriz[i][7]=prestamoAplicado-sumasAbonos;
-						}else{
-							Matriz[i][7]=descuentoPrestamo;
-						}
-						
-						Object des = Matriz[i][7];
-						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-
-						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-						Matriz[i][9] = DescuentoFuenteSodas;
-							
-						String[] puntualidades = getPuntualidad(folio_empleado);
-						
-						boolean punt = Boolean.parseBoolean(puntualidades[0].trim());
-						if(punt != true){
-							Matriz[i][10] = 0;
-						}else{
-							Matriz[i][10] = puntualidad;
-						}
-						
-						float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * Integer.parseInt(puntualidades[2].trim()));
-						boolean dias = Boolean.parseBoolean(puntualidades[1].trim());
-						if(dias != true){
-							Matriz[i][11] = 0;
-						}else{
-							Matriz[i][11] = descuentoDias;
-						}
-						
-						boolean asis = Boolean.parseBoolean(puntualidades[3].trim());
-						if(asis != true){
-							Matriz[i][12] = 0;
-						}else{
-							Matriz[i][12] = asistencia;
-						}
-						
-						float cortes = getDescuento_Cortes(folio_empleado);
-						Matriz[i][13] = cortes;
-						
-						float infonavit = Float.parseFloat(rs.getString(8).trim());
-						Matriz[i][14] = infonavit;
-						
-						int[] bancos = getBancos(folio_empleado);
-						int banamex = bancos[0];
-						int banorte = bancos[1];
-						
-						Matriz[i][15] = banamex;
-						Matriz[i][16] = banorte;
-						String extra = puntualidades[4];
-						if(extra != null){
-							Matriz[i][17] = Float.parseFloat(extra);
-						}else{
-							extra="0";
-							Matriz[i][17] = Float.parseFloat(extra);
-						}
-						
-						Object[] persecciones = getPersecciones(folio_empleado);
-						float dias_extras = Float.parseFloat(persecciones[0]+"");
-						float diasPerseccion = 0;
-						
-						if(bono_dia_extra != true){
-							diasPerseccion = Math.round((sueldo/7) * dias_extras);
-						}else{
-							diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * dias_extras);
-						}
-						
-						if(getDiasExtra(folio_empleado) != true){
-							Matriz[i][18] = 0;	
-						} else {
-							Matriz[i][18] = diasPerseccion;
-						}				
-						
-						float bono = Float.parseFloat(persecciones[1]+"");
-						Matriz[i][19] = bono;
-						
-						float otro = Float.parseFloat(extra);
-						
-						float puns = Float.parseFloat(Matriz[i][10]+"");
-						float asss = Float.parseFloat(Matriz[i][12]+"");
-						
-						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
-						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
-						
-						Matriz[i][20] = suma;
-						Matriz[i][21] = preList[1];
-						Matriz[i][22] = preList[2];
-						
-						i++;
-					}
-				}else{
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(filtro1);
-					Matriz = new Object[getFilas(filtro1)][23];
-					int i=0;
-					while(rs.next()){
-						int folio_empleado =  Integer.parseInt(rs.getString(1));
-						String[] preList = getPreLista(folio_empleado);
-						Matriz[i][0] = Boolean.parseBoolean(preList[0].toString().trim());
-						Matriz[i][1] = folio_empleado;
-						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][3] = "   "+rs.getString(5).trim();
-						float sueldo = Float.parseFloat(rs.getString(6).trim());
-						Matriz[i][4] = sueldo;
-						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-						Matriz[i][5] = bono_complemento;
-						
-						float[] prestamos = getPrestamos(folio_empleado);
-						
-						float prestamoAplicado = prestamos[0]; 
-						float sumasAbonos = getDescuentoPrest(folio_empleado); 
-						
-						Matriz[i][6]=prestamoAplicado-sumasAbonos;
-						
-						float descuentoPrestamo = prestamos[1];
-						
-						if(descuentoPrestamo > (prestamoAplicado-sumasAbonos)){
-							Matriz[i][7]=prestamoAplicado-sumasAbonos;
-						}else{
-							Matriz[i][7]=descuentoPrestamo;
-						}
-						Object des = Matriz[i][7];
-						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-						
-						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-						Matriz[i][9] = DescuentoFuenteSodas;
-							
-						String[] puntualidades = getPuntualidad(folio_empleado);
-						
-						boolean punt = Boolean.parseBoolean(puntualidades[0].trim());
-						if(punt != true){
-							Matriz[i][10] = 0;
-						}else{
-							Matriz[i][10] = puntualidad;
-						}
-						
-						float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * Integer.parseInt(puntualidades[2].trim()));
-						boolean dias = Boolean.parseBoolean(puntualidades[1].trim());
-						if(dias != true){
-							Matriz[i][11] = 0;
-						}else{
-							Matriz[i][11] = descuentoDias;
-						}
-						
-						boolean asis = Boolean.parseBoolean(puntualidades[3].trim());
-						if(asis != true){
-							Matriz[i][12] = 0;
-						}else{
-							Matriz[i][12] = asistencia;
-						}
-						
-						float cortes = getDescuento_Cortes(folio_empleado);
-						Matriz[i][13] = cortes;
-						
-						float infonavit = Float.parseFloat(rs.getString(8).trim());
-						Matriz[i][14] = infonavit;
-						
-						int[] bancos = getBancos(folio_empleado);
-						int banamex = bancos[0];
-						int banorte = bancos[1];
-						
-						Matriz[i][15] = banamex;
-						Matriz[i][16] = banorte;
-						String extra = puntualidades[4];
-						if(extra != null){
-							Matriz[i][17] = Float.parseFloat(extra);
-						}else{
-							extra="0";
-							Matriz[i][17] = Float.parseFloat(extra);
-						}
-						
-						Object[] persecciones = getPersecciones(folio_empleado);
-						float dias_extras = Float.parseFloat(persecciones[0]+"");
-						float diasPerseccion = 0;
-						
-						if(bono_dia_extra != true){
-							diasPerseccion = Math.round((sueldo/7) * dias_extras);
-						}else{
-							diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * dias_extras);
-						}
-						
-						if(getDiasExtra(folio_empleado) != true){
-							Matriz[i][18] = 0;	
-						} else {
-							Matriz[i][18] = diasPerseccion;
-						}				
-						
-						float bono = Float.parseFloat(persecciones[1]+"");
-						Matriz[i][19] = bono;
-						
-						float otro = Float.parseFloat(extra);
-						
-						float puns = Float.parseFloat(Matriz[i][10]+"");
-						float asss = Float.parseFloat(Matriz[i][12]+"");
-						
-						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
-						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
-						
-						Matriz[i][20] = suma;
-						Matriz[i][21] = preList[1];
-						Matriz[i][22] = preList[2];
-						
-						i++;
-					}
-				}
-			}else{
-				if(establecimiento.equals("Todos")){
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(datos);
-					Matriz = new Object[getFilas(datos)][23];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = false;
-						int folio_empleado =  Integer.parseInt(rs.getString(1));
-						Matriz[i][1] = folio_empleado;
-						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][3] = "   "+rs.getString(5).trim();
-						float sueldo = Float.parseFloat(rs.getString(6).trim());
-						Matriz[i][4] = sueldo;
-						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-						Matriz[i][5] = bono_complemento;
-						
-						float[] prestamos = getPrestamos(folio_empleado);
-						
-						float prestamoAplicado = prestamos[0]; 
-						float sumasAbonos = getDescuentoPrest(folio_empleado); 
-						
-						Matriz[i][6]=prestamoAplicado-sumasAbonos;
-						
-						float descuentoPrestamo = prestamos[1];
-						
-						if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
-							Matriz[i][7]=prestamoAplicado-sumasAbonos;
-						}else{
-							Matriz[i][7]=descuentoPrestamo;
-						}
-						
-						Object des = Matriz[i][7];
-						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-						
-						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-							Matriz[i][9] = DescuentoFuenteSodas;
-							
-						String[] puntualidades = getPuntualidad(folio_empleado);
-						
-						boolean punt = Boolean.parseBoolean(puntualidades[0].trim());
-						if(punt != true){
-							Matriz[i][10] = 0;
-						}else{
-							Matriz[i][10] = puntualidad;
-						}
-						
-						float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * Integer.parseInt(puntualidades[2].trim()));
-						boolean dias = Boolean.parseBoolean(puntualidades[1].trim());
-						if(dias != true){
-							Matriz[i][11] = 0;
-						}else{
-							Matriz[i][11] = descuentoDias;
-						}
-						
-						boolean asis = Boolean.parseBoolean(puntualidades[3].trim());
-						if(asis != true){
-							Matriz[i][12] = 0;
-						}else{
-							Matriz[i][12] = asistencia;
-						}
-						
-						float cortes = getDescuento_Cortes(folio_empleado);
-						Matriz[i][13] = cortes;
-						
-						float infonavit = Float.parseFloat(rs.getString(8).trim());
-						Matriz[i][14] = infonavit;
-						
-						int[] bancos = getBancos(folio_empleado);
-						int banamex = bancos[0];
-						int banorte = bancos[1];
-						
-						Matriz[i][15] = banamex;
-						Matriz[i][16] = banorte;
-						String extra = puntualidades[4];
-						if(extra != null){
-							Matriz[i][17] = Float.parseFloat(extra);
-						}else{
-							extra="0";
-							Matriz[i][17] = Float.parseFloat(extra);
-						}
-						
-						Object[] persecciones = getPersecciones(folio_empleado);
-						float dias_extras = Float.parseFloat(persecciones[0]+"");
-						float diasPerseccion = 0;
-						
-						if(bono_dia_extra != true){
-							diasPerseccion = Math.round((sueldo/7) * dias_extras);
-						}else{
-							diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * dias_extras);
-						}
-						
-						if(getDiasExtra(folio_empleado) != true){
-							Matriz[i][18] = 0;	
-						} else {
-							Matriz[i][18] = diasPerseccion;
-						}				
-						
-						float bono = Float.parseFloat(persecciones[1]+"");
-						Matriz[i][19] = bono;
-						
-						float otro = Float.parseFloat(extra);
-						
-						float puns = Float.parseFloat(Matriz[i][10]+"");
-						float asss = Float.parseFloat(Matriz[i][12]+"");
-						
-						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
-						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
-						
-						Matriz[i][20] = suma;
-						Matriz[i][21] = "";
-						Matriz[i][22] = "";
-						i++;
-					}
-				}else{
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(filtro);
-					Matriz = new Object[getFilas(filtro)][23];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = false;
-						int folio_empleado =  Integer.parseInt(rs.getString(1));
-							Matriz[i][1] = folio_empleado;
-						Matriz[i][2] = "   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][3] = "   "+rs.getString(5).trim();
-						float sueldo = Float.parseFloat(rs.getString(6).trim());
-						Matriz[i][4] = sueldo;
-						float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-						Matriz[i][5] = bono_complemento;
-						
-						float[] prestamos = getPrestamos(folio_empleado);
-						
-						float prestamoAplicado = prestamos[0]; 
-						float sumasAbonos = getDescuentoPrest(folio_empleado); 
-						
-						Matriz[i][6]=prestamoAplicado-sumasAbonos;
-						
-						float descuentoPrestamo = prestamos[1];
-						
-						if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
-							Matriz[i][7]=prestamoAplicado-sumasAbonos;
-						}else{
-							Matriz[i][7]=descuentoPrestamo;
-						}
-						
-						Object des = Matriz[i][7];
-						Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-
-						float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-							Matriz[i][9] = DescuentoFuenteSodas;
-							
-						String[] puntualidades = getPuntualidad(folio_empleado);
-						
-						boolean punt = Boolean.parseBoolean(puntualidades[0].trim());
-						if(punt != true){
-							Matriz[i][10] = 0;
-						}else{
-							Matriz[i][10] = puntualidad;
-						}
-						
-						float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * Integer.parseInt(puntualidades[2].trim()));
-						boolean dias = Boolean.parseBoolean(puntualidades[1].trim());
-						if(dias != true){
-							Matriz[i][11] = 0;
-						}else{
-							Matriz[i][11] = descuentoDias;
-						}
-						
-						boolean asis = Boolean.parseBoolean(puntualidades[3].trim());
-						if(asis != true){
-							Matriz[i][12] = 0;
-						}else{
-							Matriz[i][12] = asistencia;
-						}
-						
-						float cortes = getDescuento_Cortes(folio_empleado);
-						Matriz[i][13] = cortes;
-						
-						float infonavit = Float.parseFloat(rs.getString(8).trim());
-						Matriz[i][14] = infonavit;
-						
-						int[] bancos = getBancos(folio_empleado);
-						int banamex = bancos[0];
-						int banorte = bancos[1];
-						
-						Matriz[i][15] = banamex;
-						Matriz[i][16] = banorte;
-						String extra = puntualidades[4];
-						if(extra != null){
-							Matriz[i][17] = Float.parseFloat(extra);
-						}else{
-							extra="0";
-							Matriz[i][17] = Float.parseFloat(extra);
-						}
-						
-						Object[] persecciones = getPersecciones(folio_empleado);
-						float dias_extras = Float.parseFloat(persecciones[0]+"");
-						float diasPerseccion = 0;
-						
-						if(bono_dia_extra != true){
-							diasPerseccion = Math.round((sueldo/7) * dias_extras);
-						}else{
-							diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * dias_extras);
-						}
-						
-						if(getDiasExtra(folio_empleado) != true){
-							Matriz[i][18] = 0;	
-						} else {
-							Matriz[i][18] = diasPerseccion;
-						}				
-						
-						float bono = Float.parseFloat(persecciones[1]+"");
-						Matriz[i][19] = bono;
-						
-						float otro = Float.parseFloat(extra);
-						
-						float puns = Float.parseFloat(Matriz[i][10]+"");
-						float asss = Float.parseFloat(Matriz[i][12]+"");
-						
-						float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
-						asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
-						
-						Matriz[i][20] = suma;
-						Matriz[i][21] = "";
-						Matriz[i][22] = "";
-						i++;
-					}
-				}
-			}
-
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+	private Object[][] getTabla(){
+		new Progress_Bar_Abrir().setVisible(true);
 		return Matriz; 
-
 	}
 	
 	public int getFilas(String qry){
@@ -1302,5 +773,274 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			}
 		}	
 	}
+	
+	public class Progress_Bar_Guardar extends JDialog {
+		Container cont = getContentPane();
+		JLayeredPane panel = new JLayeredPane();
+		JProgressBar barra = new JProgressBar();
+		
+		public Progress_Bar_Guardar() {
+			barra.setStringPainted(true);
+			Thread hilo = new Thread(new Hilo());
+			hilo.start();
+			panel.setBorder(BorderFactory.createTitledBorder("Guardando Lista de raya"));
+			
+			panel.add(barra).setBounds(20,25,350,20);
+			
+			cont.add(panel);
+			
+			this.setUndecorated(true);
+			this.setSize(400,100);
+			this.setModal(true);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+		
+		}
 
+			class Hilo implements Runnable {
+				@SuppressWarnings("rawtypes")
+				public void run() {
+					int total = model.getRowCount();
+					Vector miVector = new Vector();
+					Calendar c = new GregorianCalendar();
+					
+					String dia = c.get(Calendar.DATE)+"";
+					String mes = (c.get(Calendar.MONTH)+1)+"";
+					String anio = c.get(Calendar.YEAR)+"";
+					
+					
+					for(int i=0; i<model.getRowCount(); i++){
+						for(int j=0; j<model.getColumnCount(); j++){
+							miVector.add(model.getValueAt(i,j));
+						}
+						Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
+							
+						lista_raya.setNumero_lista(numero_lista);
+						lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
+						lista_raya.setNombre_completo(miVector.get(2)+"".trim());
+						lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
+						lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
+						lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
+						lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
+						lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
+						lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
+						lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
+						lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
+						lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
+						lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
+						lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
+						lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+						lista_raya.setD_banamex(Float.parseFloat(miVector.get(15)+"".trim()));
+						lista_raya.setD_banorte(Float.parseFloat(miVector.get(16)+"".trim()));
+						lista_raya.setD_extra(Float.parseFloat(miVector.get(17)+"".trim()));
+						lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+						lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+						lista_raya.setA_pagar(Float.parseFloat(miVector.get(20)+"".trim()));
+						lista_raya.setObservasion_i(miVector.get(21)+"".trim());
+						lista_raya.setFecha(dia+"/"+mes+"/"+anio);
+						lista_raya.guardar_lista();
+						
+						miVector.clear();
+						int porcent = (i*100)/total;
+						barra.setValue(porcent);
+					try {
+						Thread.sleep(0);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+							
+					}
+						
+				} dispose();
+			}
+		}
+	}
+	
+	
+	public class Progress_Bar_Abrir extends JDialog {
+		Container cont = getContentPane();
+		JLayeredPane panel = new JLayeredPane();
+		JProgressBar barra = new JProgressBar();
+		
+		JLabel lblNombre = new JLabel("");
+		
+		public Progress_Bar_Abrir() {
+			barra.setStringPainted(true);
+			Thread hilo = new Thread(new Hilo());
+			hilo.start();
+			panel.setBorder(BorderFactory.createTitledBorder("Procesando Lista de raya, espere un momento..."));
+			
+			panel.add(barra).setBounds(20,25,350,20);
+			panel.add(lblNombre).setBounds(30,45,350,20);
+			
+			cont.add(panel);
+			
+			this.setUndecorated(true);
+			this.setSize(400,100);
+			this.setModal(true);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+		
+		}
+			class Hilo implements Runnable {
+				public void run() {
+					String datos = "select tb_empleado.folio, "+
+						    "tb_empleado.nombre, "+
+					        "tb_empleado.ap_paterno, "+
+					        "tb_empleado.ap_materno, "+
+					        "tb_establecimiento.nombre as establecimiento, "+
+					        "tb_sueldo.sueldo, "+
+					        "tb_bono.bono, "+
+					        "tb_empleado.infonavit "+
+					     
+						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
+						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
+						 	   "tb_empleado.sueldo_id = tb_sueldo.folio and  "+
+						 	   "tb_empleado.bono_id = tb_bono.folio and not " +
+						 	   "tb_empleado.status=4;";
+		
+					Statement s;
+					ResultSet rs;
+		
+					float[] valoresAsistencia = getValoresPuntualidad();
+					float puntualidad = valoresAsistencia[0];
+					float asistencia = valoresAsistencia[1];
+					int total = getFilas(datos);
+					try {			
+						s = con.conexion().createStatement();
+						rs = s.executeQuery(datos);
+						Matriz = new Object[getFilas(datos)][23];
+						int i=0;
+						while(rs.next()){
+							int folio_empleado =  Integer.parseInt(rs.getString(1));
+							String[] preList = getPreLista(folio_empleado);		
+							Matriz[i][0] = Boolean.parseBoolean(preList[0].toString().trim());
+							Matriz[i][1] = folio_empleado;
+							String nombre_comp ="   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
+							lblNombre.setText("Empleado: "+nombre_comp);
+							Matriz[i][2] = nombre_comp;
+							Matriz[i][3] = "   "+rs.getString(5).trim();
+				
+							float sueldo = Float.parseFloat(rs.getString(6).trim());
+							Matriz[i][4] = sueldo;
+				
+							float bono_complemento = Float.parseFloat(rs.getString(7).trim());
+							Matriz[i][5] = bono_complemento;
+				
+							float[] prestamos = getPrestamos(folio_empleado);
+				
+							float prestamoAplicado = prestamos[0]; 
+							float sumasAbonos = getDescuentoPrest(folio_empleado); 
+				
+							Matriz[i][6]=prestamoAplicado-sumasAbonos;
+				
+							float descuentoPrestamo = prestamos[1];
+				
+							if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
+								Matriz[i][7]=prestamoAplicado-sumasAbonos;
+							}else{
+								Matriz[i][7]=descuentoPrestamo;
+							}
+				
+							Object des = Matriz[i][7];
+							Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
+
+							float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
+							Matriz[i][9] = DescuentoFuenteSodas;
+					
+							String[] puntualidades = getPuntualidad(folio_empleado);
+				
+							boolean punt = Boolean.parseBoolean(puntualidades[0].trim());
+							if(punt != true){
+								Matriz[i][10] = 0;
+							}else{
+								Matriz[i][10] = puntualidad;
+							}
+				
+							float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * Integer.parseInt(puntualidades[2].trim()));
+				
+							boolean dias = Boolean.parseBoolean(puntualidades[1].trim());
+							if(dias != true){
+								Matriz[i][11] = 0;
+							}else{
+								Matriz[i][11] = descuentoDias;
+							}
+				
+							boolean asis = Boolean.parseBoolean(puntualidades[3].trim());
+							if(asis != true){
+								Matriz[i][12] = 0;
+							}else{
+								Matriz[i][12] = asistencia;
+							}
+				
+							float cortes = getDescuento_Cortes(folio_empleado);
+							Matriz[i][13] = cortes;
+				
+							float infonavit = Float.parseFloat(rs.getString(8).trim());
+							Matriz[i][14] = infonavit;
+				
+							int[] bancos = getBancos(folio_empleado);
+							int banamex = bancos[0];
+							int banorte = bancos[1];
+				
+							Matriz[i][15] = banamex;
+							Matriz[i][16] = banorte;
+				
+							String extra = puntualidades[4];
+							if(extra != null){
+								Matriz[i][17] = Float.parseFloat(extra);
+							}else{
+								extra="0";
+								Matriz[i][17] = Float.parseFloat(extra);
+							}
+				
+							Object[] persecciones = getPersecciones(folio_empleado);
+				
+							float dias_extras = Float.parseFloat(persecciones[0]+"");
+							float diasPerseccion = 0;
+				
+							if(bono_dia_extra != true){
+								diasPerseccion = Math.round((sueldo/7) * dias_extras);
+							}else{
+								diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * dias_extras);
+							}
+				
+							if(getDiasExtra(folio_empleado) != true){
+								Matriz[i][18] = 0;	
+							} else {
+								Matriz[i][18] = diasPerseccion;
+							}				
+				
+							float bono = Float.parseFloat(persecciones[1]+"");
+							Matriz[i][19] = bono;
+				
+							float otro = Float.parseFloat(extra);
+							float puns = Float.parseFloat(Matriz[i][10]+"");
+							float asss = Float.parseFloat(Matriz[i][12]+"");
+				
+							float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
+									asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
+				
+							Matriz[i][20] = suma;
+							Matriz[i][21] = preList[1];
+							Matriz[i][22] = preList[2];
+				
+							i++;
+							
+							int porcent = (i*100)/total;
+							barra.setValue(porcent);
+				
+							try {
+								Thread.sleep(0);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+									
+							}
+						}
+
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}dispose();
+			}
+		}
+	}
 }

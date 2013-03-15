@@ -534,6 +534,7 @@ public class Cat_Empleado extends JFrame{
 			}
 		}		
 	};
+	
 	public void panelEnabledTrue(){	
 		txtFolio.setEditable(true);
 		txtChecador.setEditable(true);
@@ -667,7 +668,6 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	KeyListener numerico_action = new KeyListener() {
-		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 

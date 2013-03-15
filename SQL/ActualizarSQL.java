@@ -29,33 +29,33 @@ import objetos.Obj_fuente_sodas_rh;
 public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "update tb_empleado set nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
+		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
 				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=? where folio=" + folio;
-		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 		
-			pstmt.setString(1, empleado.getNombre().toUpperCase());
-			pstmt.setString(2, empleado.getAp_paterno().toUpperCase());
-			pstmt.setString(3, empleado.getAp_materno().toUpperCase());
-			pstmt.setInt(4, empleado.getEstablecimiento());
-			pstmt.setInt(5, empleado.getPuesto());
-			pstmt.setInt(6, empleado.getTurno());
-			pstmt.setInt(7, empleado.getDescanso());
-			pstmt.setInt(8, empleado.getDobla());
-			pstmt.setInt(9, empleado.getSueldo());
-			pstmt.setInt(10, empleado.getBono());
-			pstmt.setInt(11, empleado.getPrestamo());
-			pstmt.setFloat(12, empleado.getPension_alimenticia());
-			pstmt.setFloat(13, empleado.getInfonavit());
-			pstmt.setInt(14, (empleado.getFuente_sodas())?1:0);
-			pstmt.setBoolean(15, (empleado.getGafete())? true: false);
-			pstmt.setInt(16, empleado.getStatus());
-			pstmt.setString(17,empleado.getObservasiones());
-			pstmt.setString(18, empleado.getFoto());
+			pstmt.setInt(1, empleado.getNo_checador());
+			pstmt.setString(2, empleado.getNombre().toUpperCase());
+			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
+			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
+			pstmt.setInt(5, empleado.getEstablecimiento());
+			pstmt.setInt(6, empleado.getPuesto());
+			pstmt.setInt(7, empleado.getTurno());
+			pstmt.setInt(8, empleado.getDescanso());
+			pstmt.setInt(9, empleado.getDobla());
+			pstmt.setInt(10, empleado.getSueldo());
+			pstmt.setInt(11, empleado.getBono());
+			pstmt.setInt(12, empleado.getPrestamo());
+			pstmt.setFloat(13, empleado.getPension_alimenticia());
+			pstmt.setFloat(14, empleado.getInfonavit());
+			pstmt.setInt(15, (empleado.getFuente_sodas())?1:0);
+			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
+			pstmt.setInt(17, empleado.getStatus());
+			pstmt.setString(18,empleado.getObservasiones());
+			pstmt.setString(19, empleado.getFoto());
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -712,7 +712,7 @@ public class ActualizarSQL {
 	
 	
 	public boolean Actualizar_Pre_Lista(Obj_Revision_Lista_Raya raya, int folio){
-		String query ="update tb_pre_listaraya set boolean=?, observasion_i=?, observasion_ii=?, folio_empleado=? where folio="+folio+" and status=1";
+		String query ="update tb_pre_listaraya set boolean=?, a_pagar=?, observasion_i=?, observasion_ii=?, folio_empleado=? where folio="+folio+" and status=1";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -720,9 +720,10 @@ public class ActualizarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, (raya.isChecado()) ? "true": "false");
-			pstmt.setString(2, raya.getObservasion_i());
-			pstmt.setString(3, raya.getObservasion_ii());
-			pstmt.setInt(4, raya.getFolio_empleado());
+			pstmt.setFloat(2, raya.getA_pagar());
+			pstmt.setString(3, raya.getObservasion_i());
+			pstmt.setString(4, raya.getObservasion_ii());
+			pstmt.setInt(5, raya.getFolio_empleado());
 			
 			pstmt.executeUpdate();
 			con.commit();

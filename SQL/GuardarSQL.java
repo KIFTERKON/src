@@ -687,8 +687,8 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Pre_Lista(Obj_Revision_Lista_Raya raya){
 		
-		String query ="insert into tb_pre_listaraya(boolean,folio_empleado,observasion_i,observasion_ii,status)" +
-				" values(?,?,?,?,?);";
+		String query ="insert into tb_pre_listaraya(boolean,folio_empleado,a_pagar,observasion_i,observasion_ii,status)" +
+				" values(?,?,?,?,?,?);";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -696,9 +696,10 @@ public class GuardarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, (raya.isChecado()) ? "true": "false");
 			pstmt.setInt(2, raya.getFolio_empleado());
-			pstmt.setString(3, raya.getObservasion_i());
-			pstmt.setString(4, raya.getObservasion_ii());
-			pstmt.setInt(5, 1);
+			pstmt.setFloat(3,raya.getA_pagar());
+			pstmt.setString(4, raya.getObservasion_i());
+			pstmt.setString(5, raya.getObservasion_ii());
+			pstmt.setInt(6, 1);
 
 			pstmt.executeUpdate();
 			con.commit();
@@ -764,12 +765,12 @@ public class GuardarSQL {
 						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
 						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,"+
 						 "d_banamex,d_banorte,d_extra,p_dias_extra,p_bono_extra,"+
-						 "a_pagar,observaciones,status) " +
+						 "a_pagar,observaciones,fecha,status) " +
 						 "values(?,?,?,?,?," +
 						 "?,?,?,?,?," +
 						 "?,?,?,?,?," +
 						 "?,?,?,?,?," +
-						 "?,?,?);";
+						 "?,?,?,?);";
 		String queryI = "insert into tb_abono(folio_prestamo,folio_empleado,descuento,status) values(?,?,?,?);";
 
 		String queryII ="update tb_autorizaciones set autorizar_auditoria=?, autorizar_finanzas=?";
@@ -823,7 +824,8 @@ public class GuardarSQL {
 			pstmt.setFloat(20, raya.getP_bono_extra());
 			pstmt.setFloat(21, raya.getA_pagar());
 			pstmt.setString(22, raya.getObservasion_i());
-			pstmt.setInt(23, 1);
+			pstmt.setString(23, raya.getFecha());
+			pstmt.setInt(24, 1);
 			
 			int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
 			

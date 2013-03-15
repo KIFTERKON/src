@@ -93,8 +93,9 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 	        	if(e.getClickCount() == 2){
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
-	    			new Cat_Diferencia_Cortes(folio.toString().trim()).setVisible(true);
 	    			dispose();
+	    			new Cat_Diferencia_Cortes(folio.toString().trim()).setVisible(true);
+	    			
 	        	}
 	        }
         });
@@ -104,7 +105,14 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
 		}
-		public void keyTyped(KeyEvent arg0) {}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+				(caracter > '9')) &&
+			    (caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};

@@ -47,14 +47,16 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 	
 	JTable tabla = new JTable(model);
 	
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre_Completo = new JTextField();
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes" })
 	public Cat_Filtro_Fue_Soda_Rh()	{
 		this.setTitle("Filtro Fuente de Sodas RRHH");
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro Fuente de Sodas RRHH"));
@@ -97,16 +99,21 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
     }
 	
 	KeyListener opFiltroFolio = new KeyListener(){
-		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
 		}
-		public void keyTyped(KeyEvent arg0) {}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+				(caracter > '9')) &&
+			    (caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};
 	KeyListener opFiltroNombre = new KeyListener(){
-		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
 		}
@@ -115,7 +122,6 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		
 	};
 	ActionListener opFiltro = new ActionListener(){
-		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0){
 			if(cmbEstablecimientos.getSelectedIndex() != 0){
 				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));

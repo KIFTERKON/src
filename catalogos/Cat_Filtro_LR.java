@@ -58,6 +58,7 @@ public class Cat_Filtro_LR extends JDialog{
 	};
 	JTable tabla = new JTable(model);
 
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	JTextField txtLR = new JTextField();
 	
@@ -66,7 +67,7 @@ public class Cat_Filtro_LR extends JDialog{
 	JLabel lblExpor = new JLabel(new ImageIcon("imagen/export_excel.png"));
 	JButton btnBuscar = new JButton("Filtro");
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_LR()	{
 		this.setTitle("..:: Lista de pago por establecimiento ::..");
 		this.lblExpor.setText("Exportar");
@@ -398,7 +399,6 @@ public class Cat_Filtro_LR extends JDialog{
 	};
 	
 	KeyListener opFiltroFolio = new KeyListener(){
-		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
 //			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
 		}

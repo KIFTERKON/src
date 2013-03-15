@@ -77,6 +77,7 @@ public class Cat_Prestamo extends JDialog{
 	JTextField txtFecha = new JTextField();
 	
 	String status[] = {"Vigente","Cancelado Temporal"};
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
 	JLabel btnCalendario = new JLabel(new ImageIcon("imagen//Calendar.png"));

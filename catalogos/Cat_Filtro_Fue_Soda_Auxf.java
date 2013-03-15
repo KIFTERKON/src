@@ -102,7 +102,14 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
 		}
-		public void keyTyped(KeyEvent arg0) {}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+				(caracter > '9')) &&
+			    (caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};

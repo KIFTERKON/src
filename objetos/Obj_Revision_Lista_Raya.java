@@ -33,13 +33,14 @@ public class Obj_Revision_Lista_Raya {
 	private float a_pagar;
 	private String observasion_i;
 	private String observasion_ii;
+	private String fecha;
 	private int status;
 	
 	public Obj_Revision_Lista_Raya(){
 		this.folio=0; numero_lista=0; checado=false; folio_empleado=0; nombre_completo=""; establecimiento=""; sueldo=0;
 		this.p_bono_complementario=0; saldo_prestamo_inicial=0; d_prestamo=0; saldo_final=0; d_fuente_sodas=0; d_puntualidad=0;
 		this.d_faltas=0; d_asistencia=0; d_cortes=0; d_infonavit=0; d_banamex=0; d_banorte=0; d_extra = 0; p_dias_extra=0;
-		this.p_bono_extra=0; a_pagar=0; observasion_i=""; observasion_ii=""; status=0;
+		this.p_bono_extra=0; a_pagar=0; observasion_i=""; observasion_ii=""; fecha=""; status=0;
 	}
 
 	public int getFolio() {
@@ -240,6 +241,14 @@ public class Obj_Revision_Lista_Raya {
 
 	public void setObservasion_ii(String observasionIi) {
 		observasion_ii = observasionIi;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 
 	public int getStatus() {

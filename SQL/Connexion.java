@@ -28,6 +28,7 @@ public class Connexion {
 			JOptionPane.showMessageDialog(null, "Error al realizar la conexion con la Base de Datos \n" +
 												"Verifique el cable de red ó las asignaciones de IP`s.\n "+ e.toString().substring(0,48)+"\n"+
 												e.toString().substring(48,88),"Error",JOptionPane.WARNING_MESSAGE);
+			
 			System.exit(0);
 		}
 		return conn;

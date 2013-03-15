@@ -36,7 +36,6 @@ public class Cat_Filtro_Emp extends JDialog{
 	
 	Connexion con = new Connexion();
 	
-	//DECLARACION PARA CREAR UNA TABLA
 	DefaultTableModel model = new DefaultTableModel(0,9){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -59,7 +58,7 @@ public class Cat_Filtro_Emp extends JDialog{
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_Emp()	{
-		this.setTitle("..:: Filtro ::..");
+		this.setTitle("Filtro ");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -95,9 +94,9 @@ public class Cat_Filtro_Emp extends JDialog{
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
-	        		dispose();
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
+	    			dispose();
 	    			new Cat_Empleado(folio+"").setVisible(true);
 	        	}
 	        }
@@ -204,7 +203,6 @@ public class Cat_Filtro_Emp extends JDialog{
 									"  tb_empleado.puesto_id = tb_puesto.folio and "+
 									"  tb_empleado.sueldo_id = tb_sueldo.folio and "+
 									"  tb_empleado.bono_id = tb_bono.folio");
-//			rs = s.executeQuery("select * from tb_empleado");
 			
 			while (rs.next())
 			{ 
@@ -265,7 +263,6 @@ public class Cat_Filtro_Emp extends JDialog{
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){

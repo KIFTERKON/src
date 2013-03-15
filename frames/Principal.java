@@ -25,6 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import objetos.Obj_Auto_Auditoria;
+import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_MD5;
 import objetos.Obj_Usuario;
 
@@ -61,10 +63,6 @@ public class Principal extends JFrame{
 	 ***       autores: Jimenez Molina Edgar Eduardo       ***
 	 ***			 Rodriguez Sanchez Jose Mario.         ***
 	 ********************************************************/
-	
-//	Container cont = getContentPane();
-	
-	/* VARIABLES QUE ESTABAN EN FRM PRINCIPAL*/
 	
 	String Inasistencia =("Deduccion por Inasistencia");
 	
@@ -614,34 +612,13 @@ public class Principal extends JFrame{
 	};
 	ActionListener Opciones = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-					
 			//Archivo
 			if(e.getActionCommand().equals("Cerrar"))
 				dispose();
-			
-			//Alimentación
-			if(e.getActionCommand().equals("Bancos"))
-				new Cat_Bancos().setVisible(true);
-			if(e.getActionCommand().equals("Deducción por Inasistencia"))
-				new Cat_Deduccion_Inasistencia().setVisible(true);
-			if(e.getActionCommand().equals("Diferencia de Cortes"))
-				new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
-			if(e.getActionCommand().equals("Fuente de Sodas DH"))
-				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
-			if(e.getActionCommand().equals("Fuente de Sodas AUXF"))
-				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
-			if(e.getActionCommand().equals("Percepciones Extras"))
-				new Cat_Percepciones_Extra().setVisible(true);
-			if(e.getActionCommand().equals("Prestamos"))
-				new Cat_Filtro_Prestamo().setVisible(true);
 
 			// Catalogo
-			if(e.getActionCommand().equals("Alta Empleados"))
-				new Cat_Empleado().setVisible(true);
 			if(e.getActionCommand().equals("Puesto"))
 				new Cat_Puesto().setVisible(true);
-			if(e.getActionCommand().equals("Sueldo"))
-				new Cat_Sueldo().setVisible(true);
 
 			// Listas
 			if(e.getActionCommand().equals("Revision Lista de Raya"))
@@ -674,11 +651,150 @@ public class Principal extends JFrame{
 				new Cat_Auto_Auditoria().setVisible(true);
 			if(e.getActionCommand().equals("Autorizacion Finanzas"))
 				new Cat_Auto_Finanzas().setVisible(true);
+		
+			//Alimentación
+			if(e.getActionCommand().equals("Bancos")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Bancos().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Deducción por Inasistencia")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Deduccion_Inasistencia().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Diferencia de Cortes")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Fuente de Sodas DH")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Fuente de Sodas AUXF")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Percepciones Extras")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Percepciones_Extra().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Prestamos")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Filtro_Prestamo().setVisible(true);
+				}
+			}
+			
+			// Catalogo
+			if(e.getActionCommand().equals("Alta Empleados")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Empleado().setVisible(true);
+				}
+			}
+				
+			if(e.getActionCommand().equals("Sueldo")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Sueldo().setVisible(true);
+				}
+			}
 			
 			//listas
-			if(e.getActionCommand().equals("Lista de Prestamos"))
-				new Cat_Lista_Deudores_Prestamo().setVisible(true);
-
+			if(e.getActionCommand().equals("Lista de Prestamos")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Lista_Deudores_Prestamo().setVisible(true);
+				}
+			}
+				
 		}
 	};
 	
