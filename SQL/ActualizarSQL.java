@@ -12,6 +12,7 @@ import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
+import objetos.Obj_Denominaciones;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
@@ -193,6 +194,39 @@ public class ActualizarSQL {
 			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Denominaciones(Obj_Denominaciones denominaciones, int folio){
+		String query = "update tb_denominaciones set nombre=?, efectivo=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, denominaciones.getNonbre().toUpperCase());
+			pstmt.setFloat(2, denominaciones.getEfectivo());
+			pstmt.setString(3, (denominaciones.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

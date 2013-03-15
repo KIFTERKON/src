@@ -43,6 +43,7 @@ import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Revision_Lista_Raya;
@@ -160,6 +161,7 @@ public class Principal extends JFrame{
 		
 	JMenu Listas = new JMenu("Listas");	
 		JMenuItem Listas_Raya = new JMenuItem("Revision Lista de Raya");
+		JMenuItem Listas_Analisis = new JMenuItem("Analisis Lista de Raya");
 		JMenuItem Listas_Firma = new JMenuItem("Lista de Firmas");
 		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamos");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
@@ -539,6 +541,8 @@ public class Principal extends JFrame{
 
 		Listas.add(Listas_Raya);
 			Listas_Raya.addActionListener(Opciones);
+		Listas.add(Listas_Analisis);
+			Listas_Analisis.addActionListener(Opciones);
 		Listas.add(Listas_Firma);
 			Listas_Firma.addActionListener(Opciones);
 		Listas.add(Listas_Prestamo);
@@ -646,6 +650,8 @@ public class Principal extends JFrame{
 			// Listas
 			if(e.getActionCommand().equals("Revision Lista de Raya"))
 				new Cat_Revision_Lista_Raya().setVisible(true);
+			if(e.getActionCommand().equals("Analisis Lista de Raya"))
+				new Cat_Imprimir_LR().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Firmas"))
 				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
@@ -696,6 +702,7 @@ public class Principal extends JFrame{
 		Catalogo_Sueldo.setEnabled(false);
 		
 		Listas_Raya.setEnabled(false);
+		Listas_Analisis.setEnabled(false);
 		Listas_Firma.setEnabled(false);
 		Listas_Prestamo.setEnabled(false);
 		Listas_Comparacion_Fuente_Soda.setEnabled(false);
@@ -729,6 +736,7 @@ public class Principal extends JFrame{
 		Catalogo_Status.setEnabled(true);
 
 		Listas_Raya.setEnabled(true);
+		Listas_Analisis.setEnabled(true);
 		Listas_Firma.setEnabled(true);
 		Listas_Prestamo.setEnabled(true);
 		Listas_Comparacion_Fuente_Soda.setEnabled(true);
@@ -761,6 +769,7 @@ public void PrermisoDH(){
 	Catalogo_Status.setEnabled(true);
 	
 	Listas_Raya.setEnabled(true);
+	Listas_Analisis.setEnabled(true);
 	Listas_Firma.setEnabled(true);
 	Listas_Prestamo.setEnabled(true);
 	Listas_Comparacion_Fuente_Soda.setEnabled(true);
@@ -789,6 +798,7 @@ public void PrermisoAuxf(){
 	Catalogo_Status.setEnabled(false);
 
 	Listas_Raya.setEnabled(false);
+	Listas_Analisis.setEnabled(true);
 	Listas_Firma.setEnabled(false);
 	Listas_Prestamo.setEnabled(false);
 	Listas_Comparacion_Fuente_Soda.setEnabled(false);
@@ -817,6 +827,7 @@ public void PrermisoAudit(){
 	Catalogo_Status.setEnabled(true);
 	
 	Listas_Raya.setEnabled(true);
+	Listas_Analisis.setEnabled(true);
 	Listas_Firma.setEnabled(true);
 	Listas_Prestamo.setEnabled(true);
 	Listas_Comparacion_Fuente_Soda.setEnabled(true);
@@ -847,6 +858,7 @@ public void PrermisoCont(){
 	Catalogo_Status.setEnabled(true);
 
 	Listas_Raya.setEnabled(true);
+	Listas_Analisis.setEnabled(true);
 	Listas_Firma.setEnabled(true);
 	Listas_Prestamo.setEnabled(true);
 	Listas_Comparacion_Fuente_Soda.setEnabled(true);
@@ -875,6 +887,7 @@ public void PrermisoCons(){
 	Catalogo_Status.setEnabled(true);
 
 	Listas_Raya.setEnabled(true);
+	Listas_Analisis.setEnabled(true);
 	Listas_Firma.setEnabled(true);
 	Listas_Prestamo.setEnabled(true);
 	Listas_Comparacion_Fuente_Soda.setEnabled(true);

@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import objetos.Obj_Empleado;
 import objetos.Obj_Revision_Lista_Raya;
 
 import export.exportar_excel;
@@ -60,11 +61,15 @@ public class Cat_Filtro_LR extends JDialog{
 
 	private TableRowSorter trsfiltro;
 	JTextField txtLR = new JTextField();
+	JTextField txtFecha = new JTextField();
 	
+	Connexion con = new Connexion();
 	
 	JLabel lblImprimir = new JLabel(new ImageIcon("imagen//imprimir-32.png"));
 	JLabel lblExpor = new JLabel(new ImageIcon("imagen/export_excel.png"));
 	JButton btnBuscar = new JButton("Filtro");
+	
+	int filas = 0;
 	
 	@SuppressWarnings("unchecked")
 	public Cat_Filtro_LR()	{
@@ -79,16 +84,20 @@ public class Cat_Filtro_LR extends JDialog{
 		int ancho = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 		
 		
-		campo.add(txtLR).setBounds(15,20,68,20);
-		campo.add(btnBuscar).setBounds(90,20,80,20);
+		campo.add(txtLR).setBounds(20,20,60,20);
+		campo.add(btnBuscar).setBounds(90,20,70,20);
+		campo.add(txtFecha).setBounds(20,45,140,20);
 		campo.add(lblImprimir).setBounds(630, 10, 90, 45);
 		campo.add(lblExpor).setBounds(725, 10, 90, 45);
-		campo.add(getPanelTabla()).setBounds(20,60,largo-548,ancho-120);
+		campo.add(getPanelTabla()).setBounds(20,70,largo-548,ancho-130);
 	
 		lblImprimir.addMouseListener(OpImprimir);
 		lblExpor.addMouseListener(opExportar);
-		btnBuscar.addActionListener(buscar);
+		btnBuscar.addActionListener(Filtrar);
 		
+		txtLR.addKeyListener(validaCantidad);
+		txtLR.addKeyListener(buscar_action);
+				
 		cont.add(campo);
 		this.setModal(true);
 		this.setSize(largo-500,ancho);
@@ -198,19 +207,211 @@ public class Cat_Filtro_LR extends JDialog{
 						tabla.getColumnModel().getColumn(15).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(16).setCellRenderer(render);
 						tabla.getColumnModel().getColumn(17).setCellRenderer(render); 
-		Statement s;
-		ResultSet rs;
-		try {
-			s = conn.createStatement();
-			rs = s.executeQuery("select * from tb_lista_raya "+
-								" order by Establecimiento asc");
+						
+						Statement s;
+						ResultSet rs;
+						
+						String Todos = "select * from tb_lista_raya " +
+						  " order by Establecimiento asc";
+						try{
+							s = con.conexion().createStatement();
+							rs = s.executeQuery(Todos);
+							
+							String [] fila = new String[18];
+							String aux="";
+							int cont =0;
+							
+							while (rs.next())
+							{ 
+							   String nombre= 		rs.getString(4).trim();
+							   String stab= 		rs.getString(5).trim();
+							   float sueldo=		rs.getFloat(6);
+							   float bono=			rs.getFloat(7);
+							   float prestamo=		rs.getFloat(8);
+							   float descuento=		rs.getFloat(9);
+							   float pfinal=		rs.getFloat(10);
+							   float fsod= 			rs.getFloat(11);
+							   float punt=			rs.getFloat(12);
+							   float falta=			rs.getFloat(13);
+							   float asis= 			rs.getFloat(14);
+							   float corte=			rs.getFloat(15);
+							   float infon=			rs.getFloat(16);
+							   
+							   float banorte=	 	rs.getFloat(17);
+							   float banamex=		rs.getFloat(18);
+							   float ext=			rs.getFloat(19);
+							   float diaE=			rs.getFloat(20);
+							   
+							   float pagar= 		rs.getFloat(22);
+							   String obs=			rs.getString(23).trim();
+							   
+							   if(stab.equals(aux)){
+								   
+								    fila[0]  ="  "+nombre;
+								    fila[1]  ="  "+sueldo;
+									fila[2]  ="  "+prestamo;
+									fila[3]  ="  "+descuento;
+									fila[4]  ="  "+pfinal;
+									fila[5]  ="  "+fsod;
+									fila[6]  ="  "+punt;
+									fila[7]  ="  "+falta;
+									fila[8]  ="  "+asis;
+									fila[9]  ="  "+corte;
+									fila[10] ="  "+infon;
+									fila[11] ="  "+banorte;
+									fila[12] ="  "+banamex;
+									fila[13] ="  "+ext;
+									fila[14] ="  "+diaE;
+									fila[15] ="  "+bono;
+									fila[16] ="  "+pagar;
+									fila[17] ="  "+obs;
+									
+							   }else{
+								  if(cont>=1){
+									  
+									  	fila[0] ="";
+									    fila[1]  ="";
+										fila[2]  ="";
+										fila[3]  ="";
+										fila[4]  ="";
+										fila[5]  ="";
+										fila[6]  ="";
+										fila[7]  ="";
+										fila[8]  ="";
+										fila[9]  ="";
+										fila[10] ="";
+										fila[11] ="";
+										fila[12] ="";
+										fila[13] ="";
+										fila[14] ="";
+										fila[15] ="";
+										fila[16] ="";
+										fila[17] ="";
+									  model.addRow(fila);
+									  	fila[0] ="                        "+stab;
+									    fila[1]  =" SUELDO";
+										fila[2]  ="   PREST";
+										fila[3]  ="  DESC P.";
+										fila[4]  ="   S FINAL";
+										fila[5]  ="    FSOD";
+										fila[6]  ="    PUNT";
+										fila[7]  ="    FALTA";
+										fila[8]  ="   ASIS";
+										fila[9]  ="   CORTE";
+										fila[10] ="   INFVIT";
+										fila[11] =" BANORT";
+										fila[12] =" BANAM";
+										fila[13] ="     EXT";
+										fila[14] ="   DIA E.";
+										fila[15] ="   BONO";
+										fila[16] =" A PAGAR";
+										fila[17] ="                OBSERVACIONES";
+									 model.addRow(fila);
+									  	fila[0]  ="  "+nombre;
+									    fila[1]  ="  "+sueldo;
+										fila[2]  ="  "+prestamo;
+										fila[3]  ="  "+descuento;
+										fila[4]  ="  "+pfinal;
+										fila[5]  ="  "+fsod;
+										fila[6]  ="  "+punt;
+										fila[7]  ="  "+falta;
+										fila[8]  ="  "+asis;
+										fila[9]  ="  "+corte;
+										fila[10] ="  "+infon;
+										fila[11] ="  "+banorte;
+										fila[12] ="  "+banamex;
+										fila[13] ="  "+ext;
+										fila[14] ="  "+diaE;
+										fila[15] ="  "+bono;
+										fila[16] ="  "+pagar;
+										fila[17] ="  "+obs;
+									  aux = stab;
+								  
+								  }else{
+									  
+									  	fila[0]  ="                        "+stab;
+									  	fila[1]  =" SUELDO";
+										fila[2]  ="   PREST";
+										fila[3]  ="  DESC P.";
+										fila[4]  ="   S FINAL";
+										fila[5]  ="    FSOD";
+										fila[6]  ="    PUNT";
+										fila[7]  ="    FALTA";
+										fila[8]  ="   ASIS";
+										fila[9]  ="   CORTE";
+										fila[10] ="   INFVIT";
+										fila[11] =" BANORT";
+										fila[12] =" BANAM";
+										fila[13] ="     EXT";
+										fila[14] ="    DIA E.";
+										fila[15] ="   BONO";
+										fila[16] =" A PAGAR";
+										fila[17] ="                OBSERVACIONES";
+									model.addRow(fila);
+										fila[0]  ="  "+nombre;
+									    fila[1]  ="  "+sueldo;
+										fila[2]  ="  "+prestamo;
+										fila[3]  ="  "+descuento;
+										fila[4]  ="  "+pfinal;
+										fila[5]  ="  "+fsod;
+										fila[6]  ="  "+punt;
+										fila[7]  ="  "+falta;
+										fila[8]  ="  "+asis;
+										fila[9]  ="  "+corte;
+										fila[10] ="  "+infon;
+										fila[11] ="  "+banorte;
+										fila[12] ="  "+banamex;
+										fila[13] ="  "+ext;
+										fila[14] ="  "+diaE;
+										fila[15] ="  "+bono;
+										fila[16] ="  "+pagar;
+										fila[17] ="  "+obs;
+										
+										aux = stab;
+										cont++;
+								  }
+								  
+							   }
+							   model.addRow(fila); 
+							}
+						}catch(SQLException e){
+							e.printStackTrace();
+						}
+
+				JScrollPane scrol = new JScrollPane(tabla);
+			    return scrol; 
+			}
+
+	ActionListener Filtrar = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			filas = tabla.getRowCount();
+			System.out.println(filas);
+			while(filas > 0){
+				model.removeRow(0);
+				filas --;
+			}
+				
+			String Todos = "select * from tb_lista_raya " +
+			  " order by Establecimiento asc";
+
+			String Filtro = "select * from tb_lista_raya " +
+				"where numero_lista = '"+txtLR.getText()+"'"+
+				" order by Establecimiento asc";
+
+			Statement s;
+			ResultSet rs;	
+			try {
+	
+		if(txtLR.getText().equals("")){
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(Todos);
 			
+			String [] fila = new String[18];
 			String aux="";
 			int cont =0;
+			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[18];
-			   
 			   String nombre= 		rs.getString(4).trim();
 			   String stab= 		rs.getString(5).trim();
 			   float sueldo=		rs.getFloat(6);
@@ -357,54 +558,184 @@ public class Cat_Filtro_LR extends JDialog{
 						
 						aux = stab;
 						cont++;
+						txtLR.setText("");
 				  }
 			   }
 			   model.addRow(fila); 
-			}	
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-		   
-	    return scrol; 
-	}
-	
-	ActionListener buscar = new ActionListener() {
-		@SuppressWarnings("unchecked")
-		public void actionPerformed(ActionEvent e){
-			if(txtLR.getText().equals("")){
-				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
-				return;
+			}
+		}else{
+			Obj_Revision_Lista_Raya re = new Obj_Revision_Lista_Raya();
+			re = re.buscar(Integer.parseInt(txtLR.getText())); 
+			if(re.getNumero_lista()!= 0){	
+				s = con.conexion().createStatement();
+				rs = s.executeQuery(Filtro);
+				
+				String [] fila = new String[18];
+				String aux="";
+				int cont =0;
+				
+				while (rs.next())
+				{ 
+				   String nombre= 		rs.getString(4).trim();
+				   String stab= 		rs.getString(5).trim();
+				   float sueldo=		rs.getFloat(6);
+				   float bono=			rs.getFloat(7);
+				   float prestamo=		rs.getFloat(8);
+				   float descuento=		rs.getFloat(9);
+				   float pfinal=		rs.getFloat(10);
+				   float fsod= 			rs.getFloat(11);
+				   float punt=			rs.getFloat(12);
+				   float falta=			rs.getFloat(13);
+				   float asis= 			rs.getFloat(14);
+				   float corte=			rs.getFloat(15);
+				   float infon=			rs.getFloat(16);
+				   
+				   float banorte=	 	rs.getFloat(17);
+				   float banamex=		rs.getFloat(18);
+				   float ext=			rs.getFloat(19);
+				   float diaE=			rs.getFloat(20);
+				   
+				   float pagar= 		rs.getFloat(22);
+				   String obs=			rs.getString(23).trim();
+				   
+				   if(stab.equals(aux)){
+					   
+					    fila[0]  ="  "+nombre;
+					    fila[1]  ="  "+sueldo;
+						fila[2]  ="  "+prestamo;
+						fila[3]  ="  "+descuento;
+						fila[4]  ="  "+pfinal;
+						fila[5]  ="  "+fsod;
+						fila[6]  ="  "+punt;
+						fila[7]  ="  "+falta;
+						fila[8]  ="  "+asis;
+						fila[9]  ="  "+corte;
+						fila[10] ="  "+infon;
+						fila[11] ="  "+banorte;
+						fila[12] ="  "+banamex;
+						fila[13] ="  "+ext;
+						fila[14] ="  "+diaE;
+						fila[15] ="  "+bono;
+						fila[16] ="  "+pagar;
+						fila[17] ="  "+obs;
+						
+				   }else{
+					  if(cont>=1){
+						  
+						  	fila[0] ="";
+						    fila[1]  ="";
+							fila[2]  ="";
+							fila[3]  ="";
+							fila[4]  ="";
+							fila[5]  ="";
+							fila[6]  ="";
+							fila[7]  ="";
+							fila[8]  ="";
+							fila[9]  ="";
+							fila[10] ="";
+							fila[11] ="";
+							fila[12] ="";
+							fila[13] ="";
+							fila[14] ="";
+							fila[15] ="";
+							fila[16] ="";
+							fila[17] ="";
+						  model.addRow(fila);
+						  	fila[0] ="                        "+stab;
+						    fila[1]  =" SUELDO";
+							fila[2]  ="   PREST";
+							fila[3]  ="  DESC P.";
+							fila[4]  ="   S FINAL";
+							fila[5]  ="    FSOD";
+							fila[6]  ="    PUNT";
+							fila[7]  ="    FALTA";
+							fila[8]  ="   ASIS";
+							fila[9]  ="   CORTE";
+							fila[10] ="   INFVIT";
+							fila[11] =" BANORT";
+							fila[12] =" BANAM";
+							fila[13] ="     EXT";
+							fila[14] ="   DIA E.";
+							fila[15] ="   BONO";
+							fila[16] =" A PAGAR";
+							fila[17] ="                OBSERVACIONES";
+						 model.addRow(fila);
+						  	fila[0]  ="  "+nombre;
+						    fila[1]  ="  "+sueldo;
+							fila[2]  ="  "+prestamo;
+							fila[3]  ="  "+descuento;
+							fila[4]  ="  "+pfinal;
+							fila[5]  ="  "+fsod;
+							fila[6]  ="  "+punt;
+							fila[7]  ="  "+falta;
+							fila[8]  ="  "+asis;
+							fila[9]  ="  "+corte;
+							fila[10] ="  "+infon;
+							fila[11] ="  "+banorte;
+							fila[12] ="  "+banamex;
+							fila[13] ="  "+ext;
+							fila[14] ="  "+diaE;
+							fila[15] ="  "+bono;
+							fila[16] ="  "+pagar;
+							fila[17] ="  "+obs;
+						  aux = stab;
+					  
+					  }else{
+						  
+						  	fila[0]  ="                        "+stab;
+						  	fila[1]  =" SUELDO";
+							fila[2]  ="   PREST";
+							fila[3]  ="  DESC P.";
+							fila[4]  ="   S FINAL";
+							fila[5]  ="    FSOD";
+							fila[6]  ="    PUNT";
+							fila[7]  ="    FALTA";
+							fila[8]  ="   ASIS";
+							fila[9]  ="   CORTE";
+							fila[10] ="   INFVIT";
+							fila[11] =" BANORT";
+							fila[12] =" BANAM";
+							fila[13] ="     EXT";
+							fila[14] ="    DIA E.";
+							fila[15] ="   BONO";
+							fila[16] =" A PAGAR";
+							fila[17] ="                OBSERVACIONES";
+						model.addRow(fila);
+							fila[0]  ="  "+nombre;
+						    fila[1]  ="  "+sueldo;
+							fila[2]  ="  "+prestamo;
+							fila[3]  ="  "+descuento;
+							fila[4]  ="  "+pfinal;
+							fila[5]  ="  "+fsod;
+							fila[6]  ="  "+punt;
+							fila[7]  ="  "+falta;
+							fila[8]  ="  "+asis;
+							fila[9]  ="  "+corte;
+							fila[10] ="  "+infon;
+							fila[11] ="  "+banorte;
+							fila[12] ="  "+banamex;
+							fila[13] ="  "+ext;
+							fila[14] ="  "+diaE;
+							fila[15] ="  "+bono;
+							fila[16] ="  "+pagar;
+							fila[17] ="  "+obs;
+							
+							aux = stab;
+							cont++;
+							txtLR.setText("");
+					  }
+				   }
+				   model.addRow(fila); 
+				  }
 			}else{
-				Obj_Revision_Lista_Raya LR = new Obj_Revision_Lista_Raya();
-				LR = LR.buscar(Integer.parseInt(txtLR.getText()));
-				if(LR.getFolio() != 0){			
-					txtLR.setText(LR.getNumero_lista()+"");
-					trsfiltro.setRowFilter(RowFilter.regexFilter(txtLR.getText(), 0));
-					
-					txtLR.setEditable(true);
-					txtLR.requestFocus();
-					
+				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+				txtLR.setText("");
+					}
 				}
-				else{
-					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-					
-					txtLR.setEditable(true);
-					txtLR.setText("");
-					return;
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 				}
 			}
-		}
-	};
-	
-	KeyListener opFiltroFolio = new KeyListener(){
-		@SuppressWarnings("unchecked")
-		public void keyReleased(KeyEvent arg0) {
-//			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
-		}
-		public void keyTyped(KeyEvent arg0) {}
-		public void keyPressed(KeyEvent arg0) {}
-		
 	};
 	
 	MouseListener opExportar = new MouseListener() {
@@ -512,9 +843,8 @@ public class Cat_Filtro_LR extends JDialog{
 		@Override
 		public void keyTyped(KeyEvent e){
 			char caracter = e.getKeyChar();				
-			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
+			if((caracter < '0') ||	
+			    	(caracter > '9')){
 			    	e.consume();
 			    	}
 		}
@@ -526,23 +856,19 @@ public class Cat_Filtro_LR extends JDialog{
 		}	
 	};
 	
-	KeyListener validaNumericoConPunto = new KeyListener() {
+	KeyListener buscar_action = new KeyListener() {
 		@Override
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
-		    if(((caracter < '0') ||	
-		    	(caracter > '9')) && 
-		    	(caracter != '.')){
-		    	e.consume();
-		    	}
+		public void keyTyped(KeyEvent e){
 		}
 		@Override
-		public void keyPressed(KeyEvent e){}
+		public void keyReleased(KeyEvent e) {	
+		}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				btnBuscar.doClick();
+			}
+		}
 	};
 	public static void main(String [] arg){
 		new Cat_Filtro_LR().setVisible(true);

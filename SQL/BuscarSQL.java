@@ -16,6 +16,7 @@ import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
+import objetos.Obj_Denominaciones;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
@@ -193,6 +194,30 @@ public class BuscarSQL {
 		return puesto;
 	}
 	
+	public Obj_Denominaciones denominaciones(int folio) throws SQLException{
+		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
+		String query = "select * from tb_denominaciones where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				denominaciones.setFolio(rs.getInt("folio"));
+				denominaciones.setNombre(rs.getString("nombre").trim());
+				denominaciones.setEfectivo(rs.getFloat("efectivo"));
+				denominaciones.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return denominaciones;
+	}
+	
 	public Obj_Puesto Puesto_Nuevo() throws SQLException{
 		Obj_Puesto puesto = new Obj_Puesto();
 		String query = "select max(folio) as 'Maximo' from tb_puesto";
@@ -212,6 +237,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
+	}
+	
+	public Obj_Denominaciones Denominaciones_Nuevo() throws SQLException{
+		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
+		String query = "select max(folio) as 'Maximo' from tb_denominaciones";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				denominaciones.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return denominaciones;
 	}
 	
 	public Obj_Empleado Empleado(int folio) throws SQLException{
@@ -263,7 +309,7 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				LR.setFolio(rs.getInt("folio"));
+				LR.setNumero_lista(rs.getInt("numero_lista"));
 				
 			}
 			
@@ -729,6 +775,27 @@ public class BuscarSQL {
 		return puest;
 	}
 	
+	public Obj_Denominaciones Denominaciones_buscar(String nombre) throws SQLException{
+		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
+		String query = "select folio from tb_denominaciones where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				denominaciones.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return denominaciones;
+	}
+	
 	public Obj_Turno Turn_buscar(String nombre) throws SQLException{
 		Obj_Turno turno = new Obj_Turno();
 		String query = "select folio from tb_turno where nombre='"+nombre+"'";
@@ -790,6 +857,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puest;
+	}
+	
+	public Obj_Denominaciones Denominaciones_buscar(int folio) throws SQLException{
+		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
+		String query = "select nombre from tb_denominaciones where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				denominaciones.setNombre(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return denominaciones;
 	}
 	
 	public Obj_Turno Turn_buscar(int folio) throws SQLException{
