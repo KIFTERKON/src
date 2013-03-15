@@ -3,6 +3,7 @@ package catalogos;
 import java.awt.Container;
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -347,6 +349,13 @@ public class Cat_Empleado extends JFrame{
 					if(re.getGafete() == true){chbGafete.setSelected(true);}
 					else{chbGafete.setSelected(false);}
 					cmbStatus.setSelectedIndex(re.getStatus()-1);
+				
+					switch(cmbStatus.getSelectedIndex()+1){
+						case 1:btnStatus.setIcon(new ImageIcon("imagen/vigente.png"));break;
+						case 2:btnStatus.setIcon(new ImageIcon("imagen/vacaciones.png"));break;
+						case 3:btnStatus.setIcon(new ImageIcon("imagen/incapacidad.png"));break;
+						case 4:btnStatus.setIcon(new ImageIcon("imagen/baja.png"));break;
+				}
 					txtFecha.setText(re.getFecha());
 					txaObservaciones.setText(re.getObservasiones());
 					img = re.getFoto();
@@ -602,6 +611,7 @@ public class Cat_Empleado extends JFrame{
 		cmbStatus.setSelectedIndex(0);
 		txaObservaciones.setText("");
 	    btnFoto.setIcon(new ImageIcon(""));	
+	    btnStatus.setIcon(new ImageIcon(""));
 	}
 	
 	ActionListener nuevo = new ActionListener(){
