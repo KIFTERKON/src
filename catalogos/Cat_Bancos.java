@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,7 +34,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import frames.WholeNumberField;
 import objetos.Obj_Bancos;
 import objetos.Obj_Establecimiento;
 import SQL.Connexion;
@@ -72,11 +70,11 @@ public class Cat_Bancos extends JDialog {
 	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
-	    	java.lang.Integer.class, 
-	    	java.lang.Integer.class, 
-	    	java.lang.Integer.class
-	    	
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class
          };
+	     
 	     @SuppressWarnings("rawtypes")
 		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
@@ -111,7 +109,6 @@ public class Cat_Bancos extends JDialog {
         	 } 				
  			return false;
  		}
-		
 	};
 	
 	JTable tabla = new JTable(model);
@@ -144,8 +141,6 @@ public class Cat_Bancos extends JDialog {
 		panel.add(menu);
 		cont.add(panel);
 
-		 setUpIntegerEditor(tabla);
-		
 		tabla.getColumnModel().getColumn(0).setMaxWidth(72);
 		tabla.getColumnModel().getColumn(0).setMinWidth(72);		
 		tabla.getColumnModel().getColumn(1).setMaxWidth(360);
@@ -194,21 +189,9 @@ public class Cat_Bancos extends JDialog {
 		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
+		
 	}
 	
-	 private void setUpIntegerEditor(JTable table) {
-	        final WholeNumberField integerField = new WholeNumberField(0, 5);
-	        integerField.setHorizontalAlignment(WholeNumberField.RIGHT);
-
-	        DefaultCellEditor integerEditor = 
-	            new DefaultCellEditor(integerField) {
-	                public Object getCellEditorValue() {
-	                    return new Integer(integerField.getValue());
-	                }
-	            };
-	        table.setDefaultEditor(Integer.class, integerEditor);
-	}
-		
 	KeyListener opFiltroFolio = new KeyListener(){
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));

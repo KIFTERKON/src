@@ -446,8 +446,8 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia deduccion){
-		String query = "insert into tb_deduccion_inasistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,gafete,dia_gafete,extra,status) " +
-						"values(?,?,?,?,?,?,?,?,?,?,?);";
+		String query = "insert into tb_deduccion_inasistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,gafete,dia_gafete,extra,cantidad_falta,status) " +
+						"values(?,?,?,?,?,?,?,?,?,?,?,?);";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -463,7 +463,8 @@ public class GuardarSQL {
 			pstmt.setString(8, deduccion.getGafete());
 			pstmt.setInt(9, deduccion.getDia_gafete());
 			pstmt.setFloat(10, deduccion.getExtra());
-			pstmt.setInt(11 , 1);
+			pstmt.setFloat(11, deduccion.getCantidad_faltas());
+			pstmt.setInt(12 , 1);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -521,8 +522,8 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar(Obj_Persecciones_Extra persecciones){
-		String query = "insert into tb_persecciones_extra(folio_empleado,nombre_completo,establecimiento,bono,dia_extra,dias,status) " +
-						"values(?,?,?,?,?,?,?);";
+		String query = "insert into tb_persecciones_extra(folio_empleado,nombre_completo,establecimiento,bono,dia_extra,dias,cantidad_dias_extra,status) " +
+						"values(?,?,?,?,?,?,?,?);";
 		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -535,7 +536,8 @@ public class GuardarSQL {
 			pstmt.setFloat(4, persecciones.getBono());
 			pstmt.setString(5, persecciones.getDia_extra());
 			pstmt.setInt(6, persecciones.getDias());
-			pstmt.setInt(7 , 1);
+			pstmt.setFloat(7, persecciones.getCantidad_dias());
+			pstmt.setInt(8 , 1);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

@@ -18,11 +18,12 @@ public class Obj_Deduccion_Iasistencia {
 	private String gafete;
 	private int dia_gafete;
 	private float extra;
+	private float cantidad_faltas;
 	private int status;
 	
 	public Obj_Deduccion_Iasistencia(){
 		this.folio_empleado=0; this.nombre_completo=""; this.establecimiento=""; this.puntualidad=""; this.falta="";
-		this.dia_faltas=0; this.asistencia=""; this.gafete=""; this.dia_gafete=0; this.status=0;
+		this.dia_faltas=0; this.asistencia=""; this.gafete=""; this.dia_gafete=0; this.cantidad_faltas=0; this.status=0;
 	}
 
 	public int getFolio_empleado() {
@@ -95,6 +96,14 @@ public class Obj_Deduccion_Iasistencia {
 
 	public void setDia_gafete(int diaGafete) {
 		dia_gafete = diaGafete;
+	}
+
+	public float getCantidad_faltas() {
+		return cantidad_faltas;
+	}
+
+	public void setCantidad_faltas(float cantidad_faltas) {
+		this.cantidad_faltas = cantidad_faltas;
 	}
 
 	public int getStatus() {

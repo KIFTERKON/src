@@ -3,7 +3,6 @@ package catalogos;
 import java.awt.Container;
 import java.awt.FileDialog;
 import java.awt.Frame;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,7 +18,6 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -33,7 +31,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import camara.MainCamara;
-
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Bono_Complemento_Sueldo;

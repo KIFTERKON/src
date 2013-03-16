@@ -36,6 +36,7 @@ import javax.swing.table.TableRowSorter;
 
 import frames.WholeNumberField;
 
+import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
 import SQL.Connexion;
@@ -50,7 +51,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 	
 	@SuppressWarnings("rawtypes")
 	TableRowSorter filter;
-	
+		
 	Object[][] Matriz ;
 	
 	JTextField txtFolio = new JTextField();
@@ -63,7 +64,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 	JCheckBox chbHabilitar = new JCheckBox("Habilitar");
 	JCheckBox chbTodos = new JCheckBox("");
 	
-	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedIndex());
+	Object[][] Tabla = getTabla();
 	DefaultTableModel model = new DefaultTableModel(Tabla,
             new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "DE", "Cantidad Dias"}
 			){
@@ -121,6 +122,9 @@ public class Cat_Percepciones_Extra extends JDialog {
     
     JToolBar menu = new JToolBar();
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
+	
+	Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema().buscar2();
+	boolean bono_dia_extra = configs.isBono_dia_extra();
 	
 	@SuppressWarnings("rawtypes")
 	public Cat_Percepciones_Extra(){
@@ -201,7 +205,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 		cmbDia.addActionListener(opDias);
 		chbTodos.addActionListener(opTodos);
 		btnGuardar.addActionListener(opGuardar);
-		cmbEstablecimientos.addActionListener(opFiltrar);
+
 		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
@@ -257,23 +261,6 @@ public class Cat_Percepciones_Extra extends JDialog {
 		}
 	};
 	
-	ActionListener opFiltrar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			int numero = tabla.getRowCount();
-			while(numero > 0){
-				model.removeRow(0);
-				numero --;
-			}
-			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedIndex());
-			Object[] fila = new Object[tabla.getColumnCount()]; 
-			for(int i=0; i<Tabla1.length; i++){
-				model.addRow(fila); 
-				for(int j=0; j<6; j++){
-					model.setValueAt(Tabla1[i][j], i,j);
-				}
-			}
-		}
-	};
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
@@ -295,7 +282,8 @@ public class Cat_Percepciones_Extra extends JDialog {
 					}
 					Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
 					
-					perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+					int index = Integer.parseInt(miVector.get(0).toString().trim());
+					perseccion.setFolio_empleado(index);
 					perseccion.setNombre_completo(miVector.get(1).toString().trim());
 					perseccion.setEstablecimiento(miVector.get(2).toString().trim());
 					if(miVector.get(3) != ""){
@@ -304,7 +292,8 @@ public class Cat_Percepciones_Extra extends JDialog {
 						miVector.set(3,0);
 						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
 					}
-					perseccion.setDia_extra(miVector.get(4).toString().trim());
+					boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
+					perseccion.setDia_extra(dia_extra+"");
 					
 					if(miVector.get(5) != ""){
 						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
@@ -313,7 +302,17 @@ public class Cat_Percepciones_Extra extends JDialog {
 						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
 					}
 				
-					perseccion.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
+					if(dia_extra != true) {
+						perseccion.setCantidad_dias(0);
+					}else{
+						float[] bono_sueldo = getBono_Sueldo(index);
+						if(bono_dia_extra != true){
+							perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
+						}else{
+							perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
+						}
+					}
+					perseccion.actualizar(index);
 					
 					miVector.clear();
 				}
@@ -329,7 +328,9 @@ public class Cat_Percepciones_Extra extends JDialog {
 				}
 				Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
 		
-				perseccion.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+				int index = Integer.parseInt(miVector.get(0).toString().trim());
+				
+				perseccion.setFolio_empleado(index);
 				perseccion.setNombre_completo(miVector.get(1).toString().trim());
 				perseccion.setEstablecimiento(miVector.get(2).toString().trim());
 				if(miVector.get(3) != ""){
@@ -338,13 +339,24 @@ public class Cat_Percepciones_Extra extends JDialog {
 					miVector.set(3,0);
 					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
 				}
-				perseccion.setDia_extra(miVector.get(4).toString().trim());
+				boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
+				perseccion.setDia_extra(dia_extra+"");
 				
 				if(miVector.get(5) != ""){
 					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
 				}else{
 					miVector.set(5,0);
 					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+				}
+				if(dia_extra != true) {
+					perseccion.setCantidad_dias(0);
+				}else{
+					float[] bono_sueldo = getBono_Sueldo(index);
+					if(bono_dia_extra != true){
+						perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
+					}else{
+						perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
+					}
 				}
 				perseccion.guardar();
 				
@@ -354,138 +366,34 @@ public class Cat_Percepciones_Extra extends JDialog {
 		}
 	}
 	
-	public Object[][] getTabla(int establecimiento){
-		
-		String qry = "select tb_empleado.folio," +
-						"tb_empleado.nombre," +
-						"tb_empleado.ap_paterno," +
-						"tb_empleado.ap_materno," +
-						"tb_establecimiento.nombre as establecimiento " +
-					  "from tb_empleado, tb_establecimiento " +
-					  "where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
-					  "tb_empleado.establecimiento_id = "+establecimiento;
-		
-		String qry1 ="select tb_empleado.folio," +
-						    "tb_empleado.nombre," +
-	                        "tb_empleado.ap_paterno," +
-                            "tb_empleado.ap_materno," +
-                            "tb_establecimiento.nombre as establecimiento," +
-                            "tb_persecciones_extra.bono," +
-                            "tb_persecciones_extra.dia_extra," +
-                            "tb_persecciones_extra.dias " +
-
-                    "from tb_empleado, tb_establecimiento, tb_persecciones_extra "+ 
-                    "where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-                    	   "tb_empleado.folio = tb_persecciones_extra.folio_empleado and "+
-                    	   "tb_persecciones_extra.status=1 and tb_empleado.establecimiento_id = "+establecimiento;
-		
-		String todos = "select tb_empleado.folio," +
-							"tb_empleado.nombre," +
-							"tb_empleado.ap_paterno," +
-							"tb_empleado.ap_materno," +
-							"tb_establecimiento.nombre as establecimiento " +
-						"from tb_empleado, tb_establecimiento " +
-						"where tb_empleado.establecimiento_id = tb_establecimiento.folio";
-		
-		String todos1 = "select tb_empleado.folio," +
-						    "tb_empleado.nombre," +
-					        "tb_empleado.ap_paterno," +
-					        "tb_empleado.ap_materno," +
-					        "tb_establecimiento.nombre as establecimiento," +
-					        "tb_persecciones_extra.bono," +
-					        "tb_persecciones_extra.dia_extra," +
-					        "tb_persecciones_extra.dias " +
-					
-					"from tb_empleado, tb_establecimiento, tb_persecciones_extra "+ 
-					"where tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-						   "tb_empleado.folio = tb_persecciones_extra.folio_empleado and "+
-						   "tb_persecciones_extra.status=1";
+	public Object[][] getTabla(){
+		String query  = "select tb_empleado.folio as Folio, " +
+				               "tb_empleado.nombre + '  ' + tb_empleado.ap_paterno + '  ' + tb_empleado.ap_materno as Nombre_Completo, " +
+							   "tb_establecimiento.nombre as Establecimiento, " +
+							   "tb_persecciones_extra.bono as Bono, " +
+							   "tb_persecciones_extra.dia_extra as Boleano_Dias, " +
+							   "tb_persecciones_extra.dias as Dias " +
+					"from tb_empleado " +
+					"inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
+					"left outer join tb_persecciones_extra on tb_persecciones_extra.folio_empleado = tb_empleado.folio " + 
+								"and tb_persecciones_extra.status = 1";
 
 		Statement s;
 		ResultSet rs;
 		try {
-			if(establecimiento > 0){
-				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(qry1);
-					Matriz = new Object[getFilas(qry1)][6];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						int bono = Integer.parseInt(rs.getString(6));
-						if(bono != 0){
-							Matriz[i][3] = bono;
-						}else{
-							Matriz[i][3] = "";
-						}
-						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-						int dias = Integer.parseInt(rs.getString(8).trim());
-						if(dias != 0){
-							Matriz[i][5] = dias;
-						}else{
-							Matriz[i][5] = "";
-						}
-						i++;
-					}
-				}else{
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(qry);
-					Matriz = new Object[getFilas(qry)][6];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = "";
-						Matriz[i][4] = false;
-						Matriz[i][5] = "";
-						i++;
-					}
-				}
-			}else{
-				if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(todos1);
-					Matriz = new Object[getFilas(todos1)][6];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						int bono = Integer.parseInt(rs.getString(6));
-						if(bono != 0){
-							Matriz[i][3] = bono;
-						}else{
-							Matriz[i][3] = "";
-						}
-						Matriz[i][4] = Boolean.parseBoolean(rs.getString(7).trim());
-						int dias = Integer.parseInt(rs.getString(8).trim());
-						if(dias != 0){
-							Matriz[i][5] = dias;
-						}else{
-							Matriz[i][5] = "";
-						}
-						i++;
-					}
-				}else{
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(todos);
-					Matriz = new Object[getFilas(todos)][6];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = "";
-						Matriz[i][4] = false;
-						Matriz[i][5] = "";
-						i++;
-					}
-				}
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			Matriz = new Object[getFilas(query)][6];
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getInt(1);
+				Matriz[i][1] = rs.getString(2).trim();
+				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][3] = rs.getInt(4);
+				Matriz[i][4] = rs.getBoolean(5);
+				Matriz[i][5] = rs.getInt(6);
+				i++;
 			}
-		
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -506,5 +414,25 @@ public class Cat_Percepciones_Extra extends JDialog {
 		}
 		return filas;
 	}	
+	
+	public float[] getBono_Sueldo(int folio){
+		float[] valores= new float[2];
+		valores[0] = 0;
+		valores[1] = 0;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery("exec sp_bono_sueldo " + folio);
+			while(rs.next()){
+				valores[0] = rs.getFloat(1);
+				valores[1] = rs.getFloat(2);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valores;
+	}
 
 }

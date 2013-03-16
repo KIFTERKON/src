@@ -685,7 +685,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		valores[0]="0";
 		valores[1]="0";
 		try {
-			
 			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select dias, bono from tb_persecciones_extra where folio_empleado="+folio);
 			while(rs.next()){
@@ -702,7 +701,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	public boolean getDiasExtra(int folio){
 		boolean valor = false;
 		try {
-			
 			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("select dia_extra from tb_persecciones_extra where folio_empleado="+folio);
 			while(rs.next()){
@@ -1017,10 +1015,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							float puns = Float.parseFloat(Matriz[i][10]+"");
 							float asss = Float.parseFloat(Matriz[i][12]+"");
 				
-							float suma = sueldo + bono_complemento - Float.parseFloat(des+"") - DescuentoFuenteSodas - puns - descuentoDias -
-									asss - cortes - infonavit - banamex - banorte + (otro) + diasPerseccion + bono;
-				
-							Matriz[i][20] = suma;
+							Matriz[i][20] = 0;
 							Matriz[i][21] = preList[1];
 							Matriz[i][22] = preList[2];
 				

@@ -6,8 +6,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Establecimiento;
 import SQL.Connexion;
@@ -46,10 +47,14 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	Connexion con = new Connexion();
 	
 	@SuppressWarnings("rawtypes")
-	TableRowSorter filter;
+	TableRowSorter trsfiltro;
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtNombre = new JTextField();
+	JTextField txtNombre_Completo = new JTextField();
+	
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
 	JCheckBox chbPuntualidad = new JCheckBox("Inpuntualidad");
 	JCheckBox chbFalta = new JCheckBox("Falta");
@@ -58,11 +63,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 	
 	Object[][] Matriz ;
 	
-	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-    @SuppressWarnings("rawtypes")
-	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
-	    
-	Object[][] Tabla = getTabla(cmbEstablecimientos.getSelectedItem()+"");
+	Object[][] Tabla = getTabla();
 	DefaultTableModel model = new DefaultTableModel(Tabla,
             new String[]{"Folio", "Nombre Completo", "Establecimiento", "Inpuntualidad", "Falta", "Días Falta", "Asistencia", "Gafete", "Días Gafete","Extra" }
 			){
@@ -150,28 +151,19 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
     JToolBar menu = new JToolBar();
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
+	Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema().buscar2();
+	boolean bono_dia_extra = configs.isBono_dia_extra();
+	
 	@SuppressWarnings("rawtypes")
 	public Cat_Deduccion_Inasistencia(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
 		this.setTitle("Deducción por Inasistencia");
 		
-		txtNombre.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
-		
-		txtFolio.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtroFolio(); 
-            } 
-        });
-		
-		filter = new TableRowSorter(model); 
-		tabla.setRowSorter(filter);  
+		trsfiltro = new TableRowSorter(model); 
+		tabla.setRowSorter(trsfiltro);  
 		
 		panel.add(txtFolio).setBounds(110,45,70,20);
-		panel.add(txtNombre).setBounds(181,45,310,20);
+		panel.add(txtNombre_Completo).setBounds(181,45,310,20);
 		panel.add(cmbEstablecimientos).setBounds(492,45,130,20);
 		panel.add(chbPuntualidad).setBounds(623,45,94,20);
 		panel.add(chbFalta).setBounds(713,45,55,20);
@@ -243,12 +235,47 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		btnGuardar.addActionListener(opGuardar);
 		cmbGafete.addActionListener(opDiasGafete);
 		chbPuntualidad.addActionListener(opPuntualidad);
-		cmbEstablecimientos.addActionListener(opFiltrar);
+		txtFolio.addKeyListener(opFiltroFolio);
+		txtNombre_Completo.addKeyListener(opFiltroNombre);
+		cmbEstablecimientos.addActionListener(opFiltro);
 		
 		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 	}
+	
+	KeyListener opFiltroFolio = new KeyListener(){
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+		}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+				(caracter > '9')) &&
+			    (caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
+	
+	KeyListener opFiltroNombre = new KeyListener(){
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
+	
+	ActionListener opFiltro = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+			}else{
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+			}
+		}
+	};
 	
 	ActionListener opPuntualidad = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
@@ -294,8 +321,6 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}
 	};
 	
-	
-	
 	ActionListener opGafete = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(chbGafete.isSelected()){
@@ -325,31 +350,6 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}
 	};
 	
-	public void filtroFolio(){ 
-		filter.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0)); 
-	}
-	
-	public void filtro(){ 
-		filter.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase(), 1)); 
-	}  
-	
-	ActionListener opFiltrar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			int numero = tabla.getRowCount();
-			while(numero > 0){
-				model.removeRow(0);
-				numero --;
-			}
-			Object[][] Tabla1 = getTabla(cmbEstablecimientos.getSelectedItem()+"");
-			Object[] fila = new Object[tabla.getColumnCount()]; 
-			for(int i=0; i<Tabla1.length; i++){
-				model.addRow(fila); 
-				for(int j=0; j<tabla.getColumnCount(); j++){
-					model.setValueAt(Tabla1[i][j], i,j);
-				}
-			}
-		}
-	};
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(tabla.isEditing()){
@@ -369,13 +369,19 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						miVector.add(model.getValueAt(i,j));
 					}
 					Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
+					
 					int index = Integer.parseInt(miVector.get(0).toString().trim());
+					
 					deduccion.setFolio_empleado(index);
 					deduccion.setNombre_completo(miVector.get(1).toString().trim());
 					deduccion.setEstablecimiento(miVector.get(2).toString().trim());
 					deduccion.setPuntualidad(miVector.get(3).toString().trim());
-					deduccion.setFalta(miVector.get(4).toString().trim());
-					deduccion.setDia_faltas(Integer.parseInt(miVector.get(5).toString().trim()));
+					
+					boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
+					int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+					deduccion.setFalta(falta+"");
+					deduccion.setDia_faltas(dias_faltas);
+					
 					deduccion.setAsistencia(miVector.get(6).toString().trim());
 					deduccion.setGafete(miVector.get(7).toString().trim());
 					if(miVector.get(8).toString() != ""){
@@ -387,6 +393,12 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
 					}else {
 						deduccion.setExtra(0);
+					}
+					if(falta != true){
+						deduccion.setCantidad_faltas(0);
+					}else{
+						float[] bono_sueldo = getBono_Sueldo(index);
+						deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
 					}
 					deduccion.actualizar(index);
 					
@@ -403,13 +415,16 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 					miVector.add(model.getValueAt(i,j));
 				}
 				Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
+				int index = Integer.parseInt(miVector.get(0).toString().trim());
 				
-				deduccion.setFolio_empleado((Integer.parseInt(miVector.get(0).toString().trim())));
+				deduccion.setFolio_empleado(index);
 				deduccion.setNombre_completo(miVector.get(1).toString().trim());
 				deduccion.setEstablecimiento(miVector.get(2).toString().trim());
 				deduccion.setPuntualidad(miVector.get(3).toString().trim());
-				deduccion.setFalta(miVector.get(4).toString().trim());
-				deduccion.setDia_faltas(Integer.parseInt(miVector.get(5).toString().trim()));
+				boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
+				int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+				deduccion.setFalta(falta+"");
+				deduccion.setDia_faltas(dias_faltas);
 				deduccion.setAsistencia(miVector.get(6).toString().trim());
 				deduccion.setGafete(miVector.get(7).toString().trim());
 				
@@ -423,7 +438,17 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 				}else {
 					deduccion.setExtra(0);
 				}
-				
+				if(falta != true){
+					deduccion.setCantidad_faltas(0);
+				}else{
+					float[] bono_sueldo = getBono_Sueldo(index);
+					if(bono_dia_extra != true){
+						deduccion.setCantidad_faltas(bono_sueldo[1]/7 * dias_faltas);
+					}else{
+						deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
+					}					
+				}
+		
 				deduccion.guardar();
 				
 				miVector.clear();
@@ -432,132 +457,44 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		}
 	}
 	
-	public Object[][] getTabla(String establecimiento){
-		
-		String qry = "select tb_empleado.folio," +
-						"tb_empleado.nombre," +
-						"tb_empleado.ap_paterno," +
-						"tb_empleado.ap_materno," +
-						"tb_establecimiento.nombre as establecimiento " +
-					  "from tb_empleado, tb_establecimiento " +
-					  "where tb_empleado.establecimiento_id = tb_establecimiento.folio and " +
-					  "tb_establecimiento.nombre = '"+establecimiento+"';";
+	public Object[][] getTabla(){
+		String todos = "select tb_empleado.folio as Folio, " +
+							  "tb_empleado.nombre + '  ' + tb_empleado.ap_paterno + '  ' + tb_empleado.ap_materno as Nombre_Completo, " +
+							  "tb_establecimiento.nombre as Establecimiento, " +
+							  "tb_deduccion_inasistencia.puntualidad as Puntualidad, " +
+							  "tb_deduccion_inasistencia.falta as Falta, " +
+							  "tb_deduccion_inasistencia.dia_faltas as Dias_Faltas, " +
+							  "tb_deduccion_inasistencia.asistencia as Asistencia, " +
+							  "tb_deduccion_inasistencia.gafete as Gafete, " +
+							  "tb_deduccion_inasistencia.dia_gafete as Dias_Gafete, " +
+							  "tb_deduccion_inasistencia.extra as Extra " +
+						"from tb_empleado " +
+							  "inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
+							  "left outer join tb_deduccion_inasistencia on tb_deduccion_inasistencia.folio_empleado = tb_empleado.folio " +
+							  			  "and tb_deduccion_inasistencia.status = 1" +                         
+							  "inner join tb_sueldo on tb_sueldo.folio = tb_empleado.sueldo_id	 " +
+						"where tb_empleado.status < 4 ";
 	
-		String qry1 ="SELECT folio_empleado," +
-				"nombre_completo," +
-				"establecimiento," +
-				 "puntualidad," +
-                 "falta," +
-                 "dia_faltas," +
-                 "asistencia," +
-                 "gafete," +
-                 "dia_gafete," +
-                 "extra " +
-				"FROM tb_deduccion_inasistencia where establecimiento = '"+establecimiento+"' and status=1;";
-		
-		String todos = "select tb_empleado.folio," +
-							"tb_empleado.nombre," +
-							"tb_empleado.ap_paterno," +
-							"tb_empleado.ap_materno," +
-							"tb_establecimiento.nombre as establecimiento " +
-						"from tb_empleado, tb_establecimiento " +
-						"where tb_empleado.establecimiento_id = tb_establecimiento.folio";
-		
-		String todos1 = "SELECT folio_empleado," +
-				"nombre_completo," +
-				"establecimiento," +
-				 "puntualidad," +
-                 "falta," +
-                 "dia_faltas," +
-                 "asistencia," +
-                 "gafete," +
-                 "dia_gafete," +
-                 "extra " +
-				"FROM tb_deduccion_inasistencia where status = 1";
-		
 		Statement s;
 		ResultSet rs;
 		try {
-			if(establecimiento.equals("Todos")){
-				if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(todos1);
-					Matriz = new Object[getFilas(todos1)][10];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim();
-						Matriz[i][2] = rs.getString(3).trim();
-						Matriz[i][3] = Boolean.parseBoolean(rs.getString(4).trim());
-						Matriz[i][4] = Boolean.parseBoolean(rs.getString(5).trim());
-						Matriz[i][5] = Integer.parseInt(rs.getString(6).trim());
-						Matriz[i][6] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][7] = Boolean.parseBoolean(rs.getString(8).trim());
-						Matriz[i][8] = rs.getString(9).trim();
-						Matriz[i][9] = Math.rint(rs.getFloat(10)*100)/100;
-						i++;
-					}
-				}else{
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(todos);
-					Matriz = new Object[getFilas(todos)][10];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = false;
-						Matriz[i][4] = false;
-						Matriz[i][5] = 0;
-						Matriz[i][6] = false;
-						Matriz[i][7] = false;
-						Matriz[i][8] = 0;
-						Matriz[i][9] = "";
-						i++;
-					}
-				}
-			}else{
-				if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
-					s = con.conexion().createStatement();
-					rs = s.executeQuery(qry1);
-					Matriz = new Object[getFilas(qry1)][10];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim();
-						Matriz[i][2] = rs.getString(3).trim();
-						Matriz[i][3] = Boolean.parseBoolean(rs.getString(4).trim());
-						Matriz[i][4] = Boolean.parseBoolean(rs.getString(5).trim());
-						Matriz[i][5] = Integer.parseInt(rs.getString(6).trim());
-						Matriz[i][6] = Boolean.parseBoolean(rs.getString(7).trim());
-						Matriz[i][7] = Boolean.parseBoolean(rs.getString(8).trim());
-						Matriz[i][8] = rs.getString(9).trim();
-						Matriz[i][9] = Math.rint(rs.getFloat(10)*100)/100;
-						i++;
-					}
-				}else{
-					s = con.conexion().createStatement();
-					System.out.println(qry);
-					rs = s.executeQuery(qry);
-					
-					Matriz = new Object[getFilas(qry)][10];
-					int i=0;
-					while(rs.next()){
-						Matriz[i][0] = rs.getString(1).trim();
-						Matriz[i][1] = rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-						Matriz[i][2] = rs.getString(5).trim();
-						Matriz[i][3] = false;
-						Matriz[i][4] = false;
-						Matriz[i][5] = 0;
-						Matriz[i][6] = false;
-						Matriz[i][7] = false;
-						Matriz[i][8] = 0;
-						Matriz[i][9] = "";
-						i++;
-					}
-				}
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(todos);
+			Matriz = new Object[getFilas(todos)][10];
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1).trim();
+				Matriz[i][1] = rs.getString(2).trim();
+				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][3] = rs.getBoolean(4);
+				Matriz[i][4] = rs.getBoolean(5);
+				Matriz[i][5] = rs.getInt(6);
+				Matriz[i][6] = rs.getBoolean(7);
+				Matriz[i][7] = rs.getBoolean(8);
+				Matriz[i][8] = rs.getInt(9);
+				Matriz[i][9] = Math.rint(rs.getFloat(10)*100)/100;
+				i++;
 			}
-		
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -578,6 +515,26 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			e1.printStackTrace();
 		}
 		return filas;
+	}	
+	
+	public float[] getBono_Sueldo(int folio){
+		float[] valores= new float[2];
+		valores[0] = 0;
+		valores[1] = 0;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery("exec sp_bono_sueldo " + folio);
+			while(rs.next()){
+				valores[0] = rs.getFloat(1);
+				valores[1] = rs.getFloat(2);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valores;
 	}	
 
 }
