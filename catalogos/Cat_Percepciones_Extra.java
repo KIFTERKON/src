@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -267,116 +269,12 @@ public class Cat_Percepciones_Extra extends JDialog {
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			guardar();
+			new Progress_Bar_Guardar().setVisible(true);
 		}
 	};
 		
-	@SuppressWarnings("rawtypes")
-	public void guardar(){
-		Vector miVector = new Vector();
-		if(getFilas("select * from tb_persecciones_extra where status = 1") > 1){
-			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
-				for(int i=0; i<model.getRowCount(); i++){
-					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j));
-					}
-					Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
-					
-					int index = Integer.parseInt(miVector.get(0).toString().trim());
-					perseccion.setFolio_empleado(index);
-					perseccion.setNombre_completo(miVector.get(1).toString().trim());
-					perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-					if(miVector.get(3) != ""){
-						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-					}else{
-						miVector.set(3,0);
-						perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-					}
-					boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
-					perseccion.setDia_extra(dia_extra+"");
-					
-					if(miVector.get(5) != ""){
-						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-					}else{
-						miVector.set(5,0);
-						perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-					}
-				
-					if(dia_extra != true) {
-						perseccion.setCantidad_dias(0);
-					}else{
-						float[] bono_sueldo = getBono_Sueldo(index);
-						if(bono_dia_extra != true){
-							perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
-						}else{
-							perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
-						}
-					}
-					perseccion.actualizar(index);
-					
-					miVector.clear();
-				}
-				JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-			}else{
-				return;
-			}
-			
-		}else{
-			for(int i=0; i<model.getRowCount(); i++){
-				for(int j=0; j<model.getColumnCount(); j++){
-					miVector.add(model.getValueAt(i,j));
-				}
-				Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
-		
-				int index = Integer.parseInt(miVector.get(0).toString().trim());
-				
-				perseccion.setFolio_empleado(index);
-				perseccion.setNombre_completo(miVector.get(1).toString().trim());
-				perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-				if(miVector.get(3) != ""){
-					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-				}else{
-					miVector.set(3,0);
-					perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-				}
-				boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
-				perseccion.setDia_extra(dia_extra+"");
-				
-				if(miVector.get(5) != ""){
-					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-				}else{
-					miVector.set(5,0);
-					perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-				}
-				if(dia_extra != true) {
-					perseccion.setCantidad_dias(0);
-				}else{
-					float[] bono_sueldo = getBono_Sueldo(index);
-					if(bono_dia_extra != true){
-						perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
-					}else{
-						perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
-					}
-				}
-				perseccion.guardar();
-				
-				miVector.clear();
-			}
-			JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-		}
-	}
-	
 	public Object[][] getTabla(){
-		String query  = "select tb_empleado.folio as Folio, " +
-				               "tb_empleado.nombre + '  ' + tb_empleado.ap_paterno + '  ' + tb_empleado.ap_materno as Nombre_Completo, " +
-							   "tb_establecimiento.nombre as Establecimiento, " +
-							   "tb_persecciones_extra.bono as Bono, " +
-							   "tb_persecciones_extra.dia_extra as Boleano_Dias, " +
-							   "tb_persecciones_extra.dias as Dias " +
-					"from tb_empleado " +
-					"inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
-					"left outer join tb_persecciones_extra on tb_persecciones_extra.folio_empleado = tb_empleado.folio " + 
-								"and tb_persecciones_extra.status = 1";
+		String query  = "exec sp_lista_persecciones";
 
 		Statement s;
 		ResultSet rs;
@@ -434,5 +332,150 @@ public class Cat_Percepciones_Extra extends JDialog {
 		}
 		return valores;
 	}
+	
+	public class Progress_Bar_Guardar extends JDialog {
+		Container cont = getContentPane();
+		
+		JLayeredPane panel = new JLayeredPane();
+		JProgressBar barra = new JProgressBar();
+		
+		String titleBorder = "";
+		public Progress_Bar_Guardar() {
+			barra.setStringPainted(true);
+			Thread hilo = new Thread(new Hilo());
+			hilo.start();
+			panel.setBorder(BorderFactory.createTitledBorder("- ..."));
+			panel.add(barra).setBounds(20,25,350,20);
+			
+			cont.add(panel);
+			
+			this.setUndecorated(true);
+			this.setSize(400,100);
+			this.setModal(true);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+		
+		}
 
+		class Hilo implements Runnable {
+			@SuppressWarnings("rawtypes")
+			public void run() {
+				int total = model.getRowCount();
+
+				Vector miVector = new Vector();
+				if(getFilas("exec sp_status_persecciones") > 1){
+					panel.setBorder(BorderFactory.createTitledBorder("Actualizando lista de Persecciones..."));
+					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
+						for(int i=0; i<model.getRowCount(); i++){
+							for(int j=0; j<model.getColumnCount(); j++){
+								miVector.add(model.getValueAt(i,j));
+							}
+							Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
+							
+							int index = Integer.parseInt(miVector.get(0).toString().trim());
+							perseccion.setFolio_empleado(index);
+							perseccion.setNombre_completo(miVector.get(1).toString().trim());
+							perseccion.setEstablecimiento(miVector.get(2).toString().trim());
+							if(miVector.get(3) != ""){
+								perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+							}else{
+								miVector.set(3,0);
+								perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+							}
+							boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
+							perseccion.setDia_extra(dia_extra+"");
+							
+							if(miVector.get(5) != ""){
+								perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+							}else{
+								miVector.set(5,0);
+								perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+							}
+						
+							if(dia_extra != true) {
+								perseccion.setCantidad_dias(0);
+							}else{
+								float[] bono_sueldo = getBono_Sueldo(index);
+								if(bono_dia_extra != true){
+									perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
+								}else{
+									perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
+								}
+							}
+							perseccion.actualizar(index);
+							
+							miVector.clear();
+							int porcent = (i*100)/total;
+							barra.setValue(porcent+1);
+							try {
+								Thread.sleep(0);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+									
+							}
+						}
+						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+						dispose();
+					}else{
+						dispose();
+						return;
+					}
+					
+				}else{
+					panel.setBorder(BorderFactory.createTitledBorder("Guardando lista de Persecciones..."));
+					for(int i=0; i<model.getRowCount(); i++){
+						for(int j=0; j<model.getColumnCount(); j++){
+							miVector.add(model.getValueAt(i,j));
+						}
+						Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
+				
+						int index = Integer.parseInt(miVector.get(0).toString().trim());
+						
+						perseccion.setFolio_empleado(index);
+						perseccion.setNombre_completo(miVector.get(1).toString().trim());
+						perseccion.setEstablecimiento(miVector.get(2).toString().trim());
+						if(miVector.get(3) != ""){
+							perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+						}else{
+							miVector.set(3,0);
+							perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
+						}
+						boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
+						perseccion.setDia_extra(dia_extra+"");
+						
+						if(miVector.get(5) != ""){
+							perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+						}else{
+							miVector.set(5,0);
+							perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
+						}
+						if(dia_extra != true) {
+							perseccion.setCantidad_dias(0);
+						}else{
+							float[] bono_sueldo = getBono_Sueldo(index);
+							if(bono_dia_extra != true){
+								perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
+							}else{
+								perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
+							}
+						}
+						perseccion.guardar();
+						
+						miVector.clear();
+						int porcent = (i*100)/total;
+						barra.setValue(porcent+1);
+						try {
+							Thread.sleep(0);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+								
+						}
+					}
+					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+					dispose();
+			
+				}					
+			}
+		}
+	}
 }

@@ -654,8 +654,8 @@ public class ActualizarSQL {
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, bancos.getBanamex());
-			pstmt.setInt(2, bancos.getBanorte());
+			pstmt.setFloat(1, bancos.getBanamex());
+			pstmt.setFloat(2, bancos.getBanorte());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

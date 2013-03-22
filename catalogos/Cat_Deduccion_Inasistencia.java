@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,6 +22,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -355,125 +357,12 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			guardar();
+			new Progress_Bar_Guardar().setVisible(true);
 		}
 	};
-		
-	@SuppressWarnings("rawtypes")
-	public void guardar(){
-		Vector miVector = new Vector();
-		if(getFilas("select * from tb_deduccion_inasistencia where status = 1") > 1){
-			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
-				for(int i=0; i<model.getRowCount(); i++){
-					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j));
-					}
-					Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
-					
-					int index = Integer.parseInt(miVector.get(0).toString().trim());
-					
-					deduccion.setFolio_empleado(index);
-					deduccion.setNombre_completo(miVector.get(1).toString().trim());
-					deduccion.setEstablecimiento(miVector.get(2).toString().trim());
-					deduccion.setPuntualidad(miVector.get(3).toString().trim());
-					
-					boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
-					int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
-					deduccion.setFalta(falta+"");
-					deduccion.setDia_faltas(dias_faltas);
-					
-					deduccion.setAsistencia(miVector.get(6).toString().trim());
-					deduccion.setGafete(miVector.get(7).toString().trim());
-					if(miVector.get(8).toString() != ""){
-						deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
-					}else {
-						deduccion.setDia_gafete(0);
-					}
-					if(miVector.get(9).toString() != ""){
-						deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
-					}else {
-						deduccion.setExtra(0);
-					}
-					if(falta != true){
-						deduccion.setCantidad_faltas(0);
-					}else{
-						float[] bono_sueldo = getBono_Sueldo(index);
-						deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
-					}
-					deduccion.actualizar(index);
-					
-					miVector.clear();
-				}
-				JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-			}else{
-				return;
-			}
-			
-		}else{
-			for(int i=0; i<model.getRowCount(); i++){
-				for(int j=0; j<model.getColumnCount(); j++){
-					miVector.add(model.getValueAt(i,j));
-				}
-				Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
-				int index = Integer.parseInt(miVector.get(0).toString().trim());
-				
-				deduccion.setFolio_empleado(index);
-				deduccion.setNombre_completo(miVector.get(1).toString().trim());
-				deduccion.setEstablecimiento(miVector.get(2).toString().trim());
-				deduccion.setPuntualidad(miVector.get(3).toString().trim());
-				boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
-				int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
-				deduccion.setFalta(falta+"");
-				deduccion.setDia_faltas(dias_faltas);
-				deduccion.setAsistencia(miVector.get(6).toString().trim());
-				deduccion.setGafete(miVector.get(7).toString().trim());
-				
-				if(miVector.get(8).toString() != ""){
-					deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
-				}else {
-					deduccion.setDia_gafete(0);
-				}
-				if(miVector.get(9).toString() != ""){
-					deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
-				}else {
-					deduccion.setExtra(0);
-				}
-				if(falta != true){
-					deduccion.setCantidad_faltas(0);
-				}else{
-					float[] bono_sueldo = getBono_Sueldo(index);
-					if(bono_dia_extra != true){
-						deduccion.setCantidad_faltas(bono_sueldo[1]/7 * dias_faltas);
-					}else{
-						deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
-					}					
-				}
-		
-				deduccion.guardar();
-				
-				miVector.clear();
-			}
-			JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-		}
-	}
 	
 	public Object[][] getTabla(){
-		String todos = "select tb_empleado.folio as Folio, " +
-							  "tb_empleado.nombre + '  ' + tb_empleado.ap_paterno + '  ' + tb_empleado.ap_materno as Nombre_Completo, " +
-							  "tb_establecimiento.nombre as Establecimiento, " +
-							  "tb_deduccion_inasistencia.puntualidad as Puntualidad, " +
-							  "tb_deduccion_inasistencia.falta as Falta, " +
-							  "tb_deduccion_inasistencia.dia_faltas as Dias_Faltas, " +
-							  "tb_deduccion_inasistencia.asistencia as Asistencia, " +
-							  "tb_deduccion_inasistencia.gafete as Gafete, " +
-							  "tb_deduccion_inasistencia.dia_gafete as Dias_Gafete, " +
-							  "tb_deduccion_inasistencia.extra as Extra " +
-						"from tb_empleado " +
-							  "inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
-							  "left outer join tb_deduccion_inasistencia on tb_deduccion_inasistencia.folio_empleado = tb_empleado.folio " +
-							  			  "and tb_deduccion_inasistencia.status = 1" +                         
-							  "inner join tb_sueldo on tb_sueldo.folio = tb_empleado.sueldo_id	 " +
-						"where tb_empleado.status < 4 ";
+		String todos = "exec sp_buscar_deduccion_inasistencia";
 	
 		Statement s;
 		ResultSet rs;
@@ -535,6 +424,154 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			e1.printStackTrace();
 		}
 		return valores;
-	}	
+	}
+	
+	public class Progress_Bar_Guardar extends JDialog {
+		Container cont = getContentPane();
+		
+		JLayeredPane panel = new JLayeredPane();
+		JProgressBar barra = new JProgressBar();
+		
+		String titleBorder = "";
+		public Progress_Bar_Guardar() {
+			barra.setStringPainted(true);
+			Thread hilo = new Thread(new Hilo());
+			hilo.start();
+			panel.setBorder(BorderFactory.createTitledBorder("- ..."));
+			panel.add(barra).setBounds(20,25,350,20);
+			
+			cont.add(panel);
+			
+			this.setUndecorated(true);
+			this.setSize(400,100);
+			this.setModal(true);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+		
+		}
 
+		class Hilo implements Runnable {
+			@SuppressWarnings("rawtypes")
+			public void run() {
+				int total = model.getRowCount();
+		
+				Vector miVector = new Vector();
+				if(getFilas("exec sp_status_deduccion_inasistencia") > 1){
+					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
+						panel.setBorder(BorderFactory.createTitledBorder("Actualizando Deducción por inasistencia..."));
+						for(int i=0; i<model.getRowCount(); i++){
+							for(int j=0; j<model.getColumnCount(); j++){
+								miVector.add(model.getValueAt(i,j));
+							}
+							Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
+							
+							int index = Integer.parseInt(miVector.get(0).toString().trim());
+							
+							deduccion.setFolio_empleado(index);
+							deduccion.setNombre_completo(miVector.get(1).toString().trim());
+							deduccion.setEstablecimiento(miVector.get(2).toString().trim());
+							deduccion.setPuntualidad(miVector.get(3).toString().trim());
+							
+							boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
+							int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+							deduccion.setFalta(falta+"");
+							deduccion.setDia_faltas(dias_faltas);
+							
+							deduccion.setAsistencia(miVector.get(6).toString().trim());
+							deduccion.setGafete(miVector.get(7).toString().trim());
+							if(miVector.get(8).toString() != ""){
+								deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
+							}else {
+								deduccion.setDia_gafete(0);
+							}
+							if(miVector.get(9).toString() != ""){
+								deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
+							}else {
+								deduccion.setExtra(0);
+							}
+							if(falta != true){
+								deduccion.setCantidad_faltas(0);
+							}else{
+								float[] bono_sueldo = getBono_Sueldo(index);
+								deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
+							}
+							deduccion.actualizar(index);
+							
+							miVector.clear();
+							
+							int porcent = (i*100)/total;
+							barra.setValue(porcent+1);
+							try {
+								Thread.sleep(0);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+									
+							}
+						}
+						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+						dispose();
+					}else{
+						dispose();
+						return;
+					}
+					
+				}else{
+					panel.setBorder(BorderFactory.createTitledBorder("Guardando Deducción por inasistencia..."));
+					for(int i=0; i<model.getRowCount(); i++){
+						for(int j=0; j<model.getColumnCount(); j++){
+							miVector.add(model.getValueAt(i,j));
+						}
+						Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
+						int index = Integer.parseInt(miVector.get(0).toString().trim());
+						
+						deduccion.setFolio_empleado(index);
+						deduccion.setNombre_completo(miVector.get(1).toString().trim());
+						deduccion.setEstablecimiento(miVector.get(2).toString().trim());
+						deduccion.setPuntualidad(miVector.get(3).toString().trim());
+						boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
+						int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+						deduccion.setFalta(falta+"");
+						deduccion.setDia_faltas(dias_faltas);
+						deduccion.setAsistencia(miVector.get(6).toString().trim());
+						deduccion.setGafete(miVector.get(7).toString().trim());
+						
+						if(miVector.get(8).toString() != ""){
+							deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
+						}else {
+							deduccion.setDia_gafete(0);
+						}
+						if(miVector.get(9).toString() != ""){
+							deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
+						}else {
+							deduccion.setExtra(0);
+						}
+						if(falta != true){
+							deduccion.setCantidad_faltas(0);
+						}else{
+							float[] bono_sueldo = getBono_Sueldo(index);
+							if(bono_dia_extra != true){
+								deduccion.setCantidad_faltas(bono_sueldo[1]/7 * dias_faltas);
+							}else{
+								deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
+							}					
+						}
+				
+						deduccion.guardar();
+						
+						miVector.clear();
+						int porcent = (i*100)/total;
+						barra.setValue(porcent+1);
+						try {
+							Thread.sleep(0);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+								
+						}
+					}
+					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+					dispose();
+				}
+			}
+		}
+	}
 }

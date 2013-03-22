@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,7 +60,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema().buscar2();
 	boolean bono_10_12 = configs.isBono_10_12();
 	boolean bono_dia_extra = configs.isBono_dia_extra();
-	
    
 	int numero_lista = getNumeroLista();
 	
@@ -71,7 +68,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	DefaultTableModel model = new DefaultTableModel(Tabla,
 		new String[]{"","Folio", "Nombre Completo", "Establecimiento", "Sueldo",
 		"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
-		"D Puntualidad", "D Faltas", "D Asistencia", "D Cortes", "D Infonavit",
+		"D Puntualidad", "D Faltas", "D Asistencia", "D Cortes", "D Infonavit", "Pension" ,
 		"D Banamex", "D Banorte", "D Extra", "P Día Extras", "P Bono Extra",
 		"A Pagar", "Observasiones I", "Observasiones II" }
 													){
@@ -81,29 +78,32 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	    	java.lang.Integer.class, 
 	    	java.lang.String.class, 
 	    	java.lang.String.class, 
-	    	java.lang.String.class, 
+	    	java.lang.Float.class, 
 	    	
-	    	java.lang.String.class,
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class,
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class, 
 	    	
-	    	java.lang.String.class,
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class,
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class, 
+	    
 	    	
-	    	java.lang.String.class,
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class,
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class,
 	    	
+	    	java.lang.Float.class,  
+	    	java.lang.Float.class,  
 	    	java.lang.String.class,
 	    	java.lang.String.class,
-	    	java.lang.String.class
 	    	
          };
 		@SuppressWarnings("rawtypes")
@@ -117,8 +117,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
         	 	case 3  : return false; 
         	 	case 4  : return false; 
         	 	
-        	 	case 5  : return true;
-
+        	 	case 5  : return false;
         	 	case 6  : return false; 
         	 	case 7  : return false; 
         	 	case 8  : return false; 
@@ -137,8 +136,9 @@ public class Cat_Revision_Lista_Raya extends JFrame {
         	 	case 19 : return false;
         	 	
         	 	case 20 : return false; 
-        	 	case 21 : return true; 
+        	 	case 21 : return false; 
         	 	case 22 : return true; 
+        	 	case 23 : return true; 
         	 }
  			return false;
  		}
@@ -238,10 +238,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		
 		tabla.getColumnModel().getColumn(20).setMaxWidth(90);
 		tabla.getColumnModel().getColumn(20).setMinWidth(90);
-		tabla.getColumnModel().getColumn(21).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(21).setMinWidth(230);
+		tabla.getColumnModel().getColumn(21).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(21).setMinWidth(80);
 		tabla.getColumnModel().getColumn(22).setMaxWidth(230);
 		tabla.getColumnModel().getColumn(22).setMinWidth(230);
+		tabla.getColumnModel().getColumn(23).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(23).setMinWidth(230);
 		
 		TableCellRenderer render = new TableCellRenderer()	{ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -278,14 +280,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		tabla.getColumnModel().getColumn(20).setCellRenderer(render);
 		tabla.getColumnModel().getColumn(21).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(22).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(23).setCellRenderer(render);
 	
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
 		campo.add(scroll).setBounds(10,48,1250,650);
 		lblNumeroLista.setFont(new java.awt.Font("Dialog",Font.BOLD,16));
-		
-//        campo.add(lblNumeroLista).setBounds(30,50,200,20);
 		
         campo.add(txtFolio).setBounds(27,27,68,20);
         campo.add(txtNombre_Completo).setBounds(96,27,239,20);
@@ -344,13 +345,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			guardar();
+			new Progress_Bar_Guardar().setVisible(true);
 		}
 	};
 	
 	ActionListener opImprimirListaRaya = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			System.out.println("guardar");
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
@@ -373,7 +373,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	
 	public void guardar_lista_raya(){
 		if(JOptionPane.showConfirmDialog(null, "¿Desea Guardar la Lista de Raya?") == 0){
-			new Progress_Bar_Guardar().setVisible(true);
+			new Progress_Bar_Generar().setVisible(true);
 			lblAuditoria.setEnabled(false);
 			lblFinanzas.setEnabled(false);
 			btnGenerarLista.setEnabled(false);
@@ -389,7 +389,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	try {
 			Connexion con = new Connexion();
 			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select max(numero_lista) as numero from tb_lista_raya;");
+			ResultSet rs = s.executeQuery("exec sp_max_folio_lista_raya");
 			while(rs.next()){
 				valor = rs.getInt(1)+1;			
 			}
@@ -436,57 +436,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public void guardar(){
-		Vector miVector = new Vector();
-		if(getFilas("select * from tb_pre_listaraya where status = 1") > 1){
-			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
-				for(int i=0; i<model.getRowCount(); i++){
-					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j));
-					}
-					
-					Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
-									
-					int foli_emple = Integer.parseInt(miVector.get(1)+"");
-					Obj_Revision_Lista_Raya lis_foli = new Obj_Revision_Lista_Raya().buscar_folio(foli_emple);
-			
-					lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
-					lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
-					lis_raya.setA_pagar(Float.parseFloat(miVector.get(20)+""));
-					lis_raya.setObservasion_i(miVector.get(21)+"");
-					lis_raya.setObservasion_ii(miVector.get(22)+"");
-								
-					lis_raya.actualizar(lis_foli.getFolio());
-					
-					miVector.clear();
-				}
-				JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-			}else{
-				return;
-			}
-			
-		}else{
-			for(int i=0; i<model.getRowCount(); i++){
-				for(int j=0; j<model.getColumnCount(); j++){
-					miVector.add(model.getValueAt(i,j).toString());
-				}
-				Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
-				
-				lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
-				lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
-				lis_raya.setA_pagar(Float.parseFloat(miVector.get(20)+""));
-				lis_raya.setObservasion_i(miVector.get(21)+"");
-				lis_raya.setObservasion_ii(miVector.get(22)+"");
-			
-				lis_raya.guardar();
-				
-				miVector.clear();
-			}
-			JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-		}
-	}
-	
 	ActionListener agregar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
@@ -526,7 +475,54 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	};
 	
 	private Object[][] getTabla(){
-		new Progress_Bar_Abrir().setVisible(true);
+		String datos = "exec sp_lista_raya";
+		
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			Matriz = new Object[getFilas(datos)][24];
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getBoolean(1);
+				Matriz[i][1] = rs.getInt(2);
+				Matriz[i][2] = "  "+rs.getString(3).trim();
+				Matriz[i][3] = "  "+rs.getString(4).trim();
+				float sueldo = rs.getFloat(5);     float bono_comp = rs.getFloat(6);
+				float descPrest = rs.getFloat(8);  float descFuent = rs.getFloat(10);
+				float descPuntu = rs.getFloat(11); float descFalta = rs.getFloat(12);
+				float descAsist = rs.getFloat(13); float descCorte = rs.getFloat(14);
+				float descInfon = rs.getFloat(15); float descPensi = rs.getFloat(16);
+				float descBanam	= rs.getFloat(17); float descBanor = rs.getFloat(18);
+				float percExtra = rs.getFloat(19); float percDiasE = rs.getFloat(20);
+				float percBonoE = rs.getFloat(21);
+				Matriz[i][4] = sueldo;
+				Matriz[i][5] = bono_comp;
+				Matriz[i][6] = rs.getFloat(7);
+				Matriz[i][7] = descPrest;
+				Matriz[i][8] = rs.getFloat(9);
+				Matriz[i][9] = descFuent;
+				Matriz[i][10] = descPuntu;
+				Matriz[i][11] = descFalta;
+				Matriz[i][12] = descAsist;
+				Matriz[i][13] = descCorte;
+				Matriz[i][14] = descInfon;
+				Matriz[i][15] = descPensi;
+				Matriz[i][16] = descBanam;
+				Matriz[i][17] = descBanor;
+				Matriz[i][18] = percExtra;
+				Matriz[i][19] = percDiasE;
+				Matriz[i][20] = percBonoE;
+				Matriz[i][21] = sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
+						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE;
+				Matriz[i][22] = rs.getString(22);
+				Matriz[i][23] = rs.getString(23);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		return Matriz; 
 	}
 	
@@ -545,233 +541,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		return filas;
 	}	
 	
-	public float[] getValoresPuntualidad(){
-		float[] valores= new float[2];
-		valores[0] = 0;
-		valores[1] = 0;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select puntualidad, asistencia from tb_asistencia_puntualidad");
-			while(rs.next()){
-				valores[0] = Float.parseFloat(rs.getString(1));
-				valores[1] = Float.parseFloat(rs.getString(2));
-			} 
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}
-	
-	public int[] getBancos(int folio){
-		int[] valores= new int[2];
-		valores[0] = 0;
-		valores[1] = 0;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select banamex, banorte from tb_bancos where folio_empleado = "+folio);
-			while(rs.next()){
-				valores[0] = rs.getInt(1);
-				valores[1] = rs.getInt(2);
-			} 
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}	
-	
-	public float[] getPrestamos(int folio){
-		float[] valores= new float[3];
-		valores[0] = 0;
-		valores[1] = 0;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select cantidad, descuento from tb_prestamo where status_descuento = 1 and  folio_empleado="+folio);
-
-			while(rs.next()){
-				valores[0] = Float.parseFloat(rs.getString(1));
-				valores[1] = Float.parseFloat(rs.getString(2));
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}
-	
-	public float getFuenteSodas(int folio){
-		float valor = 0;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select " +
-											     "sum(tb_fuente_sodas_rh.cantidad)as Total " +
-										  "from  tb_fuente_sodas_rh " +
-										  "where tb_fuente_sodas_rh.status_ticket = '1' and " +
-										  		 "tb_fuente_sodas_rh.status ='1' and " +
-										  		 "tb_fuente_sodas_rh.folio_empleado ="+folio +" " + 
-										  "group by tb_fuente_sodas_rh.nombre_completo,tb_fuente_sodas_rh.folio_empleado");
-			while(rs.next()){
-				valor = Float.parseFloat(rs.getString(1));
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-	
-	public String[] getPuntualidad(int folio){
-		String[] valores= new String[5];
-		valores[0]= "false";	valores[1]= "false";
-		valores[2]= "0";	valores[3]= "false";
-		valores[4]= "0";
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select puntualidad, falta, dia_faltas, asistencia , extra from tb_deduccion_inasistencia where status = '1' and folio_empleado="+folio);
-			while(rs.next()){
-				
-				valores[0] = rs.getString(1);
-				valores[1] = rs.getString(2);
-				valores[2] = rs.getString(3);
-				valores[3] = rs.getString(4);
-				valores[4] = rs.getString(5);
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}
-	
-	public String[] getPreLista(int folio){
-		String[] valores= new String[3];
-		valores[0]= "false";	
-		valores[1]= "";	
-		valores[2]= "";
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select boolean, observasion_i, observasion_ii from tb_pre_listaraya where status = '1' and folio_empleado="+folio);
-			while(rs.next()){
-				valores[0] = rs.getString(1);
-				valores[1] = rs.getString(2);
-				valores[2] = rs.getString(3);
-			
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}
-	
-	public float getDescuento_Cortes(int folio){
-		float valor= 0;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select descuento from tb_diferencia_cortes where saldo > 0 and folio_empleado="+folio);
-			while(rs.next()){
-				valor = Float.parseFloat(rs.getString(1));
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-	
-	public Object[] getPersecciones(int folio){
-		String[] valores= new String[2];
-		valores[0]="0";
-		valores[1]="0";
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select dias, bono from tb_persecciones_extra where folio_empleado="+folio);
-			while(rs.next()){
-				valores[0] = rs.getString(1);			
-				valores[1] = rs.getString(2);
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}
-	
-	public boolean getDiasExtra(int folio){
-		boolean valor = false;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select dia_extra from tb_persecciones_extra where folio_empleado="+folio);
-			while(rs.next()){
-				valor = rs.getBoolean(1);			
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-	
-	public float getDescuentoPrest(int folio){
-		float valor = 0;
-		try {
-			
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select sum(descuento)as 'descuento' from tb_abono where folio_empleado = "+folio+" and status = 1");
-			while(rs.next()){
-				valor = rs.getFloat(1);			
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-	
-	public int getFolio_prestamo(int folio){
-		int valor = 0;
-	try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select folio from tb_prestamo where folio_empleado = "+folio+" and status = 1");
-			while(rs.next()){
-				valor = rs.getInt(1);			
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-
-	public void setDescuentoPrestamo(int folio, float Descuento, float abonos){
-		String query = "update tb_prestamo set descuento="+Descuento+", abonos="+abonos+" where folio_empleado="+folio;
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}	
-	}
-	
 	public class Progress_Bar_Guardar extends JDialog {
 		Container cont = getContentPane();
 		JLayeredPane panel = new JLayeredPane();
@@ -781,7 +550,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			barra.setStringPainted(true);
 			Thread hilo = new Thread(new Hilo());
 			hilo.start();
-			panel.setBorder(BorderFactory.createTitledBorder("Guardando Lista de raya"));
+			panel.setBorder(BorderFactory.createTitledBorder("- ..."));
 			
 			panel.add(barra).setBounds(20,25,350,20);
 			
@@ -795,52 +564,151 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		
 		}
 
-			class Hilo implements Runnable {
+		class Hilo implements Runnable {
+			public void run() {
+				int total = model.getRowCount();
+					
 				@SuppressWarnings("rawtypes")
-				public void run() {
-					int total = model.getRowCount();
-					Vector miVector = new Vector();
-					Calendar c = new GregorianCalendar();
+				Vector miVector = new Vector();
+				if(getFilas("exec sp_status_pre_listaraya") > 1){
+					panel.setBorder(BorderFactory.createTitledBorder("Actulizando Pre-Lista de raya..."));
+					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
+						for(int i=0; i<model.getRowCount(); i++){
+							for(int j=0; j<model.getColumnCount(); j++){
+								miVector.add(model.getValueAt(i,j));
+							}
+							Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
+											
+							
+							lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
+							int foli_emple = Integer.parseInt(miVector.get(1)+"");
+							Obj_Revision_Lista_Raya lis_foli = new Obj_Revision_Lista_Raya().buscar_folio(foli_emple);
+							lis_raya.setFolio_empleado(foli_emple);
+							lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
+							lis_raya.setObservasion_i(miVector.get(22)+"");
+							lis_raya.setObservasion_ii(miVector.get(23)+"");
+										
+							lis_raya.actualizar(lis_foli.getFolio());
+							
+							miVector.clear();
+							
+							int porcent = (i*100)/total;
+							barra.setValue(porcent+1);
+							try {
+								Thread.sleep(0);
+							} catch (InterruptedException e) {
+								e.printStackTrace();	
+							}
+						}
+						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+						dispose();
+					}else{
+						dispose();
+						return;
+					}
 					
-					String dia = c.get(Calendar.DATE)+"";
-					String mes = (c.get(Calendar.MONTH)+1)+"";
-					String anio = c.get(Calendar.YEAR)+"";
-					
-					
+				}else{
+					panel.setBorder(BorderFactory.createTitledBorder("Guardando Pre-Lista de raya..."));
 					for(int i=0; i<model.getRowCount(); i++){
 						for(int j=0; j<model.getColumnCount(); j++){
 							miVector.add(model.getValueAt(i,j));
 						}
-						Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
-							
-						lista_raya.setNumero_lista(numero_lista);
-						lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
-						lista_raya.setNombre_completo(miVector.get(2)+"".trim());
-						lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
-						lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
-						lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
-						lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
-						lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
-						lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
-						lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
-						lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
-						lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
-						lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
-						lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
-						lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
-						lista_raya.setD_banamex(Float.parseFloat(miVector.get(15)+"".trim()));
-						lista_raya.setD_banorte(Float.parseFloat(miVector.get(16)+"".trim()));
-						lista_raya.setD_extra(Float.parseFloat(miVector.get(17)+"".trim()));
-						lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(18)+"".trim()));
-						lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(19)+"".trim()));
-						lista_raya.setA_pagar(Float.parseFloat(miVector.get(20)+"".trim()));
-						lista_raya.setObservasion_i(miVector.get(21)+"".trim());
-						lista_raya.setFecha(dia+"/"+mes+"/"+anio);
-						lista_raya.guardar_lista();
+						Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
+						
+						lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
+						lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
+						lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
+						lis_raya.setObservasion_i(miVector.get(22)+"");
+						lis_raya.setObservasion_ii(miVector.get(23)+"");
+					
+						lis_raya.guardar();
 						
 						miVector.clear();
+						
 						int porcent = (i*100)/total;
-						barra.setValue(porcent);
+						barra.setValue(porcent+1);
+						try {
+							Thread.sleep(0);
+						} catch (InterruptedException e) {
+							e.printStackTrace();	
+						}
+					}
+					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+					dispose();
+				}
+			}
+		}
+	}
+	
+	public class Progress_Bar_Generar extends JDialog {
+		Container cont = getContentPane();
+		JLayeredPane panel = new JLayeredPane();
+		JProgressBar barra = new JProgressBar();
+		
+		public Progress_Bar_Generar() {
+			barra.setStringPainted(true);
+			Thread hilo = new Thread(new Hilo());
+			hilo.start();
+			panel.setBorder(BorderFactory.createTitledBorder("Generando Lista de raya..."));
+			
+			panel.add(barra).setBounds(20,25,350,20);
+			
+			cont.add(panel);
+			
+			this.setUndecorated(true);
+			this.setSize(400,100);
+			this.setModal(true);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+		
+		}
+
+		class Hilo implements Runnable {
+			public void run() {
+				int total = model.getRowCount();
+				@SuppressWarnings("rawtypes")
+				Vector miVector = new Vector();
+				Calendar c = new GregorianCalendar();
+					
+				String dia = c.get(Calendar.DATE)+"";
+				String mes = (c.get(Calendar.MONTH)+1)+"";
+				String anio = c.get(Calendar.YEAR)+"";
+					
+				for(int i=0; i<model.getRowCount(); i++){
+					for(int j=0; j<model.getColumnCount(); j++){
+						miVector.add(model.getValueAt(i,j));
+					}
+					Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
+						
+					lista_raya.setNumero_lista(numero_lista);
+					lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
+					lista_raya.setNombre_completo(miVector.get(2)+"".trim());
+					lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
+					lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
+					lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
+					lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
+					lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
+					lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
+					lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
+					lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
+					lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
+					lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
+					lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
+					lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+					lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
+					lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
+					lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
+					lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+					lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+					lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+					lista_raya.setA_pagar(Float.parseFloat(miVector.get(21)+"".trim()));
+					lista_raya.setObservasion_i(miVector.get(22)+"".trim());
+					lista_raya.setFecha(dia+"/"+mes+"/"+anio);
+					lista_raya.guardar_lista();
+					
+					miVector.clear();
+					int porcent = (i*100)/total;
+					barra.setValue(porcent);
 					try {
 						Thread.sleep(0);
 					} catch (InterruptedException e) {
@@ -849,192 +717,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					}
 						
 				} dispose();
-			}
-		}
-	}
-	
-	
-	public class Progress_Bar_Abrir extends JDialog {
-		Container cont = getContentPane();
-		JLayeredPane panel = new JLayeredPane();
-		JProgressBar barra = new JProgressBar();
-		
-		JLabel lblNombre = new JLabel("");
-		
-		public Progress_Bar_Abrir() {
-			barra.setStringPainted(true);
-			Thread hilo = new Thread(new Hilo());
-			hilo.start();
-			panel.setBorder(BorderFactory.createTitledBorder("Procesando Lista de raya, espere un momento..."));
-			
-			panel.add(barra).setBounds(20,25,350,20);
-			panel.add(lblNombre).setBounds(30,45,350,20);
-			
-			cont.add(panel);
-			
-			this.setUndecorated(true);
-			this.setSize(400,100);
-			this.setModal(true);
-			this.setLocationRelativeTo(null);
-			this.setResizable(false);
-		
-		}
-			class Hilo implements Runnable {
-				public void run() {
-					String datos = "select tb_empleado.folio, "+
-						    "tb_empleado.nombre, "+
-					        "tb_empleado.ap_paterno, "+
-					        "tb_empleado.ap_materno, "+
-					        "tb_establecimiento.nombre as establecimiento, "+
-					        "tb_sueldo.sueldo, "+
-					        "tb_bono.bono, "+
-					        "tb_empleado.infonavit "+
-					     
-						"from tb_empleado, tb_establecimiento, tb_sueldo, tb_bono "+ 
-						"where tb_empleado.establecimiento_id = tb_establecimiento.folio and  "+
-						 	   "tb_empleado.sueldo_id = tb_sueldo.folio and  "+
-						 	   "tb_empleado.bono_id = tb_bono.folio and not " +
-						 	   "tb_empleado.status=4;";
-		
-					Statement s;
-					ResultSet rs;
-		
-					float[] valoresAsistencia = getValoresPuntualidad();
-					float puntualidad = valoresAsistencia[0];
-					float asistencia = valoresAsistencia[1];
-					int total = getFilas(datos);
-					try {			
-						s = con.conexion().createStatement();
-						rs = s.executeQuery(datos);
-						Matriz = new Object[getFilas(datos)][23];
-						int i=0;
-						while(rs.next()){
-							int folio_empleado =  Integer.parseInt(rs.getString(1));
-							String[] preList = getPreLista(folio_empleado);		
-							Matriz[i][0] = Boolean.parseBoolean(preList[0].toString().trim());
-							Matriz[i][1] = folio_empleado;
-							String nombre_comp ="   "+rs.getString(2).trim()+" "+ rs.getString(3).trim()+" "+ rs.getString(4).trim();
-							lblNombre.setText("Empleado: "+nombre_comp);
-							Matriz[i][2] = nombre_comp;
-							Matriz[i][3] = "   "+rs.getString(5).trim();
-				
-							float sueldo = Float.parseFloat(rs.getString(6).trim());
-							Matriz[i][4] = sueldo;
-				
-							float bono_complemento = Float.parseFloat(rs.getString(7).trim());
-							Matriz[i][5] = bono_complemento;
-				
-							float[] prestamos = getPrestamos(folio_empleado);
-				
-							float prestamoAplicado = prestamos[0]; 
-							float sumasAbonos = getDescuentoPrest(folio_empleado); 
-				
-							Matriz[i][6]=prestamoAplicado-sumasAbonos;
-				
-							float descuentoPrestamo = prestamos[1];
-				
-							if(descuentoPrestamo> (prestamoAplicado-sumasAbonos)){
-								Matriz[i][7]=prestamoAplicado-sumasAbonos;
-							}else{
-								Matriz[i][7]=descuentoPrestamo;
-							}
-				
-							Object des = Matriz[i][7];
-							Matriz[i][8]=prestamoAplicado-sumasAbonos-Float.parseFloat(des+"");
-
-							float DescuentoFuenteSodas = getFuenteSodas(folio_empleado);
-							Matriz[i][9] = DescuentoFuenteSodas;
-					
-							String[] puntualidades = getPuntualidad(folio_empleado);
-				
-							boolean punt = Boolean.parseBoolean(puntualidades[0].trim());
-							if(punt != true){
-								Matriz[i][10] = 0;
-							}else{
-								Matriz[i][10] = puntualidad;
-							}
-				
-							float descuentoDias = Math.round(((sueldo + bono_complemento)/7) * Integer.parseInt(puntualidades[2].trim()));
-				
-							boolean dias = Boolean.parseBoolean(puntualidades[1].trim());
-							if(dias != true){
-								Matriz[i][11] = 0;
-							}else{
-								Matriz[i][11] = descuentoDias;
-							}
-				
-							boolean asis = Boolean.parseBoolean(puntualidades[3].trim());
-							if(asis != true){
-								Matriz[i][12] = 0;
-							}else{
-								Matriz[i][12] = asistencia;
-							}
-				
-							float cortes = getDescuento_Cortes(folio_empleado);
-							Matriz[i][13] = cortes;
-				
-							float infonavit = Float.parseFloat(rs.getString(8).trim());
-							Matriz[i][14] = infonavit;
-				
-							int[] bancos = getBancos(folio_empleado);
-							int banamex = bancos[0];
-							int banorte = bancos[1];
-				
-							Matriz[i][15] = banamex;
-							Matriz[i][16] = banorte;
-				
-							String extra = puntualidades[4];
-							if(extra != null){
-								Matriz[i][17] = Float.parseFloat(extra);
-							}else{
-								extra="0";
-								Matriz[i][17] = Float.parseFloat(extra);
-							}
-				
-							Object[] persecciones = getPersecciones(folio_empleado);
-				
-							float dias_extras = Float.parseFloat(persecciones[0]+"");
-							float diasPerseccion = 0;
-				
-							if(bono_dia_extra != true){
-								diasPerseccion = Math.round((sueldo/7) * dias_extras);
-							}else{
-								diasPerseccion = Math.round(((sueldo + bono_complemento)/7) * dias_extras);
-							}
-				
-							if(getDiasExtra(folio_empleado) != true){
-								Matriz[i][18] = 0;	
-							} else {
-								Matriz[i][18] = diasPerseccion;
-							}				
-				
-							float bono = Float.parseFloat(persecciones[1]+"");
-							Matriz[i][19] = bono;
-				
-							float otro = Float.parseFloat(extra);
-							float puns = Float.parseFloat(Matriz[i][10]+"");
-							float asss = Float.parseFloat(Matriz[i][12]+"");
-				
-							Matriz[i][20] = 0;
-							Matriz[i][21] = preList[1];
-							Matriz[i][22] = preList[2];
-				
-							i++;
-							
-							int porcent = (i*100)/total;
-							barra.setValue(porcent);
-				
-							try {
-								Thread.sleep(0);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-									
-							}
-						}
-
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}dispose();
 			}
 		}
 	}
