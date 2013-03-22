@@ -13,6 +13,7 @@ import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
@@ -217,15 +218,48 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean Denominaciones(Obj_Denominaciones denominaciones, int folio){
-		String query = "update tb_denominaciones set nombre=?, efectivo=?, status=? where folio=" + folio;
+	public boolean Divisas(Obj_Divisa_Y_TipoDeCambio divisas, int folio){
+		String query = "update tb_divisas_tipo_de_cambio set nombre_divisas=?, valor=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, denominaciones.getNonbre().toUpperCase());
-			pstmt.setFloat(2, denominaciones.getEfectivo());
+			pstmt.setString(1, divisas.getNombre().toUpperCase());
+			pstmt.setFloat(2, divisas.getValor());
+			pstmt.setString(3, (divisas.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Denominaciones(Obj_Denominaciones denominaciones, int folio){
+		String query = "update tb_denominaciones set nombre=?, moneda=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, denominaciones.getNombre().toUpperCase());
+			pstmt.setString(2, denominaciones.getMoneda());
 			pstmt.setString(3, (denominaciones.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();

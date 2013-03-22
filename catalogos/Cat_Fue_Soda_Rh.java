@@ -100,7 +100,6 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		tabla.getColumnModel().getColumn(1).setMaxWidth(80);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Cantidad");
 		
-		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		

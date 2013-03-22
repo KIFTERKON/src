@@ -10,11 +10,11 @@ import SQL.GuardarSQL;
 public class Obj_Denominaciones {
 	private int folio;
 	private String nombre;
-	private float efectivo;
+	private String moneda;
 	private boolean status;
 
 	public Obj_Denominaciones(){
-		this.folio=0; this.nombre=""; this.efectivo=0; this.status=false;
+		this.folio=0; this.nombre=""; this.moneda=""; this.status=false;
 	}
 
 	public int getFolio() {
@@ -25,7 +25,7 @@ public class Obj_Denominaciones {
 		this.folio = folio;
 	}
 
-	public String getNonbre() {
+	public String getNombre() {
 		return nombre;
 	}
 
@@ -33,12 +33,12 @@ public class Obj_Denominaciones {
 		this.nombre = nombre;
 	}
 
-	public float getEfectivo() {
-		return efectivo;
+	public String getMoneda() {
+		return moneda;
 	}
 
-	public void setEfectivo(float efectivo) {
-		this.efectivo = efectivo;
+	public void setMoneda(String moneda) {
+		this.moneda = moneda;
 	}
 
 	public boolean getStatus() {
@@ -51,7 +51,7 @@ public class Obj_Denominaciones {
 	
 	public String[] Combo_Denominaciones(){ 
 		try {
-			return new Cargar_Combo().Denominaciones("tb_denominaciones");
+			return new Cargar_Combo().Denominaciones("tb_divisas_tipo_de_cambio");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -80,21 +80,11 @@ public class Obj_Denominaciones {
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Denominaciones(this,folio); }
 	
-	public Obj_Denominaciones buscar_denominaciones(String nombre){
-		try{
-			return new BuscarSQL().Denominaciones_buscar(nombre); 
-		} catch(SQLException e){
-//			
-		}
-		return null;
-	}	
-	
-	public Obj_Denominaciones buscar_denominaciones(int folio){
-		try{
-			return new BuscarSQL().Denominaciones_buscar(folio); 
-		} catch(SQLException e){
-			
-		}
-		return null;
-	}	
+//	public Obj_Denominaciones buscar_denominaciones(String nombre){
+//		try{
+//			return new BuscarSQL().Denominaciones_buscar(nombre); 
+//		} catch(SQLException e){
+//		}
+//		return null;
+//	}	
 }

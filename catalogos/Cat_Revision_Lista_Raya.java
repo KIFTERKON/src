@@ -1033,7 +1033,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 								Thread.sleep(0);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
-									
 							}
 						}
 
