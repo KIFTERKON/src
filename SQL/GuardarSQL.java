@@ -28,6 +28,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
@@ -37,7 +38,7 @@ public class GuardarSQL {
 	
 	
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -67,6 +68,8 @@ public class GuardarSQL {
 			pstmt.setString(18, empleado.getFecha());
 			pstmt.setString(19, empleado.getObservasiones());
 			pstmt.setString(20, empleado.getFoto());
+			pstmt.setString(21, empleado.getTargeta_nomina());
+			pstmt.setInt(22, empleado.getTipo_banco());
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -136,6 +139,39 @@ public class GuardarSQL {
 			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Tipo_Banco(Obj_Tipo_Banco banck){
+		String query = "exec sp_insert_tipo_banco ?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, banck.getBanco().toUpperCase());
+			pstmt.setString(2, banck.getAbreviatura().toUpperCase());
+			pstmt.setString(3, (banck.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

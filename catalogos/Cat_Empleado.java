@@ -39,6 +39,7 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 
 @SuppressWarnings({ "serial", "unchecked" })
@@ -90,11 +91,16 @@ public class Cat_Empleado extends JFrame{
 	JComboBox cmbPrestamos = new JComboBox(rango_prestamo);
 	
 	JTextField txtInfonavit = new JTextField();
+	JTextField txtTarjetaNomina = new JTextField();
+	
+	String TipoBanco[] = new Obj_Tipo_Banco().Combo_Tipo_Banco();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbTipoBancos = new JComboBox(TipoBanco);
 	
 	JCheckBox chbFuente_Sodas = new JCheckBox("Fnt de Sodas");
 	JCheckBox chbGafete = new JCheckBox("Gafete");
 	
-	String status[] = {"Vigente","Vacaciones","Incapacidad","Baja"};
+	String status[] = {"Vigente","Vacaciones","Incapacidad","Baja","No Contratable"};
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
@@ -188,6 +194,12 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Infonavit:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtInfonavit).setBounds(x+ancho,y,ancho*2,20);
 		
+		panel.add(new JLabel("Tarjeta de Nomina:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtTarjetaNomina).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(new JLabel("Tipo de Bancos:")).setBounds(x,y+=25,ancho,20);
+		panel.add(cmbTipoBancos).setBounds(x+ancho,y,ancho*2,20);
+		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-10,20);
 		
@@ -209,6 +221,7 @@ public class Cat_Empleado extends JFrame{
 		txtNombre.setDocument(new JTextFieldLimit(20));
 		txtApPaterno.setDocument(new JTextFieldLimit(20));
 		txtApMaterno.setDocument(new JTextFieldLimit(20));
+		txtTarjetaNomina.setDocument(new JTextFieldLimit(19));
 		
 		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
@@ -220,7 +233,8 @@ public class Cat_Empleado extends JFrame{
 		btnFiltro.addActionListener(filtro);
 		btnFoto.addActionListener(opFoto);
 		btnExaminar.addActionListener(opExaminar);
-		
+
+		txtTarjetaNomina.addKeyListener(txtlogns);
 		btnExaminar.setEnabled(false);
 		
 		
@@ -239,7 +253,7 @@ public class Cat_Empleado extends JFrame{
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 		
-		this.setSize(1100,555);
+		this.setSize(1100,605);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
@@ -247,10 +261,10 @@ public class Cat_Empleado extends JFrame{
 	ActionListener opHorario_Turno = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			Obj_Turno horario = new Obj_Turno().buscar_hora(cmbTurno.getSelectedIndex());
-			
 			txtHorario.setText(horario.getHorario());
 		}
 	};
+	
 	ActionListener opFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().length() != 0){
@@ -340,7 +354,11 @@ public class Cat_Empleado extends JFrame{
 					cmbSueldo.setSelectedIndex(re.getSueldo());
 					cmbBono.setSelectedIndex(re.getBono());
 					cmbPrestamos.setSelectedIndex(re.getPrestamo());
-					txtInfonavit.setText(re.getInfonavit()+"");					
+					txtInfonavit.setText(re.getInfonavit()+"");	
+					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
+					Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
+					cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
+					
 					if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
 					else{chbFuente_Sodas.setSelected(false);}
 					if(re.getGafete() == true){chbGafete.setSelected(true);}
@@ -424,6 +442,12 @@ public class Cat_Empleado extends JFrame{
 							}else{
 								empleado.setInfonavit(Float.parseFloat(0.0+""));
 							}
+							if(txtTarjetaNomina.getText().length() != 0 ){
+								empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+							}else{
+								empleado.setTargeta_nomina("0000-0000-0000-0000");
+							}
+							empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
 							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
 							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -489,6 +513,12 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setInfonavit(Float.parseFloat(0.0+""));
 						}
+						if(txtTarjetaNomina.getText().length() != 0 ){
+							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+						}else{
+							empleado.setTargeta_nomina("0000-0000-0000-0000");
+						}
+						empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
 						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -557,6 +587,8 @@ public class Cat_Empleado extends JFrame{
 		cmbBono.setEnabled(true);
 		cmbPrestamos.setEnabled(true);
 		txtInfonavit.setEditable(true);
+		txtTarjetaNomina.setEditable(true);
+		cmbTipoBancos.setEnabled(true);
 		chbFuente_Sodas.setEnabled(true);
 		chbGafete.setEnabled(true);
 		cmbStatus.setEnabled(true);
@@ -580,6 +612,8 @@ public class Cat_Empleado extends JFrame{
 		cmbBono.setEnabled(false);
 		cmbPrestamos.setEnabled(false);
 		txtInfonavit.setEditable(false);
+		txtTarjetaNomina.setEditable(false);
+		cmbTipoBancos.setEnabled(false);
 		chbFuente_Sodas.setEnabled(false);
 		chbGafete.setEnabled(false);
 		cmbStatus.setEnabled(false);
@@ -603,6 +637,8 @@ public class Cat_Empleado extends JFrame{
 		cmbBono.setSelectedIndex(0);
 		cmbPrestamos.setSelectedIndex(0);
 		txtInfonavit.setText("");
+		txtTarjetaNomina.setText("");
+		cmbTipoBancos.setSelectedIndex(0);
 		chbFuente_Sodas.setSelected(false);
 		chbGafete.setSelected(false);
 		cmbStatus.setSelectedIndex(0);
@@ -691,6 +727,32 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
+	KeyListener txtlogns = new KeyListener() {
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			if((caracter != KeyEvent.VK_BACK_SPACE) && (caracter != KeyEvent.VK_DELETE)){
+				int longitud = txtTarjetaNomina.getText().length();
+				String copas = txtTarjetaNomina.getText();
+				switch(longitud){
+					case 4 : txtTarjetaNomina.setText(copas+"-"); break;
+					case 9 : txtTarjetaNomina.setText(copas+"-"); break;
+					case 14 : txtTarjetaNomina.setText(copas+"-"); break;
+				}
+				if(((caracter < '0') ||
+						(caracter > '9'))){
+						e.consume(); 
+				}				
+			}
+			
+				   
+		}
+		@Override
+		public void keyPressed(KeyEvent arg0) {}
+		@Override
+		public void keyReleased(KeyEvent arg0) {}
+								
+	};
+	
 	KeyListener validaNumericoConPunto = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -732,6 +794,7 @@ public class Cat_Empleado extends JFrame{
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
 		if(cmbPrestamos.getSelectedItem().equals("Selecciona un Rango de Prestamo")) error += "Rango de Prestamo\n";
+		if(cmbTipoBancos.getSelectedIndex() == 0)  error += "Tipo de Banco";
 		
 		return error;
 	}

@@ -25,6 +25,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
@@ -194,6 +195,30 @@ public class BuscarSQL {
 		return puesto;
 	}
 	
+	public Obj_Tipo_Banco Tipo_Banco(int folio) throws SQLException{
+		Obj_Tipo_Banco banck = new Obj_Tipo_Banco();
+		String query = "select * from tb_tipo_banco where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				banck.setFolio(rs.getInt("folio"));
+				banck.setBanco(rs.getString("nombre").trim());
+				banck.setAbreviatura(rs.getString("abreviatura").trim());
+				banck.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return banck;
+	}
+	
 	public Obj_Denominaciones denominaciones(int folio) throws SQLException{
 		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
 		String query = "select * from tb_denominaciones where folio ="+ folio;
@@ -237,6 +262,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
+	}
+	
+	public Obj_Tipo_Banco Tipo_Banco_Nuevo() throws SQLException{
+		Obj_Tipo_Banco banco = new Obj_Tipo_Banco();
+		String query = "select max(folio) as 'Maximo' from tb_tipo_banco";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				banco.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return banco;
 	}
 	
 	public Obj_Denominaciones Denominaciones_Nuevo() throws SQLException{
@@ -283,6 +329,8 @@ public class BuscarSQL {
 				empleado.setPrestamo(rs.getInt("rango_prestamo_id"));
 				empleado.setPension_alimenticia(rs.getFloat("pension_alimenticia"));
 				empleado.setInfonavit(rs.getFloat("infonavit"));
+				empleado.setTargeta_nomina(rs.getString("targeta_nomina"));
+				empleado.setTipo_banco(rs.getInt("tipo_banco_id"));
 				empleado.setFuente_sodas(rs.getBoolean("fuente_sodas") ? true : false);
 				empleado.setGafete(rs.getBoolean("gafete") ? true : false);
 				empleado.setStatus(rs.getInt("status"));
@@ -775,6 +823,27 @@ public class BuscarSQL {
 		return puest;
 	}
 	
+	public Obj_Tipo_Banco Banco_Buscar(String nombre) throws SQLException{
+		Obj_Tipo_Banco banck = new Obj_Tipo_Banco();
+		String query = "select folio from tb_tipo_banco where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				banck.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return banck;
+	}
+	
 	public Obj_Denominaciones Denominaciones_buscar(String nombre) throws SQLException{
 		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
 		String query = "select folio from tb_denominaciones where nombre='"+nombre+"'";
@@ -857,6 +926,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puest;
+	}
+	
+	public Obj_Tipo_Banco buscar_Banck(int folio) throws SQLException{
+		Obj_Tipo_Banco banck = new Obj_Tipo_Banco();
+		String query = "select nombre from tb_tipo_banco where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				banck.setBanco(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return banck;
 	}
 	
 	public Obj_Denominaciones Denominaciones_buscar(int folio) throws SQLException{

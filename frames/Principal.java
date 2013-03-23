@@ -53,6 +53,7 @@ import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Sueldo;
+import catalogos.Cat_Tipo_Banco;
 import catalogos.Cat_Turno;
 import catalogos.Cat_Usuario;
 
@@ -155,7 +156,7 @@ public class Principal extends JFrame{
 		JMenuItem Catalogo_Alta = new JMenuItem("Alta Empleados", new ImageIcon(""));
 		JMenuItem Catalogo_Puesto = new JMenuItem("Puesto", new ImageIcon(""));
 		JMenuItem Catalogo_Sueldo = new JMenuItem("Sueldo", new ImageIcon(""));
-		JMenuItem Catalogo_Status = new JMenuItem("Status", new ImageIcon(""));
+		JMenuItem Catalogo_Tipo_Banco = new JMenuItem("Tipo Bancos", new ImageIcon(""));
 		
 	JMenu Listas = new JMenu("Listas");	
 		JMenuItem Listas_Raya = new JMenuItem("Revision Lista de Raya");
@@ -535,6 +536,8 @@ public class Principal extends JFrame{
 			Catalogo_Puesto.addActionListener(Opciones);
 		Catalogo.add(Catalogo_Sueldo);
 			Catalogo_Sueldo.addActionListener(Opciones);
+		Catalogo.add(Catalogo_Tipo_Banco);
+			Catalogo_Tipo_Banco.addActionListener(Opciones);
 			
 
 		Listas.add(Listas_Raya);
@@ -786,6 +789,20 @@ public class Principal extends JFrame{
 				}
 			}
 			
+			if(e.getActionCommand().equals("Tipo Bancos")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Tipo_Banco().setVisible(true);
+				}
+			}
+			
 			//listas
 			if(e.getActionCommand().equals("Lista de Prestamos")){
 				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
@@ -849,7 +866,6 @@ public class Principal extends JFrame{
 		Catalogo_Alta.setEnabled(true);
 		Catalogo_Puesto.setEnabled(true);
 		Catalogo_Sueldo.setEnabled(true);
-		Catalogo_Status.setEnabled(true);
 
 		Listas_Raya.setEnabled(true);
 		Listas_Analisis.setEnabled(true);
@@ -882,7 +898,6 @@ public void PrermisoDH(){
 	Catalogo_Alta.setEnabled(true);
 	Catalogo_Puesto.setEnabled(true);
 	Catalogo_Sueldo.setEnabled(true);
-	Catalogo_Status.setEnabled(true);
 	
 	Listas_Raya.setEnabled(true);
 	Listas_Analisis.setEnabled(true);
@@ -911,7 +926,6 @@ public void PrermisoAuxf(){
 	Catalogo_Alta.setEnabled(false);
 	Catalogo_Puesto.setEnabled(false);
 	Catalogo_Sueldo.setEnabled(false);
-	Catalogo_Status.setEnabled(false);
 
 	Listas_Raya.setEnabled(false);
 	Listas_Analisis.setEnabled(true);
@@ -940,7 +954,6 @@ public void PrermisoAudit(){
 	Catalogo_Alta.setEnabled(true);
 	Catalogo_Puesto.setEnabled(true);
 	Catalogo_Sueldo.setEnabled(true);
-	Catalogo_Status.setEnabled(true);
 	
 	Listas_Raya.setEnabled(true);
 	Listas_Analisis.setEnabled(true);
@@ -971,7 +984,6 @@ public void PrermisoCont(){
 	Catalogo_Alta.setEnabled(true);
 	Catalogo_Puesto.setEnabled(true);
 	Catalogo_Sueldo.setEnabled(true);
-	Catalogo_Status.setEnabled(true);
 
 	Listas_Raya.setEnabled(true);
 	Listas_Analisis.setEnabled(true);
@@ -1000,7 +1012,6 @@ public void PrermisoCons(){
 	Catalogo_Alta.setEnabled(true);
 	Catalogo_Puesto.setEnabled(true);
 	Catalogo_Sueldo.setEnabled(true);
-	Catalogo_Status.setEnabled(true);
 
 	Listas_Raya.setEnabled(true);
 	Listas_Analisis.setEnabled(true);
