@@ -68,9 +68,9 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	DefaultTableModel model = new DefaultTableModel(Tabla,
 		new String[]{"","Folio", "Nombre Completo", "Establecimiento", "Sueldo",
 		"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
-		"D Puntualidad", "D Faltas", "D Asistencia", "D Cortes", "D Infonavit", 
-		"Pension" ,	"D Banamex", "D Banorte", "D Extra", "P Día Extras", 
-		"P Bono Extra",	"A Pagar", "Observasiones I", "Observasiones II" }
+		"D Puntualidad", "D Faltas", "D Asistencia", "D Cortes", "D Infonavit", "Pension" ,
+		"D Banamex", "D Banorte", "D Extra", "P Día Extras", "P Bono Extra",
+		"A Pagar", "Observasiones I", "Observasiones II" }
 													){
 		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -112,7 +112,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
         	 switch(columna){
         	 	case 0  : return true; 
         	 	case 1  : return false; 
-        	 	case 2  : return false;
         	 	case 3  : return false; 
         	 	case 4  : return false; 
         	 	
@@ -175,7 +174,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		tabla.setRowSorter(trsfiltro);
 		
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
+		System.out.println(bono_dia_extra);
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		DefaultTableCellRenderer tcrR = new DefaultTableCellRenderer();
@@ -525,10 +524,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				Matriz[i][20] = percBonoE;
 				Matriz[i][21] = sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
 						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE;
-				
-				Matriz[i][22] = rs.getString(22).trim();
-				Matriz[i][23] = rs.getString(23).trim();
-				
+				Matriz[i][22] = rs.getString(22);
+				Matriz[i][23] = rs.getString(23);
 				i++;
 			}
 		} catch (SQLException e1) {
