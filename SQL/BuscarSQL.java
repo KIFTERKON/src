@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
@@ -17,6 +18,7 @@ import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
@@ -208,7 +210,6 @@ public class BuscarSQL {
 				banck.setAbreviatura(rs.getString("abreviatura").trim());
 				banck.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -217,6 +218,63 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return banck;
+	}
+		
+
+	public Obj_Alimentacion_Cortes corte(int folio) throws SQLException{
+		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
+		String query = "select * from tb_alimentacion_cortes where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				corte.setFolio_corte(rs.getInt("folio_corte"));
+				corte.setFolio_corte(rs.getInt("folio_empleado"));
+				corte.setPuesto(rs.getString("nombre_empleado").trim());
+				corte.setPuesto(rs.getString("puesto").trim());
+				corte.setEstablecimiento(rs.getString("establecimiento").trim());
+				corte.setAsignacion(rs.getString("asignacion").trim());
+				corte.setCorte_sistema(rs.getFloat("corte_del_sistema"));
+				corte.setDeposito(rs.getFloat("deposito"));
+				corte.setEfectivo(rs.getFloat("efectivo"));
+				corte.setDiferencia_corte(rs.getFloat("diferencia_corte"));
+				corte.setFecha(rs.getString("fecha").trim());
+				corte.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return corte;
+	}
+	
+	public Obj_Divisa_Y_TipoDeCambio divisas(int folio) throws SQLException{
+		Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
+		String query = "select * from tb_divisas_tipo_de_cambio where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				divisas.setFolio(rs.getInt("folio"));
+				divisas.setNombre(rs.getString("nombre_divisas").trim());
+				divisas.setValor(rs.getFloat("valor"));
+				divisas.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return divisas;
 	}
 	
 	public Obj_Denominaciones denominaciones(int folio) throws SQLException{
@@ -229,7 +287,7 @@ public class BuscarSQL {
 			while(rs.next()){
 				denominaciones.setFolio(rs.getInt("folio"));
 				denominaciones.setNombre(rs.getString("nombre").trim());
-				denominaciones.setEfectivo(rs.getFloat("efectivo"));
+				denominaciones.setMoneda(rs.getString("moneda"));
 				denominaciones.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			
@@ -283,6 +341,28 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return banco;
+	}
+		
+		
+	public Obj_Divisa_Y_TipoDeCambio Divisas_Nuevo() throws SQLException{
+		Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
+		String query = "select max(folio) as 'Maximo' from tb_divisas_tipo_de_cambio";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				divisas.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return divisas;
 	}
 	
 	public Obj_Denominaciones Denominaciones_Nuevo() throws SQLException{
@@ -843,16 +923,16 @@ public class BuscarSQL {
 		}
 		return banck;
 	}
-	
-	public Obj_Denominaciones Denominaciones_buscar(String nombre) throws SQLException{
-		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
-		String query = "select folio from tb_denominaciones where nombre='"+nombre+"'";
+		
+	public Obj_Divisa_Y_TipoDeCambio Divisas_buscar(String nombre) throws SQLException{
+		Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
+		String query = "select valor from tb_divisas_tipo_de_cambio where nombre_divisas='"+nombre+"'";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				denominaciones.setFolio(rs.getInt("folio"));
+				divisas.setValor(rs.getFloat("valor"));
 			}
 			
 		} catch (Exception e) {
@@ -862,8 +942,30 @@ public class BuscarSQL {
 		finally{
 			if(stmt!=null){stmt.close();}
 		}
-		return denominaciones;
+		return divisas;
 	}
+	
+		
+//	public Obj_Denominaciones Denominaciones_buscar(String nombre) throws SQLException{
+//		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
+//		String query = "select folio from tb_denominaciones where nombre='"+nombre+"'";
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+//				denominaciones.setFolio(rs.getInt("folio"));
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return denominaciones;
+//	}
 	
 	public Obj_Turno Turn_buscar(String nombre) throws SQLException{
 		Obj_Turno turno = new Obj_Turno();
@@ -949,15 +1051,15 @@ public class BuscarSQL {
 		return banck;
 	}
 	
-	public Obj_Denominaciones Denominaciones_buscar(int folio) throws SQLException{
-		Obj_Denominaciones denominaciones = new Obj_Denominaciones();
-		String query = "select nombre from tb_denominaciones where folio="+folio;
+	public Obj_Divisa_Y_TipoDeCambio Divisas_buscar(int folio) throws SQLException{
+		Obj_Divisa_Y_TipoDeCambio denominaciones = new Obj_Divisa_Y_TipoDeCambio();
+		String query = "select nombre from tb_divisas_tipo_de_cambio where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				denominaciones.setNombre(rs.getString("nombre"));
+				denominaciones.setNombre(rs.getString("nombre_divisas"));
 			}
 			
 		} catch (Exception e) {

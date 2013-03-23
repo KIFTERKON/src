@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
@@ -19,6 +20,7 @@ import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
@@ -194,17 +196,93 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
-	
-	public boolean Guardar_Denominaciones(Obj_Denominaciones denominaciones){
-		String query = "insert into tb_denominaciones(nombre,efectivo,status) values(?,?,?)";
+			
+	public boolean Guardar_Divisas(Obj_Divisa_Y_TipoDeCambio divisas){
+		String query = "insert into tb_divisas_tipo_de_cambio(nombre_divisas,valor,status) values(?,?,?)";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, denominaciones.getNonbre().toUpperCase());
-			pstmt.setFloat (2, denominaciones.getEfectivo());
+			pstmt.setString(1, divisas.getNombre().toUpperCase());
+			pstmt.setFloat (2, divisas.getValor());
+			pstmt.setString(3, (divisas.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Denominaciones(Obj_Denominaciones denominaciones){
+		String query = "insert into tb_denominaciones(nombre,moneda,status) values(?,?,?)";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, denominaciones.getNombre().toUpperCase());
+			pstmt.setString(2, denominaciones.getMoneda());
 			pstmt.setString(3, (denominaciones.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Corte(Obj_Alimentacion_Cortes corte){
+		String query = "insert into tb_alimentacion_cortes(folio_empleado,nombre_empleado," +
+						"puesto,establecimiento,asignacion,corte_del_sistema,deposito," +
+						"efectivo,diferencia_corte,fecha,status) values(?,?,?,?,?,?,?,?,?,?,?)";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, corte.getFolio_empleado());
+			pstmt.setString(2, corte.getNombre().toUpperCase());
+			pstmt.setString(3,corte.getPuesto().toUpperCase());
+			pstmt.setString(4, corte.getEstablecimiento().toUpperCase());
+			pstmt.setString(5, corte.getAsignacion().toUpperCase());
+			pstmt.setFloat(6, corte.getCorte_sistema());
+			pstmt.setFloat(7, corte.getDeposito());
+			pstmt.setFloat(8, corte.getEfectivo());
+			pstmt.setFloat(9, corte.getDiferencia_corte());
+			pstmt.setString(10, corte.getFecha().toUpperCase());
+			pstmt.setString(11, (corte.isStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -970,14 +1048,14 @@ public class GuardarSQL {
 		
 		String query ="insert into tb_imprimir_lista_raya(numero_lista,folio_empleado,nombre_completo,establecimiento,sueldo,"+
 						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
-						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,"+
+						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,pension,"+
 						 "d_banamex,d_banorte,d_extra,p_dias_extra,p_bono_extra,"+
 						 "a_pagar,observaciones,status) " +
 						 "values(?,?,?,?,?," +
 						 "?,?,?,?,?," +
 						 "?,?,?,?,?," +
 						 "?,?,?,?,?," +
-						 "?,?,?);";
+						 "?,?,?,?);";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1006,14 +1084,15 @@ public class GuardarSQL {
 			pstmt.setFloat(13, raya.getD_asistencia());
 			pstmt.setFloat(14, raya.getD_cortes());
 			pstmt.setFloat(15, raya.getD_infonavit());
-			pstmt.setFloat(16, raya.getD_banamex());
-			pstmt.setFloat(17, raya.getD_banorte());
-			pstmt.setFloat(18, raya.getD_extra());
-			pstmt.setFloat(19, raya.getP_dias_extra());
-			pstmt.setFloat(20, raya.getP_bono_extra());
-			pstmt.setFloat(21, raya.getA_pagar());
-			pstmt.setString(22, raya.getObservasion_i());
-			pstmt.setInt(23, 1);
+			pstmt.setFloat(16, raya.getPension());
+			pstmt.setFloat(17, raya.getD_banamex());
+			pstmt.setFloat(18, raya.getD_banorte());
+			pstmt.setFloat(19, raya.getD_extra());
+			pstmt.setFloat(20, raya.getP_dias_extra());
+			pstmt.setFloat(21, raya.getP_bono_extra());
+			pstmt.setFloat(22, raya.getA_pagar());
+			pstmt.setString(23, raya.getObservasion_i());
+			pstmt.setInt(24, 1);
 			
 			pstmt.execute();
 			

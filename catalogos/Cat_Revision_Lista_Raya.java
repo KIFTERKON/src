@@ -402,12 +402,20 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	@SuppressWarnings("rawtypes")
 	public void Imprimir_lista_raya(){
 		Vector miVector = new Vector();
+		Calendar c = new GregorianCalendar();
+		
+		String dia = c.get(Calendar.DATE)+"";
+		String mes = (c.get(Calendar.MONTH)+1)+"";
+		String anio = c.get(Calendar.YEAR)+"";
+		
 		for(int i=0; i<model.getRowCount(); i++){
 			for(int j=0; j<model.getColumnCount(); j++){
 				miVector.add(model.getValueAt(i,j));
+				
 			}
 			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
 			
+			lista_raya.setNumero_lista(numero_lista);
 			lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
 			lista_raya.setNombre_completo(miVector.get(2)+"".trim());
 			lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
@@ -422,13 +430,15 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
 			lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
 			lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
-			lista_raya.setD_banamex(Float.parseFloat(miVector.get(15)+"".trim()));
-			lista_raya.setD_banorte(Float.parseFloat(miVector.get(16)+"".trim()));
-			lista_raya.setD_extra(Float.parseFloat(miVector.get(17)+"".trim()));
-			lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(18)+"".trim()));
-			lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(19)+"".trim()));
-			lista_raya.setA_pagar(Float.parseFloat(miVector.get(20)+"".trim()));
-			lista_raya.setObservasion_i(miVector.get(21)+"".trim());
+			lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
+			lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
+			lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
+			lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+			lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+			lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+			lista_raya.setA_pagar(Float.parseFloat(miVector.get(21)+"".trim()));
+			lista_raya.setObservasion_i(miVector.get(22)+"".trim());
+			lista_raya.setFecha(dia+"/"+mes+"/"+anio);
 			
 			lista_raya.imprimir_lista();
 			miVector.clear();
