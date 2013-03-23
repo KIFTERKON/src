@@ -85,7 +85,7 @@ public class Cat_Imprimir_LR extends JDialog{
 		
 		// Creamos las columnas.
 		int a = 0;
-		int b = 30;
+		int b = 32;
 		tabla.getColumnModel().getColumn(a).setHeaderValue("");
 		tabla.getColumnModel().getColumn(a).setMaxWidth(140);
 		tabla.getColumnModel().getColumn(a).setMinWidth(140);
@@ -141,8 +141,8 @@ public class Cat_Imprimir_LR extends JDialog{
 		tabla.getColumnModel().getColumn(a).setMaxWidth(b+5);
 		tabla.getColumnModel().getColumn(a).setMinWidth(b+5);
 		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
-		tabla.getColumnModel().getColumn(a).setMaxWidth((b*4)-10);
-		tabla.getColumnModel().getColumn(a).setMinWidth((b*4)-10);
+		tabla.getColumnModel().getColumn(a).setMaxWidth((b*4)-15);
+		tabla.getColumnModel().getColumn(a).setMinWidth((b*4)-15);
 		
 //		TAMAÑO DE FILA DEL JTABLE
 		tabla.setRowHeight(8);
@@ -197,7 +197,7 @@ public class Cat_Imprimir_LR extends JDialog{
 			   String nombre= 		rs.getString(4).trim();
 			   String stab= 		rs.getString(5).trim();
 			   float sueldo=		rs.getFloat(6);
-			   float bono=			rs.getFloat(7);
+			   float bono=			rs.getFloat(7)+rs.getFloat(22);
 			   float prestamo=		rs.getFloat(8);
 			   float descuento=		rs.getFloat(9);
 			   float pfinal=		rs.getFloat(10);
@@ -209,13 +209,13 @@ public class Cat_Imprimir_LR extends JDialog{
 			   float infon=			rs.getFloat(16);
 			   float pension=		rs.getFloat(17);
 			   
-			   float banorte=	 	rs.getFloat(18);
-			   float banamex=		rs.getFloat(19);
+			   float banamex=	 	rs.getFloat(18);
+			   float banorte=		rs.getFloat(19);
 			   float ext=			rs.getFloat(20);
 			   float diaE=			rs.getFloat(21);
 			   
-			   float pagar= 		rs.getFloat(22);
-			   String obs=			rs.getString(23).trim();
+			   float pagar= 		rs.getFloat(23);
+			   String obs=			rs.getString(24).trim();
 			   
 			   if(stab.equals(aux)){
 				   
@@ -231,8 +231,8 @@ public class Cat_Imprimir_LR extends JDialog{
 					fila[9]  ="  "+corte;
 					fila[10] ="  "+infon;
 					fila[11] ="  "+pension;
-					fila[12] ="  "+banorte;
-					fila[13] ="  "+banamex;
+					fila[12] ="  "+banamex;
+					fila[13] ="  "+banorte;
 					fila[14] ="  "+ext;
 					fila[15] ="  "+diaE;
 					fila[16] ="  "+bono;
@@ -260,26 +260,27 @@ public class Cat_Imprimir_LR extends JDialog{
 						fila[15] ="";
 						fila[16] ="";
 						fila[17] ="";
+						fila[18] ="";
 					  model.addRow(fila);
 					  	fila[0]  ="                        "+stab;
-					  	fila[1]  =" SUELDO";
-						fila[2]  ="   PREST";
-						fila[3]  ="  DESC P.";
-						fila[4]  ="   S FINAL";
-						fila[5]  ="    FSOD";
-						fila[6]  ="    PUNT";
-						fila[7]  ="    FALTA";
-						fila[8]  ="   ASIS";
-						fila[9]  ="   CORTE";
-						fila[10] ="   INFVIT";
-						fila[11] ="  PENSION";
-						fila[12] =" BANORT";
-						fila[13] =" BANAM";
-						fila[14] ="     EXT";
-						fila[15] ="    DIA E.";
-						fila[16] ="   BONO";
-						fila[17] =" A PAGAR";
-						fila[18] ="                OBSERVACIONES";
+					  	fila[1]  ="SUELDO";
+						fila[2]  ="  PREST";
+						fila[3]  =" DESC P.";
+						fila[4]  =" S FINAL";
+						fila[5]  ="   FSOD";
+						fila[6]  ="   PUNT";
+						fila[7]  ="   FALTA";
+						fila[8]  ="  ASIST";
+						fila[9]  ="  CORTE";
+						fila[10] ="  INFVIT";
+						fila[11] =" PENSION";
+						fila[12] ="BANAM";
+						fila[13] ="BANORT";
+						fila[14] ="   EXT";
+						fila[15] ="  DIA E.";
+						fila[16] ="  BONO";
+						fila[17] ="A PAGAR";
+						fila[18] ="            OBSERVACIONES";
 					 model.addRow(fila);
 					 	fila[0]  ="  "+nombre;
 					    fila[1]  ="  "+sueldo;
@@ -293,8 +294,8 @@ public class Cat_Imprimir_LR extends JDialog{
 						fila[9]  ="  "+corte;
 						fila[10] ="  "+infon;
 						fila[11] ="  "+pension;
-						fila[12] ="  "+banorte;
-						fila[13] ="  "+banamex;
+						fila[12] ="  "+banamex;
+						fila[13] ="  "+banorte;
 						fila[14] ="  "+ext;
 						fila[15] ="  "+diaE;
 						fila[16] ="  "+bono;
@@ -304,46 +305,46 @@ public class Cat_Imprimir_LR extends JDialog{
 				  
 				  }else{
 					  
-					  	fila[0]  ="                        "+stab;
-					  	fila[1]  =" SUELDO";
-						fila[2]  ="   PREST";
-						fila[3]  ="  DESC P.";
-						fila[4]  ="   S FINAL";
-						fila[5]  ="    FSOD";
-						fila[6]  ="    PUNT";
-						fila[7]  ="    FALTA";
-						fila[8]  ="   ASIS";
-						fila[9]  ="   CORTE";
-						fila[10] ="   INFVIT";
-						fila[11] ="  PENSION";
-						fila[12] =" BANORT";
-						fila[13] =" BANAM";
-						fila[14] ="     EXT";
-						fila[15] ="    DIA E.";
-						fila[16] ="   BONO";
-						fila[17] =" A PAGAR";
-						fila[18] ="                OBSERVACIONES";
-					model.addRow(fila);
-					 fila[0]  ="  "+nombre;
-					    fila[1]  ="  "+sueldo;
-						fila[2]  ="  "+prestamo;
-						fila[3]  ="  "+descuento;
-						fila[4]  ="  "+pfinal;
-						fila[5]  ="  "+fsod;
-						fila[6]  ="  "+punt;
-						fila[7]  ="  "+falta;
-						fila[8]  ="  "+asis;
-						fila[9]  ="  "+corte;
-						fila[10] ="  "+infon;
-						fila[11] ="  "+pension;
-						fila[12] ="  "+banorte;
-						fila[13] ="  "+banamex;
-						fila[14] ="  "+ext;
-						fila[15] ="  "+diaE;
-						fila[16] ="  "+bono;
-						fila[17] ="  "+pagar;
-						fila[18] ="  "+obs;
-						
+						fila[0]  ="                        "+stab;
+					  	fila[1]  ="SUELDO";
+						fila[2]  ="  PREST";
+						fila[3]  =" DESC P.";
+						fila[4]  =" S FINAL";
+						fila[5]  ="   FSOD";
+						fila[6]  ="   PUNT";
+						fila[7]  ="   FALTA";
+						fila[8]  ="  ASIST";
+						fila[9]  ="  CORTE";
+						fila[10] ="  INFVIT";
+						fila[11] =" PENSION";
+						fila[12] ="BANAM";
+						fila[13] ="BANORT";
+						fila[14] ="   EXT";
+						fila[15] ="  DIA E.";
+						fila[16] ="  BONO";
+						fila[17] ="A PAGAR";
+						fila[18] ="            OBSERVACIONES";
+//					model.addRow(fila);
+//					 fila[0]  ="  "+nombre;
+//					    fila[1]  ="  "+sueldo;
+//						fila[2]  ="  "+prestamo;
+//						fila[3]  ="  "+descuento;
+//						fila[4]  ="  "+pfinal;
+//						fila[5]  ="  "+fsod;
+//						fila[6]  ="  "+punt;
+//						fila[7]  ="  "+falta;
+//						fila[8]  ="  "+asis;
+//						fila[9]  ="  "+corte;
+//						fila[10] ="  "+infon;
+//						fila[11] ="  "+pension;
+//						fila[12] ="  "+banamex;
+//						fila[13] ="  "+banorte;
+//						fila[14] ="  "+ext;
+//						fila[15] ="  "+diaE;
+//						fila[16] ="  "+bono;
+//						fila[17] ="  "+pagar;
+//						fila[18] ="  "+obs;
+//						
 						aux = stab;
 						cont++;
 				  }

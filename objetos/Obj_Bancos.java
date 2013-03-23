@@ -8,8 +8,8 @@ public class Obj_Bancos {
 	private int folio_empleado;
 	private String nombre_completo;
 	private String establecimiento;
-	private int banamex;
-	private int banorte;
+	private float banamex;
+	private float banorte;
 	private int status;
 	
 	public Obj_Bancos(){
@@ -41,19 +41,19 @@ public class Obj_Bancos {
 		this.establecimiento = establecimiento;
 	}
 
-	public int getBanamex() {
+	public float getBanamex() {
 		return banamex;
 	}
 
-	public void setBanamex(int banamex) {
+	public void setBanamex(float banamex) {
 		this.banamex = banamex;
 	}
 
-	public int getBanorte() {
+	public float getBanorte() {
 		return banorte;
 	}
 
-	public void setBanorte(int banorte) {
+	public void setBanorte(float banorte) {
 		this.banorte = banorte;
 	}
 

@@ -2,7 +2,8 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,8 +28,7 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
-
-import objetos.JTextFieldLimit;
+import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
 public class Cat_Filtro_Emp extends JDialog{
 	
@@ -49,40 +50,32 @@ public class Cat_Filtro_Emp extends JDialog{
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
-	JLabel lblBuscar = new JLabel("BUSCAR : ");
-	JTextField txtBuscar = new JTextField();
+	JTextField txtFolio = new JTextField();
+	JTextField txtNombre_Completo = new JTextField();
 	
-	String busqueda[] = {"Folio","Nombre Completo","Establecimiento"};
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbBuscar = new JComboBox(busqueda);
-	
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_Emp()	{
-		this.setTitle("Filtro ");
-		txtBuscar.setDocument(new JTextFieldLimit(10));
-		
-		txtBuscar.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
-	
+		this.setTitle("Filtro de Empleados");
+		campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
+		campo.add(getPanelTabla()).setBounds(15,42,700,337);
 		
-		cmbBuscar.setSelectedIndex(1);
-		campo.add(getPanelTabla()).setBounds(10,70,710,327);
+		campo.add(txtFolio).setBounds(15,20,48,20);
+		campo.add(txtNombre_Completo).setBounds(64,20,229,20);
+		campo.add(cmbEstablecimientos).setBounds(295,20, 148, 20);
 		
 		agregar(tabla);
 		
-		campo.add(lblBuscar).setBounds(10,30,70,20);
-		campo.add(txtBuscar).setBounds(90,30,220,20);
-		
-		campo.add(new JLabel("Buscar por: ")).setBounds(330, 30, 80, 20);
-		campo.add(cmbBuscar).setBounds(410, 30, 160, 20);
-	
 		cont.add(campo);
+		
+		txtFolio.addKeyListener(opFiltroFolio);
+		txtNombre_Completo.addKeyListener(opFiltroNombre);
+		cmbEstablecimientos.addActionListener(opFiltro);
 		
 		this.setModal(true);
 		this.setSize(740,450);
@@ -103,16 +96,43 @@ public class Cat_Filtro_Emp extends JDialog{
         });
     }
 	
-   	@SuppressWarnings("unchecked")
-	public void filtro() { 
-		// Busca segun el combo
-		switch (cmbBuscar.getSelectedIndex()){
-			case 0 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText(), 0)); break;
-			case 1 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase().trim(), 1)); break;
-			case 2 : trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase().trim(), 2)); break;	
-		}		 
-	}  
-	private JScrollPane getPanelTabla()	{		
+	KeyListener opFiltroFolio = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+		}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+				(caracter > '9')) &&
+			    (caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
+	
+	KeyListener opFiltroNombre = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
+	
+	ActionListener opFiltro = new ActionListener(){
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+			}else{
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+			}
+		}
+	};
+	
+   	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();

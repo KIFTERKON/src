@@ -59,7 +59,7 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 	
 	JLabel lblFolio_Corte = new JLabel();
 	JLabel lblEstablecimineto = new JLabel();
-	JTextField txtFecha = new JTextField();
+	JTextField txtFecha = new JTextField("");
 	JTextField txtCorteSistema = new JTextField("1000");
 	JTextField txtEfectivo = new JTextField("300");
 	JCheckBox chStatus = new JCheckBox("Status");
@@ -70,7 +70,7 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 	
 	JButton btnFiltro = new JButton(new ImageIcon("imagen/Text preview.png"));
 	JButton btnGuardar = new JButton("Guardar");
-	JButton btnDeshacer = new JButton("Deshacer");
+//	JButton btnDeshacer = new JButton("Deshacer");
 	
 	JButton btnFoto = new JButton();
 	
@@ -115,18 +115,18 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 		panel.add(btnEfectivo).setBounds(x2+ancho*2-40,y,29,20);
 		
 		
-		panel.add(btnDeshacer).setBounds(x,25,ancho-20,20);
-		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,25,ancho-20,20);
-		panel.add(btnFiltro).setBounds(x+ancho+ancho-80+30+ancho+130,25,32,20);
+//		panel.add(btnDeshacer).setBounds(x,25,ancho-20,20);
+		panel.add(btnGuardar).setBounds(x,25,ancho-20,20);
+		panel.add(btnFiltro).setBounds(x2-60,60,32,20);
 
 		lblEstablecimineto.setText(establecimiento_corte);
 		btnGuardar.addActionListener(guardar);
-		btnDeshacer.addActionListener(deshacer);
+//		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
 		btnCalendario.addMouseListener(OpCalendario);
 		
 //		btnFoto.addActionListener(opFoto);
-		
+		btnEfectivo.addActionListener(opAlimentarDenominacion);
 		txtCorteSistema.addKeyListener(validaNumericoConPunto);
 	
 		cont.add(panel);
@@ -170,6 +170,17 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 				  JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.");				
 			}
 			
+		}
+	};
+	
+	ActionListener opAlimentarDenominacion = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			
+			int folio_emp = Integer.parseInt(lblFolio_Empleado.getText());
+			String fecha = txtFecha.getText();
+			if(!txtFecha.getText().equals("")){
+				new Cat_Alimentacion_Por_Denominacion(folio_emp,fecha).setVisible(true);
+			}
 		}
 	};
 	
@@ -218,17 +229,17 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 		
 	}
 	
-	ActionListener deshacer = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			txtAsisgnacion.setText("");
-			txtDeposito.setText("");
-			txtCorteSistema.setText("");
-			txtFecha.setText("");
-			txtEfectivo.setText("");
-			txtCorteSistema.requestFocus();
-			chStatus.setSelected(false);
-		}
-	};
+//	ActionListener deshacer = new ActionListener(){
+//		public void actionPerformed(ActionEvent e){
+//			txtAsisgnacion.setText("");
+//			txtDeposito.setText("");
+//			txtCorteSistema.setText("");
+//			txtFecha.setText("");
+//			txtEfectivo.setText("");
+//			txtCorteSistema.requestFocus();
+//			chStatus.setSelected(false);
+//		}
+//	};
 	
 	KeyListener numerico_action = new KeyListener() {
 		@Override

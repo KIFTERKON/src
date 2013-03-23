@@ -29,14 +29,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import objetos.Obj_Empleado;
 import objetos.Obj_Revision_Lista_Raya;
 
 import export.exportar_excel;
@@ -72,7 +70,7 @@ public class Cat_Filtro_LR extends JDialog{
 	
 	int filas = 0;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_LR()	{
 		this.setTitle("..:: Lista de pago por establecimiento ::..");
 		this.lblExpor.setText("Exportar");
@@ -106,6 +104,7 @@ public class Cat_Filtro_LR extends JDialog{
 		
 	}
  
+	@SuppressWarnings("unused")
 	private JScrollPane getPanelTabla()	{	
 		Connection conn = new Connexion().conexion();
 		

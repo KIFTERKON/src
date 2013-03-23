@@ -11,10 +11,11 @@ public class Obj_Persecciones_Extra {
 	private float bono;
 	private String dia_extra;
 	private int dias;
+	private float cantidad_dias;
 	
 	public Obj_Persecciones_Extra(){
 		this.folio_empleado=0; this.nombre_completo=""; this.establecimiento=""; this.bono=0; this.dia_extra="";
-		this.dias=0;
+		this.dias=0; this.cantidad_dias=0;
 	}
 
 	public int getFolio_empleado() {
@@ -63,6 +64,14 @@ public class Obj_Persecciones_Extra {
 	
 	public void setDias(int dias) {
 		this.dias = dias;
+	}
+
+	public float getCantidad_dias() {
+		return cantidad_dias;
+	}
+
+	public void setCantidad_dias(float cantidad_dias) {
+		this.cantidad_dias = cantidad_dias;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar(this); }

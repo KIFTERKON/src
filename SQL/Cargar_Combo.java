@@ -42,6 +42,44 @@ public class Cargar_Combo {
 		return pila;
 			
 	}
+	
+	@SuppressWarnings("unchecked")
+	public String[] Establecimiento_Caja() throws SQLException{
+		String query = "select " + 
+					           "distinct tb_establecimiento.nombre as establecimiento " +
+					   "from tb_empleado " +
+					   "right join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
+					   "right join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id " +
+					   "where tb_empleado.puesto_id=32 order by tb_establecimiento.nombre asc";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			int j=0;
+			while(rs.next()){
+				if(j == 0){
+					miVector.add("Todos");
+				}
+				miVector.add(rs.getString("establecimiento"));
+				j++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;
+			
+	}
 
 
 	@SuppressWarnings("unchecked")

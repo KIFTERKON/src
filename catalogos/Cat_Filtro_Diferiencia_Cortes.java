@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -54,7 +53,7 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre_Completo = new JTextField();
-	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento_Cajeras();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
@@ -67,7 +66,7 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 
-		panel.add(getPanelTabla()).setBounds(15,42,580,327);
+		panel.add(getPanelTabla()).setBounds(15,42,605,327);
 		
 		agregar(tabla);
 		
@@ -82,7 +81,7 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 		cmbEstablecimientos.addActionListener(opFiltro);
 		
 		this.setModal(true);
-		this.setSize(615,415);
+		this.setSize(645,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -152,8 +151,7 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
@@ -165,11 +163,11 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
 
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
@@ -190,62 +188,24 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			
-			
-			String QUERY =
-		"select tb_empleado.folio as [Folio],"+
-			"tb_empleado.nombre as [Nombre],"+
-			"tb_empleado.ap_paterno as [Paterno],"+ 
-			"tb_empleado.ap_materno as [Materno],"+
-			"tb_establecimiento.nombre as [Establecimiento],"+
-			"tb_empleado.status as [Status],"+ 				 
-			"tb_sueldo.sueldo as [sueldo] "+ 
-		"from tb_empleado, tb_establecimiento, tb_sueldo "+
-		"where "+ 
-			"tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-			"tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and "+
-			"tb_empleado.sueldo_id = tb_sueldo.folio and "+
-			"tb_empleado.sueldo_id = tb_sueldo.folio	and "+
-			"tb_empleado.puesto_id = 32 "+
-		"UNION "+
-		"select tb_empleado.folio as [Folio],"+
-			"tb_empleado.nombre as [Nombre],"+
-			"tb_empleado.ap_paterno as [Paterno],"+ 
-			"tb_empleado.ap_materno as [Materno],"+ 
-			"tb_establecimiento.nombre as [Establecimiento],"+ 
-			"tb_empleado.status as [Status],"+ 				 
-			"tb_sueldo.sueldo as [sueldo] "+
-		"from tb_empleado, tb_establecimiento, tb_sueldo "+
-		"where "+
-			"tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-			"tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1' and "+
-			"tb_empleado.sueldo_id = tb_sueldo.folio and "+
-			"tb_empleado.sueldo_id = tb_sueldo.folio	and "+
-			"tb_empleado.puesto_id = 52";
-
-			rs = s.executeQuery(QUERY);
-			while (rs.next()) { 
-				@SuppressWarnings("unused")
-				DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-				
-			   String [] fila = new String[6];
-			   fila[0] = rs.getString(1)+"  ";
-			   fila[1] = "    "+rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim(); 
-			  
-			   switch (Integer.parseInt(rs.getString(6).trim())){
-				case 1 : fila[3] = "Vigente"; break;
-				case 2 : fila[3] = "Vacaciones"; break;
-				case 3 : fila[3] = "Baja"; break;	
-			   }	
-			   fila[4] =rs.getString(7).trim(); 
-			   
-			   model.addRow(fila); 
+			rs = s.executeQuery("exec sp_lista_diferencia_cortes");
+			while (rs.next()) {
+				String [] fila = new String[6];
+				fila[0] = rs.getString(1)+"  ";
+				fila[1] = "  "+rs.getString(2).trim();
+				fila[2] = rs.getString(3).trim(); 
+				switch (Integer.parseInt(rs.getString(4).trim())){
+					case 1 : fila[3] = "Vigente"; break;
+					case 2 : fila[3] = "Vacaciones"; break;
+					case 3 : fila[3] = "Baja"; break;	
+				}	
+				fila[4] =rs.getString(5).trim(); 
+				model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		 JScrollPane scrol = new JScrollPane(tabla);	   
+		JScrollPane scrol = new JScrollPane(tabla);	   
 	    return scrol; 
 	}
 	
@@ -283,7 +243,6 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 		@Override
 		public void keyReleased(KeyEvent e){}								
 	};
-	
 	
 }
 

@@ -577,7 +577,7 @@ public class ActualizarSQL {
 	
 	
 	public boolean Actualizar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia lista, int folio){
-		String query = "update tb_deduccion_inasistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=?, gafete=?, dia_gafete=?, extra=? where folio_empleado="+folio +" and status=1";
+		String query = "update tb_deduccion_inasistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=?, gafete=?, dia_gafete=?, extra=?, cantidad_falta=? where folio_empleado="+folio +" and status=1";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -590,6 +590,7 @@ public class ActualizarSQL {
 			pstmt.setString(5, lista.getGafete());
 			pstmt.setInt(6, lista.getDia_gafete());
 			pstmt.setFloat(7, lista.getExtra());
+			pstmt.setFloat(8, lista.getCantidad_faltas());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -647,7 +648,7 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Actualizar(Obj_Persecciones_Extra lista, int folio){
-		String query = "update tb_persecciones_extra set bono=?, dia_extra=?, dias=? where folio_empleado="+folio +" and status=1";
+		String query = "update tb_persecciones_extra set bono=?, dia_extra=?, dias=?, cantidad_dias_extra=? where folio_empleado="+folio +" and status=1";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -656,6 +657,7 @@ public class ActualizarSQL {
 			pstmt.setFloat(1, lista.getBono());
 			pstmt.setString(2, lista.getDia_extra());
 			pstmt.setInt(3, lista.getDias());
+			pstmt.setFloat(4, lista.getCantidad_dias());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -686,8 +688,8 @@ public class ActualizarSQL {
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, bancos.getBanamex());
-			pstmt.setInt(2, bancos.getBanorte());
+			pstmt.setFloat(1, bancos.getBanamex());
+			pstmt.setFloat(2, bancos.getBanorte());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

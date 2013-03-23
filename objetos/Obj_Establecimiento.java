@@ -69,6 +69,14 @@ public class Obj_Establecimiento {
 		}
 	return null; }
 	
+	public String[] Combo_Establecimiento_Cajeras(){
+		try {
+			return new Cargar_Combo().Establecimiento_Caja();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; }
+	
 	
 
 	public Obj_Establecimiento buscar(int folio) { 

@@ -34,6 +34,7 @@ import javax.swing.table.TableRowSorter;
 
 import frames.WholeNumberField;
 import objetos.Obj_Bancos;
+import objetos.Obj_Empleado;
 import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
@@ -45,7 +46,10 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 	@SuppressWarnings("rawtypes")
 	TableRowSorter trsfiltro;
 	
-	JTextField txtFolio = new JTextField();
+	JTextField txtAsignacion = new JTextField();
+	JTextField txtFecha = new JTextField();
+	JButton btnTotal = new JButton("TOTAL:");
+	JLabel lblTotal = new JLabel("");
 	
 	boolean bandera = false;
 	
@@ -53,7 +57,7 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 	
 	Object[][] Tabla = getTabla();
 	DefaultTableModel model = new DefaultTableModel(Tabla,
-            new String[]{"Folio", "Denominacion", "Valor", "Cantidad" }
+            new String[]{"Folio", "Denominacion", "Valor", "$ Cantidad" }
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -86,11 +90,16 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 	
 	@SuppressWarnings("rawtypes")
-	public Cat_Alimentacion_Por_Denominacion(){
+	public Cat_Alimentacion_Por_Denominacion(int folio_emp,String fecha){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
-		this.setTitle("Bancos");
+		this.setTitle("Alimentacion por Denominacion");
 			
-		panel.add(txtFolio).setBounds(20,40,100,20);
+		panel.add(new JLabel("Asignacion: ")).setBounds(20,40,100,20);
+		panel.add(txtAsignacion).setBounds(20,60,100,20);
+		panel.add(new JLabel("Fecha: ")).setBounds(20,90,100,20);
+		panel.add(txtFecha).setBounds(20,110,100,20);
+		panel.add(btnTotal).setBounds(20, 210, 100, 20);
+		panel.add(lblTotal).setBounds(20, 230, 100, 20);
 		panel.add(scroll).setBounds(140,40,425,240);
 		
 		menu.add(btnGuardar);
@@ -117,13 +126,16 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 		tabla.getColumnModel().getColumn(3).setCellRenderer(tcr);
 	
 		btnGuardar.addActionListener(opGuardar);
-//		cmbEstablecimientos.addActionListener(opFiltro);
-		txtFolio.addKeyListener(opFiltroFolio);
-//		txtNombre_Completo.addKeyListener(opFiltroNombre);
+		btnTotal.addActionListener(opTotal);
+		
+		txtFecha.setEditable(false);
 		this.setModal(true);
-//		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setSize(585, 320);
 		this.setLocationRelativeTo(null);
+		
+		Obj_Empleado re = new Obj_Empleado();
+		re=re.buscar(folio_emp);
+		txtFecha.setText(fecha);
 	}
 	
 	 private void setUpIntegerEditor(JTable table) {
@@ -139,38 +151,21 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 	        table.setDefaultEditor(Integer.class, integerEditor);
 	}
 		
-	KeyListener opFiltroFolio = new KeyListener(){
-		public void keyReleased(KeyEvent arg0) {
-			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
-		}
-		public void keyTyped(KeyEvent arg0) {
-			char caracter = arg0.getKeyChar();
-			if(((caracter < '0') ||
-				(caracter > '9')) &&
-			    (caracter != KeyEvent.VK_BACK_SPACE)){
-				arg0.consume(); 
-			}	
-		}
-		public void keyPressed(KeyEvent arg0) {}
-		
-	};
-	
-//	KeyListener opFiltroNombre = new KeyListener(){
-//		public void keyReleased(KeyEvent arg0) {
-//			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
-//		}
-//		public void keyTyped(KeyEvent arg0) {}
-//		public void keyPressed(KeyEvent arg0) {}
-//		
-//	};
-//	ActionListener opFiltro = new ActionListener(){
-//|
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
 			guardar();
+		}
+	};
+	
+	ActionListener opTotal = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			if(tabla.isEditing()){
+				tabla.getCellEditor().stopCellEditing();
+			}
+			suma();
 		}
 	};
 		
@@ -281,6 +276,18 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 								
 	};
 	
+	public void suma(){
+		float suma = 0;
+		
+		for(int i=0;i<model.getRowCount(); i++) {
+			if(model.getValueAt(i,3).toString()==null){}
+			float cantidad= Float.parseFloat(model.getValueAt(i,3).toString());
+			float valor= Float.parseFloat(model.getValueAt(i,2).toString());
+			suma=(suma+(cantidad*valor)); 
+		} 
+		lblTotal.setText("$ "+String.valueOf(suma));
+	}
+	
 	public class Progress_Bar_Abrir extends JDialog {
 		Container cont = getContentPane();
 		JLayeredPane panel = new JLayeredPane();
@@ -317,50 +324,11 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 		" where " +
 					"tb_denominaciones.status=1 and " +
 					"tb_divisas_tipo_de_cambio.nombre_divisas=tb_denominaciones.moneda";
-		
-//					String todos1 = "select tb_empleado.folio, " +
-//										   "tb_empleado.nombre + ' ' + tb_empleado.ap_paterno + ' ' + tb_empleado.ap_materno as NombreCompleto, " +
-//										   "tb_establecimiento.nombre as establecimiento, " +
-//										   "tb_bancos.banamex, " +
-//										   "tb_bancos.banorte, " +
-//										   "tb_pre_listaraya.a_pagar " +
-//									"from tb_empleado " +
-//									"inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
-//									"inner join tb_bancos on tb_bancos.folio_empleado = tb_empleado.folio and tb_bancos.status = 1 " +
-//									"left outer join tb_pre_listaraya on tb_pre_listaraya.folio_empleado = tb_empleado.folio";
-//		
+					
 		Statement stmt = null;
 		ResultSet rs;
 		Connexion con = new Connexion();
 		try {
-//			if(getFilas("select * from tb_bancos where status = 1") > 1){
-//				stmt = con.conexion().createStatement();
-//				rs = stmt.executeQuery(todos1);
-//				Matriz = new Object[getFilas(todos1)][7];
-//				int i=0;
-//				int total = getFilas(todos1);
-//				while(rs.next()){
-//					Matriz[i][0] = rs.getString(1).trim();
-//					Matriz[i][1] = rs.getString(2);
-//					Matriz[i][2] = rs.getString(3).trim();
-//					int banamex = rs.getInt(4);
-//					if(banamex == 0){
-//						Matriz[i][3] = "";
-//					}else{
-//						Matriz[i][3] = banamex;
-//					}
-//					int bannorte = rs.getInt(5);
-//					if(bannorte == 0){
-//						Matriz[i][4] = "";
-//					}else{
-//						Matriz[i][4] = bannorte;
-//					}
-//					Matriz[i][5] = rs.getFloat(6);
-//					i++;
-//					int porcent = (i*100)/total;
-//					barra.setValue(porcent);
-//				}
-//			}else{
 				stmt = con.conexion().createStatement();
 				rs = stmt.executeQuery(todos);
 				Matriz = new Object[getFilas(todos)][7];
@@ -371,20 +339,14 @@ public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 					Matriz[i][1] = rs.getString(2).trim();
 					Matriz[i][2] = rs.getString(3).trim();
 					Matriz[i][3] = "";
-//					Matriz[i][4] = "";
-//					Matriz[i][5] = "";
 					i++;
 					int porcent = (i*100)/total;
 					barra.setValue(porcent);
-//				}
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}dispose();
 			}
 		}
-	}
-	public static void main (String [] arg){
-		new Cat_Alimentacion_Por_Denominacion().setVisible(true);
 	}
 }

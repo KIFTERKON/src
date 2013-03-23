@@ -143,7 +143,7 @@ public class Principal extends JFrame{
 	JMenuItem Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
 		
 	JMenu Alimentacion = new JMenu("Alimentación");
-		JMenuItem Alimentacion_Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas DH");
+		JMenuItem Alimentacion_Fuente_Sodas_rh = new JMenuItem("Fuente de Sodas RRHH");
 		JMenuItem Alimentacion_Fuente_Sodas_auxf = new JMenuItem("Fuente de Sodas AUXF");
 		JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Deducción por Inasistencia");
 		JMenuItem Alimentacion_Diferencia_Cortes = new JMenuItem("Diferencia de Cortes");
@@ -701,7 +701,7 @@ public class Principal extends JFrame{
 				}
 			}
 				
-			if(e.getActionCommand().equals("Fuente de Sodas DH")){
+			if(e.getActionCommand().equals("Fuente de Sodas RRHH")){
 				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
 				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
 				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();

@@ -39,11 +39,7 @@ public class GuardarSQL {
 	
 	
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "insert into tb_empleado(" +
-				"no_checador,nombre,ap_paterno,ap_materno,establecimiento_id," +
-				"puesto_id,turno_id,descanso,dia_dobla,sueldo_id," +
-				"bono_id,rango_prestamo_id,pension_alimenticia,infonavit,fuente_sodas," +
-				"gafete,status,fecha,observaciones,foto) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -99,7 +95,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Establecimiento(Obj_Establecimiento establecimiento){
-		String query = "insert into tb_establecimiento(nombre,abreviatura,status) values(?,?,?)";
+		String query = "exec sp_insert_establecimiento ?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -133,7 +129,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Puesto(Obj_Puesto puesto){
-		String query = "insert into tb_puesto(nombre,abreviatura,status) values(?,?,?)";
+		String query = "exec sp_insert_puesto ?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -275,7 +271,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Bono(Obj_Bono_Complemento_Sueldo bono){
-		String query = "insert into tb_bono(bono,abreviatura,status) values(?,?,?)";
+		String query = "exec sp_insert_bono ?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -308,7 +304,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Sueldo(Obj_Sueldo sueldo){
-		String query = "insert into tb_sueldo(sueldo,status) values(?,?)";
+		String query = "exec sp_insert_sueldo ?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -340,7 +336,7 @@ public class GuardarSQL {
 	}
 
 	public boolean Guardar_Usuario(Obj_Usuario usuario){
-		String query = "insert into tb_usuario(nombre_completo,contrasena,permiso_id,fecha,status) values(?,?,?,?,?)";
+		String query = "exec sp_insert_usuario ?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -376,7 +372,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_fuente_sodas_rh(Obj_fuente_sodas_rh fuentesodasrh){
-		String query = "insert into tb_fuente_sodas_rh(status_ticket,folio_empleado,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?,?)";
+		String query = "exec sp_insert_fuent_soda_rh ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -413,7 +409,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_fuente_sodas_auxf(Obj_fuente_sodas_auxf fuentesodasauxf){
-		String query = "insert into tb_fuente_sodas_auxf(status_ticket,folio_empleado,nombre_completo,cantidad,fecha,status) values(?,?,?,?,?,?)";
+		String query = "exec sp_insert_fuent_soda_auxf ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -450,7 +446,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_prestamo(Obj_Prestamo pres){
-		String query = "insert into tb_prestamo(folio_empleado,nombre_completo,fecha,cantidad,descuento,status,saldo,status_descuento,abonos) values(?,?,?,?,?,?,?,?,?)";
+		String query = "exec sp_insert_prestamo ?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -461,6 +457,7 @@ public class GuardarSQL {
 			pstmt.setString(3, pres.getFecha());
 			pstmt.setDouble(4, pres.getCantidad());
 			pstmt.setDouble(5, pres.getDescuento());
+			
 			pstmt.setString(6, "1");
 			pstmt.setDouble(7, pres.getSaldo());
 			pstmt.setString(8, "1");
@@ -490,7 +487,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Rango_Prestamos(Obj_Rango_Prestamos rango_prestamo){
-		String query = "insert into tb_rango_prestamos(minimo,maximo,descuento,status) values(?,?,?,?)";
+		String query = "exec sp_insert_rango_prestamo ?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -524,8 +521,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia deduccion){
-		String query = "insert into tb_deduccion_inasistencia(folio_empleado,nombre_completo,establecimiento,puntualidad,falta,dia_faltas,asistencia,gafete,dia_gafete,extra,status) " +
-						"values(?,?,?,?,?,?,?,?,?,?,?);";
+		String query = "exec sp_insert_deducc_inasistencia ?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -541,7 +537,8 @@ public class GuardarSQL {
 			pstmt.setString(8, deduccion.getGafete());
 			pstmt.setInt(9, deduccion.getDia_gafete());
 			pstmt.setFloat(10, deduccion.getExtra());
-			pstmt.setInt(11 , 1);
+			pstmt.setFloat(11, deduccion.getCantidad_faltas());
+			pstmt.setInt(12 , 1);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -566,7 +563,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Asistencia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad){
-		String query = "insert into tb_asistencia_puntualidad(asistencia,puntualidad,gafete) values(?,?,?);";
+		String query = "exec sp_insert_asistencia_puntualidad ?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -599,8 +596,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar(Obj_Persecciones_Extra persecciones){
-		String query = "insert into tb_persecciones_extra(folio_empleado,nombre_completo,establecimiento,bono,dia_extra,dias,status) " +
-						"values(?,?,?,?,?,?,?);";
+		String query = "exec sp_insert_persecciones_extra ?,?,?,?,?,?,?,?";
 		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -613,7 +609,8 @@ public class GuardarSQL {
 			pstmt.setFloat(4, persecciones.getBono());
 			pstmt.setString(5, persecciones.getDia_extra());
 			pstmt.setInt(6, persecciones.getDias());
-			pstmt.setInt(7 , 1);
+			pstmt.setFloat(7, persecciones.getCantidad_dias());
+			pstmt.setInt(8 , 1);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -638,8 +635,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Bancos(Obj_Bancos bancos){
-		String query = "insert into tb_bancos(folio_empleado,nombre_completo,establecimiento,banamex,banorte,status) " +
-						"values(?,?,?,?,?,?);";
+		String query = "exec sp_insert_bancos ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -648,8 +644,8 @@ public class GuardarSQL {
 			pstmt.setInt(1, bancos.getFolio_empleado());
 			pstmt.setString(2, bancos.getNombre_completo().toUpperCase());
 			pstmt.setString(3, bancos.getEstablecimiento().toUpperCase());
-			pstmt.setInt(4, bancos.getBanamex());
-			pstmt.setInt(5, bancos.getBanorte());
+			pstmt.setFloat(4, bancos.getBanamex());
+			pstmt.setFloat(5, bancos.getBanorte());
 			pstmt.setString(6, "1");
 			pstmt.executeUpdate();
 			con.commit();
@@ -675,7 +671,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar(Obj_Diferencia_Cortes pres){
-		String query = "insert into tb_diferencia_cortes(folio_empleado,nombre_completo,fecha,cantidad,descuento,status,saldo,status_descuento,abonos) values(?,?,?,?,?,?,?,?,?)";
+		String query = "exec sp_insert_diferencia_cortes ?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -715,7 +711,7 @@ public class GuardarSQL {
 	
 	
 	public boolean Guardar_Turno(Obj_Turno turno){
-		String query = "insert into tb_turno(nombre,horario,status) values(?,?,?)";
+		String query = "exec sp_insert_turno ?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -799,8 +795,7 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Pre_Lista(Obj_Revision_Lista_Raya raya){
 		
-		String query ="insert into tb_pre_listaraya(boolean,folio_empleado,a_pagar,observasion_i,observasion_ii,status)" +
-				" values(?,?,?,?,?,?);";
+		String query ="exec sp_insert_pre_listaraya ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -837,7 +832,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar(Obj_Configuracion_Sistema configs){
-		String query = "insert into tb_configuracion_sistema(bono_10_12,bono_dia_extra) values(?,?)";
+		String query = "exec sp_config_sistema ?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -873,23 +868,14 @@ public class GuardarSQL {
 	
 	public boolean Guardar(Obj_Revision_Lista_Raya raya){
 		
-		String query ="insert into tb_lista_raya(numero_lista,folio_empleado,nombre_completo,establecimiento,sueldo,"+
-						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
-						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,"+
-						 "d_banamex,d_banorte,d_extra,p_dias_extra,p_bono_extra,"+
-						 "a_pagar,observaciones,fecha,status) " +
-						 "values(?,?,?,?,?," +
-						 "?,?,?,?,?," +
-						 "?,?,?,?,?," +
-						 "?,?,?,?,?," +
-						 "?,?,?,?);";
-		String queryI = "insert into tb_abono(folio_prestamo,folio_empleado,descuento,status) values(?,?,?,?);";
+		String query ="exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String queryI = "exec sp_insert_abono ?,?,?,?";
 
-		String queryII ="update tb_autorizaciones set autorizar_auditoria=?, autorizar_finanzas=?";
+		String queryII ="exec sp_update_autorizaciones ?,?";
 		
-		String abonosStatus0 = "update tb_abono set status = 0 where folio_empleado = ? and folio_prestamo = ?";
+		String abonosStatus0 = "exec sp_update_abono ?,?";
 		
-		String prestamoStatus0 = "update tb_prestamo set  status_descuento = 0 where folio_empleado =?";
+		String prestamoStatus0 = "exec sp_update_prestamo ?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -929,15 +915,16 @@ public class GuardarSQL {
 			pstmt.setFloat(13, raya.getD_asistencia());
 			pstmt.setFloat(14, raya.getD_cortes());
 			pstmt.setFloat(15, raya.getD_infonavit());
-			pstmt.setFloat(16, raya.getD_banamex());
-			pstmt.setFloat(17, raya.getD_banorte());
-			pstmt.setFloat(18, raya.getD_extra());
-			pstmt.setFloat(19, raya.getP_dias_extra());
-			pstmt.setFloat(20, raya.getP_bono_extra());
-			pstmt.setFloat(21, raya.getA_pagar());
-			pstmt.setString(22, raya.getObservasion_i());
-			pstmt.setString(23, raya.getFecha());
-			pstmt.setInt(24, 1);
+			pstmt.setFloat(16, raya.getPension());
+			pstmt.setFloat(17, raya.getD_banamex());
+			pstmt.setFloat(18, raya.getD_banorte());
+			pstmt.setFloat(19, raya.getD_extra());
+			pstmt.setFloat(20, raya.getP_dias_extra());
+			pstmt.setFloat(21, raya.getP_bono_extra());
+			pstmt.setFloat(22, raya.getA_pagar());
+			pstmt.setString(23, raya.getObservasion_i());
+			pstmt.setString(24, raya.getFecha());
+			pstmt.setInt(25, 1);
 			
 			int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
 			
@@ -1061,14 +1048,15 @@ public class GuardarSQL {
 			pstmt.setFloat(13, raya.getD_asistencia());
 			pstmt.setFloat(14, raya.getD_cortes());
 			pstmt.setFloat(15, raya.getD_infonavit());
-			pstmt.setFloat(16, raya.getD_banamex());
-			pstmt.setFloat(17, raya.getD_banorte());
-			pstmt.setFloat(18, raya.getD_extra());
-			pstmt.setFloat(19, raya.getP_dias_extra());
-			pstmt.setFloat(20, raya.getP_bono_extra());
-			pstmt.setFloat(21, raya.getA_pagar());
-			pstmt.setString(22, raya.getObservasion_i());
-			pstmt.setInt(23, 1);
+			pstmt.setFloat(16, raya.getPension());
+			pstmt.setFloat(17, raya.getD_banamex());
+			pstmt.setFloat(18, raya.getD_banorte());
+			pstmt.setFloat(19, raya.getD_extra());
+			pstmt.setFloat(20, raya.getP_dias_extra());
+			pstmt.setFloat(21, raya.getP_bono_extra());
+			pstmt.setFloat(22, raya.getA_pagar());
+			pstmt.setString(23, raya.getObservasion_i());
+			pstmt.setInt(24, 1);
 			
 			pstmt.execute();
 			

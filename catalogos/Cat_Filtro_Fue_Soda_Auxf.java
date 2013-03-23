@@ -84,6 +84,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		this.setLocationRelativeTo(null);
 		
 	}
+	
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
@@ -113,6 +114,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};
+	
 	KeyListener opFiltroNombre = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
@@ -122,6 +124,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};
+	
 	ActionListener opFiltro = new ActionListener(){
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0){
@@ -173,52 +176,33 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JDialog{
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
-					 "  tb_empleado.nombre as [Nombre], "+
-					 "  tb_empleado.ap_paterno as [Paterno], "+
-					 "  tb_empleado.ap_materno as [Materno], "+ 
-					 "  tb_establecimiento.nombre as [Establecimiento], "+
-					
-					 "  tb_empleado.status as [Status], "+
-					 "  tb_empleado.fuente_sodas as [Fuentes]"+
-
-					"  from tb_empleado, tb_establecimiento"+
-
-					"  where "+
-						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
-						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1'");
-			
-			
-			while (rs.next())
-			{ 
-			   String [] fila = new String[5];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim(); 
-			  
-			   switch (Integer.parseInt(rs.getString(6).trim())){
-				case 1 : fila[3] = "Vigente"; break;
-				case 2 : fila[3] = "Vacaciones"; break;
-				case 3 : fila[3] = "Baja"; break;	
-			}	
-			   if(Integer.parseInt(rs.getString(7).trim()) == 1){
-					  fila[4] = "Si";
-				   }else {
-					  fila[4] = "No";
-				   }
-			   
-			   
-			   model.addRow(fila); 
+			rs = s.executeQuery("exec sp_lista_fuente_sodas_auxF");
+			while (rs.next()) {
+				String [] fila = new String[5];
+				fila[0] = rs.getString(1).trim();
+				fila[1] = " "+rs.getString(2).trim();
+				fila[2] = rs.getString(3).trim(); 
+				switch (Integer.parseInt(rs.getString(4).trim())){
+					case 1 : fila[3] = "Vigente"; break;
+					case 2 : fila[3] = "Vacaciones"; break;
+					case 3 : fila[3] = "Baja"; break;	
+				}	
+				if(Integer.parseInt(rs.getString(5).trim()) == 1){
+					fila[4] = "Si";
+				}else {
+					fila[4] = "No";
+				}
+				model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();

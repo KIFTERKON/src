@@ -113,6 +113,7 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};
+	
 	KeyListener opFiltroNombre = new KeyListener(){
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
@@ -121,6 +122,7 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};
+	
 	ActionListener opFiltro = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(cmbEstablecimientos.getSelectedIndex() != 0){
@@ -130,10 +132,10 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 			}
 		}
 	};
+	
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 
-		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(0).setMinWidth(70);
@@ -159,8 +161,7 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
@@ -172,56 +173,39 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
-					 "  tb_empleado.nombre as [Nombre], "+
-					 "  tb_empleado.ap_paterno as [Paterno], "+
-					 "  tb_empleado.ap_materno as [Materno], "+ 
-					 "  tb_establecimiento.nombre as [Establecimiento], "+
-					
-					 "  tb_empleado.status as [Status], "+
-					 "  tb_empleado.fuente_sodas as [Fuentes]"+
-
-					"  from tb_empleado, tb_establecimiento"+
-
-					"  where "+
-						"  tb_empleado.establecimiento_id = tb_establecimiento.folio and" +
-						"  tb_empleado.status < 3 and tb_empleado.fuente_sodas = '1'");
+			rs = s.executeQuery("exec sp_lista_fuente_sodas_rh");
 			
-			while (rs.next())
-			{ 
-			   String [] fila = new String[5];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim(); 
-			 
-			   switch (Integer.parseInt(rs.getString(6).trim())){
-				case 1 : fila[3] = "Vigente"; break;
-				case 2 : fila[3] = "Vacaciones"; break;
-				case 3 : fila[3] = "Baja"; break;	
-			}	
-			   if(Integer.parseInt(rs.getString(7).trim()) == 1){
-					  fila[4] = "Si";
-				   }else {
-					  fila[4] = "No";
-				   }
-			   
+			while (rs.next()){ 
+				String [] fila = new String[5];
+				fila[0] = rs.getString(1).trim();
+				fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
+				fila[2] = rs.getString(5).trim(); 
+				switch (Integer.parseInt(rs.getString(6).trim())){
+					case 1 : fila[3] = "Vigente"; break;
+					case 2 : fila[3] = "Vacaciones"; break;
+					case 3 : fila[3] = "Baja"; break;	
+				}	
+				if(Integer.parseInt(rs.getString(7).trim()) == 1){
+					fila[4] = "Si";
+				}else {
+					fila[4] = "No";
+				}
 			   model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		 JScrollPane scrol = new JScrollPane(tabla);
-		   
 	    return scrol; 
 	}
 	
@@ -247,9 +231,8 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
-			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
-		    if(((caracter < '0') ||	
+
+			if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){
 		    	e.consume();
@@ -262,6 +245,5 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		public void keyReleased(KeyEvent e){}
 								
 	};
-
 }
 

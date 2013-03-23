@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,7 +34,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import frames.WholeNumberField;
 import objetos.Obj_Bancos;
 import objetos.Obj_Establecimiento;
 import SQL.Connexion;
@@ -72,11 +70,11 @@ public class Cat_Bancos extends JDialog {
 	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
-	    	java.lang.Integer.class, 
-	    	java.lang.Integer.class, 
-	    	java.lang.Integer.class
-	    	
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class, 
+	    	java.lang.Float.class
          };
+	     
 	     @SuppressWarnings("rawtypes")
 		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
@@ -111,7 +109,6 @@ public class Cat_Bancos extends JDialog {
         	 } 				
  			return false;
  		}
-		
 	};
 	
 	JTable tabla = new JTable(model);
@@ -132,9 +129,9 @@ public class Cat_Bancos extends JDialog {
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		panel.add(txtFolio).setBounds(100,45,60,20);
-		panel.add(txtNombre_Completo).setBounds(170,45,345,20);
-		panel.add(cmbEstablecimientos).setBounds(590,45,90,20);
+		panel.add(txtFolio).setBounds(100,45,69,20);
+		panel.add(txtNombre_Completo).setBounds(170,45,359,20);
+		panel.add(cmbEstablecimientos).setBounds(530,45,210,20);
 		panel.add(chbHabilitarBanamex).setBounds(750,45,90,20);
 		panel.add(chbHabilitarBanorte).setBounds(875,45,90,20);
 		panel.add(scroll).setBounds(100,70,1030,580);
@@ -144,8 +141,6 @@ public class Cat_Bancos extends JDialog {
 		panel.add(menu);
 		cont.add(panel);
 
-		 setUpIntegerEditor(tabla);
-		
 		tabla.getColumnModel().getColumn(0).setMaxWidth(72);
 		tabla.getColumnModel().getColumn(0).setMinWidth(72);		
 		tabla.getColumnModel().getColumn(1).setMaxWidth(360);
@@ -194,21 +189,9 @@ public class Cat_Bancos extends JDialog {
 		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
+		
 	}
 	
-	 private void setUpIntegerEditor(JTable table) {
-	        final WholeNumberField integerField = new WholeNumberField(0, 5);
-	        integerField.setHorizontalAlignment(WholeNumberField.RIGHT);
-
-	        DefaultCellEditor integerEditor = 
-	            new DefaultCellEditor(integerField) {
-	                public Object getCellEditorValue() {
-	                    return new Integer(integerField.getValue());
-	                }
-	            };
-	        table.setDefaultEditor(Integer.class, integerEditor);
-	}
-		
 	KeyListener opFiltroFolio = new KeyListener(){
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
@@ -233,6 +216,7 @@ public class Cat_Bancos extends JDialog {
 		public void keyPressed(KeyEvent arg0) {}
 		
 	};
+	
 	ActionListener opFiltro = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(cmbEstablecimientos.getSelectedIndex() != 0){
@@ -242,84 +226,49 @@ public class Cat_Bancos extends JDialog {
 			}
 		}
 	};
+	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			guardar();
+			new Progress_Bar_Guardar().setVisible(true);
 		}
 	};
 		
-	@SuppressWarnings("rawtypes")
-	public void guardar(){
-		Vector miVector = new Vector();
-		if(getFilas("select * from tb_bancos where status = 1") > 1){
-			if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
-				for(int i=0; i<model.getRowCount(); i++){
-					for(int j=0; j<model.getColumnCount(); j++){
-						model.isCellEditable(i,j);
-						miVector.add(model.getValueAt(i,j));
-					}
-					Obj_Bancos bancos = new Obj_Bancos();
-
-					bancos.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
-					bancos.setNombre_completo(miVector.get(1).toString().trim());
-					bancos.setEstablecimiento(miVector.get(2).toString().trim());
-					if(miVector.get(3) != ""){
-						bancos.setBanamex(Integer.parseInt(miVector.get(3).toString().trim()));
-					}else{
-						miVector.set(3,0);
-						bancos.setBanamex(Integer.parseInt(miVector.get(3).toString().trim()));
-					}
-					if(miVector.get(4) != ""){
-						bancos.setBanorte(Integer.parseInt(miVector.get(4).toString().trim()));
-					}else{
-						miVector.set(4,0);
-						bancos.setBanorte(Integer.parseInt(miVector.get(4).toString().trim()));
-					}
-					bancos.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
-					
-					miVector.clear();
-				}
-				JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-			}else{
-				return;
-			}
-			
-		}else{
-			for(int i=0; i<model.getRowCount(); i++){
-				for(int j=0; j<model.getColumnCount()-1; j++){
-					model.isCellEditable(i,j);
-					miVector.add(model.getValueAt(i,j).toString());
-				}
-				Obj_Bancos bancos = new Obj_Bancos();
-				
-				bancos.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
-				bancos.setNombre_completo(miVector.get(1).toString().trim());
-				bancos.setEstablecimiento(miVector.get(2).toString().trim());
-				if(miVector.get(3) != ""){
-					bancos.setBanamex(Integer.parseInt(miVector.get(3).toString().trim()));
-				}else{
-					miVector.set(3,0);
-					bancos.setBanamex(Integer.parseInt(miVector.get(3).toString().trim()));
-				}
-				if(miVector.get(4) != ""){
-					bancos.setBanorte(Integer.parseInt(miVector.get(4).toString().trim()));
-				}else{
-					miVector.set(4,0);
-					bancos.setBanorte(Integer.parseInt(miVector.get(4).toString().trim()));
-				}
-				bancos.guardar();
-				
-				miVector.clear();
-			}
-			JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-		}
-	}
-	
 	public Object[][] getTabla(){
-		new Progress_Bar_Abrir().setVisible(true);
+		String todos1 = "exec sp_lista_banco";
+
+		Statement stmt = null;
+		ResultSet rs;
+		Connexion con = new Connexion();
+		try {
+			stmt = con.conexion().createStatement();
+			rs = stmt.executeQuery(todos1);
+			Matriz = new Object[getFilas(todos1)][7];
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1).trim();
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3).trim();
+				int banamex = rs.getInt(4);
+				if(banamex == 0){
+					Matriz[i][3] = "";
+				}else{
+					Matriz[i][3] = banamex;
+				}
+				int bannorte = rs.getInt(5);
+				if(bannorte == 0){
+					Matriz[i][4] = "";
+				}else{
+					Matriz[i][4] = bannorte;
+				}
+				Matriz[i][5] = rs.getFloat(6);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	    return Matriz; 
 	}
 	
@@ -358,21 +307,19 @@ public class Cat_Bancos extends JDialog {
 								
 	};
 	
-	public class Progress_Bar_Abrir extends JDialog {
+	public class Progress_Bar_Guardar extends JDialog {
 		Container cont = getContentPane();
+		
 		JLayeredPane panel = new JLayeredPane();
 		JProgressBar barra = new JProgressBar();
 		
-		JLabel lblNombre = new JLabel("");
-		
-		public Progress_Bar_Abrir() {
+		String titleBorder = "";
+		public Progress_Bar_Guardar() {
 			barra.setStringPainted(true);
 			Thread hilo = new Thread(new Hilo());
 			hilo.start();
-			panel.setBorder(BorderFactory.createTitledBorder("Espere un momento..."));
-			
+			panel.setBorder(BorderFactory.createTitledBorder("- ..."));
 			panel.add(barra).setBounds(20,25,350,20);
-			panel.add(lblNombre).setBounds(30,45,350,20);
 			
 			cont.add(panel);
 			
@@ -383,80 +330,97 @@ public class Cat_Bancos extends JDialog {
 			this.setResizable(false);
 		
 		}
-			class Hilo implements Runnable {
-				public void run() {
-					String todos = "select tb_empleado.folio, " +
-							              "tb_empleado.nombre, " +
-							              "tb_empleado.ap_paterno, " +
-							              "tb_empleado.ap_materno, " +
-							              "tb_establecimiento.nombre as establecimiento " + 
-							       "from tb_empleado " + 
-							       "inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id";
+
+		class Hilo implements Runnable {
+			@SuppressWarnings("rawtypes")
+			public void run() {
+				int total = model.getRowCount();
 		
-					String todos1 = "select tb_empleado.folio, " +
-										   "tb_empleado.nombre + ' ' + tb_empleado.ap_paterno + ' ' + tb_empleado.ap_materno as NombreCompleto, " +
-										   "tb_establecimiento.nombre as establecimiento, " +
-										   "tb_bancos.banamex, " +
-										   "tb_bancos.banorte, " +
-										   "tb_pre_listaraya.a_pagar " +
-									"from tb_empleado " +
-									"inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
-									"inner join tb_bancos on tb_bancos.folio_empleado = tb_empleado.folio and tb_bancos.status = 1 " +
-									"left outer join tb_pre_listaraya on tb_pre_listaraya.folio_empleado = tb_empleado.folio";
-		
-		Statement stmt = null;
-		ResultSet rs;
-		Connexion con = new Connexion();
-		try {
-			if(getFilas("select * from tb_bancos where status = 1") > 1){
-				stmt = con.conexion().createStatement();
-				rs = stmt.executeQuery(todos1);
-				Matriz = new Object[getFilas(todos1)][7];
-				int i=0;
-				int total = getFilas(todos1);
-				while(rs.next()){
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2);
-					Matriz[i][2] = rs.getString(3).trim();
-					int banamex = rs.getInt(4);
-					if(banamex == 0){
-						Matriz[i][3] = "";
+				Vector miVector = new Vector();
+				if(getFilas("exec sp_status_bancos") > 1){
+					panel.setBorder(BorderFactory.createTitledBorder("Actualizando lista de Bancos..."));
+					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
+						for(int i=0; i<model.getRowCount(); i++){
+							for(int j=0; j<model.getColumnCount(); j++){
+								model.isCellEditable(i,j);
+								miVector.add(model.getValueAt(i,j));
+							}
+							Obj_Bancos bancos = new Obj_Bancos();
+
+							bancos.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+							bancos.setNombre_completo(miVector.get(1).toString().trim());
+							bancos.setEstablecimiento(miVector.get(2).toString().trim());
+							if(miVector.get(3) != ""){
+								bancos.setBanamex(Float.parseFloat(miVector.get(3).toString().trim()));
+							}else{
+								miVector.set(3,0);
+								bancos.setBanamex(Float.parseFloat(miVector.get(3).toString().trim()));
+							}
+							if(miVector.get(4) != ""){
+								bancos.setBanorte(Float.parseFloat(miVector.get(4).toString().trim()));
+							}else{
+								miVector.set(4,0);
+								bancos.setBanorte(Float.parseFloat(miVector.get(4).toString().trim()));
+							}
+							bancos.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
+							
+							miVector.clear();
+							int porcent = (i*100)/total;
+							barra.setValue(porcent+1);
+							try {
+								Thread.sleep(0);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+									
+							}
+						}
+						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+						dispose();
 					}else{
-						Matriz[i][3] = banamex;
+						dispose();
+						return;
 					}
-					int bannorte = rs.getInt(5);
-					if(bannorte == 0){
-						Matriz[i][4] = "";
-					}else{
-						Matriz[i][4] = bannorte;
+					
+				}else{
+					panel.setBorder(BorderFactory.createTitledBorder("Guardando lista de Bancos..."));
+					for(int i=0; i<model.getRowCount(); i++){
+						for(int j=0; j<model.getColumnCount()-1; j++){
+							model.isCellEditable(i,j);
+							miVector.add(model.getValueAt(i,j).toString());
+						}
+						Obj_Bancos bancos = new Obj_Bancos();
+						
+						bancos.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+						bancos.setNombre_completo(miVector.get(1).toString().trim());
+						bancos.setEstablecimiento(miVector.get(2).toString().trim());
+						if(miVector.get(3) != ""){
+							bancos.setBanamex(Float.parseFloat(miVector.get(3).toString().trim()));
+						}else{
+							miVector.set(3,0);
+							bancos.setBanamex(Float.parseFloat(miVector.get(3).toString().trim()));
+						}
+						if(miVector.get(4) != ""){
+							bancos.setBanorte(Float.parseFloat(miVector.get(4).toString().trim()));
+						}else{
+							miVector.set(4,0);
+							bancos.setBanorte(Float.parseFloat(miVector.get(4).toString().trim()));
+						}
+						bancos.guardar();
+						
+						miVector.clear();
+						int porcent = (i*100)/total;
+						barra.setValue(porcent+1);
+						try {
+							Thread.sleep(0);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+								
+						}
 					}
-					Matriz[i][5] = rs.getFloat(6);
-					i++;
-					int porcent = (i*100)/total;
-					barra.setValue(porcent);
-				}
-			}else{
-				stmt = con.conexion().createStatement();
-				rs = stmt.executeQuery(todos);
-				Matriz = new Object[getFilas(todos)][7];
-				int i=0;
-				int total = getFilas(todos);
-				while(rs.next()){
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2).trim();
-					Matriz[i][2] = rs.getString(3).trim();
-					Matriz[i][3] = "";
-					Matriz[i][4] = "";
-					Matriz[i][5] = "";
-					i++;
-					int porcent = (i*100)/total;
-					barra.setValue(porcent);
-				}
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}dispose();
+					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+					dispose();
+				}					
 			}
 		}
-	}
+	}	
 }
