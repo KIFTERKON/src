@@ -419,22 +419,88 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			lista_raya.setNombre_completo(miVector.get(2)+"".trim());
 			lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
 			lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
-			lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
-			lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
-			lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
-			lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
-			lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
-			lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
-			lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
-			lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
-			lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
-			lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
-			lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
-			lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
-			lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
-			lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
-			lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
-			lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+			
+			if(miVector.get(5).toString().length() == 0){
+				lista_raya.setP_bono_complementario(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
+			}
+			if(miVector.get(6).toString().length() == 0){
+				lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
+			}
+			if(miVector.get(7).toString().length() == 0){
+				lista_raya.setD_prestamo(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
+			}
+			if(miVector.get(8).toString().length() == 0){
+				lista_raya.setSaldo_final(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
+			}
+			if(miVector.get(9).toString().length() == 0){
+				lista_raya.setD_fuente_sodas(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));						
+			}
+			if(miVector.get(10).toString().length() == 0){
+				lista_raya.setD_puntualidad(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+""));
+			}
+			if(miVector.get(11).toString().length() == 0){
+				lista_raya.setD_faltas(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
+			}
+			if(miVector.get(12).toString().length() == 0){
+				lista_raya.setD_asistencia(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
+			}
+			if(miVector.get(13).toString().length() == 0){
+				lista_raya.setD_cortes(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
+			}
+			if(miVector.get(14).toString().length() == 0){
+				lista_raya.setD_infonavit(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+			}
+			if(miVector.get(15).toString().length() == 0){
+				lista_raya.setPension(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
+			}
+			if(miVector.get(16).toString().length() == 0){
+				lista_raya.setD_banamex(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
+			}
+			if(miVector.get(17).toString().length() == 0){
+				lista_raya.setD_banorte(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
+			}
+			if(miVector.get(18).toString().length() == 0){
+				lista_raya.setD_extra(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+			}
+			if(miVector.get(19).toString().length() == 0){
+				lista_raya.setP_dias_extra(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+			}
+			if(miVector.get(20).toString().length() == 0){
+				lista_raya.setP_bono_extra(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+			}
+
 			lista_raya.setA_pagar(Float.parseFloat(miVector.get(21)+"".trim()));
 			lista_raya.setObservasion_i(miVector.get(22)+"".trim());
 			lista_raya.setFecha(dia+"/"+mes+"/"+anio);
@@ -493,39 +559,109 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			Matriz = new Object[getFilas(datos)][24];
 			int i=0;
 			while(rs.next()){
-				Matriz[i][0] = rs.getBoolean(1);
-				Matriz[i][1] = rs.getInt(2);
-				Matriz[i][2] = "  "+rs.getString(3).trim();
-				Matriz[i][3] = "  "+rs.getString(4).trim();
-				float sueldo = rs.getFloat(5);     float bono_comp = rs.getFloat(6);
-				float descPrest = rs.getFloat(8);  float descFuent = rs.getFloat(10);
-				float descPuntu = rs.getFloat(11); float descFalta = rs.getFloat(12);
-				float descAsist = rs.getFloat(13); float descCorte = rs.getFloat(14);
-				float descInfon = rs.getFloat(15); float descPensi = rs.getFloat(16);
-				float descBanam	= rs.getFloat(17); float descBanor = rs.getFloat(18);
-				float percExtra = rs.getFloat(19); float percDiasE = rs.getFloat(20);
-				float percBonoE = rs.getFloat(21);
+				
+				float sueldo = rs.getFloat(4);     float bono_comp = rs.getFloat(5);
+				float salPresIni = rs.getFloat(6); float descPrest = rs.getFloat(7);  
+				float salPresFin = rs.getFloat(8); float descFuent = rs.getFloat(9);
+				float descPuntu = rs.getFloat(10); float descFalta = rs.getFloat(11);
+				float descAsist = rs.getFloat(12); float descCorte = rs.getFloat(13);
+				float descInfon = rs.getFloat(14); float descPensi = rs.getFloat(15);
+				float descBanam	= rs.getFloat(16); float descBanor = rs.getFloat(17);
+				float percExtra = rs.getFloat(18); float percDiasE = rs.getFloat(19);
+				float percBonoE = rs.getFloat(20);
+				
+				Matriz[i][0] = rs.getBoolean(23);
+				Matriz[i][1] = rs.getInt(1);
+				Matriz[i][2] = "  "+rs.getString(2).trim();
+				Matriz[i][3] = "  "+rs.getString(3).trim();
 				Matriz[i][4] = sueldo;
-				Matriz[i][5] = bono_comp;
-				Matriz[i][6] = rs.getFloat(7);
-				Matriz[i][7] = descPrest;
-				Matriz[i][8] = rs.getFloat(9);
-				Matriz[i][9] = descFuent;
-				Matriz[i][10] = descPuntu;
-				Matriz[i][11] = descFalta;
-				Matriz[i][12] = descAsist;
-				Matriz[i][13] = descCorte;
-				Matriz[i][14] = descInfon;
-				Matriz[i][15] = descPensi;
-				Matriz[i][16] = descBanam;
-				Matriz[i][17] = descBanor;
-				Matriz[i][18] = percExtra;
-				Matriz[i][19] = percDiasE;
-				Matriz[i][20] = percBonoE;
+				if(bono_comp == 0.0){
+					Matriz[i][5] ="";
+				}else{
+					Matriz[i][5] = bono_comp;
+				}
+				
+				if(salPresIni == 0.0){
+					Matriz[i][6] ="";
+				}else{
+					Matriz[i][6] = salPresIni;
+				}
+				if(descPrest == 0.0){
+					Matriz[i][7] ="";
+				}else{
+					Matriz[i][7] = descPrest;
+				}
+				if(salPresFin == 0.0){
+					Matriz[i][8] ="";
+				}else{
+					Matriz[i][8] = salPresFin;
+				}
+
+				if(descFuent == 0.0){
+					Matriz[i][9] ="";
+				}else{
+					Matriz[i][9] = descFuent;
+				}
+				
+				if(descPuntu == 0.0){
+					Matriz[i][10] ="";
+				}else{
+					Matriz[i][10] = descPuntu;
+				}
+				if(descFalta == 0.0){
+					Matriz[i][11] ="";
+				}else{
+					Matriz[i][11] = descFalta;
+				}
+				if(descAsist == 0.0){
+					Matriz[i][12] ="";
+				}else{
+					Matriz[i][12] = descAsist;
+				}
+				if(descCorte == 0.0){
+					Matriz[i][13] ="";
+				}else{
+					Matriz[i][13] = descCorte;
+				}
+				if(descInfon == 0.0){
+					Matriz[i][14] ="";
+				}else{
+					Matriz[i][14] = descInfon;
+				}
+				if(descPensi == 0.0){
+					Matriz[i][15] ="";
+				}else{
+					Matriz[i][15] = descPensi;
+				}
+				if(descBanam == 0.0){
+					Matriz[i][16] ="";
+				}else{
+					Matriz[i][16] = descBanam;
+				}
+				if(descBanor == 0.0){
+					Matriz[i][17] ="";
+				}else{
+					Matriz[i][17] = descBanor;
+				}
+				if(percExtra == 0.0){
+					Matriz[i][18] ="";
+				}else{
+					Matriz[i][18] = percExtra;
+				}
+				if(percDiasE == 0.0){
+					Matriz[i][19] ="";
+				}else{
+					Matriz[i][19] = percDiasE;
+				}
+				if(percBonoE == 0.0){
+					Matriz[i][20] ="";
+				}else{
+					Matriz[i][20] = percBonoE;
+				}
 				Matriz[i][21] = sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
 						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE;
-				Matriz[i][22] = rs.getString(22);
-				Matriz[i][23] = rs.getString(23);
+				Matriz[i][22] = rs.getString(21);
+				Matriz[i][23] = rs.getString(22);
 				i++;
 			}
 		} catch (SQLException e1) {
@@ -626,8 +762,19 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 						lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
 						lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
 						lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
-						lis_raya.setObservasion_i(miVector.get(22)+"");
-						lis_raya.setObservasion_ii(miVector.get(23)+"");
+						
+						if(miVector.get(22)!= null){
+							lis_raya.setObservasion_i(miVector.get(22)+"");
+						}else{
+							lis_raya.setObservasion_i("");
+						}
+						if(miVector.get(23) != null){
+							lis_raya.setObservasion_ii(miVector.get(23)+"");
+						}else{
+							lis_raya.setObservasion_ii("");
+						}
+						
+						
 					
 						lis_raya.guardar();
 						
@@ -684,7 +831,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					
 				for(int i=0; i<model.getRowCount(); i++){
 					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j));
+						miVector.add(model.getValueAt(i,j)+"");
 					}
 					Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
 						
@@ -693,22 +840,86 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					lista_raya.setNombre_completo(miVector.get(2)+"".trim());
 					lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
 					lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
-					lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
-					lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
-					lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
-					lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
-					lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));
-					lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+"".trim()));
-					lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
-					lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
-					lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
-					lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
-					lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
-					lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
-					lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
-					lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
-					lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
-					lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+					if(miVector.get(5).toString().length() == 0){
+						lista_raya.setP_bono_complementario(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
+					}
+					if(miVector.get(6).toString().length() == 0){
+						lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
+					}
+					if(miVector.get(7).toString().length() == 0){
+						lista_raya.setD_prestamo(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
+					}
+					if(miVector.get(8).toString().length() == 0){
+						lista_raya.setSaldo_final(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
+					}
+					if(miVector.get(9).toString().length() == 0){
+						lista_raya.setD_fuente_sodas(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));						
+					}
+					if(miVector.get(10).toString().length() == 0){
+						lista_raya.setD_puntualidad(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+""));
+					}
+					if(miVector.get(11).toString().length() == 0){
+						lista_raya.setD_faltas(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
+					}
+					if(miVector.get(12).toString().length() == 0){
+						lista_raya.setD_asistencia(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
+					}
+					if(miVector.get(13).toString().length() == 0){
+						lista_raya.setD_cortes(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
+					}
+					if(miVector.get(14).toString().length() == 0){
+						lista_raya.setD_infonavit(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+					}
+					if(miVector.get(15).toString().length() == 0){
+						lista_raya.setPension(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
+					}
+					if(miVector.get(16).toString().length() == 0){
+						lista_raya.setD_banamex(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
+					}
+					if(miVector.get(17).toString().length() == 0){
+						lista_raya.setD_banorte(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
+					}
+					if(miVector.get(18).toString().length() == 0){
+						lista_raya.setD_extra(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+					}
+					if(miVector.get(19).toString().length() == 0){
+						lista_raya.setP_dias_extra(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+					}
+					if(miVector.get(20).toString().length() == 0){
+						lista_raya.setP_bono_extra(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+					}
 					lista_raya.setA_pagar(Float.parseFloat(miVector.get(21)+"".trim()));
 					lista_raya.setObservasion_i(miVector.get(22)+"".trim());
 					lista_raya.setFecha(dia+"/"+mes+"/"+anio);
