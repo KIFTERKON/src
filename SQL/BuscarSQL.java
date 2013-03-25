@@ -503,6 +503,27 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
+	public Obj_Alimentacion_Cortes Corte_Nuevo() throws SQLException{
+		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
+		String query = "select max(folio) as 'Maximo' from tb_alimentacion_cortes";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				corte.setFolio_corte(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return corte;
+	}
+	
 	public Obj_Usuario Usuario(int folio) throws SQLException{
 		Obj_Usuario usuario = new Obj_Usuario();
 		String query = "select * from tb_usuario where folio ="+folio;

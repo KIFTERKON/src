@@ -157,7 +157,7 @@ public class Cat_Imprimir_LR extends JDialog{
 		
 				if(row%2!=0){
 						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(214,214,214));
+//						lbl.setBackground(new java.awt.Color(214,214,214));
 				} 
 			return lbl; 
 			} 
@@ -219,24 +219,26 @@ public class Cat_Imprimir_LR extends JDialog{
 			   
 			   if(stab.equals(aux)){
 				   
-				    fila[0]  ="  "+nombre;
-				    fila[1]  ="  "+sueldo;
-					fila[2]  ="  "+prestamo;
-					fila[3]  ="  "+descuento;
-					fila[4]  ="  "+pfinal;
-					fila[5]  ="  "+fsod;
-					fila[6]  ="  "+punt;
-					fila[7]  ="  "+falta;
-					fila[8]  ="  "+asis;
-					fila[9]  ="  "+corte;
-					fila[10] ="  "+infon;
-					fila[11] ="  "+pension;
-					fila[12] ="  "+banamex;
-					fila[13] ="  "+banorte;
-					fila[14] ="  "+ext;
-					fila[15] ="  "+diaE;
-					fila[16] ="  "+bono;
-					fila[17] ="  "+pagar;
+				   fila[0]  ="  "+nombre;
+				   fila[1]  ="  "+sueldo;
+				    
+				    	if(prestamo==0.0){fila[2]  ="";}	else{fila[2]  ="  "+prestamo;}
+				    	if(descuento==0.0){fila[3] ="";}	else{fila[3]  ="  "+descuento;}	
+				    	if(pfinal==0.0){fila[4]  ="";}		else{fila[4]  ="  "+pfinal;}
+				    	if(fsod==0.0){fila[5]  ="";}		else{fila[5]  ="  "+fsod;}
+				    	if(punt==0.0){fila[6]  ="";}		else{fila[6]  ="  "+punt;}
+				    	if(falta==0.0){fila[7]  ="";}		else{fila[7]  ="  "+falta;}
+				    	if(asis==0.0){fila[8]  ="";}		else{fila[8]  ="  "+asis;}
+				    	if(corte==0.0){fila[9]  ="";}		else{fila[9]  ="  "+corte;}
+				    	if(infon==0.0){fila[10] ="";}		else{fila[10] ="  "+infon;}
+				    	if(pension==0.0){fila[11] ="";}		else{fila[11] ="  "+pension;}
+				    	if(banamex==0.0){fila[12] ="";}		else{fila[12] ="  "+banamex;}
+				    	if(banorte==0.0){fila[13] ="";}		else{fila[13] ="  "+banorte;}
+				    	if(ext==0.0){fila[14] ="";}			else{fila[14] ="  "+ext;}
+				    	if(diaE==0.0){fila[15] ="";}		else{fila[15] ="  "+diaE;}
+				    	if(bono==0.0){fila[16] ="";}		else{fila[16] ="  "+bono;}
+				    	
+				    fila[17] ="  "+pagar;
 					fila[18] ="  "+obs;
 					
 			   }else{
@@ -284,22 +286,24 @@ public class Cat_Imprimir_LR extends JDialog{
 					 model.addRow(fila);
 					 	fila[0]  ="  "+nombre;
 					    fila[1]  ="  "+sueldo;
-						fila[2]  ="  "+prestamo;
-						fila[3]  ="  "+descuento;
-						fila[4]  ="  "+pfinal;
-						fila[5]  ="  "+fsod;
-						fila[6]  ="  "+punt;
-						fila[7]  ="  "+falta;
-						fila[8]  ="  "+asis;
-						fila[9]  ="  "+corte;
-						fila[10] ="  "+infon;
-						fila[11] ="  "+pension;
-						fila[12] ="  "+banamex;
-						fila[13] ="  "+banorte;
-						fila[14] ="  "+ext;
-						fila[15] ="  "+diaE;
-						fila[16] ="  "+bono;
-						fila[17] ="  "+pagar;
+					    
+					    	if(prestamo==0.0){fila[2]  ="";}	else{fila[2]  ="  "+prestamo;}
+					    	if(descuento==0.0){fila[3] ="";}	else{fila[3]  ="  "+descuento;}	
+					    	if(pfinal==0.0){fila[4]  ="";}		else{fila[4]  ="  "+pfinal;}
+					    	if(fsod==0.0){fila[5]  ="";}		else{fila[5]  ="  "+fsod;}
+					    	if(punt==0.0){fila[6]  ="";}		else{fila[6]  ="  "+punt;}
+					    	if(falta==0.0){fila[7]  ="";}		else{fila[7]  ="  "+falta;}
+					    	if(asis==0.0){fila[8]  ="";}		else{fila[8]  ="  "+asis;}
+					    	if(corte==0.0){fila[9]  ="";}		else{fila[9]  ="  "+corte;}
+					    	if(infon==0.0){fila[10] ="";}		else{fila[10] ="  "+infon;}
+					    	if(pension==0.0){fila[11] ="";}		else{fila[11] ="  "+pension;}
+					    	if(banamex==0.0){fila[12] ="";}		else{fila[12] ="  "+banamex;}
+					    	if(banorte==0.0){fila[13] ="";}		else{fila[13] ="  "+banorte;}
+					    	if(ext==0.0){fila[14] ="";}			else{fila[14] ="  "+ext;}
+					    	if(diaE==0.0){fila[15] ="";}		else{fila[15] ="  "+diaE;}
+					    	if(bono==0.0){fila[16] ="";}		else{fila[16] ="  "+bono;}
+
+					    fila[17] ="  "+pagar;
 						fila[18] ="  "+obs;
 					  aux = stab;
 				  

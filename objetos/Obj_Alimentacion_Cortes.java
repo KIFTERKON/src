@@ -134,4 +134,6 @@ public class Obj_Alimentacion_Cortes {
 	}
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
+	
+	public Obj_Alimentacion_Cortes buscar_nuevo() throws SQLException{ return new BuscarSQL().Corte_Nuevo(); }
 }

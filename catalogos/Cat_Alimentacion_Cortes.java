@@ -133,12 +133,15 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 		
 		Obj_Empleado re = new Obj_Empleado();
 		Obj_Puesto puesto = new Obj_Puesto();
+		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
 		
 		re = re.buscar(folio);
 		puesto= puesto.buscar(re.getPuesto());
+//		corte.buscar_nuevo();
 		lblFolio_Empleado.setText(re.getFolio()+"");
 		lblNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");
 		lblPuesto.setText(puesto.getPuesto());
+		lblFolio_Corte.setText(corte.getFolio_corte()+"");
 
 		chStatus.setSelected(true);
 		
