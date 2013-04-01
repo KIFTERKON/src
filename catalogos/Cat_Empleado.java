@@ -215,6 +215,7 @@ public class Cat_Empleado extends JFrame{
 
 		txaObservaciones.setLineWrap(true); 
 		txaObservaciones.setWrapStyleWord(true);
+		txaObservaciones.setDocument(new JTextFieldLimit(980));
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtChecador.setDocument(new JTextFieldLimit(9));
@@ -231,7 +232,7 @@ public class Cat_Empleado extends JFrame{
 		btnNuevo.addActionListener(nuevo);
 		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
-		btnFoto.addActionListener(opFoto);
+//		btnFoto.addActionListener(opFoto);
 		btnExaminar.addActionListener(opExaminar);
 
 		txtTarjetaNomina.addKeyListener(txtlogns);
@@ -265,24 +266,24 @@ public class Cat_Empleado extends JFrame{
 		}
 	};
 	
-	ActionListener opFoto = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().length() != 0){
-				String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
-				img = file;
-				File fichero = new File(file);
-				if(fichero.exists()){
-					ImageIcon tmpIconAux = new ImageIcon(file);
-				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-				}else {
-					new MainCamara(txtFolio.getText()).setVisible(true);
-				}				
-			}else {
-				  JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.");				
-			}
-			
-		}
-	};
+//	ActionListener opFoto = new ActionListener(){
+//		public void actionPerformed(ActionEvent e){
+//			if(txtFolio.getText().length() != 0){
+//				String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
+//				img = file;
+//				File fichero = new File(file);
+//				if(fichero.exists()){
+//					ImageIcon tmpIconAux = new ImageIcon(file);
+//				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+//				}else {
+//					new MainCamara(txtFolio.getText()).setVisible(true);
+//				}				
+//			}else {
+//				  JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.");				
+//			}
+//			
+//		}
+//	};
 	
 	ActionListener opExaminar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
