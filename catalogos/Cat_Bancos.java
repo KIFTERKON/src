@@ -347,7 +347,8 @@ public class Cat_Bancos extends JDialog {
 							}
 							Obj_Bancos bancos = new Obj_Bancos();
 
-							bancos.setFolio_empleado(Integer.parseInt(miVector.get(0).toString().trim()));
+							int Folio_Empleado = Integer.parseInt(miVector.get(0).toString().trim());
+							bancos.setFolio_empleado(Folio_Empleado);
 							bancos.setNombre_completo(miVector.get(1).toString().trim());
 							bancos.setEstablecimiento(miVector.get(2).toString().trim());
 							if(miVector.get(3) != ""){
@@ -362,7 +363,14 @@ public class Cat_Bancos extends JDialog {
 								miVector.set(4,0);
 								bancos.setBanorte(Float.parseFloat(miVector.get(4).toString().trim()));
 							}
-							bancos.actualizar(Integer.parseInt(miVector.get(0).toString().trim()));
+							
+							Obj_Bancos existe = new Obj_Bancos().buscar(Folio_Empleado);
+							
+							if(existe.getFolio_empleado() == Folio_Empleado){
+								bancos.actualizar(Folio_Empleado);
+							}else{
+								bancos.guardar();
+							}
 							
 							miVector.clear();
 							int porcent = (i*100)/total;

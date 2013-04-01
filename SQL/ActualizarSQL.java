@@ -33,7 +33,7 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina=?, tipo_banco_id=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -59,9 +59,7 @@ public class ActualizarSQL {
 			pstmt.setInt(17, empleado.getStatus());
 			pstmt.setString(18,empleado.getObservasiones());
 			pstmt.setString(19, empleado.getFoto());
-			pstmt.setString(20, empleado.getTargeta_nomina());
-			pstmt.setInt(21, empleado.getTipo_banco());
-			
+					
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

@@ -127,4 +127,13 @@ public class Obj_Deduccion_Iasistencia {
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar_Deduccion_Asistencia(this,folio); }
 	
 	public Obj_Deduccion_Iasistencia buscar(int folio) throws SQLException{ return new BuscarSQL().Deduccion(folio); }
+	
+	public Obj_Deduccion_Iasistencia buscarExis(int folio){ 
+		try {
+			return new BuscarSQL().DeduccionExiste(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
+	}
 }

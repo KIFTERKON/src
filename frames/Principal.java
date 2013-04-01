@@ -45,7 +45,9 @@ import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Imprimir_Fuente_Sodas_Auxf;
 import catalogos.Cat_Imprimir_LR;
+import catalogos.Cat_Imprimir_Plantilla_Activa;
 import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Revision_Lista_Raya;
@@ -178,6 +180,10 @@ public class Principal extends JFrame{
 	JMenu Autorizaciones = new JMenu("Autorizaciones");
 		JMenuItem Autorizacion_Auditoria = new JMenuItem("Autorizacion Auditoria");
 		JMenuItem Autorizacion_Finanzas = new JMenuItem("Autorizacion Finanzas");
+	
+	JMenu Reportes = new JMenu("Reportes");
+		JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa");
+		JMenuItem Reporte_Fuente_Sodas = new JMenuItem("Reporte Fuente Sodas");
 		
 	JMenu Ayuda = new JMenu("Ayuda");
 		JMenuItem Edicion_AcercaDe = new JMenuItem("Acerca de", new ImageIcon("foto/help.png"));
@@ -568,6 +574,11 @@ public class Principal extends JFrame{
 		Configuracion.add(Configuracion_Turno);
 			Configuracion_Turno.addActionListener(Opciones);
 			
+		Reportes.add(Reporte_Plantilla_Activa);
+			Reporte_Plantilla_Activa.addActionListener(Opciones);
+		Reportes.add(Reporte_Fuente_Sodas);
+			Reporte_Fuente_Sodas.addActionListener(Opciones);
+			
 		Autorizaciones.add(Autorizacion_Auditoria);
 			Autorizacion_Auditoria.addActionListener(Opciones);
 		Autorizaciones.add(Autorizacion_Finanzas);
@@ -583,6 +594,7 @@ public class Principal extends JFrame{
 		Barra.add(Catalogo);
 		Barra.add(Listas);
 		Barra.add(Configuracion);
+		Barra.add(Reportes);
 		Barra.add(Autorizaciones);
 		Barra.add(Ayuda);
 						
@@ -815,6 +827,35 @@ public class Principal extends JFrame{
 							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
 				}else{
 					new Cat_Lista_Deudores_Prestamo().setVisible(true);
+				}
+			}
+			
+			// Reportes
+			if(e.getActionCommand().equals("Reporte Plantilla Activa")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Imprimir_Plantilla_Activa().setVisible(true);
+				}
+			}
+			
+			if(e.getActionCommand().equals("Reporte Fuente Sodas")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Imprimir_Fuente_Sodas_Auxf().setVisible(true);
 				}
 			}
 				

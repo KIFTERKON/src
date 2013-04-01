@@ -59,7 +59,7 @@ public class Cat_Filtro_Cortes extends JDialog{
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("rawtypes")
 	public Cat_Filtro_Cortes()	{
 		this.setTitle("Filtro Cortes ");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
@@ -109,7 +109,6 @@ public class Cat_Filtro_Cortes extends JDialog{
         });
     }
 	
-   	@SuppressWarnings("unchecked")
 	public void filtro() { 
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase().trim(), 1));
 	}  
@@ -121,7 +120,6 @@ public class Cat_Filtro_Cortes extends JDialog{
 		
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		
-		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(0).setMinWidth(70);

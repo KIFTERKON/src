@@ -1,6 +1,9 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
+import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
 public class Obj_Persecciones_Extra {
@@ -77,4 +80,13 @@ public class Obj_Persecciones_Extra {
 	public boolean guardar(){ return new GuardarSQL().Guardar(this); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar(this,folio); }
+	
+	public Obj_Persecciones_Extra buscar(int folio){ 
+		try {
+			return new BuscarSQL().PerseccionExiste(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
+	}
 }

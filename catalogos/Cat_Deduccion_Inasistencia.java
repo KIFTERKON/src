@@ -140,7 +140,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
     TableColumn ColumnaDias = tabla.getColumnModel().getColumn(5);
     TableColumn ColumnaDiasGf = tabla.getColumnModel().getColumn(8);
    
-    String lista[] = {"1","2","3","4","5","6","7"};
+    String lista[] = {"0","1","2","3","4","5","6","7"};
     @SuppressWarnings("rawtypes")
 	JComboBox cmbDias = new JComboBox(lista);
     @SuppressWarnings("rawtypes")
@@ -495,7 +495,14 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 								float[] bono_sueldo = getBono_Sueldo(index);
 								deduccion.setCantidad_faltas((bono_sueldo[0]+bono_sueldo[1])/7 * dias_faltas);
 							}
-							deduccion.actualizar(index);
+							
+							Obj_Deduccion_Iasistencia existe = new Obj_Deduccion_Iasistencia().buscarExis(index);
+							
+							if(existe.getFolio_empleado() == index){
+								deduccion.actualizar(index);
+							}else{
+								deduccion.guardar();
+							}
 							
 							miVector.clear();
 							

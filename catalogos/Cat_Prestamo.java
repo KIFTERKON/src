@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -26,14 +29,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.DateTime;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
 import SQL.Connexion;
 
@@ -74,13 +69,12 @@ public class Cat_Prestamo extends JDialog{
 	
 	JTextField txtCantidad = new JTextField();
 	JTextField txtDescuento = new JTextField();
-	JTextField txtFecha = new JTextField();
 	
 	String status[] = {"Vigente","Cancelado Temporal"};
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
-	JLabel btnCalendario = new JLabel(new ImageIcon("imagen//Calendar.png"));
+	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
 	JLabel lblTotal = new JLabel("");
 	
 	JButton btnFiltro = new JButton(new ImageIcon("imagen/Text preview.png"));
@@ -125,8 +119,7 @@ public class Cat_Prestamo extends JDialog{
 		panel.add(txtNombre_Completo).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtFecha).setBounds(x+ancho,y,ancho-15,20);
-		panel.add(btnCalendario).setBounds(x+ancho+ancho-27,y,50,20);
+		panel.add(txtCalendario).setBounds(x+ancho,y,ancho-15,20);
 		
 		panel.add(lblEtiquetaRango).setBounds(x,y+=25,ancho+20,20);
 		panel.add(lblRango).setBounds(x+ancho+35,y,ancho+40,20);
@@ -156,7 +149,6 @@ public class Cat_Prestamo extends JDialog{
 		
 		btnFiltro.addActionListener(filtro);
 		btnEditar.addMouseListener(ValidarCampos);
-		btnCalendario.addMouseListener(OpCalendario);
 		btnGuardar.addMouseListener(guardar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
@@ -172,7 +164,6 @@ public class Cat_Prestamo extends JDialog{
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
 		lblRango.setText(rango_prestamo[re.getPrestamo()]);
 		panelEnabledTrue();
-		txtFecha.setEnabled(false);
 		
 		String Rango =rango_prestamo[re.getPrestamo()];
 		Rango = Rango.replace(" - ", "-");
@@ -194,8 +185,12 @@ public class Cat_Prestamo extends JDialog{
 		}
 		
 		if(tabla.getRowCount() != 0){
-			
-			txtFecha.setText(modelo.getValueAt(0,1)+"");
+			try {
+				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(modelo.getValueAt(0,1)+"");
+				txtCalendario.setDate(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			txtCantidad.setText(modelo.getValueAt(0, 2)+"");
 			txtDescuento.setText(modelo.getValueAt(0, 3)+"");
 			if(modelo.getValueAt(0, 6).equals("Vigente")){
@@ -222,7 +217,12 @@ public class Cat_Prestamo extends JDialog{
 	        		btnGuardar.setEnabled(false);
 	        		int fila = tabla.getSelectedRow();
 	        		
-	    			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+	        		try {
+	    				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(modelo.getValueAt(fila,1)+"");
+	    				txtCalendario.setDate(date);
+	    			} catch (ParseException e1) {
+	    				e1.printStackTrace();
+	    			}
 	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
 	    			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
 	    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
@@ -257,7 +257,7 @@ public class Cat_Prestamo extends JDialog{
 						pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
 						pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
 						pres.setNombre_Completo(txtNombre_Completo.getText());
-						pres.setFecha(txtFecha.getText());
+						pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 						pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
 						pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
 						pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
@@ -274,7 +274,7 @@ public class Cat_Prestamo extends JDialog{
 								Obj_Prestamo maximo = new Obj_Prestamo().maximo();
 								
 								fila[0]=maximo.getFolio();
-								fila[1]=txtFecha.getText();
+								fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
 								fila[2]=txtCantidad.getText();
 								fila[3]=txtDescuento.getText();
 								fila[4]=txtCantidad.getText();
@@ -300,7 +300,7 @@ public class Cat_Prestamo extends JDialog{
 						}
 							if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
 								
-								pres.setFecha(txtFecha.getText());
+								pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 								pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
 								pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
 								pres.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -428,54 +428,16 @@ public class Cat_Prestamo extends JDialog{
 	
 	private String validaCampos(){
 		String error="";
-		
+		String fechaNull = txtCalendario.getDate()+"";
 		if(txtNombre_Completo.getText().equals(""))error+= "Nombre Completo\n";
 		if(txtCantidad.getText().equals(""))error+= "Cantidad\n";
 		if(txtDescuento.getText().equals(""))error+= "Descuento\n";
-		if(txtFecha.getText().equals(""))error+= "Fecha\n";
+		
+		if(fechaNull.equals("null"))error+= "Fecha\n";
 				
 		return error;
 	}
-	MouseListener OpCalendario = new MouseListener() {
-		@Override
-		public void mousePressed(MouseEvent e) {
-			ejecutar();
-		}
-		public void mouseReleased(MouseEvent e) {}		
-		public void mouseExited(MouseEvent e) {}
-		public void mouseEntered(MouseEvent e) {}
-		public void mouseClicked(MouseEvent e) {}
-	};
 
-	
-	public void ejecutar(){
-		final Display display = new Display ();
-		Shell shell = new Shell (display);
-		shell.setLayout (new RowLayout ());
-		
-		DateTime calendar = new DateTime (shell, SWT.CALENDAR);
-		calendar.addSelectionListener (new SelectionAdapter () {
-			public void widgetSelected (SelectionEvent e) {
-				String fecha = e.toString().substring(25,35);
-				fecha = fecha.replace("}", "");
-				String[] splits = fecha.split("/");
-				System.out.println(splits.length);
-				
-					String diaInicial  = splits[1];
-					String mesInicial  = splits[0];	
-					String anioInicial = splits[2];
-					
-					txtFecha.setText(diaInicial+"/"+mesInicial+"/"+anioInicial);
-
-			}
-		});
-		shell.pack ();
-		shell.open ();
-		while (!shell.isDisposed ()) {
-			if (!display.readAndDispatch ()) display.sleep ();
-		}
-		display.dispose();
-	}
 	public String[][] getMatriz(String NombreCompleto){
 		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
 		

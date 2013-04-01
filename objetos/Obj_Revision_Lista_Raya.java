@@ -294,4 +294,13 @@ public class Obj_Revision_Lista_Raya {
 		}
 	return null; 
 	}	
+	
+	public Obj_Revision_Lista_Raya buscarExis(int folio){ 
+		try {
+			return new BuscarSQL().Lista_Exist_Emp(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
+	}
 }

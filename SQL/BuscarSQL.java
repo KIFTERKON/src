@@ -13,6 +13,7 @@ import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
+import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
@@ -22,6 +23,7 @@ import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
@@ -1246,6 +1248,93 @@ public class BuscarSQL {
 			 if (stmt != null) { stmt.close(); }
 		}
 		return auditoria;
+	}
+	
+	public Obj_Bancos BancoExiste(int folio) throws SQLException{
+		Obj_Bancos banck = new Obj_Bancos();
+		String query = "select * from tb_bancos where status = 1 and folio_empleado ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				banck.setFolio_empleado(rs.getInt("folio_empleado"));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return banck;
+	}
+	
+	public Obj_Deduccion_Iasistencia DeduccionExiste(int folio) throws SQLException{
+		Obj_Deduccion_Iasistencia Deduccion = new Obj_Deduccion_Iasistencia();
+		String query = "select folio_empleado from tb_deduccion_inasistencia where status = 1 and folio_empleado ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				Deduccion.setFolio_empleado(rs.getInt("folio_empleado"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return Deduccion;
+	}
+	
+	public Obj_Persecciones_Extra PerseccionExiste(int folio) throws SQLException{
+		Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
+		String query = "select folio_empleado from tb_persecciones_extra where status = 1 and folio_empleado ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				perseccion.setFolio_empleado(rs.getInt("folio_empleado"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return perseccion;
+	}
+	
+	
+	public Obj_Revision_Lista_Raya Lista_Exist_Emp(int folio) throws SQLException{
+		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
+		String query = "select folio_empleado from tb_pre_listaraya where status=1 and folio_empleado ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				lista.setFolio_empleado(rs.getInt("folio_empleado"));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return lista;
 	}
 	
 }

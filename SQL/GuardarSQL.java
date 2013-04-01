@@ -40,7 +40,7 @@ public class GuardarSQL {
 	
 	
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -70,8 +70,6 @@ public class GuardarSQL {
 			pstmt.setString(18, empleado.getFecha());
 			pstmt.setString(19, empleado.getObservasiones());
 			pstmt.setString(20, empleado.getFoto());
-			pstmt.setString(21, empleado.getTargeta_nomina());
-			pstmt.setInt(22, empleado.getTipo_banco());
 			
 			pstmt.executeUpdate();
 			con.commit();

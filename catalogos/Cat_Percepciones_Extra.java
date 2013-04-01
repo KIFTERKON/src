@@ -373,6 +373,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 							Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
 							
 							int index = Integer.parseInt(miVector.get(0).toString().trim());
+							
 							perseccion.setFolio_empleado(index);
 							perseccion.setNombre_completo(miVector.get(1).toString().trim());
 							perseccion.setEstablecimiento(miVector.get(2).toString().trim());
@@ -391,7 +392,6 @@ public class Cat_Percepciones_Extra extends JDialog {
 								miVector.set(5,0);
 								perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
 							}
-						
 							if(dia_extra != true) {
 								perseccion.setCantidad_dias(0);
 							}else{
@@ -402,7 +402,13 @@ public class Cat_Percepciones_Extra extends JDialog {
 									perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
 								}
 							}
-							perseccion.actualizar(index);
+							Obj_Persecciones_Extra existe = new Obj_Persecciones_Extra().buscar(index);
+							if(existe.getFolio_empleado() == index){
+								perseccion.actualizar(index);
+							}else{
+								perseccion.guardar();
+							}
+							
 							
 							miVector.clear();
 							int porcent = (i*100)/total;

@@ -8,10 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -27,14 +30,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.DateTime;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
 import SQL.Connexion;
 
@@ -56,15 +51,16 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 			return false;
 		}
 	};
+	DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JLabel txtFolio_Empleado = new JLabel();
 	JLabel txtNombre_Completo = new JLabel();
 	JTextField txtCantidad = new JTextField();
-	JTextField txtFecha = new JTextField();
+
+	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
 	
-	JLabel btnCalendario = new JLabel(new ImageIcon("imagen//Calendar.png"));
 	JLabel lblTotal = new JLabel("");
 	
 	JButton btnFiltro = new JButton(new ImageIcon("imagen/Text preview.png"));
@@ -74,7 +70,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	JButton btnEliminar = new JButton(new ImageIcon("imagen/Delete.png"));
 		
 	public Cat_Fue_Soda_Auxf(String algo) {
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Pesos.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Accounting.png"));
 		this.setTitle("Fuente de Sodas Auxiliar y Finanzas");
 		int x = 40, y=30, ancho=140;
 		txtCantidad.requestFocus();
@@ -124,8 +120,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtFecha).setBounds(x+ancho,y,ancho-15,20);
-		panel.add(btnCalendario).setBounds(x+ancho+ancho-27,y,50,20);
+		panel.add(txtCalendario).setBounds(x+ancho,y,ancho-15,20);
 		
 		panel.add(new JLabel("Cantidad:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtCantidad).setBounds(x+ancho,y,ancho-15,20);
@@ -142,7 +137,6 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		btnSalir.addActionListener(salir);
 		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
-		btnCalendario.addMouseListener(OpCalendario);
 		btnEliminar.addActionListener(opEliminar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
@@ -156,7 +150,6 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 		txtNombre_Completo.setText(re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno()+"");	
 		
 		panelEnabledTrue();
-		txtFecha.setEditable(false);
 		
 		String[][] Tabla = getMatriz(txtNombre_Completo.getText());
 		Object[] fila = new Object[tabla.getColumnCount()]; 
@@ -207,17 +200,26 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 						Obj_fuente_sodas_auxf fuente_sodas = new Obj_fuente_sodas_auxf().buscar(id);
 						
 						if(fuente_sodas.getStatus_ticket() != 1){
-		        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+							try {
+								Date date = new SimpleDateFormat("dd/MM/yyyy").parse(modelo.getValueAt(fila,1)+"");
+								txtCalendario.setDate(date);
+							} catch (ParseException e1) {
+								e1.printStackTrace();
+							}
+							
 		        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
 		        			suma();
-		        			txtCantidad.setEditable(true);
 		        			btnEliminar.setEnabled(true);
 		        		}else{
-		        			txtFecha.setText(modelo.getValueAt(fila,1)+"");
+		        			try {
+								Date date = new SimpleDateFormat("dd/MM/yyyy").parse(modelo.getValueAt(fila,1)+"");
+								txtCalendario.setDate(date);
+							} catch (ParseException e1) {
+								e1.printStackTrace();
+							}
 		        			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
 		        			suma();
-		        			txtCantidad.setEditable(false);
-		        			btnEliminar.setEnabled(false);
+		        			btnEliminar.setEnabled(true);
 		        		}
 						
 					} catch (SQLException e1) {
@@ -245,7 +247,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 					fsauxf.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
 					fsauxf.setNombre_Completo(txtNombre_Completo.getText());
 					fsauxf.setCantidad(Double.parseDouble(txtCantidad.getText()));
-					fsauxf.setFecha(txtFecha.getText());
+					fsauxf.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 					fsauxf.guardar();
 					
 					Object[] fila = new Object[tabla.getColumnCount()]; 
@@ -253,7 +255,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 						Obj_fuente_sodas_auxf maximo = new Obj_fuente_sodas_auxf().maximo();
 						
 						fila[0]=maximo.getFolio();
-						fila[1]=txtFecha.getText();
+						fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
 						fila[2]=txtCantidad.getText();
 						modelo.addRow(fila); 
 						
@@ -267,10 +269,10 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 					if(JOptionPane.showConfirmDialog(null, "Seguro que quiere Actualizar el registro "+ modelo.getValueAt(nroFila,0) +" ?") == JOptionPane.YES_OPTION){
 						Obj_fuente_sodas_auxf fsauxf = new Obj_fuente_sodas_auxf();
 					
-						fsauxf.setFecha(txtFecha.getText());
+						fsauxf.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 						fsauxf.setCantidad(Double.parseDouble(txtCantidad.getText()));
 						fsauxf.actualizar(Integer.parseInt(modelo.getValueAt(nroFila,0)+""));
-						modelo.setValueAt(txtFecha.getText(),nroFila,1);
+						modelo.setValueAt(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()),nroFila,1);
 						modelo.setValueAt(txtCantidad.getText(),nroFila,2);
 						suma();
 						panelLimpiar();
@@ -368,53 +370,14 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 	
 	private String validaCampos(){
 		String error="";
-		
+		String fechaNull = txtCalendario.getDate()+"";
 		if(txtNombre_Completo.getText().equals(""))error+= "Nombre Completo\n";
 		if(txtCantidad.getText().equals(""))error+= "Cantidad\n";
-		if(txtFecha.getText().equals(""))error+= "Fecha\n";
+		if(fechaNull.equals("null"))error+= "Fecha\n";
 				
 		return error;
 	}
-	
-	
-	MouseListener OpCalendario = new MouseListener() {
-		@Override
-		public void mousePressed(MouseEvent e) {
-			ejecutar();
-		}
-		public void mouseReleased(MouseEvent e) {}		
-		public void mouseExited(MouseEvent e) {}
-		public void mouseEntered(MouseEvent e) {}
-		public void mouseClicked(MouseEvent e) {}
-	};
 
-	
-	public void ejecutar(){
-		final Display display = new Display ();
-		Shell shell = new Shell (display);
-		shell.setLayout (new RowLayout ());
-		
-		DateTime calendar = new DateTime (shell, SWT.CALENDAR);
-		calendar.addSelectionListener (new SelectionAdapter () {
-			public void widgetSelected (SelectionEvent e) {
-				String fecha = e.toString().substring(25,35);
-				fecha = fecha.replace("}", "");
-				String[] splits = fecha.split("/");				
-					String diaInicial  = splits[1];
-					String mesInicial  = splits[0];	
-					String anioInicial = splits[2];
-					
-					txtFecha.setText(diaInicial+"/"+mesInicial+"/"+anioInicial);
-
-			}
-		});
-		shell.pack ();
-		shell.open ();
-		while (!shell.isDisposed ()) {
-			if (!display.readAndDispatch ()) display.sleep ();
-		}
-		display.dispose();
-	}
 	public String[][] getMatriz(String NombreCompleto){
 		String qry = "select folio,fecha,cantidad from tb_fuente_sodas_auxf where nombre_completo='"+NombreCompleto+"' and status='1'";
 		
@@ -428,7 +391,7 @@ public class Cat_Fue_Soda_Auxf extends JDialog{
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1).trim();
 				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][2] = decimalFormat.format(Float.parseFloat(rs.getString(3).trim()));
 
 				i++;
 			}

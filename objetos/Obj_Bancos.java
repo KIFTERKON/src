@@ -1,6 +1,9 @@
 package objetos;
 
+import java.sql.SQLException;
+
 import SQL.ActualizarSQL;
+import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
 public class Obj_Bancos {
@@ -68,6 +71,13 @@ public class Obj_Bancos {
 	public boolean guardar(){ return new GuardarSQL().Guardar_Bancos(this); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar_Bancos(this,folio); }
-//	
-//	public Obj_Bancos buscar(int folio){ return new BuscarSQL().Deduccion(folio); }
+	
+	public Obj_Bancos buscar(int folio){ 
+		try {
+			return new BuscarSQL().BancoExiste(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
+	}
 }

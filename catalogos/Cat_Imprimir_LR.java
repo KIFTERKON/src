@@ -155,10 +155,10 @@ public class Cat_Imprimir_LR extends JDialog{
 				
 				lbl.setFont(new java.awt.Font("",0,7));
 		
-				if(row%2!=0){
-						lbl.setOpaque(true); 
+//				if(row%2!=0){
+//						lbl.setOpaque(true); 
 //						lbl.setBackground(new java.awt.Color(214,214,214));
-				} 
+//				} 
 			return lbl; 
 			} 
 		}; 

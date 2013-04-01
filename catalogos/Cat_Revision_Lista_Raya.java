@@ -157,6 +157,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	JToolBar menu = new JToolBar();
 	 
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
+	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
 	
 	JLabel lblAuditoria = new JLabel(new ImageIcon("imagen/Aplicar.png"));
 	JLabel lblFinanzas = new JLabel(new ImageIcon("imagen/Aplicar.png"));
@@ -303,6 +304,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		lblFinanzas.setEnabled(auto_finanza);
 		
 		menu.add(btnGuardar);
+		menu.add(btnActualizar);
 		menu.setBounds(0,0,150,25);
 		campo.add(menu);
 		
@@ -315,6 +317,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		btnGuardar.addActionListener(opGuardar);
 		btnGenerarLista.addActionListener(opGuardarListaRaya);
 		btnImprir.addActionListener(opImprimirListaRaya);
+		btnActualizar.addActionListener(opActualizar);
 		
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
@@ -326,6 +329,27 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		
 	}
+	
+	
+	ActionListener opActualizar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			int numero = tabla.getRowCount();
+			while(numero > 0){
+				model.removeRow(0);
+				numero --;
+			}
+			
+			Object[][] Tabla = getTabla();
+			Object[] fila = new Object[tabla.getColumnCount()];
+			for(int i=0; i<Tabla.length; i++){
+				model.addRow(fila); 
+				for(int j=0; j<tabla.getColumnCount(); j++){
+					model.setValueAt(Tabla[i][j], i,j);
+				}
+			}
+			
+		}	
+	};
 	
 	public void opBono10_12(){
 		if(bono_10_12 == true){
@@ -729,10 +753,25 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							Obj_Revision_Lista_Raya lis_foli = new Obj_Revision_Lista_Raya().buscar_folio(foli_emple);
 							lis_raya.setFolio_empleado(foli_emple);
 							lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
-							lis_raya.setObservasion_i(miVector.get(22)+"");
-							lis_raya.setObservasion_ii(miVector.get(23)+"");
-										
-							lis_raya.actualizar(lis_foli.getFolio());
+							if(miVector.get(22)!= null){
+								lis_raya.setObservasion_i(miVector.get(22)+"");
+							}else{
+								lis_raya.setObservasion_i("");
+							}
+							if(miVector.get(23) != null){
+								lis_raya.setObservasion_ii(miVector.get(23)+"");
+							}else{
+								lis_raya.setObservasion_ii("");
+							}
+							
+							Obj_Revision_Lista_Raya existe = new Obj_Revision_Lista_Raya().buscarExis(foli_emple);
+							
+							if(existe.getFolio_empleado() == foli_emple){
+								lis_raya.actualizar(lis_foli.getFolio());
+							}else{
+								lis_raya.guardar();
+							}
+							
 							
 							miVector.clear();
 							
@@ -773,8 +812,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 						}else{
 							lis_raya.setObservasion_ii("");
 						}
-						
-						
 					
 						lis_raya.guardar();
 						
