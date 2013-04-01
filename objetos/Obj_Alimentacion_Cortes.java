@@ -17,13 +17,14 @@ public class Obj_Alimentacion_Cortes {
 	private float deposito;
 	private float efectivo;
 	private float diferencia_corte;
+	private String comentario;
 	private String fecha;
 	private boolean status;
 
 	public Obj_Alimentacion_Cortes(){
 		this.folio_corte=0; this.folio_empleado=0; this.nombre=""; this.puesto=""; 
 		this.establecimiento=""; this.asignacion=""; this.corte_sistema=0;
-		this.deposito=0; this.efectivo=0; this.diferencia_corte=0; this.fecha=""; this.status=false;
+		this.deposito=0; this.efectivo=0; this.diferencia_corte=0; this.comentario=""; this.fecha=""; this.status=false;
 	}
 
 	public int getFolio_corte() {
@@ -107,6 +108,14 @@ public class Obj_Alimentacion_Cortes {
 		diferencia_corte = diferenciaCorte;
 	}
 
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
 	public String getFecha() {
 		return fecha;
 	}
@@ -124,16 +133,23 @@ public class Obj_Alimentacion_Cortes {
 	}
 	
 	
-	public Obj_Alimentacion_Cortes buscar(int folio){
+//	public Obj_Alimentacion_Cortes buscar(int folio){
+//		try {
+//			return new BuscarSQL().corte(folio);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null; 
+//	}
+	
+	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
+	
+	public Obj_Alimentacion_Cortes buscar_nuevo() { 
 		try {
-			return new BuscarSQL().corte(folio);
+			return new BuscarSQL().Corte_Nuevo();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
-	
-	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
-	
-	public Obj_Alimentacion_Cortes buscar_nuevo() throws SQLException{ return new BuscarSQL().Corte_Nuevo(); }
 }

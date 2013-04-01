@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
@@ -61,6 +62,46 @@ public class ActualizarSQL {
 			pstmt.setString(19, empleado.getFoto());
 			pstmt.setString(20, empleado.getTargeta_nomina());
 			pstmt.setInt(21, empleado.getTipo_banco());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Denom(Obj_Alimentacion_Denominacion denom, String asignacion){
+		String query = "update tb_alimentacion_denominaciones set asignacion=?, folio_empleado=?, " +
+				"folio_denominacion=?, denominacion=?, valor=?, cantidad=?, fecha=? where asignacion='"+asignacion+"'";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+		
+			pstmt.setString(1, denom.getAsignacion().trim());
+			pstmt.setInt(2,denom.getFolio_empleado());
+			pstmt.setInt(3, denom.getFolio_denominacion());
+			pstmt.setString(4,denom.getDenominacion());
+			pstmt.setFloat(5, denom.getValor());
+			pstmt.setFloat(6, denom.getCantidad());
+			pstmt.setString(7, denom.getFecha());
 			
 			pstmt.executeUpdate();
 			con.commit();

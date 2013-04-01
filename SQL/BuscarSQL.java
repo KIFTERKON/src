@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import objetos.Obj_Alimentacion_Cortes;
+import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
@@ -253,6 +254,38 @@ public class BuscarSQL {
 		return corte;
 	}
 	
+	public Obj_Alimentacion_Cortes Corte(String asignacion) throws SQLException{
+		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
+		String query = "select * from tb_alimentacion_denominaciones where asignacion ="+ asignacion;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				corte.setFolio_corte(rs.getInt("folio_corte"));
+				corte.setFolio_corte(rs.getInt("folio_empleado"));
+				corte.setPuesto(rs.getString("nombre_empleado").trim());
+				corte.setPuesto(rs.getString("puesto").trim());
+				corte.setEstablecimiento(rs.getString("establecimiento").trim());
+				corte.setAsignacion(rs.getString("asignacion").trim());
+				corte.setCorte_sistema(rs.getFloat("corte_del_sistema"));
+				corte.setDeposito(rs.getFloat("deposito"));
+				corte.setEfectivo(rs.getFloat("efectivo"));
+				corte.setDiferencia_corte(rs.getFloat("diferencia_corte"));
+				corte.setFecha(rs.getString("fecha").trim());
+				corte.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return corte;
+	}
+	
 	public Obj_Divisa_Y_TipoDeCambio divisas(int folio) throws SQLException{
 		Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
 		String query = "select * from tb_divisas_tipo_de_cambio where folio ="+ folio;
@@ -429,6 +462,33 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
+	public Obj_Alimentacion_Denominacion Denom(String asignacion) throws SQLException{
+		Obj_Alimentacion_Denominacion denom = new Obj_Alimentacion_Denominacion();
+		String query = "select * from tb_alimentacion_denominaciones where asignacion ='"+ asignacion+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				denom.setAsignacion(rs.getString("asignacion").trim());
+				denom.setFolio_empleado(rs.getInt("folio_empleado"));
+				denom.setFolio_denominacion(rs.getInt("folio_denominacion"));
+				denom.setDenominacion(rs.getString("denominacion").trim());
+				denom.setValor(rs.getFloat("valor"));
+				denom.setCantidad(rs.getFloat("cantidad"));
+				denom.setFecha(rs.getString("fecha").trim());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return denom;
+	}
+	
 	public Obj_Revision_Lista_Raya ListaR(int numero_lista) throws SQLException{
 		Obj_Revision_Lista_Raya LR = new Obj_Revision_Lista_Raya();
 		String query = "select * from tb_lista_raya where numero_lista ="+ numero_lista;
@@ -505,7 +565,7 @@ public class BuscarSQL {
 	
 	public Obj_Alimentacion_Cortes Corte_Nuevo() throws SQLException{
 		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
-		String query = "select max(folio) as 'Maximo' from tb_alimentacion_cortes";
+		String query = "select max(folio_corte) as 'Maximo' from tb_alimentacion_cortes";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

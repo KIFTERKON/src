@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.Date;
 
 import objetos.Obj_Alimentacion_Cortes;
+import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
@@ -266,7 +267,7 @@ public class GuardarSQL {
 	public boolean Guardar_Corte(Obj_Alimentacion_Cortes corte){
 		String query = "insert into tb_alimentacion_cortes(folio_empleado,nombre_empleado," +
 						"puesto,establecimiento,asignacion,corte_del_sistema,deposito," +
-						"efectivo,diferencia_corte,fecha,status) values(?,?,?,?,?,?,?,?,?,?,?)";
+						"efectivo,diferencia_corte,fecha,status,comentario) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -283,6 +284,7 @@ public class GuardarSQL {
 			pstmt.setFloat(9, corte.getDiferencia_corte());
 			pstmt.setString(10, corte.getFecha().toUpperCase());
 			pstmt.setString(11, (corte.isStatus())?"1":"0");
+			pstmt.setString(12, corte.getComentario().toUpperCase());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -683,6 +685,47 @@ public class GuardarSQL {
 			pstmt.setFloat(4, bancos.getBanamex());
 			pstmt.setFloat(5, bancos.getBanorte());
 			pstmt.setString(6, "1");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Alimentacion_denominacio(Obj_Alimentacion_Denominacion alim_denom){
+		
+		String query = "insert into tb_alimentacion_denominaciones(asignacion," +
+				"folio_empleado,folio_denominacion,denominacion,valor,cantidad,fecha)" +
+				" values(?,?,?,?,?,?,?)";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, alim_denom.getAsignacion().toUpperCase());
+			pstmt.setInt(2, alim_denom.getFolio_empleado());
+			pstmt.setInt(3, alim_denom.getFolio_denominacion());
+			pstmt.setString(4, alim_denom.getDenominacion().toUpperCase());
+			pstmt.setFloat(5, alim_denom.getValor());
+			pstmt.setFloat(6, alim_denom.getCantidad());
+			pstmt.setString(7, alim_denom.getFecha());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

@@ -39,8 +39,11 @@ import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
 import catalogos.Cat_Deduccion_Inasistencia;
+import catalogos.Cat_Denominaciones;
+import catalogos.Cat_Divisa_Y_TipoDeCambio;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Establecimiento;
+import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
@@ -182,6 +185,11 @@ public class Principal extends JFrame{
 	JMenu Ayuda = new JMenu("Ayuda");
 		JMenuItem Edicion_AcercaDe = new JMenuItem("Acerca de", new ImageIcon("foto/help.png"));
 		JMenuItem Permiso_user = new JMenuItem("Permisos de Usuario", new ImageIcon("foto/help.png"));
+		
+	JMenu Cortes = new JMenu("Cortes");
+		JMenuItem Divisas = new JMenuItem("Divisas y Tipo de Cambio", new ImageIcon(""));
+		JMenuItem Denominaciones = new JMenuItem("Denominaciones", new ImageIcon(""));
+		JMenuItem Alimentacion_Corte = new JMenuItem("Alimentacion de Cortes",new ImageIcon(""));
 		
 	public Principal(){
 		this.setTitle("  Grupo Izagar  ");
@@ -578,6 +586,13 @@ public class Principal extends JFrame{
 		Ayuda.add(Edicion_AcercaDe);
 		Ayuda.add(Permiso_user);
 		
+		Cortes.add(Divisas);
+			Divisas.addActionListener(Opciones);
+		Cortes.add(Denominaciones);
+			Denominaciones.addActionListener(Opciones);
+		Cortes.add(Alimentacion_Corte);
+			Alimentacion_Corte.addActionListener(Opciones);
+		
 		Barra.add(Archivo);
 		Barra.add(Alimentacion);
 		Barra.add(Catalogo);
@@ -585,6 +600,7 @@ public class Principal extends JFrame{
 		Barra.add(Configuracion);
 		Barra.add(Autorizaciones);
 		Barra.add(Ayuda);
+		Barra.add(Cortes);
 						
 		return Barra;
 	}
@@ -660,6 +676,14 @@ public class Principal extends JFrame{
 				new Cat_Auto_Auditoria().setVisible(true);
 			if(e.getActionCommand().equals("Autorizacion Finanzas"))
 				new Cat_Auto_Finanzas().setVisible(true);
+			
+			//Cortes
+			if(e.getActionCommand().equals("Divisas y Tipo de Cambio"))
+				new Cat_Divisa_Y_TipoDeCambio().setVisible(true);
+			if(e.getActionCommand().equals("Denominaciones"))
+				new Cat_Denominaciones().setVisible(true);
+			if(e.getActionCommand().equals("Alimentacion de Cortes"))
+				new Cat_Filtro_Cortes().setVisible(true);
 		
 			//Alimentación
 			if(e.getActionCommand().equals("Bancos")){

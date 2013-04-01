@@ -73,19 +73,19 @@ public class Cat_Filtro_Cortes extends JDialog{
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(getPanelTabla()).setBounds(10,100,335,450);
+		campo.add(getPanelTabla()).setBounds(10,100,365,450);
 		
 		agregar(tabla);
 		
-		campo.add(lblBuscar).setBounds(10,30,70,20);
-		campo.add(txtBuscar).setBounds(75,30,215,20);
+		campo.add(lblBuscar).setBounds(30,30,70,20);
+		campo.add(txtBuscar).setBounds(95,30,215,20);
 		
-		campo.add(cmbEstablecimiento).setBounds(75, 60, 215, 20);
+		campo.add(cmbEstablecimiento).setBounds(95, 60, 215, 20);
 	
 		cont.add(campo);
 		
 		this.setModal(true);
-		this.setSize(360,600);
+		this.setSize(390,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -126,8 +126,8 @@ public class Cat_Filtro_Cortes extends JDialog{
 		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(0).setMinWidth(70);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(265);
-		tabla.getColumnModel().getColumn(1).setMinWidth(265);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(285);
+		tabla.getColumnModel().getColumn(1).setMinWidth(285);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
