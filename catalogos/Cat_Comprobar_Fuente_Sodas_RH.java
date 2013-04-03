@@ -148,6 +148,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		}
 		cont.add(panel);
 		agregar(tablaRh);
+		this.setModal(true);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());

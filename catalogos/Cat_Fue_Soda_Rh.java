@@ -174,8 +174,9 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 	
 	ActionListener opComprobar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
 			dispose();
+			new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
+			
 		}
 	};
 	

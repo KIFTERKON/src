@@ -633,7 +633,6 @@ public class GuardarSQL {
 	
 	public boolean Guardar(Obj_Persecciones_Extra persecciones){
 		String query = "exec sp_insert_persecciones_extra ?,?,?,?,?,?,?,?";
-		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -945,88 +944,154 @@ public class GuardarSQL {
 	
 	public boolean Guardar(Obj_Revision_Lista_Raya raya){
 		
-		String query ="exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-		String queryI = "exec sp_insert_abono ?,?,?,?";
-
-		String queryII ="exec sp_update_autorizaciones ?,?";
+		/** EL PROCEDIMIENTO sp_insert_lista_raya INSERTA LOS VALORES A LA TABLA 
+		 *  tb_lista_raya
+ 		 * **/
+		String sp_insert_lista_raya25 =
+				"exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		
-		String abonosStatus0 = "exec sp_update_abono ?,?";
+		/** EL PROCEDIMIENTO sp_insert_abono INSERTA EL ABONO INDICADO DE PRESTAMOS**/
+		String sp_insert_abono4 = "exec sp_insert_abono ?,?,?,?";
 		
-		String prestamoStatus0 = "exec sp_update_prestamo ?";
+		/**CUANDO UN PRESTAMO SE QUEDA EN CANTIDAD DE CERO LOS STATUS SON CAMBIADOS A 0
+		 * JUNTO CON LOS ABONOS**/
+		String sp_update_abono2 = "exec sp_update_abono ?,?";
+		String sp_update_prestamo1 = "exec sp_update_prestamo ?";
+		
+		/**EL PROCEDIMIENTO sp_insert_abono_cortes INSERTA EL ABONO DEL CORTES INDICADO**/
+		String sp_insert_abono_cortes4 = "exec sp_insert_abono_cortes ?,?,?,?";
+		
+		/**CUANDO UN CORTE SE QUEDA EN CANTIDAD DE CERO LOS STATUS SON CAMBIADOS A 0
+		 * JUNTO CON LOS ABONOS DE CORTE**/
+		String sp_update_abono_cortes2 = "exec sp_update_abono_cortes ?,?";
+		String sp_update_cortes1 = "exec sp_update_cortes ?";
+		
+		/**RESETEAR LAS TABLAS SIGUIENTES PERSECCIONES Y DEDUCION INASISTENCIA**/
+		String sp_update_status_persecciones1 = "exec sp_update_status_persecciones ?";
+		String sp_update_status_deduci_inasis1 = "exec sp_update_status_deduci_inasis ?";
+				
+		/**REGRESAR LAS AUTORIZACIONES A FALSO**/
+		String sp_update_autorizaciones2 ="exec sp_update_autorizaciones ?,?";	
 		
 		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmtt = null;
-		PreparedStatement pstmttt= null;
-		PreparedStatement abonopstmt= null;
-		PreparedStatement prestamopstmt= null;
+		PreparedStatement sp_insert_lista_raya25pstmt = null;
+		PreparedStatement sp_insert_abono4pstmt = null;
+		PreparedStatement sp_update_abono2pstmt = null;
+		PreparedStatement sp_update_prestamo1pstmt = null;
+		PreparedStatement sp_insert_abono_cortes4pstmt = null;
+		PreparedStatement sp_update_abono_cortes2pstmt = null;
+		PreparedStatement sp_update_cortes1pstmt = null;
+		PreparedStatement sp_update_status_persecciones1pstmt = null;
+		PreparedStatement sp_update_status_deduci_inasis1pstmt = null;
+		PreparedStatement sp_update_autorizaciones2pstmt = null;
 
 		try {
 			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmtt = con.prepareStatement(queryI);
-			pstmttt = con.prepareStatement(queryII);
-			abonopstmt = con.prepareStatement(abonosStatus0);
-			prestamopstmt = con.prepareStatement(prestamoStatus0);
+			sp_insert_lista_raya25pstmt = con.prepareStatement(sp_insert_lista_raya25);
+			sp_insert_abono4pstmt = con.prepareStatement(sp_insert_abono4);
+			sp_update_abono2pstmt = con.prepareStatement(sp_update_abono2);
+			sp_update_prestamo1pstmt = con.prepareStatement(sp_update_prestamo1);
+			sp_insert_abono_cortes4pstmt = con.prepareStatement(sp_insert_abono_cortes4);
+			sp_update_abono_cortes2pstmt = con.prepareStatement(sp_update_abono_cortes2);
+			sp_update_cortes1pstmt = con.prepareStatement(sp_update_cortes1);
+			sp_update_status_persecciones1pstmt = con.prepareStatement(sp_update_status_persecciones1);
+			sp_update_status_deduci_inasis1pstmt = con.prepareStatement(sp_update_status_deduci_inasis1);
+			sp_update_autorizaciones2pstmt = con.prepareStatement(sp_update_autorizaciones2);
 			
 			int Folio_Empleado = raya.getFolio_empleado();
 			float descuento = raya.getD_prestamo();
 			
-			pstmt.setInt(1, raya.getNumero_lista());
-			pstmt.setInt(2, Folio_Empleado);
-			pstmt.setString(3, raya.getNombre_completo().toUpperCase());
-			pstmt.setString(4, raya.getEstablecimiento().toUpperCase());
-			pstmt.setFloat(5, raya.getSueldo());
-			pstmt.setFloat(6, raya.getP_bono_complementario());
+			sp_insert_lista_raya25pstmt.setInt(1, raya.getNumero_lista());
+			sp_insert_lista_raya25pstmt.setInt(2, Folio_Empleado);
+			sp_insert_lista_raya25pstmt.setString(3, raya.getNombre_completo().toUpperCase());
+			sp_insert_lista_raya25pstmt.setString(4, raya.getEstablecimiento().toUpperCase());
+			sp_insert_lista_raya25pstmt.setFloat(5, raya.getSueldo());
+			sp_insert_lista_raya25pstmt.setFloat(6, raya.getP_bono_complementario());
 			
 			float saldo_pres_inicial = raya.getSaldo_prestamo_inicial();
 			
-			pstmt.setFloat(7, saldo_pres_inicial);
-			pstmt.setFloat(8, descuento);
+			sp_insert_lista_raya25pstmt.setFloat(7, saldo_pres_inicial);
+			sp_insert_lista_raya25pstmt.setFloat(8, descuento);
 			float finalSaldo = raya.getSaldo_final();
-			pstmt.setFloat(9, finalSaldo);
+			sp_insert_lista_raya25pstmt.setFloat(9, finalSaldo);
 			
-			pstmt.setFloat(10, raya.getD_fuente_sodas());
-			pstmt.setFloat(11, raya.getD_puntualidad());
-			pstmt.setFloat(12, raya.getD_faltas());
-			pstmt.setFloat(13, raya.getD_asistencia());
-			pstmt.setFloat(14, raya.getD_cortes());
-			pstmt.setFloat(15, raya.getD_infonavit());
-			pstmt.setFloat(16, raya.getPension());
-			pstmt.setFloat(17, raya.getD_banamex());
-			pstmt.setFloat(18, raya.getD_banorte());
-			pstmt.setFloat(19, raya.getD_extra());
-			pstmt.setFloat(20, raya.getP_dias_extra());
-			pstmt.setFloat(21, raya.getP_bono_extra());
-			pstmt.setFloat(22, raya.getA_pagar());
-			pstmt.setString(23, raya.getObservasion_i());
-			pstmt.setString(24, raya.getFecha());
-			pstmt.setInt(25, 1);
+			sp_insert_lista_raya25pstmt.setFloat(10, raya.getD_fuente_sodas());
+			sp_insert_lista_raya25pstmt.setFloat(11, raya.getD_puntualidad());
+			sp_insert_lista_raya25pstmt.setFloat(12, raya.getD_faltas());
+			sp_insert_lista_raya25pstmt.setFloat(13, raya.getD_asistencia());
+			sp_insert_lista_raya25pstmt.setFloat(14, raya.getD_cortes());
+			sp_insert_lista_raya25pstmt.setFloat(15, raya.getD_infonavit());
+			sp_insert_lista_raya25pstmt.setFloat(16, raya.getPension());
+			sp_insert_lista_raya25pstmt.setFloat(17, raya.getD_banamex());
+			sp_insert_lista_raya25pstmt.setFloat(18, raya.getD_banorte());
+			sp_insert_lista_raya25pstmt.setFloat(19, raya.getD_extra());
+			sp_insert_lista_raya25pstmt.setFloat(20, raya.getP_dias_extra());
+			sp_insert_lista_raya25pstmt.setFloat(21, raya.getP_bono_extra());
+			sp_insert_lista_raya25pstmt.setFloat(22, raya.getA_pagar());
+			sp_insert_lista_raya25pstmt.setString(23, raya.getObservasion_i());
+			sp_insert_lista_raya25pstmt.setString(24, raya.getFecha());
+			sp_insert_lista_raya25pstmt.setInt(25, 1);
 			
-			int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
-			
-			if(Folio_prestamo > 0){
-				pstmtt.setInt(1, Folio_prestamo);
-				pstmtt.setInt(2, Folio_Empleado);
-				pstmtt.setFloat(3, descuento);
-				pstmtt.setInt(4, 1);
-				pstmtt.execute();
+			if(saldo_pres_inicial > 0){
+				int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
+				if(Folio_prestamo > 0){
+					sp_insert_abono4pstmt.setInt(1, Folio_prestamo);
+					sp_insert_abono4pstmt.setInt(2, Folio_Empleado);
+					sp_insert_abono4pstmt.setFloat(3, descuento);
+					sp_insert_abono4pstmt.setInt(4, 1);
+					
+					sp_insert_abono4pstmt.execute();
+				}
+				if(finalSaldo == 0){
+					sp_update_abono2pstmt.setInt(1, Folio_Empleado);
+					sp_update_abono2pstmt.setInt(2, Folio_prestamo);
+					sp_update_abono2pstmt.execute();
+					
+					sp_update_prestamo1pstmt.setInt(1,Folio_Empleado);
+					sp_update_prestamo1pstmt.execute();
+				}
 			}
 			
-			pstmttt.setString(1, "false");
-			pstmttt.setString(2, "false");
-			
-			if(finalSaldo == 0){
-				abonopstmt.setInt(1, Folio_Empleado);
-				abonopstmt.setInt(2, Folio_prestamo);
-				abonopstmt.execute();
+			if(raya.getD_cortes() > 0 ){
+				String[] final_corte = getFinalCorte(Folio_Empleado);
+				int folio_corte = Integer.parseInt(final_corte[0]);
+				float cantida_corte = Float.parseFloat(final_corte[1]);
+				float abonos_corte = Float.parseFloat(final_corte[2]);
+				float corte = raya.getD_cortes();
 				
-				prestamopstmt.setInt(1,Folio_Empleado);
-				prestamopstmt.execute();
+				sp_insert_abono_cortes4pstmt.setInt(1, folio_corte);
+				sp_insert_abono_cortes4pstmt.setInt(2, Folio_Empleado);
+				sp_insert_abono_cortes4pstmt.setFloat(3, corte);
+				sp_insert_abono_cortes4pstmt.setInt(4, 1);
+					
+				sp_insert_abono_cortes4pstmt.execute();
+				
+				if((cantida_corte - (abonos_corte+corte)) == 0){
+					sp_update_abono_cortes2pstmt.setInt(1, Folio_Empleado);
+					sp_update_abono_cortes2pstmt.setInt(2, folio_corte);
+					sp_update_abono_cortes2pstmt.execute();
+					
+					sp_update_cortes1pstmt.setInt(1, Folio_Empleado);
+					sp_update_cortes1pstmt.execute();
+				}
+
 			}
 			
-			pstmttt.execute();
-			pstmt.execute();
+			sp_update_status_persecciones1pstmt.setInt(1, Folio_Empleado);
+			sp_update_status_deduci_inasis1pstmt.setInt(1, Folio_Empleado);
+			
+			sp_update_autorizaciones2pstmt.setString(1, "false");
+			sp_update_autorizaciones2pstmt.setString(2, "false");
+			
+			/** EJECUTA EL PROCEDIMIENTO ALMACENADO sp_insert_lista_raya**/
+			sp_insert_lista_raya25pstmt.execute();
+			
+			/** EJECUTA EL RESETEO DE TABLAS**/
+			sp_update_status_persecciones1pstmt.execute();
+			sp_update_status_deduci_inasis1pstmt.execute();
+			
+			/** EJECUTA LAS AUTORIZACIONES A FALSO **/
+			sp_update_autorizaciones2pstmt.execute();
 			
 			con.commit();
 		} catch (Exception e) {
@@ -1041,8 +1106,18 @@ public class GuardarSQL {
 			} 
 			return false;
 		}finally{
-			try {
-				pstmt.close();
+			try {				
+				sp_insert_lista_raya25pstmt.close();
+				sp_insert_abono4pstmt.close();
+				sp_update_abono2pstmt.close();
+				sp_update_prestamo1pstmt.close();
+				sp_insert_abono_cortes4pstmt.close();
+				sp_update_abono_cortes2pstmt.close();
+				sp_update_cortes1pstmt.close();
+				sp_update_status_persecciones1pstmt.close();
+				sp_update_status_deduci_inasis1pstmt.close();
+				sp_update_autorizaciones2pstmt.close();
+			
 				con.close();
 			} catch(SQLException e){
 				e.printStackTrace();
@@ -1176,4 +1251,23 @@ public class GuardarSQL {
 		return valor;
 	}
 		
+	public String[] getFinalCorte(int folio){
+		String[] valor = new String[3];
+		valor[0] = "";	valor[1] = "";	valor[2] = "";
+	try {
+		Connexion con = new Connexion();
+		Statement s = con.conexion().createStatement();
+		ResultSet rs = s.executeQuery("exec sp_get_parametros_cortes "+folio);
+			while(rs.next()){
+				valor[0] = rs.getString(1);
+				valor[1] = rs.getString(2);
+				valor[2] = rs.getString(3);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+	
 }

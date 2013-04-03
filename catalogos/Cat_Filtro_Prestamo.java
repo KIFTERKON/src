@@ -265,25 +265,7 @@ public class Cat_Filtro_Prestamo extends JDialog{
 					tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
 					tabla.getColumnModel().getColumn(4).setCellRenderer(render);
 					tabla.getColumnModel().getColumn(5).setCellRenderer(render);
-					String query = "select tb_empleado.folio as Folio, " +
-										 " tb_empleado.nombre + ' ' + tb_empleado.ap_paterno + ' ' + tb_empleado.ap_materno as NombreCompleto, " +
-										 " tb_establecimiento.nombre as Establecimiento, " +
-										 " CASE " +
-										 	" WHEN tb_empleado.status = '1' " +
-										 	" THEN 'VIGENTE' " +
-										 	" WHEN tb_empleado.status = '2' " +
-										 	" THEN 'VACACIONES' " +
-										 	" WHEN tb_empleado.status = '3' " +
-										 	" THEN	'BAJA' " +
-										 " END as Status, " +
-										 " ROUND(tb_rango_prestamos.maximo,2) as Rango, " + 
-										 " tb_prestamo.cantidad as Prestamo " +
-			 						"from tb_empleado " +
-			 							 " inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id " +
-			 							 " inner join tb_rango_prestamos on tb_rango_prestamos.folio = tb_empleado.rango_prestamo_id " +
-			 							 " left outer join tb_prestamo on tb_prestamo.folio_empleado = tb_empleado.folio and tb_prestamo.status = 1 " +
-			 						"where " +
-			 							 " tb_empleado.status < 3;";
+					String query = "exec sp_filtro_prestamo";
 					Statement s;
 					ResultSet rs;
 					try {

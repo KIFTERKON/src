@@ -193,7 +193,7 @@ public class Cat_Prestamo extends JDialog{
 			}
 			txtCantidad.setText(modelo.getValueAt(0, 2)+"");
 			txtDescuento.setText(modelo.getValueAt(0, 3)+"");
-			if(modelo.getValueAt(0, 6).equals("Vigente")){
+			if(modelo.getValueAt(0, 6).equals("VIGENTE")){
 				cmbStatus.setSelectedIndex(0);
 			}else{
 				cmbStatus.setSelectedIndex(1);
@@ -225,7 +225,7 @@ public class Cat_Prestamo extends JDialog{
 	    			}
 	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
 	    			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
-	    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
+	    			if(modelo.getValueAt(fila, 6).equals("VIGENTE")){
 	    				cmbStatus.setSelectedIndex(0);
 	    			}else{
 	    				cmbStatus.setSelectedIndex(1);
@@ -282,8 +282,8 @@ public class Cat_Prestamo extends JDialog{
 								
 								
 								switch(cmbStatus.getSelectedIndex()){
-									case 0: fila[6]="Vigente";break;	
-									case 1: fila[6]="Cancelado Temporal";break;
+									case 0: fila[6]="VIGENTE";break;	
+									case 1: fila[6]="CANCELADO TEMPORAL";break;
 								}
 								modelo.addRow(fila); 	
 							} catch (SQLException e1) {
@@ -432,14 +432,14 @@ public class Cat_Prestamo extends JDialog{
 		if(txtNombre_Completo.getText().equals(""))error+= "Nombre Completo\n";
 		if(txtCantidad.getText().equals(""))error+= "Cantidad\n";
 		if(txtDescuento.getText().equals(""))error+= "Descuento\n";
-		
 		if(fechaNull.equals("null"))error+= "Fecha\n";
 				
 		return error;
 	}
 
 	public String[][] getMatriz(String NombreCompleto){
-		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
+		String qry = "exec sp_select_prestamo '"+NombreCompleto+"'";
+		System.out.println(qry);
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
 		
@@ -452,22 +452,15 @@ public class Cat_Prestamo extends JDialog{
 			while(rs.next()){
 				
 					DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-					
-					float suma = getDescuentoPrest(folio_empleado);
-					
+										
 					Matriz[i][0] = rs.getInt(1)+"";
 					Matriz[i][1] = rs.getString(2).trim();
-					String cantidadd = decimalFormat.format(Double.parseDouble(rs.getString(3)));
-					saldo = Float.parseFloat(cantidadd);
-					Matriz[i][2] = cantidadd+"";
-					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
-					Matriz[i][4] = Float.parseFloat(cantidadd)-suma+"";
-					Matriz[i][5] = suma+"";
-					if(rs.getInt(7)==1){
-						Matriz[i][6]= "Vigente";
-					}else{
-						Matriz[i][6]="Cancelado Temporal";
-					}
+					Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)))+"";
+					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)))+"";
+					Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)))+"";
+					Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)))+"";
+					Matriz[i][6] = rs.getString(7);
+				
 					i++;
 			}
 			

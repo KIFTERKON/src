@@ -251,10 +251,5 @@ ActionListener opFiltroPuesto = new ActionListener(){
 	    return scrol; 
 	}
 	
-	public static void main(String args[]){
-		new Cat_Imprimir_Plantilla_Activa().setVisible(true);
-	}
-
-	
 }
 

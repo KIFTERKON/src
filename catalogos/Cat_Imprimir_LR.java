@@ -54,7 +54,7 @@ public class Cat_Imprimir_LR extends JDialog{
 	JLabel lblExpor = new JLabel(new ImageIcon("imagen/export_excel.png"));
 	
 	public Cat_Imprimir_LR()	{
-		this.setTitle("..:: Analisis de Lista de Raya ::..");
+		this.setTitle("Impresión de Lista de Raya");
 		this.lblExpor.setText("Exportar");
 		this.lblImprimir.setText("Imprimir");
 

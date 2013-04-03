@@ -109,8 +109,8 @@ public class Principal extends JFrame{
 	JLabel lblSueldo2= new JLabel("Sueldo");
 	
 	JButton btnListaRaya= new JButton(new ImageIcon("imagen/listaR.png"));
-	JLabel lblListaRaya2= new JLabel("Lista de");
-	JLabel lblListaRaya3= new JLabel("Raya");
+	JLabel lblListaRaya2= new JLabel("Revisión Lista");
+	JLabel lblListaRaya3= new JLabel("de Raya");
 	
 	JButton btnListaFirma= new JButton(new ImageIcon("imagen/listaF.png"));
 	JLabel lblListaFirma2= new JLabel("Lista de");
@@ -165,7 +165,7 @@ public class Principal extends JFrame{
 		
 	JMenu Listas = new JMenu("Listas");	
 		JMenuItem Listas_Raya = new JMenuItem("Revision Lista de Raya");
-		JMenuItem Listas_Analisis = new JMenuItem("Analisis Lista de Raya");
+		JMenuItem Listas_Analisis = new JMenuItem("Impresión Lista de Raya");
 		JMenuItem Listas_Firma = new JMenuItem("Lista de Firmas");
 		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamos");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
@@ -246,7 +246,7 @@ public class Principal extends JFrame{
 		campo.add(btnListaComparacion).setBounds(594,412,64,64);
 		campo.add(btnRevicion).setBounds(594,536,64,64);
 		
-		campo.add(lblListaRaya2).setBounds(688,60,64,20);
+		campo.add(lblListaRaya2).setBounds(688,60,104,20);
 		campo.add(lblListaRaya3).setBounds(688,70,64,20);
 		campo.add(lblListaFirma2).setBounds(688,184,64,20);
 		campo.add(lblListaFirma3).setBounds(688,194,64,20);
@@ -658,7 +658,7 @@ public class Principal extends JFrame{
 			// Listas
 			if(e.getActionCommand().equals("Revision Lista de Raya"))
 				new Cat_Revision_Lista_Raya().setVisible(true);
-			if(e.getActionCommand().equals("Analisis Lista de Raya"))
+			if(e.getActionCommand().equals("Impresión Lista de Raya"))
 				new Cat_Imprimir_LR().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Firmas"))
 				new Cat_Lista_Pago().setVisible(true);

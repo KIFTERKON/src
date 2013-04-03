@@ -163,7 +163,8 @@ public class Cat_Diferencia_Cortes extends JDialog{
 			}
 			txtCantidad.setText(modelo.getValueAt(0, 2)+"");
 			txtDescuento.setText(modelo.getValueAt(0, 3)+"");
-			if(modelo.getValueAt(0, 6).equals("Vigente")){
+			
+			if(modelo.getValueAt(0, 6).equals("VIGENTE")){
 				cmbStatus.setSelectedIndex(0);
 			}else{
 				cmbStatus.setSelectedIndex(1);
@@ -195,7 +196,7 @@ public class Cat_Diferencia_Cortes extends JDialog{
         		
     			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
     			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
-    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
+    			if(modelo.getValueAt(fila, 6).equals("VIGENTE")){
     				cmbStatus.setSelectedIndex(0);
     			}else{
     				cmbStatus.setSelectedIndex(1);
@@ -240,8 +241,8 @@ public class Cat_Diferencia_Cortes extends JDialog{
 							fila[5]=0.00;
 							
 							switch(cmbStatus.getSelectedIndex()){
-								case 0: fila[6]="Vigente";break;	
-								case 1: fila[6]="Cancelado Temporal";break;
+								case 0: fila[6]="VIGENTE";break;	
+								case 1: fila[6]="CANCELADO TEMPORAL";break;
 							}
 							modelo.addRow(fila); 						
 						}
@@ -382,7 +383,7 @@ public class Cat_Diferencia_Cortes extends JDialog{
 	
 	
 	public String[][] getMatriz(String NombreCompleto){
-		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_diferencia_cortes where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
+		String qry = "exec sp_select_cortes '"+NombreCompleto+"'";
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
 		Statement s;
@@ -401,11 +402,8 @@ public class Cat_Diferencia_Cortes extends JDialog{
 				Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
 				Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)));
 				Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)));
-				if(rs.getInt(7)==1){
-					Matriz[i][6]= "Vigente";
-				}else{
-					Matriz[i][6]="Cancelado Temporal";
-				}
+				Matriz[i][6] = rs.getString(7);
+
 				i++;
 			}
 			
