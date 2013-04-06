@@ -254,47 +254,53 @@ public class Cat_Prestamo extends JDialog{
 				
 				switch(tabla.getRowCount()){
 					case 0: 
-						pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
-						pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
-						pres.setNombre_Completo(txtNombre_Completo.getText());
-						pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
-						pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
-						pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
-						pres.setStatus(cmbStatus.getSelectedIndex()+1);
-						pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
-		
-						pres.guardar();
-						
-						JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						
-						if(pres.getStatus_descuento()==1){
-							Object[] fila = new Object[tabla.getColumnCount()]; 
-							try {
-								Obj_Prestamo maximo = new Obj_Prestamo().maximo();
-								
-								fila[0]=maximo.getFolio();
-								fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
-								fila[2]=txtCantidad.getText();
-								fila[3]=txtDescuento.getText();
-								fila[4]=txtCantidad.getText();
-								fila[5]=0.00;
-								
-								
-								switch(cmbStatus.getSelectedIndex()){
-									case 0: fila[6]="VIGENTE";break;	
-									case 1: fila[6]="CANCELADO TEMPORAL";break;
+						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(txtCantidad.getText())){
+							JOptionPane.showMessageDialog(null, "El Descuento es Mayor que la cantidad", "Aviso al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;	
+						}else{
+							pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
+							pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
+							pres.setNombre_Completo(txtNombre_Completo.getText());
+							pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
+							pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
+							pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
+							pres.setStatus(cmbStatus.getSelectedIndex()+1);
+							pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
+			
+							pres.guardar();
+							
+							JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							
+							if(pres.getStatus_descuento()==1){
+								Object[] fila = new Object[tabla.getColumnCount()]; 
+								try {
+									Obj_Prestamo maximo = new Obj_Prestamo().maximo();
+									
+									fila[0]=maximo.getFolio();
+									fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
+									fila[2]=txtCantidad.getText();
+									fila[3]=txtDescuento.getText();
+									fila[4]=txtCantidad.getText();
+									fila[5]=0.00;
+									
+									
+									switch(cmbStatus.getSelectedIndex()){
+										case 0: fila[6]="VIGENTE";break;	
+										case 1: fila[6]="CANCELADO TEMPORAL";break;
+									}
+									modelo.addRow(fila); 	
+								} catch (SQLException e1) {
+									e1.printStackTrace();
 								}
-								modelo.addRow(fila); 	
-							} catch (SQLException e1) {
-								e1.printStackTrace();
+													
 							}
-												
 						}
+						
 						
 						break;
 					case 1: 
-						if(Double.parseDouble(txtDescuento.getText())> saldo-getDescuentoPrest(folio_empleado)){
+						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(modelo.getValueAt(0,4)+"")){
 							JOptionPane.showMessageDialog(null,"El Descuento que quiere aplicar es mayor que con lo que salda la cuenta", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}

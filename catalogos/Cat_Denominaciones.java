@@ -34,8 +34,6 @@ import SQL.Connexion;
 import objetos.JTextFieldLimit;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
-import objetos.Obj_Empleado;
-import objetos.Obj_Establecimiento;
 
 @SuppressWarnings("serial")
 public class Cat_Denominaciones extends JFrame{
@@ -59,7 +57,7 @@ Connexion con = new Connexion();
 	JTextField txtNombre = new JTextField();
 	
 	String divisa[] = new Obj_Denominaciones().Combo_Denominaciones();
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbMoneda = new JComboBox(divisa);
 	
 	JCheckBox chStatus = new JCheckBox("Status");

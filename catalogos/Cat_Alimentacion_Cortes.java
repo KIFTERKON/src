@@ -1,6 +1,5 @@
 package catalogos;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,7 +30,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -45,7 +42,6 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import camara.MainCamara;
 
 import frames.WholeNumberField;
 
@@ -55,10 +51,7 @@ import objetos.JTextFieldLimit;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Empleado;
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
-import objetos.Obj_Tipo_Banco;
-import objetos.Obj_Turno;
 
 @SuppressWarnings("serial")
 public class Cat_Alimentacion_Cortes extends JDialog{
@@ -314,7 +307,7 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 		return filas;
 	}
 	
-	@SuppressWarnings({ "serial", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 		
 		Container cont = getContentPane();
@@ -370,7 +363,6 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 	    JToolBar menu = new JToolBar();
 		JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 		
-		@SuppressWarnings("rawtypes")
 		public Cat_Alimentacion_Por_Denominacion(String asignacion,int folio_emp){
 			
 			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
@@ -669,7 +661,7 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 		}
 	}
 	
-	@SuppressWarnings({ "serial", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public class Cat_Alimentacion_Por_Denominacion2 extends JDialog {
 		
 		Container cont = getContentPane();
@@ -723,7 +715,6 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 	    JToolBar menu = new JToolBar();
 		JButton btnModificar = new JButton(new ImageIcon("imagen/Guardar.png"));
 		
-		@SuppressWarnings("rawtypes")
 		public Cat_Alimentacion_Por_Denominacion2(String asignacion,int folio_emp){
 			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
 			this.setTitle("Alimentacion por Denominacion");

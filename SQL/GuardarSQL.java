@@ -38,8 +38,7 @@ import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class GuardarSQL {
-	
-	
+
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
 		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
@@ -785,7 +784,6 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	
 	public boolean Guardar_Turno(Obj_Turno turno){
 		String query = "exec sp_insert_turno ?,?,?";
 		Connection con = new Connexion().conexion();
@@ -818,8 +816,6 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
-	
-	
 	
 	public boolean Guardar_ConfigBD(Obj_Conexion_BD config){
 		BufferedWriter bufferedWriter = null;
@@ -973,6 +969,13 @@ public class GuardarSQL {
 		/**REGRESAR LAS AUTORIZACIONES A FALSO**/
 		String sp_update_autorizaciones2 ="exec sp_update_autorizaciones ?,?";	
 		
+		/**APLICAR STATUS 0 EN FUENTE DE SODAS DH Y AUXF**/
+		String update_fte_dh = "update tb_fuente_sodas_rh set status=? where status = 1";
+		String update_fte_auxf = "update tb_fuente_sodas_auxf set status=? where status = 1";
+		
+		/**RESETEAR LISTA PRE-RAYA**/
+		String deletetb_pre_listaraya = "delete from tb_pre_listaraya";
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement sp_insert_lista_raya25pstmt = null;
 		PreparedStatement sp_insert_abono4pstmt = null;
@@ -984,6 +987,9 @@ public class GuardarSQL {
 		PreparedStatement sp_update_status_persecciones1pstmt = null;
 		PreparedStatement sp_update_status_deduci_inasis1pstmt = null;
 		PreparedStatement sp_update_autorizaciones2pstmt = null;
+		PreparedStatement update_fte_dh1pstmt = null;
+		PreparedStatement update_fte_auxf1pstmt = null;
+		PreparedStatement deletetb_pre_listarayapstmt = null;
 
 		try {
 			con.setAutoCommit(false);
@@ -997,6 +1003,9 @@ public class GuardarSQL {
 			sp_update_status_persecciones1pstmt = con.prepareStatement(sp_update_status_persecciones1);
 			sp_update_status_deduci_inasis1pstmt = con.prepareStatement(sp_update_status_deduci_inasis1);
 			sp_update_autorizaciones2pstmt = con.prepareStatement(sp_update_autorizaciones2);
+			update_fte_dh1pstmt = con.prepareStatement(update_fte_dh);
+			update_fte_auxf1pstmt = con.prepareStatement(update_fte_auxf);
+			deletetb_pre_listarayapstmt = con.prepareStatement(deletetb_pre_listaraya);
 			
 			int Folio_Empleado = raya.getFolio_empleado();
 			float descuento = raya.getD_prestamo();
@@ -1083,6 +1092,9 @@ public class GuardarSQL {
 			sp_update_autorizaciones2pstmt.setString(1, "false");
 			sp_update_autorizaciones2pstmt.setString(2, "false");
 			
+			update_fte_dh1pstmt.setString(1,"0");
+			update_fte_auxf1pstmt.setString(1, "0");
+			
 			/** EJECUTA EL PROCEDIMIENTO ALMACENADO sp_insert_lista_raya**/
 			sp_insert_lista_raya25pstmt.execute();
 			
@@ -1092,6 +1104,13 @@ public class GuardarSQL {
 			
 			/** EJECUTA LAS AUTORIZACIONES A FALSO **/
 			sp_update_autorizaciones2pstmt.execute();
+			
+			/** EJECUTA EL RESETEO DE FUENTE DE SODAS LOS STATUS **/
+			update_fte_dh1pstmt.execute();
+			update_fte_auxf1pstmt.execute();
+			
+			/** EJECUTAMOS EL RESETEO DE LISTA PRE-RAYA**/
+			deletetb_pre_listarayapstmt.execute();
 			
 			con.commit();
 		} catch (Exception e) {
@@ -1117,7 +1136,10 @@ public class GuardarSQL {
 				sp_update_status_persecciones1pstmt.close();
 				sp_update_status_deduci_inasis1pstmt.close();
 				sp_update_autorizaciones2pstmt.close();
-			
+				update_fte_dh1pstmt.close();
+				update_fte_auxf1pstmt.close();
+				deletetb_pre_listarayapstmt.close();
+				
 				con.close();
 			} catch(SQLException e){
 				e.printStackTrace();

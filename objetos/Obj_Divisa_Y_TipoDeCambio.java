@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
-import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 public class Obj_Divisa_Y_TipoDeCambio {
