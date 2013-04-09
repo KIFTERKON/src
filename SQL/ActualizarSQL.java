@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
@@ -976,6 +977,37 @@ public class ActualizarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, (auditoria.isAutorizar())? "true" : "false");
 			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean ActualizarCostosTotales(Obj_Alimentacion_Totales alimentacion){
+		String query = "update tb_captura_totales_nomina set nomina=? where lista_raya ="+ alimentacion.getFolio_raya() + " and establecimiento='"+alimentacion.getEstablecimiento()+"'";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setFloat(1, alimentacion.getNomina());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

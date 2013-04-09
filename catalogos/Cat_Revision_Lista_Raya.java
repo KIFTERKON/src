@@ -175,7 +175,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		tabla.setRowSorter(trsfiltro);
 		
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		System.out.println(bono_dia_extra);
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		DefaultTableCellRenderer tcrR = new DefaultTableCellRenderer();
@@ -408,7 +407,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	
 	public int getNumeroLista(){
 		int valor = 0;
-	try {
+		try {
 			Connexion con = new Connexion();
 			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("exec sp_max_folio_lista_raya");

@@ -35,12 +35,7 @@ public class Cat_Usuario extends JFrame{
 	JTextField txtNombre_Completo = new JTextField();
 	JPasswordField txtContrasena = new JPasswordField();
 	JPasswordField txtContrasena1 = new JPasswordField();
-	
-	
-	String permiso[]={"Seleccionar Permiso de usuario","Administrador","Desarrollo Humanos","Auxiliar y Finanzas","Auditoria","Contador","Consulta"};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbPermisos = new JComboBox(permiso);
-	
+
 	String status[]= {"Vigente","Vacaciones","Baja"};
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbStatus = new JComboBox(status);
@@ -54,7 +49,7 @@ public class Cat_Usuario extends JFrame{
 	
 	public Cat_Usuario(){
 		super("Agregar Usuario");
-		int x = 80, y=30, ancho=110;
+		int x = 300, y=30, ancho=110;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("imagen/Person.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Agregar Usuario"));
 		
@@ -77,16 +72,13 @@ public class Cat_Usuario extends JFrame{
 		panel.add(new JLabel("Confirmar:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtContrasena1).setBounds(x+ancho,y,ancho*2+30,20);
 		
-		panel.add(new JLabel("Permiso:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbPermisos).setBounds(x+ancho,y,ancho*2+30,20);
-		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho*2+30,20);
 		
 		panel.add(btnSalir).setBounds(x,y+=25,ancho-20,20);
-		panel.add(btnDeshacer).setBounds((x*2)+10,y,ancho-20,20);
-		panel.add(btnEditar).setBounds((x*3)+20,y,ancho-20,20);
-		panel.add(btnGuardar).setBounds((x*4)+30,y,ancho-20,20);
+		panel.add(btnDeshacer).setBounds((x+=85)+10,y,ancho-20,20);
+		panel.add(btnEditar).setBounds((x+=85)+20,y,ancho-20,20);
+		panel.add(btnGuardar).setBounds((x+=85)+30,y,ancho-20,20);
 		
 		btnEditar.setEnabled(false);
 		btnDeshacer.setEnabled(false);
@@ -104,7 +96,7 @@ public class Cat_Usuario extends JFrame{
 		txtFolio.addKeyListener(buscar_action);
 		
 		cont.add(panel);
-		this.setSize(500,250);
+		this.setSize(800,500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
@@ -123,7 +115,6 @@ public class Cat_Usuario extends JFrame{
 					txtNombre_Completo.setText(usuario.getNombre_completo().trim());
 					txtContrasena.setText(usuario.getContrasena().substring(0,15)+"");
 					txtContrasena1.setText(usuario.getContrasena().substring(0,15)+"");
-					cmbPermisos.setSelectedIndex(usuario.getPermiso_id());
 					cmbStatus.setSelectedIndex(usuario.getStatus()-1);
 					
 					txtNombre_Completo.setEditable(false);
@@ -131,7 +122,6 @@ public class Cat_Usuario extends JFrame{
 					txtContrasena1.setEnabled(false);
 					btnEditar.setEnabled(true);
 					btnNuevo.setEnabled(false);
-					cmbPermisos.setEnabled(false);
 					cmbStatus.setEnabled(false);
 					btnGuardar.setEnabled(false);
 					btnDeshacer.setEnabled(true);
@@ -171,7 +161,6 @@ public class Cat_Usuario extends JFrame{
 							}else{							
 							usuario.setNombre_completo(txtNombre_Completo.getText());
 							usuario.setContrasena(cadena1);
-							usuario.setPermiso_id(cmbPermisos.getSelectedIndex());
 							usuario.setStatus(cmbStatus.getSelectedIndex()+1);
 							usuario.setFecha_alta(new Date().toString());
 							usuario.actualizar(Integer.parseInt(txtFolio.getText()));	
@@ -205,7 +194,6 @@ public class Cat_Usuario extends JFrame{
 							usuario.setFolio(Integer.parseInt(txtFolio.getText()));
 							usuario.setNombre_completo(txtNombre_Completo.getText());
 							usuario.setContrasena(cadena1);
-							usuario.setPermiso_id(cmbPermisos.getSelectedIndex());
 							usuario.setStatus(cmbStatus.getSelectedIndex()+1);
 							usuario.guardar();	
 							panelLimpiar();
@@ -272,7 +260,6 @@ public class Cat_Usuario extends JFrame{
 		txtNombre_Completo.setText("");
 		txtContrasena.setText("");
 		txtContrasena1.setText("");
-		cmbPermisos.setSelectedIndex(0);
 		cmbStatus.setSelectedIndex(0);
 	}
 	
@@ -284,7 +271,6 @@ public class Cat_Usuario extends JFrame{
 		if(txtNombre_Completo.getText().equals(""))									error+= "Numero Checador\n";
 		if(txtContrasena.getText().equals(""))										error+= "Contraseña\n";
 		if(txtContrasena1.getText().equals(""))										error+= "Confirmar Contraseña\n";
-		if(cmbPermisos.getSelectedItem().equals("Seleccionar Permiso de usuario"))	error+= "Permiso\n";
 				
 		return error;
 	}
@@ -324,32 +310,20 @@ public class Cat_Usuario extends JFrame{
 		txtNombre_Completo.setEnabled(false);
 		txtContrasena.setEnabled(false);
 		txtContrasena1.setEnabled(false);
-		cmbPermisos.setEnabled(false);
 		cmbStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-//		txtFolio.setEnabled(true);
 		txtNombre_Completo.setEnabled(true);
 		txtContrasena.setEnabled(true);
 		txtContrasena1.setEnabled(true);
-		cmbPermisos.setEnabled(true);
 		cmbStatus.setEnabled(true);
 	}
 	
 	public static void main(String args[]){
 		try{
-			// 6677914218
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//Obj_Usuario usuario = new Obj_Usuario().buscarMaximo();
 			new Cat_Usuario().setVisible(true);
-			//new Principal().setVisible(true);
-			
-//			if(usuario.getFolio()  0){
-//				new Cat_Usuario().setVisible(true);
-//			}else{
-			//	new CatPassword().setVisible(true);
-//			}	
 		}catch(Exception e){
 			e.printStackTrace();
 		}
