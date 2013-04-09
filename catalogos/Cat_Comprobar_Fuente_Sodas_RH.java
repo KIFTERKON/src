@@ -2,13 +2,13 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +28,7 @@ import SQL.Connexion;
 @SuppressWarnings("serial")
 public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	
+	DecimalFormat decimal = new DecimalFormat("#0.00");
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -75,28 +76,28 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	JLabel lblTotalRH = new JLabel();
 	JLabel lblTotalAX = new JLabel();
 	
-	JButton btnAceptar = new JButton(new ImageIcon("imagen/Aplicar.png"));
-	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
+	JButton btnAceptar = new JButton("Aceptar",new ImageIcon("imagen/Aplicar.png"));
+	JButton btnActualizar = new JButton("Actualizar",new ImageIcon("imagen/Actualizar.png"));
 	
 	public Cat_Comprobar_Fuente_Sodas_RH(){
 		this.setTitle("Comparación Fuente de Sodas DH");
 		
 		Etiqueta();
 		
-		panel.add(new JLabel("Tabla Desarrollo Humanos")).setBounds(210,10,200,20);
-		panel.add(lblTotalRH).setBounds(470,10,200,20);
-		panel.add(scrollRh).setBounds(210,35,320,290);
-		panel.add(new JLabel("Tabla de Diferencia Desarrollo Humanos")).setBounds(210,335,200,20);
-		panel.add(scrollTotalRH).setBounds(210,360,320,290);
+		panel.add(new JLabel("Tabla Desarrollo Humanos")).setBounds(110,40,200,20);
+		panel.add(lblTotalRH).setBounds(370,40,200,20);
+		panel.add(scrollRh).setBounds(110,65,320,290);
+		panel.add(new JLabel("Tabla de Diferencia Desarrollo Humanos")).setBounds(110,365,200,20);
+		panel.add(scrollTotalRH).setBounds(110,390,320,290);
 
-		panel.add(new JLabel("Tabla Auxiliar de Finanzas")).setBounds(650,10,200,20);
-		panel.add(lblTotalAX).setBounds(910,10,200,20);
-		panel.add(scrollAx).setBounds(650,35,320,290);
-		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Finanzas")).setBounds(650,335,250,20);
-		panel.add(scrollTotalAX).setBounds(650,360,320,290);
+		panel.add(new JLabel("Tabla Auxiliar de Finanzas")).setBounds(550,40,200,20);
+		panel.add(lblTotalAX).setBounds(810,40,200,20);
+		panel.add(scrollAx).setBounds(550,65,320,290);
+		panel.add(new JLabel("Tabla de Diferencia Auxiliar de Finanzas")).setBounds(550,365,250,20);
+		panel.add(scrollTotalAX).setBounds(550,390,320,290);
 		
-		panel.add(btnActualizar).setBounds(555,5,32,20);
-		panel.add(btnAceptar).setBounds(595,5,32,20);
+		panel.add(btnActualizar).setBounds(310,5,120,20);
+		panel.add(btnAceptar).setBounds(550,5,120,20);
 
 		
 		btnActualizar.addActionListener(opActualizar);
@@ -148,9 +149,12 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		}
 		cont.add(panel);
 		agregar(tablaRh);
+		this.setSize(980,750);
+		this.setModal(true);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
-		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
+		
+//		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 	}
 	
 	private void agregar(final JTable tbl) {
@@ -160,7 +164,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	        		String[][] TablaDifRH = getMatrizDifRH();
 	    			String[][] TablaDifAX = getMatrizDifAX();
 	    			if(TablaDifAX.length == 0 && TablaDifRH.length == 0){
-	    				JOptionPane.showMessageDialog(null, "La Lista está correcta! \n Haga click en la palomita para terminar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+	    				JOptionPane.showMessageDialog(null, "La Lista está correcta! \n Haga click en Aceptar para terminar","Aviso",JOptionPane.INFORMATION_MESSAGE);
 	    			}else{
 	    				if(tablaRh.rowAtPoint(e.getPoint())+1 == tablaRh.getRowCount() ){
 	    					return;
@@ -247,10 +251,8 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			for(int j=0; j<3; j++){
 				modelTotalRH.setValueAt(TablaDifRH[i][j]+"", i,j);
 			}
-			sumaRH();
-			
 		}
-		
+		sumaRH();
 		String[][] TablaDifAX = getMatrizDifAX();
 		Object[] filaDifAX = new Object[tablaTotalAX.getColumnCount()]; 
 		for(int i=0; i<TablaDifAX.length; i++){
@@ -355,7 +357,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1).trim();
 				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][2] = decimal.format(rs.getFloat(3))+"";
 
 				i++;
 			}
@@ -385,7 +387,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1).trim();
 				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][2] = decimal.format(rs.getFloat(3))+"";
 
 				i++;
 			}
@@ -421,7 +423,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1).trim();
 				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][2] = decimal.format(rs.getFloat(3))+"";
 
 				i++;
 			}
@@ -457,7 +459,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1).trim();
 				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getString(3).trim();
+				Matriz[i][2] = decimal.format(rs.getFloat(3))+"";
 
 				i++;
 			}

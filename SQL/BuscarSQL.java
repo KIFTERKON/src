@@ -1398,4 +1398,60 @@ public class BuscarSQL {
 		return lista;
 	}
 	
+	public String[][] getEstablecimientoLista(){
+		String datos = "select nombre from tb_establecimiento order by nombre";
+		String[][] Matriz = new String[getFilas(datos)][2];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = "";
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public String[][] getUsuarioPermisos(){
+		String datos = "exec lista_usuario_permisos";
+		String[][] Matriz = new String[getFilas(datos)][3];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public int getFilas(String qry){
+		int filas=0;
+		try {
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(qry);
+			while(rs.next()){
+				filas++;
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return filas;
+	}
+	
 }

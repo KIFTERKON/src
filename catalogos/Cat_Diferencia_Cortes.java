@@ -163,7 +163,8 @@ public class Cat_Diferencia_Cortes extends JDialog{
 			}
 			txtCantidad.setText(modelo.getValueAt(0, 2)+"");
 			txtDescuento.setText(modelo.getValueAt(0, 3)+"");
-			if(modelo.getValueAt(0, 6).equals("Vigente")){
+			
+			if(modelo.getValueAt(0, 6).equals("VIGENTE")){
 				cmbStatus.setSelectedIndex(0);
 			}else{
 				cmbStatus.setSelectedIndex(1);
@@ -195,7 +196,7 @@ public class Cat_Diferencia_Cortes extends JDialog{
         		
     			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
     			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
-    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
+    			if(modelo.getValueAt(fila, 6).equals("VIGENTE")){
     				cmbStatus.setSelectedIndex(0);
     			}else{
     				cmbStatus.setSelectedIndex(1);
@@ -221,42 +222,50 @@ public class Cat_Diferencia_Cortes extends JDialog{
 				
 				switch(tabla.getRowCount()){
 					case 0: 
-						pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
-						pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
-						pres.setNombre_Completo(txtNombre_Completo.getText());
-						pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
-						pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
-						pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
-						pres.setStatus(cmbStatus.getSelectedIndex()+1);
-						pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
-		
-						pres.guardar();
-						
-						JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						
-						if(pres.getStatus_descuento()==1){
-							Object[] fila = new Object[tabla.getColumnCount()]; 
-							Obj_Diferencia_Cortes maximo = new Obj_Diferencia_Cortes().maximo();
-							fila[0]=maximo.getFolio();
-							fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
-							fila[2]=txtCantidad.getText();
-							fila[3]=txtDescuento.getText();
-							fila[4]=txtCantidad.getText();
-							fila[5]=0.00;
+						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(txtCantidad.getText())) {
+							JOptionPane.showMessageDialog(null, "El Descuento es Mayor que la cantidad", "Aviso al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}else {
 							
-							switch(cmbStatus.getSelectedIndex()){
-								case 0: fila[6]="Vigente";break;	
-								case 1: fila[6]="Cancelado Temporal";break;
+							pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
+							pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
+							pres.setNombre_Completo(txtNombre_Completo.getText());
+							pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
+							pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
+							pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
+							pres.setStatus(cmbStatus.getSelectedIndex()+1);
+							pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
+			
+							pres.guardar();
+							
+							JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							
+							if(pres.getStatus_descuento()==1){
+								Object[] fila = new Object[tabla.getColumnCount()]; 
+								Obj_Diferencia_Cortes maximo = new Obj_Diferencia_Cortes().maximo();
+								fila[0]=maximo.getFolio();
+								fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
+								fila[2]=txtCantidad.getText();
+								fila[3]=txtDescuento.getText();
+								fila[4]=txtCantidad.getText();
+								fila[5]=0.00;
+								
+								switch(cmbStatus.getSelectedIndex()){
+									case 0: fila[6]="VIGENTE";break;	
+									case 1: fila[6]="CANCELADO TEMPORAL";break;
+								}
+								modelo.addRow(fila); 						
 							}
-							modelo.addRow(fila); 						
 						}
 						
-						break;
+					break;
 					case 1: 
-						
+						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(modelo.getValueAt(0,4)+"")){
+							JOptionPane.showMessageDialog(null, "El Descuento que quiere aplicar es mayor que con lo que salda la cuenta", "Aviso al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}else{
 							if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
-								
 								pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 								pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
 								pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
@@ -278,8 +287,8 @@ public class Cat_Diferencia_Cortes extends JDialog{
 									}
 								}
 							}
-							
-						break;
+						}
+					break;
 				}
 				panelEnabledFalse();
 			}
@@ -388,7 +397,7 @@ public class Cat_Diferencia_Cortes extends JDialog{
 	
 	
 	public String[][] getMatriz(String NombreCompleto){
-		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_diferencia_cortes where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
+		String qry = "exec sp_select_cortes '"+NombreCompleto+"'";
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
 		Statement s;
@@ -407,11 +416,8 @@ public class Cat_Diferencia_Cortes extends JDialog{
 				Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
 				Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)));
 				Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)));
-				if(rs.getInt(7)==1){
-					Matriz[i][6]= "Vigente";
-				}else{
-					Matriz[i][6]="Cancelado Temporal";
-				}
+				Matriz[i][6] = rs.getString(7);
+
 				i++;
 			}
 			

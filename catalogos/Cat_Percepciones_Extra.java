@@ -149,8 +149,8 @@ public class Cat_Percepciones_Extra extends JDialog {
 		tabla.setRowSorter(filter);  
 		
 		panel.add(txtFolio).setBounds(100,45,60,20);
-		panel.add(txtNombre).setBounds(170,45,345,20);
-		panel.add(cmbEstablecimientos).setBounds(590,45,90,20);
+		panel.add(txtNombre).setBounds(170,45,355,20);
+		panel.add(cmbEstablecimientos).setBounds(530,45,210,20);
 		panel.add(chbHabilitar).setBounds(750,45,70,20);
 		panel.add(chbTodos).setBounds(865,45,20,20);
 		panel.add(cmbDia).setBounds(900,45,70,20);
@@ -198,15 +198,16 @@ public class Cat_Percepciones_Extra extends JDialog {
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(5).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(5).setCellRenderer(render);
 
 		cmbDia.addActionListener(opDias);
 		chbTodos.addActionListener(opTodos);
 		btnGuardar.addActionListener(opGuardar);
+		cmbEstablecimientos.addActionListener(opFiltro);
 
 		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
@@ -235,11 +236,21 @@ public class Cat_Percepciones_Extra extends JDialog {
 		filter.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase(), 1)); 
 	}  
 	
+	ActionListener opFiltro = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				filter.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+			}else{
+				filter.setRowFilter(RowFilter.regexFilter("", 2));
+			}
+		}
+	};
+	
 	ActionListener opDias = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			for(int i=0; i<tabla.getRowCount(); i++) {
 				if(Boolean.parseBoolean(model.getValueAt(i,4).toString()) != true){
-					model.setValueAt(0, i,5);
+					model.setValueAt("", i,5);
 				}else{
 					model.setValueAt(cmbDia.getSelectedIndex(), i,5);
 				}
@@ -256,7 +267,7 @@ public class Cat_Percepciones_Extra extends JDialog {
 			}else{
 				for(int j=0; j<tabla.getRowCount(); j++){
 					model.setValueAt(Boolean.parseBoolean("false"), j,4);
-					model.setValueAt(0, j,5);
+					model.setValueAt("", j,5);
 				}
 			}
 			
@@ -287,9 +298,19 @@ public class Cat_Percepciones_Extra extends JDialog {
 				Matriz[i][0] = rs.getInt(1);
 				Matriz[i][1] = rs.getString(2).trim();
 				Matriz[i][2] = rs.getString(3).trim();
-				Matriz[i][3] = rs.getInt(4);
+				float bono = rs.getInt(4);
+				if(bono == 0){
+					Matriz[i][3] = "";
+				}else{
+					Matriz[i][3] = bono;
+				}
 				Matriz[i][4] = rs.getBoolean(5);
-				Matriz[i][5] = rs.getInt(6);
+				float cantidad = rs.getInt(6);
+				if(cantidad == 0){
+					Matriz[i][5] = "";
+				}else{
+					Matriz[i][5] = rs.getInt(6);
+				}
 				i++;
 			}
 		} catch (SQLException e1) {

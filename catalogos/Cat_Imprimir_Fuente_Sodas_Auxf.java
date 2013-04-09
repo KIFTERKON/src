@@ -222,9 +222,5 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 	    return scrol; 
 	}
 	
-	public static void main(String args[]){
-		new Cat_Imprimir_Fuente_Sodas_Auxf().setVisible(true);
-	}
-	
 }
 

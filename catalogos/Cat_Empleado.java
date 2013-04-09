@@ -30,8 +30,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import camara.MainCamara;
-
 import objetos.JTextFieldLimit;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Empleado;

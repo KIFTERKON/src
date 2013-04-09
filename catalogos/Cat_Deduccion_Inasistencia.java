@@ -98,7 +98,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
         	 			model.setValueAt(1, fila, 5);
         	 			return true; 
         	 		}else {
-        	 			model.setValueAt(0, fila, 5);
+        	 			model.setValueAt("", fila, 5);
         	 			model.setValueAt(false, fila, 6);
         	 			return true; 
         	 		}
@@ -118,7 +118,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
         	 			model.setValueAt(1, fila, 8);
         	 			return true;
         	 		}else {
-        	 			model.setValueAt(0, fila, 8);
+        	 			model.setValueAt("", fila, 8);
         	 			return true;
         	 		}
         	 	case 8 : return true;
@@ -315,9 +315,13 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		public void actionPerformed(ActionEvent arg0){
 			for(int i=0; i<tabla.getRowCount(); i++) {
 				if(Boolean.parseBoolean(model.getValueAt(i,4).toString()) != true){
-					model.setValueAt(0, i,5);
+					model.setValueAt("", i,5);
 				}else{
-					model.setValueAt(cmbDia.getSelectedIndex(), i,5);
+					if(Integer.parseInt(cmbDia.getSelectedItem()+"") == 0){
+						model.setValueAt("", i,5);
+					}else{
+						model.setValueAt(cmbDia.getSelectedIndex(), i,5);
+					}
 				}
 			}			
 		}
@@ -333,7 +337,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			}else{
 				for(int j=0; j<tabla.getRowCount(); j++){
 					model.setValueAt(Boolean.parseBoolean("false"), j,7);
-					model.setValueAt(0, j, 8);
+					model.setValueAt("", j, 8);
 				}
 			}
 			
@@ -344,9 +348,14 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		public void actionPerformed(ActionEvent arg0){
 			for(int i=0; i<tabla.getRowCount(); i++) {
 				if(Boolean.parseBoolean(model.getValueAt(i,7).toString()) != true){
-					model.setValueAt(0, i,8);
+					model.setValueAt("", i,8);
 				}else{
-					model.setValueAt(cmbGafete.getSelectedIndex(), i,8);
+					if(Integer.parseInt(cmbGafete.getSelectedItem()+"") == 0){
+						model.setValueAt("", i,8);
+					}else{
+						model.setValueAt(cmbGafete.getSelectedIndex(), i,8);
+					}
+					
 				}
 			}			
 		}
@@ -377,11 +386,27 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 				Matriz[i][2] = rs.getString(3).trim();
 				Matriz[i][3] = rs.getBoolean(4);
 				Matriz[i][4] = rs.getBoolean(5);
-				Matriz[i][5] = rs.getInt(6);
+				int dias_falta = rs.getInt(6);
+				if(dias_falta == 0){
+					Matriz[i][5] = "";
+				}else{
+					Matriz[i][5] = dias_falta;
+				}
 				Matriz[i][6] = rs.getBoolean(7);
 				Matriz[i][7] = rs.getBoolean(8);
-				Matriz[i][8] = rs.getInt(9);
-				Matriz[i][9] = Math.rint(rs.getFloat(10)*100)/100;
+				int dias_gafete = rs.getInt(9);
+				if(dias_gafete == 0){
+					Matriz[i][8] = "";
+				}else{
+					Matriz[i][8] = dias_gafete;
+				}
+				double extra = Math.rint(rs.getDouble(10)*100)/100;
+				if(extra == 0){
+					Matriz[i][9] = "";
+				}else{
+					Matriz[i][9] = extra;
+				}
+				
 				i++;
 			}
 		} catch (SQLException e1) {
@@ -473,7 +498,12 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 							deduccion.setPuntualidad(miVector.get(3).toString().trim());
 							
 							boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
-							int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+							int dias_faltas = 0;
+							if(miVector.get(5).toString() != ""){
+								dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+							}else{
+								dias_faltas = 0;	
+							}
 							deduccion.setFalta(falta+"");
 							deduccion.setDia_faltas(dias_faltas);
 							
@@ -536,7 +566,13 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 						deduccion.setEstablecimiento(miVector.get(2).toString().trim());
 						deduccion.setPuntualidad(miVector.get(3).toString().trim());
 						boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
-						int dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+						
+						int dias_faltas = 0;
+						if(miVector.get(5).toString() != ""){
+							dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+						}else{
+							dias_faltas = 0;	
+						}
 						deduccion.setFalta(falta+"");
 						deduccion.setDia_faltas(dias_faltas);
 						deduccion.setAsistencia(miVector.get(6).toString().trim());

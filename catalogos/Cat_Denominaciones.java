@@ -57,7 +57,11 @@ Connexion con = new Connexion();
 	JTextField txtNombre = new JTextField();
 	
 	String divisa[] = new Obj_Denominaciones().Combo_Denominaciones();
+<<<<<<< HEAD
 	@SuppressWarnings("unchecked")
+=======
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+>>>>>>> 8026a280533d91107a177e445f20cea6e8e0f6fb
 	JComboBox cmbMoneda = new JComboBox(divisa);
 	
 	JCheckBox chStatus = new JCheckBox("Status");

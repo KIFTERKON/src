@@ -193,7 +193,7 @@ public class Cat_Prestamo extends JDialog{
 			}
 			txtCantidad.setText(modelo.getValueAt(0, 2)+"");
 			txtDescuento.setText(modelo.getValueAt(0, 3)+"");
-			if(modelo.getValueAt(0, 6).equals("Vigente")){
+			if(modelo.getValueAt(0, 6).equals("VIGENTE")){
 				cmbStatus.setSelectedIndex(0);
 			}else{
 				cmbStatus.setSelectedIndex(1);
@@ -225,7 +225,7 @@ public class Cat_Prestamo extends JDialog{
 	    			}
 	    			txtCantidad.setText(modelo.getValueAt(fila, 2)+"");
 	    			txtDescuento.setText(modelo.getValueAt(fila, 3)+"");
-	    			if(modelo.getValueAt(fila, 6).equals("Vigente")){
+	    			if(modelo.getValueAt(fila, 6).equals("VIGENTE")){
 	    				cmbStatus.setSelectedIndex(0);
 	    			}else{
 	    				cmbStatus.setSelectedIndex(1);
@@ -254,47 +254,53 @@ public class Cat_Prestamo extends JDialog{
 				
 				switch(tabla.getRowCount()){
 					case 0: 
-						pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
-						pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
-						pres.setNombre_Completo(txtNombre_Completo.getText());
-						pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
-						pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
-						pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
-						pres.setStatus(cmbStatus.getSelectedIndex()+1);
-						pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
-		
-						pres.guardar();
-						
-						JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						
-						if(pres.getStatus_descuento()==1){
-							Object[] fila = new Object[tabla.getColumnCount()]; 
-							try {
-								Obj_Prestamo maximo = new Obj_Prestamo().maximo();
-								
-								fila[0]=maximo.getFolio();
-								fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
-								fila[2]=txtCantidad.getText();
-								fila[3]=txtDescuento.getText();
-								fila[4]=txtCantidad.getText();
-								fila[5]=0.00;
-								
-								
-								switch(cmbStatus.getSelectedIndex()){
-									case 0: fila[6]="Vigente";break;	
-									case 1: fila[6]="Cancelado Temporal";break;
+						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(txtCantidad.getText())){
+							JOptionPane.showMessageDialog(null, "El Descuento es Mayor que la cantidad", "Aviso al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;	
+						}else{
+							pres.setFolio(Integer.parseInt(txtFolio_Empleado.getText()));
+							pres.setFolio_empleado(Integer.parseInt(txtFolio_Empleado.getText()));
+							pres.setNombre_Completo(txtNombre_Completo.getText());
+							pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
+							pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
+							pres.setSaldo(Double.parseDouble(txtCantidad.getText()));
+							pres.setStatus(cmbStatus.getSelectedIndex()+1);
+							pres.setStatus_descuento(cmbStatus.getSelectedIndex()+1);
+			
+							pres.guardar();
+							
+							JOptionPane.showMessageDialog(null,"El registro se guardo exitosamente", "Aviso se guardo el registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							
+							if(pres.getStatus_descuento()==1){
+								Object[] fila = new Object[tabla.getColumnCount()]; 
+								try {
+									Obj_Prestamo maximo = new Obj_Prestamo().maximo();
+									
+									fila[0]=maximo.getFolio();
+									fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate());
+									fila[2]=txtCantidad.getText();
+									fila[3]=txtDescuento.getText();
+									fila[4]=txtCantidad.getText();
+									fila[5]=0.00;
+									
+									
+									switch(cmbStatus.getSelectedIndex()){
+										case 0: fila[6]="VIGENTE";break;	
+										case 1: fila[6]="CANCELADO TEMPORAL";break;
+									}
+									modelo.addRow(fila); 	
+								} catch (SQLException e1) {
+									e1.printStackTrace();
 								}
-								modelo.addRow(fila); 	
-							} catch (SQLException e1) {
-								e1.printStackTrace();
+													
 							}
-												
 						}
+						
 						
 						break;
 					case 1: 
-						if(Double.parseDouble(txtDescuento.getText())> saldo-getDescuentoPrest(folio_empleado)){
+						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(modelo.getValueAt(0,4)+"")){
 							JOptionPane.showMessageDialog(null,"El Descuento que quiere aplicar es mayor que con lo que salda la cuenta", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}
@@ -432,14 +438,14 @@ public class Cat_Prestamo extends JDialog{
 		if(txtNombre_Completo.getText().equals(""))error+= "Nombre Completo\n";
 		if(txtCantidad.getText().equals(""))error+= "Cantidad\n";
 		if(txtDescuento.getText().equals(""))error+= "Descuento\n";
-		
 		if(fechaNull.equals("null"))error+= "Fecha\n";
 				
 		return error;
 	}
 
 	public String[][] getMatriz(String NombreCompleto){
-		String qry = "select folio,fecha,cantidad,descuento,saldo,abonos,status,status_descuento from tb_prestamo where nombre_completo='"+NombreCompleto+"' and status_descuento=1 and saldo>0";
+		String qry = "exec sp_select_prestamo '"+NombreCompleto+"'";
+		System.out.println(qry);
 		
 		String[][] Matriz = new String[getFilas(qry)][7];
 		
@@ -452,22 +458,15 @@ public class Cat_Prestamo extends JDialog{
 			while(rs.next()){
 				
 					DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-					
-					float suma = getDescuentoPrest(folio_empleado);
-					
+										
 					Matriz[i][0] = rs.getInt(1)+"";
 					Matriz[i][1] = rs.getString(2).trim();
-					String cantidadd = decimalFormat.format(Double.parseDouble(rs.getString(3)));
-					saldo = Float.parseFloat(cantidadd);
-					Matriz[i][2] = cantidadd+"";
-					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)));
-					Matriz[i][4] = Float.parseFloat(cantidadd)-suma+"";
-					Matriz[i][5] = suma+"";
-					if(rs.getInt(7)==1){
-						Matriz[i][6]= "Vigente";
-					}else{
-						Matriz[i][6]="Cancelado Temporal";
-					}
+					Matriz[i][2] = decimalFormat.format(Double.parseDouble(rs.getString(3)))+"";
+					Matriz[i][3] = decimalFormat.format(Double.parseDouble(rs.getString(4)))+"";
+					Matriz[i][4] = decimalFormat.format(Double.parseDouble(rs.getString(5)))+"";
+					Matriz[i][5] = decimalFormat.format(Double.parseDouble(rs.getString(6)))+"";
+					Matriz[i][6] = rs.getString(7);
+				
 					i++;
 			}
 			
