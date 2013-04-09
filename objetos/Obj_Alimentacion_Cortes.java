@@ -1,6 +1,9 @@
 package objetos;
 
+import java.io.IOException;
 import java.sql.SQLException;
+
+import datos.Archivos;
 
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
@@ -132,16 +135,16 @@ public class Obj_Alimentacion_Cortes {
 		this.status = status;
 	}
 	
-	
-//	public Obj_Alimentacion_Cortes buscar(int folio){
-//		try {
-//			return new BuscarSQL().corte(folio);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
-	
+	public Obj_Alimentacion_Cortes buscar_tiket(String Clave)
+	{
+		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
+		try{
+			corte = new Archivos().leerTiket(Clave);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return corte;
+	}
 	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
 	
 	public Obj_Alimentacion_Cortes buscar_nuevo() { 

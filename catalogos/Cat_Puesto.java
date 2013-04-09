@@ -219,9 +219,11 @@ Connexion con = new Connexion();
 							return;
 						}else{
 							int nroFila = tabla.getSelectedRow();
+							
 							puesto.setPuesto(txtPuesto.getText());
 							puesto.setAbreviatura(txtAbreviatura.getText());
 							puesto.setStatus(chStatus.isSelected());
+							
 							puesto.actualizar(Integer.parseInt(txtFolio.getText()));
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);

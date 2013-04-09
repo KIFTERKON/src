@@ -211,6 +211,12 @@ public class Cat_Diferencia_Cortes extends JDialog{
 				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 				return;
 			}else{
+				
+				if(Double.parseDouble(txtDescuento.getText())>Double.parseDouble(txtCantidad.getText())){
+					JOptionPane.showMessageDialog(null,"El Descuento no puede ser mayor que la cantidad", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+					return;
+				}
+				
 				Obj_Diferencia_Cortes pres = new Obj_Diferencia_Cortes();
 				
 				switch(tabla.getRowCount()){

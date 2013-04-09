@@ -199,7 +199,7 @@ public class Cat_Filtro_Diferiencia_Cortes extends JDialog{
 					case 2 : fila[3] = "Vacaciones"; break;
 					case 3 : fila[3] = "Baja"; break;	
 				}	
-				fila[4] =rs.getString(5).trim(); 
+				fila[4] =rs.getFloat(5)+""; 
 				model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {

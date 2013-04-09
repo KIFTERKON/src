@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,6 +74,23 @@ public class Cat_Imprimir_LR extends JDialog{
 		this.setSize(largo-500,ancho);
 		this.setLocationRelativeTo(null);
 		
+	}
+	
+	public int getFilas(String qry){
+		int filas=0;
+		Statement stmt = null;
+		try {
+			Connexion con = new Connexion();
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(qry);
+			while(rs.next()){
+				filas++;
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return filas;
 	}
  
 	private JScrollPane getPanelTabla()	{	
@@ -181,17 +199,29 @@ public class Cat_Imprimir_LR extends JDialog{
 						tabla.getColumnModel().getColumn(16).setCellRenderer(render);
 						tabla.getColumnModel().getColumn(17).setCellRenderer(render);
 						tabla.getColumnModel().getColumn(18).setCellRenderer(render);
-		Statement s;
+						
+						String datos = "select * from tb_imprimir_lista_raya "+
+											" order by Establecimiento asc";
+		
+		Statement stmt = null;
 		ResultSet rs;
+		Connexion con = new Connexion();
+						
 		try {
-			s = conn.createStatement();
-			rs = s.executeQuery("select * from tb_imprimir_lista_raya "+
-								" order by Establecimiento asc");
+			stmt = con.conexion().createStatement();
+			rs = stmt.executeQuery(datos);
+			
 			
 			String aux="";
 			int cont =0;
+			int contadorGeneral=0;
+			float subtotal=0;
+			int filass = getFilas(datos);
 			while (rs.next())
 			{ 
+			
+				DecimalFormat decimal = new DecimalFormat("#0.00");
+				
 			   String [] fila = new String[19];
 			   
 			   String nombre= 		rs.getString(4).trim();
@@ -221,7 +251,7 @@ public class Cat_Imprimir_LR extends JDialog{
 				   
 				   fila[0]  ="  "+nombre;
 				   fila[1]  ="  "+sueldo;
-				    
+				   
 				    	if(prestamo==0.0){fila[2]  ="";}	else{fila[2]  ="  "+prestamo;}
 				    	if(descuento==0.0){fila[3] ="";}	else{fila[3]  ="  "+descuento;}	
 				    	if(pfinal==0.0){fila[4]  ="";}		else{fila[4]  ="  "+pfinal;}
@@ -238,12 +268,69 @@ public class Cat_Imprimir_LR extends JDialog{
 				    	if(diaE==0.0){fila[15] ="";}		else{fila[15] ="  "+diaE;}
 				    	if(bono==0.0){fila[16] ="";}		else{fila[16] ="  "+bono;}
 				    	
-				    fila[17] ="  "+pagar;
+				    fila[17] ="  "+decimal.format(pagar);
 					fila[18] ="  "+obs;
 					
+					cont=cont+1;
+					
+					subtotal=subtotal+=pagar;
+					
+					int filasTotales= filass+((contadorGeneral*3)-2);
+					
+					System.out.println("filas. "+filass);
+					System.out.println("ContG. "+contadorGeneral);
+					System.out.println("filasT. "+filasTotales);
+					System.out.println("Tabla. "+(tabla.getRowCount()+1));
+					
+					if(filasTotales-1==tabla.getRowCount()+1){
+						model.addRow(fila);
+
+						fila[0]  ="";
+					  	fila[1]  ="";
+						fila[2]  ="";
+						fila[3]  ="";
+						fila[4]  ="";
+						fila[5]  ="";
+						fila[6]  ="";
+						fila[7]  ="";
+						fila[8]  ="";
+						fila[9]  ="";
+						fila[10] ="";
+						fila[11] ="";
+						fila[12] ="";
+						fila[13] ="";
+						fila[14] ="";
+						fila[15] ="";
+						fila[16] ="  TOTAL:";
+						fila[17] ="  "+decimal.format(subtotal);
+						fila[18] ="";
+					}
+					
 			   }else{
+				   contadorGeneral++;
 				  if(cont>=1){
 					  
+					 
+					  	fila[0]  ="";
+					  	fila[1]  ="";
+						fila[2]  ="";
+						fila[3]  ="";
+						fila[4]  ="";
+						fila[5]  ="";
+						fila[6]  ="";
+						fila[7]  ="";
+						fila[8]  ="";
+						fila[9]  ="";
+						fila[10] ="";
+						fila[11] ="";
+						fila[12] ="";
+						fila[13] ="";
+						fila[14] ="";
+						fila[15] ="";
+						fila[16] ="  TOTAL:";
+						fila[17] ="  "+decimal.format(subtotal);
+						fila[18] ="";
+					model.addRow(fila);
 					  	fila[0]  ="";
 					    fila[1]  ="";
 						fila[2]  ="";
@@ -263,6 +350,7 @@ public class Cat_Imprimir_LR extends JDialog{
 						fila[16] ="";
 						fila[17] ="";
 						fila[18] ="";
+						
 					  model.addRow(fila);
 					  	fila[0]  ="                        "+stab;
 					  	fila[1]  ="SUELDO";
@@ -303,10 +391,17 @@ public class Cat_Imprimir_LR extends JDialog{
 					    	if(diaE==0.0){fila[15] ="";}		else{fila[15] ="  "+diaE;}
 					    	if(bono==0.0){fila[16] ="";}		else{fila[16] ="  "+bono;}
 
-					    fila[17] ="  "+pagar;
+					    	fila[17] ="  "+decimal.format(pagar);
 						fila[18] ="  "+obs;
+						
 					  aux = stab;
-				  
+					  cont=cont+4;
+					  
+					  subtotal = pagar;
+					  
+					   System.out.println("filas. "+filass);
+						System.out.println("ContG. "+contadorGeneral);
+						System.out.println("Tabla. "+(tabla.getRowCount()+1));
 				  }else{
 					  
 						fila[0]  ="                        "+stab;
@@ -328,6 +423,7 @@ public class Cat_Imprimir_LR extends JDialog{
 						fila[16] ="  BONO";
 						fila[17] ="A PAGAR";
 						fila[18] ="            OBSERVACIONES";
+						
 //					model.addRow(fila);
 //					 fila[0]  ="  "+nombre;
 //					    fila[1]  ="  "+sueldo;
@@ -350,7 +446,11 @@ public class Cat_Imprimir_LR extends JDialog{
 //						fila[18] ="  "+obs;
 //						
 						aux = stab;
-						cont++;
+						cont=cont+1;
+						
+						   System.out.println("filas. "+filass);
+							System.out.println("ContG. "+contadorGeneral);
+							System.out.println("Tabla. "+(tabla.getRowCount()+1));
 				  }
 			   }
 			   model.addRow(fila); 

@@ -1009,12 +1009,13 @@ public class BuscarSQL {
 		
 	public Obj_Divisa_Y_TipoDeCambio Divisas_buscar(String nombre) throws SQLException{
 		Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
-		String query = "select valor from tb_divisas_tipo_de_cambio where nombre_divisas='"+nombre+"'";
+		String query = "select valor,nombre_divisas from tb_divisas_tipo_de_cambio where nombre_divisas='"+nombre+"'";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
+				divisas.setNombre(rs.getString("nombre_divisas"));
 				divisas.setValor(rs.getFloat("valor"));
 			}
 			

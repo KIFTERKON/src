@@ -58,7 +58,7 @@ Connexion con = new Connexion();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+//	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
@@ -76,9 +76,9 @@ Connexion con = new Connexion();
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
 		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
+//		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
+		panel.add(chStatus).setBounds(x+(ancho*2),y,70,20);
 		
 		panel.add(new JLabel("Moneda:")).setBounds(x,y+=30,ancho,20);
 		panel.add(txtNombre_divisas).setBounds(ancho-20,y,ancho+ancho,20);
@@ -97,12 +97,13 @@ Connexion con = new Connexion();
 		txtNombre_divisas.setDocument(new JTextFieldLimit(100));
 		txtValor.setDocument(new JTextFieldLimit(20));
 		
-		chStatus.setEnabled(false);
+		txtFolio.setEditable(false);
 		txtNombre_divisas.setEditable(false);
 		txtValor.setEditable(false);
+		chStatus.setEnabled(false);
 		
 		txtFolio.requestFocus();
-		txtFolio.addKeyListener(buscar_action);
+//		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
 		txtValor.addKeyListener(guardar_action);
 		
@@ -110,7 +111,7 @@ Connexion con = new Connexion();
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
-		btnBuscar.addActionListener(buscar);
+//		btnBuscar.addActionListener(buscar);
 		btnDeshacer.addActionListener(deshacer);
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
@@ -205,8 +206,10 @@ Connexion con = new Connexion();
 						txtNombre_divisas.setText(modelo.getValueAt(fila,1)+"");
 						txtValor.setText(modelo.getValueAt(fila,2)+"");
 						btnEditar.setEnabled(true);
+						btnNuevo.setEnabled(false);
+						txtNombre_divisas.setEditable(false);
+						txtValor.setEditable(false);
 						chStatus.setSelected(true);
-					
 	        	}
 	        }
         });
@@ -216,15 +219,17 @@ Connexion con = new Connexion();
 		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-			}else{			
+			}
+			if(validaCampos()!="") {
+				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}
+			else{			
 				Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio().buscar(Integer.parseInt(txtFolio.getText()));
 				
 				if(divisas.getFolio() == Integer.parseInt(txtFolio.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
-						if(validaCampos()!="") {
-							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-							return;
-						}else{
+						
 							int nroFila = tabla.getSelectedRow();
 							divisas.setNombre(txtNombre_divisas.getText());
 							divisas.setValor(Float.parseFloat(txtValor.getText()));
@@ -239,7 +244,6 @@ Connexion con = new Connexion();
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
-						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}else{
@@ -273,20 +277,20 @@ Connexion con = new Connexion();
 		}
 	};
 	
-	KeyListener buscar_action = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e){
-		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				btnBuscar.doClick();
-			}
-		}
-	};
+//	KeyListener buscar_action = new KeyListener() {
+//		@Override
+//		public void keyTyped(KeyEvent e){
+//		}
+//		@Override
+//		public void keyReleased(KeyEvent e) {	
+//		}
+//		@Override
+//		public void keyPressed(KeyEvent e) {
+//			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+//				btnBuscar.doClick();
+//			}
+//		}
+//	};
 	
 	KeyListener guardar_action = new KeyListener() {
 		@Override
@@ -321,40 +325,40 @@ Connexion con = new Connexion();
 								
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			if(txtFolio.getText().equals("")){
-				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}else{
-			Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
-			divisas = divisas.buscar(Integer.parseInt(txtFolio.getText()));
-			
-			if(divisas.getFolio() != 0){
-			
-			txtFolio.setText(divisas.getFolio()+"");
-			txtNombre_divisas.setText(divisas.getNombre()+"");
-			txtValor.setText(divisas.getValor()+"");
-			System.out.println(divisas.getStatus());
-			if(divisas.getStatus() == true){chStatus.setSelected(true);}
-			else{chStatus.setSelected(false);}
-			
-			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
-			
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-				}
-			}
-		}
-	};
+//	ActionListener buscar = new ActionListener()
+//	{
+//		public void actionPerformed(ActionEvent e)
+//		{
+//			if(txtFolio.getText().equals("")){
+//				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
+//				return;
+//			}else{
+//			Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
+//			divisas = divisas.buscar(Integer.parseInt(txtFolio.getText()));
+//			
+//			if(divisas.getFolio() != 0){
+//			
+//			txtFolio.setText(divisas.getFolio()+"");
+//			txtNombre_divisas.setText(divisas.getNombre()+"");
+//			txtValor.setText(divisas.getValor()+"");
+//			System.out.println(divisas.getStatus());
+//			if(divisas.getStatus() == true){chStatus.setSelected(true);}
+//			else{chStatus.setSelected(false);}
+//			
+//			btnNuevo.setEnabled(false);
+//			btnEditar.setEnabled(false);
+//			panelEnabledFalse();
+//			txtFolio.setEditable(true);
+//			txtFolio.requestFocus();
+//			
+//			}
+//			else{
+//				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+//				return;
+//				}
+//			}
+//		}
+//	};
 	
 	KeyListener validaNumericoConPunto = new KeyListener() {
 		@Override
@@ -402,15 +406,16 @@ Connexion con = new Connexion();
 			if(denominaciones.getFolio() != 0){
 				panelLimpiar();
 				panelEnabledTrue();
+				btnEditar.setEnabled(false);
 				txtFolio.setText(denominaciones.getFolio()+1+"");
-				txtFolio.setEditable(false);
 				txtNombre_divisas.requestFocus();
+				chStatus.setSelected(true);
 			}else{
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(1+"");
-				txtFolio.setEditable(false);
 				txtNombre_divisas.requestFocus();
+				chStatus.setSelected(true);
 			}
 		}
 	};
@@ -420,7 +425,6 @@ Connexion con = new Connexion();
 			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(false);
@@ -431,24 +435,22 @@ Connexion con = new Connexion();
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
-			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
-			btnNuevo.setEnabled(true);
+			btnNuevo.setEnabled(false);
 		}		
 	};
 	
-	public void panelEnabledFalse(){	
+	public void panelEnabledFalse(){
 		txtFolio.setEditable(false);
 		txtNombre_divisas.setEditable(false);
 		txtValor.setEditable(false);
-		chStatus.setEnabled(false);
+		
+		txtNombre_divisas.setEditable(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEditable(true);
 		txtNombre_divisas.setEditable(true);
 		txtValor.setEditable(true);
-		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
