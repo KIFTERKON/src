@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
@@ -35,6 +36,7 @@ import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
+import objetos.Obj_Usuario3;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
@@ -373,6 +375,7 @@ public class GuardarSQL {
 
 	public boolean Guardar_Usuario(Obj_Usuario usuario){
 		String query = "exec sp_insert_usuario ?,?,?,?,?";
+		String i = "exec sp_insert_usuario ?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -408,41 +411,56 @@ public class GuardarSQL {
 	}
 	
 	
-//	public boolean Guardar_Usuario(Obj_Usuario3 usuario,Vector permisos){
-//		String query = "exec sp_insert_usuario ?,?,?,?,?";
-//		Connection con = new Connexion().conexion();
-//		PreparedStatement pstmt = null;
-//		try {
-//			con.setAutoCommit(false);
-//			pstmt = con.prepareStatement(query);
-//			pstmt.setString(1, usuario.getNombre_completo().toUpperCase());
-//			pstmt.setString(2, usuario.getContrasena());
-//			pstmt.setInt(3, usuario.getPermiso_id());
-//			String fecha = new Date().toString();
-//			pstmt.setString(4, fecha);
-//			pstmt.setInt(5, usuario.getStatus());
-//			pstmt.executeUpdate();
-//			con.commit();
-//		} catch (Exception e) {
-//			System.out.println("SQLException: "+ e.getMessage());
-//			if(con != null){
-//				try{
-//					System.out.println("La transacción ha sido abortada");
-//					con.rollback();
-//				}catch(SQLException ex){
-//					System.out.println(ex.getMessage());
-//				}
-//			}
-//			return false;
-//		}finally{
-//			try {
-//				con.close();
-//			} catch(SQLException e){
-//				e.printStackTrace();
-//			}
-//		}		
-//		return true;
-//	}
+	@SuppressWarnings("rawtypes")
+	public boolean Guardar_Usuario(Obj_Usuario3 usuario,Vector permisos){
+		String query = "exec sp_insert_permiso ?,?,?,?";
+		String insert_usuario = "exec sp_insert_usuario ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement insert_usuariopstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			insert_usuariopstmt = con.prepareStatement(insert_usuario);
+			
+			insert_usuariopstmt.setString(1, usuario.getNombre_completo());
+			insert_usuariopstmt.setString(2, usuario.getContrasena());
+			insert_usuariopstmt.setString(3,  new Date().toString());
+			insert_usuariopstmt.setInt(4, 0);
+			insert_usuariopstmt.setInt(5, 1);
+			
+			for(int i=0; i<permisos.size(); i++){
+				pstmt.setInt(1, usuario.getFolio());
+				pstmt.setString(2, usuario.getNombre_completo());
+				String[] arreglo = permisos.get(i).toString().split("/");
+				pstmt.setString(3, arreglo[0]);
+				pstmt.setString(4, arreglo[1]);
+				pstmt.execute();
+			}
+			insert_usuariopstmt.execute();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+ e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				insert_usuariopstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 	public boolean Guardar_fuente_sodas_rh(Obj_fuente_sodas_rh fuentesodasrh){
 		String query = "exec sp_insert_fuent_soda_rh ?,?,?,?,?,?";
@@ -1330,40 +1348,40 @@ public class GuardarSQL {
 		return valor;
 	}
 	
-//	public boolean Guardar_Costos_Totales(Obj_Alimentacion_Totales costos){
-//		String query = "exec sp_insert_costos_totales ?,?,?";
-//		Connection con = new Connexion().conexion();
-//		PreparedStatement pstmt = null;
-//		try {
-//			con.setAutoCommit(false);
-//			pstmt = con.prepareStatement(query);
-//					
-//			pstmt.setInt(1, costos.getFolio_raya());
-//			pstmt.setString(2, costos.getEstablecimiento().toUpperCase());
-//			pstmt.setFloat(3, costos.getNomina());
-//			
-//			pstmt.executeUpdate();
-//			con.commit();
-//		} catch (Exception e) {
-//			System.out.println("SQLException: " + e.getMessage());
-//			if (con != null){
-//				try {
-//					System.out.println("La transacción ha sido abortada");
-//					con.rollback();
-//				} catch(SQLException ex) {
-//					System.out.println(ex.getMessage());
-//				}
-//			} 
-//			return false;
-//		}finally{
-//			try {
-//				pstmt.close();
-//				con.close();
-//			} catch(SQLException e){
-//				e.printStackTrace();
-//			}
-//		}		
-//		return true;
-//	}
+	public boolean Guardar_Costos_Totales(Obj_Alimentacion_Totales costos){
+		String query = "exec sp_insert_costos_totales ?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+					
+			pstmt.setInt(1, costos.getFolio_raya());
+			pstmt.setString(2, costos.getEstablecimiento().toUpperCase());
+			pstmt.setFloat(3, costos.getNomina());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 }

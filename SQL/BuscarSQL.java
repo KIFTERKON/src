@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 import objetos.Obj_Alimentacion_Cortes;
@@ -1399,7 +1400,7 @@ public class BuscarSQL {
 	}
 	
 	public String[][] getEstablecimientoLista(){
-		String datos = "select nombre from tb_establecimiento order by nombre";
+		String datos = "select nombre from tb_establecimiento where not nombre = 'NO ASIGNADO' order by nombre";
 		String[][] Matriz = new String[getFilas(datos)][2];
 		Statement s;
 		ResultSet rs;
@@ -1452,6 +1453,194 @@ public class BuscarSQL {
 			e1.printStackTrace();
 		}
 		return filas;
+	}
+	
+	public String[][] getNomina(int Folio){
+		String datos = "exec sp_lista_nomina "+Folio;
+		String[][] Matriz = new String[getFilas(datos)+1][6];
+		Statement s;
+		ResultSet rs;
+		try {		
+			DecimalFormat format = new DecimalFormat("#0.00");
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			int i=0;
+			
+			while(rs.next()){
+				if(i==0){
+					Matriz[i][0] = "Establecimiento";
+					Matriz[i][1] = "Nomina";
+					Matriz[i][2] = "Pago en Linea";
+					Matriz[i][3] = "Total Cheque Nomina";
+					Matriz[i][4] = "Lista de raya";
+					Matriz[i][5] = "Diferencia";
+					Matriz[i+1][0] = "   "+rs.getString(1);
+					Matriz[i+1][1] = format.format(rs.getFloat(2))+"";
+					Matriz[i+1][2] = format.format(rs.getFloat(3))+"";
+					Matriz[i+1][3] = format.format(rs.getFloat(4))+"";
+					Matriz[i+1][4] = format.format(rs.getFloat(5))+"";
+					Matriz[i+1][5] = format.format(rs.getFloat(6))+"";
+					i+=2;
+				}else{
+					Matriz[i][0] = "   "+rs.getString(1);
+					Matriz[i][1] = format.format(rs.getFloat(2))+"";
+					Matriz[i][2] = format.format(rs.getFloat(3))+"";
+					Matriz[i][3] = format.format(rs.getFloat(4))+"";
+					Matriz[i][4] = format.format(rs.getFloat(5))+"";
+					Matriz[i][5] = format.format(rs.getFloat(6))+"";
+					i++;
+				}
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public int MaximoListaRaya(){
+		String datos = "select	max(lista_raya) from tb_captura_totales_nomina";
+		int valor = 0;
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			while(rs.next()){
+				valor = rs.getInt(1);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor; 
+	}
+	
+	public String[] getTotalesNomina(int Folio){
+		String datos = "exec sp_total_nomina "+Folio;
+		String[] Matriz = new String[6];
+		Statement s;
+		ResultSet rs;
+		try {		
+			DecimalFormat format = new DecimalFormat("#0.00");
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			while(rs.next()){
+				Matriz[0] = "   "+rs.getString(1);
+				Matriz[1] = rs.getDouble(2)+"";
+				Matriz[2] = format.format(rs.getFloat(3))+"";
+				float totalChecke = rs.getFloat(4);
+				float listaRaya = rs.getFloat(5);
+				Matriz[3] = format.format(totalChecke)+"";
+				Matriz[4] = format.format(listaRaya)+"";
+				Matriz[5] = format.format(listaRaya-totalChecke)+"";
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public String[] getTotalesCheque1(int Folio){
+		String datos = "exec sp_total_cheque_1_super "+Folio;
+		String[] Matriz = new String[6];
+		Statement s;
+		ResultSet rs;
+		try {		
+			DecimalFormat format = new DecimalFormat("#0.00");
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			while(rs.next()){
+				Matriz[0] = "   "+rs.getString(1);
+//				float nomina = rs.getFloat(2);
+//				float pagoEnLinea = rs.getFloat(3);
+//				float LR = rs.getFloat(4);
+				Matriz[1] = format.format(rs.getFloat(2))+"";
+				Matriz[2] = format.format(rs.getFloat(3))+"";
+				Matriz[3] = format.format(rs.getFloat(4))+"";
+				Matriz[4] = "Cheque (2) super";
+				Matriz[5] = format.format(rs.getFloat(6))+"";
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public String[] getTotalesCheque1Ferre(int Folio){
+		String datos = "exec sp_total_cheque_1_ferreteria "+Folio;
+		String[] Matriz = new String[6];
+		Statement s;
+		ResultSet rs;
+		try {		
+			DecimalFormat format = new DecimalFormat("#0.00");
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			while(rs.next()){
+				Matriz[0] = "   "+rs.getString(1);
+//				float nomina = rs.getFloat(2);
+//				float pagoEnLinea = rs.getFloat(3);
+//				float LR = rs.getFloat(4);
+				Matriz[1] = format.format(rs.getFloat(2))+"";
+				Matriz[2] = format.format(rs.getFloat(3))+"";
+				Matriz[3] = format.format(rs.getFloat(4))+"";
+				Matriz[4] = "Cheque (2) ferre refa";
+				Matriz[5] = format.format(rs.getFloat(6))+"";
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public String[] getTotalesCheque1Izacel(int Folio){
+		String datos = "exec sp_total_cheque_1_izacel "+Folio;
+		String[] Matriz = new String[6];
+		Statement s;
+		ResultSet rs;
+		try {		
+			DecimalFormat format = new DecimalFormat("#0.00");
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			while(rs.next()){
+				Matriz[0] = "   "+rs.getString(1);
+//				float nomina = rs.getFloat(2);
+//				float pagoEnLinea = rs.getFloat(3);
+				Matriz[1] = format.format(rs.getFloat(2))+"";
+				Matriz[2] = format.format(rs.getFloat(3))+"";
+				Matriz[3] = format.format(rs.getFloat(4))+"";
+				Matriz[4] = "";
+				Matriz[5] = "";
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
+	}
+	
+	public String[] getNominaChequeABC(int Folio){
+		String sp_total_cheques = "exec sp_total_cheques "+Folio;
+		String[] Matriz = new String[6];
+		Statement s;
+		ResultSet rs;
+		try {		
+			DecimalFormat format = new DecimalFormat("#0.00");
+			s = con.conexion().createStatement();
+			
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				
+				Matriz[0] = "   "+rs.getString(1);
+				Matriz[1] = format.format(rs.getFloat(2))+"";
+				Matriz[2] = "   "+rs.getString(3);
+				Matriz[3] = format.format(rs.getFloat(4))+"";
+				Matriz[4] = "   "+rs.getString(5);
+				Matriz[5] = format.format(rs.getFloat(6))+"";
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
 	}
 	
 }

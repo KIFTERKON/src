@@ -31,7 +31,6 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
-import objetos.JTextFieldLimit;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 
@@ -57,11 +56,8 @@ Connexion con = new Connexion();
 	JTextField txtNombre = new JTextField();
 	
 	String divisa[] = new Obj_Denominaciones().Combo_Denominaciones();
-<<<<<<< HEAD
-	@SuppressWarnings("unchecked")
-=======
-	@SuppressWarnings({ "rawtypes", "unchecked" })
->>>>>>> 8026a280533d91107a177e445f20cea6e8e0f6fb
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbMoneda = new JComboBox(divisa);
 	
 	JCheckBox chStatus = new JCheckBox("Status");
@@ -387,6 +383,7 @@ Connexion con = new Connexion();
 		
 	};
 	
+	@SuppressWarnings("unused")
 	private String validaCampos(){
 		String error="";
 		if(txtNombre.getText().equals("")) 			error+= "Nombre\n";

@@ -53,6 +53,7 @@ import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Imprimir_Plantilla_Activa;
 import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Lista_Pago;
+import catalogos.Cat_Nomina;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Puesto;
@@ -169,6 +170,7 @@ public class Principal extends JFrame{
 		JMenuItem Listas_Firma = new JMenuItem("Lista de Firmas");
 		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamos");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
+		JMenuItem Listas_Total_Nomina = new JMenuItem("Totales De Cheque");
 		
 	JMenu Configuracion = new JMenu("Configuración");
 		JMenuItem Configuracion_Asistencia_Puntualidad = new JMenuItem("Asistencia y Puntualidad", new ImageIcon(""));
@@ -564,6 +566,9 @@ public class Principal extends JFrame{
 			Listas_Prestamo.addActionListener(Opciones);
 		Listas.add(Listas_Comparacion_Fuente_Soda);
 			Listas_Comparacion_Fuente_Soda.addActionListener(Opciones);
+		Listas.add(Listas_Total_Nomina);
+			Listas_Total_Nomina.addActionListener(Opciones);
+		
 			
 		Configuracion.add(Configuracion_Asistencia_Puntualidad);
 			Configuracion_Asistencia_Puntualidad.addActionListener(Opciones);
@@ -664,6 +669,8 @@ public class Principal extends JFrame{
 				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
+			if(e.getActionCommand().equals("Totales De Cheque"))
+				new Cat_Nomina().setVisible(true);
 			
 			// Configuración
 			if(e.getActionCommand().equals("Asistencia y Puntualidad"))
