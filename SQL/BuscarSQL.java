@@ -34,6 +34,7 @@ import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
+import objetos.Obj_Usuario3;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
@@ -135,6 +136,30 @@ public class BuscarSQL {
 	public Obj_Bono_Complemento_Sueldo Bono(int folio) throws SQLException{
 		Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo();
 		String query = "select * from tb_bono where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				bono.setFolio(rs.getInt("folio"));
+				bono.setBono(rs.getFloat("bono"));
+				bono.setAbreviatura(rs.getString("abreviatura").trim());
+				bono.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return bono;
+	}
+	
+	public Obj_Bono_Complemento_Sueldo BonoValor(float valor) throws SQLException{
+		Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo();
+		String query = "select * from tb_bono where bono = "+ valor;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -612,6 +637,69 @@ public class BuscarSQL {
 		}
 		return usuario;
 	}
+	
+	public Obj_Usuario3 BuscarUsuarios(String Nombre_Completo) throws SQLException{
+		Obj_Usuario3 usuario = new Obj_Usuario3();
+		String query = "select * from tb_usuario where nombre_completo ='"+Nombre_Completo+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){			
+				usuario.setFolio(rs.getInt("folio"));
+				usuario.setNombre_completo(rs.getString("nombre_completo").trim());
+				usuario.setContrasena(rs.getString("contrasena").trim());
+				usuario.setFecha_alta(rs.getString("fecha").trim());
+				usuario.setFecha_alta(rs.getString("fecha_actu").trim());
+				usuario.setSesion(rs.getString("sesion"));
+				usuario.setStatus(rs.getInt("status"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return usuario;
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Vector returnPermiso(String Nombre_Completo) throws SQLException{
+		Vector prueba = new Vector();
+		String query = "select status_submenu from tb_permisos where nombre_completo='"+Nombre_Completo+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){			
+				prueba.add(rs.getBoolean(0));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return prueba;
+	}
+	
+	public boolean existeUsuario(String Nombre_Completo) throws SQLException{
+		boolean existe;
+		int filas = getFilas("select * from tb_permisos where nombre_completo ='"+Nombre_Completo+"'");
+
+		if(filas > 1){
+			existe = true;
+		}else{
+			existe = false;
+		}
+		return existe;
+	}
+	
 	
 	public Obj_Usuario Maximo() throws SQLException{
 		Obj_Usuario usuario = new Obj_Usuario();
@@ -1551,9 +1639,6 @@ public class BuscarSQL {
 			rs = s.executeQuery(datos);
 			while(rs.next()){
 				Matriz[0] = "   "+rs.getString(1);
-//				float nomina = rs.getFloat(2);
-//				float pagoEnLinea = rs.getFloat(3);
-//				float LR = rs.getFloat(4);
 				Matriz[1] = format.format(rs.getFloat(2))+"";
 				Matriz[2] = format.format(rs.getFloat(3))+"";
 				Matriz[3] = format.format(rs.getFloat(4))+"";
@@ -1577,9 +1662,6 @@ public class BuscarSQL {
 			rs = s.executeQuery(datos);
 			while(rs.next()){
 				Matriz[0] = "   "+rs.getString(1);
-//				float nomina = rs.getFloat(2);
-//				float pagoEnLinea = rs.getFloat(3);
-//				float LR = rs.getFloat(4);
 				Matriz[1] = format.format(rs.getFloat(2))+"";
 				Matriz[2] = format.format(rs.getFloat(3))+"";
 				Matriz[3] = format.format(rs.getFloat(4))+"";
@@ -1603,8 +1685,6 @@ public class BuscarSQL {
 			rs = s.executeQuery(datos);
 			while(rs.next()){
 				Matriz[0] = "   "+rs.getString(1);
-//				float nomina = rs.getFloat(2);
-//				float pagoEnLinea = rs.getFloat(3);
 				Matriz[1] = format.format(rs.getFloat(2))+"";
 				Matriz[2] = format.format(rs.getFloat(3))+"";
 				Matriz[3] = format.format(rs.getFloat(4))+"";

@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -36,7 +37,7 @@ import export.exportar_excel;
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
-public class Cat_Imprimir_LR extends JDialog{
+public class Cat_Imprimir_LR extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -70,7 +71,7 @@ public class Cat_Imprimir_LR extends JDialog{
 		lblExpor.addMouseListener(opExportar);
 		
 		cont.add(campo);
-		this.setModal(true);
+
 		this.setSize(largo-500,ancho);
 		this.setLocationRelativeTo(null);
 		

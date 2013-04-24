@@ -13,6 +13,7 @@ import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JProgressBar;
@@ -30,7 +31,7 @@ import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
-public class Cat_Filtro_Prestamo extends JDialog{
+public class Cat_Filtro_Prestamo extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -78,7 +79,6 @@ public class Cat_Filtro_Prestamo extends JDialog{
 		
 		agregar(tabla);
 		
-		this.setModal(true);
 		this.setSize(690,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

@@ -15,7 +15,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -73,8 +72,8 @@ public class Cat_Nomina extends JFrame{
 		
 		panel.setBorder(BorderFactory.createTitledBorder("Totales De Cheque"));
 		
-		panel.add(scroll).setBounds(15,50,460,455);
-		panel.add(btnImprimir).setBounds(540,15,100,20);
+		panel.add(scroll).setBounds(15,50,460,503);
+		panel.add(btnImprimir).setBounds(370,15,100,20);
 		
 		btnImprimir.addActionListener(opImprimir);
 		
@@ -90,7 +89,7 @@ public class Cat_Nomina extends JFrame{
 		model.addRow(cheque_1_izacel);
 		model.addRow(espacio);
 		model.addRow(chequeABC);
-		
+		model.addRow(espacio);
 		
 		tabla.getColumnModel().getColumn(0).setMinWidth(80);
 		tabla.getColumnModel().getColumn(0).setMinWidth(80);
@@ -109,7 +108,6 @@ public class Cat_Nomina extends JFrame{
 		
 		tabla.getColumnModel().getColumn(5).setMinWidth(50);
 		tabla.getColumnModel().getColumn(5).setMinWidth(50);
-		
 
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer() {
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -131,14 +129,13 @@ public class Cat_Nomina extends JFrame{
 		tabla.getColumnModel().getColumn(4).setCellRenderer(render);
 		tabla.getColumnModel().getColumn(5).setCellRenderer(render); 
 		
-		this.setSize(680,600);
+		this.setSize(505,620);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 		
 	}
 	
 	ActionListener opImprimir = new ActionListener() {
-		
 		public void actionPerformed(ActionEvent arg0) {
 			MessageFormat encabezado = new MessageFormat("Totales De Cheque pag.[{0,number,integer}]");
 			try {
@@ -148,14 +145,8 @@ public class Cat_Nomina extends JFrame{
 			}
 		}
 	};
-	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Nomina().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}	  		
+	public static void main (String arg []){
+		new Cat_Nomina().setVisible(true);
 	}
 
 }

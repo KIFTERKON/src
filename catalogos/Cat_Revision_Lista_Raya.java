@@ -12,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Vector;
@@ -582,7 +583,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			Matriz = new Object[getFilas(datos)][24];
 			int i=0;
 			while(rs.next()){
-				
+				DecimalFormat formato = new DecimalFormat("#0.0");
 				float sueldo = rs.getFloat(4);     float bono_comp = rs.getFloat(5);
 				float salPresIni = rs.getFloat(6); float descPrest = rs.getFloat(7);  
 				float salPresFin = rs.getFloat(8); float descFuent = rs.getFloat(9);
@@ -681,8 +682,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				}else{
 					Matriz[i][20] = percBonoE;
 				}
-				Matriz[i][21] = sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
-						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE;
+				Matriz[i][21] = formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
+						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE);
 				Matriz[i][22] = rs.getString(21);
 				Matriz[i][23] = rs.getString(22);
 				i++;

@@ -14,6 +14,7 @@ import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -30,7 +31,7 @@ import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
-public class Cat_Filtro_Emp extends JDialog{
+public class Cat_Filtro_Emp extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -77,7 +78,6 @@ public class Cat_Filtro_Emp extends JDialog{
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
 		cmbEstablecimientos.addActionListener(opFiltro);
 		
-		this.setModal(true);
 		this.setSize(740,450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

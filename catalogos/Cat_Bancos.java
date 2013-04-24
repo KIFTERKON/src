@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -39,7 +40,7 @@ import objetos.Obj_Establecimiento;
 import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Bancos extends JDialog {
+public class Cat_Bancos extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -186,7 +187,7 @@ public class Cat_Bancos extends JDialog {
 		cmbEstablecimientos.addActionListener(opFiltro);
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
-		this.setModal(true);
+
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 		
@@ -351,7 +352,7 @@ public class Cat_Bancos extends JDialog {
 							bancos.setFolio_empleado(Folio_Empleado);
 							bancos.setNombre_completo(miVector.get(1).toString().trim());
 							bancos.setEstablecimiento(miVector.get(2).toString().trim());
-							if(miVector.get(3) != ""){
+							if(miVector.get(3).toString() != ""){
 								bancos.setBanamex(Float.parseFloat(miVector.get(3).toString().trim()));
 							}else{
 								miVector.set(3,0);

@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -37,7 +38,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_fuente_sodas_rh;
 
 @SuppressWarnings("serial")
-public class Cat_Fue_Soda_Rh extends JDialog{
+public class Cat_Fue_Soda_Rh extends JFrame {
 
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -165,7 +166,6 @@ public class Cat_Fue_Soda_Rh extends JDialog{
 		suma();
 		panelLimpiar();
 		
-		this.setModal(true);
 		this.setSize(805,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);

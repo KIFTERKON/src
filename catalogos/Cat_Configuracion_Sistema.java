@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -16,7 +17,7 @@ import javax.swing.JOptionPane;
 import objetos.Obj_Configuracion_Sistema;
 
 @SuppressWarnings("serial")
-public class Cat_Configuracion_Sistema extends JDialog{
+public class Cat_Configuracion_Sistema extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -46,7 +47,6 @@ public class Cat_Configuracion_Sistema extends JDialog{
 			chbBono_dia_extra.setSelected(configs2.isBono_dia_extra());
 		}
 		this.setSize(390,190);
-		this.setModal(true);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}

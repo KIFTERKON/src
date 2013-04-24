@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -21,7 +22,7 @@ import SQL.Connexion;
 
 
 @SuppressWarnings("serial")
-public class Cat_Lista_Deudores_Prestamo extends JDialog{
+public class Cat_Lista_Deudores_Prestamo extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();

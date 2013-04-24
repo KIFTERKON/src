@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -28,7 +29,7 @@ import javax.swing.table.TableCellRenderer;
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
-public class Cat_Lista_Pago extends JDialog{
+public class Cat_Lista_Pago extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -55,7 +56,7 @@ public class Cat_Lista_Pago extends JDialog{
 		lblImprimir.addMouseListener(OpImprimir);
 		
 		cont.add(campo);
-		this.setModal(true);
+
 		this.setSize(520,GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		this.setLocationRelativeTo(null);
 		

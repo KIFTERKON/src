@@ -351,7 +351,10 @@ public class Cat_Empleado extends JFrame{
 					cmbDescanso.setSelectedIndex(re.getDescanso());
 					cmbDobla.setSelectedIndex(re.getDobla());
 					cmbSueldo.setSelectedIndex(re.getSueldo());
-					cmbBono.setSelectedIndex(re.getBono());
+					
+					Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
+					cmbBono.setSelectedItem(bono.getBono()+"");
+
 					cmbPrestamos.setSelectedIndex(re.getPrestamo());
 					txtInfonavit.setText(re.getInfonavit()+"");	
 					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
@@ -429,7 +432,10 @@ public class Cat_Empleado extends JFrame{
 							empleado.setDescanso(cmbDescanso.getSelectedIndex());
 							empleado.setDobla(cmbDobla.getSelectedIndex());
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
-							empleado.setBono(cmbBono.getSelectedIndex());
+							
+							Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));
+							empleado.setBono(bono.getFolio());
+							
 							empleado.setPrestamo(cmbPrestamos.getSelectedIndex());
 							if(txtPensionAli.getText().length() != 0){
 								empleado.setPension_alimenticia(Float.parseFloat(txtPensionAli.getText()));

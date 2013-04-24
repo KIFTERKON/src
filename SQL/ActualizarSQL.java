@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Vector;
 
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Alimentacion_Totales;
@@ -595,7 +596,6 @@ public class ActualizarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, pres.getFecha());
 			pstmt.setDouble(2, pres.getCantidad());
-			System.out.println(pres.getDescuento());
 			pstmt.setDouble(3, pres.getDescuento());
 			pstmt.setInt(4, pres.getStatus());
 			pstmt.executeUpdate();
@@ -1009,6 +1009,46 @@ public class ActualizarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setFloat(1, alimentacion.getNomina());
 			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public boolean PermisoUsuario(String Nombre_Completo, Vector Permisos){
+		String update = "update tb_permisos set status_submenu = ? " +
+				" where nombre_completo = '"+Nombre_Completo+"' and nombre_submenu = ?";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(update);
+		
+			for(int i=0; i<Permisos.size(); i++){
+				String[] arreglo = Permisos.get(i).toString().split("/");
+				pstmt.setString(1, arreglo[1]);
+				pstmt.setString(2, arreglo[0]);
+				pstmt.execute();
+			}
+			
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

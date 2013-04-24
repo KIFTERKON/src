@@ -66,6 +66,14 @@ public class Obj_Bono_Complemento_Sueldo {
 		return null; 
 	}
 	
+	public Obj_Bono_Complemento_Sueldo buscarValor(float valor) {
+		try {
+			return new BuscarSQL().BonoValor(valor);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	public boolean guardar(){ return new GuardarSQL().Guardar_Bono(this); }
 	
 	public Obj_Bono_Complemento_Sueldo buscar_nuevo() throws SQLException{ return new BuscarSQL().Bono_Nuevo(); }

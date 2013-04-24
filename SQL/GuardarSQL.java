@@ -27,6 +27,7 @@ import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Importar_Voucher;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
@@ -1359,6 +1360,62 @@ public class GuardarSQL {
 			pstmt.setInt(1, costos.getFolio_raya());
 			pstmt.setString(2, costos.getEstablecimiento().toUpperCase());
 			pstmt.setFloat(3, costos.getNomina());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean GuardarImportarVoucher(Obj_Importar_Voucher importar){
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+					
+			pstmt.setInt(1, empleado.getNo_checador());
+			pstmt.setString(2, empleado.getNombre().toUpperCase());
+			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
+			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
+			pstmt.setInt(5, empleado.getEstablecimiento());
+			
+			pstmt.setInt(6, empleado.getPuesto());
+			pstmt.setInt(7, empleado.getTurno());
+			pstmt.setInt(8, empleado.getDescanso());
+			pstmt.setInt(9, empleado.getDobla());
+			pstmt.setInt(10,empleado.getSueldo());
+			
+			pstmt.setInt(11, empleado.getBono());
+			pstmt.setInt(12, empleado.getPrestamo());
+			pstmt.setFloat(13, empleado.getPension_alimenticia());
+			pstmt.setFloat(14,empleado.getInfonavit());
+			pstmt.setBoolean(15, (empleado.getFuente_sodas())? true: false);
+			
+			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
+			pstmt.setInt(17, empleado.getStatus());				
+			pstmt.setString(18, empleado.getFecha());
+			pstmt.setString(19, empleado.getObservasiones());
+			pstmt.setString(20, empleado.getFoto());
 			
 			pstmt.executeUpdate();
 			con.commit();
