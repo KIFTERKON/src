@@ -256,7 +256,7 @@ public class Cargar_Combo {
 	
 	@SuppressWarnings("unchecked")
 	public String[] Bono(String tabla) throws SQLException {
-		String query = "select bono from " + tabla;
+		String query = "select bono from " + tabla +" order by bono asc";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

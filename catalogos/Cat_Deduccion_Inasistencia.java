@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -41,7 +42,7 @@ import objetos.Obj_Establecimiento;
 import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Deduccion_Inasistencia extends JDialog {
+public class Cat_Deduccion_Inasistencia extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -241,7 +242,6 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
 		cmbEstablecimientos.addActionListener(opFiltro);
 		
-		this.setModal(true);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 	}

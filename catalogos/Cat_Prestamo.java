@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -37,7 +38,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Rango_Prestamos;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Prestamo extends JDialog{
+public class Cat_Prestamo extends JFrame {
 	
 	Double rangoIn;
 	Double rangoFin;
@@ -152,7 +153,7 @@ public class Cat_Prestamo extends JDialog{
 		btnGuardar.addMouseListener(guardar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
-		txtDescuento.addKeyListener(validaNumericoConPunto);
+		txtDescuento.addKeyListener(valida_numeric);
 	
 		cont.add(panel);
 		
@@ -202,7 +203,6 @@ public class Cat_Prestamo extends JDialog{
 			btnGuardar.setEnabled(false);
 		}
 				
-		this.setModal(true);
 		this.setSize(650,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
@@ -297,36 +297,43 @@ public class Cat_Prestamo extends JDialog{
 							}
 						}
 						
-						
 						break;
 					case 1: 
 						if(Double.parseDouble(txtDescuento.getText()) > Double.parseDouble(modelo.getValueAt(0,4)+"")){
 							JOptionPane.showMessageDialog(null,"El Descuento que quiere aplicar es mayor que con lo que salda la cuenta", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}
-							if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
-								
-								pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-								pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
-								pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
-								pres.setStatus(cmbStatus.getSelectedIndex()+1);
-								pres.actualizar(Integer.parseInt(modelo.getValueAt(0,0)+""));
+						if(Double.parseDouble(txtCantidad.getText()) < Double.parseDouble(txtDescuento.getText()) || 
+								Double.parseDouble(txtCantidad.getText()) == 0 ){
+							JOptionPane.showMessageDialog(null,"No es posible agregar una cantidad menor que el descuento", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}					
+						if(Double.parseDouble(txtCantidad.getText()) == 0 ){
+							JOptionPane.showMessageDialog(null,"La cantidad tiene valor cero", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}
+						if(JOptionPane.showConfirmDialog(null, "Desea Actualizar el registro existente ?") == JOptionPane.YES_OPTION) {
+							pres.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							pres.setCantidad(Double.parseDouble(txtCantidad.getText()));
+							pres.setDescuento(Double.parseDouble(txtDescuento.getText()));
+							pres.setStatus(cmbStatus.getSelectedIndex()+1);
+							pres.actualizar(Integer.parseInt(modelo.getValueAt(0,0)+""));
 										
-								int filas=  tabla.getRowCount();
-								while(filas > 0){
-									modelo.removeRow(0);
-									filas--;
-								}
+							int filas=  tabla.getRowCount();
+							while(filas > 0){
+								modelo.removeRow(0);
+								filas--;
+							}
 										
-								String[][] Tabla = getMatriz(txtNombre_Completo.getText());
-								Object[] fila = new Object[tabla.getColumnCount()]; 
-								for(int i=0; i<Tabla.length; i++){
-									modelo.addRow(fila); 
-									for(int j=0; j<7; j++){
-										modelo.setValueAt(Tabla[i][j]+"", i,j);
-									}
+							String[][] Tabla = getMatriz(txtNombre_Completo.getText());
+							Object[] fila = new Object[tabla.getColumnCount()]; 
+							for(int i=0; i<Tabla.length; i++){
+								modelo.addRow(fila); 
+								for(int j=0; j<7; j++){
+									modelo.setValueAt(Tabla[i][j]+"", i,j);
 								}
 							}
+						}
 						break;
 				}
 				panelEnabledFalse();
@@ -423,7 +430,29 @@ public class Cat_Prestamo extends JDialog{
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){    	
 		    	String texto = txtCantidad.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();	
+				if (texto.indexOf(".")>-1) e.consume();
+			} 		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}							
+	};
+	
+	KeyListener valida_numeric = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){    	
+		    	String texto = txtDescuento.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
 			} 		    		       	
 		}
 		@Override

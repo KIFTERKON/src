@@ -13,6 +13,7 @@ import java.sql.Statement;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -32,7 +33,7 @@ import SQL.Connexion;
 import objetos.JTextFieldLimit;
 import objetos.Obj_Establecimiento;
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Filtro_Cortes extends JDialog{
+public class Cat_Filtro_Cortes extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -84,7 +85,6 @@ public class Cat_Filtro_Cortes extends JDialog{
 	
 		cont.add(campo);
 		
-		this.setModal(true);
 		this.setSize(390,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

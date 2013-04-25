@@ -30,6 +30,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_OpRespuesta;
+import objetos.Obj_Importar_Voucher;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
@@ -39,6 +40,7 @@ import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
+import objetos.Obj_Usuario3;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
@@ -511,56 +513,56 @@ public class GuardarSQL {
 	}
 	
 	
-//	@SuppressWarnings("rawtypes")
-//	public boolean Guardar_Usuario(Obj_Usuario3 usuario,Vector permisos){
-//		String query = "exec sp_insert_permiso ?,?,?,?";
-//		String insert_usuario = "exec sp_insert_usuario ?,?,?,?,?";
-//		Connection con = new Connexion().conexion();
-//		PreparedStatement pstmt = null;
-//		PreparedStatement insert_usuariopstmt = null;
-//		try {
-//			con.setAutoCommit(false);
-//			pstmt = con.prepareStatement(query);
-//			insert_usuariopstmt = con.prepareStatement(insert_usuario);
-//			
-//			insert_usuariopstmt.setString(1, usuario.getNombre_completo());
-//			insert_usuariopstmt.setString(2, usuario.getContrasena());
-//			insert_usuariopstmt.setString(3,  new Date().toString());
-//			insert_usuariopstmt.setInt(4, 0);
-//			insert_usuariopstmt.setInt(5, 1);
-//			
-//			for(int i=0; i<permisos.size(); i++){
-//				pstmt.setInt(1, usuario.getFolio());
-//				pstmt.setString(2, usuario.getNombre_completo());
-//				String[] arreglo = permisos.get(i).toString().split("/");
-//				pstmt.setString(3, arreglo[0]);
-//				pstmt.setString(4, arreglo[1]);
-//				pstmt.execute();
-//			}
-//			insert_usuariopstmt.execute();
-//			con.commit();
-//		} catch (Exception e) {
-//			System.out.println("SQLException: "+ e.getMessage());
-//			if(con != null){
-//				try{
-//					System.out.println("La transacción ha sido abortada");
-//					con.rollback();
-//				}catch(SQLException ex){
-//					System.out.println(ex.getMessage());
-//				}
-//			}
-//			return false;
-//		}finally{
-//			try {
-//				pstmt.close();
-//				insert_usuariopstmt.close();
-//				con.close();
-//			} catch(SQLException e){
-//				e.printStackTrace();
-//			}
-//		}		
-//		return true;
-//	}
+	@SuppressWarnings("rawtypes")
+	public boolean Guardar_Usuario(Obj_Usuario3 usuario,Vector permisos){
+		String query = "exec sp_insert_permiso ?,?,?,?";
+		String insert_usuario = "exec sp_insert_usuario ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement insert_usuariopstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			insert_usuariopstmt = con.prepareStatement(insert_usuario);
+			
+			insert_usuariopstmt.setString(1, usuario.getNombre_completo());
+			insert_usuariopstmt.setString(2, usuario.getContrasena());
+			insert_usuariopstmt.setString(3,  new Date().toString());
+			insert_usuariopstmt.setInt(4, 0);
+			insert_usuariopstmt.setInt(5, 1);
+			
+			for(int i=0; i<permisos.size(); i++){
+				pstmt.setInt(1, usuario.getFolio());
+				pstmt.setString(2, usuario.getNombre_completo());
+				String[] arreglo = permisos.get(i).toString().split("/");
+				pstmt.setString(3, arreglo[0]);
+				pstmt.setString(4, arreglo[1]);
+				pstmt.execute();
+			}
+			insert_usuariopstmt.execute();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+ e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				insert_usuariopstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 	public boolean Guardar_fuente_sodas_rh(Obj_fuente_sodas_rh fuentesodasrh){
 		String query = "exec sp_insert_fuent_soda_rh ?,?,?,?,?,?";
@@ -1483,5 +1485,61 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
+	
+//	public boolean GuardarImportarVoucher(Obj_Importar_Voucher importar){
+//		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+//		Connection con = new Connexion().conexion();
+//		PreparedStatement pstmt = null;
+//		try {
+//			con.setAutoCommit(false);
+//			pstmt = con.prepareStatement(query);
+//					
+//			pstmt.setInt(1, empleado.getNo_checador());
+//			pstmt.setString(2, empleado.getNombre().toUpperCase());
+//			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
+//			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
+//			pstmt.setInt(5, empleado.getEstablecimiento());
+//			
+//			pstmt.setInt(6, empleado.getPuesto());
+//			pstmt.setInt(7, empleado.getTurno());
+//			pstmt.setInt(8, empleado.getDescanso());
+//			pstmt.setInt(9, empleado.getDobla());
+//			pstmt.setInt(10,empleado.getSueldo());
+//			
+//			pstmt.setInt(11, empleado.getBono());
+//			pstmt.setInt(12, empleado.getPrestamo());
+//			pstmt.setFloat(13, empleado.getPension_alimenticia());
+//			pstmt.setFloat(14,empleado.getInfonavit());
+//			pstmt.setBoolean(15, (empleado.getFuente_sodas())? true: false);
+//			
+//			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
+//			pstmt.setInt(17, empleado.getStatus());				
+//			pstmt.setString(18, empleado.getFecha());
+//			pstmt.setString(19, empleado.getObservasiones());
+//			pstmt.setString(20, empleado.getFoto());
+//			
+//			pstmt.executeUpdate();
+//			con.commit();
+//		} catch (Exception e) {
+//			System.out.println("SQLException: " + e.getMessage());
+//			if (con != null){
+//				try {
+//					System.out.println("La transacción ha sido abortada");
+//					con.rollback();
+//				} catch(SQLException ex) {
+//					System.out.println(ex.getMessage());
+//				}
+//			} 
+//			return false;
+//		}finally{
+//			try {
+//				pstmt.close();
+//				con.close();
+//			} catch(SQLException e){
+//				e.printStackTrace();
+//			}
+//		}		
+//		return true;
+//	}
 	
 }

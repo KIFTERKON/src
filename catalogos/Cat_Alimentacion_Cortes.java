@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -52,7 +53,7 @@ import objetos.Obj_Puesto;
 import objetos.Obj_Turno;
 
 @SuppressWarnings("serial")
-public class Cat_Alimentacion_Cortes extends JDialog{
+public class Cat_Alimentacion_Cortes extends JFrame{
 
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -174,7 +175,6 @@ public class Cat_Alimentacion_Cortes extends JDialog{
 		txtEfectivo.setEditable(false);
 		chStatus.setEnabled(false);
 		
-		this.setModal(true);
 		this.setSize(925,330);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);

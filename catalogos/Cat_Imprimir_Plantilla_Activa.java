@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -34,7 +35,7 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
 
 @SuppressWarnings("serial")
-public class Cat_Imprimir_Plantilla_Activa extends JDialog{
+public class Cat_Imprimir_Plantilla_Activa extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -88,7 +89,7 @@ public class Cat_Imprimir_Plantilla_Activa extends JDialog{
 		cmbEstablecimientos.addActionListener(opFiltro);
 		cmbPuestos.addActionListener(opFiltroPuesto);
 		Impresion.addActionListener(Imprimir);
-		this.setModal(true);
+
 		this.setSize(800,700);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

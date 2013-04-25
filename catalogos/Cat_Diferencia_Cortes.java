@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -35,7 +36,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Diferencia_Cortes;
 
 @SuppressWarnings("serial")
-public class Cat_Diferencia_Cortes extends JDialog{
+public class Cat_Diferencia_Cortes extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -173,7 +174,6 @@ public class Cat_Diferencia_Cortes extends JDialog{
 			btnGuardar.setEnabled(false);
 		}
 				
-		this.setModal(true);
 		this.setSize(650,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);

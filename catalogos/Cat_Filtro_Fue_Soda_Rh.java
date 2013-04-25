@@ -14,6 +14,7 @@ import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -30,7 +31,7 @@ import SQL.Connexion;
 import objetos.Obj_Establecimiento;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
+public class Cat_Filtro_Fue_Soda_Rh extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -78,7 +79,6 @@ public class Cat_Filtro_Fue_Soda_Rh extends JDialog{
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
 		cmbEstablecimientos.addActionListener(opFiltro);
 		
-		this.setModal(true);
 		this.setSize(660,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

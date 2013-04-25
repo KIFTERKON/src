@@ -10,6 +10,7 @@ import java.sql.Statement;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
@@ -25,7 +26,7 @@ import objetos.JTextFieldLimit;
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
-public class Cat_Lista_Deudores_FS extends JDialog{
+public class Cat_Lista_Deudores_FS extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -78,7 +79,7 @@ public class Cat_Lista_Deudores_FS extends JDialog{
 	
 		cont.add(panel);
 		Columnas();
-		this.setModal(false);
+
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 

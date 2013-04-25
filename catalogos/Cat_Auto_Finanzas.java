@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import objetos.Obj_Auto_Finanzas;
 
 @SuppressWarnings("serial")
-public class Cat_Auto_Finanzas extends JDialog{
+public class Cat_Auto_Finanzas extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -37,7 +37,6 @@ public class Cat_Auto_Finanzas extends JDialog{
 		lblAutorizar.addMouseListener(opAutorizar);
 		cont.add(panel);
 		
-		this.setModal(true);
 		this.setSize(240,200);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);

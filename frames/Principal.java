@@ -48,6 +48,7 @@ import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Importar_Voucher;
 import catalogos.Cat_Imprimir_Fuente_Sodas_Auxf;
 import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Imprimir_Plantilla_Activa;
@@ -199,8 +200,16 @@ public class Principal extends JFrame{
 		JMenuItem Denominaciones = new JMenuItem("Denominaciones", new ImageIcon(""));
 		JMenuItem Alimentacion_Corte = new JMenuItem("Alimentacion de Cortes",new ImageIcon(""));
 		
+	JMenu Contabilidad = new JMenu("Contabilidad");
+		JMenu subConsiliacion = new JMenu("Conciliacón");
+			JMenu subAuxF = new JMenu("Auxiliar de Finanzas");
+				JMenuItem ImportarVoucher = new JMenuItem("Importar Voucher");
+				JMenuItem ImportarCheques = new JMenuItem("Importar Cheques");
+				JMenuItem ImportarAuxiliar = new JMenuItem("Importar Auxiliar");
+				JMenuItem ImportarConsiliacion = new JMenuItem("Importar Concilación AuxF");
+			
 	public Principal(){
-		this.setTitle("  Grupo Izagar  ");
+		this.setTitle("SCOI [Sistema de Control Operativo Izagar]");
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/izagar2.png"));
 						
@@ -608,7 +617,18 @@ public class Principal extends JFrame{
 			Denominaciones.addActionListener(Opciones);
 		Cortes.add(Alimentacion_Corte);
 			Alimentacion_Corte.addActionListener(Opciones);
-		
+			
+		Contabilidad.add(subConsiliacion);
+			subConsiliacion.add(subAuxF);
+				subAuxF.add(ImportarVoucher);
+					ImportarVoucher.addActionListener(Opciones);
+				subAuxF.add(ImportarCheques);
+					ImportarCheques.addActionListener(Opciones);
+				subAuxF.add(ImportarAuxiliar);
+					ImportarAuxiliar.addActionListener(Opciones);
+				subAuxF.add(ImportarConsiliacion);
+					ImportarConsiliacion.addActionListener(Opciones);
+				
 		Barra.add(Archivo);
 		Barra.add(Alimentacion);
 		Barra.add(Catalogo);
@@ -618,7 +638,7 @@ public class Principal extends JFrame{
 		Barra.add(Autorizaciones);
 		Barra.add(Ayuda);
 		Barra.add(Cortes);
-						
+		Barra.add(Contabilidad);
 		return Barra;
 	}
 	KeyListener validaBuscar = new KeyListener() {
@@ -889,6 +909,15 @@ public class Principal extends JFrame{
 					new Cat_Imprimir_Fuente_Sodas_Auxf().setVisible(true);
 				}
 			}
+			
+			if(e.getActionCommand().equals("Importar Voucher")){
+				new Cat_Importar_Voucher().setVisible(true);
+			}
+			
+//			JMenuItem ImportarVoucher = new JMenuItem("Importar Voucher");
+//			JMenuItem ImportarCheques = new JMenuItem("Importar Cheques");
+//			JMenuItem ImportarAuxiliar = new JMenuItem("Importar Auxiliar");
+//			JMenuItem ImportarConsiliacion = new JMenuItem("Importar Consilación AuxF");
 				
 		}
 	};
