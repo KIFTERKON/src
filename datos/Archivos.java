@@ -23,7 +23,7 @@ public class Archivos {
 			bw = new BufferedWriter(new FileWriter(nomArchivo));
 			
 			//escribe
-			bw.write("\n\n\n\n\n\n"+ex.getIzagar() + "\n");
+			bw.write("\n\n\n\n\n\n\n\n\n"+ex.getIzagar() + "\n");
 			bw.write(ex.getTalon() + "\n\n");
 			bw.write(ex.getFolio_corte() + "                ");  bw.write(ex.getFecha()+ "\n\n");
 			

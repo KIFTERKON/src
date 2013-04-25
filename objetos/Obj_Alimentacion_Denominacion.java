@@ -77,7 +77,7 @@ public class Obj_Alimentacion_Denominacion {
 	}
 	public boolean guardar(){ return new GuardarSQL().Guardar_Alimentacion_denominacio(this); }
 	
-	public boolean actualizar(String asignacion){ return new ActualizarSQL().Denom(this,asignacion); }
+	public boolean actualizar(String asignacion, int folioDenom){ return new ActualizarSQL().Denom(this,asignacion,folioDenom); }
 	
 	public Obj_Alimentacion_Denominacion buscar(String asignacion){ 
 		try {

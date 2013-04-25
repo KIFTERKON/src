@@ -8,6 +8,7 @@ import java.util.Date;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bancos;
@@ -19,6 +20,8 @@ import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Nivel_Critico;
+import objetos.Obj_OpRespuesta;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
@@ -85,19 +88,22 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean Denom(Obj_Alimentacion_Denominacion denom, String asignacion){
+	public boolean Denom(Obj_Alimentacion_Denominacion denom, String asignacion, int folioDenom){
+		
 		String query = "update tb_alimentacion_denominaciones set asignacion=?, folio_empleado=?, " +
-				"folio_denominacion=?, denominacion=?, valor=?, cantidad=?, fecha=? where asignacion='"+asignacion+"'";
+				"folio_denominacion=?, denominacion=?, valor=?, cantidad=?, fecha=? where asignacion='"+asignacion+"' and " +
+						"folio_denominacion='"+folioDenom+"'";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
+
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 		
-			pstmt.setString(1, denom.getAsignacion().trim());
+			pstmt.setString(1, denom.getAsignacion().toUpperCase());
 			pstmt.setInt(2,denom.getFolio_empleado());
 			pstmt.setInt(3, denom.getFolio_denominacion());
-			pstmt.setString(4,denom.getDenominacion());
+			pstmt.setString(4,denom.getDenominacion().toUpperCase());
 			pstmt.setFloat(5, denom.getValor());
 			pstmt.setFloat(6, denom.getCantidad());
 			pstmt.setString(7, denom.getFecha());
@@ -238,6 +244,104 @@ public class ActualizarSQL {
 			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Atributos(Obj_Atributos atrib, int folio){
+		String query = "update tb_atributo set descripcion=?, valor=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, atrib.getDescripcion().toUpperCase());
+			pstmt.setFloat(2, atrib.getValor());
+			pstmt.setString(3, (atrib.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Nivel(Obj_Nivel_Critico nc, int folio){
+		String query = "update tb_nivel_critico set descripcion=?, valor=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, nc.getDescripcion().toUpperCase());
+			pstmt.setFloat(2, nc.getValor());
+			pstmt.setString(3, (nc.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean OpRespuesta(Obj_OpRespuesta opR, int folio){
+		String query = "update tb_op_respuesta set descripcion=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, opR.getDescripcion().toUpperCase());
+			pstmt.setString(2, (opR.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

@@ -313,7 +313,7 @@ Connexion con = new Connexion();
 		   if (caracter==KeyEvent.VK_PERIOD){
 		    		    	
 		    	String texto = txtSueldo.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();
+				if (texto.indexOf(".")>-1) e.consume();
 				
 			}
 		    		    		       	

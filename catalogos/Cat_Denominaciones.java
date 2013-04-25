@@ -95,6 +95,7 @@ Connexion con = new Connexion();
 		
 		panel.add(getPanelTabla()).setBounds(x+ancho*4,20,380,130);
 		
+		chStatus.setSelected(true);
 		chStatus.setEnabled(false);
 		txtFolio.setEditable(false);
 		txtNombre.setEditable(false);

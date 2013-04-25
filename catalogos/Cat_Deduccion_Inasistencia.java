@@ -379,6 +379,7 @@ public class Cat_Deduccion_Inasistencia extends JDialog {
 			s = con.conexion().createStatement();
 			rs = s.executeQuery(todos);
 			Matriz = new Object[getFilas(todos)][10];
+			System.out.println(getFilas(todos));
 			int i=0;
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1).trim();

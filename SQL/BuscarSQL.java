@@ -13,6 +13,7 @@ import java.util.Vector;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
+import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bancos;
@@ -25,6 +26,8 @@ import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Nivel_Critico;
+import objetos.Obj_OpRespuesta;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Prestamo;
@@ -201,6 +204,77 @@ public class BuscarSQL {
 		return puesto;
 	}
 	
+	public Obj_Atributos Atributos(int folio) throws SQLException{
+		Obj_Atributos atrib = new Obj_Atributos();
+		String query = "select * from tb_atributo where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				atrib.setFolio(rs.getInt("folio"));
+				atrib.setDescripcion(rs.getString("Descripcion").trim());
+				atrib.setValor(rs.getFloat("Valor"));
+				atrib.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return atrib;
+	}
+	
+	public Obj_Nivel_Critico Nivel(int folio) throws SQLException{
+		Obj_Nivel_Critico nc = new Obj_Nivel_Critico();
+		String query = "select * from tb_nivel_critico where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				nc.setFolio(rs.getInt("folio"));
+				nc.setDescripcion(rs.getString("Descripcion").trim());
+				nc.setValor(rs.getInt("Valor"));
+				nc.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return nc;
+	}
+	
+	public Obj_OpRespuesta OpRespuesta(int folio) throws SQLException{
+		Obj_OpRespuesta opR = new Obj_OpRespuesta();
+		String query = "select * from tb_op_respuesta where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				opR.setFolio(rs.getInt("folio"));
+				opR.setDescripcion(rs.getString("Descripcion").trim());
+				opR.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return opR;
+	}
+	
 	public Obj_Tipo_Banco Tipo_Banco(int folio) throws SQLException{
 		Obj_Tipo_Banco banck = new Obj_Tipo_Banco();
 		String query = "select * from tb_tipo_banco where folio ="+ folio;
@@ -356,6 +430,69 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
+	}
+	
+	public Obj_Atributos Atributo_Nuevo() throws SQLException{
+		Obj_Atributos atrib = new Obj_Atributos();
+		String query = "select max(folio) as 'Maximo' from tb_atributo";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				atrib.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return atrib;
+	}
+	
+	public Obj_Nivel_Critico Nivel_Nuevo() throws SQLException{
+		Obj_Nivel_Critico nc = new Obj_Nivel_Critico();
+		String query = "select max(folio) as 'Maximo' from tb_nivel_critico";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				nc.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return nc;
+	}
+	
+	public Obj_OpRespuesta OpRespuesta_Nuevo() throws SQLException{
+		Obj_OpRespuesta opR = new Obj_OpRespuesta();
+		String query = "select max(folio) as 'Maximo' from tb_op_respuesta";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				opR.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return opR;
 	}
 	
 	public Obj_Tipo_Banco Tipo_Banco_Nuevo() throws SQLException{
