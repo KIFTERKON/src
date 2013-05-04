@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.text.MessageFormat;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -109,7 +108,7 @@ public class Cat_Lista_Pago extends JFrame {
 								"  where "+
 									"  tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
 									"  tb_empleado.status = 1 "+
-								" order by Establecimiento asc");
+								" order by Establecimiento, Nombre asc");
 			
 			String aux="";
 			int cont =0;

@@ -487,7 +487,11 @@ public class Cat_Deduccion_Inasistencia extends JFrame {
 						panel.setBorder(BorderFactory.createTitledBorder("Actualizando Deducción por inasistencia..."));
 						for(int i=0; i<model.getRowCount(); i++){
 							for(int j=0; j<model.getColumnCount(); j++){
-								miVector.add(model.getValueAt(i,j));
+								if(model.getValueAt(i, j) != null){
+									miVector.add(model.getValueAt(i,j));
+								}else{
+									miVector.add("");
+								}
 							}
 							Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
 							
@@ -500,25 +504,25 @@ public class Cat_Deduccion_Inasistencia extends JFrame {
 							
 							boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
 							int dias_faltas = 0;
-							if(miVector.get(5).toString() != ""){
-								dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+							if(miVector.get(5).toString().equals("")){
+								dias_faltas = 0;								
 							}else{
-								dias_faltas = 0;	
+								dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
 							}
 							deduccion.setFalta(falta+"");
 							deduccion.setDia_faltas(dias_faltas);
 							
 							deduccion.setAsistencia(miVector.get(6).toString().trim());
 							deduccion.setGafete(miVector.get(7).toString().trim());
-							if(miVector.get(8).toString() != ""){
-								deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
-							}else {
+							if(miVector.get(8).toString().equals("")){
 								deduccion.setDia_gafete(0);
-							}
-							if(miVector.get(9).toString() != ""){
-								deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
 							}else {
+								deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
+							}
+							if(miVector.get(9).toString().equals("")){
 								deduccion.setExtra(0);
+							}else {
+								deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
 							}
 							if(falta != true){
 								deduccion.setCantidad_faltas(0);
@@ -557,7 +561,11 @@ public class Cat_Deduccion_Inasistencia extends JFrame {
 					panel.setBorder(BorderFactory.createTitledBorder("Guardando Deducción por inasistencia..."));
 					for(int i=0; i<model.getRowCount(); i++){
 						for(int j=0; j<model.getColumnCount(); j++){
-							miVector.add(model.getValueAt(i,j));
+							if(model.getValueAt(i, j) != null){
+								miVector.add(model.getValueAt(i,j));
+							}else{
+								miVector.add("");
+							}
 						}
 						Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
 						int index = Integer.parseInt(miVector.get(0).toString().trim());
@@ -569,25 +577,26 @@ public class Cat_Deduccion_Inasistencia extends JFrame {
 						boolean falta = Boolean.parseBoolean(miVector.get(4)+"".trim());
 						
 						int dias_faltas = 0;
-						if(miVector.get(5).toString() != ""){
-							dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());
+						if(miVector.get(5).toString().equals("")){
+							dias_faltas = 0;
 						}else{
-							dias_faltas = 0;	
+							dias_faltas = Integer.parseInt(miVector.get(5).toString().trim());	
 						}
 						deduccion.setFalta(falta+"");
 						deduccion.setDia_faltas(dias_faltas);
 						deduccion.setAsistencia(miVector.get(6).toString().trim());
 						deduccion.setGafete(miVector.get(7).toString().trim());
 						
-						if(miVector.get(8).toString() != ""){
-							deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
-						}else {
+						if(miVector.get(8).toString().equals("")){
 							deduccion.setDia_gafete(0);
-						}
-						if(miVector.get(9).toString() != ""){
-							deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
+							
 						}else {
+							deduccion.setDia_gafete(Integer.parseInt(miVector.get(8).toString()));
+						}
+						if(miVector.get(9).toString().equals("")){
 							deduccion.setExtra(0);
+						}else {
+							deduccion.setExtra(Float.parseFloat(miVector.get(9).toString()));
 						}
 						if(falta != true){
 							deduccion.setCantidad_faltas(0);

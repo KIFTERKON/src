@@ -47,7 +47,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class GuardarSQL {
 
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -77,6 +77,9 @@ public class GuardarSQL {
 			pstmt.setString(18, empleado.getFecha());
 			pstmt.setString(19, empleado.getObservasiones());
 			pstmt.setString(20, empleado.getFoto());
+			pstmt.setInt(21, empleado.getTipo_banco());
+			pstmt.setString(22, empleado.getTargeta_nomina());
+			
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -1025,7 +1028,7 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Pre_Lista(Obj_Revision_Lista_Raya raya){
 		
-		String query ="exec sp_insert_pre_listaraya ?,?,?,?,?,?";
+		String query ="exec sp_insert_pre_listaraya ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1037,6 +1040,7 @@ public class GuardarSQL {
 			pstmt.setString(4, raya.getObservasion_i());
 			pstmt.setString(5, raya.getObservasion_ii());
 			pstmt.setInt(6, 1);
+			pstmt.setString(7, raya.getEstablecimiento());
 
 			pstmt.executeUpdate();
 			con.commit();
@@ -1486,60 +1490,57 @@ public class GuardarSQL {
 		return true;
 	}
 	
-//	public boolean GuardarImportarVoucher(Obj_Importar_Voucher importar){
-//		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-//		Connection con = new Connexion().conexion();
-//		PreparedStatement pstmt = null;
-//		try {
-//			con.setAutoCommit(false);
-//			pstmt = con.prepareStatement(query);
-//					
-//			pstmt.setInt(1, empleado.getNo_checador());
-//			pstmt.setString(2, empleado.getNombre().toUpperCase());
-//			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
-//			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
-//			pstmt.setInt(5, empleado.getEstablecimiento());
-//			
-//			pstmt.setInt(6, empleado.getPuesto());
-//			pstmt.setInt(7, empleado.getTurno());
-//			pstmt.setInt(8, empleado.getDescanso());
-//			pstmt.setInt(9, empleado.getDobla());
-//			pstmt.setInt(10,empleado.getSueldo());
-//			
-//			pstmt.setInt(11, empleado.getBono());
-//			pstmt.setInt(12, empleado.getPrestamo());
-//			pstmt.setFloat(13, empleado.getPension_alimenticia());
-//			pstmt.setFloat(14,empleado.getInfonavit());
-//			pstmt.setBoolean(15, (empleado.getFuente_sodas())? true: false);
-//			
-//			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
-//			pstmt.setInt(17, empleado.getStatus());				
-//			pstmt.setString(18, empleado.getFecha());
-//			pstmt.setString(19, empleado.getObservasiones());
-//			pstmt.setString(20, empleado.getFoto());
-//			
-//			pstmt.executeUpdate();
-//			con.commit();
-//		} catch (Exception e) {
-//			System.out.println("SQLException: " + e.getMessage());
-//			if (con != null){
-//				try {
-//					System.out.println("La transacción ha sido abortada");
-//					con.rollback();
-//				} catch(SQLException ex) {
-//					System.out.println(ex.getMessage());
-//				}
-//			} 
-//			return false;
-//		}finally{
-//			try {
-//				pstmt.close();
-//				con.close();
-//			} catch(SQLException e){
-//				e.printStackTrace();
-//			}
-//		}		
-//		return true;
-//	}
+	public boolean GuardarImportarVoucher(Obj_Importar_Voucher importar){
+		String query = "exec sp_insert_voucher_importado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, importar.getContrato());
+			pstmt.setString(2, importar.getF_transaccion());
+			pstmt.setString(3, importar.getH_transaccion());
+			pstmt.setString(4, importar.getNo_codigo());
+			pstmt.setString(5, importar.getLeyenda());
+			pstmt.setFloat(6, importar.getImporte());
+			pstmt.setString(7, importar.getTerminal());
+			pstmt.setString(8, importar.getCuenta());
+			pstmt.setString(9, importar.getAutorizacion());
+			pstmt.setString(10, importar.getTipo_de_cuenta());
+			pstmt.setString(11, importar.getF_abono());
+			pstmt.setString(12, importar.getReferencia_1());
+			pstmt.setString(13, importar.getReferencia_2());
+			pstmt.setString(14, importar.getReferencia_3());
+			pstmt.setFloat(15, importar.getQ6());
+			pstmt.setFloat(16, importar.getImporta_cash_back());
+			pstmt.setFloat(17, importar.getEci());
+			pstmt.setString(18, importar.getControl_interno_comercio());
+			pstmt.setString(19, importar.getLote1());
+			pstmt.setString(20, importar.getLote2());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 }

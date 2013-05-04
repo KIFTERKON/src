@@ -35,7 +35,7 @@ public class Cat_Importar_Voucher extends JFrame{
 				JOptionPane.showMessageDialog(null, "El archivo seleccionado no es uno valido \n verifique el tipo de archivo", "Error al abrir", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 				return;
 			}else{
-				dispose();
+				
 				
 				Vector myVector = new Vector();
 				FileReader archivo;
@@ -55,30 +55,31 @@ public class Cat_Importar_Voucher extends JFrame{
 							}
 							Obj_Importar_Voucher importar = new Obj_Importar_Voucher();
 							
-							importar.setContrato(Integer.parseInt(myVector.get(1).toString()));
-							importar.setF_transaccion(myVector.get(2).toString());
-							importar.setH_transaccion(myVector.get(3).toString());
-							importar.setNo_codigo(myVector.get(4).toString());
-							importar.setLeyenda(myVector.get(5).toString());
-							importar.setImporte(Float.parseFloat(myVector.get(6).toString()));
-							importar.setTerminal(myVector.get(7).toString());
-							importar.setCuenta(myVector.get(8).toString());
-							importar.setAutorizacion(myVector.get(9).toString());
-							importar.setTipo_de_cuenta(myVector.get(10).toString());
-							importar.setF_abono(myVector.get(11).toString());
-							importar.setReferencia_1(myVector.get(12).toString());
-							importar.setReferencia_2(myVector.get(13).toString());
-							importar.setReferencia_3(myVector.get(14).toString());
-							importar.setQ6(Float.parseFloat(myVector.get(15).toString()));
-							importar.setImporta_cash_back(Float.parseFloat(myVector.get(16).toString()));
-							importar.setEci(Float.parseFloat(myVector.get(17).toString()));
-							importar.setControl_interno_comercio(myVector.get(18).toString());
-							importar.setLote1(myVector.get(19).toString());
-							importar.setLote2(myVector.get(20).toString());
+							importar.setContrato(Integer.parseInt(myVector.get(0).toString()));
+							importar.setF_transaccion(myVector.get(1).toString());
+							importar.setH_transaccion(myVector.get(2).toString());
+							importar.setNo_codigo(myVector.get(3).toString());
+							importar.setLeyenda(myVector.get(4).toString());
+							importar.setImporte(Float.parseFloat(myVector.get(5).toString().replace("$","").replace(",", "")));
+							importar.setTerminal(myVector.get(6).toString());
+							importar.setCuenta(myVector.get(7).toString());
+							importar.setAutorizacion(myVector.get(8).toString());
+							importar.setTipo_de_cuenta(myVector.get(9).toString());
+							importar.setF_abono(myVector.get(10).toString());
+							importar.setReferencia_1(myVector.get(11).toString());
+							importar.setReferencia_2(myVector.get(12).toString());
+							importar.setReferencia_3(myVector.get(13).toString());
+							importar.setQ6(Float.parseFloat(myVector.get(14).toString().replace("$","").replace(",", "")));
+							importar.setImporta_cash_back(Float.parseFloat(myVector.get(15).toString().replace("$","").replace(",", "")));
+							importar.setEci(Float.parseFloat(myVector.get(16).toString().replace("$","").replace(",", "")));
+							importar.setControl_interno_comercio(myVector.get(17).toString());
+							importar.setLote1(myVector.get(18).toString());
+							importar.setLote2(myVector.get(19).toString());
 							
 							importar.Guardar();
+						
+							myVector.clear();
 							escape++;
-//								myVector.addElement(cadena);
 						}else{
 							escape++;
 						}
@@ -90,7 +91,7 @@ public class Cat_Importar_Voucher extends JFrame{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+				dispose();
 			}
 		}
 	}

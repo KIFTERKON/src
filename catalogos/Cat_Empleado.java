@@ -242,6 +242,7 @@ public class Cat_Empleado extends JFrame{
 		txtFolio.addKeyListener(numerico_action);
 		txtChecador.addKeyListener(numerico_action);
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
+		txtPensionAli.addKeyListener(validaNumericoPension);
 		
 		cont.add(panel);
 		txtHorario.setEditable(false);
@@ -447,6 +448,15 @@ public class Cat_Empleado extends JFrame{
 							}else{
 								empleado.setInfonavit(Float.parseFloat(0.0+""));
 							}
+							
+							if(txtTarjetaNomina.getText().length() != 0){
+								empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+							}else{
+								empleado.setTargeta_nomina("");
+							}
+							
+							empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
+							
 							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
 							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -512,6 +522,14 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setInfonavit(Float.parseFloat(0.0+""));
 						}
+						if(txtTarjetaNomina.getText().length() != 0){
+							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+						}else{
+							empleado.setTargeta_nomina("");
+						}
+						
+						empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
+						
 						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -772,9 +790,34 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
+	KeyListener validaNumericoPension = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    		    	
+		    	String texto = txtPensionAli.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+				
+			}
+		    		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
 	private String validaCampos(){
 		String error="";
-		
 		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
 		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
@@ -820,9 +863,17 @@ public class Cat_Empleado extends JFrame{
 			cmbDescanso.setSelectedIndex(re.getDescanso());
 			cmbDobla.setSelectedIndex(re.getDobla());
 			cmbSueldo.setSelectedIndex(re.getSueldo());
-			cmbBono.setSelectedIndex(re.getBono());
+			
+			Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
+			cmbBono.setSelectedItem(bono.getBono()+"");
+			
 			cmbPrestamos.setSelectedIndex(re.getPrestamo());
-			txtInfonavit.setText(re.getInfonavit()+"");					
+			txtInfonavit.setText(re.getInfonavit()+"");				
+			
+			txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
+			Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
+			cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
+			
 			if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
 			else{chbFuente_Sodas.setSelected(false);}
 			if(re.getGafete() == true){chbGafete.setSelected(true);}

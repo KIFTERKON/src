@@ -30,6 +30,7 @@ import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_MD5;
 import objetos.Obj_Usuario;
 
+import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
 import catalogos.Cat_Auto_Auditoria;
 import catalogos.Cat_Auto_Finanzas;
@@ -171,6 +172,7 @@ public class Principal extends JFrame{
 		JMenuItem Listas_Firma = new JMenuItem("Lista de Firmas");
 		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamos");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
+		JMenuItem Listas_Captura_Totales_Nomina = new JMenuItem("Captura de totales de nómina");
 		JMenuItem Listas_Total_Nomina = new JMenuItem("Totales De Cheque");
 		
 	JMenu Configuracion = new JMenu("Configuración");
@@ -528,7 +530,7 @@ public class Principal extends JFrame{
 		};
 		ActionListener opRevicion = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				//pendiente
+				new Cat_Nomina().setVisible(true);
 			}
 		};
 				
@@ -575,10 +577,11 @@ public class Principal extends JFrame{
 			Listas_Prestamo.addActionListener(Opciones);
 		Listas.add(Listas_Comparacion_Fuente_Soda);
 			Listas_Comparacion_Fuente_Soda.addActionListener(Opciones);
+		Listas.add(Listas_Captura_Totales_Nomina);
+			Listas_Captura_Totales_Nomina.addActionListener(Opciones);
 		Listas.add(Listas_Total_Nomina);
 			Listas_Total_Nomina.addActionListener(Opciones);
 		
-			
 		Configuracion.add(Configuracion_Asistencia_Puntualidad);
 			Configuracion_Asistencia_Puntualidad.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Bono);
@@ -606,7 +609,6 @@ public class Principal extends JFrame{
 		Autorizaciones.add(Autorizacion_Finanzas);
 			Autorizacion_Finanzas.addActionListener(Opciones);
 
-			
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 		Ayuda.add(Edicion_AcercaDe);
 		Ayuda.add(Permiso_user);
@@ -878,6 +880,19 @@ public class Principal extends JFrame{
 							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
 				}else{
 					new Cat_Lista_Deudores_Prestamo().setVisible(true);
+				}
+			}
+			if(e.getActionCommand().equals("Captura de totales de nómina")){
+				Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+				boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+				Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+				boolean auto_finanza = autoriza_finanza.isAutorizar();
+				
+				if(auto_auditoria == true || auto_finanza == true){
+					JOptionPane.showMessageDialog(null, "La lista de raya esta autorizada, ya no puede realizar\n " +
+							"ningún cambio hasta generar la lista de raya...!","Aviso",JOptionPane.WARNING_MESSAGE);
+				}else{
+					new Cat_Alimentacion_Totales().setVisible(true);
 				}
 			}
 			

@@ -7,9 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import objetos.ObjTicket;
 import objetos.Obj_Alimentacion_Cortes;
 
@@ -59,7 +56,7 @@ public class Archivos {
 		return true;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unused")
 	public Obj_Alimentacion_Cortes leerTiket(String archivo) throws IOException
 	{
 		Obj_Alimentacion_Cortes ex = new Obj_Alimentacion_Cortes();

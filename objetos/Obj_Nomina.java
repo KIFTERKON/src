@@ -44,4 +44,8 @@ public class Obj_Nomina {
 	public String[] getChequeABC(int Folio){
 		return new BuscarSQL().getNominaChequeABC(Folio);
 	}
+	
+//	public boolean Guardar(){
+//		return new G
+//	}
 }

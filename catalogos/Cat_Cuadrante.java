@@ -60,7 +60,7 @@ Connexion con = new Connexion();
 	JTextField txtDescripcion = new JTextField();
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
 	JCheckBox chStatus = new JCheckBox("Status");

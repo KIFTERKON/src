@@ -1625,23 +1625,52 @@ public class BuscarSQL {
 	}
 	
 	public String[][] getEstablecimientoLista(){
-		String datos = "select nombre from tb_establecimiento where not nombre = 'NO ASIGNADO' order by nombre";
-		String[][] Matriz = new String[getFilas(datos)][2];
-		Statement s;
-		ResultSet rs;
-		try {			
-			s = con.conexion().createStatement();
-			rs = s.executeQuery(datos);
-			int i=0;
-			while(rs.next()){
-				Matriz[i][0] = rs.getString(1);
-				Matriz[i][1] = "";
-				i++;
+		int numero_lista = MaximoListaRaya()+1;
+		int numero_nomina = MaximoListaNomina();
+		
+		String[][] Matriz = null;
+		
+		if(numero_lista == numero_nomina){
+			String datosif = "select establecimiento, nomina from tb_captura_totales_nomina where lista_raya =" + numero_lista;
+			Matriz = new String[getFilas(datosif)][2];
+			Statement s;
+			ResultSet rs;
+			try {			
+				s = con.conexion().createStatement();
+				rs = s.executeQuery(datosif);
+				int i=0;
+				while(rs.next()){
+					Matriz[i][0] = rs.getString(1);
+					Matriz[i][1] = rs.getString(2);
+					i++;
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+			
+		}else{
+			
+			String datosif = "select nombre from tb_establecimiento where status = 1";
+			Matriz = new String[getFilas(datosif)][2];
+			Statement s;
+			ResultSet rs;
+			try {			
+				s = con.conexion().createStatement();
+				rs = s.executeQuery(datosif);
+				int i=0;
+				while(rs.next()){
+					Matriz[i][0] = rs.getString(1);
+					Matriz[i][1] = "";
+					i++;
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			
+			
 		}
-		return Matriz; 
+		return Matriz;
 	}
 	
 	public String[][] getUsuarioPermisos(){
@@ -1681,7 +1710,8 @@ public class BuscarSQL {
 	}
 	
 	public String[][] getNomina(int Folio){
-		String datos = "exec sp_lista_nomina "+Folio;
+//		String datos = "exec sp_lista_nomina "+Folio;
+		String datos = "exec sp_select_nomina "+Folio;
 		String[][] Matriz = new String[getFilas(datos)+1][6];
 		Statement s;
 		ResultSet rs;
@@ -1724,7 +1754,7 @@ public class BuscarSQL {
 	}
 	
 	public int MaximoListaRaya(){
-		String datos = "select	max(lista_raya) from tb_captura_totales_nomina";
+		String datos = "select	max(numero_lista) from tb_lista_raya";
 		int valor = 0;
 		Statement s;
 		ResultSet rs;
@@ -1740,7 +1770,25 @@ public class BuscarSQL {
 		return valor; 
 	}
 	
+	
+	public int MaximoListaNomina(){
+		String datos = "select max(lista_raya) from tb_captura_totales_nomina";
+		int valor = 0;
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			while(rs.next()){
+				valor = rs.getInt(1);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor; 
+	}
 	public String[] getTotalesNomina(int Folio){
+		
 		String datos = "exec sp_total_nomina "+Folio;
 		String[] Matriz = new String[6];
 		Statement s;

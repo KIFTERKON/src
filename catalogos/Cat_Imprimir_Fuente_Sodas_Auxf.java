@@ -6,10 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,6 +32,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
+import export.exportar_excel;
 
 import SQL.Connexion;
 import objetos.JTextFieldLimit;
@@ -53,11 +60,14 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	JButton Impresion = new JButton("Imprimir");
+	JButton exportar = new JButton("exportar");
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre_Completo = new JTextField();
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+	@SuppressWarnings("unused")
+	private Component campo;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	//el constructor de la clase
@@ -69,14 +79,15 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 		
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
-
-		panel.add(getPanelTabla()).setBounds(15,45,500,600);
+		
+		panel.add(getPanelTabla()).setBounds(15,55,500,600);
 		
 	//se agrega los componenetes a la pantalla (x,y,Largo,Ancho)
-     	panel.add(txtFolio).setBounds(15,20,39,20);
-	    panel.add(txtNombre_Completo).setBounds(55,20,288,20);
-	    panel.add(cmbEstablecimientos).setBounds(345,20, 138, 20);
-		panel.add(Impresion).setBounds (520,20,80,20);
+     	panel.add(txtFolio).setBounds(15,28,34,20);
+	    panel.add(txtNombre_Completo).setBounds(50,28,288,20);
+	    panel.add(cmbEstablecimientos).setBounds(340,28, 120, 20);
+		panel.add(Impresion).setBounds (470,7,70,20);
+		panel.add(exportar).setBounds (470,28,70,20);
 		
 	    cont.add(panel);
 		txtFolio.addKeyListener(opFiltroFolio);
@@ -84,13 +95,29 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 		cmbEstablecimientos.addActionListener(opFiltro);
 	
 		Impresion.addActionListener(Imprimir);
+		exportar.addActionListener(Exportar);
 		this.setModal(true);
-		this.setSize(650,700);
+		this.setSize(550,700);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
 	}
-
+	public int getFilas(String qry){
+		int filas=0;
+		Statement stmt = null;
+		try {
+			Connexion con = new Connexion();
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(qry);
+			while(rs.next()){
+				filas++;
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return filas;
+	}
 
 	KeyListener opFiltroFolio = new KeyListener(){
 		@SuppressWarnings("unchecked")
@@ -136,6 +163,83 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 			catch(java.awt.print.PrinterException e1){
 				JOptionPane.showMessageDialog(null,"No se Pudo Imprimir","Aviso",JOptionPane.WARNING_MESSAGE);
 			}
+		}
+	};
+	
+	ActionListener Exportar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			try {
+				Calendar c = new GregorianCalendar();
+				
+				String dia = c.get(Calendar.DATE)+"";
+				String mes = (c.get(Calendar.MONTH)+1)+"";
+				String anio = c.get(Calendar.YEAR)+"";
+				
+				if(dia.length()==1){
+					if(mes.length()==1){
+						String nombre = "Fuente De Sodas AuxF [0"+dia+"-0"+mes+"-"+anio+"]";
+						
+						 List<JTable> tb = new ArrayList<JTable>();
+				            List<String> nom = new ArrayList<String>();
+				            tb.add(tabla);
+				            nom.add("LISTA");
+				            
+				            exportar_excel excelExporter = new exportar_excel(tb, new File(nombre+".xls"), nom);
+				            if (excelExporter.export()) {
+				                JOptionPane.showMessageDialog(null, "DATOS EXPORTADOS CON EXITO!");
+				            	Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+nombre+".xls");
+				            }
+				            
+					}else{
+						String nombre = "Fuente De Sodas AuxF [0"+dia+"-"+mes+"-"+anio+"]";
+						
+						 List<JTable> tb = new ArrayList<JTable>();
+				            List<String> nom = new ArrayList<String>();
+				            tb.add(tabla);
+				            nom.add("LISTA");
+				            
+				            exportar_excel excelExporter = new exportar_excel(tb, new File(nombre+".xls"), nom);
+				            if (excelExporter.export()) {
+				                JOptionPane.showMessageDialog(null, "DATOS EXPORTADOS CON EXITO!");
+				            	Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+nombre+".xls");
+				            }
+					}
+					
+				}else{
+					if(mes.length()==1){
+						String nombre = "Fuente De Sodas AuxF ["+dia+"-0"+mes+"-"+anio+"]";
+						
+						 List<JTable> tb = new ArrayList<JTable>();
+				            List<String> nom = new ArrayList<String>();
+				            tb.add(tabla);
+				            nom.add("LISTA");
+				            
+				            exportar_excel excelExporter = new exportar_excel(tb, new File(nombre+".xls"), nom);
+				            if (excelExporter.export()) {
+				                JOptionPane.showMessageDialog(null, "DATOS EXPORTADOS CON EXITO!");
+				            	Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+nombre+".xls");
+				            }
+				            
+					}else{
+						String nombre = "Fuente De Sodas AuxF ["+dia+"-"+mes+"-"+anio+"]";
+						
+						 List<JTable> tb = new ArrayList<JTable>();
+				            List<String> nom = new ArrayList<String>();
+				            tb.add(tabla);
+				            nom.add("LISTA");
+				            
+				            exportar_excel excelExporter = new exportar_excel(tb, new File(nombre+".xls"), nom);
+				            if (excelExporter.export()) {
+				                JOptionPane.showMessageDialog(null, "DATOS EXPORTADOS CON EXITO!");
+				            	Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+nombre+".xls");
+				            }
+					}
+					
+				}
+				
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
 		}
 	};
 
@@ -192,10 +296,20 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 		try {
 			s = con.conexion().createStatement();
 			rs = s.executeQuery("exec sp_consulta_fsodas_auxf_impres");
+			
+			int filass = getFilas("exec sp_consulta_fsodas_auxf_impres");
+			
 			int contador = 0;
+			
+			float total=0;
 	    while (rs.next()) {
 				String [] fila = new String[4];
+				
+				int filasTotales= filass+1;
+				
+				
 				if(contador == 0){
+					total=total+=Float.parseFloat(rs.getString(4)+"");
 					fila[0] = "Folio";
 					fila[1] = "Nombre Completo";
 					fila[2] = "Establecimiento"; 
@@ -206,14 +320,27 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 					fila[2] =rs.getString(3).trim(); 
 					fila[3] =rs.getString(4).trim();
 					model.addRow(fila);
+					contador +=2;
 				}else{
+					total=total+=Float.parseFloat(rs.getString(4)+"");
 					fila[0] =rs.getString(1)+"  ";
 					fila[1] = "  "+rs.getString(2).trim();
 					fila[2] =rs.getString(3).trim(); 
 					fila[3] =rs.getString(4).trim();
 					model.addRow(fila); 
+					contador ++;
+					if(filasTotales==model.getRowCount()){
+						fila[0] ="";
+						fila[1] ="";
+						fila[2] ="TOTAL:"; 
+						fila[3] =total+"";
+						model.addRow(fila);
+						System.out.println("entro:"+total);
+						
+					}else{System.out.println("filasTotales:"+filasTotales);
+					System.out.println("row:"+model.getRowCount());}
 				}
-				contador ++;
+				
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();

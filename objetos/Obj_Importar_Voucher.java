@@ -1,8 +1,5 @@
 package objetos;
 
-import java.io.IOException;
-
-import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
 public class Obj_Importar_Voucher {
@@ -205,9 +202,9 @@ public class Obj_Importar_Voucher {
 		Lote2 = lote2;
 	}
 
-//	public boolean Guardar(){ 
-//		return new GuardarSQL().GuardarImportarVoucher(this); 
-//	}
+	public boolean Guardar(){ 
+		return new GuardarSQL().GuardarImportarVoucher(this); 
+	}
 	
 //	public Obj_Importar_Voucher buscar() {
 //		Obj_Conexion_BD config = new Obj_Conexion_BD();

@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,7 +16,6 @@ import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -39,8 +37,6 @@ import javax.swing.table.TableRowSorter;
 
 import datos.LoadingBar2;
 
-import frames.WholeNumberField;
-
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
@@ -48,9 +44,7 @@ import objetos.ObjTicket;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Empleado;
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
-import objetos.Obj_Turno;
 
 @SuppressWarnings("serial")
 public class Cat_Alimentacion_Cortes extends JFrame{
@@ -364,7 +358,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	
 	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
 
-	@SuppressWarnings({ "serial", "unchecked" })
 	public class Cat_Alimentacion_Por_Denominacion extends JDialog {
 		
 		Container cont = getContentPane();
@@ -396,7 +389,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		    	java.lang.Float.class 
 		    	
 	         };
-		     @SuppressWarnings("rawtypes")
+		     @SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 	             return types[columnIndex];
 	         }
@@ -419,7 +412,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	    JToolBar menu = new JToolBar();
 		JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
 		
-		@SuppressWarnings("rawtypes")
 		public Cat_Alimentacion_Por_Denominacion(String asignacion,int folio_emp){
 			
 			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dollar.png"));
@@ -504,7 +496,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		};
 		
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public void guardar(){
 			Vector miVector = new Vector();
 			

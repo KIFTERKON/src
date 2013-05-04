@@ -20,7 +20,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -65,6 +64,8 @@ public class Cat_Imprimir_LR extends JFrame {
 		
 		campo.add(lblImprimir).setBounds(630, 10, 90, 45);
 		campo.add(lblExpor).setBounds(725, 10, 90, 45);
+		
+		System.out.println("f,msj"+(largo-548));
 		campo.add(getPanelTabla()).setBounds(20,60,largo-548,ancho-120);
 	
 		lblImprimir.addMouseListener(OpImprimir);
@@ -94,6 +95,7 @@ public class Cat_Imprimir_LR extends JFrame {
 		return filas;
 	}
  
+	@SuppressWarnings("unused")
 	private JScrollPane getPanelTabla()	{	
 		Connection conn = new Connexion().conexion();
 		
@@ -104,7 +106,7 @@ public class Cat_Imprimir_LR extends JFrame {
 		
 		// Creamos las columnas.
 		int a = 0;
-		int b = 32;
+		int b = 31;
 		tabla.getColumnModel().getColumn(a).setHeaderValue("");
 		tabla.getColumnModel().getColumn(a).setMaxWidth(140);
 		tabla.getColumnModel().getColumn(a).setMinWidth(140);
@@ -154,14 +156,14 @@ public class Cat_Imprimir_LR extends JFrame {
 		tabla.getColumnModel().getColumn(a).setMaxWidth(b);
 		tabla.getColumnModel().getColumn(a).setMinWidth(b);
 		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
-		tabla.getColumnModel().getColumn(a).setMaxWidth(b);
-		tabla.getColumnModel().getColumn(a).setMinWidth(b);
+		tabla.getColumnModel().getColumn(a).setMaxWidth(b+9);
+		tabla.getColumnModel().getColumn(a).setMinWidth(b+9);
 		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
-		tabla.getColumnModel().getColumn(a).setMaxWidth(b+5);
-		tabla.getColumnModel().getColumn(a).setMinWidth(b+5);
+		tabla.getColumnModel().getColumn(a).setMaxWidth(b+9);
+		tabla.getColumnModel().getColumn(a).setMinWidth(b+9);
 		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
-		tabla.getColumnModel().getColumn(a).setMaxWidth((b*4)-15);
-		tabla.getColumnModel().getColumn(a).setMinWidth((b*4)-15);
+		tabla.getColumnModel().getColumn(a).setMaxWidth((b*4)-12);
+		tabla.getColumnModel().getColumn(a).setMinWidth((b*4)-12);
 		
 //		TAMAÑO DE FILA DEL JTABLE
 		tabla.setRowHeight(8);
@@ -174,10 +176,10 @@ public class Cat_Imprimir_LR extends JFrame {
 				
 				lbl.setFont(new java.awt.Font("",0,7));
 		
-//				if(row%2!=0){
-//						lbl.setOpaque(true); 
-//						lbl.setBackground(new java.awt.Color(214,214,214));
-//				} 
+				if(row%2!=0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(214,214,214));
+				} 
 			return lbl; 
 			} 
 		}; 
@@ -217,6 +219,8 @@ public class Cat_Imprimir_LR extends JFrame {
 			int cont =0;
 			int contadorGeneral=0;
 			float subtotal=0;
+			
+			float totalDeTotales=0;
 			int filass = getFilas(datos);
 			while (rs.next())
 			{ 
@@ -276,6 +280,8 @@ public class Cat_Imprimir_LR extends JFrame {
 					
 					subtotal=subtotal+=pagar;
 					
+					totalDeTotales = totalDeTotales+=pagar;
+					
 					int filasTotales= filass+((contadorGeneral*3)-2);
 					
 					System.out.println("filas. "+filass);
@@ -283,7 +289,7 @@ public class Cat_Imprimir_LR extends JFrame {
 					System.out.println("filasT. "+filasTotales);
 					System.out.println("Tabla. "+(tabla.getRowCount()+1));
 					
-					if(filasTotales-1==tabla.getRowCount()+1){
+					if(filasTotales==tabla.getRowCount()+1){
 						model.addRow(fila);
 
 						fila[0]  ="";
@@ -305,6 +311,29 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[16] ="  TOTAL:";
 						fila[17] ="  "+decimal.format(subtotal);
 						fila[18] ="";
+						
+						model.addRow(fila);
+
+						fila[0]  ="";
+					  	fila[1]  ="";
+						fila[2]  ="";
+						fila[3]  ="";
+						fila[4]  ="";
+						fila[5]  ="";
+						fila[6]  ="";
+						fila[7]  ="";
+						fila[8]  ="";
+						fila[9]  ="";
+						fila[10] ="";
+						fila[11] ="";
+						fila[12] ="";
+						fila[13] ="";
+						fila[14] ="";
+						fila[15] ="";
+						fila[16] ="  TOTAL LR:";
+						fila[17] ="  "+decimal.format(totalDeTotales);
+						fila[18] ="";
+						System.out.println("Este es el total de totales -> "+totalDeTotales);
 					}
 					
 			   }else{
@@ -398,7 +427,8 @@ public class Cat_Imprimir_LR extends JFrame {
 					  aux = stab;
 					  cont=cont+4;
 					  
-					  subtotal = pagar;
+					  subtotal=pagar;
+					  totalDeTotales = totalDeTotales+=pagar;
 					  
 					   System.out.println("filas. "+filass);
 						System.out.println("ContG. "+contadorGeneral);
@@ -425,29 +455,32 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[17] ="A PAGAR";
 						fila[18] ="            OBSERVACIONES";
 						
-//					model.addRow(fila);
-//					 fila[0]  ="  "+nombre;
-//					    fila[1]  ="  "+sueldo;
-//						fila[2]  ="  "+prestamo;
-//						fila[3]  ="  "+descuento;
-//						fila[4]  ="  "+pfinal;
-//						fila[5]  ="  "+fsod;
-//						fila[6]  ="  "+punt;
-//						fila[7]  ="  "+falta;
-//						fila[8]  ="  "+asis;
-//						fila[9]  ="  "+corte;
-//						fila[10] ="  "+infon;
-//						fila[11] ="  "+pension;
-//						fila[12] ="  "+banamex;
-//						fila[13] ="  "+banorte;
-//						fila[14] ="  "+ext;
-//						fila[15] ="  "+diaE;
-//						fila[16] ="  "+bono;
-//						fila[17] ="  "+pagar;
-//						fila[18] ="  "+obs;
-//						
+					model.addRow(fila);
+					 fila[0]  ="  "+nombre;
+					    fila[1]  ="  "+sueldo;
+						fila[2]  ="  "+prestamo;
+						fila[3]  ="  "+descuento;
+						fila[4]  ="  "+pfinal;
+						fila[5]  ="  "+fsod;
+						fila[6]  ="  "+punt;
+						fila[7]  ="  "+falta;
+						fila[8]  ="  "+asis;
+						fila[9]  ="  "+corte;
+						fila[10] ="  "+infon;
+						fila[11] ="  "+pension;
+						fila[12] ="  "+banamex;
+						fila[13] ="  "+banorte;
+						fila[14] ="  "+ext;
+						fila[15] ="  "+diaE;
+						fila[16] ="  "+bono;
+						fila[17] ="  "+pagar;
+						fila[18] ="  "+obs;
+						
 						aux = stab;
 						cont=cont+1;
+						subtotal=subtotal+=pagar;
+						
+						totalDeTotales = totalDeTotales+=pagar;
 						
 						   System.out.println("filas. "+filass);
 							System.out.println("ContG. "+contadorGeneral);

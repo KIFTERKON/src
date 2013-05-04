@@ -39,7 +39,7 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina=?, tipo_banco_id=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -65,6 +65,8 @@ public class ActualizarSQL {
 			pstmt.setInt(17, empleado.getStatus());
 			pstmt.setString(18,empleado.getObservasiones());
 			pstmt.setString(19, empleado.getFoto());
+			pstmt.setString(20, empleado.getTargeta_nomina());
+			pstmt.setInt(21, empleado.getTipo_banco());
 					
 			pstmt.executeUpdate();
 			con.commit();
@@ -866,14 +868,16 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Actualizar_Bancos(Obj_Bancos bancos, int folio){
-		String query = "update tb_bancos set banamex=?, banorte=? where folio_empleado="+folio +" and status=1";
+		String query = "update tb_bancos set establecimiento=?, banamex=?, banorte=? where folio_empleado="+folio +" and status=1";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setFloat(1, bancos.getBanamex());
-			pstmt.setFloat(2, bancos.getBanorte());
+			
+			pstmt.setString(1, bancos.getEstablecimiento());
+			pstmt.setFloat(2, bancos.getBanamex());
+			pstmt.setFloat(3, bancos.getBanorte());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -966,7 +970,7 @@ public class ActualizarSQL {
 	
 	
 	public boolean Actualizar_Pre_Lista(Obj_Revision_Lista_Raya raya, int folio){
-		String query ="update tb_pre_listaraya set boolean=?, a_pagar=?, observasion_i=?, observasion_ii=?, folio_empleado=? where folio="+folio+" and status=1";
+		String query ="update tb_pre_listaraya set boolean=?, a_pagar=?, observasion_i=?, observasion_ii=?, folio_empleado=?, establecimiento=? where folio="+folio+" and status=1";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -978,6 +982,7 @@ public class ActualizarSQL {
 			pstmt.setString(3, raya.getObservasion_i());
 			pstmt.setString(4, raya.getObservasion_ii());
 			pstmt.setInt(5, raya.getFolio_empleado());
+			pstmt.setString(6, raya.getEstablecimiento());
 			
 			pstmt.executeUpdate();
 			con.commit();

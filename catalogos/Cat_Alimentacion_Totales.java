@@ -108,7 +108,7 @@ public class Cat_Alimentacion_Totales extends JFrame{
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			int numero = getNumeroLista();
+			int numero = getNumeroLista()+1;
 			Vector miVector = new Vector();
 			
 			if(getExisteLista(numero) == 0){

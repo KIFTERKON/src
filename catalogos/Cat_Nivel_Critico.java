@@ -57,7 +57,7 @@ Connexion con = new Connexion();
 	JTextField txtDescripcion = new JTextField();
 	
 	String color[] = {"SELECCIONE UNA OPCION","ROJO","AMARILLO","VERDE"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbValor = new JComboBox(color);
 	
 	JCheckBox chStatus = new JCheckBox("Status");

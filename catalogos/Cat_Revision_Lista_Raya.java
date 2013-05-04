@@ -71,8 +71,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
 		"D Puntualidad", "D Faltas", "D Asistencia", "D Cortes", "D Infonavit", "Pension" ,
 		"D Banamex", "D Banorte", "D Extra", "P Día Extras", "P Bono Extra",
-		"A Pagar", "Observasiones I", "Observasiones II" }
-													){
+		"A Pagar", "Observasiones I", "Observasiones II" }){
+		
 		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
 	    	java.lang.Boolean.class,
@@ -257,6 +257,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				return lbl; 
 			} 
 		}; 
+		
 		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
@@ -403,7 +404,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}else{
 			return;
 		}
-
 	}
 	
 	public int getNumeroLista(){
@@ -682,8 +682,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				}else{
 					Matriz[i][20] = percBonoE;
 				}
-				Matriz[i][21] = formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
-						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE);
+				
+				System.out.print( Decimal(Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
+						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE))));
+				System.out.println("   --   " + Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
+						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE)));
+				Matriz[i][21] = Decimal(Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
+						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE)));
 				Matriz[i][22] = rs.getString(21);
 				Matriz[i][23] = rs.getString(22);
 				i++;
@@ -692,6 +697,25 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			e1.printStackTrace();
 		}
 		return Matriz; 
+	}
+	
+	public double Decimal(double x){
+		String numeroString = x+"";
+		String[] dec = numeroString.split("\\.");
+	
+		double valor = Integer.parseInt(dec[0]);
+		double decimal = Double.parseDouble("."+dec[1]);
+		
+		if(decimal <= 0.25){
+			return valor;
+		}
+		if(decimal > 0.25 && decimal <= 0.74){
+			return valor + 0.5;
+		}
+		if(decimal >= 0.75 && decimal <= .9){
+			return valor + 1;
+		}
+		return valor;
 	}
 	
 	public int getFilas(String qry){
@@ -743,15 +767,29 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
 						for(int i=0; i<model.getRowCount(); i++){
 							for(int j=0; j<model.getColumnCount(); j++){
-								miVector.add(model.getValueAt(i,j));
+								if(model.getValueAt(i,j) != null){
+									miVector.add(model.getValueAt(i,j));
+								}else{
+									miVector.add("");
+								}
 							}
 							Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
 											
+							// Error de boolean en la tb_listaraya
+							if(miVector.get(0).toString() != ""){
+								lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString().trim()));
+							}else{
+								lis_raya.setChecado(false);
+							}
 							
-							lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
+							
 							int foli_emple = Integer.parseInt(miVector.get(1)+"");
+
 							Obj_Revision_Lista_Raya lis_foli = new Obj_Revision_Lista_Raya().buscar_folio(foli_emple);
 							lis_raya.setFolio_empleado(foli_emple);
+							
+							lis_raya.setEstablecimiento(miVector.get(3).toString().trim());
+							
 							lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
 							if(miVector.get(22)!= null){
 								lis_raya.setObservasion_i(miVector.get(22)+"");
@@ -771,14 +809,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							}else{
 								lis_raya.guardar();
 							}
-							
-							
 							miVector.clear();
 							
 							int porcent = (i*100)/total;
 							barra.setValue(porcent+1);
 							try {
-								Thread.sleep(0);
+								Thread.sleep(100);
 							} catch (InterruptedException e) {
 								e.printStackTrace();	
 							}
@@ -794,12 +830,24 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					panel.setBorder(BorderFactory.createTitledBorder("Guardando Pre-Lista de raya..."));
 					for(int i=0; i<model.getRowCount(); i++){
 						for(int j=0; j<model.getColumnCount(); j++){
-							miVector.add(model.getValueAt(i,j));
+							if(model.getValueAt(i,j) != null){
+								miVector.add(model.getValueAt(i,j));
+							}else{
+								miVector.add("");
+							}
 						}
 						Obj_Revision_Lista_Raya lis_raya = new Obj_Revision_Lista_Raya();
 						
-						lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString()));
+						if(miVector.get(0).toString() != ""){
+							lis_raya.setChecado(Boolean.parseBoolean(miVector.get(0).toString().trim()));
+						}else{
+							lis_raya.setChecado(false);
+						}
+						
 						lis_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+""));
+						
+						lis_raya.setEstablecimiento(miVector.get(3).toString().trim());
+						
 						lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
 						
 						if(miVector.get(22)!= null){
