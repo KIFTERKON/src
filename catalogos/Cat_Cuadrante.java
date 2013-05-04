@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
@@ -24,17 +25,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Spinner;
 
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Atributos;
+import objetos.Obj_Cuadrante;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Critico;
 
@@ -57,15 +65,32 @@ Connexion con = new Connexion();
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtDescripcion = new JTextField();
+	
+	JTextArea txaNombre = new JTextArea(4,4);
+//	JScrollPane Nombre = new JScrollPane(txaNombre);
+	
+	JTextArea txaDescripcion = new JTextArea(4,4);
+//	JScrollPane Descripcion = new JScrollPane(txaDescripcion);
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
+	String dias[] = {"Seleccione un dia","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo"};
+	@SuppressWarnings("unchecked")
+	JComboBox cmbDias = new JComboBox(dias);
+	
+	String eqTrabajo[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbEqTrabajo = new JComboBox(eqTrabajo);
+	
+	String jefatura[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbJefatura = new JComboBox(jefatura);
+	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
-	JSpinner spnNGerarquico = new JSpinner(new SpinnerNumberModel(0,0,20,1));
+	JSpinner spnNGerarquico = new JSpinner(new SpinnerNumberModel(10,0,20,1));
 	
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 	JButton btnSalir = new JButton("Salir");
@@ -81,36 +106,62 @@ Connexion con = new Connexion();
 		
 		this.setTitle("Cuadrante");
 		
-		spnNGerarquico.setBorder(null);
-		
 		int x = 15, y=30, ancho=100;
 		
+		Border border = BorderFactory.createLineBorder(new java.awt.Color(80,80,100));
+		txaNombre.setBorder(border);
+		txaDescripcion.setBorder(border);
+		
+		panelEnabledFalse();
+		
 		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
-		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
+		panel.add(txtFolio).setBounds(ancho+10,y,ancho,20);
+		panel.add(btnBuscar).setBounds(x+ancho+ancho,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
+		panel.add(chStatus).setBounds(x+33+(ancho*2),y,70,20);
+		panel.add(btnNuevo).setBounds(x+305,y,ancho-10,20);
 		
-		panel.add(new JLabel("Descripcion:")).setBounds(5,y+=30,ancho,20);
-		panel.add(txtDescripcion).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
+		panel.add(new JLabel("Actividad:")).setBounds(5,y+=30,ancho+40,20);
+		panel.add(txaNombre).setBounds(ancho+10,y,ancho*3,100);
 		
-		panel.add(new JLabel("Valor:")).setBounds(5,y+=30,ancho,20);
-		panel.add(cmbEstablecimiento).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(spnNGerarquico).setBounds(ancho-20,y+=30,ancho+ancho,20);
-		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
-		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
+		panel.add(new JLabel("Descripcion: ")).setBounds(ancho*4+50,30,ancho,20);
+		panel.add(txaDescripcion).setBounds(ancho*4+50,60,ancho*3,200);
 		
-		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
+		panel.add(new JLabel("Establecimiento:")).setBounds(5,y+=110,ancho,20);
+		panel.add(cmbEstablecimiento).setBounds(ancho+10,y,ancho+ancho,20);
+		panel.add(new JLabel("Nivel Gerarquico: ")).setBounds(5,y+=30,ancho,20);
+		panel.add(spnNGerarquico).setBounds(ancho+10,y,50,20);
+		
+		panel.add(new JLabel("Dia:")).setBounds(5,y+=30,ancho,20);
+		panel.add(cmbDias).setBounds(ancho+10,y,ancho+ancho,20);
+		panel.add(new JLabel("Eq. Trabajo:")).setBounds(5,y+=30,ancho,20);
+		panel.add(cmbEqTrabajo).setBounds(ancho+10,y,ancho+ancho,20);
+		panel.add(new JLabel("Jefatura:")).setBounds(5,y+=30,ancho,20);
+		panel.add(cmbJefatura).setBounds(ancho+10,y,ancho+ancho,20);
+		
+		panel.add(btnEditar).setBounds(x+300,y,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho+90,y+=30,ancho,20);
+		panel.add(btnSalir).setBounds(x+80,y,ancho,20);
+		panel.add(btnGuardar).setBounds(x+300,y,ancho,20);
+		
+		panel.add(getPanelTabla()).setBounds(5,y+=30,ancho*7+50,300);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
-		txtDescripcion.setDocument(new JTextFieldLimit(100));
+		txaNombre.setDocument(new JTextFieldLimit(100));
+		
+		txaNombre.setLineWrap(true); 
+		txaNombre.setWrapStyleWord(true);
+		txaNombre.setDocument(new JTextFieldLimit(250));
+		
+		txaDescripcion.setLineWrap(true); 
+		txaDescripcion.setWrapStyleWord(true);
+		txaDescripcion.setDocument(new JTextFieldLimit(500));
 		
 		chStatus.setEnabled(false);
-		txtDescripcion.setEditable(false);
 		cmbEstablecimiento.setEditable(false);
+		
+		btnGuardar.setEnabled(false);
+		btnDeshacer.setEnabled(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
@@ -127,7 +178,7 @@ Connexion con = new Connexion();
 		
 		agregar(tabla);
 		
-		this.setSize(760,210);
+		this.setSize(765,665);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
@@ -136,14 +187,14 @@ Connexion con = new Connexion();
 		new Connexion();
 
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
-		tabla.getColumnModel().getColumn(1).setMinWidth(160);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Valor");
-		tabla.getColumnModel().getColumn(2).setMinWidth(80);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(0).setMinWidth(40);
+		tabla.getColumnModel().getColumn(0).setMinWidth(40);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		tabla.getColumnModel().getColumn(1).setMinWidth(665);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(665);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Status");
+		tabla.getColumnModel().getColumn(2).setMinWidth(40);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(40);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -173,25 +224,16 @@ Connexion con = new Connexion();
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_nivel_critico.folio as [Folio],"+
-					 "  tb_nivel_critico.descripcion as [Descripcion], "+
-					 "  tb_nivel_critico.valor as [Valor] "+
-					
-					"  from tb_nivel_critico where status=1");
+			rs = s.executeQuery("select * from tb_cuadrante");
 			
 
 			while (rs.next())
 			{ 
-			   String [] fila = new String[3];
+			   String [] fila = new String[8];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
 			   
-			   switch(Integer.parseInt(rs.getString(3))){
-			   case 1:	fila[2] = "ROJO"; break;
-			   case 2:	fila[2] = "AMARILLO"; break;
-			   case 3:	fila[2] = "VERDE"; break;
-			   }
-			   
+			   fila[2] = rs.getString(8).trim();
 			   
 			   modelo.addRow(fila); 
 			}	
@@ -203,6 +245,8 @@ Connexion con = new Connexion();
 	    return scrol; 
 	}
 	
+
+	
 	@SuppressWarnings("unused")
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -211,13 +255,32 @@ Connexion con = new Connexion();
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	        
-						Obj_Nivel_Critico nc = new Obj_Nivel_Critico().buscar(id);
+						Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar(id);
 						
 						txtFolio.setText(id+"");
-						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
-						cmbEstablecimiento.setSelectedItem(modelo.getValueAt(fila,2)+"");
-						btnEditar.setEnabled(true);
+						txaNombre.setText(modelo.getValueAt(fila,1)+"");
+						cmbEstablecimiento.setSelectedIndex(cuadrante.getEstablecimiento());
+						spnNGerarquico.setValue(cuadrante.getNivel_gerarquico());
+						cmbDias.setSelectedIndex(cuadrante.getDia());
+						cmbEqTrabajo.setSelectedIndex(cuadrante.getEq_trabajo());
+						cmbJefatura.setSelectedIndex(cuadrante.getJefatura());
 						chStatus.setSelected(true);
+						txaDescripcion.setText(cuadrante.getDescripcion().trim());
+						
+						txtFolio.setEditable(false);
+						txaNombre.setEditable(false);
+						cmbEstablecimiento.setEnabled(false);
+						
+						spnNGerarquico.setEnabled(false);
+						
+						cmbDias.setEnabled(false);
+						cmbEqTrabajo.setEnabled(false);
+						cmbJefatura.setEnabled(false);
+						chStatus.setEnabled(false);
+						txaDescripcion.setEditable(false);
+						
+						btnEditar.setEnabled(true);
+						btnGuardar.setEnabled(false);
 					
 	        	}
 	        }
@@ -226,17 +289,19 @@ Connexion con = new Connexion();
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(cmbEstablecimiento.getSelectedIndex()==0){
-				JOptionPane.showMessageDialog(null, "Seleccione un Establecimiento", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-
+			
+			System.out.println(Integer.parseInt(spnNGerarquico.getValue().toString()));
+			if(validaCamposCmb()!="") {
+				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCamposCmb(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
 			}else{
 
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_Nivel_Critico nc = new Obj_Nivel_Critico().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar(Integer.parseInt(txtFolio.getText()));
 				
-				if(nc.getFolio() == Integer.parseInt(txtFolio.getText())){
+				if(cuadrante.getFolio() == Integer.parseInt(txtFolio.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
 						if(validaCampos()!="") {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -244,14 +309,19 @@ Connexion con = new Connexion();
 						}else{
 							int nroFila = tabla.getSelectedRow();
 							
-							nc.setDescripcion(txtDescripcion.getText());
-							nc.setValor(cmbEstablecimiento.getSelectedIndex());
-							nc.setStatus(chStatus.isSelected());
+							cuadrante.setNombre(txaNombre.getText().toUpperCase());
+							cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedIndex());
+							cuadrante.setNivel_gerarquico(Integer.parseInt(spnNGerarquico.getValue().toString()));
+							cuadrante.setDia(cmbDias.getSelectedIndex());
+							cuadrante.setEq_trabajo(cmbEqTrabajo.getSelectedIndex());
+							cuadrante.setJefatura(cmbJefatura.getSelectedIndex());
+							cuadrante.setStatus(chStatus.isSelected());
+							cuadrante.setDescripcion(txaDescripcion.getText().toUpperCase());
 							
-							nc.actualizar(Integer.parseInt(txtFolio.getText()));
+							cuadrante.actualizar(Integer.parseInt(txtFolio.getText()));
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txtDescripcion.getText(),nroFila,1);
+							modelo.setValueAt(txaNombre.getText(),nroFila,1);
 							modelo.setValueAt(cmbEstablecimiento.getSelectedItem(), nroFila, 2);
 							
 							panelLimpiar();
@@ -269,16 +339,21 @@ Connexion con = new Connexion();
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						nc.setDescripcion(txtDescripcion.getText());
-						nc.setValor(cmbEstablecimiento.getSelectedIndex());
-						nc.setStatus(chStatus.isSelected());
-						nc.guardar();
+						cuadrante.setNombre(txaNombre.getText().toUpperCase());
+						cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedIndex());
+						cuadrante.setNivel_gerarquico(Integer.parseInt(spnNGerarquico.getValue().toString()));
+						cuadrante.setDia(cmbDias.getSelectedIndex());
+						cuadrante.setEq_trabajo(cmbEqTrabajo.getSelectedIndex());
+						cuadrante.setJefatura(cmbJefatura.getSelectedIndex());
+						cuadrante.setStatus(chStatus.isSelected());
+						cuadrante.setDescripcion(txaDescripcion.getText().toUpperCase());
+						cuadrante.guardar();
 						
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
 						fila[0]=txtFolio.getText();
-						fila[1]=txtDescripcion.getText();
-						fila[2]=cmbEstablecimiento.getSelectedItem()+"";
+						fila[1]=txaNombre.getText();
+						fila[2]=chStatus.isSelected();
 						modelo.addRow(fila); 
 						
 						panelLimpiar();
@@ -340,7 +415,7 @@ Connexion con = new Connexion();
 			if(atrib.getFolio() != 0){
 			
 			txtFolio.setText(atrib.getFolio()+"");
-			txtDescripcion.setText(atrib.getDescripcion()+"");
+			txaNombre.setText(atrib.getDescripcion()+"");
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			cmbEstablecimiento.setSelectedIndex(Integer.parseInt(atrib.getValor()+""));
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -373,27 +448,36 @@ Connexion con = new Connexion();
 	
 	private String validaCampos(){
 		String error="";
-		if(txtDescripcion.getText().equals("")) 			error+= "Bono\n";
+		if(txaNombre.getText().equals("")) 			error+= "Bono\n";
+				
+		return error;
+	}
+	private String validaCamposCmb(){
+		String error="";
+		if(cmbEstablecimiento.getSelectedIndex()==0) 			error+= " Establecimiento\n";
+		if(cmbDias.getSelectedIndex()==0)						error+= " Dias\n";
+		if(cmbEqTrabajo.getSelectedIndex()==0)					error+= " Equipo de Trabajo\n";
+		if(cmbJefatura.getSelectedIndex()==0)					error+= " Jefatura\n";
 				
 		return error;
 	}
 	
-
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			Obj_Nivel_Critico nc = new Obj_Nivel_Critico().buscar_nuevo();
-			if(nc.getFolio() != 0){
-				panelLimpiar();
-				panelEnabledTrue();
-				txtFolio.setText(nc.getFolio()+1+"");
-				txtFolio.setEditable(false);
-				txtDescripcion.requestFocus();
+			Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar_nuevo();
+		
+			panelLimpiar();
+			panelEnabledTrue();
+			txtFolio.setEditable(false);
+			txaNombre.requestFocus();
+			
+			btnDeshacer.setEnabled(true);
+			btnGuardar.setEnabled(true);
+			
+			if(cuadrante.getFolio() != 0){
+				txtFolio.setText(cuadrante.getFolio()+1+"");
 			}else{
-				panelLimpiar();
-				panelEnabledTrue();
 				txtFolio.setText(1+"");
-				txtFolio.setEditable(false);
-				txtDescripcion.requestFocus();
 			}
 		}
 	};
@@ -417,29 +501,48 @@ Connexion con = new Connexion();
 			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
+			btnDeshacer.setEnabled(true);
+			btnGuardar.setEnabled(true);
 		}		
 	};
 	
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);
-		txtDescripcion.setEditable(false);
-		cmbEstablecimiento.setEditable(false);
+		txaNombre.setEditable(false);
+		txaDescripcion.setEditable(false);
+		cmbEstablecimiento.setEnabled(false);
+		spnNGerarquico.setEnabled(false);
+		cmbDias.setEnabled(false);
+		cmbEqTrabajo.setEnabled(false);
+		cmbJefatura.setEnabled(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEditable(true);
-		txtDescripcion.setEditable(true);
-		cmbEstablecimiento.setEditable(true);
-		chStatus.setEnabled(true);	
+		txaNombre.setEditable(true);
+		cmbEstablecimiento.setEnabled(true);
+		
+		spnNGerarquico.setEnabled(true);
+		
+		cmbDias.setEnabled(true);
+		cmbEqTrabajo.setEnabled(true);
+		cmbJefatura.setEnabled(true);
+		chStatus.setEnabled(true);
+		txaDescripcion.setEditable(true);	
 	}
 	
 	public void panelLimpiar(){	
 		txtFolio.setText("");
-		txtDescripcion.setText("");
+		txaNombre.setText("");
 		cmbEstablecimiento.setSelectedIndex(0);
+		spnNGerarquico.setValue(10);
+		cmbDias.setSelectedIndex(0);
+		cmbEqTrabajo.setSelectedIndex(0);
+		cmbJefatura.setSelectedIndex(0);
 		chStatus.setSelected(true);
+		txaDescripcion.setText("");
 	}
+	
 	public static void main (String arg []){
 		new Cat_Cuadrante().setVisible(true);
 	}

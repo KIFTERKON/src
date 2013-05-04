@@ -109,6 +109,7 @@ public class Cat_Lista_Pago extends JFrame {
 									"  tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
 									"  tb_empleado.status = 1 "+
 								" order by Establecimiento, Nombre asc");
+
 			
 			String aux="";
 			int cont =0;

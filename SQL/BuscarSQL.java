@@ -20,6 +20,7 @@ import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
+import objetos.Obj_Cuadrante;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
@@ -277,6 +278,35 @@ public class BuscarSQL {
 		return nc;
 	}
 	
+	public Obj_Cuadrante Cuadrante(int folio) throws SQLException{
+		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
+		String query = "select * from tb_cuadrante where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				cuadrante.setFolio(rs.getInt("folio"));
+				cuadrante.setNombre(rs.getString("nombre").trim());
+				cuadrante.setEstablecimiento(rs.getInt("establecimiento_id"));
+				cuadrante.setNivel_gerarquico(rs.getInt("nivel_gerarquico"));
+				cuadrante.setDia(rs.getInt("dia"));
+				cuadrante.setEq_trabajo(rs.getInt("equipo_trabajo"));
+				cuadrante.setJefatura(rs.getInt("jefatura"));
+				cuadrante.setStatus((rs.getString("status").equals("1"))?true:false);
+				cuadrante.setDescripcion(rs.getString("descripcion"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return cuadrante;
+	}
+	
 	public Obj_OpRespuesta OpRespuesta(int folio) throws SQLException{
 		Obj_OpRespuesta opR = new Obj_OpRespuesta();
 		String query = "select * from tb_op_respuesta where folio ="+ folio;
@@ -497,6 +527,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return nc;
+	}
+	
+	public Obj_Cuadrante Cuadrante_Nuevo() throws SQLException{
+		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
+		String query = "select max(folio) as 'Maximo' from tb_cuadrante";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				cuadrante.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return cuadrante;
 	}
 	
 	public Obj_OpRespuesta OpRespuesta_Nuevo() throws SQLException{

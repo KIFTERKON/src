@@ -522,6 +522,7 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setInfonavit(Float.parseFloat(0.0+""));
 						}
+
 						if(txtTarjetaNomina.getText().length() != 0){
 							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
 						}else{
@@ -529,7 +530,6 @@ public class Cat_Empleado extends JFrame{
 						}
 						
 						empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
-						
 						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -828,6 +828,8 @@ public class Cat_Empleado extends JFrame{
 		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
 		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
+		if(txtTarjetaNomina.getText().equals("")) error += "Tarjeta de Nomina\n";
+		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
 		if(cmbPrestamos.getSelectedItem().equals("Selecciona un Rango de Prestamo")) error += "Rango de Prestamo\n";
 		
@@ -868,6 +870,7 @@ public class Cat_Empleado extends JFrame{
 			cmbBono.setSelectedItem(bono.getBono()+"");
 			
 			cmbPrestamos.setSelectedIndex(re.getPrestamo());
+
 			txtInfonavit.setText(re.getInfonavit()+"");				
 			
 			txtTarjetaNomina.setText(re.getTargeta_nomina()+"");

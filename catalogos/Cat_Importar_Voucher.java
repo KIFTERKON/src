@@ -79,6 +79,7 @@ public class Cat_Importar_Voucher extends JFrame{
 							importar.Guardar();
 						
 							myVector.clear();
+
 							escape++;
 						}else{
 							escape++;

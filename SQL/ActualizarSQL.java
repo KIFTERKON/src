@@ -15,6 +15,7 @@ import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Configuracion_Sistema;
+import objetos.Obj_Cuadrante;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
@@ -39,7 +40,8 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina=?, tipo_banco_id=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=? where folio=" + folio;
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -313,6 +315,44 @@ public class ActualizarSQL {
 			pstmt.setString(1, nc.getDescripcion().toUpperCase());
 			pstmt.setFloat(2, nc.getValor());
 			pstmt.setString(3, (nc.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Cuadrante(Obj_Cuadrante cuadrante, int folio){
+		String query = "update tb_cuadrante set nombre=?, establecimiento_id=?, nivel_gerarquico=?, dia=?, equipo_trabajo=?, jefatura=?, status=?, descripcion=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, cuadrante.getNombre().toUpperCase());
+			pstmt.setInt(2, cuadrante.getEstablecimiento());
+			pstmt.setInt(3, cuadrante.getNivel_gerarquico());
+			pstmt.setInt(4, cuadrante.getDia());
+			pstmt.setInt(5, cuadrante.getEq_trabajo());
+			pstmt.setInt(6, cuadrante.getJefatura());
+			pstmt.setString(7, (cuadrante.getStatus())?"1":"0");
+			pstmt.setString(8, cuadrante.getDescripcion().toUpperCase());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

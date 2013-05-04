@@ -144,6 +144,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		
 		btnEfectivo.addActionListener(opAlimentarDenominacion);
 		txtCorteSistema.addKeyListener(validaNumericoConPunto);
+		txtDeposito.addKeyListener(validaNumericoConPunto2);
 		
 		String file = "X:\\Empleados\\Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
@@ -301,17 +302,44 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
-			
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.' )){
 		    	e.consume();
 		    	}
 		    	
-		   if (caracter==KeyEvent.VK_PERIOD){    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    		    	
 		    	String texto = txtCorteSistema.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();
+				if (texto.indexOf(".")>-1) e.consume();
+				
 			}
+		    		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	KeyListener validaNumericoConPunto2 = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    		    	
+		    	String texto = txtDeposito.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+				
+			}
+		    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}

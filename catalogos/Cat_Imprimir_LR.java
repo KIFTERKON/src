@@ -97,7 +97,7 @@ public class Cat_Imprimir_LR extends JFrame {
  
 	@SuppressWarnings("unused")
 	private JScrollPane getPanelTabla()	{	
-		Connection conn = new Connexion().conexion();
+//		Connection conn = new Connexion().conexion();
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -430,9 +430,9 @@ public class Cat_Imprimir_LR extends JFrame {
 					  subtotal=pagar;
 					  totalDeTotales = totalDeTotales+=pagar;
 					  
-					   System.out.println("filas. "+filass);
-						System.out.println("ContG. "+contadorGeneral);
-						System.out.println("Tabla. "+(tabla.getRowCount()+1));
+					  System.out.println("filas. "+filass);
+					  System.out.println("ContG. "+contadorGeneral);
+					  System.out.println("Tabla. "+(tabla.getRowCount()+1));
 				  }else{
 					  
 						fila[0]  ="                        "+stab;
@@ -482,9 +482,9 @@ public class Cat_Imprimir_LR extends JFrame {
 						
 						totalDeTotales = totalDeTotales+=pagar;
 						
-						   System.out.println("filas. "+filass);
-							System.out.println("ContG. "+contadorGeneral);
-							System.out.println("Tabla. "+(tabla.getRowCount()+1));
+						System.out.println("filas. "+filass);
+						System.out.println("ContG. "+contadorGeneral);
+						System.out.println("Tabla. "+(tabla.getRowCount()+1));
 				  }
 			   }
 			   model.addRow(fila); 
