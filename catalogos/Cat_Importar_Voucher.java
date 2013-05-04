@@ -76,7 +76,7 @@ public class Cat_Importar_Voucher extends JFrame{
 							importar.setLote1(myVector.get(19).toString());
 							importar.setLote2(myVector.get(20).toString());
 							
-							importar.Guardar();
+//							importar.Guardar();
 							escape++;
 //								myVector.addElement(cadena);
 						}else{

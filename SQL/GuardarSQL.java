@@ -22,6 +22,7 @@ import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
+import objetos.Obj_Cuadrante;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
@@ -47,7 +48,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class GuardarSQL {
 
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -77,6 +78,8 @@ public class GuardarSQL {
 			pstmt.setString(18, empleado.getFecha());
 			pstmt.setString(19, empleado.getObservasiones());
 			pstmt.setString(20, empleado.getFoto());
+			pstmt.setString(21, empleado.getTargeta_nomina());
+			pstmt.setInt(22, empleado.getTipo_banco());
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -212,6 +215,44 @@ public class GuardarSQL {
 			pstmt.setString(1, nc.getDescripcion().toUpperCase());
 			pstmt.setFloat(2, nc.getValor());
 			pstmt.setString(3, (nc.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Cuadrante(Obj_Cuadrante cuadrante){
+		String query = "exec sp_insert_cuadrante		 ?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, cuadrante.getNombre().toUpperCase());
+			pstmt.setInt(2, cuadrante.getEstablecimiento());
+			pstmt.setInt(3, cuadrante.getNivel_gerarquico());
+			pstmt.setInt(4, cuadrante.getDia());
+			pstmt.setInt(5, cuadrante.getEq_trabajo());
+			pstmt.setInt(6, cuadrante.getJefatura());
+			pstmt.setString(7, (cuadrante.getStatus())?"1":"0");
+			pstmt.setString(8, cuadrante.getDescripcion().toUpperCase());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

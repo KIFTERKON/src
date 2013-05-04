@@ -95,7 +95,7 @@ public class Cat_Imprimir_LR extends JFrame {
 	}
  
 	private JScrollPane getPanelTabla()	{	
-		Connection conn = new Connexion().conexion();
+//		Connection conn = new Connexion().conexion();
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -398,7 +398,8 @@ public class Cat_Imprimir_LR extends JFrame {
 					  aux = stab;
 					  cont=cont+4;
 					  
-					  subtotal = pagar;
+					  subtotal=subtotal+=pagar;
+//					  subtotal = pagar;
 					  
 					   System.out.println("filas. "+filass);
 						System.out.println("ContG. "+contadorGeneral);
@@ -425,30 +426,30 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[17] ="A PAGAR";
 						fila[18] ="            OBSERVACIONES";
 						
-//					model.addRow(fila);
-//					 fila[0]  ="  "+nombre;
-//					    fila[1]  ="  "+sueldo;
-//						fila[2]  ="  "+prestamo;
-//						fila[3]  ="  "+descuento;
-//						fila[4]  ="  "+pfinal;
-//						fila[5]  ="  "+fsod;
-//						fila[6]  ="  "+punt;
-//						fila[7]  ="  "+falta;
-//						fila[8]  ="  "+asis;
-//						fila[9]  ="  "+corte;
-//						fila[10] ="  "+infon;
-//						fila[11] ="  "+pension;
-//						fila[12] ="  "+banamex;
-//						fila[13] ="  "+banorte;
-//						fila[14] ="  "+ext;
-//						fila[15] ="  "+diaE;
-//						fila[16] ="  "+bono;
-//						fila[17] ="  "+pagar;
-//						fila[18] ="  "+obs;
-//						
+					model.addRow(fila);
+					 fila[0]  ="  "+nombre;
+					    fila[1]  ="  "+sueldo;
+						fila[2]  ="  "+prestamo;
+						fila[3]  ="  "+descuento;
+						fila[4]  ="  "+pfinal;
+						fila[5]  ="  "+fsod;
+						fila[6]  ="  "+punt;
+						fila[7]  ="  "+falta;
+						fila[8]  ="  "+asis;
+						fila[9]  ="  "+corte;
+						fila[10] ="  "+infon;
+						fila[11] ="  "+pension;
+						fila[12] ="  "+banamex;
+						fila[13] ="  "+banorte;
+						fila[14] ="  "+ext;
+						fila[15] ="  "+diaE;
+						fila[16] ="  "+bono;
+						fila[17] ="  "+pagar;
+						fila[18] ="  "+obs;
+						
 						aux = stab;
 						cont=cont+1;
-						
+						subtotal=subtotal+=pagar;
 						   System.out.println("filas. "+filass);
 							System.out.println("ContG. "+contadorGeneral);
 							System.out.println("Tabla. "+(tabla.getRowCount()+1));
