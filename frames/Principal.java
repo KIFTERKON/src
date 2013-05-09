@@ -32,6 +32,7 @@ import objetos.Obj_Usuario;
 
 import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
+import catalogos.Cat_Atributos;
 import catalogos.Cat_Auto_Auditoria;
 import catalogos.Cat_Auto_Finanzas;
 import catalogos.Cat_Bancos;
@@ -39,10 +40,12 @@ import catalogos.Cat_Bono_Complemento_Sueldo;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
+import catalogos.Cat_Cuadrante;
 import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Denominaciones;
 import catalogos.Cat_Divisa_Y_TipoDeCambio;
 import catalogos.Cat_Empleado;
+import catalogos.Cat_Equipo_Trabajo;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
@@ -53,9 +56,13 @@ import catalogos.Cat_Importar_Voucher;
 import catalogos.Cat_Imprimir_Fuente_Sodas_Auxf;
 import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Imprimir_Plantilla_Activa;
+import catalogos.Cat_Jefatura;
 import catalogos.Cat_Lista_Deudores_Prestamo;
 import catalogos.Cat_Lista_Pago;
+import catalogos.Cat_Nivel_Critico;
 import catalogos.Cat_Nomina;
+import catalogos.Cat_OpRespuesta;
+import catalogos.Cat_Ponderacion;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Puesto;
@@ -209,6 +216,24 @@ public class Principal extends JFrame{
 				JMenuItem ImportarCheques = new JMenuItem("Importar Cheques");
 				JMenuItem ImportarAuxiliar = new JMenuItem("Importar Auxiliar");
 				JMenuItem ImportarConsiliacion = new JMenuItem("Importar Concilación AuxF");
+				
+	JMenu Cuadrantes = new JMenu("Cuadrante");
+		JMenu subReporte = new JMenu("Reporte");
+			JMenuItem Usuario = new JMenuItem("Pendiente");
+			JMenuItem UsJefatura = new JMenuItem("Pendiente");
+			JMenuItem Directivo = new JMenuItem("Pendiente");
+		JMenu subCaptura = new JMenu("Captura");
+				JMenuItem Cuadrante = new JMenuItem("Cuadrante");
+				JMenuItem Actividad = new JMenuItem("Actividad");
+				JMenuItem Act_Cuadrante = new JMenuItem("Act_Cuadrante");
+				JMenuItem Emp_Cuadrante = new JMenuItem("Emp_Cuadrante");
+			JMenu subCatalogo = new JMenu("Catalogo");
+				JMenuItem OpRespuesta = new JMenuItem("Opciones de Respuesta");
+				JMenuItem Atributo = new JMenuItem("Atributo");
+				JMenuItem NivelCritico = new JMenuItem("Nivel Critico");
+				JMenuItem EqTrabajo = new JMenuItem("Equipo de Trabajo");
+				JMenuItem Jefatura = new JMenuItem("Jefatura");
+				JMenuItem Ponderacion = new JMenuItem("Ponderacion");
 			
 	public Principal(){
 		this.setTitle("SCOI [Sistema de Control Operativo Izagar]");
@@ -630,6 +655,51 @@ public class Principal extends JFrame{
 					ImportarAuxiliar.addActionListener(Opciones);
 				subAuxF.add(ImportarConsiliacion);
 					ImportarConsiliacion.addActionListener(Opciones);
+					
+//Cuadrantres---------------------------------------------------------------------------------------					
+		Cuadrantes.add(subReporte);
+		
+			subReporte.add(Usuario);
+			Usuario.addActionListener(Opciones);
+			subReporte.add(UsJefatura);
+			UsJefatura.addActionListener(Opciones);
+			subReporte.add(Directivo);
+			Directivo.addActionListener(Opciones);
+			
+		Cuadrantes.add(subCaptura);
+		
+			subCaptura.add(Cuadrante);
+			Cuadrante.addActionListener(Opciones);
+			subCaptura.add(Actividad);
+				Actividad.addActionListener(Opciones);
+			subCaptura.add(Act_Cuadrante);
+				Act_Cuadrante.addActionListener(Opciones);
+			subCaptura.add(Emp_Cuadrante);
+				Emp_Cuadrante.addActionListener(Opciones);
+		
+			subCaptura.add(subCatalogo);
+				subCatalogo.add(OpRespuesta);
+					OpRespuesta.addActionListener(Opciones);
+				subCatalogo.add(Atributo);
+					Atributo.addActionListener(Opciones);
+				subCatalogo.add(NivelCritico);
+					NivelCritico.addActionListener(Opciones);
+				subCatalogo.add(EqTrabajo);
+					EqTrabajo.addActionListener(Opciones);
+				subCatalogo.add(Jefatura);
+					Jefatura.addActionListener(Opciones);
+				subCatalogo.add(Ponderacion);
+					Ponderacion.addActionListener(Opciones);
+//-------------------------------------------------------------------------------------------------------------------------------------
+					
+				subAuxF.add(ImportarVoucher);
+					ImportarVoucher.addActionListener(Opciones);
+				subAuxF.add(ImportarCheques);
+					ImportarCheques.addActionListener(Opciones);
+				subAuxF.add(ImportarAuxiliar);
+					ImportarAuxiliar.addActionListener(Opciones);
+				subAuxF.add(ImportarConsiliacion);
+					ImportarConsiliacion.addActionListener(Opciones);
 				
 		Barra.add(Archivo);
 		Barra.add(Alimentacion);
@@ -641,6 +711,7 @@ public class Principal extends JFrame{
 		Barra.add(Ayuda);
 		Barra.add(Cortes);
 		Barra.add(Contabilidad);
+		Barra.add(Cuadrantes);
 		return Barra;
 	}
 	KeyListener validaBuscar = new KeyListener() {
@@ -933,6 +1004,29 @@ public class Principal extends JFrame{
 //			JMenuItem ImportarCheques = new JMenuItem("Importar Cheques");
 //			JMenuItem ImportarAuxiliar = new JMenuItem("Importar Auxiliar");
 //			JMenuItem ImportarConsiliacion = new JMenuItem("Importar Consilación AuxF");
+			
+//cuadrantes--------------------------------------------------------------------------------			
+			if(e.getActionCommand().equals("Cuadrante")){
+				new Cat_Cuadrante().setVisible(true);
+			}
+			if(e.getActionCommand().equals("Opciones de Respuesta")){
+				new Cat_OpRespuesta().setVisible(true);
+			}
+			if(e.getActionCommand().equals("Atributo")){
+				new Cat_Atributos().setVisible(true);
+			}
+			if(e.getActionCommand().equals("Nivel Critico")){
+				new Cat_Nivel_Critico().setVisible(true);
+			}
+			if(e.getActionCommand().equals("Equipo de Trabajo")){
+				new Cat_Equipo_Trabajo().setVisible(true);
+			}
+			if(e.getActionCommand().equals("Jefatura")){
+				new Cat_Jefatura().setVisible(true);
+			}
+			if(e.getActionCommand().equals("Ponderacion")){
+				new Cat_Ponderacion().setVisible(true);
+			}
 				
 		}
 	};

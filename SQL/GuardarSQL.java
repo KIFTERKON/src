@@ -28,10 +28,13 @@ import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
+import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Importar_Voucher;
+import objetos.Obj_Ponderacion;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
@@ -183,6 +186,108 @@ public class GuardarSQL {
 			pstmt.setString(1, atrib.getDescripcion().toUpperCase());
 			pstmt.setFloat(2, atrib.getValor());
 			pstmt.setString(3, (atrib.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Jefatura(Obj_Jefatura jefat){
+		String query = "exec sp_insert_jefatura		 ?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, jefat.getDescripcion().toUpperCase());
+			pstmt.setFloat(2, jefat.getValor());
+			pstmt.setString(3, (jefat.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
+	public boolean Guardar_Eq_Trabajo(Obj_Equipo_Trabajo EqTabajo){
+		String query = "exec sp_insert_equipo_trabajo		 ?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, EqTabajo.getDescripcion().toUpperCase());
+			pstmt.setFloat(2, EqTabajo.getValor());
+			pstmt.setString(3, (EqTabajo.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Ponderacion(Obj_Ponderacion pond){
+		String query = "exec sp_insert_ponderacion		 ?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, pond.getDescripcion().toUpperCase());
+			pstmt.setFloat(2, pond.getValor());
+			pstmt.setString(3, pond.getFechaIn());
+			pstmt.setString(4, pond.getFechaFin());
+			pstmt.setInt(5, pond.getDia());
+			pstmt.setString(6, (pond.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

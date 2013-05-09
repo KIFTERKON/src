@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,22 +29,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import objetos.JTextFieldLimit;
+import objetos.Obj_Equipo_Trabajo;
 import SQL.Connexion;
 
-import objetos.JTextFieldLimit;
-import objetos.Obj_Atributos;
-import objetos.Obj_OpRespuesta;
-import objetos.Obj_Puesto;
-
 @SuppressWarnings("serial")
-public class Cat_OpRespuesta extends JFrame{
+public class Cat_Equipo_Trabajo extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
 Connexion con = new Connexion();
 	
-	DefaultTableModel modelo       = new DefaultTableModel(0,2)	{
+	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -53,8 +51,9 @@ Connexion con = new Connexion();
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	JTextField txtOpcion = new JTextField();
+	JTextField txtFolio = new JTextField();
 	JTextField txtDescripcion = new JTextField();
+	JTextField txtValor = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -65,41 +64,47 @@ Connexion con = new Connexion();
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
-	public Cat_OpRespuesta(){
+	public Cat_Equipo_Trabajo(){
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Opcion de Respuesta"));
+		panel.setBorder(BorderFactory.createTitledBorder("Jefatura"));
 		
-		this.setTitle("Opciones de Respuesta");
+		this.setTitle("Jefaturas");
 		
 		int x = 15, y=30, ancho=100;
 		
 		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
-		panel.add(txtOpcion).setBounds(ancho-20,y,ancho,20);
-		panel.add(btnBuscar).setBounds(ancho+ancho-x,y,32,20);
+		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
+		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+(ancho*2),y,70,20);
+		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
 		panel.add(new JLabel("Descripcion:")).setBounds(5,y+=30,ancho,20);
 		panel.add(txtDescripcion).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnNuevo).setBounds(x+270,y=30,ancho,20);
+		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
 		
-		panel.add(btnEditar).setBounds(x+270,y+=30,ancho,20);
+		panel.add(new JLabel("Valor:")).setBounds(5,y+=30,ancho,20);
+		panel.add(txtValor).setBounds(ancho-20,y,ancho+ancho,20);
+		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
 		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
 		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
 		
 		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
 		
-		txtOpcion.setDocument(new JTextFieldLimit(9));
+		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtDescripcion.setDocument(new JTextFieldLimit(100));
+		txtValor.setDocument(new JTextFieldLimit(20));
 		
 		chStatus.setEnabled(false);
 		txtDescripcion.setEditable(false);
+		txtValor.setEditable(false);
 		
-		txtOpcion.requestFocus();
-		txtOpcion.addKeyListener(buscar_action);
-		txtOpcion.addKeyListener(numerico_action);
+		txtFolio.requestFocus();
+		txtFolio.addKeyListener(buscar_action);
+		txtFolio.addKeyListener(numerico_action);
+		
+		txtValor.addKeyListener(validaNumericoConPunto);
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
@@ -126,12 +131,16 @@ Connexion con = new Connexion();
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
 		tabla.getColumnModel().getColumn(1).setMinWidth(160);
 		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Valor");
+		tabla.getColumnModel().getColumn(2).setMinWidth(80);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
@@ -148,21 +157,28 @@ Connexion con = new Connexion();
 		}; 
 						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_op_respuesta.folio as [Folio],"+
-					 "  tb_op_respuesta.descripcion as [Descripcion] "+
+			rs = s.executeQuery("select tb_equipo_trabajo.folio as [Folio],"+
+					 "  tb_equipo_trabajo.descripcion as [Descripcion], "+
+					 "  tb_equipo_trabajo.valor as [Valor] "+
 					
-					"  from tb_op_respuesta where status=1");
+					"  from tb_equipo_trabajo where status=1");
 			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[2];
+				DecimalFormat decimal = new DecimalFormat("#0.00");
+				
+			   String [] fila = new String[3];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
+			   
+			  float valor = Float.parseFloat(rs.getString(3));
+			   fila[2] = decimal.format(valor); 
 			   
 			   modelo.addRow(fila); 
 			}	
@@ -182,10 +198,11 @@ Connexion con = new Connexion();
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	        
-						Obj_Puesto fuente_sodas = new Obj_Puesto().buscar(id);
+						Obj_Equipo_Trabajo EqTrabajo = new Obj_Equipo_Trabajo().buscar(id);
 						
-						txtOpcion.setText(id+"");
+						txtFolio.setText(id+"");
 						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
+						txtValor.setText(modelo.getValueAt(fila,2)+"");
 						btnEditar.setEnabled(true);
 						chStatus.setSelected(true);
 					
@@ -196,12 +213,12 @@ Connexion con = new Connexion();
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(txtOpcion.getText().equals("")){
+			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_OpRespuesta opR = new Obj_OpRespuesta().buscar(Integer.parseInt(txtOpcion.getText()));
+				Obj_Equipo_Trabajo EqTrabajo = new Obj_Equipo_Trabajo().buscar(Integer.parseInt(txtFolio.getText()));
 				
-				if(opR.getFolio() == Integer.parseInt(txtOpcion.getText())){
+				if(EqTrabajo.getFolio() == Integer.parseInt(txtFolio.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
 						if(validaCampos()!="") {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -209,18 +226,20 @@ Connexion con = new Connexion();
 						}else{
 							int nroFila = tabla.getSelectedRow();
 							
-							opR.setDescripcion(txtDescripcion.getText());
-							opR.setStatus(chStatus.isSelected());
+							EqTrabajo.setDescripcion(txtDescripcion.getText());
+							EqTrabajo.setValor(Float.parseFloat(txtValor.getText()+""));
+							EqTrabajo.setStatus(chStatus.isSelected());
 							
-							opR.actualizar(Integer.parseInt(txtOpcion.getText()));
+							EqTrabajo.actualizar(Integer.parseInt(txtFolio.getText()));
 							
-							modelo.setValueAt(txtOpcion.getText(),nroFila,0);
+							modelo.setValueAt(txtFolio.getText(),nroFila,0);
 							modelo.setValueAt(txtDescripcion.getText().toUpperCase(),nroFila,1);
+							modelo.setValueAt(txtValor.getText(), nroFila, 2);
 							
 							panelLimpiar();
 							panelEnabledFalse();
-							txtOpcion.setEditable(true);
-							txtOpcion.requestFocus();
+							txtFolio.setEditable(true);
+							txtFolio.requestFocus();
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -232,20 +251,22 @@ Connexion con = new Connexion();
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						opR.setDescripcion(txtDescripcion.getText());
-						opR.setStatus(chStatus.isSelected());
-						opR.guardar();
+						EqTrabajo.setDescripcion(txtDescripcion.getText());
+						EqTrabajo.setValor(Float.parseFloat(txtValor.getText()+""));
+						EqTrabajo.setStatus(chStatus.isSelected());
+						EqTrabajo.guardar();
 						
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
-						fila[0]=txtOpcion.getText();
-						fila[1]=txtDescripcion.getText().toUpperCase();
+						fila[0]=txtFolio.getText();
+						fila[1]=txtDescripcion.getText();
+						fila[2]=txtValor.getText();
 						modelo.addRow(fila); 
 						
 						panelLimpiar();
 						panelEnabledFalse();
-						txtOpcion.setEditable(true);
-						txtOpcion.requestFocus();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -290,26 +311,27 @@ Connexion con = new Connexion();
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(txtOpcion.getText().equals("")){
+			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-			Obj_Atributos atrib = new Obj_Atributos();
-			atrib = atrib.buscar(Integer.parseInt(txtOpcion.getText()));
+
+			Obj_Equipo_Trabajo EqTrabajo = new Obj_Equipo_Trabajo().buscar(Integer.parseInt(txtFolio.getText()));
+
+			if(EqTrabajo.getFolio() != 0){
 			
-			if(atrib.getFolio() != 0){
-			
-			txtOpcion.setText(atrib.getFolio()+"");
-			txtDescripcion.setText(atrib.getDescripcion()+"");
-			System.out.println(atrib.getStatus());
-			if(atrib.getStatus() == true){chStatus.setSelected(true);}
+			txtFolio.setText(EqTrabajo.getFolio()+"");
+			txtDescripcion.setText(EqTrabajo.getDescripcion()+"");
+			txtValor.setText(EqTrabajo.getValor()+"");
+			System.out.println(EqTrabajo.getStatus());
+			if(EqTrabajo.getStatus() == true){chStatus.setSelected(true);}
 			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
 			btnEditar.setEnabled(false);
 			panelEnabledFalse();
-			txtOpcion.setEditable(true);
-			txtOpcion.requestFocus();
+			txtFolio.setEditable(true);
+			txtFolio.requestFocus();
 			
 			}
 			else{
@@ -327,9 +349,36 @@ Connexion con = new Connexion();
 		
 	};
 	
+	KeyListener validaNumericoConPunto = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){    	
+		    	String texto = txtValor.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+				
+			}
+		    		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+
+	
 	private String validaCampos(){
 		String error="";
 		if(txtDescripcion.getText().equals("")) 			error+= "Bono\n";
+		if(txtValor.getText().equals(""))		error+= "Abreviatura\n";
 				
 		return error;
 	}
@@ -337,18 +386,18 @@ Connexion con = new Connexion();
 
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			Obj_OpRespuesta opR = new Obj_OpRespuesta().buscar_nuevo();
-			if(opR.getFolio() != 0){
+			Obj_Equipo_Trabajo EqTrabajo = new Obj_Equipo_Trabajo().buscar_nuevo();
+			if(EqTrabajo.getFolio() != 0){
 				panelLimpiar();
 				panelEnabledTrue();
-				txtOpcion.setText(opR.getFolio()+1+"");
-				txtOpcion.setEditable(false);
+				txtFolio.setText(EqTrabajo.getFolio()+1+"");
+				txtFolio.setEditable(false);
 				txtDescripcion.requestFocus();
 			}else{
 				panelLimpiar();
 				panelEnabledTrue();
-				txtOpcion.setText(1+"");
-				txtOpcion.setEditable(false);
+				txtFolio.setText(1+"");
+				txtFolio.setEditable(false);
 				txtDescripcion.requestFocus();
 			}
 		}
@@ -359,8 +408,8 @@ Connexion con = new Connexion();
 			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtOpcion.setEditable(true);
-			txtOpcion.requestFocus();
+			txtFolio.setEditable(true);
+			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(false);
 			chStatus.setSelected(false);
@@ -370,30 +419,33 @@ Connexion con = new Connexion();
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
-			txtOpcion.setEditable(false);
+			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		
 	};
 	
 	public void panelEnabledFalse(){	
-		txtOpcion.setEditable(false);
+		txtFolio.setEditable(false);
 		txtDescripcion.setEditable(false);
+		txtValor.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtOpcion.setEditable(true);
+		txtFolio.setEditable(true);
 		txtDescripcion.setEditable(true);
+		txtValor.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
-		txtOpcion.setText("");
+		txtFolio.setText("");
 		txtDescripcion.setText("");
+		txtValor.setText("");
 		chStatus.setSelected(true);
 	}
 	public static void main (String arg []){
-		new Cat_OpRespuesta().setVisible(true);
+		new Cat_Equipo_Trabajo().setVisible(true);
 	}
 }

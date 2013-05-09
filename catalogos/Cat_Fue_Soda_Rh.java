@@ -363,7 +363,7 @@ public class Cat_Fue_Soda_Rh extends JFrame {
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){    	
 		    	String texto = txtCantidad.getText().toString();
-				if (texto.indexOf(".")>0) e.consume();
+				if (texto.indexOf(".")>-1) e.consume();
 				
 			}
 		    		    		       	

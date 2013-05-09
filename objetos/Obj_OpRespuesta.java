@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 public class Obj_OpRespuesta {
@@ -39,6 +40,16 @@ public class Obj_OpRespuesta {
 			public void setStatus(boolean status) {
 				this.status = status;
 			}
+			
+			public String[] Combo_OpRespuesta() {
+				try {
+					return new Cargar_Combo().opRespuesta("tb_op_respuesta");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return null; 
+			}
+			
 			public Obj_OpRespuesta buscar(int folio){
 				try {
 					return new BuscarSQL().OpRespuesta(folio);

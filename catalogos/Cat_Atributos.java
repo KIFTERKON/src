@@ -69,9 +69,9 @@ Connexion con = new Connexion();
 	public Cat_Atributos(){
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Puestos"));
+		panel.setBorder(BorderFactory.createTitledBorder("Atributos"));
 		
-		this.setTitle("Atributos");
+		this.setTitle("Atributo");
 		
 		int x = 15, y=30, ancho=100;
 		
@@ -105,6 +105,8 @@ Connexion con = new Connexion();
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
+		
+		txtValor.addKeyListener(validaNumericoConPunto);
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
@@ -233,7 +235,7 @@ Connexion con = new Connexion();
 							atrib.actualizar(Integer.parseInt(txtFolio.getText()));
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txtDescripcion.getText(),nroFila,1);
+							modelo.setValueAt(txtDescripcion.getText().toUpperCase(),nroFila,1);
 							modelo.setValueAt(txtValor.getText(), nroFila, 2);
 							
 							panelLimpiar();
@@ -259,7 +261,7 @@ Connexion con = new Connexion();
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
 						fila[0]=txtFolio.getText();
-						fila[1]=txtDescripcion.getText();
+						fila[1]=txtDescripcion.getText().toUpperCase();
 						fila[2]=txtValor.getText();
 						modelo.addRow(fila); 
 						
@@ -299,6 +301,31 @@ Connexion con = new Connexion();
 		        (caracter != KeyEvent.VK_BACK_SPACE)){
 		    	e.consume(); 
 		    }			
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	KeyListener validaNumericoConPunto = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){    	
+		    	String texto = txtValor.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+				
+			}
+		    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}

@@ -243,7 +243,7 @@ Connexion con = new Connexion();
 							nc.actualizar(Integer.parseInt(txtFolio.getText()));
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txtDescripcion.getText(),nroFila,1);
+							modelo.setValueAt(txtDescripcion.getText().toUpperCase(),nroFila,1);
 							modelo.setValueAt(cmbValor.getSelectedItem(), nroFila, 2);
 							
 							panelLimpiar();
@@ -269,7 +269,7 @@ Connexion con = new Connexion();
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
 						fila[0]=txtFolio.getText();
-						fila[1]=txtDescripcion.getText();
+						fila[1]=txtDescripcion.getText().toUpperCase();
 						fila[2]=cmbValor.getSelectedItem()+"";
 						modelo.addRow(fila); 
 						

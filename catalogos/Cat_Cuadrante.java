@@ -80,11 +80,11 @@ Connexion con = new Connexion();
 	@SuppressWarnings("unchecked")
 	JComboBox cmbDias = new JComboBox(dias);
 	
-	String eqTrabajo[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
+	String eqTrabajo[] = new Obj_Establecimiento().Combo_Eq_Trabajo();
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbEqTrabajo = new JComboBox(eqTrabajo);
 	
-	String jefatura[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
+	String jefatura[] = new Obj_Establecimiento().Combo_Jefatura();
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbJefatura = new JComboBox(jefatura);
 	
@@ -113,6 +113,7 @@ Connexion con = new Connexion();
 		txaDescripcion.setBorder(border);
 		
 		panelEnabledFalse();
+		txtFolio.setEditable(true);
 		
 		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
 		panel.add(txtFolio).setBounds(ancho+10,y,ancho,20);
@@ -121,7 +122,7 @@ Connexion con = new Connexion();
 		panel.add(chStatus).setBounds(x+33+(ancho*2),y,70,20);
 		panel.add(btnNuevo).setBounds(x+305,y,ancho-10,20);
 		
-		panel.add(new JLabel("Actividad:")).setBounds(5,y+=30,ancho+40,20);
+		panel.add(new JLabel("Cuadrante:")).setBounds(5,y+=30,ancho+40,20);
 		panel.add(txaNombre).setBounds(ancho+10,y,ancho*3,100);
 		
 		panel.add(new JLabel("Descripcion: ")).setBounds(ancho*4+50,30,ancho,20);
@@ -321,7 +322,7 @@ Connexion con = new Connexion();
 							cuadrante.actualizar(Integer.parseInt(txtFolio.getText()));
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txaNombre.getText(),nroFila,1);
+							modelo.setValueAt(txaNombre.getText().toUpperCase(),nroFila,1);
 							modelo.setValueAt(cmbEstablecimiento.getSelectedItem(), nroFila, 2);
 							
 							panelLimpiar();
@@ -352,7 +353,7 @@ Connexion con = new Connexion();
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
 						fila[0]=txtFolio.getText();
-						fila[1]=txaNombre.getText();
+						fila[1]=txaNombre.getText().toUpperCase();
 						fila[2]=chStatus.isSelected();
 						modelo.addRow(fila); 
 						

@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -26,10 +27,13 @@ import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
+import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Persecciones_Extra;
+import objetos.Obj_Ponderacion;
 import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
@@ -252,6 +256,81 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return atrib;
+	}
+	
+	public Obj_Jefatura Jefatura(int folio) throws SQLException{
+		Obj_Jefatura jefat = new Obj_Jefatura();
+		String query = "select * from tb_jefatura where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				jefat.setFolio(rs.getInt("folio"));
+				jefat.setDescripcion(rs.getString("Descripcion").trim());
+				jefat.setValor(rs.getFloat("Valor"));
+				jefat.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return jefat;
+	}
+	
+	public Obj_Equipo_Trabajo Eq_Tabajo(int folio) throws SQLException{
+		Obj_Equipo_Trabajo EqTrabajo = new Obj_Equipo_Trabajo();
+		String query = "select * from tb_equipo_trabajo where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				EqTrabajo.setFolio(rs.getInt("folio"));
+				EqTrabajo.setDescripcion(rs.getString("Descripcion").trim());
+				EqTrabajo.setValor(rs.getFloat("Valor"));
+				EqTrabajo.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return EqTrabajo;
+	}
+	
+	public Obj_Ponderacion Ponderacion(int folio) throws SQLException{
+		Obj_Ponderacion pond = new Obj_Ponderacion();
+		String query = "select * from tb_ponderacion where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				pond.setFolio(rs.getInt("folio"));
+				pond.setDescripcion(rs.getString("Descripcion").trim());
+				pond.setValor(rs.getFloat("Valor"));
+				pond.setFechaIn(rs.getString("fecha_In").trim());
+				pond.setFechaFin(rs.getString("fecha_fin").trim());
+				pond.setDia(rs.getInt("dia"));
+				pond.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return pond;
 	}
 	
 	public Obj_Nivel_Critico Nivel(int folio) throws SQLException{
@@ -508,6 +587,69 @@ public class BuscarSQL {
 		return atrib;
 	}
 	
+	public Obj_Jefatura Jefatura_Nuevo() throws SQLException{
+		Obj_Jefatura jefat = new Obj_Jefatura();
+		String query = "select max(folio) as 'Maximo' from tb_jefatura";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				jefat.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return jefat;
+	}
+	
+	public Obj_Equipo_Trabajo Eq_Trabajo_Nuevo() throws SQLException{
+		Obj_Equipo_Trabajo EqTrajajo = new Obj_Equipo_Trabajo();
+		String query = "select max(folio) as 'Maximo' from tb_equipo_trabajo";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				EqTrajajo.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return EqTrajajo;
+	}
+	
+	public Obj_Ponderacion Ponderacion_Nuevo() throws SQLException{
+		Obj_Ponderacion pond = new Obj_Ponderacion();
+		String query = "select max(folio) as 'Maximo' from tb_ponderacion";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				pond.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return pond;
+	}
+	
 	public Obj_Nivel_Critico Nivel_Nuevo() throws SQLException{
 		Obj_Nivel_Critico nc = new Obj_Nivel_Critico();
 		String query = "select max(folio) as 'Maximo' from tb_nivel_critico";
@@ -548,6 +690,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return cuadrante;
+	}
+	
+	public Obj_Actividad Actividad_Nuevo() throws SQLException{
+		Obj_Actividad actividad = new Obj_Actividad();
+		String query = "select max(folio) as 'Maximo' from tb_actividad";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				actividad.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return actividad;
 	}
 	
 	public Obj_OpRespuesta OpRespuesta_Nuevo() throws SQLException{
