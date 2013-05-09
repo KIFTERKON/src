@@ -90,9 +90,31 @@ public class Cat_Nomina extends JFrame{
 		
 		model.setValueAt("TOTALES", model.getRowCount()-1, 0);
 		model.setValueAt(retunrNomina()+"",model.getRowCount()-1, 1);
+		model.setValueAt(retunrPagoOnline()+"",model.getRowCount()-1, 2);
+		model.setValueAt(retunrDiferenciaBancos()+"",model.getRowCount()-1, 3);
+		model.setValueAt(retunrLista_apagar()+"",model.getRowCount()-1, 4);
+		model.setValueAt(retunrDiferencia()+"",model.getRowCount()-1, 5);
 		
-//		model.addRow(totales);  
-//		model.addRow(espacio); 
+		model.addRow(espacio); 
+		model.addRow(espacio);
+		
+		model.setValueAt("CHEQUE SUPER (1)", model.getRowCount()-1, 0);
+		model.setValueAt(retunrNomina()-returnNominaEstablecimiento("IZACEL")-returnNominaEstablecimiento("REFACCIONARIA")-returnNominaEstablecimiento("FERRETERIA")+"",model.getRowCount()-1, 1);
+		model.setValueAt(retunrPagoOnline()-returnBancosEstablecimiento("IZACEL")-returnBancosEstablecimiento("REFACCIONARIA")-returnBancosEstablecimiento("FERRETERIA")+"",model.getRowCount()-1, 2);
+		model.setValueAt((retunrNomina()-returnNominaEstablecimiento("IZACEL")-returnNominaEstablecimiento("REFACCIONARIA")-returnNominaEstablecimiento("FERRETERIA"))-(retunrPagoOnline()-returnBancosEstablecimiento("IZACEL")-returnBancosEstablecimiento("REFACCIONARIA")-returnBancosEstablecimiento("FERRETERIA"))+"", model.getRowCount()-1, 3);
+		model.setValueAt("CHEQUE SUPER (2)", model.getRowCount()-1, 4);
+		model.setValueAt((retunrLista_apagar()-returnListaRayaEstablecimiento("IZACEL")-returnListaRayaEstablecimiento("REFACCIONARIA")-returnListaRayaEstablecimiento("FERRETERIA"))-((retunrNomina()-returnNominaEstablecimiento("IZACEL")-returnNominaEstablecimiento("REFACCIONARIA")-returnNominaEstablecimiento("FERRETERIA"))-(retunrPagoOnline()-returnBancosEstablecimiento("IZACEL")-returnBancosEstablecimiento("REFACCIONARIA")-returnBancosEstablecimiento("FERRETERIA"))), model.getRowCount()-1, 5);
+		
+		model.addRow(espacio); 
+		model.addRow(espacio);
+		
+		model.setValueAt("CHEQUE FERRE Y REFA (1)", model.getRowCount()-1, 0);
+		model.setValueAt(retunrNomina()-returnNominaEstablecimiento("REFACCIONARIA")-returnNominaEstablecimiento("FERRETERIA")+"",model.getRowCount()-1, 1);
+		model.setValueAt(returnBancosEstablecimiento("REFACCIONARIA")+returnBancosEstablecimiento("FERRETERIA")+"",model.getRowCount()-1, 2);
+		model.setValueAt((retunrNomina()-returnNominaEstablecimiento("REFACCIONARIA")-returnNominaEstablecimiento("FERRETERIA"))-(returnBancosEstablecimiento("REFACCIONARIA")+returnBancosEstablecimiento("FERRETERIA")), model.getRowCount()-1, 3);
+		model.setValueAt("CHEQUE FERRE Y REFA (2)", model.getRowCount()-1, 4);
+		model.setValueAt(returnNominaEstablecimiento("REFACCIONARIA")+returnNominaEstablecimiento("FERRETERIA"), model.getRowCount()-1, 5);
+		
 //		model.addRow(cheque_1_super); 
 //		model.addRow(espacio);
 //		model.addRow(cheque_1_ferre);
@@ -170,6 +192,59 @@ public class Cat_Nomina extends JFrame{
 							
 		}
 		return valor;
+	}
+	public float retunrDiferenciaBancos(){
+		float valor = 0;
+		for(int i=0; i<Tabla.length; i++){
+			if(i!=0){
+				if(model.getValueAt(i,3).toString() != ""){
+					valor = Float.parseFloat(valor+"") + Float.parseFloat(model.getValueAt(i,3)+"");
+				}
+			}
+							
+		}
+		return valor;
+	}
+	
+	public float retunrLista_apagar(){
+		float valor = 0;
+		for(int i=0; i<Tabla.length; i++){
+			if(i!=0){
+				if(model.getValueAt(i,4).toString() != ""){
+					valor = Float.parseFloat(valor+"") + Float.parseFloat(model.getValueAt(i,4)+"");
+				}
+			}
+							
+		}
+		return valor;
+	}
+	
+	public float retunrDiferencia(){
+		float valor = 0;
+		for(int i=0; i<Tabla.length; i++){
+			if(i!=0){
+				if(model.getValueAt(i,5).toString() != ""){
+					valor = Float.parseFloat(valor+"") + Float.parseFloat(model.getValueAt(i,5)+"");
+				}
+			}
+							
+		}
+		return valor;
+	}
+	
+	public float returnNominaEstablecimiento(String Establecimiento){
+		return new Obj_Nomina().getNominaIndividual(Establecimiento,folio);
+		
+	}
+	
+	public float returnBancosEstablecimiento(String Establecimiento){
+		return new Obj_Nomina().getBancosIndividual(Establecimiento,folio);
+		
+	}
+	
+	public float returnListaRayaEstablecimiento(String Establecimiento){
+		return new Obj_Nomina().getListaRayaIndividual(Establecimiento,folio);
+		
 	}
 	
 	ActionListener opImprimir = new ActionListener() {

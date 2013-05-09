@@ -45,6 +45,18 @@ public class Obj_Nomina {
 		return new BuscarSQL().getNominaChequeABC(Folio);
 	}
 	
+	public float getNominaIndividual(String Establecimiento, int lista){
+		return new BuscarSQL().getNominaIndividual(Establecimiento, lista);
+	}
+	
+	public float getBancosIndividual(String Establecimiento, int lista){
+		return new BuscarSQL().getBancosIndividual(Establecimiento, lista);
+	}
+	
+	public float getListaRayaIndividual(String Establecimiento, int lista){
+		return new BuscarSQL().getListaRayaIndividual(Establecimiento, lista);
+	}
+	
 //	public boolean Guardar(){
 //		return new G
 //	}

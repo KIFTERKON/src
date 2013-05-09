@@ -70,6 +70,8 @@ public class Obj_Bancos {
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Bancos(this); }
 	
+	public boolean Delete(){ return new GuardarSQL().DeleteBancos(); }
+	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Actualizar_Bancos(this,folio); }
 	
 	public Obj_Bancos buscar(int folio){ 
