@@ -1959,4 +1959,61 @@ public class BuscarSQL {
 		return Matriz; 
 	}
 	
+	public float getNominaIndividual(String Establecimiento, int lista){
+		String sp_total_cheques = "exec sp_return_nomina_value '"+Establecimiento+"',"+lista+";";
+		float resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getFloat(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
+	public float getBancosIndividual(String Establecimiento, int lista){
+		String sp_total_cheques = "exec sp_return_bancos_value '"+Establecimiento+"',"+lista+";";
+		float resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getFloat(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
+	public float getListaRayaIndividual(String Establecimiento, int lista){
+		String sp_total_cheques = "exec sp_return_lista_raya_value '"+Establecimiento+"',"+lista+";";
+		float resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getFloat(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
 }

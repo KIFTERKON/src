@@ -89,24 +89,26 @@ public class Cat_Bancos extends JFrame {
         	 		return false; 
         	 	case 1 : return false; 
         	 	case 2 : return false; 
-        	 	case 3 : if(chbHabilitarBanamex.isSelected()){
-        	 				if(model.getValueAt(fila,4).toString() != ""){
-        	 					return false;
-        	 				}else{
-        	 					return true;
-        	 				}
-        	 			 }else{
-        	 				 return false;
-        	 			 }
-        	 	case 4 : if(chbHabilitarBanorte.isSelected()){
-        	 				if(model.getValueAt(fila,3).toString().trim() != ""){
-        	 					return false;
-        	 				}else{
-        	 					return true;
-        	 				}
-        	 			 }else{
-        	 				 return false;
-        	 			 }
+        	 	case 3 :
+    	 			if(chbHabilitarBanamex.isSelected()){
+    	 				if(model.getValueAt(fila,4).toString() != ""){
+    	 					return false;
+    	 				}else{
+        	 				return true;
+    	 				}        	 				
+    	 			 }else{
+    	 				 return false;
+    	 			 }        	 			
+        	 	case 4 : 
+    	 			if(chbHabilitarBanorte.isSelected()){
+    	 				if(model.getValueAt(fila,3).toString().trim() != ""){
+    	 					return false;
+    	 				}else{
+        	 				return true;
+    	 				}
+    	 			 }else{
+    	 				 return false;
+    	 			 }
         	 	case 5 : 
         	 		return false;
 
@@ -219,21 +221,6 @@ public class Cat_Bancos extends JFrame {
 	ActionListener opActualizar = new ActionListener(){
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			int numero = tabla.getRowCount();
-			while(numero > 0){
-				model.removeRow(0);
-				numero --;
-			}
-			
-			Object[][] Tabla = getTabla();
-			Object[] fila = new Object[tabla.getColumnCount()];
-			for(int i=0; i<Tabla.length; i++){
-				model.addRow(fila); 
-				for(int j=0; j<tabla.getColumnCount(); j++){
-					model.setValueAt(Tabla[i][j], i,j);
-				}
-			}
-			
 			lblTotalBanamex.setText("Total Banamex: "+returnBanamex());
 			lblTotalBanorte.setText("Total Banorte: "+returnBanorte());
 			lblTotal.setText("Total: "+returnTotal());
@@ -244,10 +231,11 @@ public class Cat_Bancos extends JFrame {
 	
 	public float returnBanamex(){
 		float valor = 0;
+		
 		for(int i=0; i<Tabla.length; i++){
-			if(model.getValueAt(i,3).toString() != ""){
+			if(model.getValueAt(i,3) != null && model.getValueAt(i, 3).toString() != ""){
 				valor = valor + Float.parseFloat(model.getValueAt(i,3)+"");
-			}			
+			}				
 		}
 		return valor;
 	}
@@ -255,7 +243,7 @@ public class Cat_Bancos extends JFrame {
 	public float returnBanorte(){
 		float valor = 0;
 		for(int i=0; i<Tabla.length; i++){
-			if(model.getValueAt(i,4).toString() != ""){
+			if(model.getValueAt(i,4) != null && model.getValueAt(i,4).toString() != ""){
 				valor = valor + Float.parseFloat(model.getValueAt(i,4)+"");
 			}				
 		}
@@ -265,10 +253,10 @@ public class Cat_Bancos extends JFrame {
 	public float returnTotal(){
 		float valor = 0;
 		for(int i=0; i<Tabla.length; i++){
-			if(model.getValueAt(i,3).toString() != ""){
+			if(model.getValueAt(i, 3) != null && model.getValueAt(i,3).toString() != ""){
 				valor = valor + Float.parseFloat(model.getValueAt(i,3)+"");
 			}	
-			if(model.getValueAt(i,4).toString() != ""){
+			if(model.getValueAt(i, 4) != null && model.getValueAt(i,4).toString() != ""){
 				valor = valor + Float.parseFloat(model.getValueAt(i,4)+"");
 			}		
 		}
@@ -487,7 +475,11 @@ public class Cat_Bancos extends JFrame {
 						lblTotalBanamex.setText("Total Banamex: "+returnBanamex());
 						lblTotalBanorte.setText("Total Banorte: "+returnBanorte());
 						lblTotal.setText("Total: "+returnTotal());
+						Obj_Bancos bancos = new Obj_Bancos();
+						bancos.Delete();
 						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+						
+						
 						dispose();
 					}else{
 						dispose();
@@ -540,6 +532,8 @@ public class Cat_Bancos extends JFrame {
 					lblTotalBanamex.setText("Total Banamex: "+returnBanamex());
 					lblTotalBanorte.setText("Total Banorte: "+returnBanorte());
 					lblTotal.setText("Total: "+returnTotal());
+					Obj_Bancos bancos = new Obj_Bancos();
+					bancos.Delete();
 					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
 					dispose();
 				}					
