@@ -10,11 +10,10 @@ public class Obj_Jefatura {
 	
 	private int folio;
 	private String descripcion;
-	private float valor;
 	private Boolean status;
 	
 	public Obj_Jefatura(){
-		this.folio=0; this.descripcion=""; this.valor=0; this.status=false;
+		this.folio=0; this.descripcion=""; this.status=false;
 	}
 
 	public int getFolio() {
@@ -33,14 +32,6 @@ public class Obj_Jefatura {
 		this.descripcion = descripcion;
 	}
 
-	public float getValor() {
-		return valor;
-	}
-
-	public void setValor(float valor) {
-		this.valor = valor;
-	}
-	
 	public boolean getStatus() {
 		return status;
 	}

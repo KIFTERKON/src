@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
@@ -8,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -32,7 +35,6 @@ import javax.swing.table.TableCellRenderer;
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Atributos;
 import objetos.Obj_Nivel_Critico;
 
 @SuppressWarnings("serial")
@@ -40,8 +42,7 @@ public class Cat_Nivel_Critico extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
-	
-Connexion con = new Connexion();
+	Connexion con = new Connexion();
 	
 	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -56,9 +57,10 @@ Connexion con = new Connexion();
 	JTextField txtFolio = new JTextField();
 	JTextField txtDescripcion = new JTextField();
 	
-	String color[] = {"SELECCIONE UNA OPCION","ROJO","AMARILLO","VERDE"};
+	String valor[] = {"SELECCIONE UNA OPCION","ROJO","AMARILLO","VERDE"};
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbValor = new JComboBox(color);
+	JComboBox cmbValor = new JComboBox(valor);
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -115,18 +117,30 @@ Connexion con = new Connexion();
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
 		btnEditar.setEnabled(false);
+		cmbValor.addActionListener(opColores);
 		cont.add(panel);
 		
-		agregar(tabla);
+		tabla.addMouseListener(agregar);
 		
 		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
-	private JScrollPane getPanelTabla()	{		
-		new Connexion();
-
+	ActionListener opColores = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			switch(cmbValor.getSelectedIndex()){
+				case 0: cmbValor.setBackground(Color.WHITE); txtFolio.requestFocus(); break;
+				case 1: cmbValor.setBackground(new Color(Integer.parseInt("A60000",16))); txtFolio.requestFocus(); break;
+				case 2: cmbValor.setBackground(new Color(Integer.parseInt("FF952B",16))); txtFolio.requestFocus(); break;
+				case 3: cmbValor.setBackground(new Color(Integer.parseInt("008000",16))); txtFolio.requestFocus(); break;
+			}
+			
+		}
+		
+	};
+	
+	private JScrollPane getPanelTabla()	{
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
@@ -144,12 +158,10 @@ Connexion con = new Connexion();
 		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
 				if(row%2==0){
 						lbl.setOpaque(true); 
 						lbl.setBackground(new java.awt.Color(177,177,177));
@@ -157,64 +169,50 @@ Connexion con = new Connexion();
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_nivel_critico.folio as [Folio],"+
-					 "  tb_nivel_critico.descripcion as [Descripcion], "+
-					 "  tb_nivel_critico.valor as [Valor] "+
-					
-					"  from tb_nivel_critico where status=1");
-			
+			rs = s.executeQuery("exec sp_select_nivel_critico");
 
-			while (rs.next())
-			{ 
+			while (rs.next()){ 
 			   String [] fila = new String[3];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
-			   
-			   switch(Integer.parseInt(rs.getString(3))){
-			   case 1:	fila[2] = "ROJO"; break;
-			   case 2:	fila[2] = "AMARILLO"; break;
-			   case 3:	fila[2] = "VERDE"; break;
-			   }
-			   
-			   
+			   fila[2] = rs.getString(3).trim();			   
 			   modelo.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-		   
+		JScrollPane scrol = new JScrollPane(tabla);
 	    return scrol; 
 	}
 	
-	@SuppressWarnings("unused")
-	private void agregar(final JTable tbl) {
-        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-	        	if(e.getClickCount()==1){
-	        		int fila = tabla.getSelectedRow();
-	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
-	        
-						Obj_Nivel_Critico nc = new Obj_Nivel_Critico().buscar(id);
-						
-						txtFolio.setText(id+"");
-						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
-						cmbValor.setSelectedItem(modelo.getValueAt(fila,2)+"");
-						btnEditar.setEnabled(true);
-						chStatus.setSelected(true);
-					
-	        	}
-	        }
-        });
-    }
+	MouseListener agregar = new MouseListener(){
+		public void mouseClicked(MouseEvent e) {
+		  	if(e.getClickCount()==2){
+        		int fila = tabla.getSelectedRow();
+        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+        
+				txtFolio.setText(id+"");
+				txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
+				cmbValor.setSelectedItem(modelo.getValueAt(fila,2)+"");
+				btnEditar.setEnabled(true);
+				chStatus.setSelected(true);
+				
+        	}
+		}
+		public void mouseEntered(MouseEvent e){}
+		public void mouseExited(MouseEvent e){}
+		public void mousePressed(MouseEvent e){}
+		public void mouseReleased(MouseEvent e){}
+		
+	};
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -318,37 +316,46 @@ Connexion con = new Connexion();
 								
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
+	ActionListener buscar = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-			Obj_Atributos atrib = new Obj_Atributos();
-			atrib = atrib.buscar(Integer.parseInt(txtFolio.getText()));
+			Obj_Nivel_Critico nivel_critico = new Obj_Nivel_Critico().buscar(Integer.parseInt(txtFolio.getText()));
 			
-			if(atrib.getFolio() != 0){
-			
-			txtFolio.setText(atrib.getFolio()+"");
-			txtDescripcion.setText(atrib.getDescripcion()+"");
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			cmbValor.setSelectedIndex(Integer.parseInt(atrib.getValor()+""));
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			
-			System.out.println(atrib.getStatus());
-			if(atrib.getStatus() == true){chStatus.setSelected(true);}
-			else{chStatus.setSelected(false);}
-			
-			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
+			if(nivel_critico.getFolio() != 0){
+				txtFolio.setText(nivel_critico.getFolio()+"");
+				txtDescripcion.setText(nivel_critico.getDescripcion());
+								
+				switch(nivel_critico.getValor()){
+					case 1: cmbValor.setForeground(Color.RED); break;
+					case 2: cmbValor.setForeground(Color.YELLOW); break;
+					case 3: cmbValor.setForeground(Color.GREEN); break;
+					default : cmbValor.setForeground(Color.BLACK); break;  
+				}
+				
+				cmbValor.setSelectedIndex(Integer.parseInt(nivel_critico.getValor()+""));
+				
+				if(nivel_critico.getStatus() == true){chStatus.setSelected(true);}
+				else{chStatus.setSelected(false);}
+				
+				btnNuevo.setEnabled(false);
+				btnEditar.setEnabled(false);
+				panelEnabledFalse();
+				txtFolio.setEditable(true);
+				txtFolio.requestFocus();
 			
 			}
 			else{
+				panelLimpiar();
+				panelEnabledFalse();
+				txtFolio.setEditable(true);
+				txtFolio.requestFocus();
+				btnNuevo.setEnabled(true);
+				btnEditar.setEnabled(false);
+				chStatus.setSelected(false);
+				
 				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 				}
@@ -415,14 +422,12 @@ Connexion con = new Connexion();
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);
 		txtDescripcion.setEditable(false);
-		cmbValor.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
 		txtFolio.setEditable(true);
 		txtDescripcion.setEditable(true);
-		cmbValor.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
@@ -433,6 +438,12 @@ Connexion con = new Connexion();
 		chStatus.setSelected(true);
 	}
 	public static void main (String arg []){
-		new Cat_Nivel_Critico().setVisible(true);
+		//new Cat_Nivel_Critico().setVisible(true);
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Nivel_Critico().setVisible(true);
+		}catch(Exception e){
+			e.printStackTrace();
+		}	  	
 	}
 }

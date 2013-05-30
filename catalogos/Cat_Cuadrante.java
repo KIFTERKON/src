@@ -1,6 +1,5 @@
 package catalogos;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
@@ -8,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,17 +34,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Spinner;
-
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Atributos;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Nivel_Critico;
 
 @SuppressWarnings("serial")
 public class Cat_Cuadrante extends JFrame{
@@ -77,15 +72,15 @@ Connexion con = new Connexion();
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
 	String dias[] = {"Seleccione un dia","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo"};
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbDias = new JComboBox(dias);
 	
 	String eqTrabajo[] = new Obj_Establecimiento().Combo_Eq_Trabajo();
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbEqTrabajo = new JComboBox(eqTrabajo);
 	
 	String jefatura[] = new Obj_Establecimiento().Combo_Jefatura();
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbJefatura = new JComboBox(jefatura);
 	
 	JCheckBox chStatus = new JCheckBox("Status");
@@ -246,42 +241,39 @@ Connexion con = new Connexion();
 	    return scrol; 
 	}
 	
-
-	
-	@SuppressWarnings("unused")
 	private void agregar(final JTable tbl) {
-        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbl.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount()==1){
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	        
-						Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar(id);
+					Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar(id);
 						
-						txtFolio.setText(id+"");
-						txaNombre.setText(modelo.getValueAt(fila,1)+"");
-						cmbEstablecimiento.setSelectedIndex(cuadrante.getEstablecimiento());
-						spnNGerarquico.setValue(cuadrante.getNivel_gerarquico());
-						cmbDias.setSelectedIndex(cuadrante.getDia());
-						cmbEqTrabajo.setSelectedIndex(cuadrante.getEq_trabajo());
-						cmbJefatura.setSelectedIndex(cuadrante.getJefatura());
-						chStatus.setSelected(true);
-						txaDescripcion.setText(cuadrante.getDescripcion().trim());
+					txtFolio.setText(id+"");
+					txaNombre.setText(modelo.getValueAt(fila,1)+"");
+					cmbEstablecimiento.setSelectedIndex(cuadrante.getEstablecimiento());
+					spnNGerarquico.setValue(cuadrante.getNivel_gerarquico());
+					cmbDias.setSelectedIndex(cuadrante.getDia());
+					cmbEqTrabajo.setSelectedIndex(cuadrante.getEq_trabajo());
+					cmbJefatura.setSelectedIndex(cuadrante.getJefatura());
+					chStatus.setSelected(true);
+					txaDescripcion.setText(cuadrante.getDescripcion().trim());
 						
-						txtFolio.setEditable(false);
-						txaNombre.setEditable(false);
-						cmbEstablecimiento.setEnabled(false);
+					txtFolio.setEditable(false);
+					txaNombre.setEditable(false);
+					cmbEstablecimiento.setEnabled(false);
+					
+					spnNGerarquico.setEnabled(false);
 						
-						spnNGerarquico.setEnabled(false);
+					cmbDias.setEnabled(false);
+					cmbEqTrabajo.setEnabled(false);
+					cmbJefatura.setEnabled(false);
+					chStatus.setEnabled(false);
+					txaDescripcion.setEditable(false);
 						
-						cmbDias.setEnabled(false);
-						cmbEqTrabajo.setEnabled(false);
-						cmbJefatura.setEnabled(false);
-						chStatus.setEnabled(false);
-						txaDescripcion.setEditable(false);
-						
-						btnEditar.setEnabled(true);
-						btnGuardar.setEnabled(false);
+					btnEditar.setEnabled(true);
+					btnGuardar.setEnabled(false);
 					
 	        	}
 	        }

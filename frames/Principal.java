@@ -309,6 +309,7 @@ public class Principal extends JFrame{
 		txtFolio.grabFocus();
 		Permisos_False();
 		
+		
 		btnBanco.setEnabled(false);
 		btnInasistencia.setEnabled(false);
 		btnCaja.setEnabled(false);
@@ -623,6 +624,10 @@ public class Principal extends JFrame{
 			Configuracion_Usuario.addActionListener(Opciones);
 		Configuracion.add(Configuracion_Turno);
 			Configuracion_Turno.addActionListener(Opciones);
+		Configuracion.add(Divisas);
+			Divisas.addActionListener(Opciones);
+		Configuracion.add(Denominaciones);
+			Denominaciones.addActionListener(Opciones);
 			
 		Reportes.add(Reporte_Plantilla_Activa);
 			Reporte_Plantilla_Activa.addActionListener(Opciones);
@@ -638,10 +643,6 @@ public class Principal extends JFrame{
 		Ayuda.add(Edicion_AcercaDe);
 		Ayuda.add(Permiso_user);
 		
-		Cortes.add(Divisas);
-			Divisas.addActionListener(Opciones);
-		Cortes.add(Denominaciones);
-			Denominaciones.addActionListener(Opciones);
 		Cortes.add(Alimentacion_Corte);
 			Alimentacion_Corte.addActionListener(Opciones);
 			
@@ -705,13 +706,14 @@ public class Principal extends JFrame{
 		Barra.add(Alimentacion);
 		Barra.add(Catalogo);
 		Barra.add(Listas);
-		Barra.add(Configuracion);
 		Barra.add(Reportes);
 		Barra.add(Autorizaciones);
-		Barra.add(Ayuda);
 		Barra.add(Cortes);
 		Barra.add(Contabilidad);
 		Barra.add(Cuadrantes);
+		Barra.add(Configuracion);
+		Barra.add(Ayuda);
+		
 		return Barra;
 	}
 	KeyListener validaBuscar = new KeyListener() {
@@ -1065,6 +1067,7 @@ public class Principal extends JFrame{
 	}
 	
 	public void PrermisoAdmin(){
+		
 		Alimentacion_Fuente_Sodas_rh.setEnabled(true);
 		Alimentacion_Fuente_Sodas_auxf.setEnabled(true);
 		Alimentacion_Deducciones_Asistencia.setEnabled(true);
@@ -1239,21 +1242,29 @@ public void PrermisoCons(){
 }
 //PERMISO DE BOTONES	
 public void logAdmin(){
-	btnBanco.setEnabled(true);
-	btnInasistencia.setEnabled(true);
-	btnCaja.setEnabled(true);
-	btnFsRH.setEnabled(true);
-	btnFsAux.setEnabled(true);
-	btnPExtras.setEnabled(true);
-	btnPrestamo.setEnabled(true);
-	btnAltaEmp.setEnabled(true);
-	btnPuesto.setEnabled(true);
-	btnSueldo.setEnabled(true);
-	btnListaRaya.setEnabled(true);
-	btnListaFirma.setEnabled(true);
-	btnListaPrestamo.setEnabled(true);
-	btnListaComparacion.setEnabled(true);
-	btnRevicion.setEnabled(true);	
+	Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
+	boolean auto_auditoria = autoriza_auditoria.isAutorizar();
+	Obj_Auto_Finanzas autoriza_finanza = new Obj_Auto_Finanzas().buscar();
+	boolean auto_finanza = autoriza_finanza.isAutorizar();
+
+	if(auto_auditoria != true && auto_finanza != true){
+		btnBanco.setEnabled(true);
+		btnInasistencia.setEnabled(true);
+		btnCaja.setEnabled(true);
+		btnFsRH.setEnabled(true);
+		btnFsAux.setEnabled(true);
+		btnPExtras.setEnabled(true);
+		btnPrestamo.setEnabled(true);
+		btnAltaEmp.setEnabled(true);
+		btnPuesto.setEnabled(true);
+		btnSueldo.setEnabled(true);
+		btnListaRaya.setEnabled(true);
+		btnListaFirma.setEnabled(true);
+		btnListaPrestamo.setEnabled(true);
+		btnListaComparacion.setEnabled(true);
+		btnRevicion.setEnabled(true);
+	}
+	
 }
 
 public void logDH(){

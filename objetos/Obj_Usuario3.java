@@ -130,14 +130,13 @@ public class Obj_Usuario3 {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public Vector returnPermisos(String Nombre_Completo){
+	public Vector returnPermisos(String Nombre_Completo, int menu){
 		try {
-			return new BuscarSQL().returnPermiso(Nombre_Completo);
+			return new BuscarSQL().returnPermiso(Nombre_Completo,menu);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
-	
-	
+
 }

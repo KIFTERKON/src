@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -29,6 +31,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JDateChooser;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Bono_Complemento_Sueldo;
@@ -116,6 +120,8 @@ public class Cat_Empleado extends JFrame{
 	
 	JTextArea txaObservaciones = new JTextArea(5,5);
 	JScrollPane Observasiones = new JScrollPane(txaObservaciones);
+	
+	JDateChooser txtCalendario = new JDateChooser();
 	
 	public String img = "";
 	
@@ -207,6 +213,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtFecha).setBounds(x+ancho,y,ancho+50,20);
 		
+		panel.add(new JLabel("Fecha de Nacimiento:")).setBounds(x,y+=25, ancho, 20);
+		panel.add(txtCalendario).setBounds(x+ancho,y,ancho+50,20);
+		
 		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
 		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,y,ancho-20,20);
@@ -253,7 +262,7 @@ public class Cat_Empleado extends JFrame{
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 		
-		this.setSize(1100,605);
+		this.setSize(1100,645);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
@@ -367,19 +376,26 @@ public class Cat_Empleado extends JFrame{
 					if(re.getGafete() == true){chbGafete.setSelected(true);}
 					else{chbGafete.setSelected(false);}
 					cmbStatus.setSelectedIndex(re.getStatus()-1);
-				
+
+					try {
+						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
+						txtCalendario.setDate(date);
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					
 					switch(cmbStatus.getSelectedIndex()+1){
 						case 1:btnStatus.setIcon(new ImageIcon("imagen/vigente.png"));break;
 						case 2:btnStatus.setIcon(new ImageIcon("imagen/vacaciones.png"));break;
 						case 3:btnStatus.setIcon(new ImageIcon("imagen/incapacidad.png"));break;
 						case 4:btnStatus.setIcon(new ImageIcon("imagen/baja.png"));break;
-				}
+					}
 					txtFecha.setText(re.getFecha());
 					txaObservaciones.setText(re.getObservasiones());
 					img = re.getFoto();
 					ImageIcon tmpIconAux = new ImageIcon(re.getFoto());
 				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-					
+			    
 				    btnNuevo.setVisible(false);
 					btnEditar.setVisible(true);
 					panelEnabledFalse();
@@ -474,6 +490,7 @@ public class Cat_Empleado extends JFrame{
 							}else{
 								empleado.setFoto("X:\\Empleados\\Un.JPG");
 							}
+							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 							empleado.actualizar(Integer.parseInt(txtFolio.getText()));
 							panelLimpiar();
 							panelEnabledFalse();
@@ -546,6 +563,7 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setFoto("X:\\Empleados\\Un.JPG");
 						}
+						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 						empleado.guardar();	
 						panelLimpiar();
 						panelEnabledFalse();
@@ -604,6 +622,7 @@ public class Cat_Empleado extends JFrame{
 		chbGafete.setEnabled(true);
 		cmbStatus.setEnabled(true);
 		txaObservaciones.setEditable(true);
+		txtCalendario.setEnabled(true);
 		
 	}
 	
@@ -629,6 +648,7 @@ public class Cat_Empleado extends JFrame{
 		chbGafete.setEnabled(false);
 		cmbStatus.setEnabled(false);
 		txaObservaciones.setEditable(false);
+		txtCalendario.setEnabled(false);
 		
 	}
 	
@@ -656,6 +676,7 @@ public class Cat_Empleado extends JFrame{
 		txaObservaciones.setText("");
 	    btnFoto.setIcon(new ImageIcon(""));	
 	    btnStatus.setIcon(new ImageIcon(""));
+	    
 	}
 	
 	ActionListener nuevo = new ActionListener(){
@@ -818,6 +839,8 @@ public class Cat_Empleado extends JFrame{
 	
 	private String validaCampos(){
 		String error="";
+		String fechaNull = txtCalendario.getDate()+"";
+		
 		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
 		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
@@ -832,6 +855,7 @@ public class Cat_Empleado extends JFrame{
 		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
 		if(cmbPrestamos.getSelectedItem().equals("Selecciona un Rango de Prestamo")) error += "Rango de Prestamo\n";
+		if(fechaNull.equals("null"))error+= "Fecha de Nacimiento\n";	
 		
 		return error;
 	}
@@ -882,6 +906,15 @@ public class Cat_Empleado extends JFrame{
 			if(re.getGafete() == true){chbGafete.setSelected(true);}
 			else{chbGafete.setSelected(false);}
 			cmbStatus.setSelectedIndex(re.getStatus()-1);
+			if(re.getFecha_nacimiento() != null){
+				try {
+					Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
+					txtCalendario.setDate(date);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
 			txtFecha.setText(re.getFecha());
 			txaObservaciones.setText(re.getObservasiones());
 			img = re.getFoto();

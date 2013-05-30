@@ -45,61 +45,61 @@ public class Cat_Usuario3 extends JFrame{
 	
 	String[] Sub_Alimentacion = new Obj_SubMenus().SubMenuAlimentacion();
 	Obj_CheckBoxNode Alimentacion[] = {
-		new Obj_CheckBoxNode(Sub_Alimentacion[0], true),
-		new Obj_CheckBoxNode(Sub_Alimentacion[1], true),
-		new Obj_CheckBoxNode(Sub_Alimentacion[2], true),
-		new Obj_CheckBoxNode(Sub_Alimentacion[3], true),
-		new Obj_CheckBoxNode(Sub_Alimentacion[4], true),
-		new Obj_CheckBoxNode(Sub_Alimentacion[5], true),
-		new Obj_CheckBoxNode(Sub_Alimentacion[6], true),
+		new Obj_CheckBoxNode(Sub_Alimentacion[0], false),
+		new Obj_CheckBoxNode(Sub_Alimentacion[1], false),
+		new Obj_CheckBoxNode(Sub_Alimentacion[2], false),
+		new Obj_CheckBoxNode(Sub_Alimentacion[3], false),
+		new Obj_CheckBoxNode(Sub_Alimentacion[4], false),
+		new Obj_CheckBoxNode(Sub_Alimentacion[5], false),
+		new Obj_CheckBoxNode(Sub_Alimentacion[6], false),
 	};
 	
 	String[] Sub_Catalogos = new Obj_SubMenus().SubMenuCatalogos();
 	Obj_CheckBoxNode Catalogos[] = {
-		new Obj_CheckBoxNode(Sub_Catalogos[0], true),
-	    new Obj_CheckBoxNode(Sub_Catalogos[1], true),
-	    new Obj_CheckBoxNode(Sub_Catalogos[2], true),
-	    new Obj_CheckBoxNode(Sub_Catalogos[3], true),
+		new Obj_CheckBoxNode(Sub_Catalogos[0], false),
+	    new Obj_CheckBoxNode(Sub_Catalogos[1], false),
+	    new Obj_CheckBoxNode(Sub_Catalogos[2], false),
+	    new Obj_CheckBoxNode(Sub_Catalogos[3], false),
 	};
 	
 	String[] Sub_Listas = new Obj_SubMenus().SubMenuListas();
 	Obj_CheckBoxNode Listas[] = {
-		new Obj_CheckBoxNode(Sub_Listas[0], true),
-	    new Obj_CheckBoxNode(Sub_Listas[1], true),
-	    new Obj_CheckBoxNode(Sub_Listas[2], true),
-	    new Obj_CheckBoxNode(Sub_Listas[3], true),
-	    new Obj_CheckBoxNode(Sub_Listas[4], true),
+		new Obj_CheckBoxNode(Sub_Listas[0], false),
+	    new Obj_CheckBoxNode(Sub_Listas[1], false),
+	    new Obj_CheckBoxNode(Sub_Listas[2], false),
+	    new Obj_CheckBoxNode(Sub_Listas[3], false),
+	    new Obj_CheckBoxNode(Sub_Listas[4], false),
 	};
 	
 	String[] Sub_Configuracion = new Obj_SubMenus().SubMenuConfiguracion();
 	Obj_CheckBoxNode Configuracion[] = {
-		new Obj_CheckBoxNode(Sub_Configuracion[0], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[1], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[2], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[3], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[4], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[5], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[6], true),
-		new Obj_CheckBoxNode(Sub_Configuracion[7], true),
+		new Obj_CheckBoxNode(Sub_Configuracion[0], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[1], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[2], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[3], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[4], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[5], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[6], false),
+		new Obj_CheckBoxNode(Sub_Configuracion[7], false),
 	};
 	
 	String[] Sub_Autorizaciones = new Obj_SubMenus().SubMenuAutorizaciones();
 	Obj_CheckBoxNode Autorizaciones[] = {
-		new Obj_CheckBoxNode(Sub_Autorizaciones[0], true),
-		new Obj_CheckBoxNode(Sub_Autorizaciones[1], true),
+		new Obj_CheckBoxNode(Sub_Autorizaciones[0], false),
+		new Obj_CheckBoxNode(Sub_Autorizaciones[1], false),
 	};
 	
 	String[] Sub_Reportes = new Obj_SubMenus().SubMenuReportes();
 	Obj_CheckBoxNode Reportes[] = {
-		new Obj_CheckBoxNode(Sub_Reportes[0], true),
-		new Obj_CheckBoxNode(Sub_Reportes[1], true),
+		new Obj_CheckBoxNode(Sub_Reportes[0], false),
+		new Obj_CheckBoxNode(Sub_Reportes[1], false),
 	};
 	
 	String[] Sub_Cortes = new Obj_SubMenus().SubMenuCortes();
 	Obj_CheckBoxNode Cortes[] = {
-		new Obj_CheckBoxNode(Sub_Cortes[0], true),
-		new Obj_CheckBoxNode(Sub_Cortes[1], true),
-		new Obj_CheckBoxNode(Sub_Cortes[2], true),
+		new Obj_CheckBoxNode(Sub_Cortes[0], false),
+		new Obj_CheckBoxNode(Sub_Cortes[1], false),
+		new Obj_CheckBoxNode(Sub_Cortes[2], false),
 	};	
 	
 	@SuppressWarnings("rawtypes")
@@ -213,6 +213,7 @@ public class Cat_Usuario3 extends JFrame{
 		txtFolioFiltro.addKeyListener(opFiltroFolio);
 		txtNombre_CompletoFiltro.addKeyListener(opFiltroNombre);
 		cmbEstablecimientos.addActionListener(opFiltroEstable);
+		btnLimpiar.addActionListener(opLimpiar);
 		
 		tabla.addMouseListener(opMouse);
 		
@@ -229,38 +230,130 @@ public class Cat_Usuario3 extends JFrame{
 		
 	}
 	
+	ActionListener opLimpiar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			txtFolio.setText("");
+			txtNombre_Completo.setText("");
+			txtContrasena.setText("");
+			txtContrasena1.setText("");
+    		txtContrasena.setEnabled(true);
+    		
+    		for(int i = 0; i<Alimentacion.length; i++){
+    			Alimentacion[i].setSelected(false);
+    		}
+    		tree.collapseRow(0);
+    		for(int i=0; i <Autorizaciones.length; i ++){
+    			Autorizaciones[i].setSelected(false);
+    		}
+    		tree.collapseRow(1);
+    		for(int i = 0; i<Catalogos.length; i ++){
+    			Catalogos[i].setSelected(false);
+    		}
+    		tree.collapseRow(2);
+    		for(int i = 0; i<Listas.length; i ++){
+    			Listas[i].setSelected(false);
+    		}
+    		tree.collapseRow(3);
+    		for(int i = 0; i<Configuracion.length; i ++){
+    			Configuracion[i].setSelected(false);
+    		}
+    		tree.collapseRow(4);
+    		for(int i = 0; i<Reportes.length; i ++){
+    			Reportes[i].setSelected(false);
+    		}
+    		tree.collapseRow(5);
+    		for(int i = 0; i<Cortes.length; i ++){
+    			Cortes[i].setSelected(false);
+    		}
+    		tree.collapseRow(6);
+		}
+		
+	};
+	
 	MouseAdapter opMouse = new MouseAdapter(){
 		@SuppressWarnings("rawtypes")
 		public void mouseClicked(MouseEvent arg0){
 			if(arg0.getClickCount() == 1){
-        		int id = Integer.parseInt(model.getValueAt(tabla.getSelectedRow(),0).toString());
-        		txtFolio.setText(model.getValueAt(tabla.getSelectedRow(), 0).toString());
-        		txtNombre_Completo.setText(model.getValueAt(tabla.getSelectedRow(), 1).toString());
-        		System.out.println(id);
-        	
-        		Vector arreglos = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText());
-        		int a = 0;
-        		for(int i = 0; i<Alimentacion.length; i++){
-        			Alimentacion[i].setSelected(Boolean.parseBoolean(arreglos.get(i).toString()));
-        			a++;
-        		}
+				int fila = tabla.getSelectedRow();
+				txtFolio.setText(model.getValueAt(fila, 0).toString());
+        		txtNombre_Completo.setText(model.getValueAt(fila, 1).toString());
         		
-        		for(a=a; a<Catalogos.length; a++){
-        			Catalogos[a].setSelected(Boolean.parseBoolean(arreglos.get(a).toString()));
-        		}
-//        		if(Catalogos[1].isSelected() == false){
-//        			Catalogos[1].setSelected(true);
-//        			
-//        			
-//        			tree.collapseRow(0);
-//        			tree.collapseRow(1);
-//        			tree.collapseRow(2);
-//        		}else{
-//        			tree.expandRow(0);
-//        			Catalogos[1].setSelected(false);
-//        			tree.clearSelection();
-//        		}
-        		
+				if(new Obj_Usuario3().ExisteUsuario(txtNombre_Completo.getText()) == true){
+					
+					txtFolio.setText(model.getValueAt(fila, 0).toString());
+	        		txtNombre_Completo.setText(model.getValueAt(fila, 1).toString());
+
+	        		Obj_Usuario3 usuario = new Obj_Usuario3().BuscarUsuario(txtNombre_Completo.getText());
+	        		txtContrasena.setText(usuario.getContrasena());
+	        		txtContrasena.setEnabled(false);
+	        		Vector alimentacion = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(),1);
+	        		for(int i = 0; i<Alimentacion.length; i++){
+	        			Alimentacion[i].setSelected(Boolean.parseBoolean(alimentacion.get(i).toString()));
+	        		}
+	        		tree.collapseRow(0);
+	        		Vector autorizaciones = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(), 5);
+	        		for(int i=0; i <Autorizaciones.length; i ++){
+	        			Autorizaciones[i].setSelected(Boolean.parseBoolean(autorizaciones.get(i).toString()));
+	        		}
+	        		tree.collapseRow(1);
+	        		Vector catalogos = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(), 2);
+	        		for(int i = 0; i<Catalogos.length; i ++){
+	        			Catalogos[i].setSelected(Boolean.parseBoolean(catalogos.get(i).toString()));
+	        		}
+	        		tree.collapseRow(2);
+	        		Vector lista = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(), 3);
+	        		for(int i = 0; i<Listas.length; i ++){
+	        			Listas[i].setSelected(Boolean.parseBoolean(lista.get(i).toString()));
+	        		}
+	        		tree.collapseRow(3);
+	        		Vector configuracion = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(), 4);
+	        		for(int i = 0; i<Configuracion.length; i ++){
+	        			Configuracion[i].setSelected(Boolean.parseBoolean(configuracion.get(i).toString()));
+	        		}
+	        		tree.collapseRow(4);
+	        		Vector reportes = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(), 6);
+	        		for(int i = 0; i<Reportes.length; i ++){
+	        			Reportes[i].setSelected(Boolean.parseBoolean(reportes.get(i).toString()));
+	        		}
+	        		tree.collapseRow(5);
+	        		Vector cortes = new Obj_Usuario3().returnPermisos(txtNombre_Completo.getText(), 7);
+	        		for(int i = 0; i<Cortes.length; i ++){
+	        			Cortes[i].setSelected(Boolean.parseBoolean(cortes.get(i).toString()));
+	        		}
+	        		tree.collapseRow(6);
+				}else{
+					txtContrasena.setText("");
+	        		txtContrasena.setEnabled(true);
+	        		
+	        		for(int i = 0; i<Alimentacion.length; i++){
+	        			Alimentacion[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(0);
+	        		for(int i=0; i <Autorizaciones.length; i ++){
+	        			Autorizaciones[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(1);
+	        		for(int i = 0; i<Catalogos.length; i ++){
+	        			Catalogos[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(2);
+	        		for(int i = 0; i<Listas.length; i ++){
+	        			Listas[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(3);
+	        		for(int i = 0; i<Configuracion.length; i ++){
+	        			Configuracion[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(4);
+	        		for(int i = 0; i<Reportes.length; i ++){
+	        			Reportes[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(5);
+	        		for(int i = 0; i<Cortes.length; i ++){
+	        			Cortes[i].setSelected(false);
+	        		}
+	        		tree.collapseRow(6);
+				}        		
 			}
 		}
 	};
@@ -276,7 +369,7 @@ public class Cat_Usuario3 extends JFrame{
 					Obj_Usuario3 usuario = new Obj_Usuario3().BuscarUsuario(txtNombre_Completo.getText());
 					Obj_MD5 algoritmo = new Obj_MD5();
 					Vector subMenus = vectorComponentes(tree);
-					if(!usuario.getContrasena().equals(algoritmo.cryptMD5(txtContrasena.getText(), "izagar"))){
+					if(usuario.getContrasena().equals(algoritmo.cryptMD5(txtContrasena.getText(), "izagar"))){
 						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;	
 					}else{

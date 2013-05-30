@@ -31,6 +31,7 @@ public class Obj_Empleado {
 	private String fecha;
 	private String observasiones;
 	private String foto;
+	private String fecha_nacimiento;
 	
 	public Obj_Empleado(){
 		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto ="";
@@ -220,6 +221,14 @@ public class Obj_Empleado {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public String getFecha_nacimiento() {
+		return fecha_nacimiento;
+	}
+
+	public void setFecha_nacimiento(String fecha_nacimiento) {
+		this.fecha_nacimiento = fecha_nacimiento;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }

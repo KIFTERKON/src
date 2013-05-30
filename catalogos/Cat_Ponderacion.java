@@ -34,17 +34,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Atributos;
 import objetos.Obj_Ponderacion;
-import objetos.Obj_Puesto;
+
 import SQL.Connexion;
 
+@SuppressWarnings("serial")
 public class Cat_Ponderacion extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-Connexion con = new Connexion();
+	Connexion con = new Connexion();
 	
 	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -70,10 +70,10 @@ Connexion con = new Connexion();
 	JButton btnNuevo = new JButton("Nuevo");
 	
 	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
-	com.toedter.calendar.JDateChooser txtCalendario2 = new com.toedter.calendar.JDateChooser();
+	com.toedter.calendar.JDateChooser txtCalendario1 = new com.toedter.calendar.JDateChooser();
 	
-	String dias[] = {"Seleccione un dia","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo"};
-	@SuppressWarnings("unchecked")
+	String dias[] = {"Seleccione un dia","Todos","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo",};
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbDias = new JComboBox(dias);
 	
 	public Cat_Ponderacion(){
@@ -103,7 +103,7 @@ Connexion con = new Connexion();
 		panel.add(txtCalendario).setBounds(ancho-20,y,ancho-8,20);
 		
 		panel.add(new JLabel("A")).setBounds(ancho+75,y,30,20);
-		panel.add(txtCalendario2).setBounds(ancho+87,y,ancho-8,20);
+		panel.add(txtCalendario1).setBounds(ancho+87,y,ancho-8,20);
 		
 		panel.add(new JLabel("Dia: ")).setBounds(5,y+=30,100,20);
 		panel.add(cmbDias).setBounds(ancho-20,y,ancho+ancho-2,20);
@@ -164,8 +164,7 @@ Connexion con = new Connexion();
 		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer(){ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
@@ -177,9 +176,9 @@ Connexion con = new Connexion();
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		
 		Statement s;
 		ResultSet rs;
@@ -189,7 +188,7 @@ Connexion con = new Connexion();
 					 "  tb_ponderacion.descripcion as [Descripcion], "+
 					 "  tb_ponderacion.valor as [Valor] "+
 					
-					"  from tb_ponderacion where status=1");
+					"  from tb_ponderacion");
 			
 			while (rs.next())
 			{ 
@@ -212,37 +211,33 @@ Connexion con = new Connexion();
 	    return scrol; 
 	}
 	
-	@SuppressWarnings("unused")
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-	        	if(e.getClickCount()==1){
+	        	if(e.getClickCount()==2){
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	        
-						Obj_Ponderacion pond = new Obj_Ponderacion().buscar(id);
+						Obj_Ponderacion ponderacion = new Obj_Ponderacion().buscar(id);
 						
 						txtFolio.setText(id+"");
 						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
 						txtValor.setText(modelo.getValueAt(fila,2)+"");
 						
-						try {
-							Date date = new SimpleDateFormat("dd/MM/yyyy").parse(pond.getFechaIn()+"");
-							txtCalendario.setDate(date);
-						} catch (ParseException e1) {
-							e1.printStackTrace();
-						}
-						try {
-							Date date = new SimpleDateFormat("dd/MM/yyyy").parse(pond.getFechaFin()+"");
-							txtCalendario2.setDate(date);
-						} catch (ParseException e1) {
-							e1.printStackTrace();
-						}
+						chStatus.setSelected(ponderacion.getStatus());
 						
-						cmbDias.setSelectedIndex(pond.getDia());
+						try {
+							Date date = new SimpleDateFormat("dd/MM/yyyy").parse(ponderacion.getFechaIn()+"");
+							Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(ponderacion.getFechaFin()+"");
+							txtCalendario.setDate(date);
+							txtCalendario1.setDate(date1);
+						} catch (ParseException e1) {
+							e1.printStackTrace();
+						}
+											
+						cmbDias.setSelectedIndex(ponderacion.getDia());
 						
 						btnEditar.setEnabled(true);
-						chStatus.setSelected(true);
 					
 	        	}
 	        }
@@ -262,14 +257,14 @@ Connexion con = new Connexion();
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
-							int nroFila = tabla.getSelectedRow();
+							int nroFila = Integer.parseInt(txtFolio.getText());
 							
 							pond.setDescripcion(txtDescripcion.getText());
 							pond.setValor(Float.parseFloat(txtValor.getText()+""));
 							pond.setStatus(chStatus.isSelected());
 							
 							pond.setFechaIn(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-							pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario2.getDate()));
+							pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario1.getDate()));
 							
 							pond.setDia(cmbDias.getSelectedIndex());
 							
@@ -298,7 +293,7 @@ Connexion con = new Connexion();
 						pond.setValor(Float.parseFloat(txtValor.getText()+""));
 						
 						pond.setFechaIn(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate())+"");
-						pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario2.getDate())+"");
+						pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario1.getDate())+"");
 						
 						pond.setDia(cmbDias.getSelectedIndex());
 						pond.setStatus(chStatus.isSelected());
@@ -356,34 +351,39 @@ Connexion con = new Connexion();
 								
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
+	ActionListener buscar = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-			Obj_Atributos atrib = new Obj_Atributos();
-			atrib = atrib.buscar(Integer.parseInt(txtFolio.getText()));
+			Obj_Ponderacion ponderacion = new Obj_Ponderacion().buscar(Integer.parseInt(txtFolio.getText()));
 			
-			if(atrib.getFolio() != 0){
+			if(ponderacion.getFolio() != 0){
 			
-			txtFolio.setText(atrib.getFolio()+"");
-			txtDescripcion.setText(atrib.getDescripcion()+"");
-			txtValor.setText(atrib.getValor()+"");
-			System.out.println(atrib.getStatus());
-			if(atrib.getStatus() == true){chStatus.setSelected(true);}
+			txtFolio.setText(ponderacion.getFolio()+"");
+			txtDescripcion.setText(ponderacion.getDescripcion()+"");
+			txtValor.setText(ponderacion.getValor()+"");
+			
+			try {
+				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(ponderacion.getFechaIn());
+				Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(ponderacion.getFechaFin());
+				txtCalendario.setDate(date);
+				txtCalendario1.setDate(date1);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			
+			if(ponderacion.getStatus() == true){chStatus.setSelected(true);}
 			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
+			btnEditar.setEnabled(true);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
 			
-			}
-			else{
+			}else{
 				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 				}
@@ -400,11 +400,14 @@ Connexion con = new Connexion();
 	
 	private String validaCampos(){
 		String error="";
-		if(txtDescripcion.getText().equals("")) 			error+= "Bono\n";
-		if(txtValor.getText().equals(""))		error+= "Abreviatura\n";
+		String fechaInicio = txtCalendario.getDate()+"";
+		String fechaFin = txtCalendario1.getDate()+"";
 		
-		String fechaNull = txtCalendario.getDate()+"";
-		String fechaNull2 = txtCalendario2.getDate()+"";
+		if(txtDescripcion.getText().equals("")) error+= "Bono\n";
+		if(txtValor.getText().equals(""))		error+= "Abreviatura\n";
+		if(fechaInicio.equals("null"))          error+= "Fecha Inicio\n";
+		if(fechaFin.equals("null"))			    error+= "Fecha Fin\n";
+		if(cmbDias.getSelectedIndex() == 0)		error+= "Día\n";
 		return error;
 	}
 	
@@ -434,7 +437,7 @@ Connexion con = new Connexion();
 	};
 
 	ActionListener nuevo = new ActionListener(){
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e){
 			Obj_Ponderacion pond = new Obj_Ponderacion().buscar_nuevo();
 			if(pond.getFolio() != 0){
 				panelLimpiar();
@@ -494,7 +497,7 @@ Connexion con = new Connexion();
 		txtValor.setText("");
 		chStatus.setSelected(true);
 		txtCalendario.setDate(null);
-		txtCalendario2.setDate(null);
+		txtCalendario1.setDate(null);
 	}
 	public static void main (String arg []){
 		new Cat_Ponderacion().setVisible(true);

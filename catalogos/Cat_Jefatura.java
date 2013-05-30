@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -30,9 +29,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Atributos;
 import objetos.Obj_Jefatura;
-import objetos.Obj_Puesto;
+
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
@@ -41,9 +39,9 @@ public class Cat_Jefatura extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-Connexion con = new Connexion();
+	Connexion con = new Connexion();
 	
-	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
+	DefaultTableModel modelo = new DefaultTableModel(0,2)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -54,8 +52,7 @@ Connexion con = new Connexion();
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtDescripcion = new JTextField();
-	JTextField txtValor = new JTextField();
+	JTextField txtNombre = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -81,12 +78,10 @@ Connexion con = new Connexion();
 		
 		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
-		panel.add(new JLabel("Descripcion:")).setBounds(5,y+=30,ancho,20);
-		panel.add(txtDescripcion).setBounds(ancho-20,y,ancho+ancho,20);
+		panel.add(new JLabel("Nombre:")).setBounds(5,y+=30,ancho,20);
+		panel.add(txtNombre).setBounds(ancho-20,y,ancho+ancho,20);
 		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
 		
-		panel.add(new JLabel("Valor:")).setBounds(5,y+=30,ancho,20);
-		panel.add(txtValor).setBounds(ancho-20,y,ancho+ancho,20);
 		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
 		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
 		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
@@ -95,18 +90,14 @@ Connexion con = new Connexion();
 		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
-		txtDescripcion.setDocument(new JTextFieldLimit(100));
-		txtValor.setDocument(new JTextFieldLimit(20));
+		txtNombre.setDocument(new JTextFieldLimit(100));
 		
 		chStatus.setEnabled(false);
-		txtDescripcion.setEditable(false);
-		txtValor.setEditable(false);
+		txtNombre.setEditable(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
-		
-		txtValor.addKeyListener(validaNumericoConPunto);
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
@@ -114,7 +105,6 @@ Connexion con = new Connexion();
 		btnDeshacer.addActionListener(deshacer);
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
-		btnEditar.setEnabled(false);
 		cont.add(panel);
 		
 		agregar(tabla);
@@ -128,24 +118,19 @@ Connexion con = new Connexion();
 		new Connexion();
 
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
-		tabla.getColumnModel().getColumn(1).setMinWidth(160);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Valor");
-		tabla.getColumnModel().getColumn(2).setMinWidth(80);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(0).setMinWidth(30);
+		tabla.getColumnModel().getColumn(0).setMinWidth(30);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+		tabla.getColumnModel().getColumn(1).setMinWidth(250);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(250);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer(){ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
@@ -157,31 +142,22 @@ Connexion con = new Connexion();
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render);
 		
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
 			rs = s.executeQuery("select tb_jefatura.folio as [Folio],"+
-					 "  tb_jefatura.descripcion as [Descripcion], "+
-					 "  tb_jefatura.valor as [Valor] "+
-					
-					"  from tb_jefatura where status=1");
+					"  tb_jefatura.descripcion as [Descripcion] "+
+					"  from tb_jefatura");
 			
-			while (rs.next())
-			{ 
-				DecimalFormat decimal = new DecimalFormat("#0.00");
-				
+			while (rs.next()){ 
 			   String [] fila = new String[3];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
-			   
-			  float valor = Float.parseFloat(rs.getString(3));
-			   fila[2] = decimal.format(valor); 
-			   
+			  			   
 			   modelo.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
@@ -192,7 +168,6 @@ Connexion con = new Connexion();
 	    return scrol; 
 	}
 	
-	@SuppressWarnings("unused")
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -200,13 +175,14 @@ Connexion con = new Connexion();
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	        
-						Obj_Puesto fuente_sodas = new Obj_Puesto().buscar(id);
+					Obj_Jefatura jefatura = new Obj_Jefatura().buscar(id);
 						
-						txtFolio.setText(id+"");
-						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
-						txtValor.setText(modelo.getValueAt(fila,2)+"");
-						btnEditar.setEnabled(true);
-						chStatus.setSelected(true);
+					txtFolio.setText(id+"");
+					txtNombre.setText(modelo.getValueAt(fila,1)+"");
+					chStatus.setSelected(Boolean.parseBoolean(jefatura.getStatus()+""));
+					
+					btnNuevo.setVisible(false);
+					btnEditar.setVisible(true);
 					
 	        	}
 	        }
@@ -228,20 +204,20 @@ Connexion con = new Connexion();
 						}else{
 							int nroFila = tabla.getSelectedRow();
 							
-							jefat.setDescripcion(txtDescripcion.getText());
-							jefat.setValor(Float.parseFloat(txtValor.getText()+""));
+							jefat.setDescripcion(txtNombre.getText());
 							jefat.setStatus(chStatus.isSelected());
 							
 							jefat.actualizar(Integer.parseInt(txtFolio.getText()));
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txtDescripcion.getText(),nroFila,1);
-							modelo.setValueAt(txtValor.getText(), nroFila, 2);
+							modelo.setValueAt(txtNombre.getText(),nroFila,1);
 							
 							panelLimpiar();
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
+							btnEditar.setVisible(false);
+							btnNuevo.setVisible(true);
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -253,22 +229,22 @@ Connexion con = new Connexion();
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						jefat.setDescripcion(txtDescripcion.getText());
-						jefat.setValor(Float.parseFloat(txtValor.getText()+""));
+						jefat.setDescripcion(txtNombre.getText());
 						jefat.setStatus(chStatus.isSelected());
 						jefat.guardar();
 						
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
 						fila[0]=txtFolio.getText();
-						fila[1]=txtDescripcion.getText();
-						fila[2]=txtValor.getText();
+						fila[1]=txtNombre.getText();
 						modelo.addRow(fila); 
 						
 						panelLimpiar();
 						panelEnabledFalse();
 						txtFolio.setEditable(true);
 						txtFolio.requestFocus();
+						btnEditar.setVisible(false);
+						btnNuevo.setVisible(true);
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -309,36 +285,29 @@ Connexion con = new Connexion();
 								
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
+	ActionListener buscar = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-			Obj_Atributos atrib = new Obj_Atributos();
-			atrib = atrib.buscar(Integer.parseInt(txtFolio.getText()));
-			
-			if(atrib.getFolio() != 0){
-			
-			txtFolio.setText(atrib.getFolio()+"");
-			txtDescripcion.setText(atrib.getDescripcion()+"");
-			txtValor.setText(atrib.getValor()+"");
-			System.out.println(atrib.getStatus());
-			if(atrib.getStatus() == true){chStatus.setSelected(true);}
-			else{chStatus.setSelected(false);}
-			
-			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
-			
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-				return;
+				Obj_Jefatura jefatura = new Obj_Jefatura();
+				jefatura = jefatura.buscar(Integer.parseInt(txtFolio.getText()));
+				if(jefatura.getFolio() != 0){
+					txtFolio.setText(jefatura.getFolio()+"");
+					txtNombre.setText(jefatura.getDescripcion()+"");
+					
+					if(jefatura.getStatus() == true){chStatus.setSelected(true);}
+					else{chStatus.setSelected(false);}
+				
+					btnNuevo.setVisible(false);
+					btnEditar.setVisible(true);
+					panelEnabledFalse();
+					txtFolio.setEditable(true);
+					txtFolio.requestFocus();
+				}else{
+					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+					return;
 				}
 			}
 		}
@@ -348,39 +317,11 @@ Connexion con = new Connexion();
 		public void actionPerformed(ActionEvent e){
 			dispose();
 		}
-		
 	};
-	
-	KeyListener validaNumericoConPunto = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-			
-		    if(((caracter < '0') ||	
-		    	(caracter > '9')) && 
-		    	(caracter != '.' )){
-		    	e.consume();
-		    	}
-		    	
-		   if (caracter==KeyEvent.VK_PERIOD){    	
-		    	String texto = txtValor.getText().toString();
-				if (texto.indexOf(".")>-1) e.consume();
-				
-			}
-		    		    		       	
-		}
-		@Override
-		public void keyPressed(KeyEvent e){}
-		@Override
-		public void keyReleased(KeyEvent e){}
-								
-	};
-
 	
 	private String validaCampos(){
 		String error="";
-		if(txtDescripcion.getText().equals("")) 			error+= "Bono\n";
-		if(txtValor.getText().equals(""))		error+= "Abreviatura\n";
+		if(txtNombre.getText().equals("")) 			error+= "Nombre\n";
 				
 		return error;
 	}
@@ -394,26 +335,25 @@ Connexion con = new Connexion();
 				panelEnabledTrue();
 				txtFolio.setText(jefat.getFolio()+1+"");
 				txtFolio.setEditable(false);
-				txtDescripcion.requestFocus();
+				txtNombre.requestFocus();
 			}else{
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(1+"");
 				txtFolio.setEditable(false);
-				txtDescripcion.requestFocus();
+				txtNombre.requestFocus();
 			}
 		}
 	};
 	
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			
 			panelLimpiar();
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
-			btnNuevo.setEnabled(true);
-			btnEditar.setEnabled(false);
+			btnEditar.setVisible(false);
+			btnNuevo.setVisible(true);
 			chStatus.setSelected(false);
 		}
 	};
@@ -422,29 +362,25 @@ Connexion con = new Connexion();
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
 			txtFolio.setEditable(false);
-			btnEditar.setEnabled(false);
-			btnNuevo.setEnabled(true);
+			
 		}		
 	};
 	
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);
-		txtDescripcion.setEditable(false);
-		txtValor.setEditable(false);
+		txtNombre.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
 		txtFolio.setEditable(true);
-		txtDescripcion.setEditable(true);
-		txtValor.setEditable(true);
+		txtNombre.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
 		txtFolio.setText("");
-		txtDescripcion.setText("");
-		txtValor.setText("");
+		txtNombre.setText("");
 		chStatus.setSelected(true);
 	}
 	public static void main (String arg []){

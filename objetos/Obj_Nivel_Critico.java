@@ -33,7 +33,7 @@ public class Obj_Nivel_Critico {
 				this.descripcion = descripcion;
 			}
 			
-			public float getValor() {
+			public int getValor() {
 				return valor;
 			}
 			

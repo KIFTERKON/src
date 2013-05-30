@@ -8,14 +8,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -37,11 +38,12 @@ import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Imprimir_LR extends JFrame {
-	
+	Connexion con = new Connexion();
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 	
-	//DECLARACION PARA CREAR UNA TABLA
+	 private static GregorianCalendar calendar = new GregorianCalendar();
+	
 	DefaultTableModel model = new DefaultTableModel(0,19){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -95,7 +97,6 @@ public class Cat_Imprimir_LR extends JFrame {
 		return filas;
 	}
  
-	@SuppressWarnings("unused")
 	private JScrollPane getPanelTabla()	{	
 //		Connection conn = new Connexion().conexion();
 		
@@ -579,10 +580,18 @@ public class Cat_Imprimir_LR extends JFrame {
 		public void mouseClicked(MouseEvent e) {}
 	};
 	
+	public static Date restarDias(Date date,int dias){
+	      calendar.setGregorianChange(date);
+	      calendar.set(GregorianCalendar.DAY_OF_YEAR, calendar.get(GregorianCalendar.DAY_OF_YEAR)-dias);
+	      
+	      return calendar.getTime();
+	}
+	
 	MouseListener OpImprimir = new MouseListener() {
 		@Override
 		public void mousePressed(MouseEvent e) {
-			MessageFormat encabezado = new MessageFormat("Lista de Raya pag.[{0,number,integer}]");
+		
+			MessageFormat encabezado = new MessageFormat("Lista de Raya pag.[{0,number,integer}] del "+getFechaInicial()+" al "+getFechaFinal());
 			try {
 //			tabla.print(JTable.PrintMode.FIT_WIDTH, encabezado, null);
 			tabla.print(JTable.PrintMode.NORMAL, encabezado, null);
@@ -597,6 +606,39 @@ public class Cat_Imprimir_LR extends JFrame {
 		public void mouseEntered(MouseEvent e) {}
 		public void mouseClicked(MouseEvent e) {}
 	};
+	
+	public String getFechaInicial(){
+		String valor = "";
+		try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("exec SP_FECHA_INICIAL_LISTA_RAYA");
+			while(rs.next()){
+				valor = rs.getString(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+	
+	public String getFechaFinal(){
+		String valor = "";
+		try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select top 1(fecha_final) from tb_pre_listaraya");
+			while(rs.next()){
+				valor = rs.getString(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+	
 	
 	KeyListener validaCantidad = new KeyListener() {
 		@Override

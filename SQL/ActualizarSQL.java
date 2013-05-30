@@ -25,6 +25,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
+import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Ponderacion;
 import objetos.Obj_Revision_Lista_Raya;
@@ -43,7 +44,7 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=? where folio=" + folio;
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -72,6 +73,7 @@ public class ActualizarSQL {
 			pstmt.setString(19, empleado.getFoto());
 			pstmt.setString(20, empleado.getTargeta_nomina());
 			pstmt.setInt(21, empleado.getTipo_banco());
+			pstmt.setString(22, empleado.getFecha_nacimiento());
 					
 			pstmt.executeUpdate();
 			con.commit();
@@ -309,15 +311,14 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Jefatura(Obj_Jefatura jefat, int folio){
-		String query = "update tb_jefatura set descripcion=?, valor=?, status=? where folio=" + folio;
+		String query = "update tb_jefatura set descripcion=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, jefat.getDescripcion().toUpperCase());
-			pstmt.setFloat(2, jefat.getValor());
-			pstmt.setString(3, (jefat.getStatus())?"1":"0");
+			pstmt.setString(2, (jefat.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -342,15 +343,14 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Eq_Trabajo(Obj_Equipo_Trabajo EqTrabajo, int folio){
-		String query = "update tb_equipo_trabajo set descripcion=?, valor=?, status=? where folio=" + folio;
+		String query = "update tb_equipo_trabajo set descripcion=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, EqTrabajo.getDescripcion().toUpperCase());
-			pstmt.setFloat(2, EqTrabajo.getValor());
-			pstmt.setString(3, (EqTrabajo.getStatus())?"1":"0");
+			pstmt.setString(2, (EqTrabajo.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1302,6 +1302,49 @@ public class ActualizarSQL {
 				pstmt.setString(2, arreglo[0]);
 				pstmt.execute();
 			}
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	public boolean Actualizar(Obj_Nomina nomina, String Establecimiento, int Folio){
+		String update = "update tb_nomina set nomina = ?, pago_linea = ?, cheque_nomina = ?, lista_raya = ?, diferecia = ? where establecimiento = '"+Establecimiento+"' and folio_lista ="+Folio;
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(update);
+			
+			pstmt.setString(1, nomina.getNomina());
+			pstmt.setString(2, nomina.getPago_linea());
+			pstmt.setString(3, nomina.getCheque_nomina());
+			pstmt.setString(4, nomina.getLista_raya());
+			pstmt.setString(5, nomina.getDiferencia());
 			
 			con.commit();
 		} catch (Exception e) {

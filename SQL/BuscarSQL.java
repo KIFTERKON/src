@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -268,7 +267,6 @@ public class BuscarSQL {
 			while(rs.next()){
 				jefat.setFolio(rs.getInt("folio"));
 				jefat.setDescripcion(rs.getString("Descripcion").trim());
-				jefat.setValor(rs.getFloat("Valor"));
 				jefat.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			
@@ -292,7 +290,6 @@ public class BuscarSQL {
 			while(rs.next()){
 				EqTrabajo.setFolio(rs.getInt("folio"));
 				EqTrabajo.setDescripcion(rs.getString("Descripcion").trim());
-				EqTrabajo.setValor(rs.getFloat("Valor"));
 				EqTrabajo.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			
@@ -692,26 +689,26 @@ public class BuscarSQL {
 		return cuadrante;
 	}
 	
-	public Obj_Actividad Actividad_Nuevo() throws SQLException{
-		Obj_Actividad actividad = new Obj_Actividad();
-		String query = "select max(folio) as 'Maximo' from tb_actividad";
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				actividad.setFolio(rs.getInt("Maximo"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return actividad;
-	}
+//	public Obj_Actividad Actividad_Nuevo() throws SQLException{
+//		Obj_Actividad actividad = new Obj_Actividad();
+//		String query = "select max(folio) as 'Maximo' from tb_actividad";
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+//				actividad.setFolio(rs.getInt("Maximo"));
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return actividad;
+//	}
 	
 	public Obj_OpRespuesta OpRespuesta_Nuevo() throws SQLException{
 		Obj_OpRespuesta opR = new Obj_OpRespuesta();
@@ -829,6 +826,7 @@ public class BuscarSQL {
 				empleado.setFecha(rs.getString("fecha"));
 				empleado.setObservasiones(rs.getString("observaciones"));
 				empleado.setFoto(rs.getString("foto"));
+				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
 			}
 			
 		} catch (Exception e) {
@@ -1018,15 +1016,15 @@ public class BuscarSQL {
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Vector returnPermiso(String Nombre_Completo) throws SQLException{
+	public Vector returnPermiso(String Nombre_Completo, int menu) throws SQLException{
 		Vector prueba = new Vector();
-		String query = "select status_submenu from tb_permisos where nombre_completo='"+Nombre_Completo+"'";
+		String query = "exec sp_get_permisos '"+ Nombre_Completo +"', "+menu ;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){			
-				prueba.add(rs.getBoolean(0));
+				prueba.add(rs.getBoolean(1));
 			}
 			
 		} catch (Exception e) {
@@ -1042,7 +1040,6 @@ public class BuscarSQL {
 	public boolean existeUsuario(String Nombre_Completo) throws SQLException{
 		boolean existe;
 		int filas = getFilas("select * from tb_permisos where nombre_completo ='"+Nombre_Completo+"'");
-
 		if(filas > 1){
 			existe = true;
 		}else{
@@ -2171,6 +2168,44 @@ public class BuscarSQL {
 			
 			while(rs.next()){
 				resultado = rs.getFloat(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
+	public float getDiferenciaIndividual(String Establecimiento, int lista){
+		String sp_total_cheques = "exec sp_return_diferencia_value "+lista+",'"+Establecimiento+"';";
+		float resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getFloat(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
+	public int getMaximoNomina(){
+		String sp_total_cheques = "exec sp_maximo_nomina";
+		int resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getInt(1);
 				
 			}
 		} catch (SQLException e1) {

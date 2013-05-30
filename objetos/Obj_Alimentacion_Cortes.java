@@ -135,16 +135,16 @@ public class Obj_Alimentacion_Cortes {
 		this.status = status;
 	}
 	
-	public Obj_Alimentacion_Cortes buscar_tiket(String Clave)
-	{
-		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
-		try{
-			corte = new Archivos().leerTiket(Clave);
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		return corte;
-	}
+//	public Obj_Alimentacion_Cortes buscar_tiket(String Clave)
+//	{
+//		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
+//		try{
+//			corte = new Archivos().leerTiket(Clave);
+//		}catch(IOException e){
+//			e.printStackTrace();
+//		}
+//		return corte;
+//	}
 	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
 	
 	public Obj_Alimentacion_Cortes buscar_nuevo() { 

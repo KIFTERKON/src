@@ -32,6 +32,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
+import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Importar_Voucher;
 import objetos.Obj_Ponderacion;
@@ -51,7 +52,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class GuardarSQL {
 
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -84,6 +85,7 @@ public class GuardarSQL {
 
 			pstmt.setInt(21, empleado.getTipo_banco());
 			pstmt.setString(22, empleado.getTargeta_nomina());
+			pstmt.setString(23, empleado.getFecha_nacimiento());
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -210,15 +212,14 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Jefatura(Obj_Jefatura jefat){
-		String query = "exec sp_insert_jefatura		 ?,?,?";
+		String query = "exec sp_insert_jefatura	?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, jefat.getDescripcion().toUpperCase());
-			pstmt.setFloat(2, jefat.getValor());
-			pstmt.setString(3, (jefat.getStatus())?"1":"0");
+			pstmt.setString(2, (jefat.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -243,15 +244,14 @@ public class GuardarSQL {
 	}
 
 	public boolean Guardar_Eq_Trabajo(Obj_Equipo_Trabajo EqTabajo){
-		String query = "exec sp_insert_equipo_trabajo		 ?,?,?";
+		String query = "exec sp_insert_equipo_trabajo ?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, EqTabajo.getDescripcion().toUpperCase());
-			pstmt.setFloat(2, EqTabajo.getValor());
-			pstmt.setString(3, (EqTabajo.getStatus())?"1":"0");
+			pstmt.setString(2, (EqTabajo.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -276,7 +276,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Ponderacion(Obj_Ponderacion pond){
-		String query = "exec sp_insert_ponderacion		 ?,?,?,?,?,?";
+		String query = "exec sp_insert_ponderacion  ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -624,7 +624,6 @@ public class GuardarSQL {
 
 	public boolean Guardar_Usuario(Obj_Usuario usuario){
 		String query = "exec sp_insert_usuario ?,?,?,?,?";
-		String i = "exec sp_insert_usuario ?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -663,7 +662,7 @@ public class GuardarSQL {
 	@SuppressWarnings("rawtypes")
 	public boolean Guardar_Usuario(Obj_Usuario3 usuario,Vector permisos){
 		String query = "exec sp_insert_permiso ?,?,?,?";
-		String insert_usuario = "exec sp_insert_usuario ?,?,?,?,?";
+		String insert_usuario = "exec sp_insert_usuario3 ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		PreparedStatement insert_usuariopstmt = null;
@@ -671,12 +670,13 @@ public class GuardarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			insert_usuariopstmt = con.prepareStatement(insert_usuario);
-			
 			insert_usuariopstmt.setString(1, usuario.getNombre_completo());
 			insert_usuariopstmt.setString(2, usuario.getContrasena());
-			insert_usuariopstmt.setString(3,  new Date().toString());
-			insert_usuariopstmt.setInt(4, 0);
-			insert_usuariopstmt.setInt(5, 1);
+			insert_usuariopstmt.setInt(3, 0);
+			insert_usuariopstmt.setString(4,  new Date().toString());
+			insert_usuariopstmt.setString(5, "");
+			insert_usuariopstmt.setInt(6, 1);
+			insert_usuariopstmt.setInt(7, 0);
 			
 			for(int i=0; i<permisos.size(); i++){
 				pstmt.setInt(1, usuario.getFolio());
@@ -686,6 +686,7 @@ public class GuardarSQL {
 				pstmt.setString(4, arreglo[1]);
 				pstmt.execute();
 			}
+			
 			insert_usuariopstmt.execute();
 			con.commit();
 		} catch (Exception e) {
@@ -1172,7 +1173,7 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Pre_Lista(Obj_Revision_Lista_Raya raya){
 		
-		String query ="exec sp_insert_pre_listaraya ?,?,?,?,?,?,?";
+		String query ="exec sp_insert_pre_listaraya ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1185,6 +1186,7 @@ public class GuardarSQL {
 			pstmt.setString(5, raya.getObservasion_ii());
 			pstmt.setInt(6, 1);
 			pstmt.setString(7, raya.getEstablecimiento());
+			pstmt.setString(8, raya.getFecha_final());
 
 			pstmt.executeUpdate();
 			con.commit();
@@ -1709,6 +1711,45 @@ public class GuardarSQL {
 			return false;
 		}finally{
 			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar(Obj_Nomina nomina){
+		String query = "exec sp_insert_nomina ?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, nomina.getNumero_listaraya());
+			pstmt.setString(2,nomina.getEstablecimiento());
+			pstmt.setString(3,nomina.getNomina());
+			pstmt.setString(4,nomina.getPago_linea());
+			pstmt.setString(5,nomina.getCheque_nomina());
+			pstmt.setString(6,nomina.getLista_raya());
+			pstmt.setString(7,nomina.getDiferencia());
+			pstmt.setString(8,nomina.getFecha());
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
 				con.close();
 			} catch(SQLException e){
 				e.printStackTrace();

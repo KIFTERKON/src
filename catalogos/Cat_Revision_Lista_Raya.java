@@ -13,7 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
@@ -51,6 +54,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 
+	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
+	
 	Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
 	boolean auto_auditoria = autoriza_auditoria.isAutorizar();
 	
@@ -158,7 +163,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	JToolBar menu = new JToolBar();
 	 
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
-	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
+	JButton btnActualizar = new JButton("Actualizar");
 	
 	JLabel lblAuditoria = new JLabel(new ImageIcon("imagen/Aplicar.png"));
 	JLabel lblFinanzas = new JLabel(new ImageIcon("imagen/Aplicar.png"));
@@ -299,14 +304,16 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		campo.add(lblFinanzas).setBounds(880,27,20,20);
 		
 		campo.add(btnImprir).setBounds(1092, 27, 80, 20);
-		campo.add(btnGenerarLista).setBounds(920,27,130,20);
+		campo.add(btnGenerarLista).setBounds(920,27,80,20);
+		campo.add(btnActualizar).setBounds(1180,27,80,20);
 		
 		lblAuditoria.setEnabled(auto_auditoria);
 		lblFinanzas.setEnabled(auto_finanza);
 		
 		menu.add(btnGuardar);
-		menu.add(btnActualizar);
-		menu.setBounds(0,0,150,25);
+		menu.add(new JLabel("   Fecha Final:  "));
+		menu.add(txtCalendario);
+		menu.setBounds(0,0,240,25);
 		campo.add(menu);
 		
 		cont.add(campo);
@@ -315,6 +322,15 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			btnGenerarLista.setEnabled(false);
 		}
 		
+		if(getFechaFinal() != ""){
+			try {
+				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(getFechaFinal());
+				txtCalendario.setDate(date);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+		}
+			
 		btnGuardar.addActionListener(opGuardar);
 		btnGenerarLista.addActionListener(opGuardarListaRaya);
 		btnImprir.addActionListener(opImprimirListaRaya);
@@ -365,10 +381,16 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			if(tabla.isEditing()){
-				tabla.getCellEditor().stopCellEditing();
+			if(validaCampos() != ""){
+				JOptionPane.showMessageDialog(null, "El Siguiente campo es requerído:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				
+				if(tabla.isEditing()){
+					tabla.getCellEditor().stopCellEditing();
+				}
+				new Progress_Bar_Guardar().setVisible(true);
 			}
-			new Progress_Bar_Guardar().setVisible(true);
 		}
 	};
 	
@@ -406,6 +428,21 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}
 	}
 	
+	public String getFechaFinal(){
+		String valor = "";
+		try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("select distinct fecha_final from tb_pre_listaraya");
+			while(rs.next()){
+				valor = rs.getString(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
 	public int getNumeroLista(){
 		int valor = 0;
 		try {
@@ -762,6 +799,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					
 				@SuppressWarnings("rawtypes")
 				Vector miVector = new Vector();
+				
 				if(getFilas("exec sp_status_pre_listaraya") > 1){
 					panel.setBorder(BorderFactory.createTitledBorder("Actulizando Pre-Lista de raya..."));
 					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
@@ -801,6 +839,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							}else{
 								lis_raya.setObservasion_ii("");
 							}
+							lis_raya.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 							
 							Obj_Revision_Lista_Raya existe = new Obj_Revision_Lista_Raya().buscarExis(foli_emple);
 							
@@ -861,6 +900,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							lis_raya.setObservasion_ii("");
 						}
 					
+						lis_raya.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+						
 						lis_raya.guardar();
 						
 						miVector.clear();
@@ -876,6 +917,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
 					dispose();
 				}
+				
 			}
 		}
 	}
@@ -1024,4 +1066,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			}
 		}
 	}
+	
+	private String validaCampos(){
+		String error="";
+		String fechaNull = txtCalendario.getDate()+"";
+		if(fechaNull.equals("null"))error+= "Fecha Final de la lista de raya\n";	
+		
+		return error;
+	}
+	
 }

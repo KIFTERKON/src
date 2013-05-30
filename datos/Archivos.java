@@ -56,20 +56,20 @@ public class Archivos {
 		return true;
 	}
 	
-	@SuppressWarnings("unused")
-	public Obj_Alimentacion_Cortes leerTiket(String archivo) throws IOException
-	{
-		Obj_Alimentacion_Cortes ex = new Obj_Alimentacion_Cortes();
-
-			try{
-				FileReader fr = new FileReader(System.getProperty("user.dir") + "\\DbTiket\\"+ archivo );
-				BufferedReader bf = new BufferedReader(fr);
-
-			}catch(FileNotFoundException ee)
-			{
-				System.out.println(ee.getMessage());
-				return ex=null;
-			}
-			return ex;
-	}
+//	@SuppressWarnings("unused")
+//	public Obj_Alimentacion_Cortes leerTiket(String archivo) throws IOException {
+//		Obj_Alimentacion_Cortes ex = new Obj_Alimentacion_Cortes();
+//
+//			try{
+//				FileReader fr = new FileReader(System.getProperty("user.dir") + "\\DbTiket\\"+ archivo );
+//				@SuppressWarnings("resource")
+//				BufferedReader bf = new BufferedReader(fr);
+//
+//			}catch(FileNotFoundException ee){
+//				System.out.println(ee.getMessage());
+//				return ex=null;
+//			}
+//			return ex;
+//	}
+	
 }
