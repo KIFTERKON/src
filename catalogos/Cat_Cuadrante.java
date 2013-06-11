@@ -15,7 +15,6 @@ import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -29,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -87,12 +87,12 @@ Connexion con = new Connexion();
 	
 	JSpinner spnNGerarquico = new JSpinner(new SpinnerNumberModel(10,0,20,1));
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-	JButton btnSalir = new JButton("Salir");
-	JButton btnDeshacer = new JButton("Deshacer");
-	JButton btnGuardar = new JButton("Guardar");
-	JButton btnEditar = new JButton("Editar");
-	JButton btnNuevo = new JButton("Nuevo");
+//	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+//	JButton btnSalir = new JButton("Salir");
+//	JButton btnDeshacer = new JButton("Deshacer");
+//	JButton btnGuardar = new JButton("Guardar");
+//	JButton btnEditar = new JButton("Editar");
+//	JButton btnNuevo = new JButton("Nuevo Cuadrante");
 	
 	public Cat_Cuadrante(){
 		
@@ -112,15 +112,15 @@ Connexion con = new Connexion();
 		
 		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
 		panel.add(txtFolio).setBounds(ancho+10,y,ancho,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho,y,32,20);
+//		panel.add(btnBuscar).setBounds(x+ancho+ancho,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+33+(ancho*2),y,70,20);
-		panel.add(btnNuevo).setBounds(x+305,y,ancho-10,20);
+		panel.add(chStatus).setBounds(x+33+(ancho*2),y,60,20);
+//		panel.add(btnNuevo).setBounds(x+295,y,ancho+20,20);
 		
 		panel.add(new JLabel("Cuadrante:")).setBounds(5,y+=30,ancho+40,20);
-		panel.add(txaNombre).setBounds(ancho+10,y,ancho*3,100);
+		panel.add(txaNombre).setBounds(ancho+10,y,ancho*3+20,100);
 		
-		panel.add(new JLabel("Descripcion: ")).setBounds(ancho*4+50,30,ancho,20);
+		panel.add(new JLabel("Perfil del Cuadrante: ")).setBounds(ancho*4+50,30,ancho+ancho,20);
 		panel.add(txaDescripcion).setBounds(ancho*4+50,60,ancho*3,200);
 		
 		panel.add(new JLabel("Establecimiento:")).setBounds(5,y+=110,ancho,20);
@@ -135,10 +135,10 @@ Connexion con = new Connexion();
 		panel.add(new JLabel("Jefatura:")).setBounds(5,y+=30,ancho,20);
 		panel.add(cmbJefatura).setBounds(ancho+10,y,ancho+ancho,20);
 		
-		panel.add(btnEditar).setBounds(x+300,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho+90,y+=30,ancho,20);
-		panel.add(btnSalir).setBounds(x+80,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+300,y,ancho,20);
+//		panel.add(btnEditar).setBounds(x+300,y,ancho,20);
+//		panel.add(btnDeshacer).setBounds(x+ancho+90,y+=30,ancho,20);
+//		panel.add(btnSalir).setBounds(x+80,y,ancho,20);
+//		panel.add(btnGuardar).setBounds(x+300,y,ancho,20);
 		
 		panel.add(getPanelTabla()).setBounds(5,y+=30,ancho*7+50,300);
 		
@@ -156,20 +156,20 @@ Connexion con = new Connexion();
 		chStatus.setEnabled(false);
 		cmbEstablecimiento.setEditable(false);
 		
-		btnGuardar.setEnabled(false);
-		btnDeshacer.setEnabled(false);
+//		btnGuardar.setEnabled(false);
+//		btnDeshacer.setEnabled(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
 		
-		btnGuardar.addActionListener(guardar);
-		btnSalir.addActionListener(cerrar);
-		btnBuscar.addActionListener(buscar);
-		btnDeshacer.addActionListener(deshacer);
-		btnNuevo.addActionListener(nuevo);
-		btnEditar.addActionListener(editar);
-		btnEditar.setEnabled(false);
+//		btnGuardar.addActionListener(guardar);
+//		btnSalir.addActionListener(cerrar);
+//		btnBuscar.addActionListener(buscar);
+//		btnDeshacer.addActionListener(deshacer);
+//		btnNuevo.addActionListener(nuevo);
+//		btnEditar.addActionListener(editar);
+//		btnEditar.setEnabled(false);
 		cont.add(panel);
 		
 		agregar(tabla);
@@ -272,8 +272,8 @@ Connexion con = new Connexion();
 					chStatus.setEnabled(false);
 					txaDescripcion.setEditable(false);
 						
-					btnEditar.setEnabled(true);
-					btnGuardar.setEnabled(false);
+//					btnEditar.setEnabled(true);
+//					btnGuardar.setEnabled(false);
 					
 	        	}
 	        }
@@ -371,7 +371,7 @@ Connexion con = new Connexion();
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				btnBuscar.doClick();
+//				btnBuscar.doClick();
 			}
 		}
 	};
@@ -417,8 +417,8 @@ Connexion con = new Connexion();
 			if(atrib.getStatus() == true){chStatus.setSelected(true);}
 			else{chStatus.setSelected(false);}
 			
-			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
+//			btnNuevo.setEnabled(false);
+//			btnEditar.setEnabled(false);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
@@ -464,8 +464,8 @@ Connexion con = new Connexion();
 			txtFolio.setEditable(false);
 			txaNombre.requestFocus();
 			
-			btnDeshacer.setEnabled(true);
-			btnGuardar.setEnabled(true);
+//			btnDeshacer.setEnabled(true);
+//			btnGuardar.setEnabled(true);
 			
 			if(cuadrante.getFolio() != 0){
 				txtFolio.setText(cuadrante.getFolio()+1+"");
@@ -482,8 +482,8 @@ Connexion con = new Connexion();
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
-			btnNuevo.setEnabled(true);
-			btnEditar.setEnabled(false);
+//			btnNuevo.setEnabled(true);
+//			btnEditar.setEnabled(false);
 			chStatus.setSelected(false);
 		}
 	};
@@ -492,10 +492,10 @@ Connexion con = new Connexion();
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
 			txtFolio.setEditable(false);
-			btnEditar.setEnabled(false);
-			btnNuevo.setEnabled(true);
-			btnDeshacer.setEnabled(true);
-			btnGuardar.setEnabled(true);
+//			btnEditar.setEnabled(false);
+//			btnNuevo.setEnabled(true);
+//			btnDeshacer.setEnabled(true);
+//			btnGuardar.setEnabled(true);
 		}		
 	};
 	
@@ -537,6 +537,11 @@ Connexion con = new Connexion();
 	}
 	
 	public static void main (String arg []){
-		new Cat_Cuadrante().setVisible(true);
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Cuadrante().setVisible(true);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

@@ -257,7 +257,7 @@ public class Cat_Ponderacion extends JFrame{
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
-							int nroFila = Integer.parseInt(txtFolio.getText());
+							int nroFila = tabla.getSelectedRow();
 							
 							pond.setDescripcion(txtDescripcion.getText());
 							pond.setValor(Float.parseFloat(txtValor.getText()+""));
@@ -272,7 +272,7 @@ public class Cat_Ponderacion extends JFrame{
 							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
 							modelo.setValueAt(txtDescripcion.getText(),nroFila,1);
-							modelo.setValueAt(txtValor.getText(), nroFila, 2);
+							modelo.setValueAt(txtValor.getText(),nroFila,2);
 							
 							panelLimpiar();
 							panelEnabledFalse();

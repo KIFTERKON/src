@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -38,6 +39,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
@@ -2197,6 +2199,70 @@ public class BuscarSQL {
 	
 	public int getMaximoNomina(){
 		String sp_total_cheques = "exec sp_maximo_nomina";
+		int resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getInt(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
+	public int TemporadaNuevo(){
+		String sp_total_cheques = "exec sp_temporada_nuevo";
+		int resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getInt(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
+	public Obj_Temporada TemporadaBuscar(int folio) throws SQLException{
+		Obj_Temporada temporada = new Obj_Temporada();
+		String query = "select * from tb_temporada where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				temporada.setFolio(rs.getInt("folio"));
+				temporada.setDescripcion(rs.getString("descripcion"));
+				temporada.setFecha_in(rs.getString("fecha_in"));
+				temporada.setFecha_fin(rs.getString("fecha_fin"));
+				temporada.setDia(rs.getString("dia"));	
+				temporada.setStatus(rs.getBoolean("status") ? true : false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return temporada;
+	}
+
+	public int Nueva_Actividad(){
+		String sp_total_cheques = "exec sp_nueva_actividad";
 		int resultado = 0;
 		Statement s;
 		ResultSet rs;

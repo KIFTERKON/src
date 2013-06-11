@@ -134,10 +134,6 @@ public class Principal extends JFrame{
 	JLabel lblListaComparacion2= new JLabel("Lista de");
 	JLabel lblListaComparacion3= new JLabel("Comparacion FS");
 	
-	JButton btnRevicion= new JButton(new ImageIcon("imagen/rebicionTotales.png"));
-	JLabel lblRevicion2= new JLabel("Revision de");
-	JLabel lblRevicion3= new JLabel("Totales");
-	
 	JLabel lblFolio = new JLabel("Folio:");
 	JTextField txtFolio = new JTextField("");
 	JLabel lblUsuario = new JLabel("Usuario:");
@@ -180,7 +176,6 @@ public class Principal extends JFrame{
 		JMenuItem Listas_Prestamo = new JMenuItem("Lista de Prestamos");
 		JMenuItem Listas_Comparacion_Fuente_Soda = new JMenuItem("Lista de Comparación FS.");
 		JMenuItem Listas_Captura_Totales_Nomina = new JMenuItem("Captura de totales de nómina");
-		JMenuItem Listas_Total_Nomina = new JMenuItem("Totales De Cheque");
 		
 	JMenu Configuracion = new JMenu("Configuración");
 		JMenuItem Configuracion_Asistencia_Puntualidad = new JMenuItem("Asistencia y Puntualidad", new ImageIcon(""));
@@ -282,7 +277,6 @@ public class Principal extends JFrame{
 		campo.add(btnListaFirma).setBounds(594,164,64,64);
 		campo.add(btnListaPrestamo).setBounds(594,288,64,64);
 		campo.add(btnListaComparacion).setBounds(594,412,64,64);
-		campo.add(btnRevicion).setBounds(594,536,64,64);
 		
 		campo.add(lblListaRaya2).setBounds(688,60,64,20);
 		campo.add(lblListaRaya3).setBounds(688,70,64,20);
@@ -292,8 +286,6 @@ public class Principal extends JFrame{
 		campo.add(lblListaPrestamo3).setBounds(688,318,64,20);
 		campo.add(lblListaComparacion2).setBounds(688,432,64,20);
 		campo.add(lblListaComparacion3).setBounds(688,442,90,20);
-		campo.add(lblRevicion2).setBounds(688,556,64,20);
-		campo.add(lblRevicion3).setBounds(688,566,64,20);
 		
 		campo.add(lblFolio).setBounds(1000, 490, 80, 20);
 		campo.add(lblUsuario).setBounds(1000, 520, 80, 20);
@@ -324,7 +316,6 @@ public class Principal extends JFrame{
 		btnListaFirma.setEnabled(false);
 		btnListaPrestamo.setEnabled(false);
 		btnListaComparacion.setEnabled(false);
-		btnRevicion.setEnabled(false);
 		
 		txtFolio.addKeyListener(validaBuscar);
 		txtContrasena.addKeyListener(validaGuardar);
@@ -346,7 +337,6 @@ public class Principal extends JFrame{
 		btnListaFirma.addActionListener(opLPago);
 		btnListaPrestamo.addActionListener(opLDeudores);
 		btnListaComparacion.addActionListener(opComprobarFS);
-		btnRevicion.addActionListener(opRevicion);
 		
 		txtFolio.addKeyListener(numerico_action);
 		txtUsuario.setEnabled(false);
@@ -456,7 +446,6 @@ public class Principal extends JFrame{
 				btnListaFirma.setEnabled(false);
 				btnListaPrestamo.setEnabled(false);
 				btnListaComparacion.setEnabled(false);
-				btnRevicion.setEnabled(false);
 				
 //				txtFolio.requestFocus();
 				txtFolio.setEditable(true);
@@ -605,8 +594,6 @@ public class Principal extends JFrame{
 			Listas_Comparacion_Fuente_Soda.addActionListener(Opciones);
 		Listas.add(Listas_Captura_Totales_Nomina);
 			Listas_Captura_Totales_Nomina.addActionListener(Opciones);
-		Listas.add(Listas_Total_Nomina);
-			Listas_Total_Nomina.addActionListener(Opciones);
 		
 		Configuracion.add(Configuracion_Asistencia_Puntualidad);
 			Configuracion_Asistencia_Puntualidad.addActionListener(Opciones);
@@ -764,8 +751,7 @@ public class Principal extends JFrame{
 				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
-			if(e.getActionCommand().equals("Totales De Cheque"))
-				new Cat_Nomina().setVisible(true);
+			
 			
 			// Configuración
 			if(e.getActionCommand().equals("Asistencia y Puntualidad"))
@@ -1262,7 +1248,6 @@ public void logAdmin(){
 		btnListaFirma.setEnabled(true);
 		btnListaPrestamo.setEnabled(true);
 		btnListaComparacion.setEnabled(true);
-		btnRevicion.setEnabled(true);
 	}
 	
 }
@@ -1282,7 +1267,6 @@ public void logDH(){
 	btnListaFirma.setEnabled(true);
 	btnListaPrestamo.setEnabled(true);
 	btnListaComparacion.setEnabled(true);
-	btnRevicion.setEnabled(true);	
 }
 
 public void logAuxF(){
@@ -1300,7 +1284,6 @@ public void logAuxF(){
 	btnListaFirma.setEnabled(false);
 	btnListaPrestamo.setEnabled(false);
 	btnListaComparacion.setEnabled(false);
-	btnRevicion.setEnabled(false);	
 }
 
 public void logAudit(){
@@ -1318,7 +1301,6 @@ public void logAudit(){
 	btnListaFirma.setEnabled(false);
 	btnListaPrestamo.setEnabled(false);
 	btnListaComparacion.setEnabled(false);
-	btnRevicion.setEnabled(false);	
 }
 
 public void logCont(){
@@ -1336,7 +1318,6 @@ public void logCont(){
 	btnListaFirma.setEnabled(false);
 	btnListaPrestamo.setEnabled(false);
 	btnListaComparacion.setEnabled(false);
-	btnRevicion.setEnabled(false);	
 }
 
 public void logCons(){
@@ -1354,7 +1335,6 @@ public void logCons(){
 	btnListaFirma.setEnabled(false);
 	btnListaPrestamo.setEnabled(false);
 	btnListaComparacion.setEnabled(false);
-	btnRevicion.setEnabled(false);	
 }
 public static void main(String[] args) {
 	try{

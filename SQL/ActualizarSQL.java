@@ -34,6 +34,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
@@ -1346,6 +1347,44 @@ public class ActualizarSQL {
 			pstmt.setString(4, nomina.getLista_raya());
 			pstmt.setString(5, nomina.getDiferencia());
 			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean TemporadaActualizar(Obj_Temporada temporada, int folio){
+		String query = "update tb_temporada set descripcion=?, fecha_in=?, fecha_fin=?, dia=?, status=? where folio=" + folio;
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+		
+			pstmt.setString(1, temporada.getDescripcion());
+			pstmt.setString(2, temporada.getFecha_in());
+			pstmt.setString(3, temporada.getFecha_fin());
+			pstmt.setString(4, temporada.getDia());
+			pstmt.setInt(5, temporada.isStatus() ? 1 : 0);
+							
+			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

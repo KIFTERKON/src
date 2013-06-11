@@ -126,7 +126,7 @@ public class Cat_Bancos extends JFrame {
     	
     JToolBar menu = new JToolBar();
 	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
-	JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
+	//JButton btnActualizar = new JButton(new ImageIcon("imagen/Actualizar.png"));
 	
 	JLabel lblTotalBanamex = new JLabel("Total Banamex: "+returnBanamex());
 	JLabel lblTotalBanorte = new JLabel("Total Banorte: "+returnBanorte());
@@ -159,7 +159,7 @@ public class Cat_Bancos extends JFrame {
 		lblTotal.setFont(new Font("",0,14));
 		
 		menu.add(btnGuardar);
-		menu.add(btnActualizar);
+//		menu.add(btnActualizar);
 		menu.setBounds(0,0,150,25);
 		panel.add(menu);
 		cont.add(panel);
@@ -206,7 +206,7 @@ public class Cat_Bancos extends JFrame {
 		tabla.getColumnModel().getColumn(5).setCellRenderer(render);
 		
 		btnGuardar.addActionListener(opGuardar);
-		btnActualizar.addActionListener(opActualizar);
+//		btnActualizar.addActionListener(opActualizar);
 		
 		cmbEstablecimientos.addActionListener(opFiltro);
 		txtFolio.addKeyListener(opFiltroFolio);
@@ -478,7 +478,7 @@ public class Cat_Bancos extends JFrame {
 						Obj_Bancos bancos = new Obj_Bancos();
 						bancos.Delete();
 						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-						
+						new Cat_Mensaje_Pre_Lista().setVisible(true);
 						
 						dispose();
 					}else{

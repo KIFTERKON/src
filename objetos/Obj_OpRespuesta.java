@@ -71,4 +71,13 @@ public class Obj_OpRespuesta {
 				}
 				return null; 
 			}
+			
+		public String[] Combo_Respuesta() {
+			try {
+				return new Cargar_Combo().Respuesta("tb_op_respuesta");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return null; 
+		}
 }

@@ -41,6 +41,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import com.toedter.calendar.JDateChooser;
+
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Configuracion_Sistema;
@@ -54,7 +56,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 
-	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
+	JDateChooser txtCalendario = new JDateChooser();
 	
 	Obj_Auto_Auditoria autoriza_auditoria = new Obj_Auto_Auditoria().buscar();
 	boolean auto_auditoria = autoriza_auditoria.isAutorizar();
@@ -171,6 +173,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	
 	JButton btnGenerarLista = new JButton("Generar Lista Raya");
 	JButton btnImprir = new JButton("Imprimir");
+	JButton btnRevisionTotal = new JButton("Revision Totales");
 	
 	@SuppressWarnings("rawtypes")
 	public Cat_Revision_Lista_Raya() {
@@ -255,8 +258,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				JLabel lbl = new JLabel(value == null? "": value.toString());
 				
 				if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(177,177,177));
 					
 				} 
 				return lbl; 
@@ -307,6 +310,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		campo.add(btnGenerarLista).setBounds(920,27,80,20);
 		campo.add(btnActualizar).setBounds(1180,27,80,20);
 		
+		campo.add(btnRevisionTotal).setBounds(337,0,148,25);
+		
 		lblAuditoria.setEnabled(auto_auditoria);
 		lblFinanzas.setEnabled(auto_finanza);
 		
@@ -335,6 +340,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		btnGenerarLista.addActionListener(opGuardarListaRaya);
 		btnImprir.addActionListener(opImprimirListaRaya);
 		btnActualizar.addActionListener(opActualizar);
+		btnRevisionTotal.addActionListener(opRevisarTotal);
 		
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
@@ -346,6 +352,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		
 	}
+	
+	ActionListener opRevisarTotal = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			new Cat_Nomina().setVisible(true);
+		}
+		
+	};
 	
 	
 	ActionListener opActualizar = new ActionListener(){
@@ -443,6 +456,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		}
 		return valor;
 	}
+	
 	public int getNumeroLista(){
 		int valor = 0;
 		try {

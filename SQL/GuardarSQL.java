@@ -42,6 +42,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
@@ -1734,6 +1735,43 @@ public class GuardarSQL {
 			pstmt.setString(6,nomina.getLista_raya());
 			pstmt.setString(7,nomina.getDiferencia());
 			pstmt.setString(8,nomina.getFecha());
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean TemporadaGuardar(Obj_Temporada temporada){
+		String query = "exec sp_insert_temporada ?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+					
+			pstmt.setString(1, temporada.getDescripcion());
+			pstmt.setString(2, temporada.getFecha_in());
+			pstmt.setString(3, temporada.getFecha_fin());
+			pstmt.setString(4, temporada.getDia());
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

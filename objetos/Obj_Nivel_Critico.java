@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 public class Obj_Nivel_Critico {
@@ -64,6 +65,14 @@ public class Obj_Nivel_Critico {
 			public Obj_Nivel_Critico buscar_nuevo(){
 				try {
 					return new BuscarSQL().Nivel_Nuevo();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return null; 
+			}
+			public String[] Combo_Nivel_Critico() {
+				try {
+					return new Cargar_Combo().Nivel_Critico("tb_nivel_critico");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

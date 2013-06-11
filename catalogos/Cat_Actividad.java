@@ -19,6 +19,13 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 
+import objetos.Obj_Actividad;
+import objetos.Obj_Atributos;
+import objetos.Obj_Establecimiento;
+import objetos.Obj_Nivel_Critico;
+import objetos.Obj_OpRespuesta;
+import objetos.Obj_Temporada;
+
 @SuppressWarnings("serial")
 public class Cat_Actividad extends JFrame {
 	Container cont = getContentPane();
@@ -31,24 +38,24 @@ public class Cat_Actividad extends JFrame {
 	JTextArea txaDescripcion = new JTextArea();
 	JScrollPane scrolltxa = new JScrollPane(txaDescripcion);
 	
-	JTextField txtNumeroActividad = new JTextField();
-	
-	JTextField txtSubNumeroActividad = new JTextField();
-	
 	JTextArea txaActividad = new JTextArea();
 	JScrollPane scrollact = new JScrollPane(txaActividad); 
 	
+	String respuesta[] = new Obj_OpRespuesta().Combo_Respuesta();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbRespuesta = new JComboBox(respuesta);
 	
-	JComboBox cmbRespuesta = new JComboBox();
+	String atributo[] = new Obj_Atributos().Combo_Atributo();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbAtributos = new JComboBox(atributo);
 	
+	String nivel_critico[] = new Obj_Nivel_Critico().Combo_Nivel_Critico();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbNivelCritico = new JComboBox(nivel_critico);
 	
-	JComboBox cmbAtributos = new JComboBox();
-	
-	
-	JComboBox cmbNivelCritico = new JComboBox();
-	
-	
-	JComboBox cmbDias = new JComboBox();
+	String dias[] = {"Seleccione un dia","Todos","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo",};
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbDias = new JComboBox(dias);
 	
 	JSpinner spHoraInicio = new JSpinner(new SpinnerNumberModel(0,0,12,1));
 	JSpinner spMinutosInicio = new JSpinner(new SpinnerNumberModel(0,0,59,1));
@@ -62,7 +69,9 @@ public class Cat_Actividad extends JFrame {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbPasDiaFin = new JComboBox(new String[]{"Selecciona","Am","Pm"});
 	
-	JComboBox cmbTemporada = new JComboBox();
+	String temporada[] = new Obj_Temporada().Combo_Temporada();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbTemporada = new JComboBox(temporada);
 	
 	JCheckBox chbCajaDeTrabajo = new JCheckBox("Asignación de carga de trabajo");
 	
@@ -78,7 +87,7 @@ public class Cat_Actividad extends JFrame {
 		this.setTitle("Actividad");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Actividad"));
 		
-		this.spRepetir.setEnabled(false);
+//		this.spRepetir.sestEnabled(false);
 		
 		int y = 15;
 		this.panel.add(new JLabel("Folio:")).setBounds(15,y,120,20);
@@ -90,13 +99,7 @@ public class Cat_Actividad extends JFrame {
 		this.panel.add(btnNuevo).setBounds(605,y,100,20);
 		this.panel.add(scrolltxa).setBounds(365,y+=25,340,400);
 		
-		this.panel.add(new JLabel("Nº de Actividad:")).setBounds(15,y,80,20);
-		this.panel.add(txtNumeroActividad).setBounds(130,y,225,20);
-		
-		this.panel.add(new JLabel("Sub Nº de Actividad:")).setBounds(15,y+=25,100,20);
-		this.panel.add(txtSubNumeroActividad).setBounds(130,y,225,20);
-		
-		this.panel.add(new JLabel("Actividad:")).setBounds(15,y+=25,100,20);
+		this.panel.add(new JLabel("Actividad:")).setBounds(15,y,100,20);
 		this.panel.add(scrollact).setBounds(130,y,225,150);
 		
 		this.panel.add(new JLabel("Respuesta:")).setBounds(15,y+=155,100,20);
@@ -142,12 +145,19 @@ public class Cat_Actividad extends JFrame {
 		this.cont.add(panel);
 		
 		this.chbCajaDeTrabajo.addActionListener(opRepetir);
+		this.btnNuevo.addActionListener(opNuevo);
 		
 		this.setSize(730,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
 	}
+	
+	ActionListener opNuevo = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0){
+			txtFolio.setText(new Obj_Actividad().Nuevo()+"");
+		}
+	};
 	
 	ActionListener opRepetir = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {

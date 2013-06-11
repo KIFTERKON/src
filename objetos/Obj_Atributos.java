@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 public class Obj_Atributos {
@@ -64,6 +65,15 @@ public class Obj_Atributos {
 			public Obj_Atributos buscar_nuevo(){
 				try {
 					return new BuscarSQL().Atributo_Nuevo();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return null; 
+			}
+			
+			public String[] Combo_Atributo() {
+				try {
+					return new Cargar_Combo().Atributo("tb_atributo");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
