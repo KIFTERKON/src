@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -43,7 +42,6 @@ import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
-import objetos.Obj_Usuario3;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
@@ -989,8 +987,8 @@ public class BuscarSQL {
 		return usuario;
 	}
 	
-	public Obj_Usuario3 BuscarUsuarios(String Nombre_Completo) throws SQLException{
-		Obj_Usuario3 usuario = new Obj_Usuario3();
+	public Obj_Usuario BuscarUsuarios(String Nombre_Completo) throws SQLException{
+		Obj_Usuario usuario = new Obj_Usuario();
 		String query = "select * from tb_usuario where nombre_completo ='"+Nombre_Completo+"'";
 		Statement stmt = null;
 		try {
@@ -2278,6 +2276,27 @@ public class BuscarSQL {
 			e1.printStackTrace();
 		}
 		return resultado; 
+	}
+	
+	public Object[] Permisos(String nombre_completo){
+		String query = "exec sp_select_usuario_permisos_false '"+nombre_completo+"'";
+		String[] permisos = new String[getFilas(query)];
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			int i=0;
+			while(rs.next()){
+				permisos[i] = rs.getString(1);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return permisos;
 	}
 	
 }

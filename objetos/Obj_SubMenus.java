@@ -18,25 +18,9 @@ public class Obj_SubMenus {
 		this.nombre = nombre.toString();
 	}
 	
-	public String[] SubMenuAlimentacion() {
+	public String[] SubMenuCatalogo() {
 		try {
-			return new SubMenusSQL().Alimentacion();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null; 
-	}
-	public String[] SubMenuCatalogos() {
-		try {
-			return new SubMenusSQL().Catalogos();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null; 
-	}
-	public String[] SubMenuListas() {
-		try {
-			return new SubMenusSQL().Listas();
+			return new SubMenusSQL().Catalogo();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -50,33 +34,86 @@ public class Obj_SubMenus {
 		}
 		return null; 
 	}
-	
-	public String[] SubMenuAutorizaciones() {
+	public String[] SubMenuContabilidad_Conciliacion_Auxiliar_Finanzas() {
 		try {
-			return new SubMenusSQL().Autorizaciones();
+			return new SubMenusSQL().Contabilidad_Conciliacion_Auxiliar_Finanzas();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	public String[] SubMenuCuadrantes_Alimentacion() {
+		try {
+			return new SubMenusSQL().Cuadrantes_Alimentacion();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
 	
-	public String[] SubMenuReportes() {
+	public String[] SubMenuCuadrantes_Catalogo() {
 		try {
-			return new SubMenusSQL().Reportes();
+			return new SubMenusSQL().Cuadrantes_Catalogo();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
 	
-	public String[] SubMenuCortes() {
+	public String[] SubMenuCuadrantes_Reportes() {
 		try {
-			return new SubMenusSQL().Cortes();
+			return new SubMenusSQL().Cuadrantes_Reportes();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
+	
+	public String[] SubMenuLista_Raya_Alimentacion () {
+		try {
+			return new SubMenusSQL().Lista_Raya_Alimentacion ();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	public String[] SubMenuLista_Raya_Comparaciones() {
+		try {
+			return new SubMenusSQL().Lista_Raya_Comparaciones();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	public String[] SubMenuLista_Raya_Autorizaciones() {
+		try {
+			return new SubMenusSQL().Lista_Raya_Autorizaciones();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	public String[] SubMenuLista_Raya_Departamento_Cortes() {
+		try {
+			return new SubMenusSQL().Lista_Raya_Departamento_Cortes();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	public String[] SubMenuLista_Raya_Reportes() {
+		try {
+			return new SubMenusSQL().Lista_Raya_Reportes();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
 	
 	public String[][] UsuarioMatriz(){
 		return new BuscarSQL().getUsuarioPermisos();

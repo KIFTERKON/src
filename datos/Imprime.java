@@ -24,6 +24,7 @@ public class Imprime extends JFrame
 	private JButton jButImprime;
 	private JPanel contentPane;
 
+	@SuppressWarnings("resource")
 	public Imprime()
 	{
 

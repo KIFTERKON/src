@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -36,8 +35,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
-
-import frames.WholeNumberField;
 
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
@@ -163,8 +160,6 @@ public class Cat_Percepciones_Extra extends JFrame {
 		panel.add(menu);
 		cont.add(panel);
 		
-		setUpIntegerEditor(tabla);
-	
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -214,19 +209,6 @@ public class Cat_Percepciones_Extra extends JFrame {
 		this.setLocationRelativeTo(null);
 	
 	}
-	
-	 private void setUpIntegerEditor(JTable table) {
-	        final WholeNumberField integerField = new WholeNumberField(0, 5);
-	        integerField.setHorizontalAlignment(WholeNumberField.RIGHT);
-
-	        DefaultCellEditor integerEditor = 
-	            new DefaultCellEditor(integerField) {
-	                public Object getCellEditorValue() {
-	                    return new Integer(integerField.getValue());
-	                }
-	            };
-	        table.setDefaultEditor(Integer.class, integerEditor);
-	    }
 	
 	 public void filtroFolio(){ 
 		filter.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0)); 

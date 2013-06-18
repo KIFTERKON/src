@@ -38,7 +38,6 @@ import objetos.JTextFieldLimit;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
-import objetos.Obj_OpRespuesta;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;

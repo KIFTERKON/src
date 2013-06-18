@@ -553,6 +553,7 @@ public class Cargar_Combo {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public String[] Respuesta(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla + " order by descripcion asc";
 		Statement stmt = null;
@@ -585,6 +586,7 @@ public class Cargar_Combo {
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String[] Atributo(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla + " order by descripcion asc";
 		Statement stmt = null;
@@ -617,6 +619,7 @@ public class Cargar_Combo {
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String[] Nivel_Critico(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla + " order by descripcion asc";
 		Statement stmt = null;
@@ -649,6 +652,7 @@ public class Cargar_Combo {
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String[] Temporada(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla + " order by descripcion asc";
 		Statement stmt = null;

@@ -1,9 +1,6 @@
 package objetos;
 
-import java.io.IOException;
 import java.sql.SQLException;
-
-import datos.Archivos;
 
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;

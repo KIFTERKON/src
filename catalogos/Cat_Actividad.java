@@ -21,7 +21,6 @@ import javax.swing.UIManager;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Atributos;
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Temporada;

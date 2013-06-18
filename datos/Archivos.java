@@ -1,14 +1,10 @@
 package datos;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import objetos.ObjTicket;
-import objetos.Obj_Alimentacion_Cortes;
 
 public class Archivos {
 	public boolean escribirTicket(ObjTicket ex)

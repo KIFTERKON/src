@@ -1,13 +1,13 @@
-package camara;
+package modem;
 
 import java.util.List;
-
 import giovynet.nativelink.SerialPort;
 import giovynet.serial.Baud;
 import giovynet.serial.Com;
 import giovynet.serial.Parameters;
 
 public class Modem {
+	@SuppressWarnings({ "deprecation", "unused" })
 	public static void main(String args[]){
 	
 		try{

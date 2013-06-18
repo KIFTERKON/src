@@ -46,7 +46,6 @@ import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
-import objetos.Obj_Usuario3;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
@@ -661,8 +660,8 @@ public class GuardarSQL {
 	
 	
 	@SuppressWarnings("rawtypes")
-	public boolean Guardar_Usuario(Obj_Usuario3 usuario,Vector permisos){
-		String query = "exec sp_insert_permiso ?,?,?,?";
+	public boolean Guardar_Usuario(Obj_Usuario usuario,Vector permisos){
+		String query = "exec sp_insert_permiso ?,?,?,?,?";
 		String insert_usuario = "exec sp_insert_usuario3 ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -685,6 +684,7 @@ public class GuardarSQL {
 				String[] arreglo = permisos.get(i).toString().split("/");
 				pstmt.setString(3, arreglo[0]);
 				pstmt.setString(4, arreglo[1]);
+				pstmt.setInt(5, getMenuId(arreglo[0].toString().trim()));
 				pstmt.execute();
 			}
 			
@@ -713,6 +713,21 @@ public class GuardarSQL {
 		return true;
 	}
 	
+	public int getMenuId(String Nombre){
+		int filas=0;
+		try {
+			String query = "select menu_id from tb_submenus where nombre ='"+Nombre+"'";
+			Statement s = new Connexion().conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			while(rs.next()){
+				filas = rs.getInt(1);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return filas;
+	}
 	public boolean Guardar_fuente_sodas_rh(Obj_fuente_sodas_rh fuentesodasrh){
 		String query = "exec sp_insert_fuent_soda_rh ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
@@ -1138,6 +1153,8 @@ public class GuardarSQL {
 				bufferedWriter.write(config.getContrasena()+       		"\n");
 				
 			}else{
+				File folder = new File(System.getProperty("user.dir")+"\\Config");
+				folder.mkdirs();
 				archivo.createNewFile();
 				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
 				

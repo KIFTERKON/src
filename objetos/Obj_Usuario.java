@@ -1,6 +1,7 @@
 package objetos;
 
 import java.sql.SQLException;
+import java.util.Vector;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
@@ -13,10 +14,11 @@ public class Obj_Usuario {
 	private int permiso_id;
 	private String fecha_alta;
 	private String fecha_actua;
+	private String sesion;
 	private int status;
 		
 	public Obj_Usuario(){
-		this.folio=0; nombre_completo=""; contrasena=""; permiso_id=0; status=0; fecha_alta=""; fecha_actua="";
+		this.folio=0; nombre_completo=""; contrasena=""; permiso_id=0; status=0; fecha_alta=""; fecha_actua=""; sesion="";
 	}
 
 
@@ -89,22 +91,27 @@ public class Obj_Usuario {
 		this.status = status;
 	}
 	
+	public String getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(String sesion) {
+		this.sesion = sesion;
+	}
+	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Usuario(this); }
 	
 	public Obj_Usuario buscar(int folio){ 
 		try {
 			return new BuscarSQL().Usuario(folio);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null; 
 	}
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().Usuario(this,folio); }
-	
-	//public ObjEmpleado buscar(int Id){ return new BusquedaSQL().buscarEmpleado(Id); }
-	
+		
 	public Obj_Usuario buscarMaximo() {
 		try {
 			return new BuscarSQL().Maximo();
@@ -114,9 +121,44 @@ public class Obj_Usuario {
 		return null;
 	}
 	
-	// METODO BORRAR EMPLEADO
-	//public boolean borrar(int Id){ return new ActualizarSQL().eliminarEmpleado(Id);	}
+	@SuppressWarnings("rawtypes")
+	public boolean guardarPermisos(Vector Permisos){ 
+		return new GuardarSQL().Guardar_Usuario(this, Permisos);
+	}
 	
 	
+	public boolean ExisteUsuario(String Nombre_Completo){ 
+		try {
+			return new BuscarSQL().existeUsuario(Nombre_Completo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public boolean actualizar(String Nombre_Completo, Vector Permisos) {
+		return new ActualizarSQL().PermisoUsuario(Nombre_Completo, Permisos); 
+	}
 	
+	
+	public Obj_Usuario BuscarUsuario(String Nombre_Completo){
+		try {
+			return new BuscarSQL().BuscarUsuarios(Nombre_Completo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Vector returnPermisos(String Nombre_Completo, int menu){
+		try {
+			return new BuscarSQL().returnPermiso(Nombre_Completo,menu);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+
 }
