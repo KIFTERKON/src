@@ -15,7 +15,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import objetos.Obj_Usuario;
-
 import catalogos.Cat_Bancos;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Deduccion_Inasistencia;

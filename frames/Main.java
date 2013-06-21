@@ -22,8 +22,8 @@ import objetos.Obj_Usuario;
 ***	                     						   ***
 ***	                Colaboradores    			   ***       
 ***												   ***
-***		   + Jimenez Molina Edgar Eduardo    	   ***
-***		   + Rodriguez Sanchez Jose Mario          ***
+***	offline+ Jimenez Molina Edgar Eduardo    	   ***
+***	online + Rodriguez Sanchez Jose Mario          ***
 ***												   ***
 *****************************************************/
 
@@ -68,19 +68,22 @@ public class Main extends InitButton {
 			for(int i=0; i<permisos.length; i++){
 				
 				/* CATALOGO */
-				if(permisos[i].equals("Nuevo Empleado"))
+				if(permisos[i].equals("Nuevo Empleado")){
 					Catalogo_Empleado.setEnabled(true);
 					btnAltaEmp.setEnabled(true);
+				}
 				if(permisos[i].equals("Nuevo Establecimiento"))
 					Catalogo_Establecimiento.setEnabled(true);
-				if(permisos[i].equals("Nuevo Puesto"))
+				if(permisos[i].equals("Nuevo Puesto")){
 					Catalogo_Puesto.setEnabled(true);
 					btnPuesto.setEnabled(true);
+				}
 				if(permisos[i].equals("Nuevo Rango de Prestamo"))
 					Catalogo_Rango_Prestamo.setEnabled(true);
-				if(permisos[i].equals("Nuevo Sueldo"))
+				if(permisos[i].equals("Nuevo Sueldo")){
 					Catalogo_Sueldo.setEnabled(true);
 					btnSueldo.setEnabled(true);
+				}
 				if(permisos[i].equals("Nuevo Tipos de Bancos"))
 					Catalogo_Tipo_Banco.setEnabled(true);
 				if(permisos[i].equals("Nuevo Turno"))
@@ -147,29 +150,36 @@ public class Main extends InitButton {
 								
 				/* LISTA DE RAYA 
 				*		ALIMENTACION */
-				if(permisos[i].equals("Alimentación Bancos"))
+				if(permisos[i].equals("Alimentación Bancos")){
 					Alimentacion_Bancos.setEnabled(true);
 					btnBanco.setEnabled(true);
+				}
 				if(permisos[i].equals("Alimentación de Totales de Nómina"))
 					Alimentacion_Captura_Totales_Nomina.setEnabled(true);
-				if(permisos[i].equals("Alimentación Deducción por Inasistencia"))
+				if(permisos[i].equals("Alimentación Deducción por Inasistencia")){
 					Alimentacion_Deducciones_Asistencia.setEnabled(true);
 					btnInasistencia.setEnabled(true);
-				if(permisos[i].equals("Alimentación Diferencia de Cortes"))
+				}
+				if(permisos[i].equals("Alimentación Diferencia de Cortes")){
 					Alimentacion_Diferencia_Cortes.setEnabled(true);
 					btnCaja.setEnabled(true);
-				if(permisos[i].equals("Alimentación Fuente de Sodas AUXF"))
+				}
+				if(permisos[i].equals("Alimentación Fuente de Sodas AUXF")){
 					Alimentacion_Fuente_Sodas_auxf.setEnabled(true);
 					btnFsAux.setEnabled(true);
-				if(permisos[i].equals("Alimentación Fuente de Sodas DH"))
+				}
+				if(permisos[i].equals("Alimentación Fuente de Sodas DH")){
 					Alimentacion_Fuente_Sodas_rh.setEnabled(true);
 					btnFsRH.setEnabled(true);
-				if(permisos[i].equals("Alimentación Percepciones Extras"))
+				}
+				if(permisos[i].equals("Alimentación Percepciones Extras")){
 					Alimentacion_Percepciones_Extra.setEnabled(true);
 					btnPExtras.setEnabled(true);
-				if(permisos[i].equals("Alimentación Prestamos"))
+				}
+				if(permisos[i].equals("Alimentación Prestamos")){
 					Alimentacion_Prestamos.setEnabled(true);
 					btnPrestamo.setEnabled(true);
+				}
 				/* LISTA DE RAYA 	
 				*		AUTORIZACIONES */
 				if(permisos[i].equals("Autorizacion Auditoria"))
@@ -178,18 +188,24 @@ public class Main extends InitButton {
 					Autorizacion_Finanzas.setEnabled(true);
 				/* LISTA DE RAYA 	
 				*		COMPARACIONES */
-				if(permisos[i].equals("Lista de Comparación FS."))
+				if(permisos[i].equals("Lista de Comparación FS.")){
 					Comparaciones_Listas_Fuente_Sodas.setEnabled(true);
 					btnListaComparacion.setEnabled(true);
-				if(permisos[i].equals("Lista de Raya"))
+				}
+				if(permisos[i].equals("Lista de Raya")){
 					Comparaciones_Listas_Raya.setEnabled(true);
 					btnListaRaya.setEnabled(true);
+				}
 				/* LISTA DE RAYA 
 				*		DEPARTAMENTO DE CORTES */
 				if(permisos[i].equals("Alimentación de Cortes"))
 					Departamento_Cortes_Alimentacion.setEnabled(true);
 				/* LISTA DE RAYA 
 				*		REPORTES */
+				if(permisos[i].equals("Reporte Deducciones Por Inasistencia"))
+					Reporte_Deducciones_Inasistencia.setEnabled(true);
+				if(permisos[i].equals("Reporte Depositos A Bancos"))
+					Reporte_Bancos.setEnabled(true);
 				if(permisos[i].equals("Reporte Fuente Sodas"))
 					Reporte_Fuente_Sodas.setEnabled(true);
 				if(permisos[i].equals("Reporte Lista de Firmas"))
@@ -197,6 +213,8 @@ public class Main extends InitButton {
 					btnListaFirma.setEnabled(true);
 				if(permisos[i].equals("Reporte Plantilla Activa"))
 					Reporte_Plantilla_Activa.setEnabled(true);
+				if(permisos[i].equals("Reporte Prestamos"))
+					Reporte_Prestamos.setEnabled(true);
 				
 			}
 			
