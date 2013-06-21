@@ -25,4 +25,8 @@ public class Obj_MD5 {
 		}
 	}
 	
+	public static void main(String args[]){
+		System.out.println(cryptMD5("3111","izagar"));
+	}
+	
 }

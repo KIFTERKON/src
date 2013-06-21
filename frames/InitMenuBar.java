@@ -132,9 +132,12 @@ public class InitMenuBar extends Init{
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
 		/* REPORTES */
 		JMenu Reportes = new JMenu("Reportes");
-			JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas");
+	     	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia");
+	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos");
+	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas");
 			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas");
 			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa");
+			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos");
 	
 	/* AYUDA */
 	JMenu Ayuda = new JMenu("Ayuda");
@@ -319,6 +322,12 @@ public class InitMenuBar extends Init{
 		/* LISTA DE RAYA 
 		* 		REPORTES */
 		Lista_Raya.add(Reportes);
+		    Reportes.add(Reporte_Deducciones_Inasistencia);
+		    	Reporte_Deducciones_Inasistencia.addActionListener(Opciones);
+		    	Reporte_Deducciones_Inasistencia.setEnabled(false);
+		    Reportes.add(Reporte_Bancos);
+		    	Reporte_Bancos.addActionListener(Opciones);
+		    	Reporte_Bancos.setEnabled(false);
 			Reportes.add(Reporte_Fuente_Sodas);
 				Reporte_Fuente_Sodas.addActionListener(Opciones);
 				Reporte_Fuente_Sodas.setEnabled(false);
@@ -328,7 +337,9 @@ public class InitMenuBar extends Init{
 			Reportes.add(Reporte_Plantilla_Activa);
 				Reporte_Plantilla_Activa.addActionListener(Opciones);
 				Reporte_Plantilla_Activa.setEnabled(false);
-		
+			Reportes.add(Reporte_Prestamos);
+				Reporte_Prestamos.addActionListener(Opciones);
+				Reporte_Prestamos.setEnabled(false);		
 		/* AYUDA */
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 			Ayuda.add(Ayuda_Acerca_de);
@@ -462,12 +473,18 @@ public class InitMenuBar extends Init{
 				new Cat_Filtro_Cortes().setVisible(true);
 			/* LISTA DE RAYA 
 			 * 		REPORTES */
+			if(e.getActionCommand().equals("Reporte Depositos A Bancos"))
+				new reporte.Reporte_Bancos();			
+			if(e.getActionCommand().equals("Reporte Deducciones Por Inasistencia"))
+				new reporte.Reporte_Deducciones_Inasistencia();
 			if(e.getActionCommand().equals("Reporte Fuente Sodas"))
 				new Reporte_Fuente_de_Sodas_Desarrollo_Humano();
 			if(e.getActionCommand().equals("Reporte Lista de Firmas"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Plantilla Activa"))
 				System.out.println("Pendiente");
+			if(e.getActionCommand().equals("Reporte Prestamos"))
+				new reporte.Reporte_Prestamos();	
 
 			
 		}
