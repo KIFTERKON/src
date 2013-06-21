@@ -197,6 +197,7 @@ public class Main extends InitButton {
 					btnListaFirma.setEnabled(true);
 				if(permisos[i].equals("Reporte Plantilla Activa"))
 					Reporte_Plantilla_Activa.setEnabled(true);
+//					btnListaPrestamo.setEnabled(true);
 				
 			}
 			
