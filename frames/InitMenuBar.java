@@ -34,6 +34,7 @@ import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Jefatura;
+import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Nivel_Critico;
 import catalogos.Cat_OpRespuesta;
 import catalogos.Cat_Percepciones_Extra;
@@ -480,7 +481,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Reporte Fuente Sodas"))
 				new Reporte_Fuente_de_Sodas_Desarrollo_Humano();
 			if(e.getActionCommand().equals("Reporte Lista de Firmas"))
-				System.out.println("Pendiente");
+				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Reporte Plantilla Activa"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Prestamos"))
