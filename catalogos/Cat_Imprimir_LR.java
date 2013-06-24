@@ -97,7 +97,6 @@ public class Cat_Imprimir_LR extends JFrame {
 	}
  
 	private JScrollPane getPanelTabla()	{	
-//		Connection conn = new Connexion().conexion();
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -165,7 +164,6 @@ public class Cat_Imprimir_LR extends JFrame {
 		tabla.getColumnModel().getColumn(a).setMaxWidth((b*4)-12);
 		tabla.getColumnModel().getColumn(a).setMinWidth((b*4)-12);
 		
-//		TAMAÑO DE FILA DEL JTABLE
 		tabla.setRowHeight(8);
 		
 		TableCellRenderer render = new TableCellRenderer() 
@@ -183,25 +181,25 @@ public class Cat_Imprimir_LR extends JFrame {
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(4).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(5).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(6).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(7).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(8).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(9).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(10).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(11).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(12).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(13).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(14).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(15).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(16).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(17).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(18).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(4).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(5).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(6).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(7).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(8).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(9).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(10).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(11).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(12).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(13).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(14).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(15).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(16).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(17).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(18).setCellRenderer(render);
 						
 						String datos = "select * from tb_imprimir_lista_raya "+
 											" order by Establecimiento asc";
@@ -283,12 +281,7 @@ public class Cat_Imprimir_LR extends JFrame {
 					totalDeTotales = totalDeTotales+=pagar;
 					
 					int filasTotales= filass+((contadorGeneral*3)-2);
-					
-					System.out.println("filas. "+filass);
-					System.out.println("ContG. "+contadorGeneral);
-					System.out.println("filasT. "+filasTotales);
-					System.out.println("Tabla. "+(tabla.getRowCount()+1));
-					
+										
 					if(filasTotales==tabla.getRowCount()+1){
 						model.addRow(fila);
 
@@ -592,12 +585,10 @@ public class Cat_Imprimir_LR extends JFrame {
 		
 			MessageFormat encabezado = new MessageFormat("Lista de Raya pag.[{0,number,integer}] del "+getFechaInicial()+" al "+getFechaFinal());
 			try {
-//			tabla.print(JTable.PrintMode.FIT_WIDTH, encabezado, null);
 			tabla.print(JTable.PrintMode.NORMAL, encabezado, null);
 			
 			} catch (java.awt.print.PrinterException e1) {
 				JOptionPane.showMessageDialog(null, "No se encontro la impresora!","Aviso",JOptionPane.WARNING_MESSAGE);
-//				System.err.format("No se puede imprimir %s%n", e1.getMessage());
 			}
 		}
 		public void mouseReleased(MouseEvent e) {}		
@@ -662,7 +653,6 @@ public class Cat_Imprimir_LR extends JFrame {
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
 			
-		    // VERIFICAR SI LA TECLA PULSADA NO ES UN DIGITO
 		    if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){

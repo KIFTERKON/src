@@ -1270,7 +1270,7 @@ public class GuardarSQL {
 		 *  tb_lista_raya
  		 * **/
 		String sp_insert_lista_raya25 =
-				"exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+				"exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		
 		/** EL PROCEDIMIENTO sp_insert_abono INSERTA EL ABONO INDICADO DE PRESTAMOS**/
 		String sp_insert_abono4 = "exec sp_insert_abono ?,?,?,?";
@@ -1354,18 +1354,19 @@ public class GuardarSQL {
 			sp_insert_lista_raya25pstmt.setFloat(11, raya.getD_puntualidad());
 			sp_insert_lista_raya25pstmt.setFloat(12, raya.getD_faltas());
 			sp_insert_lista_raya25pstmt.setFloat(13, raya.getD_asistencia());
-			sp_insert_lista_raya25pstmt.setFloat(14, raya.getD_cortes());
-			sp_insert_lista_raya25pstmt.setFloat(15, raya.getD_infonavit());
-			sp_insert_lista_raya25pstmt.setFloat(16, raya.getPension());
-			sp_insert_lista_raya25pstmt.setFloat(17, raya.getD_banamex());
-			sp_insert_lista_raya25pstmt.setFloat(18, raya.getD_banorte());
-			sp_insert_lista_raya25pstmt.setFloat(19, raya.getD_extra());
-			sp_insert_lista_raya25pstmt.setFloat(20, raya.getP_dias_extra());
-			sp_insert_lista_raya25pstmt.setFloat(21, raya.getP_bono_extra());
-			sp_insert_lista_raya25pstmt.setFloat(22, raya.getA_pagar());
-			sp_insert_lista_raya25pstmt.setString(23, raya.getObservasion_i());
-			sp_insert_lista_raya25pstmt.setString(24, raya.getFecha());
-			sp_insert_lista_raya25pstmt.setInt(25, 1);
+			sp_insert_lista_raya25pstmt.setFloat(14, raya.getD_gafete());
+			sp_insert_lista_raya25pstmt.setFloat(15, raya.getD_cortes());
+			sp_insert_lista_raya25pstmt.setFloat(16, raya.getD_infonavit());
+			sp_insert_lista_raya25pstmt.setFloat(17, raya.getPension());
+			sp_insert_lista_raya25pstmt.setFloat(18, raya.getD_banamex());
+			sp_insert_lista_raya25pstmt.setFloat(19, raya.getD_banorte());
+			sp_insert_lista_raya25pstmt.setFloat(20, raya.getD_extra());
+			sp_insert_lista_raya25pstmt.setFloat(21, raya.getP_dias_extra());
+			sp_insert_lista_raya25pstmt.setFloat(22, raya.getP_bono_extra());
+			sp_insert_lista_raya25pstmt.setFloat(23, raya.getA_pagar());
+			sp_insert_lista_raya25pstmt.setString(24, raya.getObservasion_i());
+			sp_insert_lista_raya25pstmt.setString(25, raya.getFecha());
+			sp_insert_lista_raya25pstmt.setInt(26, 1);
 			
 			if(saldo_pres_inicial > 0){
 				int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
@@ -1512,12 +1513,12 @@ public class GuardarSQL {
 		
 		String query ="insert into tb_imprimir_lista_raya(numero_lista,folio_empleado,nombre_completo,establecimiento,sueldo,"+
 						 "p_bono_comptario,saldo_prest_inic,d_prestamo,saldo_prest_fina,d_fte_sodas,"+
-						 "d_puntualidad,d_falta,d_asistencia,d_corte,d_infonavit,pension,"+
+						 "d_puntualidad,d_falta,d_asistencia,d_gafete,d_corte,d_infonavit,pension,"+
 						 "d_banamex,d_banorte,d_extra,p_dias_extra,p_bono_extra,"+
 						 "a_pagar,observaciones,status) " +
 						 "values(?,?,?,?,?," +
 						 "?,?,?,?,?," +
-						 "?,?,?,?,?," +
+						 "?,?,?,?,?,?," +
 						 "?,?,?,?,?," +
 						 "?,?,?,?);";
 
@@ -1546,17 +1547,18 @@ public class GuardarSQL {
 			pstmt.setFloat(11, raya.getD_puntualidad());
 			pstmt.setFloat(12, raya.getD_faltas());
 			pstmt.setFloat(13, raya.getD_asistencia());
-			pstmt.setFloat(14, raya.getD_cortes());
-			pstmt.setFloat(15, raya.getD_infonavit());
-			pstmt.setFloat(16, raya.getPension());
-			pstmt.setFloat(17, raya.getD_banamex());
-			pstmt.setFloat(18, raya.getD_banorte());
-			pstmt.setFloat(19, raya.getD_extra());
-			pstmt.setFloat(20, raya.getP_dias_extra());
-			pstmt.setFloat(21, raya.getP_bono_extra());
-			pstmt.setFloat(22, raya.getA_pagar());
-			pstmt.setString(23, raya.getObservasion_i());
-			pstmt.setInt(24, 1);
+			pstmt.setFloat(14,raya.getD_gafete());
+			pstmt.setFloat(15, raya.getD_cortes());
+			pstmt.setFloat(16, raya.getD_infonavit());
+			pstmt.setFloat(17, raya.getPension());
+			pstmt.setFloat(18, raya.getD_banamex());
+			pstmt.setFloat(19, raya.getD_banorte());
+			pstmt.setFloat(20, raya.getD_extra());
+			pstmt.setFloat(21, raya.getP_dias_extra());
+			pstmt.setFloat(22, raya.getP_bono_extra());
+			pstmt.setFloat(23, raya.getA_pagar());
+			pstmt.setString(24, raya.getObservasion_i());
+			pstmt.setInt(25, 1);
 			
 			pstmt.execute();
 			

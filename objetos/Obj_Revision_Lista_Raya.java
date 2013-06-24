@@ -23,6 +23,7 @@ public class Obj_Revision_Lista_Raya {
 	private float d_puntualidad;
 	private float d_faltas;
 	private float d_asistencia;
+	private float d_gafete;
 	private float d_cortes;
 	private float d_infonavit;
 	private float pension;
@@ -41,7 +42,7 @@ public class Obj_Revision_Lista_Raya {
 	public Obj_Revision_Lista_Raya(){
 		this.folio=0; numero_lista=0; checado=false; folio_empleado=0; nombre_completo=""; establecimiento=""; sueldo=0;
 		this.p_bono_complementario=0; saldo_prestamo_inicial=0; d_prestamo=0; saldo_final=0; d_fuente_sodas=0; d_puntualidad=0;
-		this.d_faltas=0; d_asistencia=0; d_cortes=0; d_infonavit=0; pension=0; d_banamex=0; d_banorte=0; d_extra = 0; p_dias_extra=0;
+		this.d_faltas=0; d_asistencia=0; d_gafete=0; d_cortes=0; d_infonavit=0; pension=0; d_banamex=0; d_banorte=0; d_extra = 0; p_dias_extra=0;
 		this.p_bono_extra=0; a_pagar=0; observasion_i=""; observasion_ii=""; fecha=""; status=0; fecha_final="";
 	}
 
@@ -165,6 +166,14 @@ public class Obj_Revision_Lista_Raya {
 		d_asistencia = dAsistencia;
 	}
 
+	public float getD_gafete() {
+		return d_gafete;
+	}
+
+	public void setD_gafete(float dGafete) {
+		d_gafete = dGafete;
+	}
+	
 	public float getD_cortes() {
 		return d_cortes;
 	}

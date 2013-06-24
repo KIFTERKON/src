@@ -7,6 +7,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.ResultSet;
@@ -76,9 +78,9 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	DefaultTableModel model = new DefaultTableModel(Tabla,
 		new String[]{"","Folio", "Nombre Completo", "Establecimiento", "Sueldo",
 		"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
-		"D Puntualidad", "D Faltas", "D Asistencia", "D Cortes", "D Infonavit", "Pension" ,
-		"D Banamex", "D Banorte", "D Extra", "P Día Extras", "P Bono Extra",
-		"A Pagar", "Observasiones I", "Observasiones II" }){
+		"D Puntualidad", "D Faltas", "D Asistencia", "D Gafere", "D Cortes", 
+		"D Infonavit", "Pension", "D Banamex", "D Banorte", "D Extra", 
+		"P Día Extras", "P Bono Extra", "A Pagar", "Observasiones I", "Observasiones II" }){
 		
 		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -106,6 +108,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	    	java.lang.Float.class,  
 	    	java.lang.Float.class,
 	    	
+	    	java.lang.Float.class,
 	    	java.lang.Float.class,  
 	    	java.lang.Float.class,  
 	    	java.lang.String.class,
@@ -341,7 +344,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		btnImprir.addActionListener(opImprimirListaRaya);
 		btnActualizar.addActionListener(opActualizar);
 		btnRevisionTotal.addActionListener(opRevisarTotal);
-		
+		tabla.addFocusListener(OpFocus);
+	
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
 		cmbEstablecimientos.addActionListener(opFiltro);
@@ -353,6 +357,15 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		
 	}
 	
+	FocusListener OpFocus = new FocusListener(){
+		public void focusGained(FocusEvent arg0) {
+			btnImprir.setEnabled(false);
+			btnRevisionTotal.setEnabled(false);
+		}
+		
+		public void focusLost(FocusEvent arg0) {}
+		
+	};
 	ActionListener opRevisarTotal = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			new Cat_Nomina().setVisible(true);
@@ -536,48 +549,53 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
 			}
 			if(miVector.get(13).toString().length() == 0){
-				lista_raya.setD_cortes(Float.parseFloat(0+""));
+				lista_raya.setD_gafete(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
+				lista_raya.setD_gafete(Float.parseFloat(miVector.get(13)+"".trim()));
 			}
 			if(miVector.get(14).toString().length() == 0){
-				lista_raya.setD_infonavit(Float.parseFloat(0+""));
+				lista_raya.setD_cortes(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+				lista_raya.setD_cortes(Float.parseFloat(miVector.get(14)+"".trim()));
 			}
 			if(miVector.get(15).toString().length() == 0){
-				lista_raya.setPension(Float.parseFloat(0+""));
+				lista_raya.setD_infonavit(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
+				lista_raya.setD_infonavit(Float.parseFloat(miVector.get(15)+"".trim()));
 			}
 			if(miVector.get(16).toString().length() == 0){
-				lista_raya.setD_banamex(Float.parseFloat(0+""));
+				lista_raya.setPension(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
+				lista_raya.setPension(Float.parseFloat(miVector.get(16)+"".trim()));
 			}
 			if(miVector.get(17).toString().length() == 0){
-				lista_raya.setD_banorte(Float.parseFloat(0+""));
+				lista_raya.setD_banamex(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
+				lista_raya.setD_banamex(Float.parseFloat(miVector.get(17)+"".trim()));
 			}
 			if(miVector.get(18).toString().length() == 0){
-				lista_raya.setD_extra(Float.parseFloat(0+""));
+				lista_raya.setD_banorte(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+				lista_raya.setD_banorte(Float.parseFloat(miVector.get(18)+"".trim()));
 			}
 			if(miVector.get(19).toString().length() == 0){
-				lista_raya.setP_dias_extra(Float.parseFloat(0+""));
+				lista_raya.setD_extra(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+				lista_raya.setD_extra(Float.parseFloat(miVector.get(19)+"".trim()));
 			}
 			if(miVector.get(20).toString().length() == 0){
+				lista_raya.setP_dias_extra(Float.parseFloat(0+""));
+			}else{
+				lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+			}
+			if(miVector.get(21).toString().length() == 0){
 				lista_raya.setP_bono_extra(Float.parseFloat(0+""));
 			}else{
-				lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+				lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(21)+"".trim()));
 			}
 
-			lista_raya.setA_pagar(Float.parseFloat(miVector.get(21)+"".trim()));
-			lista_raya.setObservasion_i(miVector.get(22)+"".trim());
+			lista_raya.setA_pagar(Float.parseFloat(miVector.get(22)+"".trim()));
+			lista_raya.setObservasion_i(miVector.get(23)+"".trim());
 			lista_raya.setFecha(dia+"/"+mes+"/"+anio);
 			
 			lista_raya.imprimir_lista();
@@ -631,7 +649,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		try {			
 			s = con.conexion().createStatement();
 			rs = s.executeQuery(datos);
-			Matriz = new Object[getFilas(datos)][24];
+			Matriz = new Object[getFilas(datos)][25];
 			int i=0;
 			while(rs.next()){
 				DecimalFormat formato = new DecimalFormat("#0.0");
@@ -639,17 +657,19 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				float salPresIni = rs.getFloat(6); float descPrest = rs.getFloat(7);  
 				float salPresFin = rs.getFloat(8); float descFuent = rs.getFloat(9);
 				float descPuntu = rs.getFloat(10); float descFalta = rs.getFloat(11);
-				float descAsist = rs.getFloat(12); float descCorte = rs.getFloat(13);
-				float descInfon = rs.getFloat(14); float descPensi = rs.getFloat(15);
-				float descBanam	= rs.getFloat(16); float descBanor = rs.getFloat(17);
-				float percExtra = rs.getFloat(18); float percDiasE = rs.getFloat(19);
-				float percBonoE = rs.getFloat(20);
+				float descAsist = rs.getFloat(12); float descGafet = rs.getFloat(13);
+				float descCorte = rs.getFloat(14); float descInfon = rs.getFloat(15); 
+				float descPensi = rs.getFloat(16);
+				float descBanam	= rs.getFloat(17); float descBanor = rs.getFloat(18);
+				float percExtra = rs.getFloat(19); float percDiasE = rs.getFloat(20);
+				float percBonoE = rs.getFloat(21);
 				
-				Matriz[i][0] = rs.getBoolean(23);
+				Matriz[i][0] = rs.getBoolean(24);
 				Matriz[i][1] = rs.getInt(1);
 				Matriz[i][2] = "  "+rs.getString(2).trim();
 				Matriz[i][3] = "  "+rs.getString(3).trim();
 				Matriz[i][4] = sueldo;
+				
 				if(bono_comp == 0.0){
 					Matriz[i][5] ="";
 				}else{
@@ -693,55 +713,56 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 				}else{
 					Matriz[i][12] = descAsist;
 				}
-				if(descCorte == 0.0){
+				if(descGafet == 0.0){
 					Matriz[i][13] ="";
 				}else{
-					Matriz[i][13] = descCorte;
-				}
-				if(descInfon == 0.0){
-					Matriz[i][14] ="";
-				}else{
-					Matriz[i][14] = descInfon;
-				}
-				if(descPensi == 0.0){
-					Matriz[i][15] ="";
-				}else{
-					Matriz[i][15] = descPensi;
-				}
-				if(descBanam == 0.0){
-					Matriz[i][16] ="";
-				}else{
-					Matriz[i][16] = descBanam;
-				}
-				if(descBanor == 0.0){
-					Matriz[i][17] ="";
-				}else{
-					Matriz[i][17] = descBanor;
-				}
-				if(percExtra == 0.0){
-					Matriz[i][18] ="";
-				}else{
-					Matriz[i][18] = percExtra;
-				}
-				if(percDiasE == 0.0){
-					Matriz[i][19] ="";
-				}else{
-					Matriz[i][19] = percDiasE;
-				}
-				if(percBonoE == 0.0){
-					Matriz[i][20] ="";
-				}else{
-					Matriz[i][20] = percBonoE;
+					Matriz[i][13] = descGafet;
 				}
 				
-				System.out.print( Decimal(Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
-						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE))));
-				System.out.println("   --   " + Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
+				if(descCorte == 0.0){
+					Matriz[i][14] ="";
+				}else{
+					Matriz[i][14] = descCorte;
+				}
+				if(descInfon == 0.0){
+					Matriz[i][15] ="";
+				}else{
+					Matriz[i][15] = descInfon;
+				}
+				if(descPensi == 0.0){
+					Matriz[i][16] ="";
+				}else{
+					Matriz[i][16] = descPensi;
+				}
+				if(descBanam == 0.0){
+					Matriz[i][17] ="";
+				}else{
+					Matriz[i][17] = descBanam;
+				}
+				if(descBanor == 0.0){
+					Matriz[i][18] ="";
+				}else{
+					Matriz[i][18] = descBanor;
+				}
+				if(percExtra == 0.0){
+					Matriz[i][19] ="";
+				}else{
+					Matriz[i][19] = percExtra;
+				}
+				if(percDiasE == 0.0){
+					Matriz[i][20] ="";
+				}else{
+					Matriz[i][20] = percDiasE;
+				}
+				if(percBonoE == 0.0){
+					Matriz[i][21] ="";
+				}else{
+					Matriz[i][21] = percBonoE;
+				}
+				Matriz[i][22] = Decimal(Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descGafet-descCorte-
 						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE)));
-				Matriz[i][21] = Decimal(Float.parseFloat(formato.format(sueldo+bono_comp-descPrest-descFuent-descPuntu-descFalta-descAsist-descCorte-
-						        descInfon-descPensi-descBanam-descBanor+ percExtra+percDiasE+percBonoE)));
-				Matriz[i][22] = rs.getString(21);
 				Matriz[i][23] = rs.getString(22);
+				Matriz[i][24] = rs.getString(23);
 				i++;
 			}
 		} catch (SQLException e1) {
@@ -842,14 +863,14 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							
 							lis_raya.setEstablecimiento(miVector.get(3).toString().trim());
 							
-							lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
-							if(miVector.get(22)!= null){
-								lis_raya.setObservasion_i(miVector.get(22)+"");
+							lis_raya.setA_pagar(Float.parseFloat(miVector.get(22)+""));
+							if(miVector.get(23)!= null){
+								lis_raya.setObservasion_i(miVector.get(23)+"");
 							}else{
 								lis_raya.setObservasion_i("");
 							}
-							if(miVector.get(23) != null){
-								lis_raya.setObservasion_ii(miVector.get(23)+"");
+							if(miVector.get(24) != null){
+								lis_raya.setObservasion_ii(miVector.get(24)+"");
 							}else{
 								lis_raya.setObservasion_ii("");
 							}
@@ -873,6 +894,10 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 							}
 						}
 						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+						
+						btnImprir.setEnabled(true);
+						btnRevisionTotal.setEnabled(true);
+						
 						dispose();
 					}else{
 						dispose();
@@ -901,15 +926,15 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 						
 						lis_raya.setEstablecimiento(miVector.get(3).toString().trim());
 						
-						lis_raya.setA_pagar(Float.parseFloat(miVector.get(21)+""));
+						lis_raya.setA_pagar(Float.parseFloat(miVector.get(22)+""));
 						
-						if(miVector.get(22)!= null){
-							lis_raya.setObservasion_i(miVector.get(22)+"");
+						if(miVector.get(23)!= null){
+							lis_raya.setObservasion_i(miVector.get(23)+"");
 						}else{
 							lis_raya.setObservasion_i("");
 						}
-						if(miVector.get(23) != null){
-							lis_raya.setObservasion_ii(miVector.get(23)+"");
+						if(miVector.get(24) != null){
+							lis_raya.setObservasion_ii(miVector.get(24)+"");
 						}else{
 							lis_raya.setObservasion_ii("");
 						}
@@ -929,6 +954,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 						}
 					}
 					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
+					btnImprir.setEnabled(true);
+					btnRevisionTotal.setEnabled(true);
 					dispose();
 				}
 				
@@ -1021,48 +1048,59 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					}else{
 						lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
 					}
+					
+					
+					
 					if(miVector.get(13).toString().length() == 0){
+						lista_raya.setD_gafete(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setD_gafete(Float.parseFloat(miVector.get(13)+"".trim()));
+					}
+					
+					
+					
+					if(miVector.get(14).toString().length() == 0){
 						lista_raya.setD_cortes(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setD_cortes(Float.parseFloat(miVector.get(13)+"".trim()));
-					}
-					if(miVector.get(14).toString().length() == 0){
-						lista_raya.setD_infonavit(Float.parseFloat(0+""));
-					}else{
-						lista_raya.setD_infonavit(Float.parseFloat(miVector.get(14)+"".trim()));
+						lista_raya.setD_cortes(Float.parseFloat(miVector.get(14)+"".trim()));
 					}
 					if(miVector.get(15).toString().length() == 0){
-						lista_raya.setPension(Float.parseFloat(0+""));
+						lista_raya.setD_infonavit(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setPension(Float.parseFloat(miVector.get(15)+"".trim()));
+						lista_raya.setD_infonavit(Float.parseFloat(miVector.get(15)+"".trim()));
 					}
 					if(miVector.get(16).toString().length() == 0){
-						lista_raya.setD_banamex(Float.parseFloat(0+""));
+						lista_raya.setPension(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setD_banamex(Float.parseFloat(miVector.get(16)+"".trim()));
+						lista_raya.setPension(Float.parseFloat(miVector.get(16)+"".trim()));
 					}
 					if(miVector.get(17).toString().length() == 0){
-						lista_raya.setD_banorte(Float.parseFloat(0+""));
+						lista_raya.setD_banamex(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setD_banorte(Float.parseFloat(miVector.get(17)+"".trim()));
+						lista_raya.setD_banamex(Float.parseFloat(miVector.get(17)+"".trim()));
 					}
 					if(miVector.get(18).toString().length() == 0){
-						lista_raya.setD_extra(Float.parseFloat(0+""));
+						lista_raya.setD_banorte(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setD_extra(Float.parseFloat(miVector.get(18)+"".trim()));
+						lista_raya.setD_banorte(Float.parseFloat(miVector.get(18)+"".trim()));
 					}
 					if(miVector.get(19).toString().length() == 0){
-						lista_raya.setP_dias_extra(Float.parseFloat(0+""));
+						lista_raya.setD_extra(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(19)+"".trim()));
+						lista_raya.setD_extra(Float.parseFloat(miVector.get(19)+"".trim()));
 					}
 					if(miVector.get(20).toString().length() == 0){
+						lista_raya.setP_dias_extra(Float.parseFloat(0+""));
+					}else{
+						lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+					}
+					if(miVector.get(21).toString().length() == 0){
 						lista_raya.setP_bono_extra(Float.parseFloat(0+""));
 					}else{
-						lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(20)+"".trim()));
+						lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(21)+"".trim()));
 					}
-					lista_raya.setA_pagar(Float.parseFloat(miVector.get(21)+"".trim()));
-					lista_raya.setObservasion_i(miVector.get(22)+"".trim());
+					lista_raya.setA_pagar(Float.parseFloat(miVector.get(22)+"".trim()));
+					lista_raya.setObservasion_i(miVector.get(23)+"".trim());
 					lista_raya.setFecha(dia+"/"+mes+"/"+anio);
 					lista_raya.guardar_lista();
 					
