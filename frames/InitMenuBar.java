@@ -30,6 +30,7 @@ import catalogos.Cat_Equipo_Trabajo;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
+import catalogos.Cat_Filtro_Empleado_Directorio;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
@@ -91,8 +92,11 @@ public class InitMenuBar extends Init{
 		JMenu Cuadrantes_Alimentacion = new JMenu("Alimentación");
 			JMenuItem Cuadrantes_Alimentacion_Actividades 			 = new JMenuItem("Actividades");
 			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Actividades en Cuadrantes");
+			JMenuItem Cuadrantes_Alimentacion_Telefono   			 = new JMenuItem("Asignación de Telefono");
 			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante");
 			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes");
+			
+			
 		/* CATALOGO */
 		JMenu Cuadrantes_Catalogo = new JMenu("Catalogo");
 			JMenuItem Cuadrantes_Catalogo_Atributos 		= new JMenuItem("Atributos");
@@ -233,6 +237,11 @@ public class InitMenuBar extends Init{
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Empleados_Cuadrantes);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.addActionListener(Opciones);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
+				
+			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Telefono);
+				Cuadrantes_Alimentacion_Telefono.addActionListener(Opciones);
+				Cuadrantes_Alimentacion_Telefono.setEnabled(false);
+				
 		/* CUADRANTES 
 		*		CATALOGO */
 		Cuadrantes.add(Cuadrantes_Catalogo);
@@ -267,7 +276,6 @@ public class InitMenuBar extends Init{
 			Cuadrantes_Catalogo.add(Cuadrantes_Reportes_Usuario);
 				Cuadrantes_Reportes_Usuario.addActionListener(Opciones);
 				Cuadrantes_Reportes_Usuario.setEnabled(false);
-
 		/* LISTA DE RAYA 
 		* 		ALIMENTACION */
 		Lista_Raya.add(Alimentacion);
@@ -410,6 +418,8 @@ public class InitMenuBar extends Init{
 				new Cat_Actividad().setVisible(true);
 			if(e.getActionCommand().equals("Actividades en Cuadrantes"))
 				System.out.println("Pendiente");
+			if(e.getActionCommand().equals("Asignación de Telefono"))
+				new Cat_Filtro_Empleado_Directorio().setVisible(true);
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Empleados en Cuadrantes"))
