@@ -124,7 +124,9 @@ public class Main extends InitButton {
 				if(permisos[i].equals("Cuadrante"))
 					Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
 				if(permisos[i].equals("Empleados en Cuadrantes"))
-					Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(true);		
+					Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(true);	
+				if(permisos[i].equals("Asignación de Telefono"))
+					Cuadrantes_Alimentacion_Telefono.setEnabled(true);
 				/* CUADRANTES
 				 * 		CATALOGO */
 				if(permisos[i].equals("Atributos"))
