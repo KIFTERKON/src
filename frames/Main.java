@@ -125,7 +125,7 @@ public class Main extends InitButton {
 					Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
 				if(permisos[i].equals("Empleados en Cuadrantes"))
 					Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(true);	
-				if(permisos[i].equals("Asignación de Telefono"))
+				if(permisos[i].equals("Asignación de Telefonos"))
 					Cuadrantes_Alimentacion_Telefono.setEnabled(true);
 				/* CUADRANTES
 				 * 		CATALOGO */
@@ -210,9 +210,12 @@ public class Main extends InitButton {
 					Reporte_Bancos.setEnabled(true);
 				if(permisos[i].equals("Reporte Fuente Sodas"))
 					Reporte_Fuente_Sodas.setEnabled(true);
-				if(permisos[i].equals("Reporte Lista de Firmas"))
+				if(permisos[i].equals("Reporte Lista de Firmas")){
 					Reporte_Lista_Firma.setEnabled(true);
 					btnListaFirma.setEnabled(true);
+				}
+				if(permisos[i].equals("Reporte Lista de Raya"))
+					Reporte_Lista_Raya.setEnabled(true);
 				if(permisos[i].equals("Reporte Plantilla Activa"))
 					Reporte_Plantilla_Activa.setEnabled(true);
 //					btnListaPrestamo.setEnabled(true);

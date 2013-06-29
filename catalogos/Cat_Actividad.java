@@ -80,6 +80,7 @@ public class Cat_Actividad extends JFrame {
 	JButton btnSalir = new JButton("Salir");
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar = new JButton("Guardar");
+	JButton btnModificar = new JButton("Modificar");
 	
 	public Cat_Actividad(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Car Key.png"));
@@ -95,7 +96,8 @@ public class Cat_Actividad extends JFrame {
 		this.panel.add(chbStatus).setBounds(285,y,80,20);
 		
 		this.panel.add(new JLabel("Descripción de la actividad")).setBounds(365,y,150,20);
-		this.panel.add(btnNuevo).setBounds(605,y,100,20);
+		this.panel.add(btnModificar).setBounds(625,y,80,20);
+		this.panel.add(btnNuevo).setBounds(530,y,80,20);
 		this.panel.add(scrolltxa).setBounds(365,y+=25,340,400);
 		
 		this.panel.add(new JLabel("Actividad:")).setBounds(15,y,100,20);
@@ -145,6 +147,8 @@ public class Cat_Actividad extends JFrame {
 		
 		this.chbCajaDeTrabajo.addActionListener(opRepetir);
 		this.btnNuevo.addActionListener(opNuevo);
+		this.btnLimpiar.addActionListener(opLimpiar);
+		this.btnGuardar.addActionListener(opGuardar);
 		
 		this.setSize(730,600);
 		this.setResizable(false);
@@ -152,9 +156,31 @@ public class Cat_Actividad extends JFrame {
 		
 	}
 	
+	ActionListener opGuardar = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			if(new Obj_Actividad().Existe(1) == true){
+				System.out.println("true");
+			}else{
+				System.out.println("false");
+			}
+		}
+		
+	};
+	
+	ActionListener opLimpiar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			panelEnabledTrue();
+			panelLimpiar();
+			txtFolio.requestFocus();
+		}
+		
+	};
+	
 	ActionListener opNuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			txtFolio.setText(new Obj_Actividad().Nuevo()+"");
+			txtFolio.setEditable(false);
+			txaActividad.requestFocus();
 		}
 	};
 	
@@ -168,6 +194,71 @@ public class Cat_Actividad extends JFrame {
 		}
 		
 	};
+	
+	public void panelEnabledFalse(){	
+		txtFolio.setEditable(false);
+		txaActividad.setEditable(false);
+		txaDescripcion.setEditable(false);
+		cmbRespuesta.setEnabled(false);
+		cmbAtributos.setEnabled(false);
+		cmbNivelCritico.setEnabled(false);
+		cmbDias.setEnabled(false);
+		spHoraInicio.setEnabled(false);
+		spMinutosInicio.setEnabled(false);
+		spSegundosInicio.setEnabled(false);
+		cmbPasDiaInicio.setEnabled(false);
+		spHoraFin.setEnabled(false);
+		spMinutosFin.setEnabled(false);
+		spSegundosFin.setEnabled(false);
+		cmbPasDiaFin.setEnabled(false);
+		cmbTemporada.setEnabled(false);
+		chbCajaDeTrabajo.setEnabled(false);
+		spRepetir.setEnabled(false);
+			
+	}
+	
+	public void panelEnabledTrue(){	
+		txtFolio.setEditable(true);
+		txaActividad.setEditable(true);
+		txaDescripcion.setEditable(true);
+		cmbRespuesta.setEnabled(true);
+		cmbAtributos.setEnabled(true);
+		cmbNivelCritico.setEnabled(true);
+		cmbDias.setEnabled(true);
+		spHoraInicio.setEnabled(true);
+		spMinutosInicio.setEnabled(true);
+		spSegundosInicio.setEnabled(true);
+		cmbPasDiaInicio.setEnabled(true);
+		spHoraFin.setEnabled(true);
+		spMinutosFin.setEnabled(true);
+		spSegundosFin.setEnabled(true);
+		cmbPasDiaFin.setEnabled(true);
+		cmbTemporada.setEnabled(true);
+		chbCajaDeTrabajo.setEnabled(true);
+		spRepetir.setEnabled(true);
+	}
+	
+	public void panelLimpiar(){	
+		txtFolio.setText("");
+		txaActividad.setText("");
+		txaDescripcion.setText("");
+		cmbRespuesta.setSelectedIndex(0);
+		cmbAtributos.setSelectedIndex(0);
+		cmbNivelCritico.setSelectedIndex(0);
+		cmbDias.setSelectedIndex(0);
+		spHoraInicio.setValue(0);
+		spMinutosInicio.setValue(0);
+		spSegundosInicio.setValue(0);
+		cmbPasDiaInicio.setSelectedIndex(0);
+		spHoraFin.setValue(0);
+		spMinutosFin.setValue(0);
+		spSegundosFin.setValue(0);
+		cmbPasDiaFin.setSelectedIndex(0);
+		cmbTemporada.setSelectedIndex(0);
+		chbCajaDeTrabajo.setSelected(false);
+		spRepetir.setValue(0);
+	}
+	
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

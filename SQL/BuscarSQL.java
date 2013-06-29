@@ -2299,4 +2299,31 @@ public class BuscarSQL {
 		return permisos;
 	}
 	
+	public boolean ActividadExiste(int actividad){
+		String query = "exec sp_folio_actividad "+actividad;
+		
+		boolean existe = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				if(rs.getInt(0) != 0){
+					existe = true;
+				}else{
+					existe = false;
+				}
+				
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return existe;
+	}
+	
 }

@@ -1,6 +1,5 @@
 package catalogos;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -8,14 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -23,14 +20,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
-import SQL.Connexion;
 
-import objetos.JTextFieldLimit;
 import objetos.Obj_Atributos;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Puesto;
@@ -40,8 +33,6 @@ public class Cat_OpRespuesta extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
-	
-Connexion con = new Connexion();
 	
 	DefaultTableModel modelo       = new DefaultTableModel(0,2)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -53,8 +44,12 @@ Connexion con = new Connexion();
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	JTextField txtOpcion = new JTextField();
+	JTextField txtFolio = new JTextField();
 	JTextField txtDescripcion = new JTextField();
+	
+	String opciones[] = {"Seleccione una Opción","Opción Libre", "Opción Multiple"};
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbOpciones = new JComboBox(opciones);
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -72,34 +67,44 @@ Connexion con = new Connexion();
 		
 		this.setTitle("Opciones de Respuesta");
 		
-		int x = 15, y=30, ancho=100;
+		int x = 15, y=15, ancho=100;
 		
-		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
-		panel.add(txtOpcion).setBounds(ancho-20,y,ancho,20);
-		panel.add(btnBuscar).setBounds(ancho+ancho-x,y,32,20);
+		this.panel.add(new JLabel("Folio:")).setBounds(x, y, ancho, 20);
+		this.panel.add(txtFolio).setBounds(x+=ancho, y, ancho, 20);
+		this.panel.add(btnBuscar).setBounds(x+=ancho+10, y, 32,20);
+		this.panel.add(chStatus).setBounds(x+=40, y, 70, 20);
 		
-		panel.add(chStatus).setBounds(x+(ancho*2),y,70,20);
+		this.panel.add(new JLabel("Opciones:")).setBounds(x-=(ancho*2)+50,y+=25, ancho,20);
+		this.panel.add(cmbOpciones).setBounds(x+=ancho, y, ancho*2, 20);
 		
-		panel.add(new JLabel("Descripcion:")).setBounds(5,y+=30,ancho,20);
-		panel.add(txtDescripcion).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnNuevo).setBounds(x+270,y=30,ancho,20);
+		this.panel.add(new JLabel("Descripción:")).setBounds(x-=ancho, y+=25, ancho, 20);
+		this.panel.add(txtDescripcion).setBounds(x+=ancho, y, ancho*2, 20);
 		
-		panel.add(btnEditar).setBounds(x+270,y+=30,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
-		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
 		
-		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
+//		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
+//		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
+//		panel.add(btnBuscar).setBounds(ancho+ancho-x,y,32,20);
+//		
+//		panel.add(chStatus).setBounds(x+(ancho*2),y,70,20);
+//		
+//		panel.add(new JLabel("Opciones:")).setBounds(5,y+=30,ancho,20);
+//		panel.add(cmbOpciones).setBounds(ancho-20,y,ancho+ancho,20);
+//		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
+//		
+//		System.out.println(x);
+//		panel.add(new JLabel("Descripción:")).setBounds(x, y+=30, ancho,20);
+//		panel.add(txtDescripcion).setBounds(ancho-20,y,ancho+ancho,20);
+//		
+//		panel.add(btnEditar).setBounds(x+270,y+=30,ancho,20);
+//		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
+//		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
+//		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
 		
-		txtOpcion.setDocument(new JTextFieldLimit(9));
-		txtDescripcion.setDocument(new JTextFieldLimit(100));
+//		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
 		
-		chStatus.setEnabled(false);
-		txtDescripcion.setEditable(false);
-		
-		txtOpcion.requestFocus();
-		txtOpcion.addKeyListener(buscar_action);
-		txtOpcion.addKeyListener(numerico_action);
+		txtFolio.requestFocus();
+		txtFolio.addKeyListener(buscar_action);
+		txtFolio.addKeyListener(numerico_action);
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
@@ -112,67 +117,67 @@ Connexion con = new Connexion();
 		
 		agregar(tabla);
 		
-		this.setSize(760,210);
+		this.setSize(760,450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
-	private JScrollPane getPanelTabla()	{		
-		new Connexion();
-
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
-		tabla.getColumnModel().getColumn(1).setMinWidth(160);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
-		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
-		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-			return lbl; 
-			} 
-		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-		
-		Statement s;
-		ResultSet rs;
-		try {
-			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_op_respuesta.folio as [Folio],"+
-					 "  tb_op_respuesta.descripcion as [Descripcion] "+
-					
-					"  from tb_op_respuesta where status=1");
-			
-			while (rs.next())
-			{ 
-			   String [] fila = new String[2];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim();
-			   
-			   modelo.addRow(fila); 
-			}	
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-		   
-	    return scrol; 
-	}
+//	private JScrollPane getPanelTabla()	{		
+//		new Connexion();
+//
+//		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+//		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+//		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+//		tabla.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
+//		tabla.getColumnModel().getColumn(1).setMinWidth(160);
+//		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+//		
+//		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+//		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+//		
+//		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+//		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+//		
+//		TableCellRenderer render = new TableCellRenderer() 
+//		{ 
+//			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+//			boolean hasFocus, int row, int column) { 
+//				JLabel lbl = new JLabel(value == null? "": value.toString());
+//		
+//				if(row%2==0){
+//						lbl.setOpaque(true); 
+//						lbl.setBackground(new java.awt.Color(177,177,177));
+//				} 
+//			return lbl; 
+//			} 
+//		}; 
+//						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+//						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+//		
+//		Statement s;
+//		ResultSet rs;
+//		try {
+//			s = new Connexion().conexion().createStatement();
+//			rs = s.executeQuery("select tb_op_respuesta.folio as [Folio],"+
+//					 "  tb_op_respuesta.descripcion as [Descripcion] "+
+//					
+//					"  from tb_op_respuesta where status=1");
+//			
+//			while (rs.next())
+//			{ 
+//			   String [] fila = new String[2];
+//			   fila[0] = rs.getString(1).trim();
+//			   fila[1] = rs.getString(2).trim();
+//			   
+//			   modelo.addRow(fila); 
+//			}	
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
+//		 JScrollPane scrol = new JScrollPane(tabla);
+//		   
+//	    return scrol; 
+//	}
 	
 	@SuppressWarnings("unused")
 	private void agregar(final JTable tbl) {
@@ -184,8 +189,7 @@ Connexion con = new Connexion();
 	        
 						Obj_Puesto fuente_sodas = new Obj_Puesto().buscar(id);
 						
-						txtOpcion.setText(id+"");
-						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
+						txtFolio.setText(id+"");
 						btnEditar.setEnabled(true);
 						chStatus.setSelected(true);
 					
@@ -196,12 +200,12 @@ Connexion con = new Connexion();
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(txtOpcion.getText().equals("")){
+			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_OpRespuesta opR = new Obj_OpRespuesta().buscar(Integer.parseInt(txtOpcion.getText()));
+				Obj_OpRespuesta opR = new Obj_OpRespuesta().buscar(Integer.parseInt(txtFolio.getText()));
 				
-				if(opR.getFolio() == Integer.parseInt(txtOpcion.getText())){
+				if(opR.getFolio() == Integer.parseInt(txtFolio.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
 						if(validaCampos()!="") {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -209,18 +213,16 @@ Connexion con = new Connexion();
 						}else{
 							int nroFila = tabla.getSelectedRow();
 							
-							opR.setDescripcion(txtDescripcion.getText());
 							opR.setStatus(chStatus.isSelected());
 							
-							opR.actualizar(Integer.parseInt(txtOpcion.getText()));
+							opR.actualizar(Integer.parseInt(txtFolio.getText()));
 							
-							modelo.setValueAt(txtOpcion.getText(),nroFila,0);
-							modelo.setValueAt(txtDescripcion.getText().toUpperCase(),nroFila,1);
+							modelo.setValueAt(txtFolio.getText(),nroFila,0);
 							
 							panelLimpiar();
 							panelEnabledFalse();
-							txtOpcion.setEditable(true);
-							txtOpcion.requestFocus();
+							txtFolio.setEditable(true);
+							txtFolio.requestFocus();
 						}
 						
 						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
@@ -232,20 +234,18 @@ Connexion con = new Connexion();
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						opR.setDescripcion(txtDescripcion.getText());
 						opR.setStatus(chStatus.isSelected());
 						opR.guardar();
 						
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
-						fila[0]=txtOpcion.getText();
-						fila[1]=txtDescripcion.getText().toUpperCase();
+						fila[0]=txtFolio.getText();
 						modelo.addRow(fila); 
 						
 						panelLimpiar();
 						panelEnabledFalse();
-						txtOpcion.setEditable(true);
-						txtOpcion.requestFocus();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
 						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 					}
 				}
@@ -290,17 +290,16 @@ Connexion con = new Connexion();
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(txtOpcion.getText().equals("")){
+			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
 			Obj_Atributos atrib = new Obj_Atributos();
-			atrib = atrib.buscar(Integer.parseInt(txtOpcion.getText()));
+			atrib = atrib.buscar(Integer.parseInt(txtFolio.getText()));
 			
 			if(atrib.getFolio() != 0){
 			
-			txtOpcion.setText(atrib.getFolio()+"");
-			txtDescripcion.setText(atrib.getDescripcion()+"");
+			txtFolio.setText(atrib.getFolio()+"");
 			System.out.println(atrib.getStatus());
 			if(atrib.getStatus() == true){chStatus.setSelected(true);}
 			else{chStatus.setSelected(false);}
@@ -308,8 +307,8 @@ Connexion con = new Connexion();
 			btnNuevo.setEnabled(false);
 			btnEditar.setEnabled(false);
 			panelEnabledFalse();
-			txtOpcion.setEditable(true);
-			txtOpcion.requestFocus();
+			txtFolio.setEditable(true);
+			txtFolio.requestFocus();
 			
 			}
 			else{
@@ -329,7 +328,6 @@ Connexion con = new Connexion();
 	
 	private String validaCampos(){
 		String error="";
-		if(txtDescripcion.getText().equals("")) 			error+= "Bono\n";
 				
 		return error;
 	}
@@ -341,15 +339,15 @@ Connexion con = new Connexion();
 			if(opR.getFolio() != 0){
 				panelLimpiar();
 				panelEnabledTrue();
-				txtOpcion.setText(opR.getFolio()+1+"");
-				txtOpcion.setEditable(false);
-				txtDescripcion.requestFocus();
+				txtFolio.setText(opR.getFolio()+1+"");
+				txtFolio.setEditable(false);
+				cmbOpciones.requestFocus();
 			}else{
 				panelLimpiar();
 				panelEnabledTrue();
-				txtOpcion.setText(1+"");
-				txtOpcion.setEditable(false);
-				txtDescripcion.requestFocus();
+				txtFolio.setText(1+"");
+				txtFolio.setEditable(false);
+				cmbOpciones.requestFocus();
 			}
 		}
 	};
@@ -359,8 +357,8 @@ Connexion con = new Connexion();
 			
 			panelLimpiar();
 			panelEnabledFalse();
-			txtOpcion.setEditable(true);
-			txtOpcion.requestFocus();
+			txtFolio.setEditable(true);
+			txtFolio.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(false);
 			chStatus.setSelected(false);
@@ -370,30 +368,36 @@ Connexion con = new Connexion();
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelEnabledTrue();
-			txtOpcion.setEditable(false);
+			txtFolio.setEditable(false);
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		
 	};
 	
 	public void panelEnabledFalse(){	
-		txtOpcion.setEditable(false);
-		txtDescripcion.setEditable(false);
+		txtFolio.setEditable(false);
+		cmbOpciones.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtOpcion.setEditable(true);
-		txtDescripcion.setEditable(true);
+		txtFolio.setEditable(true);
+		cmbOpciones.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
-		txtOpcion.setText("");
-		txtDescripcion.setText("");
+		txtFolio.setText("");
+		cmbOpciones.setSelectedIndex(0);
 		chStatus.setSelected(true);
 	}
 	public static void main (String arg []){
-		new Cat_OpRespuesta().setVisible(true);
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_OpRespuesta().setVisible(true);
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+		
 	}
 }

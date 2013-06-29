@@ -3,6 +3,7 @@ package catalogos;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -31,19 +32,21 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import objetos.Obj_Imprimir_LR;
+
 import export.exportar_excel;
 
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Imprimir_LR extends JFrame {
-	Connexion con = new Connexion();
+
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 	
 	 private static GregorianCalendar calendar = new GregorianCalendar();
 	
-	DefaultTableModel model = new DefaultTableModel(0,19){
+	DefaultTableModel model = new DefaultTableModel(0,20){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -55,10 +58,13 @@ public class Cat_Imprimir_LR extends JFrame {
 	JLabel lblImprimir = new JLabel(new ImageIcon("imagen//imprimir-32.png"));
 	JLabel lblExpor = new JLabel(new ImageIcon("imagen/export_excel.png"));
 	
-	public Cat_Imprimir_LR()	{
+	public Cat_Imprimir_LR(){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Print.png"));
 		this.setTitle("Impresión de Lista de Raya");
 		this.lblExpor.setText("Exportar");
 		this.lblImprimir.setText("Imprimir");
+		
+		new Obj_Imprimir_LR().Imprimir();
 
 		int largo = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 		int ancho = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
@@ -155,6 +161,9 @@ public class Cat_Imprimir_LR extends JFrame {
 		tabla.getColumnModel().getColumn(a).setMaxWidth(b);
 		tabla.getColumnModel().getColumn(a).setMinWidth(b);
 		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
+		tabla.getColumnModel().getColumn(a).setMaxWidth(b);
+		tabla.getColumnModel().getColumn(a).setMinWidth(b);
+		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
 		tabla.getColumnModel().getColumn(a).setMaxWidth(b+9);
 		tabla.getColumnModel().getColumn(a).setMinWidth(b+9);
 		tabla.getColumnModel().getColumn(a+=1).setHeaderValue("");
@@ -200,16 +209,17 @@ public class Cat_Imprimir_LR extends JFrame {
 		tabla.getColumnModel().getColumn(16).setCellRenderer(render);
 		tabla.getColumnModel().getColumn(17).setCellRenderer(render);
 		tabla.getColumnModel().getColumn(18).setCellRenderer(render);
-						
-						String datos = "select * from tb_imprimir_lista_raya "+
-											" order by Establecimiento asc";
+		tabla.getColumnModel().getColumn(19).setCellRenderer(render);
+		
+		DecimalFormat decimal = new DecimalFormat("#0.00");
+		 
+		String datos = "exec sp_select_imprimir_LR";
 		
 		Statement stmt = null;
 		ResultSet rs;
-		Connexion con = new Connexion();
 						
 		try {
-			stmt = con.conexion().createStatement();
+			stmt = new Connexion().conexion().createStatement();
 			rs = stmt.executeQuery(datos);
 			
 			
@@ -220,37 +230,35 @@ public class Cat_Imprimir_LR extends JFrame {
 			
 			float totalDeTotales=0;
 			int filass = getFilas(datos);
-			while (rs.next())
-			{ 
-			
-				DecimalFormat decimal = new DecimalFormat("#0.00");
-				
-			   String [] fila = new String[19];
+			while (rs.next()) { 
+																		
+			   String [] fila = new String[20];
 			   
-			   String nombre= 		rs.getString(4).trim();
-			   String stab= 		rs.getString(5).trim();
-			   float sueldo=		rs.getFloat(6);
-			   float bono=			rs.getFloat(7)+rs.getFloat(22);
-			   float prestamo=		rs.getFloat(8);
-			   float descuento=		rs.getFloat(9);
+			   String nombre = 		rs.getString(4).trim();
+			   String establ = 		rs.getString(5).trim();
+			   float sueldo =		rs.getFloat(6);
+			   float bono =			rs.getFloat(7)+rs.getFloat(23);
+			   float prestamo =		rs.getFloat(8);
+			   float descuento =	rs.getFloat(9);
 			   float pfinal=		rs.getFloat(10);
-			   float fsod= 			rs.getFloat(11);
+			   float fsod =			rs.getFloat(11);
 			   float punt=			rs.getFloat(12);
 			   float falta=			rs.getFloat(13);
 			   float asis= 			rs.getFloat(14);
-			   float corte=			rs.getFloat(15);
-			   float infon=			rs.getFloat(16);
-			   float pension=		rs.getFloat(17);
+			   float gafete = 		rs.getFloat(15);
+			   float corte=			rs.getFloat(16);
+			   float infon=			rs.getFloat(17);
+			   float pension=		rs.getFloat(18);
 			   
-			   float banamex=	 	rs.getFloat(18);
-			   float banorte=		rs.getFloat(19);
-			   float ext=			rs.getFloat(20);
-			   float diaE=			rs.getFloat(21);
+			   float banamex=	 	rs.getFloat(19);
+			   float banorte=		rs.getFloat(20);
+			   float ext=			rs.getFloat(21);
+			   float diaE=			rs.getFloat(22);
 			   
-			   float pagar= 		rs.getFloat(23);
-			   String obs=			rs.getString(24).trim();
+			   float pagar= 		rs.getFloat(24);
+			   String obs=			rs.getString(25).trim();
 			   
-			   if(stab.equals(aux)){
+			   if(establ.equals(aux)){
 				   
 				   fila[0]  ="  "+nombre;
 				   fila[1]  ="  "+sueldo;
@@ -262,17 +270,19 @@ public class Cat_Imprimir_LR extends JFrame {
 				    	if(punt==0.0){fila[6]  ="";}		else{fila[6]  ="  "+punt;}
 				    	if(falta==0.0){fila[7]  ="";}		else{fila[7]  ="  "+falta;}
 				    	if(asis==0.0){fila[8]  ="";}		else{fila[8]  ="  "+asis;}
-				    	if(corte==0.0){fila[9]  ="";}		else{fila[9]  ="  "+corte;}
-				    	if(infon==0.0){fila[10] ="";}		else{fila[10] ="  "+infon;}
-				    	if(pension==0.0){fila[11] ="";}		else{fila[11] ="  "+pension;}
-				    	if(banamex==0.0){fila[12] ="";}		else{fila[12] ="  "+banamex;}
-				    	if(banorte==0.0){fila[13] ="";}		else{fila[13] ="  "+banorte;}
-				    	if(ext==0.0){fila[14] ="";}			else{fila[14] ="  "+ext;}
-				    	if(diaE==0.0){fila[15] ="";}		else{fila[15] ="  "+diaE;}
-				    	if(bono==0.0){fila[16] ="";}		else{fila[16] ="  "+bono;}
+				    	if(gafete == 0.0){fila[9] = "";}    else{fila[9]  ="  "+gafete;}
 				    	
-				    fila[17] ="  "+decimal.format(pagar);
-					fila[18] ="  "+obs;
+				    	if(corte==0.0){fila[10]  ="";}		else{fila[10]  ="  "+corte;}
+				    	if(infon==0.0){fila[11] ="";}		else{fila[11] ="  "+infon;}
+				    	if(pension==0.0){fila[12] ="";}		else{fila[12] ="  "+pension;}
+				    	if(banamex==0.0){fila[13] ="";}		else{fila[13] ="  "+banamex;}
+				    	if(banorte==0.0){fila[14] ="";}		else{fila[14] ="  "+banorte;}
+				    	if(ext==0.0){fila[15] ="";}			else{fila[15] ="  "+ext;}
+				    	if(diaE==0.0){fila[16] ="";}		else{fila[16] ="  "+diaE;}
+				    	if(bono==0.0){fila[17] ="";}		else{fila[17] ="  "+bono;}
+				    	
+				    fila[18] ="  "+decimal.format(pagar);
+					fila[19] ="  "+obs;
 					
 					cont=cont+1;
 					
@@ -301,9 +311,10 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[13] ="";
 						fila[14] ="";
 						fila[15] ="";
-						fila[16] ="  TOTAL:";
-						fila[17] ="  "+decimal.format(subtotal);
-						fila[18] ="";
+						fila[16] ="";
+						fila[17] ="  TOTAL:";
+						fila[18] ="  "+decimal.format(subtotal);
+						fila[19] ="";
 						
 						model.addRow(fila);
 
@@ -323,9 +334,10 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[13] ="";
 						fila[14] ="";
 						fila[15] ="";
-						fila[16] ="  TOTAL LR:";
-						fila[17] ="  "+decimal.format(totalDeTotales);
-						fila[18] ="";
+						fila[16] ="";
+						fila[17] ="  TOTAL LR:";
+						fila[18] ="  "+decimal.format(totalDeTotales);
+						fila[19] ="";
 						System.out.println("Este es el total de totales -> "+totalDeTotales);
 					}
 					
@@ -350,9 +362,10 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[13] ="";
 						fila[14] ="";
 						fila[15] ="";
-						fila[16] ="  TOTAL:";
-						fila[17] ="  "+decimal.format(subtotal);
-						fila[18] ="";
+						fila[16] ="";
+						fila[17] ="  TOTAL:";
+						fila[18] ="  "+decimal.format(subtotal);
+						fila[19] ="";
 					model.addRow(fila);
 					  	fila[0]  ="";
 					    fila[1]  ="";
@@ -373,9 +386,9 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[16] ="";
 						fila[17] ="";
 						fila[18] ="";
-						
+						fila[19] ="";
 					  model.addRow(fila);
-					  	fila[0]  ="                        "+stab;
+					  	fila[0]  ="                        "+establ;
 					  	fila[1]  ="SUELDO";
 						fila[2]  ="  PREST";
 						fila[3]  =" DESC P.";
@@ -384,16 +397,17 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[6]  ="   PUNT";
 						fila[7]  ="   FALTA";
 						fila[8]  ="  ASIST";
-						fila[9]  ="  CORTE";
-						fila[10] ="  INFVIT";
-						fila[11] =" PENSION";
-						fila[12] ="BANAM";
-						fila[13] ="BANORT";
-						fila[14] ="   EXT";
-						fila[15] ="  DIA E.";
-						fila[16] ="  BONO";
-						fila[17] ="A PAGAR";
-						fila[18] ="            OBSERVACIONES";
+						fila[9]  ="  GAFETE";
+						fila[10]  ="  CORTE";
+						fila[11] ="  INFVIT";
+						fila[12] =" PENSION";
+						fila[13] ="BANAM";
+						fila[14] ="BANORT";
+						fila[15] ="   EXT";
+						fila[16] ="  DIA E.";
+						fila[17] ="  BONO";
+						fila[18] ="A PAGAR";
+						fila[19] ="            OBSERVACIONES";
 					 model.addRow(fila);
 					 	fila[0]  ="  "+nombre;
 					    fila[1]  ="  "+sueldo;
@@ -405,30 +419,29 @@ public class Cat_Imprimir_LR extends JFrame {
 					    	if(punt==0.0){fila[6]  ="";}		else{fila[6]  ="  "+punt;}
 					    	if(falta==0.0){fila[7]  ="";}		else{fila[7]  ="  "+falta;}
 					    	if(asis==0.0){fila[8]  ="";}		else{fila[8]  ="  "+asis;}
-					    	if(corte==0.0){fila[9]  ="";}		else{fila[9]  ="  "+corte;}
-					    	if(infon==0.0){fila[10] ="";}		else{fila[10] ="  "+infon;}
-					    	if(pension==0.0){fila[11] ="";}		else{fila[11] ="  "+pension;}
-					    	if(banamex==0.0){fila[12] ="";}		else{fila[12] ="  "+banamex;}
-					    	if(banorte==0.0){fila[13] ="";}		else{fila[13] ="  "+banorte;}
-					    	if(ext==0.0){fila[14] ="";}			else{fila[14] ="  "+ext;}
-					    	if(diaE==0.0){fila[15] ="";}		else{fila[15] ="  "+diaE;}
-					    	if(bono==0.0){fila[16] ="";}		else{fila[16] ="  "+bono;}
+					    	
+					    	if(gafete==0.0){fila[9]  ="";}		else{fila[9]  ="  "+gafete;}
+					    	if(corte==0.0){fila[10]  ="";}		else{fila[10]  ="  "+corte;}
+					    	if(infon==0.0){fila[11] ="";}		else{fila[11] ="  "+infon;}
+					    	if(pension==0.0){fila[12] ="";}		else{fila[12] ="  "+pension;}
+					    	if(banamex==0.0){fila[13] ="";}		else{fila[13] ="  "+banamex;}
+					    	if(banorte==0.0){fila[14] ="";}		else{fila[14] ="  "+banorte;}
+					    	if(ext==0.0){fila[15] ="";}			else{fila[15] ="  "+ext;}
+					    	if(diaE==0.0){fila[16] ="";}		else{fila[16] ="  "+diaE;}
+					    	if(bono==0.0){fila[17] ="";}		else{fila[17] ="  "+bono;}
 
-					    	fila[17] ="  "+decimal.format(pagar);
-						fila[18] ="  "+obs;
+					    	fila[18] ="  "+decimal.format(pagar);
+						fila[19] ="  "+obs;
 						
-					  aux = stab;
+					  aux = establ;
 					  cont=cont+4;
 					  
 					  subtotal=pagar;
 					  totalDeTotales = totalDeTotales+=pagar;
-					  
-					  System.out.println("filas. "+filass);
-					  System.out.println("ContG. "+contadorGeneral);
-					  System.out.println("Tabla. "+(tabla.getRowCount()+1));
+					  					
 				  }else{
 					  
-						fila[0]  ="                        "+stab;
+					  	fila[0]  ="                        "+establ;
 					  	fila[1]  ="SUELDO";
 						fila[2]  ="  PREST";
 						fila[3]  =" DESC P.";
@@ -437,16 +450,17 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[6]  ="   PUNT";
 						fila[7]  ="   FALTA";
 						fila[8]  ="  ASIST";
-						fila[9]  ="  CORTE";
-						fila[10] ="  INFVIT";
-						fila[11] =" PENSION";
-						fila[12] ="BANAM";
-						fila[13] ="BANORT";
-						fila[14] ="   EXT";
-						fila[15] ="  DIA E.";
-						fila[16] ="  BONO";
-						fila[17] ="A PAGAR";
-						fila[18] ="            OBSERVACIONES";
+						fila[9]  ="  GAFETE";
+						fila[10]  ="  CORTE";
+						fila[11] ="  INFVIT";
+						fila[12] =" PENSION";
+						fila[13] ="BANAM";
+						fila[14] ="BANORT";
+						fila[15] ="   EXT";
+						fila[16] ="  DIA E.";
+						fila[17] ="  BONO";
+						fila[18] ="A PAGAR";
+						fila[19] ="            OBSERVACIONES";
 						
 					model.addRow(fila);
 					 fila[0]  ="  "+nombre;
@@ -458,26 +472,25 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[6]  ="  "+punt;
 						fila[7]  ="  "+falta;
 						fila[8]  ="  "+asis;
-						fila[9]  ="  "+corte;
-						fila[10] ="  "+infon;
-						fila[11] ="  "+pension;
-						fila[12] ="  "+banamex;
-						fila[13] ="  "+banorte;
-						fila[14] ="  "+ext;
-						fila[15] ="  "+diaE;
-						fila[16] ="  "+bono;
-						fila[17] ="  "+pagar;
-						fila[18] ="  "+obs;
+						fila[9]  ="  "+gafete;
+						fila[10]  ="  "+corte;
+						fila[11] ="  "+infon;
+						fila[12] ="  "+pension;
+						fila[13] ="  "+banamex;
+						fila[14] ="  "+banorte;
+						fila[15] ="  "+ext;
+						fila[16] ="  "+diaE;
+						fila[17] ="  "+bono;
+						fila[18] ="  "+pagar;
+						fila[19] ="  "+obs;
 						
-						aux = stab;
+						aux = establ;
 						cont=cont+1;
 						subtotal=subtotal+=pagar;
 						
 						totalDeTotales = totalDeTotales+=pagar;
 						
-						System.out.println("filas. "+filass);
-						System.out.println("ContG. "+contadorGeneral);
-						System.out.println("Tabla. "+(tabla.getRowCount()+1));
+					
 				  }
 			   }
 			   model.addRow(fila); 

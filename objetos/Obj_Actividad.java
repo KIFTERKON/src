@@ -148,5 +148,9 @@ public class Obj_Actividad {
 	public int Nuevo(){
 		return new BuscarSQL().Nueva_Actividad();
 	}
+	
+	public boolean Existe(int folio){ 
+		return new BuscarSQL().ActividadExiste(folio);
+	}
 
 }

@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -179,7 +180,7 @@ public class Cat_Percepciones_Extra extends JFrame {
 		tabla.getColumnModel().getColumn(5).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(5).setMaxWidth(120);
 		tabla.getColumnModel().getColumn(5).setMinWidth(120);
-		ColumnaDias.setCellEditor(new javax.swing.DefaultCellEditor(cmbDias));
+		ColumnaDias.setCellEditor(new DefaultCellEditor(cmbDias));
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 

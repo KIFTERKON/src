@@ -301,9 +301,6 @@ public class Obj_Revision_Lista_Raya {
 	
 	public boolean guardar_lista(){ return new GuardarSQL().Guardar(this); }
 	
-	public boolean borrar(){ return new GuardarSQL().lista_Imprimir(this); }
-	public boolean imprimir_lista(){ return new GuardarSQL().Guardar_Imprimir(this); }
-	
 	public Obj_Revision_Lista_Raya buscar(int numero_lista){ 
 		try {
 			return new BuscarSQL().ListaR(numero_lista);

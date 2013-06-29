@@ -787,7 +787,6 @@ public class InitButton extends InitMenuBar{
 			txtContrasena.setText("");			
 			btnAceptar.setEnabled(false);
 			btnBuscar.setEnabled(true);
-			btnAceptar.setEnabled(true);
 
 			btnBanco.setEnabled(false);
 			btnInasistencia.setEnabled(false);
@@ -831,6 +830,7 @@ public class InitButton extends InitMenuBar{
 			*		ALIMENTACION */
 				Cuadrantes_Alimentacion_Actividades.setEnabled(false);
 				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(false);
+				Cuadrantes_Alimentacion_Telefono.setEnabled(false);
 				Cuadrantes_Alimentacion_Cuadrante.setEnabled(false);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 				
@@ -871,10 +871,14 @@ public class InitButton extends InitMenuBar{
 					Departamento_Cortes_Alimentacion.setEnabled(false);
 			/* LISTA DE RAYA 
 			* 		REPORTES */
+				Reporte_Deducciones_Inasistencia.setEnabled(false);
+				Reporte_Bancos.setEnabled(false);
 				Reporte_Fuente_Sodas.setEnabled(false);
 				Reporte_Lista_Firma.setEnabled(false);
+				Reporte_Lista_Raya.setEnabled(false);
 				Reporte_Plantilla_Activa.setEnabled(false);
-			
+				Reporte_Prestamos.setEnabled(false);
+				
 			txtFolio.setEditable(true);
 			txtContrasena.setEditable(true);
 			txtFolio.requestFocus();

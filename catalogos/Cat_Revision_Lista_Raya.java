@@ -425,10 +425,9 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
-			lista_raya.borrar();
 			
-			Imprimir_lista_raya();
+//			lista_raya.Imprimir();
+			
 			new Cat_Imprimir_LR().setVisible(true);
 		}
 	};
@@ -484,123 +483,6 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			e1.printStackTrace();
 		}
 		return valor;
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public void Imprimir_lista_raya(){
-		Vector miVector = new Vector();
-		Calendar c = new GregorianCalendar();
-		
-		String dia = c.get(Calendar.DATE)+"";
-		String mes = (c.get(Calendar.MONTH)+1)+"";
-		String anio = c.get(Calendar.YEAR)+"";
-		
-		for(int i=0; i<model.getRowCount(); i++){
-			for(int j=0; j<model.getColumnCount(); j++){
-				miVector.add(model.getValueAt(i,j));
-				
-			}
-			Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
-			
-			lista_raya.setNumero_lista(numero_lista);
-			lista_raya.setFolio_empleado(Integer.parseInt(miVector.get(1)+"".trim()));
-			lista_raya.setNombre_completo(miVector.get(2)+"".trim());
-			lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
-			lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
-			
-			if(miVector.get(5).toString().length() == 0){
-				lista_raya.setP_bono_complementario(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setP_bono_complementario(Float.parseFloat(miVector.get(5)+"".trim()));
-			}
-			if(miVector.get(6).toString().length() == 0){
-				lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setSaldo_prestamo_inicial(Float.parseFloat(miVector.get(6)+"".trim()));
-			}
-			if(miVector.get(7).toString().length() == 0){
-				lista_raya.setD_prestamo(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_prestamo(Float.parseFloat(miVector.get(7)+"".trim()));
-			}
-			if(miVector.get(8).toString().length() == 0){
-				lista_raya.setSaldo_final(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setSaldo_final(Float.parseFloat(miVector.get(8)+"".trim()));
-			}
-			if(miVector.get(9).toString().length() == 0){
-				lista_raya.setD_fuente_sodas(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_fuente_sodas(Float.parseFloat(miVector.get(9)+"".trim()));						
-			}
-			if(miVector.get(10).toString().length() == 0){
-				lista_raya.setD_puntualidad(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_puntualidad(Float.parseFloat(miVector.get(10)+""));
-			}
-			if(miVector.get(11).toString().length() == 0){
-				lista_raya.setD_faltas(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_faltas(Float.parseFloat(miVector.get(11)+"".trim()));
-			}
-			if(miVector.get(12).toString().length() == 0){
-				lista_raya.setD_asistencia(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
-			}
-			if(miVector.get(13).toString().length() == 0){
-				lista_raya.setD_gafete(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_gafete(Float.parseFloat(miVector.get(13)+"".trim()));
-			}
-			if(miVector.get(14).toString().length() == 0){
-				lista_raya.setD_cortes(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_cortes(Float.parseFloat(miVector.get(14)+"".trim()));
-			}
-			if(miVector.get(15).toString().length() == 0){
-				lista_raya.setD_infonavit(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_infonavit(Float.parseFloat(miVector.get(15)+"".trim()));
-			}
-			if(miVector.get(16).toString().length() == 0){
-				lista_raya.setPension(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setPension(Float.parseFloat(miVector.get(16)+"".trim()));
-			}
-			if(miVector.get(17).toString().length() == 0){
-				lista_raya.setD_banamex(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_banamex(Float.parseFloat(miVector.get(17)+"".trim()));
-			}
-			if(miVector.get(18).toString().length() == 0){
-				lista_raya.setD_banorte(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_banorte(Float.parseFloat(miVector.get(18)+"".trim()));
-			}
-			if(miVector.get(19).toString().length() == 0){
-				lista_raya.setD_extra(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setD_extra(Float.parseFloat(miVector.get(19)+"".trim()));
-			}
-			if(miVector.get(20).toString().length() == 0){
-				lista_raya.setP_dias_extra(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setP_dias_extra(Float.parseFloat(miVector.get(20)+"".trim()));
-			}
-			if(miVector.get(21).toString().length() == 0){
-				lista_raya.setP_bono_extra(Float.parseFloat(0+""));
-			}else{
-				lista_raya.setP_bono_extra(Float.parseFloat(miVector.get(21)+"".trim()));
-			}
-
-			lista_raya.setA_pagar(Float.parseFloat(miVector.get(22)+"".trim()));
-			lista_raya.setObservasion_i(miVector.get(23)+"".trim());
-			lista_raya.setFecha(dia+"/"+mes+"/"+anio);
-			
-			lista_raya.imprimir_lista();
-			miVector.clear();
-		}
 	}
 	
 	ActionListener agregar = new ActionListener(){

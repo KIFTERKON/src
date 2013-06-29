@@ -34,6 +34,7 @@ import catalogos.Cat_Filtro_Empleado_Directorio;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Jefatura;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Nivel_Critico;
@@ -93,7 +94,7 @@ public class InitMenuBar extends Init{
 		JMenu Cuadrantes_Alimentacion = new JMenu("Alimentación");
 			JMenuItem Cuadrantes_Alimentacion_Actividades 			 = new JMenuItem("Actividades");
 			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Actividades en Cuadrantes");
-			JMenuItem Cuadrantes_Alimentacion_Telefono   			 = new JMenuItem("Asignación de Telefono");
+			JMenuItem Cuadrantes_Alimentacion_Telefono   			 = new JMenuItem("Asignación de Telefonos");
 			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante");
 			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes");
 			
@@ -141,6 +142,7 @@ public class InitMenuBar extends Init{
 	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos");
 	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas");
 			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas");
+			JMenuItem Reporte_Lista_Raya       = new JMenuItem("Reporte Lista de Raya");
 			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa");
 			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos");
 	
@@ -267,14 +269,14 @@ public class InitMenuBar extends Init{
 		Cuadrantes.add(Cuadrantes_Reportes);
 		/* CUADRANTES 
 		*		REPORTE */
-		Cuadrantes.add(Cuadrantes_Catalogo);
-			Cuadrantes_Catalogo.add(Cuadrantes_Reportes_Directivo);
+		Cuadrantes.add(Cuadrantes_Reportes);
+			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Directivo);
 				Cuadrantes_Reportes_Directivo.addActionListener(Opciones);
 				Cuadrantes_Reportes_Directivo.setEnabled(false);
-			Cuadrantes_Catalogo.add(Cuadrantes_Reportes_Jefatura);
+			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Jefatura);
 				Cuadrantes_Reportes_Jefatura.addActionListener(Opciones);
 				Cuadrantes_Reportes_Jefatura.setEnabled(false);
-			Cuadrantes_Catalogo.add(Cuadrantes_Reportes_Usuario);
+			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Usuario);
 				Cuadrantes_Reportes_Usuario.addActionListener(Opciones);
 				Cuadrantes_Reportes_Usuario.setEnabled(false);
 		/* LISTA DE RAYA 
@@ -343,6 +345,9 @@ public class InitMenuBar extends Init{
 			Reportes.add(Reporte_Lista_Firma);
 				Reporte_Lista_Firma.addActionListener(Opciones);
 				Reporte_Lista_Firma.setEnabled(false);
+			Reportes.add(Reporte_Lista_Raya);
+				Reporte_Lista_Raya.addActionListener(Opciones);
+				Reporte_Lista_Raya.setEnabled(false);
 			Reportes.add(Reporte_Plantilla_Activa);
 				Reporte_Plantilla_Activa.addActionListener(Opciones);
 				Reporte_Plantilla_Activa.setEnabled(false);
@@ -419,7 +424,7 @@ public class InitMenuBar extends Init{
 				new Cat_Actividad().setVisible(true);
 			if(e.getActionCommand().equals("Actividades en Cuadrantes"))
 				System.out.println("Pendiente");
-			if(e.getActionCommand().equals("Asignación de Telefono"))
+			if(e.getActionCommand().equals("Asignación de Telefonos"))
 				new Cat_Filtro_Empleado_Directorio().setVisible(true);
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);
@@ -427,7 +432,7 @@ public class InitMenuBar extends Init{
 				System.out.println("Pendiente");
 			/* CUADRANTES 
 			 * 		CATALOGO */
-			if(e.getActionCommand().equals("Atributo"))
+			if(e.getActionCommand().equals("Atributos"))
 				new Cat_Atributos().setVisible(true);
 			if(e.getActionCommand().equals("Equipo de Trabajo"))
 				new Cat_Equipo_Trabajo().setVisible(true);
@@ -492,6 +497,8 @@ public class InitMenuBar extends Init{
 				new Reporte_Fuente_de_Sodas_Desarrollo_Humano();
 			if(e.getActionCommand().equals("Reporte Lista de Firmas"))
 				new Cat_Lista_Pago().setVisible(true);
+			if(e.getActionCommand().equals("Reporte Lista de Raya"))
+				new Cat_Imprimir_LR().setVisible(true);
 			if(e.getActionCommand().equals("Reporte Plantilla Activa"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Prestamos"))

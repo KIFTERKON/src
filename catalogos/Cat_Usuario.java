@@ -135,6 +135,7 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Reportes[3], false),
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Reportes[4], false),
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Reportes[5], false),
+		new Obj_CheckBoxNode(Sub_Lista_Raya_Reportes[6], false),
 	};	
 	
 	@SuppressWarnings("rawtypes")
