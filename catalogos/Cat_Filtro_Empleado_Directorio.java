@@ -91,7 +91,7 @@ public class Cat_Filtro_Empleado_Directorio extends JFrame {
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
 	    			dispose();
-	    			new Cat_Empleado(folio+"").setVisible(true);
+	    			new Cat_Directorios(Integer.parseInt(folio+"")).setVisible(true);
 	        	}
 	        }
         });

@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
@@ -21,8 +22,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -46,6 +49,16 @@ public class Cat_Cuadrante extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
+	
+
+JTabbedPane tablapane = new JTabbedPane();
+	 JPanel pLunes = new JPanel(); 
+	 JPanel pMartes = new JPanel();
+	 JPanel pMiercoles = new JPanel(); 
+	 JPanel pJueves = new JPanel(); 
+	 JPanel pViernes = new JPanel(); 
+	 JPanel pSabado = new JPanel(); 
+	 JPanel pDomingo = new JPanel(); 
 	
 Connexion con = new Connexion();
 	
@@ -103,7 +116,7 @@ Connexion con = new Connexion();
 		
 		int x = 15, y=30, ancho=100;
 		
-		Border border = BorderFactory.createLineBorder(new java.awt.Color(80,80,100));
+		Border border = BorderFactory.createLineBorder(new Color(80,80,100));
 		txaNombre.setBorder(border);
 		txaDescripcion.setBorder(border);
 		
@@ -140,7 +153,7 @@ Connexion con = new Connexion();
 //		panel.add(btnSalir).setBounds(x+80,y,ancho,20);
 //		panel.add(btnGuardar).setBounds(x+300,y,ancho,20);
 		
-		panel.add(getPanelTabla()).setBounds(5,y+=30,ancho*7+50,300);
+//		panel.add(getPanelTabla()).setBounds(5,y+=30,ancho*7+50,300);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txaNombre.setDocument(new JTextFieldLimit(100));
@@ -156,6 +169,37 @@ Connexion con = new Connexion();
 		chStatus.setEnabled(false);
 		cmbEstablecimiento.setEditable(false);
 		
+		panel.add(tablapane).setBounds(5,y+=30,ancho*7+50,300);
+			
+		
+		  pDomingo.setOpaque(true); 
+		  pDomingo.setBackground(Color.white);
+		  tablapane.addTab("Domingo", pDomingo);
+		  
+		  pLunes.setOpaque(true); 
+		  pLunes.setBackground(Color.gray);
+		  tablapane.addTab("Lunes", pLunes);
+		  
+		  pMartes.setOpaque(true); 
+		  pMartes.setBackground(Color.white);
+		  tablapane.addTab("Martes", pMartes);
+		  
+		  pMiercoles.setOpaque(true); 
+		  pMiercoles.setBackground(Color.gray);
+		  tablapane.addTab("Miercoles", pMiercoles);
+		  
+		  pJueves.setOpaque(true); 
+		  pJueves.setBackground(Color.white);
+		  tablapane.addTab("Jueves", pJueves);
+		  
+		  pViernes.setOpaque(true); 
+		  pViernes.setBackground(Color.gray);
+		  tablapane.addTab("Viernes", pViernes);
+		  
+		  pSabado.setOpaque(true); 
+		  pSabado.setBackground(Color.white);
+		  tablapane.addTab("Sabado", pSabado);
+		  
 //		btnGuardar.setEnabled(false);
 //		btnDeshacer.setEnabled(false);
 		
@@ -179,6 +223,7 @@ Connexion con = new Connexion();
 		this.setLocationRelativeTo(null);
 	}
 	
+	@SuppressWarnings("unused")
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 

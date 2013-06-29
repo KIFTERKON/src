@@ -23,6 +23,7 @@ import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
@@ -2324,6 +2325,30 @@ public class BuscarSQL {
 		}
 			
 		return existe;
+	}
+
+	public Obj_Directorios BucarDirectorios(int folio) throws SQLException{
+		Obj_Directorios directorio = new Obj_Directorios();
+		String query = "select * from tb_direccion_telefonicos where folio_empleado ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				directorio.setFolio(rs.getInt("folio"));
+				directorio.setFolio_empleado(rs.getInt("folio_empleado"));
+				directorio.setNombre(rs.getString("nombre"));
+				directorio.setTelefono(rs.getString("numero"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt != null){stmt.close();}
+		}
+		return directorio;
 	}
 	
 }

@@ -33,5 +33,4 @@ public class Connexion {
 			return false;
 		}
 	}
-	
 }

@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -118,6 +120,7 @@ public class Cat_Temporada extends JFrame{
 //		txtFolio.addKeyListener(buscar_action);
 //		txtFolio.addKeyListener(numerico_action);
 //		txtValor.addKeyListener(validaNumericoConPunto);
+		txtFolio.addKeyListener(numerico_action);
 		
 		btnGuardar.addActionListener(guardar);
 		btnSalir.addActionListener(cerrar);
@@ -307,6 +310,31 @@ public class Cat_Temporada extends JFrame{
 					}
 				}
 			}			
+		}
+	};
+	
+	KeyListener numerico_action = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			int limite=10;
+
+			if(((caracter < '0') ||
+		        (caracter > '9')) &&
+		        (caracter != KeyEvent.VK_BACK_SPACE)){
+		    	e.consume(); 
+		    }
+				if (txtFolio.getText().length()== limite)
+			     e.consume();
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				btnBuscar.doClick();
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {
 		}
 	};
 	

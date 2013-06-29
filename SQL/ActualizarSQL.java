@@ -18,6 +18,7 @@ import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
@@ -1383,6 +1384,41 @@ public class ActualizarSQL {
 			pstmt.setString(3, temporada.getFecha_fin());
 			pstmt.setString(4, temporada.getDia());
 			pstmt.setInt(5, temporada.isStatus() ? 1 : 0);
+							
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+//*Agregando update para telefonos*///
+	public boolean ActualizarTelefono(Obj_Directorios directorio, int folio){
+		String query = "update tb_direccion_telefonicos set numero=? where folio_empleado=" + folio;
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+		
+			pstmt.setString(1, directorio.getTelefono());
 							
 			pstmt.executeUpdate();
 			con.commit();
