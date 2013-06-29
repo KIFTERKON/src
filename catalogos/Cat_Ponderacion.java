@@ -61,6 +61,15 @@ public class Cat_Ponderacion extends JFrame{
 	JTextField txtValor = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
+	JCheckBox chTodos = new JCheckBox("Status");
+	JCheckBox chLunes = new JCheckBox("Status");
+	JCheckBox chMartes = new JCheckBox("Status");
+	JCheckBox chMiercoles = new JCheckBox("Status");
+	JCheckBox chJueves = new JCheckBox("Status");
+	JCheckBox chViernes = new JCheckBox("Status");
+	JCheckBox chSabado = new JCheckBox("Status");
+	JCheckBox chDomingo = new JCheckBox("Status");
+	
 	
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 	JButton btnSalir = new JButton("Salir");
@@ -105,12 +114,35 @@ public class Cat_Ponderacion extends JFrame{
 		panel.add(new JLabel("A")).setBounds(ancho+75,y,30,20);
 		panel.add(txtCalendario1).setBounds(ancho+87,y,ancho-8,20);
 		
-		panel.add(new JLabel("Dia: ")).setBounds(5,y+=30,100,20);
-		panel.add(cmbDias).setBounds(ancho-20,y,ancho+ancho-2,20);
+		panel.add(new JLabel("Dia: ")).setBounds(5,220,100,20);
 		
-		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
-		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
+		panel.add(chTodos).setBounds(75,220,20,20);
+		panel.add(new JLabel("Todos")).setBounds(95,220,40,20);
+
+		panel.add(chDomingo).setBounds(140,220,20,20);
+		panel.add(new JLabel("Domingo")).setBounds(160,220,50,20);
+		
+		panel.add(chLunes).setBounds(220,220,20,20);
+		panel.add(new JLabel("Lunes")).setBounds(240,220,40,20);
+		
+		panel.add(chMartes).setBounds(285,220,20,20);
+		panel.add(new JLabel("Martes")).setBounds(305,220,40,20);
+		
+		panel.add(chMiercoles).setBounds(355,220,20,20);
+		panel.add(new JLabel("Miercoles")).setBounds(375,220,60,20);
+		
+		panel.add(chJueves).setBounds(440,220,20,20);
+		panel.add(new JLabel("Jueves")).setBounds(460,220,60,20);
+		
+		panel.add(chViernes).setBounds(510,220,20,20);
+		panel.add(new JLabel("Viernes")).setBounds(530,220,60,20);
+		
+		panel.add(chSabado).setBounds(585,220,20,20);
+		panel.add(new JLabel("Sabado")).setBounds(605,220,60,20);
+		
+		panel.add(btnDeshacer).setBounds(x+ancho+60,260,ancho,20);
+		panel.add(btnSalir).setBounds(x-10+60,260,ancho,20);
+		panel.add(btnGuardar).setBounds(x+270,260,ancho,20);
 		
 		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,180);
 		
@@ -139,7 +171,7 @@ public class Cat_Ponderacion extends JFrame{
 		
 		agregar(tabla);
 		
-		this.setSize(760,240);
+		this.setSize(760,330);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}

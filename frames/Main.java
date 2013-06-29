@@ -218,7 +218,6 @@ public class Main extends InitButton {
 //					btnListaPrestamo.setEnabled(true);
 				if(permisos[i].equals("Reporte Prestamos"))
 					Reporte_Prestamos.setEnabled(true);
-				
 			}
 			
 		} catch (SQLException e) {

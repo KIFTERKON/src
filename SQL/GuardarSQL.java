@@ -25,6 +25,7 @@ import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
@@ -1814,5 +1815,44 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
+	
+	/*****agregando funcion para guardar numeros telefonicos*****/
+	public boolean Guardar_Telefono(Obj_Directorios directorio){
+		String query = "exec sp_insert_tb_direccion_telefonicos ?,?,?";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+//			pstmt.setInt(1, directorio.getFolio());
+			pstmt.setInt(1,directorio.getFolio_empleado());
+			pstmt.setString(2, directorio.getNombre());
+			pstmt.setString(3, directorio.getTelefono());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transaccón ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
 	
 }
