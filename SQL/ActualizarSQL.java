@@ -26,6 +26,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
+import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Ponderacion;
@@ -1427,6 +1428,43 @@ public class ActualizarSQL {
 		
 			pstmt.setString(1, directorio.getTelefono());
 							
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	/*Actualizar nivel gerarquico*/
+	
+	public boolean NivelG(Obj_Nivel_Gerarquico pond, int folio){
+		String query = "update tb_nivel_gerarquico set descripcion=?, puestoprincipal=?, puestodependiente=?, status=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, pond.getDescripcion().toUpperCase());
+			pstmt.setString(2, pond.getPuesto_principal());
+			pstmt.setString(3, pond.getPuesto_dependiente());
+			pstmt.setString(4, pond.isStatus()?"1":"0");
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

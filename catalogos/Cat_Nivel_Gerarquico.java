@@ -5,17 +5,22 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -24,6 +29,10 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import objetos.Obj_Nivel_Gerarquico;
+import objetos.Obj_Ponderacion;
+import objetos.Obj_Puesto;
 
 import SQL.Connexion;
 
@@ -39,16 +48,13 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	JTextField txtDescripción = new JTextField();
 	JTextField txtFolio = new JTextField();
 	
-
-	String lista[] = {"Seleccione Una Opcion","Libre","OpMultiple"};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbP_Principal = new JComboBox(lista);
+	String puesto[] = new Obj_Puesto().Combo_Puesto();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbP_Principal = new JComboBox(puesto);
 	
-	String lista2[] = {"Seleccione Una Opcion","Libre","OpMultiple"};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbP_Dependiente = new JComboBox(lista2);
-	
-
+	String puesto2[] = new Obj_Puesto().Combo_Puesto();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbP_Dependiente = new JComboBox(puesto2);
 	
 	JButton btnModificar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
@@ -109,6 +115,8 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		this.setLocationRelativeTo(null);
 		
 		btnNuevo.addActionListener(opNuevo);
+		btnGuardar.addActionListener(guardar);
+		txtFolio.addKeyListener(numerico_action);
 		
 		txtFolio.setEditable(false);
 		txtDescripción.setEditable(false);
@@ -126,8 +134,8 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(1).setMinWidth(160);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+		tabla.getColumnModel().getColumn(1).setMinWidth(250);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(250);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,9 +163,9 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_opciones_respuesta.folio as [Folio],"+
-					 "  tb_opciones_respuesta.descripcion as [Descripcion] "+
-					"  from tb_opciones_respuesta where status=1");
+			rs = s.executeQuery("select tb_nivel_Gerarquico.folio as [Nombre],"+
+					 "  tb_nivel_gerarquico.descripcion as [Descripcion] "+
+					"  from tb_nivel_gerarquico where status=1");
 			
 			while (rs.next())
 			{ 
@@ -174,29 +182,95 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	    return scrol; 
 	}
 	
-	public void limpiar()
-	{
-		txtFolio.setText("");
-		txtDescripción.setText("");
-		chStatus.setSelected(false);
-		cmbP_Dependiente.setSelectedIndex(0);
-		cmbP_Principal.setSelectedIndex(0);
-
-	}
-	public void nuevo ()
-	{
-		txtFolio.setEditable(true);
-		txtDescripción.setEditable(true);
-		cmbP_Dependiente.setEnabled(true);
-		cmbP_Principal.setEnabled(true);
-		
-	}
-	
 	ActionListener opNuevo = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico().buscar_nuevo();
+		if(pond.getFolio() != 0){
+			txtFolio.setText(pond.getFolio()+1+"");
+			txtFolio.setEditable(false);
+			chStatus.setSelected(true);
+		}else{
+			txtFolio.setText(1+"");
+			txtFolio.setEditable(false);
+		}
+			
 			nuevo();
 		}
 	};
+	
+	
+	ActionListener guardar = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			}else{			
+				Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico().buscar(Integer.parseInt(txtFolio.getText()));
+				
+				if(pond.getFolio() == Integer.parseInt(txtFolio.getText())){
+					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
+						if(validaCampos()!="") {
+							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}else{
+//							int nroFila = tabla.getSelectedRow();
+							
+							pond.setPuesto_dependiente(cmbP_Dependiente.getSelectedItem()+"");
+							pond.setPuesto_principal(cmbP_Principal.getSelectedItem()+"");
+							pond.setStatus(chStatus.isSelected());
+							
+							pond.actualizar(Integer.parseInt(txtFolio.getText()));
+							
+							
+							limpiar();
+//							panelEnabledFalse();
+							txtFolio.setEditable(true);
+							txtFolio.requestFocus();
+						}
+						
+						JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+					}else{
+						return;
+					}
+				}else{
+					if(validaCampos()!="") {
+						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+					}else{
+						pond.setDescripcion(txtDescripción.getText());
+						pond.setPuesto_dependiente(cmbP_Dependiente.getSelectedItem()+"");
+						pond.setPuesto_principal(cmbP_Principal.getSelectedItem()+"");
+						pond.setStatus(chStatus.isSelected());
+						
+						pond.actualizar(Integer.parseInt(txtFolio.getText()));
+
+						pond.guardar();
+						
+//						Object[] fila = new Object[tabla.getColumnCount()]; 
+//							
+//						fila[0]=txtFolio.getText();
+//						fila[1]=txtDescripcion.getText().toUpperCase();
+//						fila[2]=txtValor.getText();
+//						modelo.addRow(fila); 
+						
+						limpiar();
+//						panelEnabledFalse();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
+						JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+					}
+				}
+			}			
+		}
+	};
+	
+	private String validaCampos(){
+		String error="";
+		if(txtDescripción.equals("")) 			error+="Descripcion\n";
+		return error;
+	}
+	
+	
 	
 	ActionListener opLimpiar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
@@ -211,6 +285,43 @@ public class Cat_Nivel_Gerarquico extends JFrame
 			dispose();
 		}
 	};
+	
+	KeyListener numerico_action = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+
+		   if(((caracter < '0') ||
+		        (caracter > '9')) &&
+		        (caracter != KeyEvent.VK_BACK_SPACE)){
+		    	e.consume(); 
+		    }			
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	public void limpiar()
+	{
+		txtFolio.setText("");
+		txtDescripción.setText("");
+		chStatus.setSelected(false);
+		cmbP_Dependiente.setSelectedIndex(0);
+		cmbP_Principal.setSelectedIndex(0);
+
+	}
+	
+	public void nuevo ()
+	{
+		txtFolio.setEditable(true);
+		txtDescripción.setEditable(true);
+		cmbP_Dependiente.setEnabled(true);
+		cmbP_Principal.setEnabled(true);
+		
+	}
 	
 	public static void main(String[]a)
 	{

@@ -33,6 +33,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
+import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Importar_Voucher;
@@ -1765,7 +1766,6 @@ public class GuardarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			
-//			pstmt.setInt(1, directorio.getFolio());
 			pstmt.setInt(1,directorio.getFolio_empleado());
 			pstmt.setString(2, directorio.getNombre());
 			pstmt.setString(3, directorio.getTelefono());
@@ -1793,5 +1793,44 @@ public class GuardarSQL {
 		return true;
 	}
 
+	
+	//guardar nivel gerarquico
+	public boolean Guardar_Nivel_G(Obj_Nivel_Gerarquico pond){
+		String query = "exec sp_insert_tb_nivel_gerarquico  ?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString (1, pond.getDescripcion());
+			pstmt.setString (2, pond.getPuesto_principal());
+			pstmt.setString (3, pond.getPuesto_dependiente());
+			pstmt.setString (4, pond.isStatus()?"1":"0");
+			
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	
 }

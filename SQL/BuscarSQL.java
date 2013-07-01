@@ -31,6 +31,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
+import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Ponderacion;
@@ -2357,6 +2358,57 @@ public class BuscarSQL {
 			if(stmt != null){stmt.close();}
 		}
 		return directorio;
+	}
+	
+	//agregar buscar nivel_gerarquico
+	public Obj_Nivel_Gerarquico Gerarquico(int folio) throws SQLException{
+		Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico();
+		String query = "exec sp_nivel_gerarquico "+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				pond.setFolio(rs.getInt("folio"));
+				pond.setDescripcion(rs.getString("descripcion"));
+				pond.setPuesto_dependiente(rs.getString("puestodependiente"));
+				pond.setPuesto_principal(rs.getString("puestoprincipal"));
+				pond.setPuesto(rs.getString("puesto"));
+				pond.setEstablecimiento(rs.getString("establecimiento"));
+				pond.setStatus((rs.getString("status").equals("1"))?true:false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return pond;
+	}
+	 
+//	buscar nivel gerarquico
+
+	public Obj_Nivel_Gerarquico Gerarquico_nuevo() throws SQLException{
+		Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico();
+		String query = "select max(folio) as 'Maximo' from tb_Nivel_gerarquico";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				pond.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return pond;
 	}
 	
 }
