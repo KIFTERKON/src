@@ -146,8 +146,9 @@ public class Cat_Revision_Lista_Raya extends JFrame {
         	 	
         	 	case 20 : return false; 
         	 	case 21 : return false; 
-        	 	case 22 : return true; 
+        	 	case 22 : return false; 
         	 	case 23 : return true; 
+        	 	case 24 : return true; 
         	 }
  			return false;
  		}

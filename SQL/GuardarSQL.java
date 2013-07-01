@@ -383,15 +383,16 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_OpRespuesta(Obj_OpRespuesta opR){
-		String query = "exec sp_insert_op_respuesta		 ?,?";
+	public boolean Guardar_OpRespuesta(Obj_OpRespuesta respuesta){
+		String query = "exec sp_insert_op_respuesta	?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, opR.getDescripcion().toUpperCase());
-			pstmt.setString(2, (opR.getStatus())?"1":"0");
+			pstmt.setInt(1, respuesta.getNumero());
+			pstmt.setString(2, respuesta.getOpcion());
+			pstmt.setString(3, respuesta.getNombre());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

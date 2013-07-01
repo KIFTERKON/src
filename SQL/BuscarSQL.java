@@ -711,15 +711,15 @@ public class BuscarSQL {
 //		return actividad;
 //	}
 	
-	public Obj_OpRespuesta OpRespuesta_Nuevo() throws SQLException{
-		Obj_OpRespuesta opR = new Obj_OpRespuesta();
-		String query = "select max(folio) as 'Maximo' from tb_op_respuesta";
+	public String OpRespuesta_Nuevo() throws SQLException{
+		String numero  ="";
+		String query = "exec sp_nuevo_opciones_respuesta";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				opR.setFolio(rs.getInt("Maximo"));
+				numero = rs.getString("Maximo");
 			}
 			
 		} catch (Exception e) {
@@ -729,7 +729,7 @@ public class BuscarSQL {
 		finally{
 			if(stmt!=null){stmt.close();}
 		}
-		return opR;
+		return numero;
 	}
 	
 	public Obj_Tipo_Banco Tipo_Banco_Nuevo() throws SQLException{
@@ -2351,4 +2351,24 @@ public class BuscarSQL {
 		return directorio;
 	}
 	
+	public boolean OpRespuesta_Existe(String Nombre) throws SQLException{
+		boolean respuesta = false;
+		String query = "exec sp_existe_opcion_respuesta '"+Nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				respuesta = rs.getBoolean("Existe");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return respuesta;
+	}
 }

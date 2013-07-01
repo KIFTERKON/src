@@ -491,7 +491,7 @@ public class ActualizarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, opR.getDescripcion().toUpperCase());
-			pstmt.setString(2, (opR.getStatus())?"1":"0");
+//			pstmt.setString(2, (opR.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
