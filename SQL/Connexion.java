@@ -26,6 +26,23 @@ public class Connexion {
 		return conn;
 	}
 	
+	public Connection conexionDB_DOS(){
+		Connection conn = null;	
+		try{
+							
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			conn = DriverManager.getConnection("jdbc:sqlserver://192.168.2.26:1433;databaseName=ENERO2013", "sa","ragazi*12345");
+			System.out.println("Se ha establecido la conexion con la base de datos: '"+conn.getCatalog()+"' exitosamente");		
+			
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Error al realizar la conexion con la Base de Datos \n" +
+												"Verifique el cable de red ó las asignaciones de IP`s.\n "+ e.toString().substring(0,48)+"\n"+
+												e.toString().substring(48,88),"Error",JOptionPane.WARNING_MESSAGE);
+			
+		}
+		return conn;
+	}
+	
 	public boolean init(){
 		if(conexion() != null){
 			return true;

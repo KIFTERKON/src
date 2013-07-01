@@ -395,14 +395,14 @@ public class BuscarSQL {
 	
 	public Obj_OpRespuesta OpRespuesta(int folio) throws SQLException{
 		Obj_OpRespuesta opR = new Obj_OpRespuesta();
-		String query = "select * from tb_op_respuesta where folio ="+ folio;
+		String query = "exec sp_select_opLibre "+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				opR.setFolio(rs.getInt("folio"));
-				opR.setDescripcion(rs.getString("Descripcion").trim());
+				opR.setOpcion(rs.getString("opciones"));
+				opR.setNombre(rs.getString("nombre"));
 				opR.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			
@@ -720,15 +720,15 @@ public class BuscarSQL {
 //		return actividad;
 //	}
 	
-	public Obj_OpRespuesta OpRespuesta_Nuevo() throws SQLException{
-		Obj_OpRespuesta opR = new Obj_OpRespuesta();
-		String query = "select max(folio) as 'Maximo' from tb_op_respuesta";
+	public String OpRespuesta_Nuevo() throws SQLException{
+		String numero  ="";
+		String query = "exec sp_nuevo_opciones_respuesta";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				opR.setFolio(rs.getInt("Maximo"));
+				numero = rs.getString("Maximo");
 			}
 			
 		} catch (Exception e) {
@@ -738,7 +738,7 @@ public class BuscarSQL {
 		finally{
 			if(stmt!=null){stmt.close();}
 		}
-		return opR;
+		return numero;
 	}
 	
 	public Obj_Tipo_Banco Tipo_Banco_Nuevo() throws SQLException{
@@ -2364,6 +2364,7 @@ public class BuscarSQL {
 	public Obj_Nivel_Gerarquico Gerarquico(int folio) throws SQLException{
 		Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico();
 		String query = "exec sp_nivel_gerarquico "+ folio;
+		
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2376,17 +2377,41 @@ public class BuscarSQL {
 				pond.setPuesto(rs.getString("puesto"));
 				pond.setEstablecimiento(rs.getString("establecimiento"));
 				pond.setStatus((rs.getString("status").equals("1"))?true:false);
+				
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 		finally{
 			if(stmt!=null){stmt.close();}
+			
 		}
 		return pond;
 	}
+
+	public boolean OpRespuesta_Existe(String Nombre) throws SQLException{
+		boolean respuesta = false;
+		String query = "exec sp_existe_opcion_respuesta '"+Nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				respuesta = rs.getBoolean("Existe");
+
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();
+			}
+		}
+		return respuesta;
+		}
 	 
 //	buscar nivel gerarquico
 
@@ -2410,5 +2435,4 @@ public class BuscarSQL {
 		}
 		return pond;
 	}
-	
 }
