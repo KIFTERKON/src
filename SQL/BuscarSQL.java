@@ -306,7 +306,7 @@ public class BuscarSQL {
 	
 	public Obj_Ponderacion Ponderacion(int folio) throws SQLException{
 		Obj_Ponderacion pond = new Obj_Ponderacion();
-		String query = "select * from tb_ponderacion where folio ="+ folio;
+		String query = "exec sp_select_ponderado "+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -315,10 +315,18 @@ public class BuscarSQL {
 				pond.setFolio(rs.getInt("folio"));
 				pond.setDescripcion(rs.getString("Descripcion").trim());
 				pond.setValor(rs.getFloat("Valor"));
-				pond.setFechaIn(rs.getString("fecha_In").trim());
-				pond.setFechaFin(rs.getString("fecha_fin").trim());
-				pond.setDia(rs.getInt("dia"));
+				pond.setFechaIn(rs.getString("FechaInicio").trim());
+				pond.setFechaFin(rs.getString("FechaFin").trim());
 				pond.setStatus((rs.getString("status").equals("1"))?true:false);
+				
+				pond.setDomingo(rs.getString("Domingo").equals("1")?true:false);
+				pond.setLunes((rs.getString("Lunes").equals("1"))?true:false);
+				pond.setMartes((rs.getString("Martes").equals("1"))?true:false);
+				pond.setMiercoles((rs.getString("Miercoles").equals("1"))?true:false);
+				pond.setJueves((rs.getString("Jueves").equals("1"))?true:false);
+				pond.setViernes((rs.getString("Viernes").equals("1"))?true:false);
+				pond.setSabado((rs.getString("Sabado").equals("1"))?true:false);
+				
 			}
 			
 		} catch (Exception e) {

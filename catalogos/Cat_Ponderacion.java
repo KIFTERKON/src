@@ -20,7 +20,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -61,14 +60,15 @@ public class Cat_Ponderacion extends JFrame{
 	JTextField txtValor = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
-	JCheckBox chTodos = new JCheckBox("Status");
-	JCheckBox chLunes = new JCheckBox("Status");
-	JCheckBox chMartes = new JCheckBox("Status");
-	JCheckBox chMiercoles = new JCheckBox("Status");
-	JCheckBox chJueves = new JCheckBox("Status");
-	JCheckBox chViernes = new JCheckBox("Status");
-	JCheckBox chSabado = new JCheckBox("Status");
-	JCheckBox chDomingo = new JCheckBox("Status");
+	
+	JCheckBox chTodos = new JCheckBox("Todos");
+	JCheckBox chLunes = new JCheckBox("Lunes");
+	JCheckBox chMartes = new JCheckBox("Martes");
+	JCheckBox chMiercoles = new JCheckBox("Miercoles");
+	JCheckBox chJueves = new JCheckBox("Jueves");
+	JCheckBox chViernes = new JCheckBox("Viernes");
+	JCheckBox chSabado = new JCheckBox("Sabado");
+	JCheckBox chDomingo = new JCheckBox("Domingo");
 	
 	
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
@@ -81,9 +81,6 @@ public class Cat_Ponderacion extends JFrame{
 	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
 	com.toedter.calendar.JDateChooser txtCalendario1 = new com.toedter.calendar.JDateChooser();
 	
-	String dias[] = {"Seleccione un dia","Todos","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo",};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbDias = new JComboBox(dias);
 	
 	public Cat_Ponderacion(){
 		
@@ -116,30 +113,15 @@ public class Cat_Ponderacion extends JFrame{
 		
 		panel.add(new JLabel("Dia: ")).setBounds(5,220,100,20);
 		
-		panel.add(chTodos).setBounds(75,220,20,20);
-		panel.add(new JLabel("Todos")).setBounds(95,220,40,20);
+		panel.add(chTodos).setBounds(75,220,60,20);
+		panel.add(chDomingo).setBounds(140,220,80,20);
+		panel.add(chLunes).setBounds(220,220,60,20);
+		panel.add(chMartes).setBounds(285,220,70,20);
+		panel.add(chMiercoles).setBounds(355,220,85,20);
+		panel.add(chJueves).setBounds(440,220,70,20);
+		panel.add(chViernes).setBounds(510,220,70,20);
+		panel.add(chSabado).setBounds(585,220,80,20);
 
-		panel.add(chDomingo).setBounds(140,220,20,20);
-		panel.add(new JLabel("Domingo")).setBounds(160,220,50,20);
-		
-		panel.add(chLunes).setBounds(220,220,20,20);
-		panel.add(new JLabel("Lunes")).setBounds(240,220,40,20);
-		
-		panel.add(chMartes).setBounds(285,220,20,20);
-		panel.add(new JLabel("Martes")).setBounds(305,220,40,20);
-		
-		panel.add(chMiercoles).setBounds(355,220,20,20);
-		panel.add(new JLabel("Miercoles")).setBounds(375,220,60,20);
-		
-		panel.add(chJueves).setBounds(440,220,20,20);
-		panel.add(new JLabel("Jueves")).setBounds(460,220,60,20);
-		
-		panel.add(chViernes).setBounds(510,220,20,20);
-		panel.add(new JLabel("Viernes")).setBounds(530,220,60,20);
-		
-		panel.add(chSabado).setBounds(585,220,20,20);
-		panel.add(new JLabel("Sabado")).setBounds(605,220,60,20);
-		
 		panel.add(btnDeshacer).setBounds(x+ancho+60,260,ancho,20);
 		panel.add(btnSalir).setBounds(x-10+60,260,ancho,20);
 		panel.add(btnGuardar).setBounds(x+270,260,ancho,20);
@@ -167,6 +149,7 @@ public class Cat_Ponderacion extends JFrame{
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
 		btnEditar.setEnabled(false);
+		chTodos.addActionListener(chxTodos);
 		cont.add(panel);
 		
 		agregar(tabla);
@@ -256,6 +239,50 @@ public class Cat_Ponderacion extends JFrame{
 						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
 						txtValor.setText(modelo.getValueAt(fila,2)+"");
 						
+						
+						if(ponderacion.isDomingo()==true){
+							chDomingo.setSelected(true);
+						}else{
+							chDomingo.setSelected(false);
+						}
+						
+						if(ponderacion.isLunes()==true){
+							chLunes.setSelected(true);
+						}else{
+							chLunes.setSelected(false);
+						}
+						
+						if(ponderacion.isMartes()==true){
+							chMartes.setSelected(true);
+						}else{
+							chMartes.setSelected(false);
+						}
+						
+						if(ponderacion.isMiercoles()==true){
+							chMiercoles.setSelected(true);
+						}else{
+							chDomingo.setSelected(false);
+						}
+						
+						if(ponderacion.isJueves()==true){
+							chJueves.setSelected(true);
+						}else{
+							chJueves.setSelected(false);
+						}
+						
+						if(ponderacion.isViernes()==true){
+							chViernes.setSelected(true);
+						}else{
+							chViernes.setSelected(false);
+						}
+						
+						if(ponderacion.isSabado()==true){
+							chSabado.setSelected(true);
+						}else{
+							chSabado.setSelected(false);
+						}
+						
+						
 						chStatus.setSelected(ponderacion.getStatus());
 						
 						try {
@@ -267,7 +294,6 @@ public class Cat_Ponderacion extends JFrame{
 							e1.printStackTrace();
 						}
 											
-						cmbDias.setSelectedIndex(ponderacion.getDia());
 						
 						btnEditar.setEnabled(true);
 					
@@ -295,10 +321,19 @@ public class Cat_Ponderacion extends JFrame{
 							pond.setValor(Float.parseFloat(txtValor.getText()+""));
 							pond.setStatus(chStatus.isSelected());
 							
-							pond.setFechaIn(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-							pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario1.getDate()));
+							pond.setDomingo(chDomingo.isSelected());
+							pond.setLunes(chLunes.isSelected());
+							pond.setMartes(chMartes.isSelected());
+							pond.setMiercoles(chMiercoles.isSelected());
+							pond.setJueves(chJueves.isSelected());
+							pond.setViernes(chViernes.isSelected());
+							pond.setSabado(chSabado.isSelected());
 							
-							pond.setDia(cmbDias.getSelectedIndex());
+							pond.setStatus(chStatus.isSelected());
+							
+							
+							pond.setFechaIn(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 							
 							pond.actualizar(Integer.parseInt(txtFolio.getText()));
 							
@@ -324,11 +359,19 @@ public class Cat_Ponderacion extends JFrame{
 						pond.setDescripcion(txtDescripcion.getText());
 						pond.setValor(Float.parseFloat(txtValor.getText()+""));
 						
-						pond.setFechaIn(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate())+"");
-						pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario1.getDate())+"");
 						
-						pond.setDia(cmbDias.getSelectedIndex());
+						pond.setFechaIn(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+						pond.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+						
 						pond.setStatus(chStatus.isSelected());
+						
+						pond.setDomingo(chDomingo.isSelected());
+						pond.setLunes(chLunes.isSelected());
+						pond.setMartes(chMartes.isSelected());
+						pond.setMiercoles(chMiercoles.isSelected());
+						pond.setJueves(chJueves.isSelected());
+						pond.setViernes(chViernes.isSelected());
+						pond.setSabado(chSabado.isSelected());
 
 						pond.guardar();
 						
@@ -397,6 +440,49 @@ public class Cat_Ponderacion extends JFrame{
 			txtDescripcion.setText(ponderacion.getDescripcion()+"");
 			txtValor.setText(ponderacion.getValor()+"");
 			
+			
+			if(ponderacion.isDomingo()==true){
+				chDomingo.setSelected(true);
+			}else{
+				chDomingo.setSelected(false);
+			}
+			
+			if(ponderacion.isLunes()==true){
+				chLunes.setSelected(true);
+			}else{
+				chLunes.setSelected(false);
+			}
+			
+			if(ponderacion.isMartes()==true){
+				chMartes.setSelected(true);
+			}else{
+				chMartes.setSelected(false);
+			}
+			
+			if(ponderacion.isMiercoles()==true){
+				chMiercoles.setSelected(true);
+			}else{
+				chDomingo.setSelected(false);
+			}
+			
+			if(ponderacion.isJueves()==true){
+				chJueves.setSelected(true);
+			}else{
+				chJueves.setSelected(false);
+			}
+			
+			if(ponderacion.isViernes()==true){
+				chViernes.setSelected(true);
+			}else{
+				chViernes.setSelected(false);
+			}
+			
+			if(ponderacion.isSabado()==true){
+				chSabado.setSelected(true);
+			}else{
+				chSabado.setSelected(false);
+			}
+			
 			try {
 				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(ponderacion.getFechaIn());
 				Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(ponderacion.getFechaFin());
@@ -439,7 +525,6 @@ public class Cat_Ponderacion extends JFrame{
 		if(txtValor.getText().equals(""))		error+= "Abreviatura\n";
 		if(fechaInicio.equals("null"))          error+= "Fecha Inicio\n";
 		if(fechaFin.equals("null"))			    error+= "Fecha Fin\n";
-		if(cmbDias.getSelectedIndex() == 0)		error+= "Día\n";
 		return error;
 	}
 	
@@ -483,6 +568,32 @@ public class Cat_Ponderacion extends JFrame{
 				txtFolio.setText(1+"");
 				txtFolio.setEditable(false);
 				txtDescripcion.requestFocus();
+			}
+		}
+	};
+	
+	ActionListener chxTodos = new ActionListener() {
+		
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			if(chTodos.isSelected())
+			{
+				chDomingo.setSelected(true);
+				chLunes.setSelected(true);
+				chMartes.setSelected(true);
+				chMiercoles.setSelected(true);
+				chJueves.setSelected(true);
+				chViernes.setSelected(true);
+				chSabado.setSelected(true);
+			}else{
+				
+				chDomingo.setSelected(false);
+				chLunes.setSelected(false);
+				chMartes.setSelected(false);
+				chMiercoles.setSelected(false);
+				chJueves.setSelected(false);
+				chViernes.setSelected(false);
+				chSabado.setSelected(false);
 			}
 		}
 	};

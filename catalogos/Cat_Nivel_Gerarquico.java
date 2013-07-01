@@ -108,6 +108,8 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
+		btnNuevo.addActionListener(opNuevo);
+		
 		txtFolio.setEditable(false);
 		txtDescripción.setEditable(false);
 		cmbP_Dependiente.setEnabled(false);
@@ -153,9 +155,9 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_op_respuesta.folio as [Folio],"+
-					 "  tb_op_respuesta.descripcion as [Descripcion] "+
-					"  from tb_op_respuesta where status=1");
+			rs = s.executeQuery("select tb_opciones_respuesta.folio as [Folio],"+
+					 "  tb_opciones_respuesta.descripcion as [Descripcion] "+
+					"  from tb_opciones_respuesta where status=1");
 			
 			while (rs.next())
 			{ 
@@ -209,6 +211,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 			dispose();
 		}
 	};
+	
 	public static void main(String[]a)
 	{
 		

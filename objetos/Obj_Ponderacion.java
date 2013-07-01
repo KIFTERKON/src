@@ -13,13 +13,22 @@ public class Obj_Ponderacion {
 	private String descripcion;
 	private float valor;
 	private boolean status;
+	
+	private boolean Domingo;
+	private boolean Lunes;
+	private boolean Martes;
+	private boolean Miercoles;
+	private boolean Jueves;
+	private boolean Viernes;
+	private boolean Sabado;
+	
+	
 	private String fechaIn;
 	private String fechaFin;
-	private int dia;
 
 	public Obj_Ponderacion(){
 		this.folio=0;  this.descripcion=""; this.valor=0; this.status=false; 
-		this.fechaIn=""; this.fechaFin=""; this.dia=0;
+		this.fechaIn=""; this.fechaFin="";
 	}
 
 			public int getFolio() {
@@ -69,15 +78,63 @@ public class Obj_Ponderacion {
 			public void setFechaFin(String fechaFin) {
 				this.fechaFin = fechaFin;
 			}
-
-			public int getDia() {
-				return dia;
-			}
-
-			public void setDia(int dia) {
-				this.dia = dia;
-			}
 			
+			public boolean isDomingo() {
+				return Domingo;
+			}
+
+			public void setDomingo(boolean domingo) {
+				Domingo = domingo;
+			}
+
+			public boolean isLunes() {
+				return Lunes;
+			}
+
+			public void setLunes(boolean lunes) {
+				Lunes = lunes;
+			}
+
+			public boolean isMartes() {
+				return Martes;
+			}
+
+			public void setMartes(boolean martes) {
+				Martes = martes;
+			}
+
+			public boolean isMiercoles() {
+				return Miercoles;
+			}
+
+			public void setMiercoles(boolean miercoles) {
+				Miercoles = miercoles;
+			}
+
+			public boolean isJueves() {
+				return Jueves;
+			}
+
+			public void setJueves(boolean jueves) {
+				Jueves = jueves;
+			}
+
+			public boolean isViernes() {
+				return Viernes;
+			}
+
+			public void setViernes(boolean viernes) {
+				Viernes = viernes;
+			}
+
+			public boolean isSabado() {
+				return Sabado;
+			}
+
+			public void setSabado(boolean sabado) {
+				Sabado = sabado;
+			}
+
 			public String[] Combo_Ponderacion() {
 				try {
 					return new Cargar_Combo().Ponderacion("tb_ponderacion");
