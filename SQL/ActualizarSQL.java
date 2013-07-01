@@ -377,18 +377,25 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Ponderacion(Obj_Ponderacion pond, int folio){
-		String query = "update tb_ponderacion set descripcion=?, valor=?, fecha_in=?, fecha_fin=?, dia=?, status=? where folio=" + folio;
+		String query = "update tb_ponderacion set descripcion=?, valor=?, fecha_in=?, fecha_fin=?, domingo=?, lunes=?, martes=?, miercoles=?, jueves=?, viernes=?, sabado=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, pond.getDescripcion().toUpperCase());
-			pstmt.setFloat(2, pond.getValor());
-			pstmt.setString(3, pond.getFechaIn());
-			pstmt.setString(4, pond.getFechaFin());
-			pstmt.setInt(5, pond.getDia());
-			pstmt.setString(6, (pond.getStatus())?"1":"0");
+			pstmt.setFloat (2, pond.getValor());
+			pstmt.setString(3, pond.getFechaIn()+"");
+			pstmt.setString(4, pond.getFechaFin()+"");
+			pstmt.setString(5, pond.getStatus()?"1":"0");
+			pstmt.setString(6, pond.isDomingo()?"1":"0");
+			pstmt.setString(7, pond.isLunes()?"1":"0");
+			pstmt.setString(8, pond.isMartes()?"1":"0");
+			pstmt.setString(9, pond.isMiercoles()?"1":"0");
+			pstmt.setString(10,pond.isJueves()?"1":"0");
+			pstmt.setString(11,pond.isViernes()?"1":"0");
+			pstmt.setString(12,pond.isSabado()?"1":"0");
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

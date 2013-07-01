@@ -16,6 +16,7 @@ import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -59,6 +60,8 @@ JTabbedPane tablapane = new JTabbedPane();
 	 JPanel pViernes = new JPanel(); 
 	 JPanel pSabado = new JPanel(); 
 	 JPanel pDomingo = new JPanel(); 
+	 JButton sNivel = new JButton(new ImageIcon("imagen/Arriva.jpg"));
+	 JButton bNivel = new JButton(new ImageIcon("imagen/Abajo.jpg"));
 	
 Connexion con = new Connexion();
 	
@@ -97,6 +100,15 @@ Connexion con = new Connexion();
 	JComboBox cmbJefatura = new JComboBox(jefatura);
 	
 	JCheckBox chStatus = new JCheckBox("Status");
+	
+	JCheckBox chTodos = new JCheckBox("Todos");
+	JCheckBox chLunes = new JCheckBox("Lunes");
+	JCheckBox chMartes = new JCheckBox("Martes");
+	JCheckBox chMiercoles = new JCheckBox("Miercoles");
+	JCheckBox chJueves = new JCheckBox("Jueves");
+	JCheckBox chViernes = new JCheckBox("Viernes");
+	JCheckBox chSabado = new JCheckBox("Sabado");
+	JCheckBox chDomingo = new JCheckBox("Domingo");
 	
 	JSpinner spnNGerarquico = new JSpinner(new SpinnerNumberModel(10,0,20,1));
 	
@@ -141,8 +153,17 @@ Connexion con = new Connexion();
 		panel.add(new JLabel("Nivel Gerarquico: ")).setBounds(5,y+=30,ancho,20);
 		panel.add(spnNGerarquico).setBounds(ancho+10,y,50,20);
 		
-		panel.add(new JLabel("Dia:")).setBounds(5,y+=30,ancho,20);
-		panel.add(cmbDias).setBounds(ancho+10,y,ancho+ancho,20);
+		panel.add(new JLabel("Dia:")).setBounds(5,y+=90,ancho,20);
+		
+		panel.add(chTodos).setBounds(75,y,60,20);
+		panel.add(chDomingo).setBounds(140,y,80,20);
+		panel.add(chLunes).setBounds(220,y,60,20);
+		panel.add(chMartes).setBounds(285,y,70,20);
+		panel.add(chMiercoles).setBounds(355,y,85,20);
+		panel.add(chJueves).setBounds(440,y,70,20);
+		panel.add(chViernes).setBounds(510,y,70,20);
+		panel.add(chSabado).setBounds(585,y,80,20);
+		
 		panel.add(new JLabel("Eq. Trabajo:")).setBounds(5,y+=30,ancho,20);
 		panel.add(cmbEqTrabajo).setBounds(ancho+10,y,ancho+ancho,20);
 		panel.add(new JLabel("Jefatura:")).setBounds(5,y+=30,ancho,20);
@@ -176,6 +197,8 @@ Connexion con = new Connexion();
 		  pDomingo.setBackground(Color.white);
 		  tablapane.addTab("Domingo", pDomingo);
 		  
+		  pLunes.add("Tabla",getPanelTabla()).setBounds(5000000,0,0,0);
+		 
 		  pLunes.setOpaque(true); 
 		  pLunes.setBackground(Color.gray);
 		  tablapane.addTab("Lunes", pLunes);
@@ -200,6 +223,12 @@ Connexion con = new Connexion();
 		  pSabado.setBackground(Color.white);
 		  tablapane.addTab("Sabado", pSabado);
 		  
+		  panel.add(sNivel).setBounds(550,360,20,20);
+		  panel.add(new JLabel("Subir Nivel")).setBounds(575,360,70,20);
+		  
+		  panel.add(bNivel).setBounds(640,360,20,20);
+		  panel.add(new JLabel("Bajar Nivel")).setBounds(665,360,70,20);
+		  
 //		btnGuardar.setEnabled(false);
 //		btnDeshacer.setEnabled(false);
 		
@@ -214,16 +243,16 @@ Connexion con = new Connexion();
 //		btnNuevo.addActionListener(nuevo);
 //		btnEditar.addActionListener(editar);
 //		btnEditar.setEnabled(false);
+		
 		cont.add(panel);
 		
 		agregar(tabla);
 		
-		this.setSize(765,665);
+		this.setSize(765,750);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
-	@SuppressWarnings("unused")
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
 
