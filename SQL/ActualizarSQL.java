@@ -490,15 +490,15 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean OpRespuesta(Obj_OpRespuesta opR, int folio){
-		String query = "update tb_op_respuesta set descripcion=?, status=? where folio=" + folio;
+	public boolean OpRespuesta(Obj_OpRespuesta Opciones, int folio){
+		String query = "update tb_opciones_respuesta set nombre=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, opR.getDescripcion().toUpperCase());
-//			pstmt.setString(2, (opR.getStatus())?"1":"0");
+			pstmt.setString(1, Opciones.getNombre());
+			pstmt.setString(2, (Opciones.isStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

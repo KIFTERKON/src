@@ -70,6 +70,26 @@ public class Cat_OpRespuesta extends JFrame
 		
 		this.setTitle("Opciones de Respuesta");
 		
+		init();
+	}
+	
+	public Cat_OpRespuesta(int folio){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/How-to.png"));
+		panel.setBorder(BorderFactory.createTitledBorder("Opcion de Respuesta"));
+		
+		this.setTitle("Opciones de Respuesta");
+		
+		init();
+		
+		Obj_OpRespuesta respuesta = new Obj_OpRespuesta().buscar(folio);
+		
+		txtFolio.setText(folio+"");
+		cmbRespuesta.setSelectedItem(respuesta.getOpcion());
+		txtNombre.setText(respuesta.getNombre());
+	}
+	
+	public void init(){
+
 		int y=30, ancho=100;
 		
 		this.panel.add(new JLabel("Folio:")).setBounds(20,y,ancho,20);
@@ -118,13 +138,13 @@ public class Cat_OpRespuesta extends JFrame
 		btnNuevo.addActionListener(opNuevo);
 		cmbRespuesta.addActionListener(opLibre);
 		btnGuardar.addActionListener(opGuardar);
+		btnBuscar.addActionListener(opFiltro);
 		
 		cont.add(panel);
 		
 		this.setSize(490,425);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		
 	}
 	
 	ActionListener opGuardar = new ActionListener(){
@@ -136,8 +156,16 @@ public class Cat_OpRespuesta extends JFrame
 
 				case 1: 
 					if(new Obj_OpRespuesta().existe(txtNombre.getText()) == true){
-						JOptionPane.showMessageDialog(null,"La Respuesta que está intentando almacenar ya Existe!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-						return;
+						if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+							Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
+							respuesta.setNumero(Integer.parseInt(txtFolio.getText()));
+							respuesta.setOpcion(cmbRespuesta.getSelectedItem().toString());
+							respuesta.setNombre(txtNombre.getText());
+							respuesta.setStatus(chStatus.isSelected());
+							respuesta.actualizar(Integer.parseInt(txtFolio.getText()));
+						}else{
+							return;
+						}
 					}else{
 						Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
 						
@@ -145,8 +173,7 @@ public class Cat_OpRespuesta extends JFrame
 						respuesta.setOpcion(cmbRespuesta.getSelectedItem().toString());
 						respuesta.setNombre(txtNombre.getText());
 												
-						respuesta.guardar();
-						
+						respuesta.guardar_libre();
 					}
 				break;
 
@@ -323,6 +350,13 @@ public class Cat_OpRespuesta extends JFrame
 				btnAgregar.doClick();
 				txtDescripcion.requestFocus();
 			}
+		}
+	};
+	
+	ActionListener opFiltro = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			dispose();
+			new Cat_Filtro_Opciones_Respuesta().setVisible(true);
 		}
 	};
 	

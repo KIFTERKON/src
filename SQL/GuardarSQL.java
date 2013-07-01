@@ -397,8 +397,8 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_OpRespuesta(Obj_OpRespuesta respuesta){
-		String query = "exec sp_insert_op_respuesta	?,?,?";
+	public boolean Guardar_OpRespuesta_Libre(Obj_OpRespuesta respuesta){
+		String query = "exec sp_insert_op_respuesta_libre	?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1286,7 +1286,9 @@ public class GuardarSQL {
 		 *  tb_lista_raya
  		 * **/
 		String sp_insert_lista_raya25 =
-				"exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+				"exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?," +
+				"						   ?,?,?,?,?,?,?,?,?,?," +
+				"						   ?,?,?,?,?,?";
 		
 		/** EL PROCEDIMIENTO sp_insert_abono INSERTA EL ABONO INDICADO DE PRESTAMOS**/
 		String sp_insert_abono4 = "exec sp_insert_abono ?,?,?,?";
@@ -1357,6 +1359,7 @@ public class GuardarSQL {
 			sp_insert_lista_raya25pstmt.setString(3, raya.getNombre_completo().toUpperCase().trim());
 			sp_insert_lista_raya25pstmt.setString(4, raya.getEstablecimiento().toUpperCase().trim());
 			sp_insert_lista_raya25pstmt.setFloat(5, raya.getSueldo());
+			
 			sp_insert_lista_raya25pstmt.setFloat(6, raya.getP_bono_complementario());
 			
 			float saldo_pres_inicial = raya.getSaldo_prestamo_inicial();
@@ -1367,22 +1370,26 @@ public class GuardarSQL {
 			sp_insert_lista_raya25pstmt.setFloat(9, finalSaldo);
 			
 			sp_insert_lista_raya25pstmt.setFloat(10, raya.getD_fuente_sodas());
+			
 			sp_insert_lista_raya25pstmt.setFloat(11, raya.getD_puntualidad());
 			sp_insert_lista_raya25pstmt.setFloat(12, raya.getD_faltas());
 			sp_insert_lista_raya25pstmt.setFloat(13, raya.getD_asistencia());
 			sp_insert_lista_raya25pstmt.setFloat(14, raya.getD_gafete());
 			sp_insert_lista_raya25pstmt.setFloat(15, raya.getD_cortes());
+			
 			sp_insert_lista_raya25pstmt.setFloat(16, raya.getD_infonavit());
 			sp_insert_lista_raya25pstmt.setFloat(17, raya.getPension());
 			sp_insert_lista_raya25pstmt.setFloat(18, raya.getD_banamex());
 			sp_insert_lista_raya25pstmt.setFloat(19, raya.getD_banorte());
 			sp_insert_lista_raya25pstmt.setFloat(20, raya.getD_extra());
+			
 			sp_insert_lista_raya25pstmt.setFloat(21, raya.getP_dias_extra());
 			sp_insert_lista_raya25pstmt.setFloat(22, raya.getP_bono_extra());
 			sp_insert_lista_raya25pstmt.setFloat(23, raya.getA_pagar());
 			sp_insert_lista_raya25pstmt.setString(24, raya.getObservasion_i());
 			sp_insert_lista_raya25pstmt.setString(25, raya.getFecha());
 			sp_insert_lista_raya25pstmt.setInt(26, 1);
+			
 			
 			if(saldo_pres_inicial > 0){
 				int Folio_prestamo = getFolio_prestamo(Folio_Empleado);

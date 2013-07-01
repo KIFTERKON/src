@@ -394,14 +394,14 @@ public class BuscarSQL {
 	
 	public Obj_OpRespuesta OpRespuesta(int folio) throws SQLException{
 		Obj_OpRespuesta opR = new Obj_OpRespuesta();
-		String query = "select * from tb_op_respuesta where folio ="+ folio;
+		String query = "exec sp_select_opLibre "+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				opR.setFolio(rs.getInt("folio"));
-				opR.setDescripcion(rs.getString("Descripcion").trim());
+				opR.setOpcion(rs.getString("opciones"));
+				opR.setNombre(rs.getString("nombre"));
 				opR.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			

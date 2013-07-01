@@ -251,10 +251,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		tabla.getColumnModel().getColumn(20).setMinWidth(90);
 		tabla.getColumnModel().getColumn(21).setMaxWidth(80);
 		tabla.getColumnModel().getColumn(21).setMinWidth(80);
-		tabla.getColumnModel().getColumn(22).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(22).setMinWidth(230);
+		tabla.getColumnModel().getColumn(22).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(22).setMinWidth(80);
 		tabla.getColumnModel().getColumn(23).setMaxWidth(230);
 		tabla.getColumnModel().getColumn(23).setMinWidth(230);
+		tabla.getColumnModel().getColumn(24).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(24).setMinWidth(230);
 		
 		TableCellRenderer render = new TableCellRenderer()	{ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -891,6 +893,8 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					lista_raya.setNombre_completo(miVector.get(2)+"".trim());
 					lista_raya.setEstablecimiento(miVector.get(3)+"".trim());
 					lista_raya.setSueldo(Float.parseFloat(miVector.get(4)+"".trim()));
+					
+					
 					if(miVector.get(5).toString().length() == 0){
 						lista_raya.setP_bono_complementario(Float.parseFloat(0+""));
 					}else{
@@ -931,17 +935,11 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					}else{
 						lista_raya.setD_asistencia(Float.parseFloat(miVector.get(12)+"".trim()));
 					}
-					
-					
-					
 					if(miVector.get(13).toString().length() == 0){
 						lista_raya.setD_gafete(Float.parseFloat(0+""));
 					}else{
 						lista_raya.setD_gafete(Float.parseFloat(miVector.get(13)+"".trim()));
 					}
-					
-					
-					
 					if(miVector.get(14).toString().length() == 0){
 						lista_raya.setD_cortes(Float.parseFloat(0+""));
 					}else{
@@ -985,6 +983,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 					lista_raya.setA_pagar(Float.parseFloat(miVector.get(22)+"".trim()));
 					lista_raya.setObservasion_i(miVector.get(23)+"".trim());
 					lista_raya.setFecha(dia+"/"+mes+"/"+anio);
+										
 					lista_raya.guardar_lista();
 					
 					miVector.clear();

@@ -87,7 +87,7 @@ public class Obj_OpRespuesta {
 		return null; 
 	}
 			
-	public boolean guardar(){ return new GuardarSQL().Guardar_OpRespuesta(this); }
+	public boolean guardar_libre(){ return new GuardarSQL().Guardar_OpRespuesta_Libre(this); }
 			
 	public boolean actualizar(int folio){ return new ActualizarSQL().OpRespuesta(this,folio); }
 	

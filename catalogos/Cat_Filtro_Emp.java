@@ -35,8 +35,6 @@ public class Cat_Filtro_Emp extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 	
-	Connexion con = new Connexion();
-	
 	DefaultTableModel model = new DefaultTableModel(0,9){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -202,7 +200,7 @@ public class Cat_Filtro_Emp extends JFrame {
 		Statement s;
 		ResultSet rs;
 		try {
-			s = con.conexion().createStatement();
+			s = new Connexion().conexion().createStatement();
 			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
 								 "  tb_empleado.nombre as [Nombre], "+
 								 "  tb_empleado.ap_paterno as [Paterno], "+
