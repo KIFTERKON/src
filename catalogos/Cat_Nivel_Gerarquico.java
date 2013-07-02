@@ -10,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -31,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import objetos.Obj_Nivel_Gerarquico;
-import objetos.Obj_Ponderacion;
 import objetos.Obj_Puesto;
 
 import SQL.Connexion;

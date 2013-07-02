@@ -399,15 +399,14 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_OpRespuesta_Libre(Obj_OpRespuesta respuesta){
-		String query = "exec sp_insert_op_respuesta_libre	?,?,?";
+		String query = "exec sp_insert_op_respuesta_libre	?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, respuesta.getNumero());
-			pstmt.setString(2, respuesta.getOpcion());
-			pstmt.setString(3, respuesta.getNombre());
+			pstmt.setString(1, respuesta.getOpcion());
+			pstmt.setString(2, respuesta.getNombre());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -463,7 +462,51 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
+	
+	public boolean Guardar_OpRespuesta_Multiple(Obj_OpRespuesta respuesta, String[] tabla){
+		String query = "exec sp_insert_op_respuesta_libre	?,?";
+		String querytabla = "exec sp_insert_tabla_op_respuesta_multiple ?,?";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmttabla = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmttabla = con.prepareStatement(querytabla);
 			
+			pstmt.setString(1, respuesta.getOpcion());
+			pstmt.setString(2, respuesta.getNombre());
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmttabla.setString(1, respuesta.getNombre());
+				pstmttabla.setString(2, tabla[i].toUpperCase());
+				pstmttabla.executeUpdate();
+			}
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	public boolean Guardar_Divisas(Obj_Divisa_Y_TipoDeCambio divisas){
 		String query = "insert into tb_divisas_tipo_de_cambio(nombre_divisas,valor,status) values(?,?,?)";
 		Connection con = new Connexion().conexion();

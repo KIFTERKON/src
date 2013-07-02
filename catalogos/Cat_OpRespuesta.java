@@ -155,36 +155,84 @@ public class Cat_OpRespuesta extends JFrame
 				break;
 
 				case 1: 
-					if(new Obj_OpRespuesta().existe(txtNombre.getText()) == true){
-						if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+					if(new Obj_OpRespuesta().existe(txtNombre.getText().toUpperCase(),cmbRespuesta.getSelectedItem().toString()) == true){
+						JOptionPane.showMessageDialog(null,"El registro ya existe","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					}else{
+						if(txtNombre.getText().equals("")){
+							JOptionPane.showMessageDialog(null,"El campo nombre es requerido","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}else{
 							Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
+							
 							respuesta.setNumero(Integer.parseInt(txtFolio.getText()));
 							respuesta.setOpcion(cmbRespuesta.getSelectedItem().toString());
-							respuesta.setNombre(txtNombre.getText());
-							respuesta.setStatus(chStatus.isSelected());
-							respuesta.actualizar(Integer.parseInt(txtFolio.getText()));
-						}else{
-							return;
+							respuesta.setNombre(txtNombre.getText().toUpperCase());
+													
+							if(respuesta.guardar_libre()){
+								JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}else{
+								JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+								return;
+							}
 						}
-					}else{
-						Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
 						
-						respuesta.setNumero(Integer.parseInt(txtFolio.getText()));
-						respuesta.setOpcion(cmbRespuesta.getSelectedItem().toString());
-						respuesta.setNombre(txtNombre.getText());
-												
-						respuesta.guardar_libre();
 					}
 				break;
 
-				case 2: 
-					System.out.println("3");
+				case 2:
+					if(tabla.getRowCount() >0){
+						if(new Obj_OpRespuesta().existe(txtNombre.getText().toUpperCase(),cmbRespuesta.getSelectedItem().toString()) == true){
+							if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+								String[] registros_tabla = registros_tabla();
+								if(new Obj_OpRespuesta().actualizar_multiple(registros_tabla,txtNombre.getText())){
+									JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+									return;
+								}else{
+									JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+									return;
+								}
+							}else{
+								return;
+							}
+						}else{
+							String[] registros_tabla = registros_tabla();
+							
+							Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
+							
+							respuesta.setNumero(Integer.parseInt(txtFolio.getText()));
+							respuesta.setOpcion(cmbRespuesta.getSelectedItem().toString());
+							respuesta.setNombre(txtNombre.getText().toUpperCase());
+													
+							if(respuesta.guardar_multiple(registros_tabla)){
+								JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}else{
+								JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+								return;
+							}
+						}
+												
+					}else{
+						JOptionPane.showMessageDialog(null,"Debe ingresar argumentos a la tabla!","Error",JOptionPane.ERROR_MESSAGE);
+					}
+					
 				break;
 			
 			}
 		}
 		
 	};
+	
+	public String[] registros_tabla(){
+		String[] registros = new String[tabla.getRowCount()];
+		for(int i=0; i<tabla.getRowCount(); i++){
+			registros[i] = modelo.getValueAt(i, 1)+""; 
+			
+			
+		}
+		return registros; 
+	}
 	
 	ActionListener opLibre = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
@@ -356,7 +404,7 @@ public class Cat_OpRespuesta extends JFrame
 	ActionListener opFiltro = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
-//			new Cat_Filtro_Opciones_Respuesta().setVisible(true);
+			new Cat_Filtro_Opciones_Respuesta().setVisible(true);
 		}
 	};
 	

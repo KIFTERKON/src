@@ -1488,4 +1488,43 @@ public class ActualizarSQL {
 		return true;
 	}
 	
+	public boolean OpRespuestaTabla(String[] tabla, String nombre){
+		String queryClear = "delete from tb_tabla_opciones_respuesta where nombre ='"+nombre+"';";
+		String query = "exec sp_insert_tabla_op_respuesta_multiple ?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmttabla = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(queryClear);
+			pstmttabla = con.prepareStatement(query);
+			
+			pstmt.execute();
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmttabla.setString(1, nombre);
+				pstmttabla.setString(2, tabla[i].toUpperCase());
+				pstmttabla.executeUpdate();
+			}
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 }

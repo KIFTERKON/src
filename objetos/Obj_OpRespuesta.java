@@ -88,12 +88,16 @@ public class Obj_OpRespuesta {
 	}
 			
 	public boolean guardar_libre(){ return new GuardarSQL().Guardar_OpRespuesta_Libre(this); }
+	
+	public boolean guardar_multiple(String[] tabla){ return new GuardarSQL().Guardar_OpRespuesta_Multiple(this,tabla); }
 			
 	public boolean actualizar(int folio){ return new ActualizarSQL().OpRespuesta(this,folio); }
 	
-	public boolean existe(String Nombre){
+	public boolean actualizar_multiple(String[] tabla, String nombre){ return new ActualizarSQL().OpRespuestaTabla(tabla, nombre); }
+	
+	public boolean existe(String Nombre, String opcion){
 		try {
-			return new BuscarSQL().OpRespuesta_Existe(Nombre);
+			return new BuscarSQL().OpRespuesta_Existe(Nombre, opcion);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

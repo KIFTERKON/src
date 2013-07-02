@@ -2390,9 +2390,9 @@ public class BuscarSQL {
 		return pond;
 	}
 
-	public boolean OpRespuesta_Existe(String Nombre) throws SQLException{
+	public boolean OpRespuesta_Existe(String Nombre, String opcion) throws SQLException{
 		boolean respuesta = false;
-		String query = "exec sp_existe_opcion_respuesta '"+Nombre+"'";
+		String query = "exec sp_existe_opcion_respuesta '"+Nombre+"','"+opcion+"';";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

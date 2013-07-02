@@ -61,6 +61,15 @@ public class Obj_Establecimiento {
 		return null; 
 	}
 	
+	public String[] Combo_Establecimiento_Entysal() {
+		try {
+			return new Cargar_Combo().Establecimiento_Empleado_Entysal("establecimientos");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
 	public String[] Combo_Eq_Trabajo() {
 		try {
 			return new Cargar_Combo().EquipoTrabajo("tb_equipo_trabajo");

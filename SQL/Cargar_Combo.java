@@ -684,4 +684,38 @@ public class Cargar_Combo {
 		return pila;
 			
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public String[] Establecimiento_Empleado_Entysal(String tabla) throws SQLException{
+		String query = "select nombre from " + tabla + " order by nombre asc";
+		Statement stmt = null;
+		try {
+			stmt = new Connexion().conexionDB_DOS().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			int j=0;
+			while(rs.next()){
+				if(j == 0){
+					miVector.add("Selecciona un Establecimiento");
+				}
+				miVector.add(rs.getString("nombre"));
+				j++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;
+			
+	}
 }
