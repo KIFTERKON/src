@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -82,10 +83,27 @@ public class Cat_OpRespuesta extends JFrame
 		init();
 		
 		Obj_OpRespuesta respuesta = new Obj_OpRespuesta().buscar(folio);
+		if(respuesta.getOpcion().equals("Opción Múltiple")){
+			txtFolio.setText(folio+"");
+			cmbRespuesta.setSelectedItem(respuesta.getOpcion());
+			txtNombre.setText(respuesta.getNombre());
+			
+			String[] lista = new Obj_OpRespuesta().Tabla_Respuesta(respuesta.getNombre());
+			Object[] fila = new Object[tabla.getColumnCount()];
+			for(int i=0; i<lista.length; i++){
+				modelo.addRow(fila);
+				modelo.setValueAt(i+1+"",i,0);
+				modelo.setValueAt(lista[i]+"",i,1);
+			}
+			
+		}else{
+			txtFolio.setText(folio+"");
+			cmbRespuesta.setSelectedItem(respuesta.getOpcion());
+			txtNombre.setText(respuesta.getNombre());
+			txtNombre.setEditable(false);
+		}
 		
-		txtFolio.setText(folio+"");
-		cmbRespuesta.setSelectedItem(respuesta.getOpcion());
-		txtNombre.setText(respuesta.getNombre());
+		
 	}
 	
 	public void init(){
@@ -139,6 +157,9 @@ public class Cat_OpRespuesta extends JFrame
 		cmbRespuesta.addActionListener(opLibre);
 		btnGuardar.addActionListener(opGuardar);
 		btnBuscar.addActionListener(opFiltro);
+		btnEditar.addActionListener(opEditar);
+		
+		agregar(tabla);
 		
 		cont.add(panel);
 		
@@ -146,6 +167,33 @@ public class Cat_OpRespuesta extends JFrame
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
+	
+	private void agregar(final JTable tbl) {
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	        	if(e.getClickCount() == 1){
+	    			int fila = tabla.getSelectedRow();
+	    			txtDescripcion.setText(tabla.getValueAt(fila, 1).toString());
+	    			
+	        	}
+	        }
+        });
+    }
+	ActionListener opEditar = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			switch(cmbRespuesta.getSelectedIndex()){
+				case 0: break;
+				case 1:
+					txtNombre.setEditable(true);
+					break;
+				case 2: 
+					Editing(true);
+					break;
+			}
+			
+		}
+		
+	};
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {

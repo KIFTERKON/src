@@ -396,6 +396,7 @@ public class BuscarSQL {
 	public Obj_OpRespuesta OpRespuesta(int folio) throws SQLException{
 		Obj_OpRespuesta opR = new Obj_OpRespuesta();
 		String query = "exec sp_select_opLibre "+ folio;
+		System.out.println(query);
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2434,5 +2435,36 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return pond;
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public String[] TablaRespuesta(String nombre) throws SQLException{
+		Vector miVector = new Vector();
+		String query = "exec sp_tabla_fill_opcion_respuesta '"+nombre+"';";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			while(rs.next()){
+				miVector.add(rs.getString("descripcion"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;
+			
 	}
 }

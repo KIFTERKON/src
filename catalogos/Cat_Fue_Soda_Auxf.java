@@ -115,9 +115,9 @@ public class Cat_Fue_Soda_Auxf extends JFrame {
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 		
 		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtCalendario).setBounds(x+ancho,y,ancho-15,20);

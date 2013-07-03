@@ -115,10 +115,20 @@ public class Obj_OpRespuesta {
 			
 	public String[] Combo_Respuesta() {
 		try {
-			return new Cargar_Combo().Respuesta("tb_op_respuesta");
+			return new Cargar_Combo().Respuesta("tb_opciones_respuesta");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
+	
+	public String[] Tabla_Respuesta(String nombre) {
+		try {
+			return new BuscarSQL().TablaRespuesta(nombre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
 }

@@ -555,7 +555,7 @@ public class Cargar_Combo {
 	
 	@SuppressWarnings("unchecked")
 	public String[] Respuesta(String tabla) throws SQLException{
-		String query = "select descripcion from " + tabla + " order by descripcion asc";
+		String query = "select nombre from " + tabla + " order by nombre asc";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -565,7 +565,7 @@ public class Cargar_Combo {
 				if(j == 0){
 					miVector.add("Selecciona una Opción");
 				}
-				miVector.add(rs.getString("descripcion"));
+				miVector.add(rs.getString("nombre"));
 				j++;
 			}
 		} catch (Exception e) {
@@ -718,4 +718,6 @@ public class Cargar_Combo {
 		return pila;
 			
 	}
+
+	
 }
