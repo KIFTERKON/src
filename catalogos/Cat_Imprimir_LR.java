@@ -71,8 +71,6 @@ public class Cat_Imprimir_LR extends JFrame {
 		
 		campo.add(lblImprimir).setBounds(630, 10, 90, 45);
 		campo.add(lblExpor).setBounds(725, 10, 90, 45);
-		
-		System.out.println("f,msj"+(largo-548));
 		campo.add(getPanelTabla()).setBounds(20,60,largo-548,ancho-120);
 	
 		lblImprimir.addMouseListener(OpImprimir);
@@ -338,7 +336,6 @@ public class Cat_Imprimir_LR extends JFrame {
 						fila[17] ="  TOTAL LR:";
 						fila[18] ="  "+decimal.format(totalDeTotales);
 						fila[19] ="";
-						System.out.println("Este es el total de totales -> "+totalDeTotales);
 					}
 					
 			   }else{

@@ -1,49 +1,28 @@
 package catalogos;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
-import SQL.Connexion;
-
-import objetos.JTextFieldLimit;
-import objetos.Obj_Atributos;
-import objetos.Obj_Cuadrante;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Nivel_Gerarquico;
 
 @SuppressWarnings("serial")
 public class Cat_Cuadrante extends JFrame{
@@ -51,564 +30,452 @@ public class Cat_Cuadrante extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
+	JTextField txtFolio = new JTextField();
+	JCheckBox  chbStatus = new JCheckBox("Status");
+	
+	JTextField txtCuadrante = new JTextField();
+	
+	JTextArea txaDescripcion = new JTextArea(4,4);
+	JScrollPane Descripcion = new JScrollPane(txaDescripcion);
+	
+	String jefatura[] = new Obj_Establecimiento().Combo_Jefatura();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbJefatura = new JComboBox(jefatura);
+	
+	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
+	
+	String nivel_gerarquico[] = new Obj_Nivel_Gerarquico().Combo_Nivel_Gerarquico();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbnivel_gerarquico = new JComboBox(nivel_gerarquico);
+	
+	String equipo_trabajo[] = new Obj_Establecimiento().Combo_Eq_Trabajo();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbEquipo_Trabajo = new JComboBox(equipo_trabajo);
+	
+	JCheckBox chTodos 		= new JCheckBox("Todos");
+	JCheckBox chDomingo		= new JCheckBox("Domingo");
+	JCheckBox chLunes 		= new JCheckBox("Lunes");
+	JCheckBox chMartes 		= new JCheckBox("Martes");
+	JCheckBox chMiercoles	= new JCheckBox("Miercoles");
+	JCheckBox chJueves 		= new JCheckBox("Jueves");
+	JCheckBox chViernes 	= new JCheckBox("Viernes");
+	JCheckBox chSabado 		= new JCheckBox("Sabado");
 
-JTabbedPane tablapane = new JTabbedPane();
-	 JPanel pLunes = new JPanel(); 
-	 JPanel pMartes = new JPanel();
-	 JPanel pMiercoles = new JPanel(); 
-	 JPanel pJueves = new JPanel(); 
-	 JPanel pViernes = new JPanel(); 
-	 JPanel pSabado = new JPanel(); 
-	 JPanel pDomingo = new JPanel(); 
-	 JButton sNivel = new JButton(new ImageIcon("imagen/Arriva.jpg"));
-	 JButton bNivel = new JButton(new ImageIcon("imagen/Abajo.jpg"));
-	
-Connexion con = new Connexion();
-	
-	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
+	JTabbedPane pestanas = new JTabbedPane();
+		JLayeredPane pDomingo = new JLayeredPane(); 
+		JLayeredPane pLunes = new JLayeredPane(); 
+		JLayeredPane pMarte = new JLayeredPane();
+		JLayeredPane pMiercoles = new JLayeredPane(); 
+		JLayeredPane pJueves = new JLayeredPane(); 
+		JLayeredPane pViernes = new JLayeredPane(); 
+		JLayeredPane pSabado = new JLayeredPane(); 
+		
+	DefaultTableModel modelDomingo = new DefaultTableModel(0,2){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
 			return false;
 		}
 	};
-	JTable tabla = new JTable(modelo);
-	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	JTextField txtFolio = new JTextField();
+	DefaultTableModel modelLunes = new DefaultTableModel(0,2){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
 	
-	JTextArea txaNombre = new JTextArea(4,4);
-//	JScrollPane Nombre = new JScrollPane(txaNombre);
+	DefaultTableModel modelMartes = new DefaultTableModel(0,2){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
 	
-	JTextArea txaDescripcion = new JTextArea(4,4);
-//	JScrollPane Descripcion = new JScrollPane(txaDescripcion);
+	DefaultTableModel modelMiercoles = new DefaultTableModel(0,2){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
 	
-	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento_Empleados();
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
+	DefaultTableModel modelJueves = new DefaultTableModel(0,2){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
 	
-	String dias[] = {"Seleccione un dia","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo"};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbDias = new JComboBox(dias);
+	DefaultTableModel modelViernes = new DefaultTableModel(0,2){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
 	
-	String eqTrabajo[] = new Obj_Establecimiento().Combo_Eq_Trabajo();
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbEqTrabajo = new JComboBox(eqTrabajo);
+	DefaultTableModel modelSabado = new DefaultTableModel(0,2){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
 	
-	String jefatura[] = new Obj_Establecimiento().Combo_Jefatura();
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbJefatura = new JComboBox(jefatura);
+	JTable tablaDomingo = new JTable(modelDomingo);
+	JTable tablaLunes = new JTable(modelLunes);
+	JTable tablaMartes = new JTable(modelMartes);
+	JTable tablaMiercoles = new JTable(modelMiercoles);
+	JTable tablaJueves = new JTable(modelJueves);
+	JTable tablaViernes = new JTable(modelViernes);
+	JTable tablaSabado = new JTable(modelSabado);
 	
-	JCheckBox chStatus = new JCheckBox("Status");
+	JScrollPane scrollDomingo = new JScrollPane(tablaDomingo);
+	JScrollPane scrollLunes = new JScrollPane(tablaLunes);
+	JScrollPane scrollMartes = new JScrollPane(tablaMartes);
+	JScrollPane scrollMiercoles = new JScrollPane(tablaMiercoles);
+	JScrollPane scrollJueves = new JScrollPane(tablaJueves);
+	JScrollPane scrollViernes = new JScrollPane(tablaViernes);
+	JScrollPane scrollSabado = new JScrollPane(tablaSabado);
 	
-	JCheckBox chTodos = new JCheckBox("Todos");
-	JCheckBox chLunes = new JCheckBox("Lunes");
-	JCheckBox chMartes = new JCheckBox("Martes");
-	JCheckBox chMiercoles = new JCheckBox("Miercoles");
-	JCheckBox chJueves = new JCheckBox("Jueves");
-	JCheckBox chViernes = new JCheckBox("Viernes");
-	JCheckBox chSabado = new JCheckBox("Sabado");
-	JCheckBox chDomingo = new JCheckBox("Domingo");
+	JTextField txtActividadDomingo = new JTextField();
+	JTextField txtActividadLunes = new JTextField();
+	JTextField txtActividadMartes = new JTextField();
+	JTextField txtActividadMiercoles = new JTextField();
+	JTextField txtActividadJueves = new JTextField();
+	JTextField txtActividadViernes = new JTextField();
+	JTextField txtActividadSabado = new JTextField();
 	
-	JSpinner spnNGerarquico = new JSpinner(new SpinnerNumberModel(10,0,20,1));
+	JButton btnAgregarDomingo = new JButton("Agregar");
+	JButton btnAgregarLunes = new JButton("Agregar");
+	JButton btnAgregarMartes = new JButton("Agregar");
+	JButton btnAgregarMiercoles = new JButton("Agregar");
+	JButton btnAgregarJueves = new JButton("Agregar");
+	JButton btnAgregarViernes = new JButton("Agregar");
+	JButton btnAgregarSabado = new JButton("Agregar");
 	
-//	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-//	JButton btnSalir = new JButton("Salir");
-//	JButton btnDeshacer = new JButton("Deshacer");
-//	JButton btnGuardar = new JButton("Guardar");
-//	JButton btnEditar = new JButton("Editar");
-//	JButton btnNuevo = new JButton("Nuevo Cuadrante");
+	JButton btnSubirDomingo = new JButton("˄");
+	JButton btnSubirLunes = new JButton("˄");
+	JButton btnSubirMartes = new JButton("˄");
+	JButton btnSubirMiercoles = new JButton("˄");
+	JButton btnSubirJueves = new JButton("˄");
+	JButton btnSubirViernes = new JButton("˄");
+	JButton btnSubirSabado = new JButton("˄");
+	
+	JButton btnBajarDomingo = new JButton("˅");
+	JButton btnBajarLunes = new JButton("˅");
+	JButton btnBajarMartes = new JButton("˅");
+	JButton btnBajarMiercoles = new JButton("˅");
+	JButton btnBajarJueves = new JButton("˅");
+	JButton btnBajarViernes = new JButton("˅");
+	JButton btnBajarSabado = new JButton("˅");
 	
 	public Cat_Cuadrante(){
-		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Cuadrante"));
+		this.panel.setBorder(BorderFactory.createTitledBorder("Cuadrantes"));
 		
-		this.setTitle("Cuadrante");
+		this.setTitle("Cuadrantes");
 		
-		int x = 15, y=30, ancho=100;
+		int x = 30, y=30;
 		
-		Border border = BorderFactory.createLineBorder(new Color(80,80,100));
-		txaNombre.setBorder(border);
-		txaDescripcion.setBorder(border);
+		this.panel.add(new JLabel("Folio:")).setBounds(x,y,100,20);
+		this.panel.add(txtFolio).setBounds(130,y,130,20);
+		this.panel.add(chbStatus).setBounds(270,y,60,20);
 		
-		panelEnabledFalse();
-		txtFolio.setEditable(true);
+		this.panel.add(new JLabel("Cuadrante:")).setBounds(x,y+=25,100,20);
+		this.panel.add(txtCuadrante).setBounds(130, y, 300,20);
 		
-		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
-		panel.add(txtFolio).setBounds(ancho+10,y,ancho,20);
-//		panel.add(btnBuscar).setBounds(x+ancho+ancho,y,32,20);
+		this.panel.add(new JLabel("Pefil:")).setBounds(x,y+=25,100,20);
+		this.panel.add(Descripcion).setBounds(130, y, 300,250);	
 		
-		panel.add(chStatus).setBounds(x+33+(ancho*2),y,60,20);
-//		panel.add(btnNuevo).setBounds(x+295,y,ancho+20,20);
+		this.panel.add(new JLabel("Jefatura:")).setBounds(x,y+=255,100,20);
+		this.panel.add(cmbJefatura).setBounds(130, y, 300,20);
 		
-		panel.add(new JLabel("Cuadrante:")).setBounds(5,y+=30,ancho+40,20);
-		panel.add(txaNombre).setBounds(ancho+10,y,ancho*3+20,100);
+		this.panel.add(new JLabel("Nivel Gerarquico: ")).setBounds(x,y+=25,100,20);
+		this.panel.add(cmbnivel_gerarquico).setBounds(130, y, 300,20);
 		
-		panel.add(new JLabel("Perfil del Cuadrante: ")).setBounds(ancho*4+50,30,ancho+ancho,20);
-		panel.add(txaDescripcion).setBounds(ancho*4+50,60,ancho*3,200);
+		this.panel.add(new JLabel("Equipo de Trabajo:")).setBounds(x,y+=25,100,20);
+		this.panel.add(cmbEquipo_Trabajo).setBounds(130, y, 300,20);
 		
-		panel.add(new JLabel("Establecimiento:")).setBounds(5,y+=110,ancho,20);
-		panel.add(cmbEstablecimiento).setBounds(ancho+10,y,ancho+ancho,20);
-		panel.add(new JLabel("Nivel Gerarquico: ")).setBounds(5,y+=30,ancho,20);
-		panel.add(spnNGerarquico).setBounds(ancho+10,y,50,20);
+		this.panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,100,20);
+		this.panel.add(cmbEstablecimiento).setBounds(130, y,300,20);
+
+		this.panel.add(new JLabel("Días:")).setBounds(x,y+=30,100,20);
+			this.panel.add(chTodos).setBounds(130,y,60,20);
+			this.panel.add(chDomingo).setBounds(210,y,80,20);
+			this.panel.add(chLunes).setBounds(300,y,60,20);
+			this.panel.add(chMartes).setBounds(375,y,70,20);
+			this.panel.add(chMiercoles).setBounds(130,y+=25,80,20);
+			this.panel.add(chJueves).setBounds(210,y,70,20);
+			this.panel.add(chViernes).setBounds(300,y,70,20);
+			this.panel.add(chSabado).setBounds(375,y,70,20);
 		
-		panel.add(new JLabel("Dia:")).setBounds(5,y+=90,ancho,20);
+		this.panel.add(pestanas).setBounds(450,30,600,450);
 		
-		panel.add(chTodos).setBounds(75,y,60,20);
-		panel.add(chDomingo).setBounds(140,y,80,20);
-		panel.add(chLunes).setBounds(220,y,60,20);
-		panel.add(chMartes).setBounds(285,y,70,20);
-		panel.add(chMiercoles).setBounds(355,y,85,20);
-		panel.add(chJueves).setBounds(440,y,70,20);
-		panel.add(chViernes).setBounds(510,y,70,20);
-		panel.add(chSabado).setBounds(585,y,80,20);
+		this.pestanas.addTab("Domingo", pDomingo);
+		this.domingo();
+		this.pestanas.addTab("Lunes", pLunes);
+		this.lunes();
+		this.pestanas.addTab("Martes", pMarte);
+		this.martes();
+		this.pestanas.addTab("Miercoles", pMiercoles);
+		this.miercoles();
+		this.pestanas.addTab("Jueves", pJueves);
+		this.jueves();
+		this.pestanas.addTab("Viernes", pViernes);
+		this.viernes();
+		this.pestanas.addTab("Sábado", pSabado);
+		this.sabado();
 		
-		panel.add(new JLabel("Eq. Trabajo:")).setBounds(5,y+=30,ancho,20);
-		panel.add(cmbEqTrabajo).setBounds(ancho+10,y,ancho+ancho,20);
-		panel.add(new JLabel("Jefatura:")).setBounds(5,y+=30,ancho,20);
-		panel.add(cmbJefatura).setBounds(ancho+10,y,ancho+ancho,20);
-		
+	    
 //		panel.add(btnEditar).setBounds(x+300,y,ancho,20);
 //		panel.add(btnDeshacer).setBounds(x+ancho+90,y+=30,ancho,20);
 //		panel.add(btnSalir).setBounds(x+80,y,ancho,20);
 //		panel.add(btnGuardar).setBounds(x+300,y,ancho,20);
 		
-//		panel.add(getPanelTabla()).setBounds(5,y+=30,ancho*7+50,300);
+
 		
-		txtFolio.setDocument(new JTextFieldLimit(9));
-		txaNombre.setDocument(new JTextFieldLimit(100));
-		
-		txaNombre.setLineWrap(true); 
-		txaNombre.setWrapStyleWord(true);
-		txaNombre.setDocument(new JTextFieldLimit(250));
-		
-		txaDescripcion.setLineWrap(true); 
-		txaDescripcion.setWrapStyleWord(true);
-		txaDescripcion.setDocument(new JTextFieldLimit(500));
-		
-		chStatus.setEnabled(false);
-		cmbEstablecimiento.setEditable(false);
-		
-		panel.add(tablapane).setBounds(5,y+=30,ancho*7+50,300);
-			
-		
-		  pDomingo.setOpaque(true); 
-		  pDomingo.setBackground(Color.white);
-		  tablapane.addTab("Domingo", pDomingo);
+//		txtFolio.setDocument(new JTextFieldLimit(9));
+//		txaNombre.setDocument(new JTextFieldLimit(100));
+//		
+//		txaNombre.setLineWrap(true); 
+//		txaNombre.setWrapStyleWord(true);
+//		txaNombre.setDocument(new JTextFieldLimit(250));
+//		
+//		txaDescripcion.setLineWrap(true); 
+//		txaDescripcion.setWrapStyleWord(true);
+//		txaDescripcion.setDocument(new JTextFieldLimit(500));
+//		
+//		chStatus.setEnabled(false);
+//		cmbEstablecimiento.setEditable(false);
+//		
+//		panel.add(tablapane).setBounds(5,y+=30,ancho*7+50,300);
+//		  pDomingo.setOpaque(true); 
+//		  pDomingo.setBackground(Color.white);
+//		 panel.add(tablapane).setBounds(5,y+=30,ancho*7+50,300);
+//		  
+//		  pLunes.add("Tabla",getPanelTabla()).setBounds(5000000,0,0,0);
+//		 
+//		  pLunes.setOpaque(true); 
+//		  pLunes.setBackground(Color.gray);
+//		  tablapane.addTab("Lunes", pLunes);
+//		  
+//		  pMartes.setOpaque(true); 
+//		  pMartes.setBackground(Color.white);
+//		  tablapane.addTab("Martes", pMartes);
+//		  
+//		  pMiercoles.setOpaque(true); 
+//		  pMiercoles.setBackground(Color.gray);
+//		  tablapane.addTab("Miercoles", pMiercoles);
+//		  
+//		  pJueves.setOpaque(true); 
+//		  pJueves.setBackground(Color.white);
+//		  tablapane.addTab("Jueves", pJueves);
+//		  
+//		  pViernes.setOpaque(true); 
+//		  pViernes.setBackground(Color.gray);
+//		  tablapane.addTab("Viernes", pViernes);
+//		  
+//		  pSabado.setOpaque(true); 
+//		  pSabado.setBackground(Color.white);
+//		  tablapane.addTab("Sabado", pSabado);
 		  
-		  pLunes.add("Tabla",getPanelTabla()).setBounds(5000000,0,0,0);
-		 
-		  pLunes.setOpaque(true); 
-		  pLunes.setBackground(Color.gray);
-		  tablapane.addTab("Lunes", pLunes);
-		  
-		  pMartes.setOpaque(true); 
-		  pMartes.setBackground(Color.white);
-		  tablapane.addTab("Martes", pMartes);
-		  
-		  pMiercoles.setOpaque(true); 
-		  pMiercoles.setBackground(Color.gray);
-		  tablapane.addTab("Miercoles", pMiercoles);
-		  
-		  pJueves.setOpaque(true); 
-		  pJueves.setBackground(Color.white);
-		  tablapane.addTab("Jueves", pJueves);
-		  
-		  pViernes.setOpaque(true); 
-		  pViernes.setBackground(Color.gray);
-		  tablapane.addTab("Viernes", pViernes);
-		  
-		  pSabado.setOpaque(true); 
-		  pSabado.setBackground(Color.white);
-		  tablapane.addTab("Sabado", pSabado);
-		  
-		  panel.add(sNivel).setBounds(550,360,20,20);
-		  panel.add(new JLabel("Subir Nivel")).setBounds(575,360,70,20);
-		  
-		  panel.add(bNivel).setBounds(640,360,20,20);
-		  panel.add(new JLabel("Bajar Nivel")).setBounds(665,360,70,20);
-		  
-//		btnGuardar.setEnabled(false);
-//		btnDeshacer.setEnabled(false);
-		
+
 		txtFolio.requestFocus();
-		txtFolio.addKeyListener(buscar_action);
-		txtFolio.addKeyListener(numerico_action);
-		
-//		btnGuardar.addActionListener(guardar);
-//		btnSalir.addActionListener(cerrar);
-//		btnBuscar.addActionListener(buscar);
-//		btnDeshacer.addActionListener(deshacer);
-//		btnNuevo.addActionListener(nuevo);
-//		btnEditar.addActionListener(editar);
-//		btnEditar.setEnabled(false);
+
 		
 		cont.add(panel);
 		
-		agregar(tabla);
-		
-		this.setSize(765,750);
+		this.setSize(1080,730);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
-	private JScrollPane getPanelTabla()	{		
-		new Connexion();
+	public void domingo(){
+		this.pDomingo.setBorder(BorderFactory.createTitledBorder("Domingo"));
+		this.pDomingo.setOpaque(true); 
+		this.pDomingo.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
+		
+		this.pDomingo.add(scrollDomingo).setBounds(15,50,560,350);
 
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMinWidth(40);
-		tabla.getColumnModel().getColumn(0).setMinWidth(40);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Actividad");
-		tabla.getColumnModel().getColumn(1).setMinWidth(665);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(665);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(2).setMinWidth(40);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(40);
+		this.pDomingo.add(txtActividadDomingo).setBounds(15, 20, 300, 20);
 		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		this.pDomingo.add(btnAgregarDomingo).setBounds(320,20,75,20);
 		
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		this.pDomingo.add(btnBajarDomingo).setBounds(480,20,40,20);
+		this.pDomingo.add(btnSubirDomingo).setBounds(535,20,40,20);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
+		this.tablaDomingo.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaDomingo.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaDomingo.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaDomingo.getColumnModel().getColumn(1).setHeaderValue("Actividad");
 		
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-			return lbl; 
-			} 
-		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-		
-		Statement s;
-		ResultSet rs;
-		try {
-			s = con.conexion().createStatement();
-			rs = s.executeQuery("select * from tb_cuadrante");
-			
-
-			while (rs.next())
-			{ 
-			   String [] fila = new String[8];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim();
-			   
-			   fila[2] = rs.getString(8).trim();
-			   
-			   modelo.addRow(fila); 
-			}	
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-		   
-	    return scrol; 
 	}
 	
-	private void agregar(final JTable tbl) {
-        tbl.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-	        	if(e.getClickCount()==1){
-	        		int fila = tabla.getSelectedRow();
-	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
-	        
-					Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar(id);
-						
-					txtFolio.setText(id+"");
-					txaNombre.setText(modelo.getValueAt(fila,1)+"");
-					cmbEstablecimiento.setSelectedIndex(cuadrante.getEstablecimiento());
-					spnNGerarquico.setValue(cuadrante.getNivel_gerarquico());
-					cmbDias.setSelectedIndex(cuadrante.getDia());
-					cmbEqTrabajo.setSelectedIndex(cuadrante.getEq_trabajo());
-					cmbJefatura.setSelectedIndex(cuadrante.getJefatura());
-					chStatus.setSelected(true);
-					txaDescripcion.setText(cuadrante.getDescripcion().trim());
-						
-					txtFolio.setEditable(false);
-					txaNombre.setEditable(false);
-					cmbEstablecimiento.setEnabled(false);
-					
-					spnNGerarquico.setEnabled(false);
-						
-					cmbDias.setEnabled(false);
-					cmbEqTrabajo.setEnabled(false);
-					cmbJefatura.setEnabled(false);
-					chStatus.setEnabled(false);
-					txaDescripcion.setEditable(false);
-						
-//					btnEditar.setEnabled(true);
-//					btnGuardar.setEnabled(false);
-					
-	        	}
-	        }
-        });
-    }
-	
-	ActionListener guardar = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			
-			System.out.println(Integer.parseInt(spnNGerarquico.getValue().toString()));
-			if(validaCamposCmb()!="") {
-				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCamposCmb(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-				return;
-			}else{
-
-			if(txtFolio.getText().equals("")){
-				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-			}else{			
-				Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar(Integer.parseInt(txtFolio.getText()));
-				
-				if(cuadrante.getFolio() == Integer.parseInt(txtFolio.getText())){
-					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, �desea cambiarlo?") == 0){
-						if(validaCampos()!="") {
-							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-							return;
-						}else{
-							int nroFila = tabla.getSelectedRow();
-							
-							cuadrante.setNombre(txaNombre.getText().toUpperCase());
-							cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedIndex());
-							cuadrante.setNivel_gerarquico(Integer.parseInt(spnNGerarquico.getValue().toString()));
-							cuadrante.setDia(cmbDias.getSelectedIndex());
-							cuadrante.setEq_trabajo(cmbEqTrabajo.getSelectedIndex());
-							cuadrante.setJefatura(cmbJefatura.getSelectedIndex());
-							cuadrante.setStatus(chStatus.isSelected());
-							cuadrante.setDescripcion(txaDescripcion.getText().toUpperCase());
-							
-							cuadrante.actualizar(Integer.parseInt(txtFolio.getText()));
-							
-							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txaNombre.getText().toUpperCase(),nroFila,1);
-							modelo.setValueAt(cmbEstablecimiento.getSelectedItem(), nroFila, 2);
-							
-							panelLimpiar();
-							panelEnabledFalse();
-							txtFolio.setEditable(true);
-							txtFolio.requestFocus();
-						}
-						
-						JOptionPane.showMessageDialog(null,"El registr� se actualiz� de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-					}else{
-						return;
-					}
-				}else{
-					if(validaCampos()!="") {
-						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						return;
-					}else{
-						cuadrante.setNombre(txaNombre.getText().toUpperCase());
-						cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedIndex());
-						cuadrante.setNivel_gerarquico(Integer.parseInt(spnNGerarquico.getValue().toString()));
-						cuadrante.setDia(cmbDias.getSelectedIndex());
-						cuadrante.setEq_trabajo(cmbEqTrabajo.getSelectedIndex());
-						cuadrante.setJefatura(cmbJefatura.getSelectedIndex());
-						cuadrante.setStatus(chStatus.isSelected());
-						cuadrante.setDescripcion(txaDescripcion.getText().toUpperCase());
-						cuadrante.guardar();
-						
-						Object[] fila = new Object[tabla.getColumnCount()]; 
-							
-						fila[0]=txtFolio.getText();
-						fila[1]=txaNombre.getText().toUpperCase();
-						fila[2]=chStatus.isSelected();
-						modelo.addRow(fila); 
-						
-						panelLimpiar();
-						panelEnabledFalse();
-						txtFolio.setEditable(true);
-						txtFolio.requestFocus();
-						JOptionPane.showMessageDialog(null,"El registr� se guard� de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-					}
-				}
-			}
-		}
-		}
-	};
-	
-	KeyListener buscar_action = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e){
-		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-//				btnBuscar.doClick();
-			}
-		}
-	};
-	
-	KeyListener numerico_action = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-
-		   if(((caracter < '0') ||
-		        (caracter > '9')) &&
-		        (caracter != KeyEvent.VK_BACK_SPACE)){
-		    	e.consume(); 
-		    }			
-		}
-		@Override
-		public void keyPressed(KeyEvent e){}
-		@Override
-		public void keyReleased(KeyEvent e){}
-								
-	};
-	
-	ActionListener buscar = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			if(txtFolio.getText().equals("")){
-				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}else{
-			Obj_Atributos atrib = new Obj_Atributos();
-			atrib = atrib.buscar(Integer.parseInt(txtFolio.getText()));
-			
-			if(atrib.getFolio() != 0){
-			
-			txtFolio.setText(atrib.getFolio()+"");
-			txaNombre.setText(atrib.getDescripcion()+"");
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			cmbEstablecimiento.setSelectedIndex(Integer.parseInt(atrib.getValor()+""));
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			
-			System.out.println(atrib.getStatus());
-			if(atrib.getStatus() == true){chStatus.setSelected(true);}
-			else{chStatus.setSelected(false);}
-			
-//			btnNuevo.setEnabled(false);
-//			btnEditar.setEnabled(false);
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
-			
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-				}
-			}
-		}
-	};
-	
-	ActionListener cerrar = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			dispose();
-		}
+	public void lunes(){
+		this.pLunes.setBorder(BorderFactory.createTitledBorder("Lunes"));
+		this.pLunes.setOpaque(true); 
+		this.pLunes.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-	};
-	
-	private String validaCampos(){
-		String error="";
-		if(txaNombre.getText().equals("")) 			error+= "Bono\n";
-				
-		return error;
-	}
-	private String validaCamposCmb(){
-		String error="";
-		if(cmbEstablecimiento.getSelectedIndex()==0) 			error+= " Establecimiento\n";
-		if(cmbDias.getSelectedIndex()==0)						error+= " Dias\n";
-		if(cmbEqTrabajo.getSelectedIndex()==0)					error+= " Equipo de Trabajo\n";
-		if(cmbJefatura.getSelectedIndex()==0)					error+= " Jefatura\n";
-				
-		return error;
+		this.pLunes.add(scrollLunes).setBounds(15,50,560,350);
+		
+		this.pLunes.add(txtActividadLunes).setBounds(15, 20, 300, 20);
+		
+		this.pLunes.add(btnAgregarLunes).setBounds(320,20,75,20);
+		
+		this.pLunes.add(btnBajarLunes).setBounds(480,20,40,20);
+		this.pLunes.add(btnSubirLunes).setBounds(535,20,40,20);
+		
+		this.tablaLunes.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaLunes.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaLunes.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaLunes.getColumnModel().getColumn(1).setHeaderValue("Actividad");
 	}
 	
-	ActionListener nuevo = new ActionListener(){
-		public void actionPerformed(ActionEvent e) {
-			Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscar_nuevo();
+	public void martes(){
+		this.pMarte.setBorder(BorderFactory.createTitledBorder("Martes"));
+		this.pMarte.setOpaque(true); 
+		this.pMarte.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-			panelLimpiar();
-			panelEnabledTrue();
-			txtFolio.setEditable(false);
-			txaNombre.requestFocus();
-			
-//			btnDeshacer.setEnabled(true);
-//			btnGuardar.setEnabled(true);
-			
-			if(cuadrante.getFolio() != 0){
-				txtFolio.setText(cuadrante.getFolio()+1+"");
-			}else{
-				txtFolio.setText(1+"");
-			}
-		}
-	};
-	
-	ActionListener deshacer = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			
-			panelLimpiar();
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
-//			btnNuevo.setEnabled(true);
-//			btnEditar.setEnabled(false);
-			chStatus.setSelected(false);
-		}
-	};
-	
-	ActionListener editar = new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			panelEnabledTrue();
-			txtFolio.setEditable(false);
-//			btnEditar.setEnabled(false);
-//			btnNuevo.setEnabled(true);
-//			btnDeshacer.setEnabled(true);
-//			btnGuardar.setEnabled(true);
-		}		
-	};
-	
-	public void panelEnabledFalse(){	
-		txtFolio.setEditable(false);
-		txaNombre.setEditable(false);
-		txaDescripcion.setEditable(false);
-		cmbEstablecimiento.setEnabled(false);
-		spnNGerarquico.setEnabled(false);
-		cmbDias.setEnabled(false);
-		cmbEqTrabajo.setEnabled(false);
-		cmbJefatura.setEnabled(false);
-		chStatus.setEnabled(false);
-	}		
-	
-	public void panelEnabledTrue(){	
-		txaNombre.setEditable(true);
-		cmbEstablecimiento.setEnabled(true);
+		this.pMarte.add(scrollMartes).setBounds(15,50,560,350);
 		
-		spnNGerarquico.setEnabled(true);
+		this.pMarte.add(txtActividadMartes).setBounds(15, 20, 300, 20);
 		
-		cmbDias.setEnabled(true);
-		cmbEqTrabajo.setEnabled(true);
-		cmbJefatura.setEnabled(true);
-		chStatus.setEnabled(true);
-		txaDescripcion.setEditable(true);	
+		this.pMarte.add(btnAgregarMartes).setBounds(320,20,75,20);
+		
+		this.pMarte.add(btnBajarMartes).setBounds(480,20,40,20);
+		this.pMarte.add(btnSubirMartes).setBounds(535,20,40,20);
+		
+		this.tablaMartes.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaMartes.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaMartes.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaMartes.getColumnModel().getColumn(1).setHeaderValue("Actividad");
 	}
 	
-	public void panelLimpiar(){	
-		txtFolio.setText("");
-		txaNombre.setText("");
-		cmbEstablecimiento.setSelectedIndex(0);
-		spnNGerarquico.setValue(10);
-		cmbDias.setSelectedIndex(0);
-		cmbEqTrabajo.setSelectedIndex(0);
-		cmbJefatura.setSelectedIndex(0);
-		chStatus.setSelected(true);
-		txaDescripcion.setText("");
+	public void miercoles(){
+		this.pMiercoles.setBorder(BorderFactory.createTitledBorder("Miercoles"));
+		this.pMiercoles.setOpaque(true); 
+		this.pMiercoles.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
+		
+		this.pMiercoles.add(scrollMiercoles).setBounds(15,50,560,350);
+		
+		this.pMiercoles.add(txtActividadMiercoles).setBounds(15, 20, 300, 20);
+		
+		this.pMiercoles.add(btnAgregarMiercoles).setBounds(320,20,75,20);
+		
+		this.pMiercoles.add(btnBajarMiercoles).setBounds(480,20,40,20);
+		this.pMiercoles.add(btnSubirMiercoles).setBounds(535,20,40,20);
+		
+		this.tablaMiercoles.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaMiercoles.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaMiercoles.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaMiercoles.getColumnModel().getColumn(1).setHeaderValue("Actividad");
 	}
+	
+	public void jueves(){
+		this.pJueves.setBorder(BorderFactory.createTitledBorder("Jueves"));
+		this.pJueves.setOpaque(true); 
+		this.pJueves.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
+		
+		this.pJueves.add(scrollJueves).setBounds(15,50,560,350);
+		
+		this.pJueves.add(txtActividadJueves).setBounds(15, 20, 300, 20);
+		
+		this.pJueves.add(btnAgregarJueves).setBounds(320,20,75,20);
+		
+		this.pJueves.add(btnBajarJueves).setBounds(480,20,40,20);
+		this.pJueves.add(btnSubirJueves).setBounds(535,20,40,20);
+		
+		this.tablaJueves.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaJueves.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaJueves.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaJueves.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+	}
+	
+	public void viernes(){
+		this.pViernes.setBorder(BorderFactory.createTitledBorder("Viernes"));
+		this.pViernes.setOpaque(true); 
+		this.pViernes.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
+		
+		this.pViernes.add(scrollViernes).setBounds(15,50,560,350);
+		
+		this.pViernes.add(txtActividadViernes).setBounds(15, 20, 300, 20);
+		
+		this.pViernes.add(btnAgregarViernes).setBounds(320,20,75,20);
+		
+		this.pViernes.add(btnBajarViernes).setBounds(480,20,40,20);
+		this.pViernes.add(btnSubirViernes).setBounds(535,20,40,20);
+		
+		this.tablaViernes.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaViernes.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaViernes.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaViernes.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+	}
+	
+	public void sabado(){
+		this.pSabado.setBorder(BorderFactory.createTitledBorder("Sabado"));
+		this.pSabado.setOpaque(true); 
+		this.pSabado.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
+		
+		this.pSabado.add(scrollSabado).setBounds(15,50,560,350);
+		
+		this.pSabado.add(txtActividadSabado).setBounds(15, 20, 300, 20);
+		
+		this.pSabado.add(btnAgregarSabado).setBounds(320,20,75,20);
+		
+		this.pSabado.add(btnBajarSabado).setBounds(480,20,40,20);
+		this.pSabado.add(btnSubirSabado).setBounds(535,20,40,20);
+		
+		this.tablaSabado.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		this.tablaSabado.getColumnModel().getColumn(0).setMaxWidth(50);
+		this.tablaSabado.getColumnModel().getColumn(0).setMinWidth(50);
+		this.tablaSabado.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+	}
+	
+	ActionListener opAgregarDomingo = new ActionListener() {
+		@SuppressWarnings("unused")
+		public void actionPerformed(ActionEvent arg0) {
+			String[] addModeloDomingo = new String[2];
+			txtActividadDomingo.getText();
+			
+		}
+	};	
+	
+	ActionListener opAgregarLunes = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	};	
+	
+	ActionListener opAgregarMartes = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	};	
+	
+	ActionListener opAgregarMiercoles = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	};	
+	
+	ActionListener opAgregarJueves = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	};	
+	
+	ActionListener opAgregarViernes = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	};	
+	
+	ActionListener opAgregarSabado = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	};	
 	
 	public static void main (String arg []){
 		try {

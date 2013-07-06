@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -1846,14 +1847,26 @@ public class BuscarSQL {
 		return lista;
 	}
 	
-	public String[][] getEstablecimientoLista(){
-		int numero_lista = MaximoListaRaya()+1;
+	public boolean alimentacion_totales_nomina(){
+		int numero_lista = MaximoListaRaya();
 		int numero_nomina = MaximoListaNomina();
-		
+		if(numero_lista == numero_nomina){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	// estoy trabajando aqui
+	public String[][] getEstablecimientoLista(){
+		int numero_lista = MaximoListaRaya();
+		int numero_nomina = MaximoListaNomina();
+
 		String[][] Matriz = null;
 		
 		if(numero_lista == numero_nomina){
 			String datosif = "select establecimiento, nomina from tb_captura_totales_nomina where lista_raya =" + numero_lista;
+			
 			Matriz = new String[getFilas(datosif)][2];
 			Statement s;
 			ResultSet rs;
@@ -1932,7 +1945,6 @@ public class BuscarSQL {
 	}
 	
 	public String[][] getNomina(int Folio){
-//		String datos = "exec sp_lista_nomina "+Folio;
 		String datos = "exec sp_select_nomina "+Folio;
 		String[][] Matriz = new String[getFilas(datos)+1][6];
 		Statement s;
@@ -1984,7 +1996,7 @@ public class BuscarSQL {
 			s = con.conexion().createStatement();
 			rs = s.executeQuery(datos);
 			while(rs.next()){
-				valor = rs.getInt(1);
+				valor = rs.getInt(1)+1;
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -2009,6 +2021,8 @@ public class BuscarSQL {
 		}
 		return valor; 
 	}
+	
+	
 	public String[] getTotalesNomina(int Folio){
 		
 		String datos = "exec sp_total_nomina "+Folio;
@@ -2322,12 +2336,7 @@ public class BuscarSQL {
 			rs = s.executeQuery(query);
 			
 			while(rs.next()){
-				if(rs.getInt(0) != 0){
-					existe = true;
-				}else{
-					existe = false;
-				}
-				
+				existe = Boolean.parseBoolean(rs.getString("Existe"));
 			}
 			
 		} catch (SQLException e1) {
@@ -2467,4 +2476,44 @@ public class BuscarSQL {
 		return pila;
 			
 	}
+	
+	public Obj_Actividad Buscar_Actividad(int folio) throws SQLException{
+		Obj_Actividad actividad = new Obj_Actividad();
+		String query = "select * from tb_actividad where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				actividad.setActividad(rs.getString("actividad"));
+				actividad.setDescripcion(rs.getString("descripcion"));
+				actividad.setRespuesta(rs.getString("respuesta"));
+				actividad.setAtributos(rs.getString("atributo"));
+				actividad.setNivel_critico(rs.getString("nivel_critico"));
+				actividad.setDomingo(rs.getInt("domingo"));
+				actividad.setLunes(rs.getInt("lunes"));
+				actividad.setMartes(rs.getInt("martes"));
+				actividad.setMiercoles(rs.getInt("miercoles"));
+				actividad.setJueves(rs.getInt("jueves"));
+				actividad.setViernes(rs.getInt("viernes"));
+				actividad.setSabado(rs.getInt("sabado"));
+				actividad.setHora_inicio(rs.getString("hora_inicio"));
+				actividad.setHora_final(rs.getString("hora_final"));
+				actividad.setTemporada(rs.getString("temporada"));
+				actividad.setCarga(rs.getInt("carga") == 1 ? true : false);
+				actividad.setRepetir(rs.getInt("repetir"));
+				actividad.setStatus(rs.getString("status").equals("1") ? true : false);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return actividad;
+	}
+	
 }

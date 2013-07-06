@@ -1,28 +1,36 @@
 package objetos;
 
+import java.sql.SQLException;
+
+import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.GuardarSQL;
 
 public class Obj_Actividad {
 	int folio;
-	int numero_actividad;
-	int subnumero_actividad;
 	String actividad;
-	int respuesta;
-	int atributos;
-	int nivel_critico;
-	int dia;
+	String descripcion;
+	String respuesta;
+	String atributos;
+	String nivel_critico;
+	int domingo;
+	int lunes;
+	int martes;
+	int miercoles;
+	int jueves;
+	int viernes;
+	int sabado;
 	String hora_inicio;
 	String hora_final;
-	int temporada;
-	boolean asignacion;
+	String temporada;
+	boolean carga;
 	int repetir;
-	String descripcion;
 	boolean status;
-	
+
 	public Obj_Actividad(){
-		this.folio=0; this.numero_actividad=0; this.subnumero_actividad=0; this.actividad="";
-		this.respuesta=0; this.atributos=0; this.nivel_critico=0; this.dia=0; this.hora_inicio="";
-		this.hora_final=""; this.temporada=0; this.asignacion=false; this.repetir=0; this.descripcion="";
+		this.folio=0; this.actividad=""; this.descripcion=""; this.respuesta=""; this.atributos=""; this.nivel_critico="";
+		this.domingo=0; this.lunes=0; this.martes=0; this.miercoles=0; this.jueves=0; this.viernes=0; this.sabado=0; this.hora_inicio="";
+		this.hora_final=""; this.temporada=""; this.carga=false; this.repetir=0; this.status = false;
 	}
 
 	public int getFolio() {
@@ -33,22 +41,6 @@ public class Obj_Actividad {
 		this.folio = folio;
 	}
 
-	public int getNumero_actividad() {
-		return numero_actividad;
-	}
-
-	public void setNumero_actividad(int numero_actividad) {
-		this.numero_actividad = numero_actividad;
-	}
-
-	public int getSubnumero_actividad() {
-		return subnumero_actividad;
-	}
-
-	public void setSubnumero_actividad(int subnumero_actividad) {
-		this.subnumero_actividad = subnumero_actividad;
-	}
-
 	public String getActividad() {
 		return actividad;
 	}
@@ -57,36 +49,92 @@ public class Obj_Actividad {
 		this.actividad = actividad;
 	}
 
-	public int getRespuesta() {
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getRespuesta() {
 		return respuesta;
 	}
 
-	public void setRespuesta(int respuesta) {
+	public void setRespuesta(String respuesta) {
 		this.respuesta = respuesta;
 	}
 
-	public int getAtributos() {
+	public String getAtributos() {
 		return atributos;
 	}
 
-	public void setAtributos(int atributos) {
+	public void setAtributos(String atributos) {
 		this.atributos = atributos;
 	}
 
-	public int getNivel_critico() {
+	public String getNivel_critico() {
 		return nivel_critico;
 	}
 
-	public void setNivel_critico(int nivel_critico) {
+	public void setNivel_critico(String nivel_critico) {
 		this.nivel_critico = nivel_critico;
 	}
 
-	public int getDia() {
-		return dia;
+	public int getDomingo() {
+		return domingo;
 	}
 
-	public void setDia(int dia) {
-		this.dia = dia;
+	public void setDomingo(int domingo) {
+		this.domingo = domingo;
+	}
+
+	public int getLunes() {
+		return lunes;
+	}
+
+	public void setLunes(int lunes) {
+		this.lunes = lunes;
+	}
+
+	public int getMartes() {
+		return martes;
+	}
+
+	public void setMartes(int martes) {
+		this.martes = martes;
+	}
+
+	public int getMiercoles() {
+		return miercoles;
+	}
+
+	public void setMiercoles(int miercoles) {
+		this.miercoles = miercoles;
+	}
+
+	public int getJueves() {
+		return jueves;
+	}
+
+	public void setJueves(int jueves) {
+		this.jueves = jueves;
+	}
+
+	public int getViernes() {
+		return viernes;
+	}
+
+	public void setViernes(int viernes) {
+		this.viernes = viernes;
+	}
+
+	public int getSabado() {
+		return sabado;
+	}
+
+	public void setSabado(int sabado) {
+		this.sabado = sabado;
 	}
 
 	public String getHora_inicio() {
@@ -105,20 +153,20 @@ public class Obj_Actividad {
 		this.hora_final = hora_final;
 	}
 
-	public int getTemporada() {
+	public String getTemporada() {
 		return temporada;
 	}
 
-	public void setTemporada(int temporada) {
+	public void setTemporada(String temporada) {
 		this.temporada = temporada;
 	}
 
-	public boolean isAsignacion() {
-		return asignacion;
+	public boolean isCarga() {
+		return carga;
 	}
 
-	public void setAsignacion(boolean asignacion) {
-		this.asignacion = asignacion;
+	public void setCarga(boolean carga) {
+		this.carga = carga;
 	}
 
 	public int getRepetir() {
@@ -129,14 +177,6 @@ public class Obj_Actividad {
 		this.repetir = repetir;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
 	public boolean isStatus() {
 		return status;
 	}
@@ -144,13 +184,30 @@ public class Obj_Actividad {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
+
 	public int Nuevo(){
 		return new BuscarSQL().Nueva_Actividad();
 	}
 	
 	public boolean Existe(int folio){ 
 		return new BuscarSQL().ActividadExiste(folio);
+	}
+	
+	public boolean Guardar(){
+		return new GuardarSQL().Guardar_Actividad(this);
+	}
+	
+	public boolean Actualizar(int folio){
+		return new ActualizarSQL().Actualizar_Actividad(this, folio);
+	}
+	
+	public Obj_Actividad Buscar(int folio){
+		try {
+			return new BuscarSQL().Buscar_Actividad(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
 	}
 
 }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 public class Obj_Nivel_Gerarquico 
@@ -100,6 +101,15 @@ public class Obj_Nivel_Gerarquico
 			e.printStackTrace();
 		}
 		return null; 
+	}
+	
+	public String[] Combo_Nivel_Gerarquico(){
+		try {
+			return new Cargar_Combo().NivelGerarquico("tb_nivel_gerarquico");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
 	}
 	
 	

@@ -187,15 +187,15 @@ public class Cat_Filtro_Emp extends JFrame {
 			return lbl; 
 			} 
 		}; 
-						tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;

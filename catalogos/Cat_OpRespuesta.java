@@ -49,6 +49,8 @@ public class Cat_OpRespuesta extends JFrame
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
+	JButton btnSubir = new JButton("Ë„");
+	JButton btnBajar = new JButton("Ë…");
 	
 	DefaultTableModel modelo       = new DefaultTableModel(0,2)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -61,7 +63,7 @@ public class Cat_OpRespuesta extends JFrame
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	String lista[] = {"Seleccione Una Opción","Opción Libre","Opción Múltiple"};
+	String lista[] = {"Seleccione Una OpciÃ³n","OpciÃ³n Libre","OpciÃ³n MÃºltiple"};
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbRespuesta = new JComboBox(lista);
 	
@@ -83,7 +85,7 @@ public class Cat_OpRespuesta extends JFrame
 		init();
 		
 		Obj_OpRespuesta respuesta = new Obj_OpRespuesta().buscar(folio);
-		if(respuesta.getOpcion().equals("Opción Múltiple")){
+		if(respuesta.getOpcion().equals("OpciÃ³n MÃºltiple")){
 			txtFolio.setText(folio+"");
 			cmbRespuesta.setSelectedItem(respuesta.getOpcion());
 			txtNombre.setText(respuesta.getNombre());
@@ -123,12 +125,14 @@ public class Cat_OpRespuesta extends JFrame
 		this.panel.add(new JLabel("Nombre:")).setBounds(20,90,70,20);
 		this.panel.add(txtNombre).setBounds(95,90,190,20);
 		
-		this.panel.add(new JLabel("Descripción:")).setBounds(20,115,70,20);
+		this.panel.add(new JLabel("DescripciÃ³n:")).setBounds(20,115,70,20);
 		this.panel.add(txtDescripcion).setBounds(95,115,190,20);
 		this.panel.add(btnAgregar).setBounds(305,115,75,20);
 		this.panel.add(btnRemover).setBounds(385,115,75,20);
+		this.panel.add(btnBajar).setBounds(320,140,40,20);
+		this.panel.add(btnSubir).setBounds(400,140,40,20);
 		
-		panel.add(panelScroll).setBounds(20,150,440,195);
+		panel.add(panelScroll).setBounds(20,165,440,190);
 		
 		panel.add(btnSalir).setBounds(20,360,90,20);
 		panel.add(btnDeshacer).setBounds(200,360,90,20);
@@ -158,6 +162,8 @@ public class Cat_OpRespuesta extends JFrame
 		btnGuardar.addActionListener(opGuardar);
 		btnBuscar.addActionListener(opFiltro);
 		btnEditar.addActionListener(opEditar);
+		btnBajar.addActionListener(opDesplazar);
+		btnSubir.addActionListener(opDesplazar);
 		
 		agregar(tabla);
 		
@@ -167,6 +173,50 @@ public class Cat_OpRespuesta extends JFrame
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
+	
+	ActionListener opDesplazar = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(tabla.getRowCount()>1){
+				if(tabla.isRowSelected(tabla.getSelectedRow())){
+					if(arg0.getSource().equals(btnSubir)){
+						if(tabla.getSelectedRow() != 0){
+							Object primero = modelo.getValueAt(tabla.getSelectedRow(),1);
+							Object segundo = modelo.getValueAt(tabla.getSelectedRow()-1,1);
+							
+							modelo.setValueAt(primero,tabla.getSelectedRow()-1,1);
+							modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
+							tabla.setRowSelectionInterval(tabla.getSelectedRow()-1,tabla.getSelectedRow()-1);
+						}else{
+							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
+								
+					}
+					if(arg0.getSource().equals(btnBajar)){
+						if(tabla.getSelectedRow()+1 < tabla.getRowCount()){
+							Object primero = modelo.getValueAt(tabla.getSelectedRow(),1);
+							Object segundo = modelo.getValueAt(tabla.getSelectedRow()+1,1);
+							
+							modelo.setValueAt(primero,tabla.getSelectedRow()+1,1);
+							modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
+							tabla.setRowSelectionInterval(tabla.getSelectedRow()+1,tabla.getSelectedRow()+1);
+						
+						}else{
+							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}
+					}		
+				}else{
+					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+			
+			}else{
+				JOptionPane.showMessageDialog(null,"No hay filas que desplazar!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+		}
+	};
 	
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -199,7 +249,7 @@ public class Cat_OpRespuesta extends JFrame
 		public void actionPerformed(ActionEvent arg0) {
 			switch(cmbRespuesta.getSelectedIndex()){
 				case 0: 
-					JOptionPane.showMessageDialog(null,"Necesita tener una opción de respuesta!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Necesita tener una opciÃ³n de respuesta!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 				break;
 
 				case 1: 
@@ -217,10 +267,10 @@ public class Cat_OpRespuesta extends JFrame
 							respuesta.setNombre(txtNombre.getText().toUpperCase());
 													
 							if(respuesta.guardar_libre()){
-								JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null,"El registro se guardÃ³ exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
-								JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null,"El ocurriÃ³ un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 						}
@@ -231,13 +281,13 @@ public class Cat_OpRespuesta extends JFrame
 				case 2:
 					if(tabla.getRowCount() >0){
 						if(new Obj_OpRespuesta().existe(txtNombre.getText().toUpperCase(),cmbRespuesta.getSelectedItem().toString()) == true){
-							if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+							if(JOptionPane.showConfirmDialog(null, "El registro existe, Â¿desea actualizarlo?") == 0){
 								String[] registros_tabla = registros_tabla();
 								if(new Obj_OpRespuesta().actualizar_multiple(registros_tabla,txtNombre.getText())){
-									JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null,"El registro se guardÃ³ exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 								}else{
-									JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null,"El ocurriÃ³ un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
 									return;
 								}
 							}else{
@@ -253,10 +303,10 @@ public class Cat_OpRespuesta extends JFrame
 							respuesta.setNombre(txtNombre.getText().toUpperCase());
 													
 							if(respuesta.guardar_multiple(registros_tabla)){
-								JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null,"El registro se guardÃ³ exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
-								JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null,"El ocurriÃ³ un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 						}
@@ -276,8 +326,6 @@ public class Cat_OpRespuesta extends JFrame
 		String[] registros = new String[tabla.getRowCount()];
 		for(int i=0; i<tabla.getRowCount(); i++){
 			registros[i] = modelo.getValueAt(i, 1)+""; 
-			
-			
 		}
 		return registros; 
 	}
@@ -319,6 +367,8 @@ public class Cat_OpRespuesta extends JFrame
 				  btnEditar.setEnabled(true);
 				  btnAgregar.setEnabled(true);
 				  btnRemover.setEnabled(true);
+				  btnSubir.setEnabled(true);
+				  btnBajar.setEnabled(true);
 				  btnBuscar.setEnabled(true);
 				  chStatus.setEnabled(true);
 				  tabla.setEnabled(true);
@@ -347,7 +397,7 @@ public class Cat_OpRespuesta extends JFrame
 	ActionListener opAgregar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			if(txtDescripcion.getText().equals("")){
-				JOptionPane.showMessageDialog(null,"El campo Descripción es necesario!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,"El campo DescripciÃ³n es necesario!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}else{
 				String[] arreglo = new String[2];
@@ -372,7 +422,7 @@ public class Cat_OpRespuesta extends JFrame
 					modelo.setValueAt(i+1,i,0);
 				}
 			}else{
-				JOptionPane.showMessageDialog(null,"No ha seleccionado ningúna fila para remover!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,"No ha seleccionado ningÃºna fila para remover!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 
@@ -396,6 +446,8 @@ public class Cat_OpRespuesta extends JFrame
 		btnEditar.setEnabled(condicion);
 		btnAgregar.setEnabled(condicion);
 		btnRemover.setEnabled(condicion);
+		btnSubir.setEnabled(condicion);
+		btnBajar.setEnabled(condicion);
 		
 	}
 	
@@ -427,7 +479,7 @@ public class Cat_OpRespuesta extends JFrame
 	
 	ActionListener opciones = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(cmbRespuesta.equals("Opción Libre")){
+			if(cmbRespuesta.equals("OpciÃ³n Libre")){
 				dispose();
 			}
 		}

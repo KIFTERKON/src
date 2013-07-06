@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Vector;
 
+import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -1506,6 +1507,61 @@ public class ActualizarSQL {
 				pstmttabla.setString(2, tabla[i].toUpperCase());
 				pstmttabla.executeUpdate();
 			}
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
+		String query = "update tb_actividad "+
+							"set actividad=?, descripcion=?, respuesta=?, atributo=?, nivel_critico=?, domingo=?, "+
+							"lunes=?, martes=?, miercoles=?, jueves=?, viernes=?, sabado=?, hora_inicio=?, "+
+							"hora_final=?, temporada=?, carga=?, repetir=?, status=? "+ 
+					    "where folio ="+folio;
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, actividad.getActividad().toUpperCase());
+			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
+			pstmt.setString(3, actividad.getRespuesta());
+			pstmt.setString(4, actividad.getAtributos());
+			pstmt.setString(5, actividad.getNivel_critico());
+			pstmt.setInt(6, actividad.getDomingo());
+			pstmt.setInt(7, actividad.getLunes());
+			pstmt.setInt(8, actividad.getMartes());
+			pstmt.setInt(9, actividad.getMiercoles());
+			pstmt.setInt(10, actividad.getJueves());
+			pstmt.setInt(11, actividad.getViernes());
+			pstmt.setInt(12, actividad.getSabado());
+			pstmt.setString(13, actividad.getHora_inicio());
+			pstmt.setString(14, actividad.getHora_final());
+			pstmt.setString(15, actividad.getTemporada());
+			pstmt.setBoolean(16, actividad.isCarga());
+			pstmt.setInt(17, actividad.getRepetir());
+			pstmt.setInt(18, actividad.isStatus()? 1 : 0);
+			
+			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

@@ -33,7 +33,8 @@ public class Cat_Nomina extends JFrame{
 	JButton btnImprimir = new JButton("Imprimir");
 	JButton btnGuardar = new JButton("Guardar");
 	
-	int folio = new Obj_Nomina().MaxListaRaya()+1;
+	int folio = new Obj_Nomina().MaxListaRaya();
+	
 	String[] espacio = {"","","","","",""};
 	String[][] Tabla = new Obj_Nomina().MatrizNomina(folio);
 	

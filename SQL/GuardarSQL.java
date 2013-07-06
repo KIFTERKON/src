@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Vector;
 
+import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Alimentacion_Totales;
@@ -1883,5 +1884,55 @@ public class GuardarSQL {
 		return true;
 	}
 	
+	
+	public boolean Guardar_Actividad(Obj_Actividad actividad){
+		String query = "exec sp_insert_actividad ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+					
+			pstmt.setString(1, actividad.getActividad().toUpperCase());
+			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
+			pstmt.setString(3, actividad.getRespuesta());
+			pstmt.setString(4, actividad.getAtributos());
+			pstmt.setString(5, actividad.getNivel_critico());
+			pstmt.setInt(6, actividad.getDomingo());
+			pstmt.setInt(7, actividad.getLunes());
+			pstmt.setInt(8, actividad.getMartes());
+			pstmt.setInt(9, actividad.getMiercoles());
+			pstmt.setInt(10, actividad.getJueves());
+			pstmt.setInt(11, actividad.getViernes());
+			pstmt.setInt(12, actividad.getSabado());
+			pstmt.setString(13, actividad.getHora_inicio());
+			pstmt.setString(14, actividad.getHora_final());
+			pstmt.setString(15, actividad.getTemporada());
+			pstmt.setBoolean(16, actividad.isCarga());
+			pstmt.setInt(17, actividad.getRepetir());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 }

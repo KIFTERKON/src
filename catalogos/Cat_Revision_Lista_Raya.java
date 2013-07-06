@@ -72,6 +72,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	boolean bono_dia_extra = configs.isBono_dia_extra();
    
 	int numero_lista = getNumeroLista();
+	int maximo_nomina = getMaximoNomina();
 	
 	Object[][] Matriz;
 	Object[][] Tabla = getTabla();
@@ -295,6 +296,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		tabla.getColumnModel().getColumn(21).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(22).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(23).setCellRenderer(render);
+		tabla.getColumnModel().getColumn(24).setCellRenderer(render);
 	
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
@@ -371,7 +373,13 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	};
 	ActionListener opRevisarTotal = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Nomina().setVisible(true);
+			if(new Obj_Revision_Lista_Raya().Captura_alimentacion_totales_nomina()){
+				new Cat_Nomina().setVisible(true);
+			}else{
+				JOptionPane.showMessageDialog(null, "Se necesita que alimente los totales de nómina", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}
+						
 		}
 		
 	};
@@ -437,10 +445,20 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 	
 	ActionListener opGuardarListaRaya = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			if(tabla.isEditing()){
-				tabla.getCellEditor().stopCellEditing();
+			int numero_lista1 = getNumeroLista();
+			int maximo_nomina1 = getMaximoNomina();
+			System.out.println(numero_lista1);
+			System.out.println(maximo_nomina1);
+			if(numero_lista1 == maximo_nomina1 ){
+				if(tabla.isEditing()){
+					tabla.getCellEditor().stopCellEditing();
+				}
+				guardar_lista_raya();
+			}else{
+				JOptionPane.showMessageDialog(null, "Antes de generar la lista de raya tiene que guardar la Nomina", "Aviso al generar", JOptionPane.WARNING_MESSAGE);
+				return;
 			}
-			guardar_lista_raya();
+		
 		}
 	};
 	
@@ -479,7 +497,23 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery("exec sp_max_folio_lista_raya");
 			while(rs.next()){
-				valor = rs.getInt(1)+1;			
+				valor = rs.getInt(1);			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return valor;
+	}
+	
+	public int getMaximoNomina(){
+		int valor = 0;
+		try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("exec sp_maximo_tb_nomina");
+			while(rs.next()){
+				valor = rs.getInt(1);			
 			}
 			
 		} catch (SQLException e1) {

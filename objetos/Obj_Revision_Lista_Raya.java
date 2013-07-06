@@ -318,4 +318,6 @@ public class Obj_Revision_Lista_Raya {
 		}
 	return null; 
 	}
+	
+	public boolean Captura_alimentacion_totales_nomina(){ return new BuscarSQL().alimentacion_totales_nomina(); }
 }
