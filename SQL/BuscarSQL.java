@@ -2516,4 +2516,27 @@ public class BuscarSQL {
 		return actividad;
 	}
 	
+	public boolean existeCuadrante(String cuadrante) throws SQLException{
+		boolean resultado = false;
+		String query = "exec sp_existe_cuadrante '"+cuadrante+"';";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				resultado = rs.getBoolean(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return false;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return resultado;
+	}
+	
+	
 }

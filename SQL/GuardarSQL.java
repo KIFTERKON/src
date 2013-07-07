@@ -361,21 +361,43 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Cuadrante(Obj_Cuadrante cuadrante){
-		String query = "exec sp_insert_cuadrante		 ?,?,?,?,?,?,?,?";
+	public boolean Guardar_Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
+		String query = "exec sp_insert_cuadrante ?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?";
+				
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmtTabla = null;
 		try {
 			con.setAutoCommit(false);
+			
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, cuadrante.getNombre().toUpperCase());
-			pstmt.setInt(2, cuadrante.getEstablecimiento());
-			pstmt.setInt(3, cuadrante.getNivel_gerarquico());
-			pstmt.setInt(4, cuadrante.getDia());
-			pstmt.setInt(5, cuadrante.getEq_trabajo());
-			pstmt.setInt(6, cuadrante.getJefatura());
-			pstmt.setString(7, (cuadrante.getStatus())?"1":"0");
-			pstmt.setString(8, cuadrante.getDescripcion().toUpperCase());
+			pstmtTabla = con.prepareStatement(querytabla);
+			
+			pstmt.setString(1, cuadrante.getCuadrante().toUpperCase());
+			pstmt.setString(2, cuadrante.getPerfil().toUpperCase());
+			pstmt.setString(3, cuadrante.getJefatura());
+			pstmt.setString(4, cuadrante.getNivel_gerarquico());
+			pstmt.setString(5, cuadrante.getEquipo_trabajo());
+			pstmt.setString(6, cuadrante.getEstablecimiento());
+			pstmt.setInt(7, cuadrante.getDomingo());
+			pstmt.setInt(8, cuadrante.getLunes());
+			pstmt.setInt(9, cuadrante.getMartes());
+			pstmt.setInt(10, cuadrante.getMiercoles());
+			pstmt.setInt(11, cuadrante.getJueves());
+			pstmt.setInt(12, cuadrante.getViernes());
+			pstmt.setInt(13, cuadrante.getSabado());
+			pstmt.setInt(14, cuadrante.getStatus());
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
+				pstmtTabla.setString(3, tabla[i][1]);
+				pstmtTabla.setString(4, tabla[i][2]);
+				pstmtTabla.executeUpdate();
+			}
+			
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

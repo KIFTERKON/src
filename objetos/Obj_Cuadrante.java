@@ -2,24 +2,33 @@ package objetos;
 
 import java.sql.SQLException;
 
-import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
 public class Obj_Cuadrante {
-	private int folio;
-	private String nombre;
-	private int establecimiento;
-	private int nivel_gerarquico;
-	private int dia;
-	private int eq_trabajo;
-	private int jefatura;
-	private boolean status;
-	private String descripcion;
 	
+	int folio;
+	String cuadrante;
+	String perfil;
+	String jefatura;
+	String nivel_gerarquico;
+	String equipo_trabajo;
+	String establecimiento;
+	int domingo;
+	int lunes;
+	int martes;
+	int miercoles;
+	int jueves;
+	int viernes;
+	int sabado;
+	int status;
+
 	public Obj_Cuadrante(){
-		this.folio=0; this.nombre=""; this.establecimiento=0; this.nivel_gerarquico=0;
-		this.dia=0; this.eq_trabajo=0; this.jefatura=0; this.status=false; this.descripcion="";
+		this.folio = 0;		this.cuadrante = "";	this.perfil = "";	this.jefatura = "";
+		this.nivel_gerarquico = "";		this.equipo_trabajo = "";	this.establecimiento = "";
+		this.domingo = 0;	this.lunes = 0;		this.martes = 0;		this.miercoles = 0;
+		this.jueves = 0;		this.viernes = 0;		this.sabado = 0; this.status = 0;
+
 	}
 
 	public int getFolio() {
@@ -30,90 +39,152 @@ public class Obj_Cuadrante {
 		this.folio = folio;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getCuadrante() {
+		return cuadrante;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCuadrante(String cuadrante) {
+		this.cuadrante = cuadrante;
 	}
 
-	public int getEstablecimiento() {
-		return establecimiento;
+	public String getPerfil() {
+		return perfil;
 	}
 
-	public void setEstablecimiento(int establecimiento) {
-		this.establecimiento = establecimiento;
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
-	public int getNivel_gerarquico() {
-		return nivel_gerarquico;
-	}
-
-	public void setNivel_gerarquico(int nivelGerarquico) {
-		nivel_gerarquico = nivelGerarquico;
-	}
-
-	public int getDia() {
-		return dia;
-	}
-
-	public void setDia(int dia) {
-		this.dia = dia;
-	}
-
-	public int getEq_trabajo() {
-		return eq_trabajo;
-	}
-
-	public void setEq_trabajo(int eqTrabajo) {
-		eq_trabajo = eqTrabajo;
-	}
-
-	public int getJefatura() {
+	public String getJefatura() {
 		return jefatura;
 	}
 
-	public void setJefatura(int jefatura) {
+	public void setJefatura(String jefatura) {
 		this.jefatura = jefatura;
 	}
-	
-	public boolean getStatus() {
+
+	public String getNivel_gerarquico() {
+		return nivel_gerarquico;
+	}
+
+	public void setNivel_gerarquico(String nivel_gerarquico) {
+		this.nivel_gerarquico = nivel_gerarquico;
+	}
+
+	public String getEquipo_trabajo() {
+		return equipo_trabajo;
+	}
+
+	public void setEquipo_trabajo(String equipo_trabajo) {
+		this.equipo_trabajo = equipo_trabajo;
+	}
+
+	public String getEstablecimiento() {
+		return establecimiento;
+	}
+
+	public void setEstablecimiento(String establecimiento) {
+		this.establecimiento = establecimiento;
+	}
+
+	public int getDomingo() {
+		return domingo;
+	}
+
+	public void setDomingo(int domingo) {
+		this.domingo = domingo;
+	}
+
+	public int getLunes() {
+		return lunes;
+	}
+
+	public void setLunes(int lunes) {
+		this.lunes = lunes;
+	}
+
+	public int getMartes() {
+		return martes;
+	}
+
+	public void setMartes(int martes) {
+		this.martes = martes;
+	}
+
+	public int getMiercoles() {
+		return miercoles;
+	}
+
+	public void setMiercoles(int miercoles) {
+		this.miercoles = miercoles;
+	}
+
+	public int getJueves() {
+		return jueves;
+	}
+
+	public void setJueves(int jueves) {
+		this.jueves = jueves;
+	}
+
+	public int getViernes() {
+		return viernes;
+	}
+
+	public void setViernes(int viernes) {
+		this.viernes = viernes;
+	}
+
+	public int getSabado() {
+		return sabado;
+	}
+
+	public void setSabado(int sabado) {
+		this.sabado = sabado;
+	}
+
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
 	
-	public Obj_Cuadrante buscar(int folio){
+	public boolean existe(String cuadrante){
 		try {
-			return new BuscarSQL().Cuadrante(folio);
+			return new BuscarSQL().existeCuadrante(cuadrante);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null; 
+		return false;
 	}
+
+	public boolean guardar(String[][] tabla){ return new GuardarSQL().Guardar_Cuadrante(this, tabla); }
 	
-	public boolean guardar(){ return new GuardarSQL().Guardar_Cuadrante(this); }
+	public boolean actualizar(int folio, String[][] tabla){ return new ActualizarSQL().Cuadrante(this,folio); }
 	
-	public boolean actualizar(int folio){ return new ActualizarSQL().Cuadrante(this,folio); }
 	
-	public Obj_Cuadrante buscar_nuevo(){
-		try {
-			return new BuscarSQL().Cuadrante_Nuevo();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null; 
-	}
+//	public Obj_Cuadrante buscar(int folio){
+//		try {
+//			return new BuscarSQL().Cuadrante(folio);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null; 
+//	}
+//	
+
+//	
+
+//	
+//	public Obj_Cuadrante buscar_nuevo(){
+//		try {
+//			return new BuscarSQL().Cuadrante_Nuevo();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null; 
+//	}
 	
 }
