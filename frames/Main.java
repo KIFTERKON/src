@@ -54,6 +54,7 @@ public class Main extends InitButton {
 					btnBuscar.setEnabled(false);
 					btnAceptar.setEnabled(false);
 					init_subMenus();
+					user.Session();
 				}
 			}else{
 				JOptionPane.showMessageDialog(null, "La contraseña está vacía...","Aviso",JOptionPane.WARNING_MESSAGE);
@@ -220,7 +221,6 @@ public class Main extends InitButton {
 					Reporte_Lista_Raya.setEnabled(true);
 				if(permisos[i].equals("Reporte Plantilla Activa"))
 					Reporte_Plantilla_Activa.setEnabled(true);
-//					btnListaPrestamo.setEnabled(true);
 				if(permisos[i].equals("Reporte Prestamos"))
 					Reporte_Prestamos.setEnabled(true);
 			}

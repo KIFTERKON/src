@@ -13,6 +13,7 @@ import javax.swing.JTabbedPane;
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 
 import catalogos.Cat_Actividad;
+import catalogos.Cat_Alimentacion_Cuadrante;
 import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
 import catalogos.Cat_Atributos;
@@ -23,9 +24,10 @@ import catalogos.Cat_Bono_Complemento_Sueldo;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
-import catalogos.Cat_Cuadrante_Base;
+import catalogos.Cat_Cuadrante;
 import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Empleado;
+import catalogos.Cat_Empleados_Cuadrantes;
 import catalogos.Cat_Equipo_Trabajo;
 import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Cortes;
@@ -423,13 +425,13 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Actividades"))
 				new Cat_Actividad().setVisible(true);
 			if(e.getActionCommand().equals("Actividades en Cuadrantes"))
-				System.out.println("Pendiente");
+				new Cat_Alimentacion_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Asignación de Telefonos"))
 				new Cat_Filtro_Empleado_Directorio().setVisible(true);
 			if(e.getActionCommand().equals("Cuadrante"))
-				new Cat_Cuadrante_Base().setVisible(true);
+				new Cat_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Empleados en Cuadrantes"))
-				System.out.println("Pendiente");
+				new Cat_Empleados_Cuadrantes().setVisible(true);
 			/* CUADRANTES 
 			 * 		CATALOGO */
 			if(e.getActionCommand().equals("Atributos"))

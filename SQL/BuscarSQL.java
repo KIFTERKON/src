@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
+import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
@@ -2732,6 +2733,60 @@ public class BuscarSQL {
 			e1.printStackTrace();
 		}
 		return Matriz; 
+	}
+	
+	@SuppressWarnings({ "rawtypes", "resource", "unchecked" })
+	public Obj_Usuario getSession() throws IOException {
+		Vector myVector = new Vector();
+		Obj_Usuario usuario = new Obj_Usuario();
+		
+		try{
+			FileReader archivo = new FileReader(System.getProperty("user.dir")+"\\Config\\users");
+			BufferedReader bufferedWriter = new BufferedReader(archivo);
+			String cadena = "";
+			while( (cadena = bufferedWriter.readLine()) !=null)
+				myVector.addElement(cadena);
+				
+				usuario.setFolio(Integer.parseInt(myVector.get(0).toString()));
+				usuario.setNombre_completo(myVector.get(1).toString());
+	
+				
+		}catch(FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			return usuario=null;
+		}
+		return usuario;
+			
+	}
+	
+	public Obj_Alimentacion_Cuadrante EmpleadoNombre(String nombre) throws SQLException{
+		Obj_Alimentacion_Cuadrante empleado_cuadrante = new Obj_Alimentacion_Cuadrante();
+		String query = "exec sp_select_cuadrante_empleado '"+nombre+"'";
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				empleado_cuadrante.setNombre(rs.getString("Nombre"));
+				empleado_cuadrante.setPuesto(rs.getString("Puesto"));
+				empleado_cuadrante.setEstablecimiento(rs.getString("Establecimiento"));
+				empleado_cuadrante.setEquipo_trabajo(rs.getString("Equipo_Trabajo"));
+				empleado_cuadrante.setJefatura(rs.getString("Jefatura"));
+				empleado_cuadrante.setDia(rs.getString("Dia"));
+				empleado_cuadrante.setFecha(rs.getString("Fecha"));
+				empleado_cuadrante.setCuadrante(rs.getString("Cuadrante"));
+
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return empleado_cuadrante;
 	}
 	
 }

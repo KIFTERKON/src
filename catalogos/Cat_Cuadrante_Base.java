@@ -207,7 +207,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.panel.add(new JLabel("Nivel Gerarquico: ")).setBounds(x,y+=25,100,20);
 		this.panel.add(cmbnivel_gerarquico).setBounds(130, y, 300,20);
-		
+				
 		this.panel.add(new JLabel("Equipo de Trabajo:")).setBounds(x,y+=25,100,20);
 		this.panel.add(cmbEquipo_Trabajo).setBounds(130, y, 300,20);
 		

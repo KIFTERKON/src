@@ -2048,4 +2048,49 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
+	
+	public boolean Guardar_Sesion(Obj_Usuario usuario){
+		BufferedWriter bufferedWriter = null;
+		String nomArchivo = System.getProperty("user.dir")+"\\Config\\users";
+		try{
+			File archivo = new File(nomArchivo);
+			if(archivo.exists()){
+				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
+							
+				bufferedWriter.write(usuario.getFolio()+    		"\n");
+				bufferedWriter.write(usuario.getNombre_completo()+	"\n");
+				
+			}else{
+				File folder = new File(System.getProperty("user.dir")+"\\Config");
+				folder.mkdirs();
+				archivo.createNewFile();
+				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
+				
+				bufferedWriter.write(usuario.getFolio()+    		"\n");
+				bufferedWriter.write(usuario.getNombre_completo()+	"\n");
+				
+			}
+			
+		}
+		catch(FileNotFoundException ex)
+		{
+			ex.printStackTrace();
+		}catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}finally
+		{
+			try
+			{
+				if(bufferedWriter!=null)
+				{
+					bufferedWriter.flush();
+					bufferedWriter.close();
+				}
+			}catch(IOException ex)
+			{
+				ex.printStackTrace();
+			}
+		}return true;
+	}
 }
