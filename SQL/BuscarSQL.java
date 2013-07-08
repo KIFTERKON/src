@@ -365,39 +365,10 @@ public class BuscarSQL {
 		return nc;
 	}
 	
-	public Obj_Cuadrante Cuadrante(int folio) throws SQLException{
-		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
-		String query = "select * from tb_cuadrante where folio ="+ folio;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				cuadrante.setFolio(rs.getInt("folio"));
-				cuadrante.setNombre(rs.getString("nombre").trim());
-				cuadrante.setEstablecimiento(rs.getInt("establecimiento_id"));
-				cuadrante.setNivel_gerarquico(rs.getInt("nivel_gerarquico"));
-				cuadrante.setDia(rs.getInt("dia"));
-				cuadrante.setEq_trabajo(rs.getInt("equipo_trabajo"));
-				cuadrante.setJefatura(rs.getInt("jefatura"));
-				cuadrante.setStatus((rs.getString("status").equals("1"))?true:false);
-				cuadrante.setDescripcion(rs.getString("descripcion"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return cuadrante;
-	}
-	
 	public Obj_OpRespuesta OpRespuesta(int folio) throws SQLException{
 		Obj_OpRespuesta opR = new Obj_OpRespuesta();
 		String query = "exec sp_select_opLibre "+ folio;
-		System.out.println(query);
+		
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -680,25 +651,25 @@ public class BuscarSQL {
 		return nc;
 	}
 	
-	public Obj_Cuadrante Cuadrante_Nuevo() throws SQLException{
-		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
-		String query = "select max(folio) as 'Maximo' from tb_cuadrante";
+	public int Cuadrante_Nuevo() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nuevo_cuadrante";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				cuadrante.setFolio(rs.getInt("Maximo"));
+				folio =  rs.getInt("Maximo");
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return 1;
 		}
 		finally{
 			if(stmt!=null){stmt.close();}
 		}
-		return cuadrante;
+		return folio;
 	}
 	
 //	public Obj_Actividad Actividad_Nuevo() throws SQLException{
@@ -2518,13 +2489,13 @@ public class BuscarSQL {
 	
 	public boolean existeCuadrante(String cuadrante) throws SQLException{
 		boolean resultado = false;
-		String query = "exec sp_existe_cuadrante '"+cuadrante+"';";
+		String query = "exec sp_existe_cuadrante '"+cuadrante.toUpperCase()+"';";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 		    ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				resultado = rs.getBoolean(0);
+				resultado = rs.getBoolean(1);
 			}
 			
 		} catch (Exception e) {
@@ -2538,5 +2509,138 @@ public class BuscarSQL {
 		return resultado;
 	}
 	
+	public Obj_Cuadrante Cuadrante(int folio) throws SQLException{
+		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
+		String query = "select * from tb_cuadrante where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				cuadrante.setCuadrante(rs.getString("cuadrante"));
+				cuadrante.setPerfil(rs.getString("perfil"));
+				cuadrante.setJefatura(rs.getString("jefatura"));
+				cuadrante.setNivel_gerarquico(rs.getString("nivel_gerarquico"));
+				cuadrante.setEquipo_trabajo(rs.getString("equipo_trabajo"));
+				cuadrante.setEstablecimiento(rs.getString("establecimiento"));
+				cuadrante.setDomingo(rs.getInt("domingo"));
+				cuadrante.setLunes(rs.getInt("lunes"));
+				cuadrante.setMartes(rs.getInt("martes"));
+				cuadrante.setMiercoles(rs.getInt("miercoles"));
+				cuadrante.setJueves(rs.getInt("jueves"));
+				cuadrante.setViernes(rs.getInt("viernes"));
+				cuadrante.setSabado(rs.getInt("sabado"));
+				cuadrante.setStatus(rs.getInt("status"));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return cuadrante;
+	}
+	
+	
+	public String[][] getTablaDias(String cuadrante){
+		String[][] Matriz = null;
+		
+		String datosif = "select dia,folio,actividad from tb_tabla_cuadrante where cuadrante = '" + cuadrante+"'";
+			
+		Matriz = new String[getFilas(datosif)][3];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return Matriz;
+	}
+	
+	public String OpNivel() throws SQLException{
+		String numero  ="";
+		String query = "exec sp_nivel_gerarquico";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				numero = rs.getString("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return numero;
+	}
+	
+	public Obj_Nivel_Gerarquico buscarnivel(int folio) throws SQLException{
+		Obj_Nivel_Gerarquico nivel_gerarquico = new Obj_Nivel_Gerarquico();
+		String query = "select * from tb_nivel_gerarquico where folio ="+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				nivel_gerarquico.setFolio(rs.getInt("folio"));
+				
+				nivel_gerarquico.setDescripcion(rs.getString("descripcion"));
+				nivel_gerarquico.setPuesto_principal(rs.getString("puesto_principal"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return nivel_gerarquico;
+	}
+	
+	public Obj_Nivel_Gerarquico buscartablanivel(int folio) throws SQLException{
+		Obj_Nivel_Gerarquico nivel_gerarquico = new Obj_Nivel_Gerarquico();
+		String query = "select * from tb_tabla_nivel_gerarquico where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				nivel_gerarquico.setFolio(rs.getInt("folio"));
+				
+				nivel_gerarquico.setPuesto_dependiente(rs.getString("puesto"));
+				nivel_gerarquico.setEstablecimiento(rs.getString("establecimiento"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return nivel_gerarquico;
+	}
 	
 }

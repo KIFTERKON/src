@@ -31,7 +31,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JLayeredPane panel = new JLayeredPane();
 	
 	JTextField txtFolio = new JTextField();
-	JCheckBox  chbStatus = new JCheckBox("Status");
+	JCheckBox  chbStatus = new JCheckBox("Status",true);
 	
 	JTextField txtCuadrante = new JTextField();
 	
@@ -1319,5 +1319,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		btnBajarSabado.setEnabled(false);
 		btnRemoverSabado.setEnabled(false);
 	}
+	
+
 	
 }

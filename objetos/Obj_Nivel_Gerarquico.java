@@ -80,37 +80,46 @@ public class Obj_Nivel_Gerarquico
 		this.status = status;
 	}
 	
-	public boolean guardar(){ return new GuardarSQL().Guardar_Nivel_G(this); }
+	public String Nuevo(){
+		try {
+			return new BuscarSQL().OpNivel();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/*guarda la segunda parte del catalogo*/
+	public boolean guardar_multiple(String[][] tabla){ return new GuardarSQL().Guardar_Tabla_Nivel(this,tabla); }
 	
-	public boolean actualizar(int folio){ return new ActualizarSQL().NivelG(this,folio); }
-	
+	/*buscamos la primer parte del catalogo*/
 	public Obj_Nivel_Gerarquico buscar(int folio){
 		try {
-			return new BuscarSQL().Gerarquico(folio);
+			return new BuscarSQL().buscarnivel(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
-	
-
-	public Obj_Nivel_Gerarquico buscar_nuevo(){
+	/*buscamos la segunda parte del catalogo*/
+	public Obj_Nivel_Gerarquico buscartabla(int folio){
 		try {
-			return new BuscarSQL().Gerarquico_nuevo();
+			return new BuscarSQL().buscartablanivel(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
 	
-	public String[] Combo_Nivel_Gerarquico(){
+	
+	/*Actualizacion de la segunda tabla*/
+	public boolean actualizar(String[][] tabla){ return new ActualizarSQL().nivelGerarquico(this,tabla); }
+	
+	public String[] Combo_Nivel_Gerarquico() {
 		try {
 			return new Cargar_Combo().NivelGerarquico("tb_nivel_gerarquico");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	return null; 
+		return null; 
 	}
-	
-	
 }

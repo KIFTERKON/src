@@ -279,7 +279,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Ponderacion(Obj_Ponderacion pond){
-		String query = "exec sp_insert_ponderacion  ?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_ponderacion  ?,?,?,?,?, ?,?,?,?,?, ?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -290,20 +290,14 @@ public class GuardarSQL {
 			pstmt.setFloat (2, pond.getValor());
 			pstmt.setString(3, pond.getFechaIn());
 			pstmt.setString(4, pond.getFechaFin());
-			
-			System.out.println(pond.getFechaFin());
-			
-			pstmt.setString(5, pond.getStatus()?"1":"0");
-			pstmt.setString(6, pond.isDomingo()?"1":"0");
-			pstmt.setString(7, pond.isLunes()?"1":"0");
-			pstmt.setString(8, pond.isMartes()?"1":"0");
-			pstmt.setString(9, pond.isMiercoles()?"1":"0");
-			pstmt.setString(10,pond.isJueves()?"1":"0");
-			pstmt.setString(11,pond.isViernes()?"1":"0");
-			pstmt.setString(12,pond.isSabado()?"1":"0");
-			pstmt.setString(13,"2013-06-03 00:00:00:000");
-			pstmt.setString(14,"");
-			
+			pstmt.setString(5, pond.isDomingo()?"1":"0");
+			pstmt.setString(6, pond.isLunes()?"1":"0");
+			pstmt.setString(7, pond.isMartes()?"1":"0");
+			pstmt.setString(8, pond.isMiercoles()?"1":"0");
+			pstmt.setString(9,pond.isJueves()?"1":"0");
+			pstmt.setString(10,pond.isViernes()?"1":"0");
+			pstmt.setString(11,pond.isSabado()?"1":"0");
+			pstmt.setString(12, pond.getStatus()?"1":"0");
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -1949,6 +1943,55 @@ public class GuardarSQL {
 		}finally{
 			try {
 				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Tabla_Nivel(Obj_Nivel_Gerarquico pond,String[][] tabla){
+		String query = "insert into tb_nivel_gerarquico(descripcion,puesto_principal) values(?,?)";
+		String querytabla="insert into tb_tabla_nivel_gerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla =null;
+		try {
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmtabla=con.prepareStatement(querytabla);
+			
+			
+			pstmt.setString (1, pond.getDescripcion());
+			pstmt.setString (2, pond.getPuesto_principal());
+			
+			for (int i = 0; i < tabla.length; i++) {
+
+				pstmtabla.setString (1, pond.getDescripcion().toUpperCase());
+				
+				pstmtabla.setString (2, tabla[i][0]);
+				pstmtabla.setString (3, tabla[i][1]);
+				pstmtabla.executeUpdate();
+				
+			}
+			pstmt.executeUpdate();
+		
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
 				con.close();
 			} catch(SQLException e){
 				e.printStackTrace();

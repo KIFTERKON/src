@@ -22,8 +22,10 @@ import objetos.Obj_Usuario;
 ***	                     						   ***
 ***	                Colaboradores    			   ***       
 ***												   ***
-***	offline+ Jimenez Molina Edgar Eduardo    	   ***
-***	online + Rodriguez Sanchez Jose Mario          ***
+***	    offline+ Jimenez Molina Edgar Eduardo      ***
+***	    online + López Arballo Oscar Manuel        ***
+***	    online + Rodríguez Sánchez José Mario      ***
+***												   ***
 ***												   ***
 *****************************************************/
 

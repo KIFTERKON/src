@@ -2,6 +2,7 @@ package objetos;
 
 import java.sql.SQLException;
 
+import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
@@ -162,29 +163,29 @@ public class Obj_Cuadrante {
 
 	public boolean guardar(String[][] tabla){ return new GuardarSQL().Guardar_Cuadrante(this, tabla); }
 	
-	public boolean actualizar(int folio, String[][] tabla){ return new ActualizarSQL().Cuadrante(this,folio); }
+	public boolean actualizar(int folio, String[][] tabla){ return new ActualizarSQL().Cuadrante(this,tabla); }
 	
+	public int nuevo(){
+		try {
+			return new BuscarSQL().Cuadrante_Nuevo();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 1; 
+	}
 	
-//	public Obj_Cuadrante buscar(int folio){
-//		try {
-//			return new BuscarSQL().Cuadrante(folio);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
-//	
+	public Obj_Cuadrante buscarCuadrante(int folio){
+		try {
+			return new BuscarSQL().Cuadrante(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	public String[][] tabla(String cuadrante) throws SQLException{
+		return new BuscarSQL().getTablaDias(cuadrante);
+	}
 
-//	
-
-//	
-//	public Obj_Cuadrante buscar_nuevo(){
-//		try {
-//			return new BuscarSQL().Cuadrante_Nuevo();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
 	
 }

@@ -90,12 +90,12 @@ public class Cat_OpRespuesta extends JFrame
 			cmbRespuesta.setSelectedItem(respuesta.getOpcion());
 			txtNombre.setText(respuesta.getNombre());
 			
-			String[] lista = new Obj_OpRespuesta().Tabla_Respuesta(respuesta.getNombre());
+			String[] lista = new Obj_OpRespuesta().Tabla_Respuesta(respuesta.getNombre().trim().toUpperCase());
 			Object[] fila = new Object[tabla.getColumnCount()];
 			for(int i=0; i<lista.length; i++){
 				modelo.addRow(fila);
-				modelo.setValueAt(i+1+"",i,0);
-				modelo.setValueAt(lista[i]+"",i,1);
+				modelo.setValueAt(i+1,i,0);
+				modelo.setValueAt(lista[i],i,1);
 			}
 			
 		}else{

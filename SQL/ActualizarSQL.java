@@ -454,44 +454,6 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean Cuadrante(Obj_Cuadrante cuadrante, int folio){
-		String query = "update tb_cuadrante set nombre=?, establecimiento_id=?, nivel_gerarquico=?, dia=?, equipo_trabajo=?, jefatura=?, status=?, descripcion=? where folio=" + folio;
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, cuadrante.getNombre().toUpperCase());
-			pstmt.setInt(2, cuadrante.getEstablecimiento());
-			pstmt.setInt(3, cuadrante.getNivel_gerarquico());
-			pstmt.setInt(4, cuadrante.getDia());
-			pstmt.setInt(5, cuadrante.getEq_trabajo());
-			pstmt.setInt(6, cuadrante.getJefatura());
-			pstmt.setString(7, (cuadrante.getStatus())?"1":"0");
-			pstmt.setString(8, cuadrante.getDescripcion().toUpperCase());
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
 	public boolean OpRespuesta(Obj_OpRespuesta Opciones, int folio){
 		String query = "update tb_opciones_respuesta set nombre=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
@@ -1335,13 +1297,7 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
+		
 	public boolean Actualizar(Obj_Nomina nomina, String Establecimiento, int Folio){
 		String update = "update tb_nomina set nomina = ?, pago_linea = ?, cheque_nomina = ?, lista_raya = ?, diferecia = ? where establecimiento = '"+Establecimiento+"' and folio_lista ="+Folio;
 		
@@ -1583,4 +1539,118 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}
+	
+	
+	public boolean Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
+		String queryDelete ="delete tb_tabla_cuadrante where cuadrante = ?";
+		String query = "update tb_cuadrante set cuadrante=?, perfil=?,	jefatura=?, nivel_gerarquico=?, equipo_trabajo=?,	establecimiento=?,	domingo=?, lunes=?,	martes=?,	miercoles=?, jueves=?, viernes=?,	sabado=?,	status=? where folio = ?";
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?";
+		
+		Connection con = new Connexion().conexion();
+		
+		PreparedStatement pstmtDelete = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtTabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtDelete = con.prepareStatement(queryDelete);
+			pstmt = con.prepareStatement(query);
+			pstmtTabla = con.prepareStatement(querytabla);
+		
+			pstmt.setString(1, cuadrante.getCuadrante().toUpperCase());
+			pstmt.setString(2, cuadrante.getPerfil().toUpperCase());
+			pstmt.setString(3, cuadrante.getJefatura());
+			pstmt.setString(4, cuadrante.getNivel_gerarquico());
+			pstmt.setString(5, cuadrante.getEquipo_trabajo());
+			pstmt.setString(6, cuadrante.getEstablecimiento());
+			pstmt.setInt(7, cuadrante.getDomingo());
+			pstmt.setInt(8, cuadrante.getLunes());
+			pstmt.setInt(9, cuadrante.getMartes());
+			pstmt.setInt(10, cuadrante.getMiercoles());
+			pstmt.setInt(11, cuadrante.getJueves());
+			pstmt.setInt(12, cuadrante.getViernes());
+			pstmt.setInt(13, cuadrante.getSabado());
+			pstmt.setInt(14, cuadrante.getStatus());
+			pstmt.setInt(15, cuadrante.getFolio());
+			pstmt.executeUpdate();
+			
+			pstmtDelete.setString(1, cuadrante.getCuadrante().toUpperCase());
+			pstmtDelete.executeUpdate();
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
+				pstmtTabla.setString(3, tabla[i][1]);
+				pstmtTabla.setString(4, tabla[i][2]);
+				pstmtTabla.executeUpdate();
+			}
+
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean nivelGerarquico(Obj_Nivel_Gerarquico niv, String[][]tabla){
+		String queryClear = "delete from tb_tabla_nivel_gerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
+		String query = "insert into tb_tabla_nivel_gerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			pstmtabla = con.prepareStatement(query);
+			pstmt = con.prepareStatement(queryClear);
+			pstmt.executeUpdate();
+			
+			for (int i = 0; i < tabla.length; i++) {
+
+				pstmtabla.setString (1, niv.getDescripcion().toUpperCase());
+				
+				pstmtabla.setString (2, tabla[i][0]);
+				pstmtabla.setString (3, tabla[i][1]);
+				pstmtabla.executeUpdate();
+				
+			}
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		return true;
+		}
 }

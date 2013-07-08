@@ -113,20 +113,21 @@ public class Cat_Ponderacion extends JFrame{
 		panel.add(new JLabel("A")).setBounds(ancho+75,y,30,20);
 		panel.add(txtCalendario1).setBounds(ancho+87,y,ancho-8,20);
 		
-		panel.add(new JLabel("Dia: ")).setBounds(5,220,100,20);
+		panel.add(new JLabel("Dia: ")).setBounds(5,y+=30,100,20);
 		
-		panel.add(chTodos).setBounds(75,220,60,20);
-		panel.add(chDomingo).setBounds(140,220,80,20);
-		panel.add(chLunes).setBounds(220,220,60,20);
-		panel.add(chMartes).setBounds(285,220,70,20);
-		panel.add(chMiercoles).setBounds(355,220,85,20);
-		panel.add(chJueves).setBounds(440,220,70,20);
-		panel.add(chViernes).setBounds(510,220,70,20);
-		panel.add(chSabado).setBounds(585,220,80,20);
+		panel.add(chTodos).setBounds(85,y,60,20);
+		panel.add(chDomingo).setBounds(160,y,80,20);
+		panel.add(chLunes).setBounds(240,y,60,20);
+		panel.add(chMartes).setBounds(305,y,70,20);
+		
+		panel.add(chMiercoles).setBounds(85,y+=25,69,20);
+		panel.add(chJueves).setBounds(160,y,70,20);
+		panel.add(chViernes).setBounds(240,y,69,20);
+		panel.add(chSabado).setBounds(305,y,80,20);
 
-		panel.add(btnDeshacer).setBounds(x+ancho+60,260,ancho,20);
-		panel.add(btnSalir).setBounds(x-10+60,260,ancho,20);
-		panel.add(btnGuardar).setBounds(x+270,260,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=60,ancho,20);
+		panel.add(btnSalir).setBounds(x-10+40,y,ancho,20);
+		panel.add(btnGuardar).setBounds(x+290,y,ancho,20);
 		
 		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,180);
 		
