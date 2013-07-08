@@ -579,7 +579,7 @@ public class Cat_Empleado extends JFrame{
 	ActionListener filtro = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
-			new Cat_Filtro_Emp().setVisible(true);
+			new Cat_Filtro_Empleado().setVisible(true);
 			
 		}
 	};

@@ -28,6 +28,7 @@ import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
+import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
@@ -672,26 +673,26 @@ public class BuscarSQL {
 		return folio;
 	}
 	
-//	public Obj_Actividad Actividad_Nuevo() throws SQLException{
-//		Obj_Actividad actividad = new Obj_Actividad();
-//		String query = "select max(folio) as 'Maximo' from tb_actividad";
-//		Statement stmt = null;
-//		try {
-//			stmt = con.conexion().createStatement();
-//			ResultSet rs = stmt.executeQuery(query);
-//			while(rs.next()){
-//				actividad.setFolio(rs.getInt("Maximo"));
-//			}
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//		finally{
-//			if(stmt!=null){stmt.close();}
-//		}
-//		return actividad;
-//	}
+	public Obj_Actividad Actividad_Nuevo() throws SQLException{
+		Obj_Actividad actividad = new Obj_Actividad();
+		String query = "select max(folio) as 'Maximo' from tb_actividad";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				actividad.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return actividad;
+	}
 	
 	public String OpRespuesta_Nuevo() throws SQLException{
 		String numero  ="";
@@ -2641,6 +2642,96 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return nivel_gerarquico;
+	}
+	
+	public Obj_Empleados_Cuadrantes buscar_empleado_cuadrante(int folio) throws SQLException{
+		Obj_Empleados_Cuadrantes empleado_cuadrante = new Obj_Empleados_Cuadrantes();
+		String query = "select * from tb_empleado_cuadrante where folio ="+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				empleado_cuadrante.setFolio(rs.getInt("folio"));
+				empleado_cuadrante.setNombre(rs.getString("nombre"));
+				empleado_cuadrante.setCuadrante(rs.getString("cuadrante"));
+				empleado_cuadrante.setStatus(rs.getInt("status")==1 ? true : false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return empleado_cuadrante;
+	}
+	
+	public int NuevoEmpleadoCuadrante() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nuevo_empleado_cuadrante";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				folio =  rs.getInt("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return folio;
+	}
+	
+	public boolean existeEmpleadoCuadrante(String nombre) throws SQLException{
+		boolean existe = false;
+		String query = "exec sp_existe_empleado_cuadrante '"+nombre+"'";
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				existe = rs.getBoolean("existe");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return existe;
+	}
+	
+	public String[][] getTablaEmpleadoCuadrante(String nombre){
+		String datos = "exec sp_select_tabla_empleado_cuadrante '"+nombre.toUpperCase().trim()+"';";
+		
+		String[][] Matriz = new String[getFilas(datos)][2];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz; 
 	}
 	
 }

@@ -30,7 +30,7 @@ import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
-public class Cat_Filtro_Emp extends JFrame {
+public class Cat_Filtro_Empleado extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -55,7 +55,7 @@ public class Cat_Filtro_Emp extends JFrame {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Cat_Filtro_Emp()	{
+	public Cat_Filtro_Empleado()	{
 		this.setTitle("Filtro de Empleados");
 		campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
 		trsfiltro = new TableRowSorter(model); 

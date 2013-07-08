@@ -30,6 +30,7 @@ import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
 import objetos.Obj_Empleado;
+import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
@@ -2000,4 +2001,51 @@ public class GuardarSQL {
 		return true;
 	}
 	
+	public boolean EmpleadoCuadrante(Obj_Empleados_Cuadrantes empleado_cuadrante, String[][] tabla){
+		String query = "exec sp_insert_empleado_cuadrante ?,?,?";
+		String querytabla = "exec sp_insert_tabla_empleado_cuadrante ?,?,?";
+				
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(query);
+			pstmtTabla = con.prepareStatement(querytabla);
+			
+			pstmt.setString(1, empleado_cuadrante.getNombre().toUpperCase());
+			pstmt.setString(2, empleado_cuadrante.getCuadrante());
+			pstmt.setInt(3, empleado_cuadrante.isStatus() ? 1 : 0);
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmtTabla.setString(1, empleado_cuadrante.getNombre().toUpperCase());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
+				pstmtTabla.setString(3, tabla[i][1]);
+				pstmtTabla.executeUpdate();
+			}
+			
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 }
