@@ -5,8 +5,14 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -19,7 +25,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Gerarquico;
@@ -71,61 +81,320 @@ public class Cat_Cuadrante_Base extends JFrame{
 		JLayeredPane pJueves = new JLayeredPane(); 
 		JLayeredPane pViernes = new JLayeredPane(); 
 		JLayeredPane pSabado = new JLayeredPane(); 
+	
+	DefaultTableModel modelDomingo = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
+        	 			modelDomingo.setValueAt("00:00 AM",fila,4);
+        	 			modelDomingo.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
 		
-	DefaultTableModel modelDomingo = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
 	};
 	
-	DefaultTableModel modelLunes = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
+	DefaultTableModel modelLunes = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
+        	 			modelLunes.setValueAt("00:00 AM",fila,4);
+        	 			modelLunes.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
 	};
 	
-	DefaultTableModel modelMartes = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
+	DefaultTableModel modelMartes = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
+        	 			modelMartes.setValueAt("00:00 AM",fila,4);
+        	 			modelMartes.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
 	};
 	
-	DefaultTableModel modelMiercoles = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
+	DefaultTableModel modelMiercoles = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
+        	 			modelMiercoles.setValueAt("00:00 AM",fila,4);
+        	 			modelMiercoles.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
 	};
 	
-	DefaultTableModel modelJueves = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
+	DefaultTableModel modelJueves = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
+        	 			modelJueves.setValueAt("00:00 AM",fila,4);
+        	 			modelJueves.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
 	};
 	
-	DefaultTableModel modelViernes = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
+	DefaultTableModel modelViernes = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
+        	 			modelViernes.setValueAt("00:00 AM",fila,4);
+        	 			modelViernes.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
 	};
 	
-	DefaultTableModel modelSabado = new DefaultTableModel(0,2){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
+	DefaultTableModel modelSabado = new DefaultTableModel(null,
+            new String[]{"Folio", "Actividad","Nivel Cr韙ico","","Hora Inicio","Hora Fin"}
+			){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+	    	java.lang.Boolean.class,
+	    	java.lang.String.class,
+	    	java.lang.String.class,
+         };
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return false; 
+        	 	case 1 : return false; 
+        	 	case 2 : return false;
+        	 	case 3 : 
+        	 		if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
+        	 			modelSabado.setValueAt("00:00 AM",fila,4);
+        	 			modelSabado.setValueAt("00:00 AM",fila,5);
+        	 			return true;
+        	 		}else{
+        	 			return true;
+        	 		}
+        	 	case 4 :
+        	 		if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 	case 5 : 
+        	 		if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
+        	 			return true;
+        	 		}
+        	 		return false;
+        	 } 				
+ 			return false;
+ 		}
+		
 	};
 	
 	JTable tablaDomingo = new JTable(modelDomingo);
@@ -144,14 +413,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JScrollPane scrollViernes = new JScrollPane(tablaViernes);
 	JScrollPane scrollSabado = new JScrollPane(tablaSabado);
 	
-	JTextField txtActividadDomingo = new JTextField();
-	JTextField txtActividadLunes = new JTextField();
-	JTextField txtActividadMartes = new JTextField();
-	JTextField txtActividadMiercoles = new JTextField();
-	JTextField txtActividadJueves = new JTextField();
-	JTextField txtActividadViernes = new JTextField();
-	JTextField txtActividadSabado = new JTextField();
-	
 	JButton btnAgregarDomingo = new JButton("Agregar");
 	JButton btnAgregarLunes = new JButton("Agregar");
 	JButton btnAgregarMartes = new JButton("Agregar");
@@ -160,21 +421,21 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JButton btnAgregarViernes = new JButton("Agregar");
 	JButton btnAgregarSabado = new JButton("Agregar");
 	
-	JButton btnSubirDomingo = new JButton("藙");
-	JButton btnSubirLunes = new JButton("藙");
-	JButton btnSubirMartes = new JButton("藙");
-	JButton btnSubirMiercoles = new JButton("藙");
-	JButton btnSubirJueves = new JButton("藙");
-	JButton btnSubirViernes = new JButton("藙");
-	JButton btnSubirSabado = new JButton("藙");
+	JButton btnSubirDomingo = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirLunes = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirMartes = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirMiercoles = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirJueves = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirViernes = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirSabado = new JButton(new ImageIcon("Imagen/Up.png"));
 	
-	JButton btnBajarDomingo = new JButton("藚");
-	JButton btnBajarLunes = new JButton("藚");
-	JButton btnBajarMartes = new JButton("藚");
-	JButton btnBajarMiercoles = new JButton("藚");
-	JButton btnBajarJueves = new JButton("藚");
-	JButton btnBajarViernes = new JButton("藚");
-	JButton btnBajarSabado = new JButton("藚");
+	JButton btnBajarDomingo = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarLunes = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarMartes = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarMiercoles = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarJueves = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarViernes = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarSabado = new JButton(new ImageIcon("Imagen/Down.png"));
 	
 	JButton btnRemoverDomingo = new JButton("Quitar");
 	JButton btnRemoverLunes = new JButton("Quitar");
@@ -214,7 +475,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,100,20);
 		this.panel.add(cmbEstablecimiento).setBounds(130, y,300,20);
 
-		this.panel.add(new JLabel("D铆as:")).setBounds(x,y+=30,100,20);
+		this.panel.add(new JLabel("D韆s:")).setBounds(x,y+=30,100,20);
 			this.panel.add(chTodos).setBounds(125,y+=10,60,20);
 			this.panel.add(chDomingo).setBounds(205,y,80,20);
 			this.panel.add(chLunes).setBounds(295,y,60,20);
@@ -224,7 +485,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 			this.panel.add(chViernes).setBounds(295,y,70,20);
 			this.panel.add(chSabado).setBounds(368,y,70,20);
 		
-		this.panel.add(pestanas).setBounds(450,30,600, 500);
+		this.panel.add(pestanas).setBounds(450,30,730, 500);
 		
 		this.pestanas.addTab("Domingo", pDomingo);
 		this.domingo();
@@ -238,7 +499,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.jueves();
 		this.pestanas.addTab("Viernes", pViernes);
 		this.viernes();
-		this.pestanas.addTab("S谩bado", pSabado);
+		this.pestanas.addTab("S醔ado", pSabado);
 		this.sabado();
 
 		this.cont.add(panel);
@@ -290,9 +551,19 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.todoFalse();
 		
-		this.setSize(1080,600);
+		this.setSize(1200,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+	}
+	
+	public enum Dias{
+		DOMINGO,
+		LUNES,
+		MARTES,
+		MIERCOLES,
+		JUEVES,
+		VIERNES,
+		SABADO
 	}
 	
 	public void domingo(){
@@ -300,10 +571,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pDomingo.setOpaque(true); 
 		this.pDomingo.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pDomingo.add(scrollDomingo).setBounds(15,50,560,405);
+		this.pDomingo.add(scrollDomingo).setBounds(15,50,690,405);
 
-		this.pDomingo.add(txtActividadDomingo).setBounds(15, 20, 300, 20);
-		
 		this.pDomingo.add(btnAgregarDomingo).setBounds(320,20,75,20);
 		
 		this.pDomingo.add(btnBajarDomingo).setBounds(400,20,40,20);
@@ -311,10 +580,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pDomingo.add(btnRemoverDomingo).setBounds(500,20,75,20);
 		
-		this.tablaDomingo.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaDomingo.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaDomingo.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaDomingo.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaDomingo.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaDomingo.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaDomingo.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaDomingo.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaDomingo.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaDomingo.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaDomingo.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaDomingo.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaDomingo.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaDomingo.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaDomingo.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaDomingo.getColumnModel().getColumn(5).setMinWidth(80);
 		
 	}
 	
@@ -323,9 +600,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pLunes.setOpaque(true); 
 		this.pLunes.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pLunes.add(scrollLunes).setBounds(15,50,560,405);
-		
-		this.pLunes.add(txtActividadLunes).setBounds(15, 20, 300, 20);
+		this.pLunes.add(scrollLunes).setBounds(15,50,690,405);
 		
 		this.pLunes.add(btnAgregarLunes).setBounds(320,20,75,20);
 		
@@ -334,10 +609,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pLunes.add(btnRemoverLunes).setBounds(500,20,75,20);
 		
-		this.tablaLunes.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaLunes.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaLunes.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaLunes.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaLunes.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaLunes.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaLunes.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaLunes.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaLunes.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaLunes.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaLunes.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaLunes.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaLunes.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaLunes.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaLunes.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaLunes.getColumnModel().getColumn(5).setMinWidth(80);
 	}
 	
 	public void martes(){
@@ -345,9 +628,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pMarte.setOpaque(true); 
 		this.pMarte.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pMarte.add(scrollMartes).setBounds(15,50,560,405);
-		
-		this.pMarte.add(txtActividadMartes).setBounds(15, 20, 300, 20);
+		this.pMarte.add(scrollMartes).setBounds(15,50,690,405);
 		
 		this.pMarte.add(btnAgregarMartes).setBounds(320,20,75,20);
 		
@@ -356,10 +637,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pMarte.add(btnRemoverMartes).setBounds(500,20,75,20);
 		
-		this.tablaMartes.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaMartes.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaMartes.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaMartes.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaMartes.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaMartes.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaMartes.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaMartes.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaMartes.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaMartes.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaMartes.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaMartes.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaMartes.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaMartes.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaMartes.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaMartes.getColumnModel().getColumn(5).setMinWidth(80);
 	}
 	
 	public void miercoles(){
@@ -367,9 +656,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pMiercoles.setOpaque(true); 
 		this.pMiercoles.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pMiercoles.add(scrollMiercoles).setBounds(15,50,560,405);
-		
-		this.pMiercoles.add(txtActividadMiercoles).setBounds(15, 20, 300, 20);
+		this.pMiercoles.add(scrollMiercoles).setBounds(15,50,690,405);
 		
 		this.pMiercoles.add(btnAgregarMiercoles).setBounds(320,20,75,20);
 		
@@ -378,10 +665,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pMiercoles.add(btnRemoverMiercoles).setBounds(500,20,75,20);
 		
-		this.tablaMiercoles.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaMiercoles.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaMiercoles.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaMiercoles.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaMiercoles.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaMiercoles.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaMiercoles.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaMiercoles.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaMiercoles.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaMiercoles.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaMiercoles.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaMiercoles.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaMiercoles.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaMiercoles.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaMiercoles.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaMiercoles.getColumnModel().getColumn(5).setMinWidth(80);
 	}
 	
 	public void jueves(){
@@ -389,9 +684,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pJueves.setOpaque(true); 
 		this.pJueves.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pJueves.add(scrollJueves).setBounds(15,50,560,405);
-		
-		this.pJueves.add(txtActividadJueves).setBounds(15, 20, 300, 20);
+		this.pJueves.add(scrollJueves).setBounds(15,50,690,405);
 		
 		this.pJueves.add(btnAgregarJueves).setBounds(320,20,75,20);
 		
@@ -400,10 +693,19 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pJueves.add(btnRemoverJueves).setBounds(500,20,75,20);
 		
-		this.tablaJueves.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaJueves.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaJueves.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaJueves.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaJueves.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaJueves.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaJueves.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaJueves.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaJueves.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaJueves.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaJueves.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaJueves.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaJueves.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaJueves.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaJueves.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaJueves.getColumnModel().getColumn(5).setMinWidth(80);
+
 	}
 	
 	public void viernes(){
@@ -411,9 +713,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pViernes.setOpaque(true); 
 		this.pViernes.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pViernes.add(scrollViernes).setBounds(15,50,560,405);
-		
-		this.pViernes.add(txtActividadViernes).setBounds(15, 20, 300, 20);
+		this.pViernes.add(scrollViernes).setBounds(15,50,690,405);
 		
 		this.pViernes.add(btnAgregarViernes).setBounds(320,20,75,20);
 		
@@ -422,10 +722,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pViernes.add(btnRemoverViernes).setBounds(500,20,75,20);
 		
-		this.tablaViernes.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaViernes.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaViernes.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaViernes.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaViernes.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaViernes.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaViernes.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaViernes.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaViernes.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaViernes.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaViernes.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaViernes.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaViernes.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaViernes.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaViernes.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaViernes.getColumnModel().getColumn(5).setMinWidth(80);
 	}
 	
 	public void sabado(){
@@ -433,9 +741,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pSabado.setOpaque(true); 
 		this.pSabado.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pSabado.add(scrollSabado).setBounds(15,50,560,405);
-		
-		this.pSabado.add(txtActividadSabado).setBounds(15, 20, 300, 20);
+		this.pSabado.add(scrollSabado).setBounds(15,50,690,405);
 		
 		this.pSabado.add(btnAgregarSabado).setBounds(320,20,75,20);
 		
@@ -444,142 +750,59 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pSabado.add(btnRemoverSabado).setBounds(500,20,75,20);
 		
-		this.tablaSabado.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		this.tablaSabado.getColumnModel().getColumn(0).setMaxWidth(50);
-		this.tablaSabado.getColumnModel().getColumn(0).setMinWidth(50);
-		this.tablaSabado.getColumnModel().getColumn(1).setHeaderValue("Actividad");
+		this.tablaSabado.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tablaSabado.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tablaSabado.getColumnModel().getColumn(1).setMaxWidth(270);
+		this.tablaSabado.getColumnModel().getColumn(1).setMinWidth(270);
+		this.tablaSabado.getColumnModel().getColumn(2).setMaxWidth(145);
+		this.tablaSabado.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaSabado.getColumnModel().getColumn(3).setMaxWidth(50);
+		this.tablaSabado.getColumnModel().getColumn(3).setMinWidth(50);
+		this.tablaSabado.getColumnModel().getColumn(4).setMaxWidth(80);
+		this.tablaSabado.getColumnModel().getColumn(4).setMinWidth(80);
+		this.tablaSabado.getColumnModel().getColumn(5).setMaxWidth(80);
+		this.tablaSabado.getColumnModel().getColumn(5).setMinWidth(80);
 	}
 	
 	ActionListener opAgregarDomingo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadDomingo.getText().equals("")){
-				String[] addModeloDomingo = new String[2];
-				
-				addModeloDomingo[0] = tablaDomingo.getRowCount()+1+"";
-				addModeloDomingo[1] = txtActividadDomingo.getText();
-				
-				modelDomingo.addRow(addModeloDomingo);
-				
-				txtActividadDomingo.setText("");
-				txtActividadDomingo.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("DOMINGO").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarLunes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadLunes.getText().equals("")){
-				String[] addModeloLunes = new String[2];
-				
-				addModeloLunes[0] = tablaLunes.getRowCount()+1+"";
-				addModeloLunes[1] = txtActividadLunes.getText();
-				
-				modelLunes.addRow(addModeloLunes);
-				
-				txtActividadLunes.setText("");
-				txtActividadLunes.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("LUNES").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarMartes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadMartes.getText().equals("")){
-				String[] addModeloMartes = new String[2];
-				
-				addModeloMartes[0] = tablaMartes.getRowCount()+1+"";
-				addModeloMartes[1] = txtActividadMartes.getText();
-				
-				modelMartes.addRow(addModeloMartes);
-				
-				txtActividadMartes.setText("");
-				txtActividadMartes.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("MARTES").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarMiercoles = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadMiercoles.getText().equals("")){
-				String[] addModeloMiercoles = new String[2];
-				
-				addModeloMiercoles[0] = tablaMiercoles.getRowCount()+1+"";
-				addModeloMiercoles[1] = txtActividadMiercoles.getText();
-				
-				modelMiercoles.addRow(addModeloMiercoles);
-				
-				txtActividadMiercoles.setText("");
-				txtActividadMiercoles.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("MIERCOLES").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarJueves = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadJueves.getText().equals("")){
-				String[] addModeloJueves = new String[2];
-				
-				addModeloJueves[0] = tablaJueves.getRowCount()+1+"";
-				addModeloJueves[1] = txtActividadJueves.getText();
-				
-				modelJueves.addRow(addModeloJueves);
-				
-				txtActividadJueves.setText("");
-				txtActividadJueves.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("JUEVES").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarViernes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadViernes.getText().equals("")){
-				String[] addModeloViernes = new String[2];
-				
-				addModeloViernes[0] = tablaViernes.getRowCount()+1+"";
-				addModeloViernes[1] = txtActividadViernes.getText();
-				
-				modelViernes.addRow(addModeloViernes);
-				
-				txtActividadViernes.setText("");
-				txtActividadViernes.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("VIERNES").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarSabado = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(!txtActividadSabado.getText().equals("")){
-				String[] addModeloSabado = new String[2];
-				
-				addModeloSabado[0] = tablaSabado.getRowCount()+1+"";
-				addModeloSabado[1] = txtActividadSabado.getText();
-				
-				modelSabado.addRow(addModeloSabado);
-				
-				txtActividadSabado.setText("");
-				txtActividadSabado.requestFocus();
-			}else{
-				JOptionPane.showMessageDialog(null, "El campo de actividad est谩 vaci贸","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}
+			new Cat_Filtro_Actividades("SABADO").setVisible(true);
 		}
 	};	
 	
@@ -1033,13 +1256,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaDomingo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chDomingo.isSelected()){
-				txtActividadDomingo.setEditable(true);
 				btnAgregarDomingo.setEnabled(true);
 				btnSubirDomingo.setEnabled(true);
 				btnBajarDomingo.setEnabled(true);
 				btnRemoverDomingo.setEnabled(true);
 			}else{
-				txtActividadDomingo.setEditable(false);
 				btnAgregarDomingo.setEnabled(false);
 				btnSubirDomingo.setEnabled(false);
 				btnBajarDomingo.setEnabled(false);
@@ -1055,13 +1276,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaLunes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chLunes.isSelected()){
-				txtActividadLunes.setEditable(true);
 				btnAgregarLunes.setEnabled(true);
 				btnSubirLunes.setEnabled(true);
 				btnBajarLunes.setEnabled(true);
 				btnRemoverLunes.setEnabled(true);
 			}else{
-				txtActividadLunes.setEditable(false);
 				btnAgregarLunes.setEnabled(false);
 				btnSubirLunes.setEnabled(false);
 				btnBajarLunes.setEnabled(false);
@@ -1078,13 +1297,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaMartes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chMartes.isSelected()){
-				txtActividadMartes.setEditable(true);
 				btnAgregarMartes.setEnabled(true);
 				btnSubirMartes.setEnabled(true);
 				btnBajarMartes.setEnabled(true);
 				btnRemoverMartes.setEnabled(true);
 			}else{
-				txtActividadMartes.setEditable(false);
 				btnAgregarMartes.setEnabled(false);
 				btnSubirMartes.setEnabled(false);
 				btnBajarMartes.setEnabled(false);
@@ -1101,13 +1318,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaMiercoles = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chMiercoles.isSelected()){
-				txtActividadMiercoles.setEditable(true);
 				btnAgregarMiercoles.setEnabled(true);
 				btnSubirMiercoles.setEnabled(true);
 				btnBajarMiercoles.setEnabled(true);
 				btnRemoverMiercoles.setEnabled(true);
 			}else{
-				txtActividadMiercoles.setEditable(false);
 				btnAgregarMiercoles.setEnabled(false);
 				btnSubirMiercoles.setEnabled(false);
 				btnBajarMiercoles.setEnabled(false);
@@ -1124,13 +1339,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaJueves = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chJueves.isSelected()){
-				txtActividadJueves.setEditable(true);
 				btnAgregarJueves.setEnabled(true);
 				btnSubirJueves.setEnabled(true);
 				btnBajarJueves.setEnabled(true);
 				btnRemoverJueves.setEnabled(true);
 			}else{
-				txtActividadJueves.setEditable(false);
 				btnAgregarJueves.setEnabled(false);
 				btnSubirJueves.setEnabled(false);
 				btnBajarJueves.setEnabled(false);
@@ -1147,13 +1360,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaViernes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chViernes.isSelected()){
-				txtActividadViernes.setEditable(true);
 				btnAgregarViernes.setEnabled(true);
 				btnSubirViernes.setEnabled(true);
 				btnBajarViernes.setEnabled(true);
 				btnRemoverViernes.setEnabled(true);
 			}else{
-				txtActividadViernes.setEditable(false);
 				btnAgregarViernes.setEnabled(false);
 				btnSubirViernes.setEnabled(false);
 				btnBajarViernes.setEnabled(false);
@@ -1170,13 +1381,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 	ActionListener opDiaSabado = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chSabado.isSelected()){
-				txtActividadSabado.setEditable(true);
 				btnAgregarSabado.setEnabled(true);
 				btnSubirSabado.setEnabled(true);
 				btnBajarSabado.setEnabled(true);
 				btnRemoverSabado.setEnabled(true);
 			}else{
-				txtActividadSabado.setEditable(false);
 				btnAgregarSabado.setEnabled(false);
 				btnSubirSabado.setEnabled(false);
 				btnBajarSabado.setEnabled(false);
@@ -1200,37 +1409,30 @@ public class Cat_Cuadrante_Base extends JFrame{
 				chJueves.setSelected(true);
 				chViernes.setSelected(true);
 				chSabado.setSelected(true);
-				txtActividadDomingo.setEditable(true);
 				btnAgregarDomingo.setEnabled(true);
 				btnSubirDomingo.setEnabled(true);
 				btnBajarDomingo.setEnabled(true);
 				btnRemoverDomingo.setEnabled(true);
-				txtActividadLunes.setEditable(true);
 				btnAgregarLunes.setEnabled(true);
 				btnSubirLunes.setEnabled(true);
 				btnBajarLunes.setEnabled(true);
 				btnRemoverLunes.setEnabled(true);
-				txtActividadMartes.setEditable(true);
 				btnAgregarMartes.setEnabled(true);
 				btnSubirMartes.setEnabled(true);
 				btnBajarMartes.setEnabled(true);
 				btnRemoverMartes.setEnabled(true);
-				txtActividadMiercoles.setEditable(true);
 				btnAgregarMiercoles.setEnabled(true);
 				btnSubirMiercoles.setEnabled(true);
 				btnBajarMiercoles.setEnabled(true);
 				btnRemoverMiercoles.setEnabled(true);
-				txtActividadJueves.setEditable(true);
 				btnAgregarJueves.setEnabled(true);
 				btnSubirJueves.setEnabled(true);
 				btnBajarJueves.setEnabled(true);
 				btnRemoverJueves.setEnabled(true);
-				txtActividadViernes.setEditable(true);
 				btnAgregarViernes.setEnabled(true);
 				btnSubirViernes.setEnabled(true);
 				btnBajarViernes.setEnabled(true);
 				btnRemoverViernes.setEnabled(true);
-				txtActividadSabado.setEditable(true);
 				btnAgregarSabado.setEnabled(true);
 				btnSubirSabado.setEnabled(true);
 				btnBajarSabado.setEnabled(true);
@@ -1243,37 +1445,30 @@ public class Cat_Cuadrante_Base extends JFrame{
 				chJueves.setSelected(false);
 				chViernes.setSelected(false);
 				chSabado.setSelected(false);
-				txtActividadDomingo.setEditable(false);
 				btnAgregarDomingo.setEnabled(false);
 				btnSubirDomingo.setEnabled(false);
 				btnBajarDomingo.setEnabled(false);
 				btnRemoverDomingo.setEnabled(false);
-				txtActividadLunes.setEditable(false);
 				btnAgregarLunes.setEnabled(false);
 				btnSubirLunes.setEnabled(false);
 				btnBajarLunes.setEnabled(false);
 				btnRemoverLunes.setEnabled(false);
-				txtActividadMartes.setEditable(false);
 				btnAgregarMartes.setEnabled(false);
 				btnSubirMartes.setEnabled(false);
 				btnBajarMartes.setEnabled(false);
 				btnRemoverMartes.setEnabled(false);
-				txtActividadMiercoles.setEditable(false);
 				btnAgregarMiercoles.setEnabled(false);
 				btnSubirMiercoles.setEnabled(false);
 				btnBajarMiercoles.setEnabled(false);
 				btnRemoverMiercoles.setEnabled(false);
-				txtActividadJueves.setEditable(false);
 				btnAgregarJueves.setEnabled(false);
 				btnSubirJueves.setEnabled(false);
 				btnBajarJueves.setEnabled(false);
 				btnRemoverJueves.setEnabled(false);
-				txtActividadViernes.setEditable(false);
 				btnAgregarViernes.setEnabled(false);
 				btnSubirViernes.setEnabled(false);
 				btnBajarViernes.setEnabled(false);
 				btnRemoverViernes.setEnabled(false);
-				txtActividadSabado.setEditable(false);
 				btnAgregarSabado.setEnabled(false);
 				btnSubirSabado.setEnabled(false);
 				btnBajarSabado.setEnabled(false);
@@ -1283,43 +1478,349 @@ public class Cat_Cuadrante_Base extends JFrame{
 		}
 	};
 	public void todoFalse(){
-		txtActividadDomingo.setEditable(false);
 		btnAgregarDomingo.setEnabled(false);
 		btnSubirDomingo.setEnabled(false);
 		btnBajarDomingo.setEnabled(false);
 		btnRemoverDomingo.setEnabled(false);
-		txtActividadLunes.setEditable(false);
 		btnAgregarLunes.setEnabled(false);
 		btnSubirLunes.setEnabled(false);
 		btnBajarLunes.setEnabled(false);
 		btnRemoverLunes.setEnabled(false);
-		txtActividadMartes.setEditable(false);
 		btnAgregarMartes.setEnabled(false);
 		btnSubirMartes.setEnabled(false);
 		btnBajarMartes.setEnabled(false);
 		btnRemoverMartes.setEnabled(false);
-		txtActividadMiercoles.setEditable(false);
 		btnAgregarMiercoles.setEnabled(false);
 		btnSubirMiercoles.setEnabled(false);
 		btnBajarMiercoles.setEnabled(false);
 		btnRemoverMiercoles.setEnabled(false);
-		txtActividadJueves.setEditable(false);
 		btnAgregarJueves.setEnabled(false);
 		btnSubirJueves.setEnabled(false);
 		btnBajarJueves.setEnabled(false);
 		btnRemoverJueves.setEnabled(false);
-		txtActividadViernes.setEditable(false);
 		btnAgregarViernes.setEnabled(false);
 		btnSubirViernes.setEnabled(false);
 		btnBajarViernes.setEnabled(false);
 		btnRemoverViernes.setEnabled(false);
-		txtActividadSabado.setEditable(false);
 		btnAgregarSabado.setEnabled(false);
 		btnSubirSabado.setEnabled(false);
 		btnBajarSabado.setEnabled(false);
 		btnRemoverSabado.setEnabled(false);
 	}
 	
+	public class Cat_Filtro_Actividades extends JFrame {
+		
+		Container cont = getContentPane();
+		JLayeredPane campo = new JLayeredPane();
+		
+		String dia = "";
+		
+		Object[][] MatrizFiltro ;
+		
+		Object[][] getTablaFiltro = getTablaFiltro();
+		DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
+	            new String[]{"Folio", "Actividad","Nivel Cr韙ico",""}
+				){
+		     @SuppressWarnings("rawtypes")
+			Class[] types = new Class[]{
+		    	java.lang.Integer.class,
+		    	java.lang.String.class,
+		    	java.lang.String.class,
+		    	java.lang.Boolean.class
+	         };
+		     @SuppressWarnings({ "rawtypes", "unchecked" })
+			public Class getColumnClass(int columnIndex) {
+	             return types[columnIndex];
+	         }
+	         public boolean isCellEditable(int fila, int columna){
+	        	 switch(columna){
+	        	 	case 0 : return false; 
+	        	 	case 1 : return false; 
+	        	 	case 2 : return false;
+	        	 	case 3 : return true;
+	        	 } 				
+	 			return false;
+	 		}
+			
+		};
+		
+		JTable tablaFiltro = new JTable(modeloFiltro);
+	    JScrollPane scroll = new JScrollPane(tablaFiltro);
+		
+		@SuppressWarnings("rawtypes")
+		private TableRowSorter trsfiltro;
+		
+		JTextField txtFolio = new JTextField();
+		JTextField txtNombre_Completo = new JTextField();
+		
+		JButton btnAgregar = new JButton("Agregar");
+		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		
+		public Cat_Filtro_Actividades(String Dia)	{
+			setTitle("Filtro de Actividades");
+			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Actividades"));
+			trsfiltro = new TableRowSorter(modeloFiltro); 
+			tablaFiltro.setRowSorter(trsfiltro);  
+			
+			dia = Dia;
+			
+			campo.add(scroll).setBounds(15,43,550,360);
+			
+			campo.add(txtFolio).setBounds(15,20,48,20);
+			campo.add(txtNombre_Completo).setBounds(64,20,340,20);
+			campo.add(btnAgregar).setBounds(485,20,80,20);
+			
+			cont.add(campo);
+			
+			tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(50);
+			tablaFiltro.getColumnModel().getColumn(0).setMinWidth(50);
+			tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(340);
+			tablaFiltro.getColumnModel().getColumn(1).setMinWidth(340);
+			tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(50);
+			tablaFiltro.getColumnModel().getColumn(3).setMinWidth(50);
+			txtFolio.addKeyListener(opFiltroFolio);
+			txtNombre_Completo.addKeyListener(opFiltroNombre);
+			
+			btnAgregar.addActionListener(opAgregar);
+			
+			setSize(600,450);
+			setResizable(false);
+			setLocationRelativeTo(null);
+			
+		}
+		
+		ActionListener opAgregar = new ActionListener() {
+			@SuppressWarnings("unchecked")
+			public void actionPerformed(ActionEvent arg0) {
+				Dias diaswitch = Dias.valueOf(dia);
+				
+				if(tablaFiltro.isEditing()){
+		 			tablaFiltro.getCellEditor().stopCellEditing();
+				}
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 0));
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
+				
+				txtFolio.setText("");
+				txtNombre_Completo.setText("");
+				
+				switch (diaswitch) {
+				 	case DOMINGO:
+				 		Object[] filaDom = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaDom[0] = modeloFiltro.getValueAt(i, 0);
+					 			filaDom[1] = modeloFiltro.getValueAt(i, 1);
+					 			filaDom[2] = modeloFiltro.getValueAt(i, 2);
+					 			filaDom[3] = Boolean.parseBoolean("false");
+					 			filaDom[4] = "00:00 AM";
+					 			filaDom[5] = "00:00 AM";
+					 			
+					 			modelDomingo.addRow(filaDom);
+				 			}
+				 		}
+				 		dispose();
+				 		 break;
+				 	case LUNES:
+				 		Object[] filaLun = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaLun[0] = modeloFiltro.getValueAt(i, 0);
+				 				filaLun[1] = modeloFiltro.getValueAt(i, 1);
+				 				filaLun[2] = modeloFiltro.getValueAt(i, 2);
+				 				filaLun[3] = Boolean.parseBoolean("false");
+				 				filaLun[4] = "00:00 AM";
+				 				filaLun[5] = "00:00 AM";
+					 			
+					 			modelLunes.addRow(filaLun);
+				 			}
+				 		}
+				 		dispose();
+				 		 break;
+				 	case MARTES:
+				 		Object[] filaMar = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaMar[0] = modeloFiltro.getValueAt(i, 0);
+				 				filaMar[1] = modeloFiltro.getValueAt(i, 1);
+				 				filaMar[2] = modeloFiltro.getValueAt(i, 2);
+				 				filaMar[3] = Boolean.parseBoolean("false");
+				 				filaMar[4] = "00:00 AM";
+				 				filaMar[5] = "00:00 AM";
+					 			
+					 			modelMartes.addRow(filaMar);
+				 			}
+				 		}
+				 		dispose();
+				 		 break;
+				 	case MIERCOLES:
+				 		Object[] filaMie = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaMie[0] = modeloFiltro.getValueAt(i, 0);
+				 				filaMie[1] = modeloFiltro.getValueAt(i, 1);
+				 				filaMie[2] = modeloFiltro.getValueAt(i, 2);
+				 				filaMie[3] = Boolean.parseBoolean("false");
+				 				filaMie[4] = "00:00 AM";
+				 				filaMie[5] = "00:00 AM";
+					 			
+					 			modelMiercoles.addRow(filaMie);
+				 			}
+				 		}
+				 		dispose();
+				 		 break;
+		            case JUEVES:
+		            	Object[] filaJue = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaJue[0] = modeloFiltro.getValueAt(i, 0);
+				 				filaJue[1] = modeloFiltro.getValueAt(i, 1);
+				 				filaJue[2] = modeloFiltro.getValueAt(i, 2);
+				 				filaJue[3] = Boolean.parseBoolean("false");
+				 				filaJue[4] = "00:00 AM";
+				 				filaJue[5] = "00:00 AM";
+					 			
+					 			modelJueves.addRow(filaJue);
+				 			}
+				 		}
+				 		dispose();
+		            	 break;
+		            case VIERNES:
+		            	Object[] filaVie = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaVie[0] = modeloFiltro.getValueAt(i, 0);
+				 				filaVie[1] = modeloFiltro.getValueAt(i, 1);
+				 				filaVie[2] = modeloFiltro.getValueAt(i, 2);
+				 				filaVie[3] = Boolean.parseBoolean("false");
+				 				filaVie[4] = "00:00 AM";
+				 				filaVie[5] = "00:00 AM";
+					 			
+					 			modelViernes.addRow(filaVie);
+				 			}
+				 		}
+				 		dispose();
+		            	 break;
+		            case SABADO:
+		            	Object[] filaSab = new Object[6];
+				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 				filaSab[0] = modeloFiltro.getValueAt(i, 0);
+				 				filaSab[1] = modeloFiltro.getValueAt(i, 1);
+				 				filaSab[2] = modeloFiltro.getValueAt(i, 2);
+				 				filaSab[3] = Boolean.parseBoolean("false");
+				 				filaSab[4] = "00:00 AM";
+				 				filaSab[5] = "00:00 AM";
+					 			
+					 			modelSabado.addRow(filaSab);
+				 			}
+				 		}
+				 		dispose();
+		            	 break;
+				}
+			}
+		};
+			
+		KeyListener opFiltroFolio = new KeyListener(){
+			@SuppressWarnings("unchecked")
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+			}
+			public void keyTyped(KeyEvent arg0) {
+				char caracter = arg0.getKeyChar();
+				if(((caracter < '0') ||
+					(caracter > '9')) &&
+				    (caracter != KeyEvent.VK_BACK_SPACE)){
+					arg0.consume(); 
+				}	
+			}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		KeyListener opFiltroNombre = new KeyListener(){
+			@SuppressWarnings("unchecked")
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+			}
+			public void keyTyped(KeyEvent arg0) {}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		
+	   	public Object[][] getTablaFiltro(){
+			String todos = "select folio,actividad,nivel_critico from tb_actividad";
+			Statement s;
+			ResultSet rs;
+			try {
+				s = new Connexion().conexion().createStatement();
+				rs = s.executeQuery(todos);
+				MatrizFiltro = new Object[getFilas(todos)][3];
+				int i=0;
+				while(rs.next()){
+					MatrizFiltro[i][0] = rs.getString(1).trim();
+					MatrizFiltro[i][1] = rs.getString(2).trim();
+					MatrizFiltro[i][2] = rs.getString(3).trim();
+					i++;
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		    return MatrizFiltro; 
+		}
+	   	
+	   	public int getFilas(String qry){
+			int filas=0;
+			Statement stmt = null;
+			try {
+				stmt = new Connexion().conexion().createStatement();
+				ResultSet rs = stmt.executeQuery(qry);
+				while(rs.next()){
+					filas++;
+				}
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			return filas;
+		}	
 
+		KeyListener validaCantidad = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e){
+				char caracter = e.getKeyChar();				
+				if(((caracter < '0') ||	
+				    	(caracter > '9')) && 
+				    	(caracter != '.' )){
+				    	e.consume();
+				    	}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {	
+			}
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}	
+		};
+		
+		KeyListener validaNumericoConPunto = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();
+				
+			    if(((caracter < '0') ||	
+			    	(caracter > '9')) && 
+			    	(caracter != '.')){
+			    	e.consume();
+			    	}
+			    		    		       	
+			}
+			@Override
+			public void keyPressed(KeyEvent e){}
+			@Override
+			public void keyReleased(KeyEvent e){}
+									
+		};
+		
+	}
 	
 }

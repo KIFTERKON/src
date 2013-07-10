@@ -2551,9 +2551,9 @@ public class BuscarSQL {
 	public String[][] getTablaDias(String cuadrante){
 		String[][] Matriz = null;
 		
-		String datosif = "select dia,folio,actividad from tb_tabla_cuadrante where cuadrante = '" + cuadrante+"'";
-			
-		Matriz = new String[getFilas(datosif)][3];
+		String datosif = "select dia,folio,actividad,nivel_critico,con_hora,hora_inicio,hora_fin from tb_tabla_cuadrante where cuadrante = '" + cuadrante+"'";
+		
+		Matriz = new String[getFilas(datosif)][7];
 		Statement s;
 		ResultSet rs;
 		try {			
@@ -2564,6 +2564,10 @@ public class BuscarSQL {
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
+				Matriz[i][3] = rs.getString(4);
+				Matriz[i][4] = rs.getString(5);
+				Matriz[i][5] = rs.getString(6);
+				Matriz[i][6] = rs.getString(7);
 				i++;
 			}
 		} catch (SQLException e1) {
