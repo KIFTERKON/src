@@ -358,7 +358,7 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
 		String query = "exec sp_insert_cuadrante ?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?,?";
 				
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -389,6 +389,10 @@ public class GuardarSQL {
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
 				pstmtTabla.setString(3, tabla[i][1]);
 				pstmtTabla.setString(4, tabla[i][2]);
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				pstmtTabla.setString(6, tabla[i][4]);
+				pstmtTabla.setString(7, tabla[i][5]);
+				pstmtTabla.setString(8, tabla[i][6]);
 				pstmtTabla.executeUpdate();
 			}
 			
@@ -2047,5 +2051,50 @@ public class GuardarSQL {
 			}
 		}		
 		return true;
+	}
+	
+	public boolean Guardar_Sesion(Obj_Usuario usuario){
+		BufferedWriter bufferedWriter = null;
+		String nomArchivo = System.getProperty("user.dir")+"\\Config\\users";
+		try{
+			File archivo = new File(nomArchivo);
+			if(archivo.exists()){
+				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
+							
+				bufferedWriter.write(usuario.getFolio()+    		"\n");
+				bufferedWriter.write(usuario.getNombre_completo()+	"\n");
+				
+			}else{
+				File folder = new File(System.getProperty("user.dir")+"\\Config");
+				folder.mkdirs();
+				archivo.createNewFile();
+				bufferedWriter = new BufferedWriter (new FileWriter(nomArchivo));
+				
+				bufferedWriter.write(usuario.getFolio()+    		"\n");
+				bufferedWriter.write(usuario.getNombre_completo()+	"\n");
+				
+			}
+			
+		}
+		catch(FileNotFoundException ex)
+		{
+			ex.printStackTrace();
+		}catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}finally
+		{
+			try
+			{
+				if(bufferedWriter!=null)
+				{
+					bufferedWriter.flush();
+					bufferedWriter.close();
+				}
+			}catch(IOException ex)
+			{
+				ex.printStackTrace();
+			}
+		}return true;
 	}
 }

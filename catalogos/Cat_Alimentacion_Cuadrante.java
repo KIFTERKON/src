@@ -5,9 +5,6 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,14 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-import SQL.Connexion;
+import objetos.Obj_Alimentacion_Cuadrante;
+import objetos.Obj_Usuario;
 
-import com.toedter.calendar.JDateChooser;
+import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Alimentacion_Cuadrante extends JFrame{
@@ -61,20 +58,16 @@ public class Cat_Alimentacion_Cuadrante extends JFrame{
 	JTable tabla = new JTable(model);
 	JScrollPane scroll = new JScrollPane(tabla);
 			
-	JLabel lblNombre_Completo = new JLabel();
-	JLabel lblPuesto = new JLabel();
-	JLabel lblEstablecimiento = new JLabel();
-	JLabel lblEquipo = new JLabel();
-	JLabel lblJefatura = new JLabel();
+	JTextField txtNombre_Completo 	= new JTextField();
+	JTextField txtPuesto 			= new JTextField();
+	JTextField txtEstablecimiento 	= new JTextField();
+	JTextField txtEquipo_Trabajo 	= new JTextField();
+	JTextField txtJefatura 			= new JTextField();
+	JTextField txtDia 				= new JTextField();
+	JTextField txtFecha 			= new JTextField();
+	JTextField txtCuadrante 		= new JTextField();
 	
 	JButton btnFoto = new JButton();
-	
-	JDateChooser txtCalendario = new JDateChooser();
-	
-	JTextField txtFecha = new JTextField(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-	
-	JTextArea txaCuadrante = new JTextArea();
-	JScrollPane scrollCuadrante = new JScrollPane(txaCuadrante);
 	
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnEditar = new JButton("Editar");
@@ -87,31 +80,31 @@ public class Cat_Alimentacion_Cuadrante extends JFrame{
 		int x = 40, y=30, ancho=140;
 		panel.setBorder(BorderFactory.createTitledBorder("Alta de Empleados"));
 		
-		this.panel.add(new JLabel("Nombre Completo:")).setBounds(x,y,100,20);
-		this.panel.add(lblNombre_Completo).setBounds(ancho+10,y,ancho,20);
+		this.panel.add(new JLabel("Nombre:")).setBounds(x,y,100,20);
+		this.panel.add(txtNombre_Completo).setBounds(ancho+10,y,ancho,20);
 		
 		this.panel.add(btnFoto).setBounds(ancho*2+60,y,y*4+20,y*5);
 		
 		this.panel.add(new JLabel("Puesto:")).setBounds(x,y+=25,100,20);
-		this.panel.add(lblPuesto).setBounds(ancho+10,y,ancho,20);
+		this.panel.add(txtPuesto).setBounds(ancho+10,y,ancho,20);
 		
 		this.panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,100,20);
-		this.panel.add(lblEstablecimiento).setBounds(ancho+10,y,ancho,20);
+		this.panel.add(txtEstablecimiento).setBounds(ancho+10,y,ancho,20);
 		
-		this.panel.add(new JLabel("Equipo:")).setBounds(x,y+=25,100,20);
-		this.panel.add(lblEquipo).setBounds(ancho+10,y,ancho,20);
+		this.panel.add(new JLabel("Equipo de Trabajo:")).setBounds(x,y+=25,100,20);
+		this.panel.add(txtEquipo_Trabajo).setBounds(ancho+10,y,ancho,20);
 		
 		this.panel.add(new JLabel("Jefatura:")).setBounds(x,y+=25,100,20);
-		this.panel.add(lblJefatura).setBounds(ancho+10,y,ancho,20);
+		this.panel.add(txtJefatura).setBounds(ancho+10,y,ancho,20);
 		
 		this.panel.add(new JLabel("Día:")).setBounds(x,y+=25,100,20);
-		this.panel.add(txtCalendario).setBounds(ancho+10,y,ancho,20);
+		this.panel.add(txtDia).setBounds(ancho+10,y,ancho,20);
 		
 		this.panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,100,20);
 		this.panel.add(txtFecha).setBounds(ancho+10,y,ancho,20);
 		
-		this.panel.add(new JLabel("Descripción:")).setBounds(x,y+=25,100,20);
-		this.panel.add(scrollCuadrante).setBounds(ancho+10,y,ancho*2+50,100);
+		this.panel.add(new JLabel("Cuadrante:")).setBounds(x,y+=25,100,20);
+		this.panel.add(txtCuadrante).setBounds(ancho+10,y,ancho*2+50,100);
 		
 		this.panel.add(scroll).setBounds(10,y+=130,675,270);
 		
@@ -119,11 +112,27 @@ public class Cat_Alimentacion_Cuadrante extends JFrame{
 		this.panel.add(btnEditar).setBounds(290,y,100,20);
 		this.panel.add(btnGuardar).setBounds(440,y,100,20);
 		
+		init();
+		
 		this.cont.add(panel);
 		
 		this.setSize(700,700);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+	}
+
+	public void init(){
+		Obj_Usuario usuario = new Obj_Usuario().LeerSession();
+		Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(usuario.getNombre_completo());
+		
+		System.out.println(datos_cuadrante.getNombre());
+		System.out.println(datos_cuadrante.getPuesto());
+		System.out.println(datos_cuadrante.getEstablecimiento());
+		System.out.println(datos_cuadrante.getEquipo_trabajo());
+		System.out.println(datos_cuadrante.getDia());
+		System.out.println(datos_cuadrante.getFecha());
+		System.out.println(datos_cuadrante.getCuadrante());
+		
 	}
 	
 	private Object[][] getTabla(){

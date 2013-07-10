@@ -1,5 +1,6 @@
 package objetos;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -160,5 +161,19 @@ public class Obj_Usuario {
 		}
 		return null; 
 	}
+	
+	public void Session(){
+		new GuardarSQL().Guardar_Sesion(this);
+	}
+	
+	public Obj_Usuario LeerSession()
+    {
+    	try{
+    		return new BuscarSQL().getSession();
+    	}catch(IOException e){
+    		e.printStackTrace();
+    		return null;
+    	}
+  }
 
 }

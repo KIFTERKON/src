@@ -13,6 +13,7 @@ public class Obj_Cuadrante {
 	String perfil;
 	String jefatura;
 	String nivel_gerarquico;
+	String nivel_critico;
 	String equipo_trabajo;
 	String establecimiento;
 	int domingo;
@@ -26,7 +27,7 @@ public class Obj_Cuadrante {
 
 	public Obj_Cuadrante(){
 		this.folio = 0;		this.cuadrante = "";	this.perfil = "";	this.jefatura = "";
-		this.nivel_gerarquico = "";		this.equipo_trabajo = "";	this.establecimiento = "";
+		this.nivel_gerarquico = "";		this.nivel_critico=""; this.equipo_trabajo = "";	this.establecimiento = "";
 		this.domingo = 0;	this.lunes = 0;		this.martes = 0;		this.miercoles = 0;
 		this.jueves = 0;		this.viernes = 0;		this.sabado = 0; this.status = 0;
 
@@ -70,6 +71,14 @@ public class Obj_Cuadrante {
 
 	public void setNivel_gerarquico(String nivel_gerarquico) {
 		this.nivel_gerarquico = nivel_gerarquico;
+	}
+	
+	public String getNivel_critico() {
+		return nivel_critico;
+	}
+
+	public void setNivel_critico(String nivel_critico) {
+		this.nivel_critico = nivel_critico;
 	}
 
 	public String getEquipo_trabajo() {

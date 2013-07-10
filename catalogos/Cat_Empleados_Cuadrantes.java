@@ -50,8 +50,9 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar  = new JButton("Guardar");
 	
-	JButton btnSubir = new JButton(new ImageIcon("Imagen/arriva.png"));
-	JButton btnBajar = new JButton(new ImageIcon("Imagen/abajo.png"));
+	JButton btnSubir = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnBajar = new JButton(new ImageIcon("Imagen/Down.png"));
+
 	JButton btnRemover = new JButton("Quitar");
 	
 	DefaultTableModel modelo = new DefaultTableModel(0,2)	{
@@ -163,7 +164,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
 						tabla.setRowSelectionInterval(tabla.getSelectedRow()-1,tabla.getSelectedRow()-1);
 					}else{
-						JOptionPane.showMessageDialog(null,"No hay mas filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 							
@@ -178,7 +179,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						tabla.setRowSelectionInterval(tabla.getSelectedRow()+1,tabla.getSelectedRow()+1);
 					
 					}else{
-						JOptionPane.showMessageDialog(null,"No hay mas filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 				}
@@ -235,7 +236,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			if(ValidaCampos().equals("")){
 				if(new Obj_Empleados_Cuadrantes().existe(txtNombre.getText().toUpperCase())){
-					if(JOptionPane.showConfirmDialog(null, "El registro existe, Â¿desea actualizarlo?") == 0){
+					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 						Obj_Empleados_Cuadrantes empleados_cuadrantes = new Obj_Empleados_Cuadrantes();
 						
 						empleados_cuadrantes.setFolio(Integer.parseInt(txtFolio.getText()));
@@ -264,10 +265,10 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 					limpia();
 					
 					if(empleados_cuadrantes.guardar(lista_tabla())){
-						JOptionPane.showMessageDialog(null,"El registro se guardÃ³ exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{
-						JOptionPane.showMessageDialog(null,"OcurrÃ³ un problema al intentar guardar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Ocurró un problema al intentar guardar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 				}
@@ -499,9 +500,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		
 		
 	   	public Object[][] getTabla(){
-			String todos = "select tb_empleado.folio as [Folio],"+
-							"  tb_empleado.nombre + ' ' +tb_empleado.ap_paterno + ' ' + tb_empleado.ap_materno as [Nombre] "+ 
-						   "  from tb_empleado ";
+			String todos = "exec sp_compara_empleados_con_cuadrante";
 			Statement s;
 			ResultSet rs;
 			try {

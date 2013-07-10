@@ -65,45 +65,94 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							
 							 switch (currentDia) {
 							 	case DOMINGO:
-							 		String[] dom = new String[2];
+							 		while(tablaDomingo.getRowCount() > 0){
+										modelDomingo.removeRow(0);
+									}
+							 		Object[] dom = new Object[6];
 							 		dom[0] = tabla[i][1];
 							 		dom[1] = tabla[i][2];
+							 		dom[2] = tabla[i][3];
+							 		dom[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+							 		dom[4] = tabla[i][5];
+							 		dom[5] = tabla[i][6];
 							 		modelDomingo.addRow(dom);
 							 		 break;
 							 	case LUNES:
-							 		String[] lun = new String[2];
+							 		while(tablaLunes.getRowCount() > 0){
+										modelLunes.removeRow(0);
+									}
+							 		Object[] lun = new Object[6];
 							 		lun[0] = tabla[i][1];
 							 		lun[1] = tabla[i][2];
+							 		lun[2] = tabla[i][3];
+							 		lun[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+							 		lun[4] = tabla[i][5];
+							 		lun[5] = tabla[i][6];
 							 		modelLunes.addRow(lun);
 							 		 break;
 							 	case MARTES:
-							 		String[] mar = new String[2];
+							 		while(tablaMartes.getRowCount() > 0){
+										modelMartes.removeRow(0);
+									}
+							 		Object[] mar = new Object[6];
 							 		mar[0] = tabla[i][1];
 							 		mar[1] = tabla[i][2];
+							 		mar[2] = tabla[i][3];
+							 		mar[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+							 		mar[4] = tabla[i][5];
+							 		mar[5] = tabla[i][6];
 							 		modelMartes.addRow(mar);
 							 		 break;
 							 	case MIERCOLES:
-							 		String[] mie = new String[2];
+							 		while(tablaMiercoles.getRowCount() > 0){
+										modelMiercoles.removeRow(0);
+									}
+							 		Object[] mie = new Object[6];
 							 		mie[0] = tabla[i][1];
 							 		mie[1] = tabla[i][2];
+							 		mie[2] = tabla[i][3];
+							 		mie[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+							 		mie[4] = tabla[i][5];
+							 		mie[5] = tabla[i][6];
 							 		modelMiercoles.addRow(mie);
 							 		 break;
 					            case JUEVES:
-					            	String[] jue = new String[2];
+					            	while(tablaJueves.getRowCount() > 0){
+										modelJueves.removeRow(0);
+									}
+					            	Object[] jue = new Object[6];
 					            	jue[0] = tabla[i][1];
 					            	jue[1] = tabla[i][2];
+					            	jue[2] = tabla[i][3];
+					            	jue[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+					            	jue[4] = tabla[i][5];
+					            	jue[5] = tabla[i][6];
 							 		modelJueves.addRow(jue);
 					            	 break;
 					            case VIERNES:
-					            	String[] vie = new String[2];
+					            	while(tablaViernes.getRowCount() > 0){
+										modelViernes.removeRow(0);
+									}
+					            	Object[] vie = new Object[6];
 					            	vie[0] = tabla[i][1];
 					            	vie[1] = tabla[i][2];
+					            	vie[2] = tabla[i][3];
+					            	vie[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+					            	vie[4] = tabla[i][5];
+					            	vie[5] = tabla[i][6];
 							 		modelViernes.addRow(vie);
 					            	 break;
 					            case SABADO:
-					            	String[] sab = new String[2];
+					            	while(tablaSabado.getRowCount() > 0){
+										modelSabado.removeRow(0);
+									}
+					            	Object[] sab = new Object[6];
 					            	sab[0] = tabla[i][1];
 					            	sab[1] = tabla[i][2];
+					            	sab[2] = tabla[i][3];
+					            	sab[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+					            	sab[4] = tabla[i][5];
+					            	sab[5] = tabla[i][6];
 							 		modelSabado.addRow(sab);
 					            	 break;
 							 }
@@ -142,16 +191,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		}
 	};
 	
-	public enum Dias{
-		DOMINGO,
-		LUNES,
-		MARTES,
-		MIERCOLES,
-		JUEVES,
-		VIERNES,
-		SABADO
-	}
-	
 	ActionListener opEditar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(txtFolio.getText().equals("")){
@@ -162,13 +201,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				txtFolio.setEditable(false);
 				
 				if(chDomingo.isSelected()){
-					txtActividadDomingo.setEditable(true);
 					btnAgregarDomingo.setEnabled(true);
 					btnSubirDomingo.setEnabled(true);
 					btnBajarDomingo.setEnabled(true);
 					btnRemoverDomingo.setEnabled(true);
 				}else{
-					txtActividadDomingo.setEditable(false);
 					btnAgregarDomingo.setEnabled(false);
 					btnSubirDomingo.setEnabled(false);
 					btnBajarDomingo.setEnabled(false);
@@ -180,13 +217,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				}
 				
 				if(chLunes.isSelected()){
-					txtActividadLunes.setEditable(true);
 					btnAgregarLunes.setEnabled(true);
 					btnSubirLunes.setEnabled(true);
 					btnBajarLunes.setEnabled(true);
 					btnRemoverLunes.setEnabled(true);
 				}else{
-					txtActividadLunes.setEditable(false);
 					btnAgregarLunes.setEnabled(false);
 					btnSubirLunes.setEnabled(false);
 					btnBajarLunes.setEnabled(false);
@@ -197,13 +232,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}
 				}
 				if(chMartes.isSelected()){
-					txtActividadMartes.setEditable(true);
 					btnAgregarMartes.setEnabled(true);
 					btnSubirMartes.setEnabled(true);
 					btnBajarMartes.setEnabled(true);
 					btnRemoverMartes.setEnabled(true);
 				}else{
-					txtActividadMartes.setEditable(false);
 					btnAgregarMartes.setEnabled(false);
 					btnSubirMartes.setEnabled(false);
 					btnBajarMartes.setEnabled(false);
@@ -214,13 +247,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}
 				}
 				if(chMiercoles.isSelected()){
-					txtActividadMiercoles.setEditable(true);
 					btnAgregarMiercoles.setEnabled(true);
 					btnSubirMiercoles.setEnabled(true);
 					btnBajarMiercoles.setEnabled(true);
 					btnRemoverMiercoles.setEnabled(true);
 				}else{
-					txtActividadMiercoles.setEditable(false);
 					btnAgregarMiercoles.setEnabled(false);
 					btnSubirMiercoles.setEnabled(false);
 					btnBajarMiercoles.setEnabled(false);
@@ -231,13 +262,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}
 				}
 				if(chJueves.isSelected()){
-					txtActividadJueves.setEditable(true);
 					btnAgregarJueves.setEnabled(true);
 					btnSubirJueves.setEnabled(true);
 					btnBajarJueves.setEnabled(true);
 					btnRemoverJueves.setEnabled(true);
 				}else{
-					txtActividadJueves.setEditable(false);
 					btnAgregarJueves.setEnabled(false);
 					btnSubirJueves.setEnabled(false);
 					btnBajarJueves.setEnabled(false);
@@ -248,13 +277,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}
 				}
 				if(chViernes.isSelected()){
-					txtActividadViernes.setEditable(true);
 					btnAgregarViernes.setEnabled(true);
 					btnSubirViernes.setEnabled(true);
 					btnBajarViernes.setEnabled(true);
 					btnRemoverViernes.setEnabled(true);
 				}else{
-					txtActividadViernes.setEditable(false);
 					btnAgregarViernes.setEnabled(false);
 					btnSubirViernes.setEnabled(false);
 					btnBajarViernes.setEnabled(false);
@@ -265,13 +292,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}
 				}
 				if(chSabado.isSelected()){
-					txtActividadSabado.setEditable(true);
 					btnAgregarSabado.setEnabled(true);
 					btnSubirSabado.setEnabled(true);
 					btnBajarSabado.setEnabled(true);
 					btnRemoverSabado.setEnabled(true);
 				}else{
-					txtActividadSabado.setEditable(false);
 					btnAgregarSabado.setEnabled(false);
 					btnSubirSabado.setEnabled(false);
 					btnBajarSabado.setEnabled(false);
@@ -373,7 +398,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 						cuadrante.setViernes(chViernes.isSelected() ? 1 : 0);
 						cuadrante.setSabado(chSabado.isSelected() ? 1 : 0);
 						cuadrante.setStatus(chbStatus.isSelected() ? 1 : 0);
-						
+															
 						if(cuadrante.guardar(DiasTablas())){
 							JOptionPane.showMessageDialog(null,"El registro se guardó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
@@ -398,7 +423,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		
 		int filas = tablaDomingo.getRowCount()+tablaLunes.getRowCount()+tablaMartes.getRowCount()+tablaMiercoles.getRowCount()+tablaJueves.getRowCount()+tablaViernes.getRowCount()+tablaSabado.getRowCount();
 		
-		String[][] tablas = new String[filas][3];
+		String[][] tablas = new String[filas][7];
 		
 		int renglonesdomingo = tablaDomingo.getRowCount();
 		int rengloneslunes = tablaLunes.getRowCount();
@@ -414,7 +439,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(renglonesdomingo > 0){
 				tablas[i][0] = modelDomingo.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelDomingo.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Domingo";
+				tablas[i][2] = modelDomingo.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelDomingo.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelDomingo.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelDomingo.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Domingo";
 				i+=1;
 				fila+=1;
 			renglonesdomingo--;
@@ -423,7 +452,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(rengloneslunes > 0){
 				tablas[i][0] = modelLunes.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelLunes.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Lunes";
+				tablas[i][2] = modelLunes.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelLunes.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelLunes.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelLunes.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Lunes";
 				i+=1;
 				fila+=1;
 				rengloneslunes--;
@@ -433,7 +466,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(renglonesMartes > 0){
 				tablas[i][0] = modelMartes.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelMartes.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Martes";
+				tablas[i][2] = modelMartes.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelMartes.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelMartes.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelMartes.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Martes";
 				i+=1;
 				fila+=1;
 				renglonesMartes--;
@@ -443,7 +480,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(renglonesMiercoles > 0){
 				tablas[i][0] = modelMiercoles.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelMiercoles.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Miercoles";
+				tablas[i][2] = modelMiercoles.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelMiercoles.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelMiercoles.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelMiercoles.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Miercoles";
 				i+=1;
 				fila+=1;
 				renglonesMiercoles--;
@@ -453,7 +494,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(renglonesJueves > 0){
 				tablas[i][0] = modelJueves.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelJueves.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Jueves";
+				tablas[i][2] = modelJueves.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelJueves.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelJueves.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelJueves.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Jueves";
 				i+=1;
 				fila+=1;
 				renglonesJueves--;
@@ -463,7 +508,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(renglonesViernes > 0){
 				tablas[i][0] = modelViernes.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelViernes.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Viernes";
+				tablas[i][2] = modelViernes.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelViernes.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelViernes.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelViernes.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Viernes";
 				i+=1;
 				fila+=1;
 				renglonesViernes--;
@@ -473,7 +522,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		while(renglonesSabado > 0){
 				tablas[i][0] = modelSabado.getValueAt(fila, 0)+"";
 				tablas[i][1] = modelSabado.getValueAt(fila, 1)+"";
-				tablas[i][2] = "Sabado";
+				tablas[i][2] = modelSabado.getValueAt(fila, 2)+"";
+				tablas[i][3] = modelSabado.getValueAt(fila, 3)+"";
+				tablas[i][4] = modelSabado.getValueAt(fila, 4)+"";
+				tablas[i][5] = modelSabado.getValueAt(fila, 5)+"";
+				tablas[i][6] = "Sabado";
 				i+=1;
 				fila+=1;
 				renglonesSabado--;
@@ -549,37 +602,30 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		chViernes.setSelected(false);
 		chSabado.setSelected(false);
 		
-		txtActividadDomingo.setEditable(false);
 		btnAgregarDomingo.setEnabled(false);
 		btnSubirDomingo.setEnabled(false);
 		btnBajarDomingo.setEnabled(false);
 		btnRemoverDomingo.setEnabled(false);
-		txtActividadLunes.setEditable(false);
 		btnAgregarLunes.setEnabled(false);
 		btnSubirLunes.setEnabled(false);
 		btnBajarLunes.setEnabled(false);
 		btnRemoverLunes.setEnabled(false);
-		txtActividadMartes.setEditable(false);
 		btnAgregarMartes.setEnabled(false);
 		btnSubirMartes.setEnabled(false);
 		btnBajarMartes.setEnabled(false);
 		btnRemoverMartes.setEnabled(false);
-		txtActividadMiercoles.setEditable(false);
 		btnAgregarMiercoles.setEnabled(false);
 		btnSubirMiercoles.setEnabled(false);
 		btnBajarMiercoles.setEnabled(false);
 		btnRemoverMiercoles.setEnabled(false);
-		txtActividadJueves.setEditable(false);
 		btnAgregarJueves.setEnabled(false);
 		btnSubirJueves.setEnabled(false);
 		btnBajarJueves.setEnabled(false);
 		btnRemoverJueves.setEnabled(false);
-		txtActividadViernes.setEditable(false);
 		btnAgregarViernes.setEnabled(false);
 		btnSubirViernes.setEnabled(false);
 		btnBajarViernes.setEnabled(false);
 		btnRemoverViernes.setEnabled(false);
-		txtActividadSabado.setEditable(false);
 		btnAgregarSabado.setEnabled(false);
 		btnSubirSabado.setEnabled(false);
 		btnBajarSabado.setEnabled(false);
