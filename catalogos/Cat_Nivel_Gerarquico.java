@@ -282,6 +282,9 @@ public class Cat_Nivel_Gerarquico extends JFrame
 				    chStatus.setEnabled(true);
 				    chStatus.setSelected(true);
 				    
+				    cmbP_Dependiente.setSelectedIndex(0);
+				    cmb_Establecimiento.setSelectedIndex(0);
+				    
 				    getTabla(Integer.parseInt(txtFolio.getText()));
 				    
 					panelfalse();

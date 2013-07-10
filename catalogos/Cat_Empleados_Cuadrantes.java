@@ -50,8 +50,8 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar  = new JButton("Guardar");
 	
-	JButton btnSubir = new JButton("藙");
-	JButton btnBajar = new JButton("藚");
+	JButton btnSubir = new JButton(new ImageIcon("Imagen/arriva.png"));
+	JButton btnBajar = new JButton(new ImageIcon("Imagen/abajo.png"));
 	JButton btnRemover = new JButton("Quitar");
 	
 	DefaultTableModel modelo = new DefaultTableModel(0,2)	{
@@ -99,6 +99,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.panel.add(btnSalir).setBounds(x,y+=300,90,20);
 		this.panel.add(btnLimpiar).setBounds(x+=175,y,90,20);
 		this.panel.add(btnGuardar).setBounds(x+=175,y,90,20);
+		btnSubir.setToolTipText("Boton de subir");
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
@@ -162,7 +163,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
 						tabla.setRowSelectionInterval(tabla.getSelectedRow()-1,tabla.getSelectedRow()-1);
 					}else{
-						JOptionPane.showMessageDialog(null,"No m谩s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,"No hay mas filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 							
@@ -177,7 +178,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						tabla.setRowSelectionInterval(tabla.getSelectedRow()+1,tabla.getSelectedRow()+1);
 					
 					}else{
-						JOptionPane.showMessageDialog(null,"No m谩s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,"No hay mas filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 				}
@@ -207,11 +208,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						fila[1] = lista_tabla[i][1];
 						modelo.addRow(fila);
 					}
-					
-					
 				}
-				
-				
 			}
 		}
 	};
@@ -234,7 +231,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		return error;
 	}
 	
-	
 	ActionListener guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(ValidaCampos().equals("")){
@@ -248,10 +244,10 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						empleados_cuadrantes.setStatus(chStatus.isSelected());
 						
 						if(empleados_cuadrantes.actualizar(lista_tabla())){
-							JOptionPane.showMessageDialog(null,"El registro se actualiz贸 exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null,"El registro se actualizo exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
-							JOptionPane.showMessageDialog(null,"Ocurr贸 un problema al intentar actualizar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Ocurrio un problema al intentar actualizar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 						
@@ -265,6 +261,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 					empleados_cuadrantes.setNombre(txtNombre.getText());
 					empleados_cuadrantes.setCuadrante(txtCuadrantes.getText());
 					empleados_cuadrantes.setStatus(chStatus.isSelected());
+					limpia();
 					
 					if(empleados_cuadrantes.guardar(lista_tabla())){
 						JOptionPane.showMessageDialog(null,"El registro se guard贸 exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -316,8 +313,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			limpia();
-			txtFolio.requestFocus();
-			txtFolio.setEditable(true);
+			
 		}
 	};
 	
@@ -333,6 +329,8 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		 while(modelo.getRowCount() > 0){
 	    	  modelo.removeRow(0);
 		}
+		 txtFolio.requestFocus();
+		 txtFolio.setEditable(true);
 	}
 	
 	KeyListener valida = new KeyListener() {
@@ -380,7 +378,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		
 		Object[][] Tabla = getTabla();
 		DefaultTableModel model1 = new DefaultTableModel(Tabla,
-	            new String[]{"Folio", "Nombre Completo", "Selecci贸n"}
+	            new String[]{"Folio", "Nombre Completo", "Selecci髇"}
 				){
 		     @SuppressWarnings("rawtypes")
 			Class[] types = new Class[]{

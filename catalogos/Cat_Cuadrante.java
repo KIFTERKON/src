@@ -2,6 +2,8 @@ package catalogos;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -38,6 +40,8 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		this.btnDeshacer.addActionListener(opDeshacer);
 		this.btnEditar.addActionListener(opEditar);
 		this.btnBuscar.addActionListener(opBuscar);
+		
+		txtFolio.addKeyListener(valida);
 		
 		enablesTodos(false);
 		txtFolio.setEditable(true);
@@ -604,6 +608,33 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		}
 		
 	}
+	
+	
+	KeyListener valida = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e){
+			char caracter = e.getKeyChar();
+			int limite=10;
+
+			if(((caracter < '0') ||
+		        (caracter > '9')) &&
+		        (caracter != KeyEvent.VK_BACK_SPACE)){
+		    	e.consume(); 
+		    }
+				if (txtFolio.getText().length()== limite)
+			     e.consume();
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {	
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				btnBuscar.doClick();
+				txtFolio.requestFocus();
+			}
+		}
+	};
 	
 	public static void main (String arg []){
 		try {
