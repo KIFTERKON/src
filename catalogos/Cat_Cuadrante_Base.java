@@ -68,10 +68,10 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JCheckBox chDomingo		= new JCheckBox("Domingo");
 	JCheckBox chLunes 		= new JCheckBox("Lunes");
 	JCheckBox chMartes 		= new JCheckBox("Martes");
-	JCheckBox chMiercoles	= new JCheckBox("Miercoles");
+	JCheckBox chMiercoles	= new JCheckBox("Miércoles");
 	JCheckBox chJueves 		= new JCheckBox("Jueves");
 	JCheckBox chViernes 	= new JCheckBox("Viernes");
-	JCheckBox chSabado 		= new JCheckBox("Sabado");
+	JCheckBox chSabado 		= new JCheckBox("Sábado");
 
 	JTabbedPane pestanas = new JTabbedPane();
 		JLayeredPane pDomingo = new JLayeredPane(); 
@@ -493,7 +493,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.lunes();
 		this.pestanas.addTab("Martes", pMarte);
 		this.martes();
-		this.pestanas.addTab("Miercoles", pMiercoles);
+		this.pestanas.addTab("Miércoles", pMiercoles);
 		this.miercoles();
 		this.pestanas.addTab("Jueves", pJueves);
 		this.jueves();
@@ -652,7 +652,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	}
 	
 	public void miercoles(){
-		this.pMiercoles.setBorder(BorderFactory.createTitledBorder("Miercoles"));
+		this.pMiercoles.setBorder(BorderFactory.createTitledBorder("Miércoles"));
 		this.pMiercoles.setOpaque(true); 
 		this.pMiercoles.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
@@ -737,7 +737,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	}
 	
 	public void sabado(){
-		this.pSabado.setBorder(BorderFactory.createTitledBorder("Sabado"));
+		this.pSabado.setBorder(BorderFactory.createTitledBorder("Sábado"));
 		this.pSabado.setOpaque(true); 
 		this.pSabado.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		

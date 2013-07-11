@@ -1684,7 +1684,7 @@ public class ActualizarSQL {
 			pstmtUpdate.executeUpdate();
 			
 			pstmtTabla = con.prepareStatement(querytabla);
-			
+
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, empleado_cuadrante.getNombre().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));

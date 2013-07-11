@@ -112,7 +112,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 	//Termina tabla opciones multiples
 	
 	
-	
 	JTextField txtNombre_Completo = new JTextField();
 	JTextField txtPuesto = new JTextField();
 	JTextField txtEstablecimiento = new JTextField();
