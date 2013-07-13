@@ -98,5 +98,9 @@ public class Obj_Alimentacion_Cuadrante {
 		}
 	return null; 
 	}
+	
+	public String[][] buscarTabla(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante(nombre);
+	}
 
 }
