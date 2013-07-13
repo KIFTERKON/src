@@ -2021,7 +2021,7 @@ public class GuardarSQL {
 			pstmt.setString(1, empleado_cuadrante.getNombre().toUpperCase());
 			pstmt.setString(2, empleado_cuadrante.getCuadrante());
 			pstmt.setInt(3, empleado_cuadrante.isStatus() ? 1 : 0);
-			
+
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, empleado_cuadrante.getNombre().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));

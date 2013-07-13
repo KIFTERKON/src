@@ -246,6 +246,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						
 						if(empleados_cuadrantes.actualizar(lista_tabla())){
 							JOptionPane.showMessageDialog(null,"El registro se actualizo exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							limpia();
 							return;
 						}else{
 							JOptionPane.showMessageDialog(null,"Ocurrio un problema al intentar actualizar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
@@ -262,10 +263,10 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 					empleados_cuadrantes.setNombre(txtNombre.getText());
 					empleados_cuadrantes.setCuadrante(txtCuadrantes.getText());
 					empleados_cuadrantes.setStatus(chStatus.isSelected());
-					limpia();
 					
 					if(empleados_cuadrantes.guardar(lista_tabla())){
 						JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						limpia();
 						return;
 					}else{
 						JOptionPane.showMessageDialog(null,"Ocurró un problema al intentar guardar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);

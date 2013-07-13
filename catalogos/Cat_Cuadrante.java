@@ -484,7 +484,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				tablas[i][3] = modelMiercoles.getValueAt(fila, 3)+"";
 				tablas[i][4] = modelMiercoles.getValueAt(fila, 4)+"";
 				tablas[i][5] = modelMiercoles.getValueAt(fila, 5)+"";
-				tablas[i][6] = "Miercoles";
+				tablas[i][6] = "Miércoles";
 				i+=1;
 				fila+=1;
 				renglonesMiercoles--;
@@ -526,7 +526,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				tablas[i][3] = modelSabado.getValueAt(fila, 3)+"";
 				tablas[i][4] = modelSabado.getValueAt(fila, 4)+"";
 				tablas[i][5] = modelSabado.getValueAt(fila, 5)+"";
-				tablas[i][6] = "Sabado";
+				tablas[i][6] = "Sábado";
 				i+=1;
 				fila+=1;
 				renglonesSabado--;
