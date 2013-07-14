@@ -4,9 +4,6 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,16 +11,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
-import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Alimentacion_Cuadrante extends JFrame
@@ -31,41 +24,41 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	Object[][] Tabla = getTabla();
-	DefaultTableModel model = new DefaultTableModel(Tabla,
-			new String[]{"Folio", "Actividad", "Opción", "Respuesta","Comentarios" }){
-	     @SuppressWarnings("rawtypes")
-		Class[] types = new Class[]{
-	    	java.lang.Integer.class,
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class, 
-	    	java.lang.String.class,
-	    	java.lang.String.class
-         };
-	     
-	     @SuppressWarnings({ "rawtypes", "unchecked" })
-		public Class getColumnClass(int columnIndex) {
-             return types[columnIndex];
-         }
-         public boolean isCellEditable(int fila, int columna){
-        	 switch(columna){
-        	 	case 0 : return true; 
-        	 	case 1 : return true; 
-        	 	case 2 : return true; 
-        	 	case 3 : return true;
-        	 	case 4 : return true; 
-
-        	 } 				
- 			return false;
-         }
-         
-	};
-	
-	JTable tabla = new JTable(model);
-	JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	
-	TableColumn columnaCombo = tabla.getColumnModel().getColumn(3);
+//	Object[][] Tabla = getTabla();
+//	DefaultTableModel model = new DefaultTableModel(Tabla,
+//			new String[]{"Folio", "Actividad", "Opción", "Respuesta","Comentarios" }){
+//	     @SuppressWarnings("rawtypes")
+//		Class[] types = new Class[]{
+//	    	java.lang.Integer.class,
+//	    	java.lang.String.class, 
+//	    	java.lang.String.class, 
+//	    	java.lang.String.class, 
+//	    	java.lang.String.class,
+//	    	java.lang.String.class
+//         };
+//	     
+//	     @SuppressWarnings({ "rawtypes", "unchecked" })
+//		public Class getColumnClass(int columnIndex) {
+//             return types[columnIndex];
+//         }
+//         public boolean isCellEditable(int fila, int columna){
+//        	 switch(columna){
+//        	 	case 0 : return true; 
+//        	 	case 1 : return true; 
+//        	 	case 2 : return true; 
+//        	 	case 3 : return true;
+//        	 	case 4 : return true; 
+//
+//        	 } 				
+// 			return false;
+//         }
+//         
+//	};
+//	
+//	JTable tabla = new JTable(model);
+//	JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//	
+//	TableColumn columnaCombo = tabla.getColumnModel().getColumn(3);
 	
 	JTextField txtNombre_Completo = new JTextField();
 	JTextField txtPuesto = new JTextField();
@@ -84,6 +77,12 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 	JButton btnEnviar = new JButton("Enviar");
 	JButton btnFoto = new JButton();
 	
+	JLayeredPane panel1 = new JLayeredPane();
+	JLayeredPane panel2 = new JLayeredPane();
+	JLayeredPane panel3 = new JLayeredPane();
+	JLayeredPane panel4 = new JLayeredPane();
+	
+	JTabbedPane tablapane = new JTabbedPane();
 	public Cat_Alimentacion_Cuadrante()
 	{
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
@@ -115,22 +114,22 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		this.panel.add(txtCuadrante).setBounds(150,210,250,20);
 	
 		this.panel.add(btnFoto).setBounds(470,30,150,150);
-		
-		
-		this.panel.add(scroll).setBounds(8,250,850,270);
-		
-		this.tabla.getColumnModel().getColumn(0).setMaxWidth(60);
-		this.tabla.getColumnModel().getColumn(0).setMinWidth(60);
-		this.tabla.getColumnModel().getColumn(1).setMaxWidth(200);
-		this.tabla.getColumnModel().getColumn(1).setMinWidth(200);
-		this.tabla.getColumnModel().getColumn(2).setMaxWidth(80);
-		this.tabla.getColumnModel().getColumn(2).setMinWidth(80);
-		this.tabla.getColumnModel().getColumn(3).setMaxWidth(400);
-		this.tabla.getColumnModel().getColumn(3).setMinWidth(400);
-		this.tabla.getColumnModel().getColumn(4).setMaxWidth(200);
-		this.tabla.getColumnModel().getColumn(4).setMinWidth(200);
-		
-		columnaCombo.setCellEditor(new javax.swing.DefaultCellEditor(cmbMultiple));
+		tablapane.addTab("Opciones Multiples", panel1);
+		tablapane.addTab("Opciones Libres", panel2);
+		this.panel.add(tablapane).setBounds(8,250,850,270);
+//		
+//		this.tabla.getColumnModel().getColumn(0).setMaxWidth(60);
+//		this.tabla.getColumnModel().getColumn(0).setMinWidth(60);
+//		this.tabla.getColumnModel().getColumn(1).setMaxWidth(200);
+//		this.tabla.getColumnModel().getColumn(1).setMinWidth(200);
+//		this.tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+//		this.tabla.getColumnModel().getColumn(2).setMinWidth(80);
+//		this.tabla.getColumnModel().getColumn(3).setMaxWidth(400);
+//		this.tabla.getColumnModel().getColumn(3).setMinWidth(400);
+//		this.tabla.getColumnModel().getColumn(4).setMaxWidth(200);
+//		this.tabla.getColumnModel().getColumn(4).setMinWidth(200);
+//		
+//		columnaCombo.setCellEditor(new javax.swing.DefaultCellEditor(cmbMultiple));
 	
 		btnEditar.addActionListener(editar);
 		btnSalir.addActionListener(salir);
@@ -138,7 +137,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		this.panel.add(btnSalir).setBounds(180,550,100,20);
 		this.panel.add(btnEditar).setBounds(330,550,100,20);
 		this.panel.add(btnEnviar).setBounds(480,550,100,20);
-		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		CamposEnabledFalse();
 		init();
@@ -174,7 +173,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		txtDia.setEditable(false);
 		txtCuadrante.setEditable(false);
 		btnFoto.setEnabled(false);
-		tabla.setEnabled(false);
+//		tabla.setEnabled(false);
 	}
 //	
 	public void CamposEnabledTrue()
@@ -187,7 +186,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 //		txtFecha.setEditable(true);
 //		txtDia.setEditable(true);
 //		txtCuadrante.setEditable(true);
-		tabla.setEnabled(true);
+//		tabla.setEnabled(true);
 	}
 	
 	public void init(){
@@ -203,7 +202,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		txtDia.setText(datos_cuadrante.getDia());
 		txtCuadrante.setText(datos_cuadrante.getCuadrante());
 		
-		btnFoto.setText(datos_cuadrante.getCuadrante());
 		
 		String[][] info_tabla = new Obj_Alimentacion_Cuadrante().buscarTabla(usuario.getNombre_completo());
 		String [] fila = new String[3];
@@ -214,47 +212,47 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 			if(!info_tabla[i][2].equals("Libre")){
 				
 			}
-			model.addRow(fila);
+//			model.addRow(fila);
 		}
 	}
 	
-	private Object[][] getTabla(){
-		try {
-			String datos = "select top 2 (folio) from tb_empleado";
-			Statement s = new Connexion().conexion().createStatement();
-			ResultSet rs = s.executeQuery(datos);
-			Object[][] Matriz = new Object[2][5];
-			int i=0;
-			while(rs.next()){
-				Matriz[i][0] = 0;
-				Matriz[i][1] = "";
-				Matriz[i][2] = "";
-				Matriz[i][3] = "";
-				Matriz[i][4] = false;
-				i++;
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return Tabla;
-
-	}
-	
-	public int getFilas(String qry){
-		int filas=0;
-		try {
-			Statement s = new Connexion().conexion().createStatement();
-			ResultSet rs = s.executeQuery(qry);
-			while(rs.next()){
-				filas++;
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return filas;
-	}	
+//	private Object[][] getTabla(){
+//		try {
+//			String datos = "select top 2 (folio) from tb_empleado";
+//			Statement s = new Connexion().conexion().createStatement();
+//			ResultSet rs = s.executeQuery(datos);
+//			Object[][] Matriz = new Object[2][5];
+//			int i=0;
+//			while(rs.next()){
+//				Matriz[i][0] = 0;
+//				Matriz[i][1] = "";
+//				Matriz[i][2] = "";
+//				Matriz[i][3] = "";
+//				Matriz[i][4] = false;
+//				i++;
+//			}
+//			
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
+////		return Tabla;
+//
+//	}
+//	
+//	public int getFilas(String qry){
+//		int filas=0;
+//		try {
+//			Statement s = new Connexion().conexion().createStatement();
+//			ResultSet rs = s.executeQuery(qry);
+//			while(rs.next()){
+//				filas++;
+//			}
+//			
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
+//		return filas;
+//	}	
 	
 	ActionListener editar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
