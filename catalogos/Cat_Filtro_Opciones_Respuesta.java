@@ -92,7 +92,7 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
 	    			dispose();
-	    			new Cat_OpRespuesta(Integer.parseInt(folio+"")).setVisible(true);
+	    			new Cat_Opciones_Respuesta(Integer.parseInt(folio+"")).setVisible(true);
 	        	}
 	        }
         });

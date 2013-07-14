@@ -28,7 +28,7 @@ import objetos.Obj_OpRespuesta;
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
-public class Cat_OpRespuesta extends JFrame
+public class Cat_Opciones_Respuesta extends JFrame
 {
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -49,8 +49,8 @@ public class Cat_OpRespuesta extends JFrame
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
-	JButton btnSubir = new JButton(new ImageIcon("Imagen/Arriva.png"));
-	JButton btnBajar = new JButton(new ImageIcon("Imagen/abajo.png"));
+	JButton btnSubir = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnBajar = new JButton(new ImageIcon("Imagen/Down.png"));
 	
 	DefaultTableModel modelo       = new DefaultTableModel(0,2)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -67,7 +67,7 @@ public class Cat_OpRespuesta extends JFrame
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbRespuesta = new JComboBox(lista);
 	
-	public Cat_OpRespuesta() {
+	public Cat_Opciones_Respuesta() {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/How-to.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Opcion de Respuesta"));
 		
@@ -76,7 +76,7 @@ public class Cat_OpRespuesta extends JFrame
 		init();
 	}
 	
-	public Cat_OpRespuesta(int folio){
+	public Cat_Opciones_Respuesta(int folio){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/How-to.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Opcion de Respuesta"));
 		
@@ -520,7 +520,7 @@ public class Cat_OpRespuesta extends JFrame
 	public static void main(String[]a) {
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_OpRespuesta().setVisible(true);
+			new Cat_Opciones_Respuesta().setVisible(true);
 		}catch(Exception e){
 			e.printStackTrace();
 		}	

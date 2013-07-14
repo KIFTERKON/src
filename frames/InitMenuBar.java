@@ -40,7 +40,7 @@ import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Jefatura;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Nivel_Critico;
-import catalogos.Cat_OpRespuesta;
+import catalogos.Cat_Opciones_Respuesta;
 import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Ponderacion;
 import catalogos.Cat_Puesto;
@@ -443,7 +443,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Nivel Crítico"))
 				new Cat_Nivel_Critico().setVisible(true);
 			if(e.getActionCommand().equals("Opciones de Respuesta"))
-				new Cat_OpRespuesta().setVisible(true);
+				new Cat_Opciones_Respuesta().setVisible(true);
 			if(e.getActionCommand().equals("Ponderacion"))
 				new Cat_Ponderacion().setVisible(true);
 			/* CUADRANTES 
