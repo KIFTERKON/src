@@ -1606,6 +1606,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				
 				switch (diaswitch) {
 				 	case DOMINGO:
+				 		while(tablaDomingo.getRowCount() > 0){
+				 			modelDomingo.removeRow(0);
+						}
 				 		Object[] filaDom = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1622,6 +1625,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 				 		 break;
 				 	case LUNES:
+				 		while(tablaLunes.getRowCount() > 0){
+				 			modelLunes.removeRow(0);
+						}
 				 		Object[] filaLun = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1638,6 +1644,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 				 		 break;
 				 	case MARTES:
+				 		while(tablaMartes.getRowCount() > 0){
+				 			modelMartes.removeRow(0);
+						}
 				 		Object[] filaMar = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1654,6 +1663,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 				 		 break;
 				 	case MIERCOLES:
+				 		while(tablaMiercoles.getRowCount() > 0){
+				 			modelMiercoles.removeRow(0);
+						}
 				 		Object[] filaMie = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1670,6 +1682,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 				 		 break;
 		            case JUEVES:
+		            	while(tablaJueves.getRowCount() > 0){
+				 			modelJueves.removeRow(0);
+						}
 		            	Object[] filaJue = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1686,6 +1701,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 		            	 break;
 		            case VIERNES:
+		            	while(tablaViernes.getRowCount() > 0){
+				 			modelViernes.removeRow(0);
+						}
 		            	Object[] filaVie = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1702,6 +1720,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 		            	 break;
 		            case SABADO:
+		            	while(tablaSabado.getRowCount() > 0){
+				 			modelSabado.removeRow(0);
+						}
 		            	Object[] filaSab = new Object[6];
 				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -1754,12 +1775,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 			try {
 				s = new Connexion().conexion().createStatement();
 				rs = s.executeQuery(todos);
-				MatrizFiltro = new Object[getFilas(todos)][3];
+				MatrizFiltro = new Object[getFilas(todos)][4];
 				int i=0;
 				while(rs.next()){
 					MatrizFiltro[i][0] = rs.getString(1).trim();
 					MatrizFiltro[i][1] = rs.getString(2).trim();
 					MatrizFiltro[i][2] = rs.getString(3).trim();
+					MatrizFiltro[i][3] = false;
 					i++;
 				}
 			} catch (SQLException e1) {

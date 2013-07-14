@@ -3,6 +3,7 @@ package objetos;
 import java.sql.SQLException;
 
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 
 public class Obj_Alimentacion_Cuadrante {
 
@@ -99,8 +100,21 @@ public class Obj_Alimentacion_Cuadrante {
 	return null; 
 	}
 	
-	public String[][] buscarTabla(String nombre){
-		return new BuscarSQL().tabla_alimentacion_cuadrante(nombre);
+	public String[][] buscarTablaLibre(String nombre, String dia){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_libre(nombre, dia);
+	}
+	
+	public String[][] buscarTablaMultiple(String nombre, String dia){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre, dia);
+	}
+	
+	public String[] ComboBox(String actividad){
+		try {
+			return new Cargar_Combo().ComboALimentacionMultiple(actividad);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
 	}
 
 }

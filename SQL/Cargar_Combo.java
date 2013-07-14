@@ -752,4 +752,39 @@ public class Cargar_Combo {
 		return pila;
 			
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public String[] ComboALimentacionMultiple(String actividad) throws SQLException{
+		String query = "exec sp_select_combo_opciones_respuesta '"+actividad+"'";
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			int j=0;
+			while(rs.next()){
+				if(j == 0){
+					miVector.add("Respuestas");
+				}
+				miVector.add(rs.getString("descripcion"));
+				j++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;
+			
+	}
 }
