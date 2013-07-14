@@ -4,6 +4,9 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,9 +14,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import SQL.Connexion;
 
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
@@ -24,41 +33,84 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-//	Object[][] Tabla = getTabla();
-//	DefaultTableModel model = new DefaultTableModel(Tabla,
-//			new String[]{"Folio", "Actividad", "Opción", "Respuesta","Comentarios" }){
-//	     @SuppressWarnings("rawtypes")
-//		Class[] types = new Class[]{
-//	    	java.lang.Integer.class,
-//	    	java.lang.String.class, 
-//	    	java.lang.String.class, 
-//	    	java.lang.String.class, 
-//	    	java.lang.String.class,
-//	    	java.lang.String.class
-//         };
-//	     
-//	     @SuppressWarnings({ "rawtypes", "unchecked" })
-//		public Class getColumnClass(int columnIndex) {
-//             return types[columnIndex];
-//         }
-//         public boolean isCellEditable(int fila, int columna){
-//        	 switch(columna){
-//        	 	case 0 : return true; 
-//        	 	case 1 : return true; 
-//        	 	case 2 : return true; 
-//        	 	case 3 : return true;
-//        	 	case 4 : return true; 
-//
-//        	 } 				
-// 			return false;
-//         }
-//         
-//	};
-//	
-//	JTable tabla = new JTable(model);
-//	JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//	
-//	TableColumn columnaCombo = tabla.getColumnModel().getColumn(3);
+	
+	//Empieza tabla Opciones libres
+	Object[][] Tabla = getTabla();
+	DefaultTableModel model = new DefaultTableModel(Tabla,
+			new String[]{"Folio", "Actividad", "Opción", "Respuesta","Comentarios" }){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class, 
+	    	java.lang.String.class, 
+	    	java.lang.String.class, 
+	    	java.lang.String.class,
+	    	java.lang.String.class
+         };
+	     
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return true; 
+        	 	case 1 : return true; 
+        	 	case 2 : return true; 
+        	 	case 3 : return true;
+        	 	case 4 : return true; 
+
+        	 } 				
+ 			return false;
+         }
+         
+	};
+	
+	JTable tabla = new JTable(model);
+	JScrollPane scroll = new JScrollPane(tabla,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	
+	TableColumn columnaCombo = tabla.getColumnModel().getColumn(3);
+	//Termina tabla opciones libre
+	
+	
+	//Empieza tabla opciones multiples
+	Object[][] Tabla2 = getTabla();
+	DefaultTableModel model2 = new DefaultTableModel(Tabla2,
+			new String[]{"Folio", "Actividad", "Opción", "Respuesta","Comentarios" }){
+	     @SuppressWarnings("rawtypes")
+		Class[] types = new Class[]{
+	    	java.lang.Integer.class,
+	    	java.lang.String.class, 
+	    	java.lang.String.class, 
+	    	java.lang.String.class, 
+	    	java.lang.String.class,
+	    	java.lang.String.class
+         };
+	     
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
+		public Class getColumnClass(int columnIndex) {
+             return types[columnIndex];
+         }
+         public boolean isCellEditable(int fila, int columna){
+        	 switch(columna){
+        	 	case 0 : return true; 
+        	 	case 1 : return true; 
+        	 	case 2 : return true; 
+        	 	case 3 : return true;
+        	 	case 4 : return true; 
+
+        	 } 				
+ 			return false;
+         }
+         
+	};
+	
+	JTable tabla2 = new JTable(model2);
+	JScrollPane scroll2 = new JScrollPane(tabla2,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	
+	TableColumn columnaCombo2 = tabla2.getColumnModel().getColumn(3);
+	//Termina tabla opciones multiples
+	
 	
 	JTextField txtNombre_Completo = new JTextField();
 	JTextField txtPuesto = new JTextField();
@@ -116,20 +168,36 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		this.panel.add(btnFoto).setBounds(470,30,150,150);
 		tablapane.addTab("Opciones Multiples", panel1);
 		tablapane.addTab("Opciones Libres", panel2);
+		
+		panel2.add(scroll).setBounds(5,5,835,230);
+		panel1.add(scroll2).setBounds(5,5,835,230);
 		this.panel.add(tablapane).setBounds(8,250,850,270);
-//		
-//		this.tabla.getColumnModel().getColumn(0).setMaxWidth(60);
-//		this.tabla.getColumnModel().getColumn(0).setMinWidth(60);
-//		this.tabla.getColumnModel().getColumn(1).setMaxWidth(200);
-//		this.tabla.getColumnModel().getColumn(1).setMinWidth(200);
-//		this.tabla.getColumnModel().getColumn(2).setMaxWidth(80);
-//		this.tabla.getColumnModel().getColumn(2).setMinWidth(80);
-//		this.tabla.getColumnModel().getColumn(3).setMaxWidth(400);
-//		this.tabla.getColumnModel().getColumn(3).setMinWidth(400);
-//		this.tabla.getColumnModel().getColumn(4).setMaxWidth(200);
-//		this.tabla.getColumnModel().getColumn(4).setMinWidth(200);
-//		
-//		columnaCombo.setCellEditor(new javax.swing.DefaultCellEditor(cmbMultiple));
+		
+		//Tabla opciones multiples
+		this.tabla2.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tabla2.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tabla2.getColumnModel().getColumn(1).setMaxWidth(200);
+		this.tabla2.getColumnModel().getColumn(1).setMinWidth(200);
+		this.tabla2.getColumnModel().getColumn(2).setMaxWidth(80);
+		this.tabla2.getColumnModel().getColumn(2).setMinWidth(80);
+		this.tabla2.getColumnModel().getColumn(3).setMaxWidth(200);
+		this.tabla2.getColumnModel().getColumn(3).setMinWidth(200);
+		this.tabla2.getColumnModel().getColumn(4).setMaxWidth(300);
+		this.tabla2.getColumnModel().getColumn(4).setMinWidth(300);
+		
+//		tabla opciones libres
+		this.tabla.getColumnModel().getColumn(0).setMaxWidth(60);
+		this.tabla.getColumnModel().getColumn(0).setMinWidth(60);
+		this.tabla.getColumnModel().getColumn(1).setMaxWidth(200);
+		this.tabla.getColumnModel().getColumn(1).setMinWidth(200);
+		this.tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+		this.tabla.getColumnModel().getColumn(2).setMinWidth(80);
+		this.tabla.getColumnModel().getColumn(3).setMaxWidth(400);
+		this.tabla.getColumnModel().getColumn(3).setMinWidth(400);
+		this.tabla.getColumnModel().getColumn(4).setMaxWidth(300);
+		this.tabla.getColumnModel().getColumn(4).setMinWidth(300);
+		
+		columnaCombo.setCellEditor(new javax.swing.DefaultCellEditor(cmbMultiple));
 	
 		btnEditar.addActionListener(editar);
 		btnSalir.addActionListener(salir);
@@ -137,7 +205,10 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		this.panel.add(btnSalir).setBounds(180,550,100,20);
 		this.panel.add(btnEditar).setBounds(330,550,100,20);
 		this.panel.add(btnEnviar).setBounds(480,550,100,20);
-//		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//Opciones libres//
+		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//Opcions multiples//
+		tabla2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		CamposEnabledFalse();
 		init();
@@ -173,9 +244,10 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		txtDia.setEditable(false);
 		txtCuadrante.setEditable(false);
 		btnFoto.setEnabled(false);
-//		tabla.setEnabled(false);
+		tabla.setEnabled(false);
+		tabla2.setEnabled(false);
 	}
-//	
+	
 	public void CamposEnabledTrue()
 	{
 //		txtNombre_Completo.setEditable(true);
@@ -216,43 +288,43 @@ public class Cat_Alimentacion_Cuadrante extends JFrame
 		}
 	}
 	
-//	private Object[][] getTabla(){
-//		try {
-//			String datos = "select top 2 (folio) from tb_empleado";
-//			Statement s = new Connexion().conexion().createStatement();
-//			ResultSet rs = s.executeQuery(datos);
-//			Object[][] Matriz = new Object[2][5];
-//			int i=0;
-//			while(rs.next()){
-//				Matriz[i][0] = 0;
-//				Matriz[i][1] = "";
-//				Matriz[i][2] = "";
-//				Matriz[i][3] = "";
-//				Matriz[i][4] = false;
-//				i++;
-//			}
-//			
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
-////		return Tabla;
-//
-//	}
-//	
-//	public int getFilas(String qry){
-//		int filas=0;
-//		try {
-//			Statement s = new Connexion().conexion().createStatement();
-//			ResultSet rs = s.executeQuery(qry);
-//			while(rs.next()){
-//				filas++;
-//			}
-//			
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
-//		return filas;
-//	}	
+	private Object[][] getTabla(){
+		try {
+			String datos = "select top 2 (folio) from tb_empleado";
+			Statement s = new Connexion().conexion().createStatement();
+			ResultSet rs = s.executeQuery(datos);
+			Object[][] Matriz = new Object[2][5];
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = 0;
+				Matriz[i][1] = "";
+				Matriz[i][2] = "";
+				Matriz[i][3] = "";
+				Matriz[i][4] = false;
+				i++;
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Tabla;
+
+	}
+	
+	public int getFilas(String qry){
+		int filas=0;
+		try {
+			Statement s = new Connexion().conexion().createStatement();
+			ResultSet rs = s.executeQuery(qry);
+			while(rs.next()){
+				filas++;
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return filas;
+	}	
 	
 	ActionListener editar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
