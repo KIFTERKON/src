@@ -655,7 +655,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		
 	}
 	
-	
 	KeyListener valida = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e){

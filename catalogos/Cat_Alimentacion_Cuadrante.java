@@ -210,6 +210,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	}
 	
 	public void init(){
+		
 		Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 		Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(usuario.getNombre_completo());
 		
@@ -221,7 +222,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		txtFecha.setText(datos_cuadrante.getFecha());
 		txtDia.setText(datos_cuadrante.getDia());
 		txtCuadrante.setText(datos_cuadrante.getCuadrante());
-		
 		
 		String[][] info_tabla_libre    = new Obj_Alimentacion_Cuadrante().buscarTablaLibre(usuario.getNombre_completo(),datos_cuadrante.getDia());
 		String[][] info_tabla_multiple = new Obj_Alimentacion_Cuadrante().buscarTablaMultiple(usuario.getNombre_completo(),datos_cuadrante.getDia());
@@ -272,7 +272,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
                  
             for(int i=0; i<valores.length; i++){
             	combo.addItem(valores[i]);
-            	System.out.println(valores[i]);
             }
             combo.setSelectedIndex(0);                
             return combo;          
@@ -295,8 +294,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	}	
 	
 	ActionListener editar = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
+		public void actionPerformed(ActionEvent arg0) {
 //			CamposEnabledTrue();
 		}
 	};
@@ -312,7 +310,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		txtCuadrante.setText("");
 	}
 	
-	
 	public void CamposEnabled(boolean variable){
 		txtNombre_Completo.setEditable(variable);
 		txtPuesto.setEditable(variable);
@@ -323,13 +320,10 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		txtDia.setEditable(variable);
 		txtCuadrante.setEditable(variable);
 		btnFoto.setEnabled(variable);
-//		tablaLibre.setEnabled(variable);
-//		tablaMultiple.setEnabled(variable);
 	}
 	
 	ActionListener salir = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
+		public void actionPerformed(ActionEvent arg0)  {
 			dispose();
 		}
 	};
