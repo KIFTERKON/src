@@ -265,6 +265,7 @@ public class Cat_Empleado extends JFrame{
 		this.setSize(1100,645);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener opHorario_Turno = new ActionListener() {

@@ -207,7 +207,6 @@ Connexion con = new Connexion();
 						txtValor.setText(modelo.getValueAt(fila,2)+"");
 						btnEditar.setEnabled(true);
 						chStatus.setSelected(true);
-					
 	        	}
 	        }
         });
@@ -424,7 +423,7 @@ Connexion con = new Connexion();
 			btnEditar.setEnabled(false);
 			btnNuevo.setEnabled(true);
 		}		
-	};
+		};
 	
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);

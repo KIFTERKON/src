@@ -54,13 +54,13 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 	JTextField txtNombre = new JTextField();
 	
 	String lista[] = {"Seleccione Una Opción","Opción Libre","Opción Múltiple"};
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbOpcionesDeRespuesta = new JComboBox(lista);
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_Opciones_Respuesta(){
     	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/buscar.png"));
-    	this.setTitle("Filtro de Empleados");
+    	this.setTitle("Filtro de Opciones de Respuesta");
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro De Opciones de Respuesta"));
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  

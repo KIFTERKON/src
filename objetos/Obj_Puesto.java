@@ -49,6 +49,17 @@ public class Obj_Puesto {
 		this.status = status;
 	}
 	
+	public String[] Combo_Jefatura(){ 
+		try {
+			return new Cargar_Combo().jefatu("tb_Jefatura");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	
+	
 	public String[] Combo_Puesto(){ 
 		try {
 			return new Cargar_Combo().Puesto("tb_puesto");

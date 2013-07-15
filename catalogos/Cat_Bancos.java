@@ -57,7 +57,7 @@ public class Cat_Bancos extends JFrame {
 	JCheckBox chbHabilitarBanorte = new JCheckBox("Habilitar");
 	JCheckBox chbNegativos = new JCheckBox("Valores Negativos");
 	
-	boolean bandera = false;
+//	boolean bandera = false;
 	
 	Object[][] Matriz ;
 	

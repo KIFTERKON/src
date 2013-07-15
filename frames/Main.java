@@ -34,6 +34,7 @@ public class Main extends InitButton {
 	
 	public Main(){
 		btnAceptar.addActionListener(opIn);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	ActionListener opIn = new ActionListener(){

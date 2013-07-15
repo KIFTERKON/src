@@ -57,6 +57,9 @@ public class InitMenuBar extends Init{
 	/* PANEL DEL MENU */
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
+	//Declaramos el objeto runtime para ejecutar aplicaciones
+	Runtime r=Runtime.getRuntime();
+	
 	/* ARCHIVO */
 	JMenu Archivo = new JMenu("Archivo");
 	JMenuItem Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
@@ -375,8 +378,13 @@ public class InitMenuBar extends Init{
 		public void actionPerformed(ActionEvent e){
 
 			/* ARCHIVO */
-			if(e.getActionCommand().equals("Cerrar"))
+			if(e.getActionCommand().equals("Cerrar")){
 				dispose();
+			
+			try {
+				r.exec("taskkill /f /im javaw.exe");
+			} catch (Exception e2){}
+			}
 			
 			/* CATALOGO */
 			if(e.getActionCommand().equals("Nuevo Empleado"))

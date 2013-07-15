@@ -54,6 +54,7 @@ public class Cat_Ponderacion extends JFrame{
 			return false;
 		}
 	};
+	
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
@@ -153,6 +154,7 @@ public class Cat_Ponderacion extends JFrame{
 		btnEditar.addActionListener(editar);
 		btnEditar.setEnabled(false);
 		chTodos.addActionListener(chxTodos);
+		txtFolio.requestFocus();
 		cont.add(panel);
 		
 		agregar(tabla);

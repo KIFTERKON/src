@@ -68,7 +68,6 @@ public class Cat_Actividad extends JFrame {
 	JCheckBox chViernes = new JCheckBox("Viernes",false);
 	JCheckBox chSabado = new JCheckBox("Sábado",false);
 	
-	
 	JSpinner spHoraInicio = new JSpinner(new SpinnerNumberModel(0,0,12,1));
 	JSpinner spMinutosInicio = new JSpinner(new SpinnerNumberModel(0,0,59,1));
 	
@@ -274,7 +273,7 @@ public class Cat_Actividad extends JFrame {
 				   chJueves.isSelected() == true &&
 				   chViernes.isSelected() == true &&
 				   chSabado.isSelected() == true){
-					chTodos.setSelected(true);
+				   chTodos.setSelected(true);
 				}else{
 					chTodos.setSelected(false);
 				}
@@ -298,6 +297,7 @@ public class Cat_Actividad extends JFrame {
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
+			if(txtFolio.getText()==""){
 			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
 				if(validaCampos() !=""){
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -336,7 +336,7 @@ public class Cat_Actividad extends JFrame {
 						return;
 					}
 				}
-		
+			}
 			}else{
 				if(validaCampos() !="") {
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -364,6 +364,7 @@ public class Cat_Actividad extends JFrame {
 					actividad.setStatus(chbStatus.isSelected());
 					
 					if(actividad.Guardar()){
+						panelLimpiar();
 						JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{
@@ -394,9 +395,9 @@ public class Cat_Actividad extends JFrame {
 		   chViernes.isSelected() == false &&
 		   chSabado.isSelected() == false )	error += "Día\n";
 													
-		if((spHoraInicio.getValue()+":"+spMinutosInicio.getValue()).equals("0:0")) error += "Hora Inicio\n";	
-		if((spHoraFin.getValue()+":"+spMinutosFin.getValue()).equals("0:0")) error += "Hora Fin\n";
-		if(cmbTemporada.getSelectedIndex()==0) error += "Temporada\n";
+//		if((spHoraInicio.getValue()+":"+spMinutosInicio.getValue()).equals("0:0")) error += "Hora Inicio\n";	
+//		if((spHoraFin.getValue()+":"+spMinutosFin.getValue()).equals("0:0")) error += "Hora Fin\n";
+//		if(cmbTemporada.getSelectedIndex()==0) error += "Temporada\n";
 		
 		return error;
 	}
@@ -533,20 +534,28 @@ public class Cat_Actividad extends JFrame {
 	
 	KeyListener numerico_action = new KeyListener() {
 		@Override
-		public void keyTyped(KeyEvent e) {
+		public void keyTyped(KeyEvent e){
 			char caracter = e.getKeyChar();
+			int limite=10;
 
-		   if(((caracter < '0') ||
+			if(((caracter < '0') ||
 		        (caracter > '9')) &&
 		        (caracter != KeyEvent.VK_BACK_SPACE)){
 		    	e.consume(); 
-		    }			
+		    }
+				if (txtFolio.getText().length()== limite)
+			     e.consume();
 		}
 		@Override
-		public void keyPressed(KeyEvent e){}
+		public void keyReleased(KeyEvent e) {	
+		}
 		@Override
-		public void keyReleased(KeyEvent e){}
-								
+		public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_ENTER){
+			btnBuscar.doClick();
+			txtFolio.requestFocus();
+		}
+	}
 	};
 	
 	public static void main(String[] args) {
