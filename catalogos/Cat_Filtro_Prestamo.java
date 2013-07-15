@@ -29,6 +29,7 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
 public class Cat_Filtro_Prestamo extends JFrame {
@@ -82,6 +83,7 @@ public class Cat_Filtro_Prestamo extends JFrame {
 		this.setSize(690,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

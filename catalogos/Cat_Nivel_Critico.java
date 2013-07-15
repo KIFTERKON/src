@@ -34,6 +34,7 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Nivel_Critico;
 
@@ -125,6 +126,8 @@ public class Cat_Nivel_Critico extends JFrame{
 		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 	}
 	
 	ActionListener opColores = new ActionListener(){

@@ -26,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 import SQL.Connexion;
+
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_Puesto;
@@ -140,6 +141,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		this.setSize(560,450);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener guardar = new ActionListener(){

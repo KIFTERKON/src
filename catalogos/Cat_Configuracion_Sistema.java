@@ -48,6 +48,7 @@ public class Cat_Configuracion_Sistema extends JFrame{
 		this.setSize(390,190);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener opAplicar = new ActionListener(){

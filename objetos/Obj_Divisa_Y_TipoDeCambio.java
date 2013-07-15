@@ -6,6 +6,8 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Divisa_Y_TipoDeCambio {
 	private int folio;
 	private String nombre_divisas;

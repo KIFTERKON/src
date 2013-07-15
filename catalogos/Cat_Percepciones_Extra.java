@@ -37,10 +37,11 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import SQL.Connexion;
+
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
-import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Percepciones_Extra extends JFrame {
@@ -208,6 +209,7 @@ public class Cat_Percepciones_Extra extends JFrame {
 
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	
 	}
 	

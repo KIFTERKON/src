@@ -29,6 +29,7 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Empleados_Cuadrantes;
 
 @SuppressWarnings("serial")
@@ -133,6 +134,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.setResizable(false);
 
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		cont.add(panel);
 	}
 	ActionListener opQuitar = new ActionListener() {
@@ -157,9 +159,14 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 			if(tabla.getRowCount()>1){
 				if(arg0.getSource().equals(btnSubir)){
 					if(tabla.getSelectedRow() != 0){
+						Object primero1 = modelo.getValueAt(tabla.getSelectedRow(),0);
+						Object segundo1 = modelo.getValueAt(tabla.getSelectedRow()-1,0);
+						
 						Object primero = modelo.getValueAt(tabla.getSelectedRow(),1);
 						Object segundo = modelo.getValueAt(tabla.getSelectedRow()-1,1);
 						
+						modelo.setValueAt(primero1,tabla.getSelectedRow()-1,0);
+						modelo.setValueAt(segundo1,tabla.getSelectedRow(),0);
 						modelo.setValueAt(primero,tabla.getSelectedRow()-1,1);
 						modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
 						tabla.setRowSelectionInterval(tabla.getSelectedRow()-1,tabla.getSelectedRow()-1);
@@ -171,9 +178,13 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 				}
 				if(arg0.getSource().equals(btnBajar)){
 					if(tabla.getSelectedRow()+1 < tabla.getRowCount()){
+						Object primero1 = modelo.getValueAt(tabla.getSelectedRow(),0);
+						Object segundo1 = modelo.getValueAt(tabla.getSelectedRow()+1,0);
 						Object primero = modelo.getValueAt(tabla.getSelectedRow(),1);
 						Object segundo = modelo.getValueAt(tabla.getSelectedRow()+1,1);
 						
+						modelo.setValueAt(primero1,tabla.getSelectedRow()+1,0);
+						modelo.setValueAt(segundo1,tabla.getSelectedRow(),0);
 						modelo.setValueAt(primero,tabla.getSelectedRow()+1,1);
 						modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
 						tabla.setRowSelectionInterval(tabla.getSelectedRow()+1,tabla.getSelectedRow()+1);
@@ -595,9 +606,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		};
 	}
 	
-class Cat_Filtro_Cuadrantes extends JFrame {
-		
-		
+	class Cat_Filtro_Cuadrantes extends JFrame {
 		
 		Container cont = getContentPane();
 		JLayeredPane campo = new JLayeredPane();

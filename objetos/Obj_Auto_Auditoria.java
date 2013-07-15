@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 
+
+
 public class Obj_Auto_Auditoria {
 	private boolean autorizar;
 	

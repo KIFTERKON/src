@@ -38,10 +38,13 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
+import SQL.Connexion;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -50,7 +53,6 @@ import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Revision_Lista_Raya;
-import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Revision_Lista_Raya extends JFrame {
@@ -323,6 +325,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		lblAuditoria.setEnabled(auto_auditoria);
 		lblFinanzas.setEnabled(auto_finanza);
 		
+		menu.setEnabled(false);
 		menu.add(btnGuardar);
 		menu.add(new JLabel("   Fecha Final:  "));
 		menu.add(txtCalendario);
@@ -359,7 +362,7 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
-		
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	FocusListener OpFocus = new FocusListener(){
@@ -1043,4 +1046,12 @@ public class Cat_Revision_Lista_Raya extends JFrame {
 		return error;
 	}
 	
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Revision_Lista_Raya().setVisible(true);
+		}catch(Exception e){
+			System.out.println(e);
+		}
+	}
 }

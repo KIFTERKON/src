@@ -88,6 +88,7 @@ public class Cat_Directorios extends JFrame {
 		this.setSize(380,180);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener Op_Guardar = new ActionListener(){

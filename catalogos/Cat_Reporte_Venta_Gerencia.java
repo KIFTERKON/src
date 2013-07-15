@@ -26,9 +26,10 @@ import javax.swing.table.TableRowSorter;
 
 import objetos.Obj_Establecimiento;
 
+import SQL.Connexion;
+
 import com.toedter.calendar.JDateChooser;
 
-import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Reporte_Venta_Gerencia extends JFrame {
@@ -158,6 +159,8 @@ public class Cat_Reporte_Venta_Gerencia extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	
 	}
 	
 	ActionListener opBuscar = new ActionListener(){

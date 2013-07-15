@@ -6,6 +6,8 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Alimentacion_Denominacion {
 	String asignacion;
 	int folio_empleado;

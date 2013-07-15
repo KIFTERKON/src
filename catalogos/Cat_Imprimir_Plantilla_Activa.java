@@ -29,6 +29,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Puesto;
@@ -92,6 +93,7 @@ public class Cat_Imprimir_Plantilla_Activa extends JFrame {
 		this.setSize(800,700);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 

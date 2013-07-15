@@ -27,6 +27,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
+
 import objetos.Obj_Establecimiento;
 
 @SuppressWarnings("serial")
@@ -81,6 +82,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 		this.setSize(660,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

@@ -27,6 +27,8 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
+
+
 @SuppressWarnings("serial")
 public class Cat_Lista_Pago extends JFrame {
 	
@@ -58,6 +60,7 @@ public class Cat_Lista_Pago extends JFrame {
 
 		this.setSize(520,GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
  

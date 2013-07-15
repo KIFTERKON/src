@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Empleado;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Rango_Prestamos;
@@ -205,7 +206,8 @@ public class Cat_Prestamo extends JFrame {
 		this.setSize(650,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
-
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 	}
 	
 	private void agregar(final JTable tbl) {

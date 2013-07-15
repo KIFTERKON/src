@@ -18,7 +18,6 @@ import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
-import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
@@ -1732,29 +1731,7 @@ public class BuscarSQL {
 		}
 		return auditoria;
 	}
-	
-	public Obj_Bancos BancoExiste(int folio) throws SQLException{
-		Obj_Bancos banck = new Obj_Bancos();
-		String query = "select * from tb_bancos where status = 1 and folio_empleado ="+ folio;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				banck.setFolio_empleado(rs.getInt("folio_empleado"));
-				
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return banck;
-	}
-	
+		
 	public Obj_Deduccion_Iasistencia DeduccionExiste(int folio) throws SQLException{
 		Obj_Deduccion_Iasistencia Deduccion = new Obj_Deduccion_Iasistencia();
 		String query = "select folio_empleado from tb_deduccion_inasistencia where status = 1 and folio_empleado ="+ folio;
@@ -2797,6 +2774,7 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_libre '"+nomgbre+"', '"+dia+"';";
+		System.out.println(datosif);
 			
 		Matriz = new String[getFilas(datosif)][3];
 		Statement s;

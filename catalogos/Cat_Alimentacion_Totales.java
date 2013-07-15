@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Alimentacion_Totales;
 
 @SuppressWarnings("serial")
@@ -80,6 +81,7 @@ public class Cat_Alimentacion_Totales extends JFrame{
 		this.setSize(450,500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

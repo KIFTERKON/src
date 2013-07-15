@@ -29,6 +29,7 @@ import javax.swing.table.TableRowSorter;
 import SQL.Connexion;
 
 
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Establecimiento;
 @SuppressWarnings({ "serial", "unchecked" })
@@ -87,6 +88,7 @@ public class Cat_Filtro_Cortes extends JFrame{
 		this.setSize(390,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	private void agregar(final JTable tbl) {

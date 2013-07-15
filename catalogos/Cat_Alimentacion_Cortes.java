@@ -35,9 +35,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import SQL.Connexion;
+
 import datos.LoadingBar2;
 
-import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
 import objetos.ObjTicket;

@@ -7,6 +7,8 @@ import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Puesto {
 	private int folio;
 	private String puesto;

@@ -65,6 +65,7 @@ public class Cat_Asistencia_Puntualidad extends JFrame {
 		this.setSize(305,180);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener opSalir = new ActionListener(){

@@ -8,6 +8,8 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Usuario {
 	private int folio;
 	private String nombre_completo;

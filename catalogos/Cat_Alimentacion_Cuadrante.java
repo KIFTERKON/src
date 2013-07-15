@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -27,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import SQL.Connexion;
+
 
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
@@ -190,6 +192,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	
 		this.btnEditar.addActionListener(editar);
 		this.btnSalir.addActionListener(salir);
+		this.btnEnviar.addActionListener(enviar);
 		
 		this.panel.add(btnSalir).setBounds(180,550,100,20);
 		this.panel.add(btnEditar).setBounds(330,550,100,20);
@@ -207,6 +210,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		
 		this.setSize(870,620);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	public void init(){
@@ -214,44 +218,62 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 		Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(usuario.getNombre_completo());
 		
-		txtNombre_Completo.setText(datos_cuadrante.getNombre());
-		txtPuesto.setText(datos_cuadrante.getPuesto());
-		txtEstablecimiento.setText(datos_cuadrante.getEstablecimiento());
-		txtEquipo_Trabajo.setText(datos_cuadrante.getEquipo_trabajo());
-		txtJefatura.setText(datos_cuadrante.getJefatura());
-		txtFecha.setText(datos_cuadrante.getFecha());
-		txtDia.setText(datos_cuadrante.getDia());
-		txtCuadrante.setText(datos_cuadrante.getCuadrante());
-		
-		String[][] info_tabla_libre    = new Obj_Alimentacion_Cuadrante().buscarTablaLibre(usuario.getNombre_completo(),datos_cuadrante.getDia());
-		String[][] info_tabla_multiple = new Obj_Alimentacion_Cuadrante().buscarTablaMultiple(usuario.getNombre_completo(),datos_cuadrante.getDia());
-		
-		String [] fila_libre = new String[3];
-		for(int i=0; i<info_tabla_libre.length; i++){
-			fila_libre[0]= info_tabla_libre[i][0];
-			fila_libre[1]= info_tabla_libre[i][1];
-			fila_libre[2]= info_tabla_libre[i][2];
-			modelLibre.addRow(fila_libre);
+		if(datos_cuadrante.getEquipo_trabajo() != null){
+			txtNombre_Completo.setText(datos_cuadrante.getNombre());
+			txtPuesto.setText(datos_cuadrante.getPuesto());
+			txtEstablecimiento.setText(datos_cuadrante.getEstablecimiento());
+			txtEquipo_Trabajo.setText(datos_cuadrante.getEquipo_trabajo());
+			txtJefatura.setText(datos_cuadrante.getJefatura());
+			txtFecha.setText(datos_cuadrante.getFecha());
+			txtDia.setText(datos_cuadrante.getDia());
+			txtCuadrante.setText(datos_cuadrante.getCuadrante());
+			
+			String[][] info_tabla_libre    = new Obj_Alimentacion_Cuadrante().buscarTablaLibre(usuario.getNombre_completo(),datos_cuadrante.getDia());
+			String[][] info_tabla_multiple = new Obj_Alimentacion_Cuadrante().buscarTablaMultiple(usuario.getNombre_completo(),datos_cuadrante.getDia());
+			
+			String [] fila_libre = new String[3];
+			for(int i=0; i<info_tabla_libre.length; i++){
+				fila_libre[0]= info_tabla_libre[i][0];
+				fila_libre[1]= info_tabla_libre[i][1];
+				fila_libre[2]= info_tabla_libre[i][2];
+				modelLibre.addRow(fila_libre);
+				
+			}
+			
+			String [] fila_multiple = new String[4];
+			
+			List<String[]> lista = new ArrayList<String[]>();
+			
+			for(int i=0; i<info_tabla_multiple.length; i++){
+		    
+	            lista.add(new Obj_Alimentacion_Cuadrante().ComboBox(info_tabla_multiple[i][0]));
+	            
+	            TableColumn col = tablaMultiple.getColumnModel().getColumn(3);
+	            
+	            col.setCellEditor(new MyComboEditor(lista));
+	            
+				fila_multiple[0]= info_tabla_multiple[i][1];
+				fila_multiple[1]= info_tabla_multiple[i][2];
+				fila_multiple[2]= info_tabla_multiple[i][3];
+				fila_multiple[3]= "Respuestas";
+				
+				modelMultiple.addRow(fila_multiple);
+				
+			}
+			
+		}else{
+			txtNombre_Completo.setText(datos_cuadrante.getNombre());
+			txtPuesto.setText(datos_cuadrante.getPuesto());
+			txtEstablecimiento.setText(datos_cuadrante.getEstablecimiento());
+			txtEquipo_Trabajo.setText(datos_cuadrante.getEquipo_trabajo());
+			txtJefatura.setText(datos_cuadrante.getJefatura());
+			txtFecha.setText(datos_cuadrante.getFecha());
+			txtDia.setText(datos_cuadrante.getDia());
+			txtCuadrante.setText(datos_cuadrante.getCuadrante());
+			JOptionPane.showMessageDialog(null, "No tiene cuadrante", "Aviso", JOptionPane.WARNING_MESSAGE);
+			return;
+			
 		}
-		
-		String [] fila_multiple = new String[4];
-		
-		List<String[]> lista = new ArrayList<String[]>();
-		
-		for(int i=0; i<info_tabla_multiple.length; i++){
-	    
-            lista.add(new Obj_Alimentacion_Cuadrante().ComboBox(info_tabla_multiple[i][0]));
-            
-            TableColumn col = tablaMultiple.getColumnModel().getColumn(3);
-            
-            col.setCellEditor(new MyComboEditor(lista));
-            
-			fila_multiple[0]= info_tabla_multiple[i][1];
-			fila_multiple[1]= info_tabla_multiple[i][2];
-			fila_multiple[2]= info_tabla_multiple[i][3];
-			modelMultiple.addRow(fila_multiple);
-		}
-		
 	}
 	
     private class MyComboEditor extends DefaultCellEditor{
@@ -292,6 +314,66 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 		return filas;
 	}	
+	
+	public String celdasVaciasLibre(){
+		String error="";
+		for(int i=0; i<tablaLibre.getRowCount(); i++){
+			if(modelLibre.getValueAt(i,3) == null){
+				error+="      la celda de respuesta en la actividad '"+modelLibre.getValueAt(i,1).toString()+"' está vacía en la tabla opciones libre.\n";
+			}
+		}
+		
+		return error;
+	}
+	
+	public String celdasVaciasMultiple(){
+		String error="";
+		for(int i=0; i<tablaMultiple.getRowCount(); i++){
+			if(modelMultiple.getValueAt(i,3).toString() == "Respuestas"){
+				error+="      la celda de respuesta en la actividad '"+modelMultiple.getValueAt(i,1).toString()+"' está vacía en la tabla opciones multiple.\n";
+			}
+		}
+		
+		return error;
+	}
+	
+	ActionListener enviar = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			
+			if(tablaLibre.isEditing())	{
+				tablaLibre.getCellEditor().stopCellEditing();
+			
+			}
+			if(tablaMultiple.isEditing()){
+				tablaMultiple.getCellEditor().stopCellEditing();
+			}
+			if(celdasVaciasLibre().equals("") && celdasVaciasMultiple().equals("")){
+				Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante();
+				
+				datos_cuadrante.setNombre(txtNombre_Completo.getText());
+				datos_cuadrante.setPuesto(txtPuesto.getText());
+				datos_cuadrante.setEstablecimiento(txtEstablecimiento.getText());
+				datos_cuadrante.setEquipo_trabajo(txtEquipo_Trabajo.getText());
+				datos_cuadrante.setJefatura(txtJefatura.getText());
+				datos_cuadrante.setFecha(txtFecha.getText());
+				datos_cuadrante.setDia(txtDia.getText());
+				datos_cuadrante.setCuadrante(txtCuadrante.getText());
+				
+				if(datos_cuadrante.guardar()){
+					JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}else{
+					JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+			}else{
+				JOptionPane.showMessageDialog(null, "Los siguientes campos son requeridos\n"+celdasVaciasLibre() +celdasVaciasMultiple() , "Aviso", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		}
+	};
 	
 	ActionListener editar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {

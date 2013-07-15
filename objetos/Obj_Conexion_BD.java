@@ -5,6 +5,8 @@ import java.io.IOException;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Conexion_BD {
 	private String direccionIPV4;
 	private String nombreBD;

@@ -277,6 +277,7 @@ public class Cat_Usuario extends JFrame{
 		this.setSize(660,340);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

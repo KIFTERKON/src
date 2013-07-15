@@ -90,6 +90,7 @@ public class Cat_Conexion_BD extends JFrame{
 		this.setSize(500,250);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener guardar = new ActionListener(){

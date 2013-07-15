@@ -4,12 +4,14 @@ import java.util.HashMap;
 
 import javax.swing.JFrame;
 
+import SQL.Connexion;
+
+
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Reporte_Deducciones_Inasistencia  extends JFrame {

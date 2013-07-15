@@ -28,10 +28,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import SQL.Connexion;
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Jefatura;
 
-import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Jefatura extends JFrame{
@@ -112,6 +113,7 @@ public class Cat_Jefatura extends JFrame{
 		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	private JScrollPane getPanelTabla()	{		

@@ -31,6 +31,7 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Gerarquico;
 
@@ -554,16 +555,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.setSize(1200,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	public enum Dias{
-		DOMINGO,
-		LUNES,
-		MARTES,
-		MIERCOLES,
-		JUEVES,
-		VIERNES,
-		SABADO
+		Domingo,
+		Lunes,
+		Martes,
+		Miércoles,
+		Jueves,
+		Viernes,
+		Sábado
 	}
 	
 	public void domingo(){
@@ -766,43 +768,43 @@ public class Cat_Cuadrante_Base extends JFrame{
 	
 	ActionListener opAgregarDomingo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("DOMINGO").setVisible(true);
+			new Cat_Filtro_Actividades("Domingo").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarLunes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("LUNES").setVisible(true);
+			new Cat_Filtro_Actividades("Lunes").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarMartes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("MARTES").setVisible(true);
+			new Cat_Filtro_Actividades("Martes").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarMiercoles = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("MIERCOLES").setVisible(true);
+			new Cat_Filtro_Actividades("Miércoles").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarJueves = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("JUEVES").setVisible(true);
+			new Cat_Filtro_Actividades("Jueves").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarViernes = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("VIERNES").setVisible(true);
+			new Cat_Filtro_Actividades("Viernes").setVisible(true);
 		}
 	};	
 	
 	ActionListener opAgregarSabado = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Actividades("SABADO").setVisible(true);
+			new Cat_Filtro_Actividades("Sábado").setVisible(true);
 		}
 	};	
 	
@@ -819,7 +821,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 							modelDomingo.setValueAt(segundo,tablaDomingo.getSelectedRow(),1);	
 							tablaDomingo.setRowSelectionInterval(tablaDomingo.getSelectedRow()-1,tablaDomingo.getSelectedRow()-1);
 						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 								
@@ -1605,7 +1607,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				txtNombre_Completo.setText("");
 				
 				switch (diaswitch) {
-				 	case DOMINGO:
+				 	case Domingo:
 				 		while(tablaDomingo.getRowCount() > 0){
 				 			modelDomingo.removeRow(0);
 						}
@@ -1624,7 +1626,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}
 				 		dispose();
 				 		 break;
-				 	case LUNES:
+				 	case Lunes:
 				 		while(tablaLunes.getRowCount() > 0){
 				 			modelLunes.removeRow(0);
 						}
@@ -1643,7 +1645,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}
 				 		dispose();
 				 		 break;
-				 	case MARTES:
+				 	case Martes:
 				 		while(tablaMartes.getRowCount() > 0){
 				 			modelMartes.removeRow(0);
 						}
@@ -1662,7 +1664,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}
 				 		dispose();
 				 		 break;
-				 	case MIERCOLES:
+				 	case Miércoles:
 				 		while(tablaMiercoles.getRowCount() > 0){
 				 			modelMiercoles.removeRow(0);
 						}
@@ -1681,7 +1683,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}
 				 		dispose();
 				 		 break;
-		            case JUEVES:
+		            case Jueves:
 		            	while(tablaJueves.getRowCount() > 0){
 				 			modelJueves.removeRow(0);
 						}
@@ -1700,7 +1702,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}
 				 		dispose();
 		            	 break;
-		            case VIERNES:
+		            case Viernes:
 		            	while(tablaViernes.getRowCount() > 0){
 				 			modelViernes.removeRow(0);
 						}
@@ -1719,7 +1721,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}
 				 		dispose();
 		            	 break;
-		            case SABADO:
+		            case Sábado:
 		            	while(tablaSabado.getRowCount() > 0){
 				 			modelSabado.removeRow(0);
 						}
