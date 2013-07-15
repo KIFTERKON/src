@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
+import SQL.GuardarSQL;
+
+
 
 public class Obj_Alimentacion_Cuadrante {
 
@@ -115,6 +118,10 @@ public class Obj_Alimentacion_Cuadrante {
 			e.printStackTrace();
 		}
 	return null; 
+	}
+	
+	public boolean guardar(){
+		return new GuardarSQL().guardarAlimentacionCuadrante(this);	
 	}
 
 }

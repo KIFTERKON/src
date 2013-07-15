@@ -7,6 +7,8 @@ import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Tipo_Banco {
 	private int folio;
 	private String banco;

@@ -32,11 +32,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import SQL.Connexion;
+
 import objetos.Obj_Imprimir_LR;
 
 import export.exportar_excel;
 
-import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Imprimir_LR extends JFrame {
@@ -80,6 +81,7 @@ public class Cat_Imprimir_LR extends JFrame {
 
 		this.setSize(largo-500,ancho);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

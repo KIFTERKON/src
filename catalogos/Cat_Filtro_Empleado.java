@@ -28,6 +28,7 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Establecimiento;
 @SuppressWarnings("serial")
 public class Cat_Filtro_Empleado extends JFrame {
@@ -78,6 +79,7 @@ public class Cat_Filtro_Empleado extends JFrame {
 		this.setSize(740,450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	private void agregar(final JTable tbl) {

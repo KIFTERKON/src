@@ -391,6 +391,7 @@ public class Cat_Empleado extends JFrame{
 						case 3:btnStatus.setIcon(new ImageIcon("imagen/incapacidad.png"));break;
 						case 4:btnStatus.setIcon(new ImageIcon("imagen/baja.png"));break;
 					}
+					
 					txtFecha.setText(re.getFecha());
 					txaObservaciones.setText(re.getObservasiones());
 					img = re.getFoto();

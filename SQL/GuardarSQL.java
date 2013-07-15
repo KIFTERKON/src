@@ -15,11 +15,11 @@ import java.util.Vector;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
+import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
-import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
@@ -1072,42 +1072,6 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Bancos(Obj_Bancos bancos){
-		String query = "exec sp_insert_bancos ?,?,?,?,?,?";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, bancos.getFolio_empleado());
-			pstmt.setString(2, bancos.getNombre_completo().toUpperCase());
-			pstmt.setString(3, bancos.getEstablecimiento().toUpperCase());
-			pstmt.setFloat(4, bancos.getBanamex());
-			pstmt.setFloat(5, bancos.getBanorte());
-			pstmt.setString(6, "1");
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
 	public boolean Guardar_Alimentacion_denominacio(Obj_Alimentacion_Denominacion alim_denom){
 		
 		String query = "insert into tb_alimentacion_denominaciones(asignacion," +
@@ -2097,4 +2061,47 @@ public class GuardarSQL {
 			}
 		}return true;
 	}
+	
+	public boolean guardarAlimentacionCuadrante(Obj_Alimentacion_Cuadrante datos_cuadrante){
+		String query = "exec sp_insert_alimentacion_cuadrante ?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+					
+			pstmt.setString(1, datos_cuadrante.getNombre());
+			pstmt.setString(2, datos_cuadrante.getPuesto());
+			pstmt.setString(3, datos_cuadrante.getEstablecimiento());
+			pstmt.setString(4, datos_cuadrante.getEquipo_trabajo());
+			pstmt.setString(5, datos_cuadrante.getJefatura());
+			
+			pstmt.setString(6, datos_cuadrante.getFecha());
+			pstmt.setString(7, datos_cuadrante.getDia());
+			pstmt.setString(8, datos_cuadrante.getCuadrante());	
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
 }

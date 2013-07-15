@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import SQL.Cargar_Combo;
 
+
+
 public class Obj_Permiso {
 	private int folio;
 	private String nombre;

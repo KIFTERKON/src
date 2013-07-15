@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Empleado;
 import objetos.Obj_Diferencia_Cortes;
 
@@ -176,6 +177,7 @@ public class Cat_Diferencia_Cortes extends JFrame{
 		this.setSize(650,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
 	

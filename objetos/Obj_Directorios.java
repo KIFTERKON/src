@@ -6,6 +6,8 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Directorios {
 	int folio;
 	int folio_empleado;

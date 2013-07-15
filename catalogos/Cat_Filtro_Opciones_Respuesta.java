@@ -31,6 +31,8 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
+
+
 @SuppressWarnings("serial")
 public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 	
@@ -81,6 +83,7 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 		
 		this.setSize(500,400);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
     }
     

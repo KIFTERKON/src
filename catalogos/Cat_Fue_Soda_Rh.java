@@ -33,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Empleado;
 import objetos.Obj_fuente_sodas_rh;
 
@@ -168,6 +169,7 @@ public class Cat_Fue_Soda_Rh extends JFrame {
 		this.setSize(805,390);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
 	

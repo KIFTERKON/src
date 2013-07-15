@@ -29,6 +29,7 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Turno;
 
@@ -117,6 +118,8 @@ Connexion con = new Connexion();
 		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 	}
 	
 	private JScrollPane getPanelTabla()	{		

@@ -23,13 +23,14 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-import objetos.Obj_OpRespuesta;
-
 import SQL.Connexion;
 
+import objetos.Obj_OpRespuesta;
+
+
 @SuppressWarnings("serial")
-public class Cat_Opciones_Respuesta extends JFrame
-{
+public class Cat_Opciones_Respuesta extends JFrame {
+	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -174,6 +175,8 @@ public class Cat_Opciones_Respuesta extends JFrame
 		this.setSize(490,425);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 	}
 	
 	ActionListener opDesplazar = new ActionListener() {

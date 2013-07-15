@@ -6,6 +6,8 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_Deduccion_Iasistencia {
 	
 	private int folio_empleado;

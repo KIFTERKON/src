@@ -13,7 +13,6 @@ import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
-import objetos.Obj_Bancos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
@@ -985,40 +984,6 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}
-	
-	public boolean Actualizar_Bancos(Obj_Bancos bancos, int folio){
-		String query = "update tb_bancos set establecimiento=?, banamex=?, banorte=? where folio_empleado="+folio +" and status=1";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			
-			pstmt.setString(1, bancos.getEstablecimiento());
-			pstmt.setFloat(2, bancos.getBanamex());
-			pstmt.setFloat(3, bancos.getBanorte());
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}	
 	
 	public boolean Actualizar(Obj_Diferencia_Cortes pres, int folio){
 		String query = "update tb_diferencia_cortes set fecha=?, cantidad=?, descuento=?, status=? where folio="+folio;

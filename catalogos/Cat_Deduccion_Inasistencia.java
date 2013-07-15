@@ -30,16 +30,18 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
+import SQL.Connexion;
+
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Establecimiento;
-import SQL.Connexion;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Deduccion_Inasistencia extends JFrame {
@@ -244,6 +246,7 @@ public class Cat_Deduccion_Inasistencia extends JFrame {
 		
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	KeyListener opFiltroFolio = new KeyListener(){
@@ -625,6 +628,15 @@ public class Cat_Deduccion_Inasistencia extends JFrame {
 					dispose();
 				}
 			}
+		}
+	}
+	
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Deduccion_Inasistencia().setVisible(true);
+		}catch(Exception e){
+			System.out.println(e);
 		}
 	}
 }

@@ -21,9 +21,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import SQL.Connexion;
+
 import objetos.Obj_fuente_sodas_rh;
 
-import SQL.Connexion;
 
 @SuppressWarnings("serial")
 public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
@@ -153,8 +154,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		this.setModal(true);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
-		
-//		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	private void agregar(final JTable tbl) {

@@ -6,6 +6,8 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
+
+
 public class Obj_fuente_sodas_auxf {
 	private int folio;
 	private String ticket;

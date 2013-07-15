@@ -21,8 +21,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import objetos.JTextFieldLimit;
 import SQL.Connexion;
+
+import objetos.JTextFieldLimit;
 
 @SuppressWarnings("serial")
 public class Cat_Lista_Deudores_FS extends JFrame {
@@ -82,7 +83,8 @@ public class Cat_Lista_Deudores_FS extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
-
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 	}
 		
    	@SuppressWarnings("unchecked")

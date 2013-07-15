@@ -59,12 +59,13 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				}else{
 					try {
 						String[][] tabla = new Obj_Cuadrante().tabla(cuadrante.getCuadrante().toUpperCase().trim());
-						
+											
 						for(int i=0; i<tabla.length; i++){
-							Dias currentDia = Dias.valueOf(tabla[i][0].toUpperCase());
+							
+							Dias currentDia = Dias.valueOf(tabla[i][0]);
 							
 							 switch (currentDia) {
-							 	case DOMINGO:
+							 	case Domingo:
 							 		while(tablaDomingo.getRowCount() > 0){
 										modelDomingo.removeRow(0);
 									}
@@ -77,7 +78,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		dom[5] = tabla[i][6];
 							 		modelDomingo.addRow(dom);
 							 		 break;
-							 	case LUNES:
+							 	case Lunes:
 							 		while(tablaLunes.getRowCount() > 0){
 										modelLunes.removeRow(0);
 									}
@@ -90,7 +91,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		lun[5] = tabla[i][6];
 							 		modelLunes.addRow(lun);
 							 		 break;
-							 	case MARTES:
+							 	case Martes:
 							 		while(tablaMartes.getRowCount() > 0){
 										modelMartes.removeRow(0);
 									}
@@ -103,7 +104,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		mar[5] = tabla[i][6];
 							 		modelMartes.addRow(mar);
 							 		 break;
-							 	case MIERCOLES:
+							 	case Miércoles:
 							 		while(tablaMiercoles.getRowCount() > 0){
 										modelMiercoles.removeRow(0);
 									}
@@ -116,7 +117,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		mie[5] = tabla[i][6];
 							 		modelMiercoles.addRow(mie);
 							 		 break;
-					            case JUEVES:
+					            case Jueves:
 					            	while(tablaJueves.getRowCount() > 0){
 										modelJueves.removeRow(0);
 									}
@@ -129,7 +130,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					            	jue[5] = tabla[i][6];
 							 		modelJueves.addRow(jue);
 					            	 break;
-					            case VIERNES:
+					            case Viernes:
 					            	while(tablaViernes.getRowCount() > 0){
 										modelViernes.removeRow(0);
 									}
@@ -142,7 +143,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					            	vie[5] = tabla[i][6];
 							 		modelViernes.addRow(vie);
 					            	 break;
-					            case SABADO:
+					            case Sábado:
 					            	while(tablaSabado.getRowCount() > 0){
 										modelSabado.removeRow(0);
 									}
@@ -656,7 +657,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		}
 		
 	}
-	
 	
 	KeyListener valida = new KeyListener() {
 		@Override

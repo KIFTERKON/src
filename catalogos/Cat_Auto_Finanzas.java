@@ -40,6 +40,7 @@ public class Cat_Auto_Finanzas extends JFrame{
 		this.setSize(240,200);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

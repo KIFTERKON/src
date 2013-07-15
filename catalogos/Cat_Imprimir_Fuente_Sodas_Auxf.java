@@ -33,9 +33,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import SQL.Connexion;
+
 import export.exportar_excel;
 
-import SQL.Connexion;
 import objetos.JTextFieldLimit;
 import objetos.Obj_Establecimiento;
 
@@ -100,6 +101,7 @@ public class Cat_Imprimir_Fuente_Sodas_Auxf extends JDialog{
 		this.setSize(550,700);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	public int getFilas(String qry){

@@ -27,6 +27,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Establecimiento;
 
@@ -83,6 +84,7 @@ public class Cat_Filtro_Diferiencia_Cortes extends JFrame {
 		this.setSize(645,415);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	private void agregar(final JTable tbl) {

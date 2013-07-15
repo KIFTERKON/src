@@ -189,6 +189,7 @@ public class Cat_Actividad extends JFrame {
 		this.setSize(730,530);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	

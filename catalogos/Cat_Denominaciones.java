@@ -31,6 +31,7 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
+
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 
@@ -118,6 +119,7 @@ Connexion con = new Connexion();
 		this.setSize(820,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	private JScrollPane getPanelTabla()	{		

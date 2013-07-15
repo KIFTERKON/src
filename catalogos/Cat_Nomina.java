@@ -174,6 +174,7 @@ public class Cat_Nomina extends JFrame{
 		this.setSize(505,620);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
 	
