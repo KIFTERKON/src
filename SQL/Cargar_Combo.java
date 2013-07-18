@@ -283,6 +283,7 @@ public class Cargar_Combo {
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String[] jefatu(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla+" order by descripcion asc";
 		Statement stmt = null;
