@@ -371,6 +371,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							cuadrante.setStatus(chbStatus.isSelected() ? 1 : 0);
 							
 							if(cuadrante.actualizar(Integer.parseInt(txtFolio.getText()),DiasTablas())){
+								limpiar();
 								JOptionPane.showMessageDialog(null,"El registro se actualizó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
@@ -401,6 +402,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 						cuadrante.setStatus(chbStatus.isSelected() ? 1 : 0);
 															
 						if(cuadrante.guardar(DiasTablas())){
+							limpiar();
 							JOptionPane.showMessageDialog(null,"El registro se guardó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{

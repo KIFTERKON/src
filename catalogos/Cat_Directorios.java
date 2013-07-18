@@ -30,7 +30,7 @@ public class Cat_Directorios extends JFrame {
 	JTextField txtTelefono = new JTextField();
 	
 	JButton btnGuardar = new JButton("Guardar");
-//	JButton btnLimpiar = new JButton("Limpiar");
+	JButton btnAtras = new JButton("Atras");
 	JButton btnSalir = new JButton("Salir");
 	JButton btnModificar = new JButton("Modificar");
 	
@@ -48,6 +48,7 @@ public class Cat_Directorios extends JFrame {
 		this.panel.add(new JLabel("Folio:")).setBounds(x, y, z, 20);
 		this.panel.add(txtFolio).setBounds(x+=90, y, z, 20);
 		
+		this.panel.add(btnAtras).setBounds(210,25,70,20);
 //		this.panel.add(btnModificar).setBounds(x+z+60,y,z,20);
 		
 		this.panel.add(new JLabel("Nombre:")).setBounds(x-=90, y+=25, z, 20);
@@ -64,6 +65,7 @@ public class Cat_Directorios extends JFrame {
 		this.btnGuardar.addActionListener(Op_Guardar);
 		this.btnModificar.addActionListener(modificar);
 		this.btnSalir.addActionListener(Op_Salir);
+		this.btnAtras.addActionListener(OpBack);
 		
 		txtTelefono.addKeyListener(numerico_action);
 		
@@ -144,9 +146,16 @@ public class Cat_Directorios extends JFrame {
 	ActionListener Op_Salir = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
-			new Cat_Filtro_Empleado_Directorio().setVisible(true);
 		}
 		
+	};
+	
+	ActionListener OpBack = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			dispose();
+			new Cat_Filtro_Empleado_Directorio().setVisible(true);
+		}
 	};
 	
 	private String validaCampos(){

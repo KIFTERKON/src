@@ -27,6 +27,8 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.poi.ss.formula.ptg.ScalarConstantPtg;
+
 import SQL.Connexion;
 
 
@@ -78,29 +80,52 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		
 		int x=30, y=30;
 		
-		this.panel.add(new JLabel("Folio:")).setBounds(x,y,50,20);
-		this.panel.add(txtFolio).setBounds(x+=60,30,90,20);
-		this.panel.add(chStatus).setBounds(x+=100,30,60,20);
-		this.panel.add(btnBuscar).setBounds(x+=60,30,32,20);
-		this.panel.add(btnNuevo).setBounds(x+=40,30,80,20);
 		
-		this.panel.add(new JLabel("Nombre:")).setBounds(x-=260,y+=25,50,20);
-		this.panel.add(txtNombre).setBounds(x+=60,y,280,20);
+		this.panel.add(new JLabel("Folio:")).setBounds(30,30,50,20);
+		this.panel.add(txtFolio).setBounds(90,30,90,20);
+		this.panel.add(chStatus).setBounds(190,30,60,20);
+		this.panel.add(btnBuscar).setBounds(250,30,30,20);
+		this.panel.add(btnNuevo).setBounds(290,30,80,20);
 		
-		this.panel.add(new JLabel("Cuadrante:")).setBounds(x-=60,y+=25,65,20);
-		this.panel.add(txtCuadrantes).setBounds(x+=60,y,280,20);
-		this.panel.add(btnCuadrante).setBounds(x+=290,y,90,20);
-		this.panel.add(btnEmpleado).setBounds(x-=290,y+=25,90,20);
+		this.panel.add(new JLabel("Cuadrante:")).setBounds(30,55,70,20);
+		this.panel.add(txtCuadrantes).setBounds(90,55,280,20);
+		this.panel.add(btnCuadrante).setBounds(380,55,90,20);
 		
-		this.panel.add(btnBajar).setBounds(x+=100,y,40,20);
-		this.panel.add(btnSubir).setBounds(x+=50,y,40,20);
-		this.panel.add(btnRemover).setBounds(x+=50,y,80,20);
+		this.panel.add(btnEmpleado).setBounds(90,80,90,20);
+		this.panel.add(btnBajar).setBounds(190,80,40,20);
+		this.panel.add(btnSubir).setBounds(240,80,40,20);
 		
-		this.panel.add(panelScroll).setBounds(x-=260,y+=25,440,270);
+		this.panel.add(btnRemover).setBounds(290,80,80,20);
+		this.panel.add(panelScroll).setBounds(30,110,440,270);
 		
-		this.panel.add(btnSalir).setBounds(x,y+=300,90,20);
-		this.panel.add(btnLimpiar).setBounds(x+=175,y,90,20);
-		this.panel.add(btnGuardar).setBounds(x+=175,y,90,20);
+		this.panel.add(btnSalir).setBounds(30,400,90,20);
+		this.panel.add(btnLimpiar).setBounds(200,400,90,20);
+		this.panel.add(btnGuardar).setBounds(380,400,90,20);
+		
+		
+//		this.panel.add(new JLabel("Folio:")).setBounds(x,y,50,20);
+//		this.panel.add(txtFolio).setBounds(x+=60,30,90,20);
+//		this.panel.add(chStatus).setBounds(x+=100,30,60,20);
+//		this.panel.add(btnBuscar).setBounds(x+=60,30,32,20);
+//		this.panel.add(btnNuevo).setBounds(x+=40,30,80,20);
+//		
+//		this.panel.add(new JLabel("Nombre:")).setBounds(x-=260,y+=25,50,20);
+//		this.panel.add(txtNombre).setBounds(x+=60,y,280,20);
+//		
+//		this.panel.add(new JLabel("Cuadrante:")).setBounds(x-=60,y+=25,65,20);
+//		this.panel.add(txtCuadrantes).setBounds(x+=60,y,280,20);
+//		this.panel.add(btnCuadrante).setBounds(x+=290,y,90,20);
+//		this.panel.add(btnEmpleado).setBounds(x-=290,y+=25,90,20);
+//		
+//		this.panel.add(btnBajar).setBounds(x+=100,y,40,20);
+//		this.panel.add(btnSubir).setBounds(x+=50,y,40,20);
+//		this.panel.add(btnRemover).setBounds(x+=50,y,80,20);
+//		
+//		this.panel.add(panelScroll).setBounds(x-=260,y+=25,440,270);
+//		
+//		this.panel.add(btnSalir).setBounds(x,y+=300,90,20);
+//		this.panel.add(btnLimpiar).setBounds(x+=175,y,90,20);
+//		this.panel.add(btnGuardar).setBounds(x+=175,y,90,20);
 		btnSubir.setToolTipText("Boton de subir");
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
@@ -130,7 +155,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		
 		
 		chStatus.setEnabled(false);
-		this.setSize(500,500);
+		this.setSize(500,460);
 		this.setResizable(false);
 
 		this.setLocationRelativeTo(null);
@@ -236,7 +261,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	public String ValidaCampos(){
 		String error ="";
 		if(txtFolio.getText().equals("")) error+= "Folio\n";
-		if(txtNombre.getText().equals("")) error+= "Nombre\n";
+//		if(txtNombre.getText().equals("")) error+= "Nombre\n";
 		if(txtCuadrantes.getText().equals("")) error+= "Cuadrante\n";
 		if(!(tabla.getRowCount() > 0)) error += "No hay datos en la tabla\n";
 		

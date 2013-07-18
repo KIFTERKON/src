@@ -31,6 +31,8 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_Puesto;
 
+
+
 @SuppressWarnings("serial")
 public class Cat_Nivel_Gerarquico extends JFrame
 {
@@ -51,10 +53,12 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	JButton btnEliminar = new JButton("Remover");
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 
-	String lista[] = new Obj_Puesto().Combo_Puesto();
+	String lista2[] = new Obj_Puesto().Combo_Jefatura();
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbP_Principal = new JComboBox(lista);
-
+	JComboBox cmbP_Principal = new JComboBox(lista2);
+	
+	String lista[] = new Obj_Puesto().Combo_Puesto();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbP_Dependiente = new JComboBox(lista);
 	
@@ -75,7 +79,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	
 	public Cat_Nivel_Gerarquico()
 	{
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/How-to.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Nivel Gerarquico"));	
 		this.setTitle("Nivel Gerarquico");
 		
@@ -153,7 +157,6 @@ public class Cat_Nivel_Gerarquico extends JFrame
 				if(validacampos().equals("")){
 					Obj_Nivel_Gerarquico nivelgerarquico = new Obj_Nivel_Gerarquico().buscar(Integer.parseInt(txtFolio.getText()));
 					
-					
 					if(nivelgerarquico.getFolio() == Integer.parseInt(txtFolio.getText())){
 						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
 						{
@@ -166,6 +169,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 							gerarquico.setEstablecimiento(cmb_Establecimiento.getSelectedItem()+"");
 																					
 							if(gerarquico.actualizar(listadatos())){
+								limpia();
 								JOptionPane.showMessageDialog(null,"El registro se actualizó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
@@ -179,6 +183,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 						nivelg.setPuesto_principal(cmbP_Principal.getSelectedItem()+"");
 						
 						if(nivelg.guardar_multiple(listadatos())){
+							limpia();
 							JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{

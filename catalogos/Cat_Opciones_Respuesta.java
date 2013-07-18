@@ -69,7 +69,7 @@ public class Cat_Opciones_Respuesta extends JFrame {
 	JComboBox cmbRespuesta = new JComboBox(lista);
 	
 	public Cat_Opciones_Respuesta() {
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/How-to.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/OpR.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Opcion de Respuesta"));
 		
 		this.setTitle("Opciones de Respuesta");
@@ -166,7 +166,7 @@ public class Cat_Opciones_Respuesta extends JFrame {
 		btnBajar.addActionListener(opDesplazar);
 		btnSubir.addActionListener(opDesplazar);
 		
-		txtFolio.addKeyListener(validaEnter);
+		txtFolio.addKeyListener(valida);
 		
 		agregar(tabla);
 		
@@ -272,6 +272,7 @@ public class Cat_Opciones_Respuesta extends JFrame {
 							respuesta.setNombre(txtNombre.getText().toUpperCase());
 													
 							if(respuesta.guardar_libre()){
+								limpiar();
 								JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
@@ -308,6 +309,7 @@ public class Cat_Opciones_Respuesta extends JFrame {
 							respuesta.setNombre(txtNombre.getText().toUpperCase());
 													
 							if(respuesta.guardar_multiple(registros_tabla)){
+								limpiar();
 								JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
@@ -384,6 +386,7 @@ public class Cat_Opciones_Respuesta extends JFrame {
 	
 	ActionListener opNuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
+			limpiar();
 			txtFolio.setText(new Obj_OpRespuesta().Nuevo());
 		    Editing(false);
 		    cmbRespuesta.setEnabled(true);
@@ -499,18 +502,30 @@ public class Cat_Opciones_Respuesta extends JFrame {
 	};
 	
 	
-	KeyListener validaEnter = new KeyListener() {
-		public void keyTyped(KeyEvent arg0) {
+	KeyListener valida = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e){
+			char caracter = e.getKeyChar();
+			int limite=10;
+
+			if(((caracter < '0') ||
+		        (caracter > '9')) &&
+		        (caracter != KeyEvent.VK_BACK_SPACE)){
+		    	e.consume(); 
+		    }
+				if (txtFolio.getText().length()== limite)
+			     e.consume();
 		}
-		public void keyReleased(KeyEvent arg0) {
+		@Override
+		public void keyReleased(KeyEvent e) {	
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				btnBuscar.doClick();
-				txtFolio.requestFocus();
-			}
+		if(e.getKeyCode()==KeyEvent.VK_ENTER){
+			btnBuscar.doClick();
+			txtFolio.requestFocus();
 		}
+	}
 	};
 	
 	ActionListener opFiltro = new ActionListener() {
