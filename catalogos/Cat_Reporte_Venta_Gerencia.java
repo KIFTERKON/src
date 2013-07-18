@@ -18,8 +18,6 @@ import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -279,15 +277,15 @@ public class Cat_Reporte_Venta_Gerencia extends JFrame {
 		return filas;
 	}	
 	
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Reporte_Venta_Gerencia().setVisible(true);
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-			
-	}
+//	public static void main(String[] args) {
+//		try {
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			new Cat_Reporte_Venta_Gerencia().setVisible(true);
+//		} catch (ClassNotFoundException | InstantiationException
+//				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+//			e.printStackTrace();
+//		}
+//			
+//	}
 
 }

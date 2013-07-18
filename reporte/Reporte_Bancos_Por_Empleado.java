@@ -15,12 +15,12 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 @SuppressWarnings("serial")
-public class Reporte_Bancos extends JFrame {
+public class Reporte_Bancos_Por_Empleado extends JFrame {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Reporte_Bancos() {
+	public Reporte_Bancos_Por_Empleado() {
 		try {
-			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\Reportes\\Reporte_Bancos.jrxml");
+			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\Reportes\\Reporte_Bancos_Por_Empleado.jrxml");
 			
 			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
 			JasperViewer.viewReport(print, false);

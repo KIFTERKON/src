@@ -15,21 +15,18 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 @SuppressWarnings("serial")
-public class Reporte_Prestamos extends JFrame {
-	
+public class Reporte_Bancos_Por_Estab extends JFrame {
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Reporte_Prestamos() {
+	public Reporte_Bancos_Por_Estab() {
 		try {
-			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Prestamos.jrxml");
+			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Bancos.jrxml");
 			
 			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
 			JasperViewer.viewReport(print, false);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-
-			
 		}
-		
 	}
 
 }

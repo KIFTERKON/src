@@ -27,7 +27,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
-import objetos.Obj_Nivel_Gerarquico;
+import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Ponderacion;
@@ -1376,7 +1376,7 @@ public class ActualizarSQL {
 	
 	/*Actualizar nivel gerarquico*/
 	
-	public boolean NivelG(Obj_Nivel_Gerarquico pond, int folio){
+	public boolean NivelG(Obj_Nivel_Jerarquico pond, int folio){
 		String query = "update tb_nivel_gerarquico set descripcion=?, puestoprincipal=?, puestodependiente=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1452,11 +1452,10 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
-		String query = "update tb_actividad "+
-							"set actividad=?, descripcion=?, respuesta=?, atributo=?, nivel_critico=?, domingo=?, "+
-							"lunes=?, martes=?, miercoles=?, jueves=?, viernes=?, sabado=?, hora_inicio=?, "+
-							"hora_final=?, temporada=?, carga=?, repetir=?, status=? "+ 
-					    "where folio ="+folio;
+		
+		String query = "exec sp_update_actividad ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		
+
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1479,9 +1478,11 @@ public class ActualizarSQL {
 			pstmt.setString(13, actividad.getHora_inicio());
 			pstmt.setString(14, actividad.getHora_final());
 			pstmt.setString(15, actividad.getTemporada());
-			pstmt.setBoolean(16, actividad.isCarga());
+			pstmt.setInt(16, actividad.isCarga()? 1 : 0);
 			pstmt.setInt(17, actividad.getRepetir());
-			pstmt.setInt(18, actividad.isStatus()? 1 : 0);
+			pstmt.setInt(18, folio);
+			
+			
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -1505,6 +1506,62 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}
+		
+	
+//	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
+//		String query = "update tb_actividad "+
+//							"set actividad=?, descripcion=?, respuesta=?, atributo=?, nivel_critico=?, domingo=?, "+
+//							"lunes=?, martes=?, miercoles=?, jueves=?, viernes=?, sabado=?, hora_inicio=?, "+
+//							"hora_final=?, temporada=?, carga=?, repetir=?, status=? "+ 
+//					    "where folio ="+folio;
+//		
+//		Connection con = new Connexion().conexion();
+//		PreparedStatement pstmt = null;
+//		try {
+//			con.setAutoCommit(false);
+//			pstmt = con.prepareStatement(query);
+//			
+//			pstmt.setString(1, actividad.getActividad().toUpperCase());
+//			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
+//			pstmt.setString(3, actividad.getRespuesta());
+//			pstmt.setString(4, actividad.getAtributos());
+//			pstmt.setString(5, actividad.getNivel_critico());
+//			pstmt.setInt(6, actividad.getDomingo());
+//			pstmt.setInt(7, actividad.getLunes());
+//			pstmt.setInt(8, actividad.getMartes());
+//			pstmt.setInt(9, actividad.getMiercoles());
+//			pstmt.setInt(10, actividad.getJueves());
+//			pstmt.setInt(11, actividad.getViernes());
+//			pstmt.setInt(12, actividad.getSabado());
+//			pstmt.setString(13, actividad.getHora_inicio());
+//			pstmt.setString(14, actividad.getHora_final());
+//			pstmt.setString(15, actividad.getTemporada());
+//			pstmt.setBoolean(16, actividad.isCarga());
+//			pstmt.setInt(17, actividad.getRepetir());
+//			pstmt.setInt(18, actividad.isStatus()? 1 : 0);
+//			
+//			pstmt.executeUpdate();
+//			con.commit();
+//		} catch (Exception e) {
+//			System.out.println("SQLException: "+e.getMessage());
+//			if(con != null){
+//				try{
+//					System.out.println("La transacción ha sido abortada");
+//					con.rollback();
+//				}catch(SQLException ex){
+//					System.out.println(ex.getMessage());
+//				}
+//			}
+//			return false;
+//		}finally{
+//			try {
+//				con.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}		
+//		return true;
+//	}
 	
 	
 	public boolean Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
@@ -1579,9 +1636,9 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean nivelGerarquico(Obj_Nivel_Gerarquico niv, String[][]tabla){
-		String queryClear = "delete from tb_tabla_nivel_gerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
-		String query = "insert into tb_tabla_nivel_gerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
+	public boolean nivelGerarquico(Obj_Nivel_Jerarquico niv, String[][]tabla){
+		String queryClear = "delete from tb_tabla_nivel_jerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
+		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;

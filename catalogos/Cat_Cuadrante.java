@@ -164,7 +164,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 						txtCuadrante.setText(cuadrante.getCuadrante());
 						txaDescripcion.setText(cuadrante.getPerfil());
 						cmbJefatura.setSelectedItem(cuadrante.getJefatura());
-						cmbnivel_gerarquico.setSelectedItem(cuadrante.getNivel_gerarquico());
+						cmbnivel_jerarquico.setSelectedItem(cuadrante.getNivel_gerarquico());
 						cmbEquipo_Trabajo.setSelectedItem(cuadrante.getEquipo_trabajo());
 						cmbEstablecimiento.setSelectedItem(cuadrante.getEstablecimiento());
 						chDomingo.setSelected(cuadrante.getDomingo() == 1 ? true : false);
@@ -358,7 +358,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							cuadrante.setCuadrante(txtCuadrante.getText());
 							cuadrante.setPerfil(txaDescripcion.getText());
 							cuadrante.setJefatura(cmbJefatura.getSelectedItem().toString());
-							cuadrante.setNivel_gerarquico(cmbnivel_gerarquico.getSelectedItem().toString());
+							cuadrante.setNivel_gerarquico(cmbnivel_jerarquico.getSelectedItem().toString());
 							cuadrante.setEquipo_trabajo(cmbEquipo_Trabajo.getSelectedItem().toString());
 							cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedItem().toString());
 							cuadrante.setDomingo(chDomingo.isSelected() ? 1 : 0);
@@ -389,7 +389,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 						cuadrante.setCuadrante(txtCuadrante.getText());
 						cuadrante.setPerfil(txaDescripcion.getText());
 						cuadrante.setJefatura(cmbJefatura.getSelectedItem().toString());
-						cuadrante.setNivel_gerarquico(cmbnivel_gerarquico.getSelectedItem().toString());
+						cuadrante.setNivel_gerarquico(cmbnivel_jerarquico.getSelectedItem().toString());
 						cuadrante.setEquipo_trabajo(cmbEquipo_Trabajo.getSelectedItem().toString());
 						cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedItem().toString());
 						cuadrante.setDomingo(chDomingo.isSelected() ? 1 : 0);
@@ -544,7 +544,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(txtCuadrante.getText().equals("")) error+="Cuadrante\n";
 			if(txaDescripcion.getText().equals("")) error+="Perfil\n";
 			if(cmbJefatura.getSelectedIndex()==0) error+="Jefatura\n";
-			if(cmbnivel_gerarquico.getSelectedIndex()==0) error+="Nivel Gerarquico\n";
+			if(cmbnivel_jerarquico.getSelectedIndex()==0) error+="Nivel Gerarquico\n";
 			if(cmbEquipo_Trabajo.getSelectedIndex()==0) error+="Equipo de Trabajo\n";
 			if(cmbEstablecimiento.getSelectedIndex()==0) error+="Establecimiento\n";
 			if(chDomingo.isSelected() == false &&
@@ -571,7 +571,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		txaDescripcion.setEditable(variable);
 		cmbJefatura.setEnabled(variable);
 		cmbEstablecimiento.setEnabled(variable);
-		cmbnivel_gerarquico.setEnabled(variable);
+		cmbnivel_jerarquico.setEnabled(variable);
 		cmbEquipo_Trabajo.setEnabled(variable);
 		chTodos.setEnabled(variable);
 		chDomingo.setEnabled(variable);
@@ -592,7 +592,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		txtCuadrante.setText("");
 		txaDescripcion.setText("");
 		cmbJefatura.setSelectedIndex(0);
-		cmbnivel_gerarquico.setSelectedIndex(0);
+		cmbnivel_jerarquico.setSelectedIndex(0);
 		cmbEquipo_Trabajo.setSelectedIndex(0);
 		cmbEstablecimiento.setSelectedIndex(0);
 		

@@ -33,7 +33,7 @@ import SQL.Connexion;
 
 
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Nivel_Gerarquico;
+import objetos.Obj_Nivel_Jerarquico;
 
 @SuppressWarnings("serial")
 public class Cat_Cuadrante_Base extends JFrame{
@@ -57,9 +57,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 	
-	String nivel_gerarquico[] = new Obj_Nivel_Gerarquico().Combo_Nivel_Gerarquico();
+	String nivel_jerarquico[] = new Obj_Nivel_Jerarquico().combo_nivel_jerarquico();
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbnivel_gerarquico = new JComboBox(nivel_gerarquico);
+	JComboBox cmbnivel_jerarquico = new JComboBox(nivel_jerarquico);
 	
 	String equipo_trabajo[] = new Obj_Establecimiento().Combo_Eq_Trabajo();
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -468,7 +468,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.panel.add(cmbJefatura).setBounds(130, y, 300,20);
 		
 		this.panel.add(new JLabel("Nivel Gerarquico: ")).setBounds(x,y+=25,100,20);
-		this.panel.add(cmbnivel_gerarquico).setBounds(130, y, 300,20);
+		this.panel.add(cmbnivel_jerarquico).setBounds(130, y, 300,20);
 				
 		this.panel.add(new JLabel("Equipo de Trabajo:")).setBounds(x,y+=25,100,20);
 		this.panel.add(cmbEquipo_Trabajo).setBounds(130, y, 300,20);

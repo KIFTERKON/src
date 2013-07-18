@@ -28,13 +28,13 @@ import javax.swing.table.DefaultTableModel;
 import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
-import objetos.Obj_Nivel_Gerarquico;
+import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Puesto;
 
 
 
 @SuppressWarnings("serial")
-public class Cat_Nivel_Gerarquico extends JFrame
+public class Cat_Nivel_Jerarquico extends JFrame
 {
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -54,7 +54,6 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 
 	String lista2[] = new Obj_Puesto().Combo_Jefatura();
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbP_Principal = new JComboBox(lista2);
 	
@@ -66,7 +65,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmb_Establecimiento = new JComboBox(lista3);
 	
-	DefaultTableModel modelo = new DefaultTableModel(0,2)	{
+	DefaultTableModel modelo = new DefaultTableModel(0,3)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -77,11 +76,11 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	public Cat_Nivel_Gerarquico()
+	public Cat_Nivel_Jerarquico()
 	{
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Nivel Gerarquico"));	
-		this.setTitle("Nivel Gerarquico");
+		panel.setBorder(BorderFactory.createTitledBorder("Nivel Jerarquico"));	
+		this.setTitle("Nivel Jerarquico");
 		
 		
 		this.panel.add(new JLabel("Folio:")).setBounds(20,30,50,20);
@@ -112,12 +111,15 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		this.panel.add(btnLimpiar).setBounds(220,380,80,20);
 		this.panel.add(btnGuardar).setBounds(430,380,80,20);
 		
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Puesto");
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(1).setMinWidth(370);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(370);
+		tabla.getColumnModel().getColumn(0).setHeaderValue("Puesto Principal");
+		tabla.getColumnModel().getColumn(0).setMinWidth(150);
+		tabla.getColumnModel().getColumn(0).setMinWidth(150);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Puesto Dependiente");
+		tabla.getColumnModel().getColumn(1).setMinWidth(150);
+		tabla.getColumnModel().getColumn(1).setMinWidth(150);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
+		tabla.getColumnModel().getColumn(2).setMinWidth(150);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(150);   
 		
 		btnSalir.addActionListener(salir);
 		txtFolio.addKeyListener(guardaAction);
@@ -155,30 +157,31 @@ public class Cat_Nivel_Gerarquico extends JFrame
 				return;
 			}else{
 				if(validacampos().equals("")){
-					Obj_Nivel_Gerarquico nivelgerarquico = new Obj_Nivel_Gerarquico().buscar(Integer.parseInt(txtFolio.getText()));
+					Obj_Nivel_Jerarquico nivelgerarquico = new Obj_Nivel_Jerarquico().buscar(Integer.parseInt(txtFolio.getText()));
 					
 					if(nivelgerarquico.getFolio() == Integer.parseInt(txtFolio.getText())){
 						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
 						{
-							Obj_Nivel_Gerarquico gerarquico = new Obj_Nivel_Gerarquico();
+							Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
 								
 							gerarquico.setFolio(Integer.parseInt(txtFolio.getText()));
-							gerarquico.setPuesto_principal(cmbP_Principal.getSelectedItem()+"");
 							gerarquico.setDescripcion(txtDescripcion.getText().toUpperCase());
-							gerarquico.setPuesto_dependiente(cmbP_Dependiente.getSelectedItem()+"");
-							gerarquico.setEstablecimiento(cmb_Establecimiento.getSelectedItem()+"");
+							
+							gerarquico.setPuesto_principal(cmbP_Principal.getSelectedItem().toString());
+							gerarquico.setPuesto_dependiente(cmbP_Dependiente.getSelectedItem().toString());
+							gerarquico.setEstablecimiento(cmb_Establecimiento.getSelectedItem().toString());
 																					
 							if(gerarquico.actualizar(listadatos())){
 								limpia();
 								JOptionPane.showMessageDialog(null,"El registro se actualizó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
-								JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar actualizar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar actualizar el registro!","Error",JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 						}
 					}else{
-						Obj_Nivel_Gerarquico nivelg = new Obj_Nivel_Gerarquico();
+						Obj_Nivel_Jerarquico nivelg = new Obj_Nivel_Jerarquico();
 						nivelg.setDescripcion(txtDescripcion.getText().toUpperCase());
 						nivelg.setPuesto_principal(cmbP_Principal.getSelectedItem()+"");
 						
@@ -187,7 +190,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 							JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
-							JOptionPane.showMessageDialog(null,"El ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
 							return;
 							}
 					}
@@ -259,7 +262,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	ActionListener opNuevo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			txtFolio.setText(new Obj_Nivel_Gerarquico().Nuevo());
+			txtFolio.setText(new Obj_Nivel_Jerarquico().Nuevo());
 			paneltrue();
 			panelselectrue();
 		}
@@ -273,7 +276,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-				Obj_Nivel_Gerarquico nivelbuscar = new Obj_Nivel_Gerarquico().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Nivel_Jerarquico nivelbuscar = new Obj_Nivel_Jerarquico().buscar(Integer.parseInt(txtFolio.getText()));
 				if(nivelbuscar.getFolio()!=0)
 				{
 					txtFolio.setText(nivelbuscar.getFolio()+"");
@@ -302,22 +305,23 @@ public class Cat_Nivel_Gerarquico extends JFrame
 				JOptionPane.showMessageDialog(null,"El Folio no existe","Aviso",JOptionPane.ERROR_MESSAGE);
 					
 				}
-			}
+			}     
 		}
 	};
 	
 	public void getTabla(int folio){
-		String todos1 = "exec sp_select_nivel_gerarquico "+folio;
+		String todos1 = "exec sp_select_nivel_jerarquico "+folio;
 		Statement stmt = null;
 		ResultSet rs;
 		Connexion con = new Connexion();
 		try {
 			stmt = con.conexion().createStatement();
 			rs = stmt.executeQuery(todos1);
-			Object[] vector = new Object[2];
+			Object[] vector = new Object[3];
 			while(rs.next()){
 				vector[0] = (rs.getString(1));
 				vector[1] = (rs.getString(2));
+				vector[2] = (rs.getString(3));
 				modelo.addRow(vector);
 			}
 		} catch (SQLException e1) {
@@ -433,7 +437,7 @@ public class Cat_Nivel_Gerarquico extends JFrame
 		
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Nivel_Gerarquico().setVisible(true);
+			new Cat_Nivel_Jerarquico().setVisible(true);
 		}catch(Exception e){
 			e.printStackTrace();
 		}	
