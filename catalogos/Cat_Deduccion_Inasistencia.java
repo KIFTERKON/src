@@ -186,7 +186,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de bancos?") == 0){
 					Obj_Deduccion_Inasistencia inasistencia = new Obj_Deduccion_Inasistencia();
 					if(inasistencia.guardar(tabla_guardar())){
-						JOptionPane.showMessageDialog(null, "La tabla bancos se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La tabla Deducción por Inasistencia se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{
 						JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar guardar la tabla","Error",JOptionPane.ERROR_MESSAGE);
