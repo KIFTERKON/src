@@ -1,86 +1,58 @@
 package catalogos;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Vector;
+import java.awt.event.KeyListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
-import SQL.Connexion;
-
-import objetos.Obj_Configuracion_Sistema;
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Persecciones_Extra;
 
-@SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Percepciones_Extra extends JFrame {
+@SuppressWarnings("serial")
+public class Cat_Percepciones_Extra extends Cat_Root {
 	
-	Container cont = getContentPane();
-	JLayeredPane panel = new JLayeredPane();
+	private JCheckBox chb_habilitar = new JCheckBox("Habilitar");
+	private JCheckBox chb_todos = new JCheckBox("Seleccionar");
+    
+	private String lista[] = {"                   S/N","1","2","3","4","5","6","7"};
+	private String lista1[] = {"","1","2","3","4","5","6","7"};
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public JComboBox cmb_layaout_dia = new JComboBox(lista);
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public JComboBox cmb_tabla_dia = new JComboBox(lista1);
 	
-	Connexion con = new Connexion();
-	
-	@SuppressWarnings("rawtypes")
-	TableRowSorter filter;
-		
-	Object[][] Matriz ;
-	
-	JTextField txtFolio = new JTextField();
-	JTextField txtNombre = new JTextField();
-	
-	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-    @SuppressWarnings("rawtypes")
-	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
-	    
-	JCheckBox chbHabilitar = new JCheckBox("Habilitar");
-	JCheckBox chbTodos = new JCheckBox("");
-	
-	Object[][] Tabla = getTabla();
-	DefaultTableModel model = new DefaultTableModel(Tabla,
-            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "DE", "Cantidad Dias"}
+	public DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Persecciones_Extra().get_tabla_model(),
+            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Bono", "Día Extra", "Cantidad Dias"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
 	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
-	    	java.lang.Integer.class, 
+	    	java.lang.Object.class, 
 	    	java.lang.Boolean.class, 
 	    	java.lang.Object.class
 	    	
          };
-	     @SuppressWarnings("rawtypes")
+	     @SuppressWarnings({ "rawtypes", "unchecked" })
 		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
          }
@@ -90,19 +62,19 @@ public class Cat_Percepciones_Extra extends JFrame {
         	 	case 1 : return false; 
         	 	case 2 : return false; 
         	 	case 3 : 
-        	 		if(chbHabilitar.isSelected()){
+        	 		if(chb_habilitar.isSelected()){
         	 			return true; 
         	 		}
         	 		return false;
         	 	case 4 : 
-        	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) == true){
-        	 			model.setValueAt(0, fila,5);
+        	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,4).toString()) == true){
+        	 			tabla_model.setValueAt("", fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
         	 		}
         	 	case 5 : 
-        	 		if(Boolean.parseBoolean(model.getValueAt(fila,4).toString()) == true){
+        	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,4).toString()) == true){
         	 			return true;
         	 		}
         	 		return false;
@@ -111,383 +83,325 @@ public class Cat_Percepciones_Extra extends JFrame {
  		}
 		
 	};
-	JTable tabla = new JTable(model);
-    JScrollPane scroll = new JScrollPane(tabla);
 	
-    TableColumn ColumnaDias = tabla.getColumnModel().getColumn(5);
-   
-    String lista[] = {"0","1","2","3","4","5","6","7"};
-    @SuppressWarnings("rawtypes")
-	JComboBox cmbDias = new JComboBox(lista);
-    @SuppressWarnings("rawtypes")
-	JComboBox cmbDia = new JComboBox(lista);
+	public JTable tabla = new JTable(tabla_model);
+	public JScrollPane scroll_tabla = new JScrollPane(tabla);
     
-    JToolBar menu = new JToolBar();
-	JButton btnGuardar = new JButton(new ImageIcon("imagen/Guardar.png"));
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
 	
-	Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema().buscar2();
-	boolean bono_dia_extra = configs.isBono_dia_extra();
-	
-	@SuppressWarnings("rawtypes")
-	public Cat_Percepciones_Extra(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
+	public TableColumn columna_dia = tabla.getColumnModel().getColumn(5);
+    
+    public Cat_Percepciones_Extra(){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/hand_pro_icon&16.png"));
 		this.setTitle("Percepciones Extras");
 		
-		txtNombre.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtro(); 
-            } 
-        });
+		this.panel.add(cmbEstablecimientos).setBounds(463,35,210,20);
+		this.panel.add(chb_habilitar).setBounds(715,35,90,20);
+		this.panel.add(chb_todos).setBounds(820,35,80,20);
+		this.panel.add(cmb_layaout_dia).setBounds(905,35,140,20);
 		
-		txtFolio.addKeyListener(new KeyAdapter() { 
-			public void keyReleased(final KeyEvent e) { 
-                filtroFolio(); 
-            } 
-        });
+		this.columna_dia.setCellEditor(new javax.swing.DefaultCellEditor(cmb_tabla_dia));
 		
-		filter = new TableRowSorter(model); 
-		tabla.setRowSorter(filter);  
+		this.panel.add(scroll_tabla).setBounds(30,60,1035,615);
 		
-		panel.add(txtFolio).setBounds(100,45,60,20);
-		panel.add(txtNombre).setBounds(170,45,355,20);
-		panel.add(cmbEstablecimientos).setBounds(530,45,210,20);
-		panel.add(chbHabilitar).setBounds(750,45,70,20);
-		panel.add(chbTodos).setBounds(865,45,20,20);
-		panel.add(cmbDia).setBounds(900,45,70,20);
+		this.cont.add(panel);
 		
-		panel.add(scroll).setBounds(100,70,935,580);
+		this.init_tabla();
 		
-		menu.add(btnGuardar);
-		menu.setBounds(0,0,150,25);
-		panel.add(menu);
-		cont.add(panel);
+		this.btn_guardar.addActionListener(op_guardar);
+		this.btn_refrescar.setVisible(false);
 		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		this.txtFolio.addKeyListener(op_filtro_folio);
+		this.txtNombre_Completo.addKeyListener(op_filtro_nombre);
+		this.cmbEstablecimientos.addActionListener(op_filtro_establecimiento);
+		this.cmb_layaout_dia.addActionListener(op_dia);
+		this.chb_todos.addActionListener(op_todos);
 		
-		tabla.getColumnModel().getColumn(0).setMaxWidth(72);
-		tabla.getColumnModel().getColumn(0).setMinWidth(72);
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(360);
-		tabla.getColumnModel().getColumn(1).setMinWidth(360);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(210);
-		tabla.getColumnModel().getColumn(2).setMinWidth(210);
-		tabla.getColumnModel().getColumn(3).setMaxWidth(120);
-		tabla.getColumnModel().getColumn(3).setMinWidth(120);
-		tabla.getColumnModel().getColumn(3).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(4).setMaxWidth(30);
-		tabla.getColumnModel().getColumn(4).setMinWidth(30);
-		tabla.getColumnModel().getColumn(5).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(5).setMaxWidth(120);
-		tabla.getColumnModel().getColumn(5).setMinWidth(120);
-		ColumnaDias.setCellEditor(new DefaultCellEditor(cmbDias));
-		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-			return lbl; 
-			} 
-		}; 
-		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(5).setCellRenderer(render);
-
-		cmbDia.addActionListener(opDias);
-		chbTodos.addActionListener(opTodos);
-		btnGuardar.addActionListener(opGuardar);
-		cmbEstablecimientos.addActionListener(opFiltro);
-
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	
 	}
-	
-	 public void filtroFolio(){ 
-		filter.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0)); 
-	}
-	
-	public void filtro(){ 
-		filter.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase(), 1)); 
-	}  
-	
-	ActionListener opFiltro = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			if(cmbEstablecimientos.getSelectedIndex() != 0){
-				filter.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+    
+    ActionListener op_guardar = new ActionListener() {
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter("", 0));
+			trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
+			trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+			trsfiltro.setRowFilter(RowFilter.regexFilter("", 3));
+			
+			if(tabla.isEditing()){
+				tabla.getCellEditor().stopCellEditing();
+			}
+		
+			if(valida_tabla() != ""){
+				JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
+				return;
 			}else{
-				filter.setRowFilter(RowFilter.regexFilter("", 2));
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de bancos?") == 0){
+					Obj_Persecciones_Extra persecciones = new Obj_Persecciones_Extra();
+					if(persecciones.guardar(tabla_guardar())){
+						JOptionPane.showMessageDialog(null, "La tabla bancos se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar guardar la tabla","Error",JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}else{
+					return;
+				}
 			}
 		}
 	};
 	
-	ActionListener opDias = new ActionListener(){
+	private Object[][] tabla_guardar(){
+		Object[][] matriz = new Object[tabla.getRowCount()][11];
+		for(int i=0; i<tabla.getRowCount(); i++){
+			for(int j=0; j<tabla.getColumnCount(); j++){
+				switch(j){
+					case 0: 
+						matriz[i][j] = Integer.parseInt(tabla_model.getValueAt(i,j).toString().trim());
+						break;
+					case 1: 
+						matriz[i][j] = tabla_model.getValueAt(i,j).toString().trim();
+						break;
+					case 2: 
+						matriz[i][j] = tabla_model.getValueAt(i,j).toString().trim();
+						break;
+					case 3: 
+						if(tabla_model.getValueAt(i,j).toString().trim().length() == 0){
+							matriz[i][j] = Float.parseFloat("0"); 
+						}else{
+							matriz[i][j] = Float.parseFloat(tabla_model.getValueAt(i,j).toString().trim());
+						}
+						break;
+					case 4: 
+						if(tabla_model.getValueAt(i,j).toString().equals("")){
+							matriz[i][j] = Boolean.parseBoolean("false");
+						}else{
+							matriz[i][j] = Boolean.parseBoolean(tabla_model.getValueAt(i,j).toString());
+						}
+						break;
+					case 5: 
+						if(tabla_model.getValueAt(i,j).toString().trim().length() == 0){
+							matriz[i][j] = Integer.parseInt("0"); 
+						}else{
+							matriz[i][j] = Integer.parseInt(tabla_model.getValueAt(i,j).toString().trim());
+						}
+						break;
+											
+				}
+			}
+		}
+		return matriz;
+	}
+	
+	private String valida_tabla(){
+		String error = "";
+		for(int i=0; i<tabla.getRowCount(); i++){
+			for(int j=3; j<tabla.getColumnCount()-1; j++){
+				try{
+					if(!isNumeric(tabla_model.getValueAt(i,j).toString())){
+						switch(j){
+							case 3: 
+								error += "   La celda de la columna Bono no es un número en el [Folio: "+tabla_model.getValueAt(i,0)+"]\t\n";
+							break;
+							case 5:
+								error += "   La celda de la columna Cantidad de días no es un número en el [Folio: "+tabla_model.getValueAt(i,0)+"]\t\n";
+							break;
+						}
+					}
+				} catch(Exception e){
+					JOptionPane.showMessageDialog(null, "La tabla tiene una celda con texto en lugar de un valor numérico: \n"+e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+		return error;
+	}
+    
+	@SuppressWarnings("unchecked")
+	public void init_tabla(){
+		this.tabla.getColumnModel().getColumn(0).setMaxWidth(72);
+		this.tabla.getColumnModel().getColumn(0).setMinWidth(72);
+		this.tabla.getColumnModel().getColumn(1).setMaxWidth(360);
+		this.tabla.getColumnModel().getColumn(1).setMinWidth(360);
+    	this.tabla.getColumnModel().getColumn(2).setMaxWidth(210);
+    	this.tabla.getColumnModel().getColumn(2).setMinWidth(210);
+    	this.tabla.getColumnModel().getColumn(3).setMaxWidth(150);
+    	this.tabla.getColumnModel().getColumn(3).setMinWidth(150);
+    	this.tabla.getColumnModel().getColumn(4).setMaxWidth(80);
+    	this.tabla.getColumnModel().getColumn(4).setMinWidth(80);
+    	this.tabla.getColumnModel().getColumn(5).setMaxWidth(135);
+    	this.tabla.getColumnModel().getColumn(5).setMinWidth(135);
+    	
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 4: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+
+		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(5).setCellRenderer(render);
+		
+		this.tabla.setRowSorter(trsfiltro);  
+		
+	}
+	
+	private static boolean isNumeric(String cadena){
+		try {
+			if(cadena.equals("")){
+				return true;
+			}else{
+				Float.parseFloat(cadena);
+				return true;
+			}
+		} catch (NumberFormatException nfe){
+			return false;
+		}
+	}
+	
+	KeyListener op_filtro_folio = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+		}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+					(caracter > '9')) &&
+					(caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
+		public void keyPressed(KeyEvent arg0) {}
+	};
+		
+	KeyListener op_filtro_nombre = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
+		
+	ActionListener op_filtro_establecimiento = new ActionListener(){
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent arg0){
+			if(cmbEstablecimientos.getSelectedIndex() != 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+			}else{
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+			}
+		}
+	};
+	
+	ActionListener op_dia = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			for(int i=0; i<tabla.getRowCount(); i++) {
-				if(Boolean.parseBoolean(model.getValueAt(i,4).toString()) != true){
-					model.setValueAt("", i,5);
+				if(Boolean.parseBoolean(tabla_model.getValueAt(i,4).toString()) != true){
+					tabla_model.setValueAt("", i,5);
 				}else{
-					model.setValueAt(cmbDia.getSelectedIndex(), i,5);
+					if(cmb_layaout_dia.getSelectedIndex() == 0){
+						tabla_model.setValueAt("", i,5);
+					}else{
+						tabla_model.setValueAt(cmb_layaout_dia.getSelectedIndex(), i,5);
+					}
+					
 				}
+
 			}			
 		}
 	};
 	
-	ActionListener opTodos = new ActionListener(){
+	ActionListener op_todos = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			if(chbTodos.isSelected()){
+			if(chb_todos.isSelected()){
 				for(int j=0; j<tabla.getRowCount(); j++){
-					model.setValueAt(Boolean.parseBoolean("true"), j,4);
+					tabla_model.setValueAt(Boolean.parseBoolean("true"), j,4);
 				}
 			}else{
 				for(int j=0; j<tabla.getRowCount(); j++){
-					model.setValueAt(Boolean.parseBoolean("false"), j,4);
-					model.setValueAt("", j,5);
+					tabla_model.setValueAt(Boolean.parseBoolean("false"), j,4);
+					tabla_model.setValueAt("", j,5);
 				}
 			}
 			
 		}
 	};
 	
-	
-	ActionListener opGuardar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			if(tabla.isEditing()){
-				tabla.getCellEditor().stopCellEditing();
-			}
-			new Progress_Bar_Guardar().setVisible(true);
-		}
-	};
 		
-	public Object[][] getTabla(){
-		String query  = "exec sp_lista_persecciones";
-
-		Statement s;
-		ResultSet rs;
-		try {
-			s = con.conexion().createStatement();
-			rs = s.executeQuery(query);
-			Matriz = new Object[getFilas(query)][6];
-			int i=0;
-			while(rs.next()){
-				Matriz[i][0] = rs.getInt(1);
-				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getString(3).trim();
-				float bono = rs.getInt(4);
-				if(bono == 0){
-					Matriz[i][3] = "";
-				}else{
-					Matriz[i][3] = bono;
-				}
-				Matriz[i][4] = rs.getBoolean(5);
-				float cantidad = rs.getInt(6);
-				if(cantidad == 0){
-					Matriz[i][5] = "";
-				}else{
-					Matriz[i][5] = rs.getInt(6);
-				}
-				i++;
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-	    return Matriz; 
-	}
-	
-	public int getFilas(String qry){
-		int filas=0;
-		try {
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery(qry);
-			while(rs.next()){
-				filas++;
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return filas;
-	}	
-	
-	public float[] getBono_Sueldo(int folio){
-		float[] valores= new float[2];
-		valores[0] = 0;
-		valores[1] = 0;
-		
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery("exec sp_bono_sueldo " + folio);
-			while(rs.next()){
-				valores[0] = rs.getFloat(1);
-				valores[1] = rs.getFloat(2);
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valores;
-	}
-	
-	public class Progress_Bar_Guardar extends JDialog {
-		Container cont = getContentPane();
-		
-		JLayeredPane panel = new JLayeredPane();
-		JProgressBar barra = new JProgressBar();
-		
-		String titleBorder = "";
-		public Progress_Bar_Guardar() {
-			barra.setStringPainted(true);
-			Thread hilo = new Thread(new Hilo());
-			hilo.start();
-			panel.setBorder(BorderFactory.createTitledBorder("- ..."));
-			panel.add(barra).setBounds(20,25,350,20);
-			
-			cont.add(panel);
-			
-			this.setUndecorated(true);
-			this.setSize(400,100);
-			this.setModal(true);
-			this.setLocationRelativeTo(null);
-			this.setResizable(false);
-		
-		}
-
-		class Hilo implements Runnable {
-			@SuppressWarnings("rawtypes")
-			public void run() {
-				int total = model.getRowCount();
-
-				Vector miVector = new Vector();
-				if(getFilas("exec sp_status_persecciones") > 1){
-					panel.setBorder(BorderFactory.createTitledBorder("Actualizando lista de Persecciones..."));
-					if(JOptionPane.showConfirmDialog(null, "La lista ya existe, ¿desea actualizarla?") == 0){
-						for(int i=0; i<model.getRowCount(); i++){
-							for(int j=0; j<model.getColumnCount(); j++){
-								miVector.add(model.getValueAt(i,j));
-							}
-							Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
-							
-							int index = Integer.parseInt(miVector.get(0).toString().trim());
-							
-							perseccion.setFolio_empleado(index);
-							perseccion.setNombre_completo(miVector.get(1).toString().trim());
-							perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-							if(miVector.get(3) != ""){
-								perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-							}else{
-								miVector.set(3,0);
-								perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-							}
-							boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
-							perseccion.setDia_extra(dia_extra+"");
-							
-							if(miVector.get(5) != ""){
-								perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-							}else{
-								miVector.set(5,0);
-								perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-							}
-							if(dia_extra != true) {
-								perseccion.setCantidad_dias(0);
-							}else{
-								float[] bono_sueldo = getBono_Sueldo(index);
-								if(bono_dia_extra != true){
-									perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
-								}else{
-									perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
-								}
-							}
-							Obj_Persecciones_Extra existe = new Obj_Persecciones_Extra().buscar(index);
-							if(existe.getFolio_empleado() == index){
-								perseccion.actualizar(index);
-							}else{
-								perseccion.guardar();
-							}
-							
-							
-							miVector.clear();
-							int porcent = (i*100)/total;
-							barra.setValue(porcent+1);
-							try {
-								Thread.sleep(0);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-									
-							}
-						}
-						JOptionPane.showMessageDialog(null, "La lista se Actualizó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-						dispose();
-					}else{
-						dispose();
-						return;
-					}
-					
-				}else{
-					panel.setBorder(BorderFactory.createTitledBorder("Guardando lista de Persecciones..."));
-					for(int i=0; i<model.getRowCount(); i++){
-						for(int j=0; j<model.getColumnCount(); j++){
-							miVector.add(model.getValueAt(i,j));
-						}
-						Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
-				
-						int index = Integer.parseInt(miVector.get(0).toString().trim());
-						
-						perseccion.setFolio_empleado(index);
-						perseccion.setNombre_completo(miVector.get(1).toString().trim());
-						perseccion.setEstablecimiento(miVector.get(2).toString().trim());
-						if(miVector.get(3) != ""){
-							perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-						}else{
-							miVector.set(3,0);
-							perseccion.setBono(Float.parseFloat(miVector.get(3).toString().trim()));
-						}
-						boolean dia_extra = Boolean.parseBoolean(miVector.get(4).toString().trim());
-						perseccion.setDia_extra(dia_extra+"");
-						
-						if(miVector.get(5) != ""){
-							perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-						}else{
-							miVector.set(5,0);
-							perseccion.setDias(Integer.parseInt(miVector.get(5).toString().trim()));
-						}
-						if(dia_extra != true) {
-							perseccion.setCantidad_dias(0);
-						}else{
-							float[] bono_sueldo = getBono_Sueldo(index);
-							if(bono_dia_extra != true){
-								perseccion.setCantidad_dias(Math.round((bono_sueldo[1]/7) * Integer.parseInt(miVector.get(5)+"")));
-							}else{
-								perseccion.setCantidad_dias(Math.round(((bono_sueldo[0]+bono_sueldo[1])/7) * Integer.parseInt(miVector.get(5)+"")));
-							}
-						}
-						perseccion.guardar();
-						
-						miVector.clear();
-						int porcent = (i*100)/total;
-						barra.setValue(porcent+1);
-						try {
-							Thread.sleep(0);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-								
-						}
-					}
-					JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-					dispose();
-			
-				}					
-			}
+	 
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Percepciones_Extra().setVisible(true);
+		}catch(Exception e){
+			System.out.println(e);
 		}
 	}
+
+
 }

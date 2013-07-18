@@ -119,13 +119,13 @@ public class InitMenuBar extends Init{
 	JMenu Lista_Raya = new JMenu("Lista de Raya");
 		/* ALIMENTACION */
 		JMenu Alimentacion = new JMenu("Alimentación");
-			JMenuItem Alimentacion_Bancos 				  = new JMenuItem("Alimentación Bancos");
-			JMenuItem Alimentacion_Captura_Totales_Nomina = new JMenuItem("Alimentación de Totales de Nómina");
-			JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Alimentación Deducción por Inasistencia");
+			JMenuItem Alimentacion_Bancos 				  = new JMenuItem("Alimentación Bancos", new ImageIcon("Iconos/money_icon&16.png"));
+			JMenuItem Alimentacion_Captura_Totales_Nomina = new JMenuItem("Alimentación de Totales de Nómina", new ImageIcon("Iconos/captura_nomina_icon&16.png"));
+			JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Alimentación Deducción por Inasistencia", new ImageIcon("Iconos/hand_contra_icon&16.png"));
 			JMenuItem Alimentacion_Diferencia_Cortes 	  = new JMenuItem("Alimentación Diferencia de Cortes");
 			JMenuItem Alimentacion_Fuente_Sodas_auxf 	  = new JMenuItem("Alimentación Fuente de Sodas AUXF");
 			JMenuItem Alimentacion_Fuente_Sodas_rh 		  = new JMenuItem("Alimentación Fuente de Sodas DH");
-			JMenuItem Alimentacion_Percepciones_Extra 	  = new JMenuItem("Alimentación Percepciones Extras");
+			JMenuItem Alimentacion_Percepciones_Extra 	  = new JMenuItem("Alimentación Percepciones Extras", new ImageIcon("Iconos/hand_pro_icon&16.png"));
 			JMenuItem Alimentacion_Prestamos 			  = new JMenuItem("Alimentación Prestamos");
 		/* AUTORIZACIONES */
 		JMenu Autorizaciones = new JMenu("Autorizaciones");
@@ -134,7 +134,7 @@ public class InitMenuBar extends Init{
 		/* COMPARACIONES */
 		JMenu Comparaciones = new JMenu("Comparaciones");
 			JMenuItem Comparaciones_Listas_Fuente_Sodas = new JMenuItem("Lista de Comparación FS.");
-			JMenuItem Comparaciones_Listas_Raya = new JMenuItem("Lista de Raya");
+			JMenuItem Comparaciones_Listas_Raya = new JMenuItem("Lista de Raya", new ImageIcon("Iconos/list_bullets_icon&16.png"));
 		/* DEPARTAMENTO DE CORTES */
 		JMenu Departamento_Cortes = new JMenu("Departamento de Cortes");
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");

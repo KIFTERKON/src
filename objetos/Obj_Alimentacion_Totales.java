@@ -1,52 +1,29 @@
 package objetos;
 
-import SQL.ActualizarSQL;
-import SQL.BuscarSQL;
-import SQL.GuardarSQL;
+import SQL.BuscarTablasModel;
+import SQL.GuardarTablasModel;
 
 public class Obj_Alimentacion_Totales {
-	
-	int folio_raya;
-	String establecimiento;
-	float nomina;
+
+	Object[][] tabla_model;
 	
 	public Obj_Alimentacion_Totales(){
-		folio_raya=0; establecimiento=""; nomina=0;
+		this.tabla_model = null;
 	}
 
-	public int getFolio_raya() {
-		return folio_raya;
+	public Object[][] getTabla_model() {
+		return tabla_model;
 	}
 
-	public void setFolio_raya(int folio_raya) {
-		this.folio_raya = folio_raya;
-	}
-
-	public String getEstablecimiento() {
-		return establecimiento;
-	}
-
-	public void setEstablecimiento(String establecimiento) {
-		this.establecimiento = establecimiento;
-	}
-
-	public float getNomina() {
-		return nomina;
-	}
-
-	public void setNomina(float nomina) {
-		this.nomina = nomina;
+	public void setTabla_model(Object[][] tabla_model) {
+		this.tabla_model = tabla_model;
 	}
 	
-	public boolean guardar(){ 
-		return new GuardarSQL().Guardar_Costos_Totales(this); 
+	public Object[][] get_tabla_model(){
+		return new BuscarTablasModel().tabla_model_alimentacion_totales();
 	}
 	
-	public boolean actualizar(){ 
-		return new ActualizarSQL().ActualizarCostosTotales(this); 
-	}
-	
-	public String[][] EstablecimientoMatriz(){
-		return new BuscarSQL().getEstablecimientoLista();
+	public boolean guardar(Object[][] tabla){
+		return new GuardarTablasModel().tabla_model_alimentacion_totales(tabla);
 	}
 }

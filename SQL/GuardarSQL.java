@@ -17,14 +17,12 @@ import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
-import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
-import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
@@ -40,8 +38,6 @@ import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Importar_Voucher;
 import objetos.Obj_Ponderacion;
-import objetos.Obj_Revision_Lista_Raya;
-import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
@@ -959,48 +955,6 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia deduccion){
-		String query = "exec sp_insert_deducc_inasistencia ?,?,?,?,?,?,?,?,?,?,?,?";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, deduccion.getFolio_empleado());
-			pstmt.setString(2, deduccion.getNombre_completo().toUpperCase());
-			pstmt.setString(3, deduccion.getEstablecimiento().toUpperCase());
-			pstmt.setString(4, deduccion.getPuntualidad());
-			pstmt.setString(5, deduccion.getFalta());
-			pstmt.setInt(6, deduccion.getDia_faltas());
-			pstmt.setString(7, deduccion.getAsistencia());
-			pstmt.setString(8, deduccion.getGafete());
-			pstmt.setInt(9, deduccion.getDia_gafete());
-			pstmt.setFloat(10, deduccion.getExtra());
-			pstmt.setFloat(11, deduccion.getCantidad_faltas());
-			pstmt.setInt(12 , 1);
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
 	public boolean Asistencia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad){
 		String query = "exec sp_insert_asistencia_puntualidad ?,?,?";
 		Connection con = new Connexion().conexion();
@@ -1018,44 +972,6 @@ public class GuardarSQL {
 			if(con != null){
 				try{
 					System.out.println("La transacción ha sido abortado");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
-	public boolean Guardar(Obj_Persecciones_Extra persecciones){
-		String query = "exec sp_insert_persecciones_extra ?,?,?,?,?,?,?,?";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, persecciones.getFolio_empleado());
-			pstmt.setString(2, persecciones.getNombre_completo().toUpperCase());
-			pstmt.setString(3, persecciones.getEstablecimiento().toUpperCase());
-			pstmt.setFloat(4, persecciones.getBono());
-			pstmt.setString(5, persecciones.getDia_extra());
-			pstmt.setInt(6, persecciones.getDias());
-			pstmt.setFloat(7, persecciones.getCantidad_dias());
-			pstmt.setInt(8 , 1);
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
 					con.rollback();
 				}catch(SQLException ex){
 					System.out.println(ex.getMessage());
@@ -1234,47 +1150,6 @@ public class GuardarSQL {
 		}return true;
 	}
 	
-	
-	public boolean Guardar_Pre_Lista(Obj_Revision_Lista_Raya raya){
-		
-		String query ="exec sp_insert_pre_listaraya ?,?,?,?,?,?,?,?";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, (raya.isChecado()) ? "true": "false");
-			pstmt.setInt(2, raya.getFolio_empleado());
-			pstmt.setFloat(3,raya.getA_pagar());
-			pstmt.setString(4, raya.getObservasion_i());
-			pstmt.setString(5, raya.getObservasion_ii());
-			pstmt.setInt(6, 1);
-			pstmt.setString(7, raya.getEstablecimiento());
-			pstmt.setString(8, raya.getFecha_final());
-
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortado");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
 	public boolean Guardar(Obj_Configuracion_Sistema configs){
 		String query = "exec sp_config_sistema ?,?";
 		Connection con = new Connexion().conexion();
@@ -1302,224 +1177,6 @@ public class GuardarSQL {
 		}finally{
 			try {
 				pstmt.close();
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
-	public boolean Guardar(Obj_Revision_Lista_Raya raya){
-		
-		/** EL PROCEDIMIENTO sp_insert_lista_raya INSERTA LOS VALORES A LA TABLA 
-		 *  tb_lista_raya
- 		 * **/
-		String sp_insert_lista_raya25 =
-				"exec sp_insert_lista_raya ?,?,?,?,?,?,?,?,?,?," +
-				"						   ?,?,?,?,?,?,?,?,?,?," +
-				"						   ?,?,?,?,?,?";
-		
-		/** EL PROCEDIMIENTO sp_insert_abono INSERTA EL ABONO INDICADO DE PRESTAMOS**/
-		String sp_insert_abono4 = "exec sp_insert_abono ?,?,?,?";
-		
-		/**CUANDO UN PRESTAMO SE QUEDA EN CANTIDAD DE CERO LOS STATUS SON CAMBIADOS A 0
-		 * JUNTO CON LOS ABONOS**/
-		String sp_update_abono2 = "exec sp_update_abono ?,?";
-		String sp_update_prestamo1 = "exec sp_update_prestamo ?";
-		
-		/**EL PROCEDIMIENTO sp_insert_abono_cortes INSERTA EL ABONO DEL CORTES INDICADO**/
-		String sp_insert_abono_cortes4 = "exec sp_insert_abono_cortes ?,?,?,?";
-		
-		/**CUANDO UN CORTE SE QUEDA EN CANTIDAD DE CERO LOS STATUS SON CAMBIADOS A 0
-		 * JUNTO CON LOS ABONOS DE CORTE**/
-		String sp_update_abono_cortes2 = "exec sp_update_abono_cortes ?,?";
-		String sp_update_cortes1 = "exec sp_update_cortes ?";
-		
-		/**RESETEAR LAS TABLAS SIGUIENTES PERSECCIONES Y DEDUCION INASISTENCIA**/
-		String sp_update_status_persecciones1 = "exec sp_update_status_persecciones ?";
-		String sp_update_status_deduci_inasis1 = "exec sp_update_status_deduci_inasis ?";
-				
-		/**REGRESAR LAS AUTORIZACIONES A FALSO**/
-		String sp_update_autorizaciones2 ="exec sp_update_autorizaciones ?,?";	
-		
-		/**APLICAR STATUS 0 EN FUENTE DE SODAS DH Y AUXF**/
-		String update_fte_dh = "update tb_fuente_sodas_rh set status=? where status = 1";
-		String update_fte_auxf = "update tb_fuente_sodas_auxf set status=? where status = 1";
-		
-		/**RESETEAR LISTA PRE-RAYA**/
-		String deletetb_pre_listaraya = "delete from tb_pre_listaraya";
-		
-		Connection con = new Connexion().conexion();
-		PreparedStatement sp_insert_lista_raya25pstmt = null;
-		PreparedStatement sp_insert_abono4pstmt = null;
-		PreparedStatement sp_update_abono2pstmt = null;
-		PreparedStatement sp_update_prestamo1pstmt = null;
-		PreparedStatement sp_insert_abono_cortes4pstmt = null;
-		PreparedStatement sp_update_abono_cortes2pstmt = null;
-		PreparedStatement sp_update_cortes1pstmt = null;
-		PreparedStatement sp_update_status_persecciones1pstmt = null;
-		PreparedStatement sp_update_status_deduci_inasis1pstmt = null;
-		PreparedStatement sp_update_autorizaciones2pstmt = null;
-		PreparedStatement update_fte_dh1pstmt = null;
-		PreparedStatement update_fte_auxf1pstmt = null;
-		PreparedStatement deletetb_pre_listarayapstmt = null;
-
-		try {
-			con.setAutoCommit(false);
-			sp_insert_lista_raya25pstmt = con.prepareStatement(sp_insert_lista_raya25);
-			sp_insert_abono4pstmt = con.prepareStatement(sp_insert_abono4);
-			sp_update_abono2pstmt = con.prepareStatement(sp_update_abono2);
-			sp_update_prestamo1pstmt = con.prepareStatement(sp_update_prestamo1);
-			sp_insert_abono_cortes4pstmt = con.prepareStatement(sp_insert_abono_cortes4);
-			sp_update_abono_cortes2pstmt = con.prepareStatement(sp_update_abono_cortes2);
-			sp_update_cortes1pstmt = con.prepareStatement(sp_update_cortes1);
-			sp_update_status_persecciones1pstmt = con.prepareStatement(sp_update_status_persecciones1);
-			sp_update_status_deduci_inasis1pstmt = con.prepareStatement(sp_update_status_deduci_inasis1);
-			sp_update_autorizaciones2pstmt = con.prepareStatement(sp_update_autorizaciones2);
-			update_fte_dh1pstmt = con.prepareStatement(update_fte_dh);
-			update_fte_auxf1pstmt = con.prepareStatement(update_fte_auxf);
-			deletetb_pre_listarayapstmt = con.prepareStatement(deletetb_pre_listaraya);
-			
-			int Folio_Empleado = raya.getFolio_empleado();
-			float descuento = raya.getD_prestamo();
-			
-			sp_insert_lista_raya25pstmt.setInt(1, raya.getNumero_lista());
-			sp_insert_lista_raya25pstmt.setInt(2, Folio_Empleado);
-			sp_insert_lista_raya25pstmt.setString(3, raya.getNombre_completo().toUpperCase().trim());
-			sp_insert_lista_raya25pstmt.setString(4, raya.getEstablecimiento().toUpperCase().trim());
-			sp_insert_lista_raya25pstmt.setFloat(5, raya.getSueldo());
-			
-			sp_insert_lista_raya25pstmt.setFloat(6, raya.getP_bono_complementario());
-			
-			float saldo_pres_inicial = raya.getSaldo_prestamo_inicial();
-			
-			sp_insert_lista_raya25pstmt.setFloat(7, saldo_pres_inicial);
-			sp_insert_lista_raya25pstmt.setFloat(8, descuento);
-			float finalSaldo = raya.getSaldo_final();
-			sp_insert_lista_raya25pstmt.setFloat(9, finalSaldo);
-			
-			sp_insert_lista_raya25pstmt.setFloat(10, raya.getD_fuente_sodas());
-			
-			sp_insert_lista_raya25pstmt.setFloat(11, raya.getD_puntualidad());
-			sp_insert_lista_raya25pstmt.setFloat(12, raya.getD_faltas());
-			sp_insert_lista_raya25pstmt.setFloat(13, raya.getD_asistencia());
-			sp_insert_lista_raya25pstmt.setFloat(14, raya.getD_gafete());
-			sp_insert_lista_raya25pstmt.setFloat(15, raya.getD_cortes());
-			
-			sp_insert_lista_raya25pstmt.setFloat(16, raya.getD_infonavit());
-			sp_insert_lista_raya25pstmt.setFloat(17, raya.getPension());
-			sp_insert_lista_raya25pstmt.setFloat(18, raya.getD_banamex());
-			sp_insert_lista_raya25pstmt.setFloat(19, raya.getD_banorte());
-			sp_insert_lista_raya25pstmt.setFloat(20, raya.getD_extra());
-			
-			sp_insert_lista_raya25pstmt.setFloat(21, raya.getP_dias_extra());
-			sp_insert_lista_raya25pstmt.setFloat(22, raya.getP_bono_extra());
-			sp_insert_lista_raya25pstmt.setFloat(23, raya.getA_pagar());
-			sp_insert_lista_raya25pstmt.setString(24, raya.getObservasion_i());
-			sp_insert_lista_raya25pstmt.setString(25, raya.getFecha());
-			sp_insert_lista_raya25pstmt.setInt(26, 1);
-			
-			
-			if(saldo_pres_inicial > 0){
-				int Folio_prestamo = getFolio_prestamo(Folio_Empleado);
-				if(Folio_prestamo > 0){
-					sp_insert_abono4pstmt.setInt(1, Folio_prestamo);
-					sp_insert_abono4pstmt.setInt(2, Folio_Empleado);
-					sp_insert_abono4pstmt.setFloat(3, descuento);
-					sp_insert_abono4pstmt.setInt(4, 1);
-					
-					sp_insert_abono4pstmt.execute();
-				}
-				if(finalSaldo == 0){
-					sp_update_abono2pstmt.setInt(1, Folio_Empleado);
-					sp_update_abono2pstmt.setInt(2, Folio_prestamo);
-					sp_update_abono2pstmt.execute();
-					
-					sp_update_prestamo1pstmt.setInt(1,Folio_Empleado);
-					sp_update_prestamo1pstmt.execute();
-				}
-			}
-			
-			if(raya.getD_cortes() > 0 ){
-				String[] final_corte = getFinalCorte(Folio_Empleado);
-				int folio_corte = Integer.parseInt(final_corte[0]);
-				float cantida_corte = Float.parseFloat(final_corte[1]);
-				float abonos_corte = Float.parseFloat(final_corte[2]);
-				float corte = raya.getD_cortes();
-				
-				sp_insert_abono_cortes4pstmt.setInt(1, folio_corte);
-				sp_insert_abono_cortes4pstmt.setInt(2, Folio_Empleado);
-				sp_insert_abono_cortes4pstmt.setFloat(3, corte);
-				sp_insert_abono_cortes4pstmt.setInt(4, 1);
-					
-				sp_insert_abono_cortes4pstmt.execute();
-				
-				if((cantida_corte - (abonos_corte+corte)) == 0){
-					sp_update_abono_cortes2pstmt.setInt(1, Folio_Empleado);
-					sp_update_abono_cortes2pstmt.setInt(2, folio_corte);
-					sp_update_abono_cortes2pstmt.execute();
-					
-					sp_update_cortes1pstmt.setInt(1, Folio_Empleado);
-					sp_update_cortes1pstmt.execute();
-				}
-
-			}
-			
-			sp_update_status_persecciones1pstmt.setInt(1, Folio_Empleado);
-			sp_update_status_deduci_inasis1pstmt.setInt(1, Folio_Empleado);
-			
-			sp_update_autorizaciones2pstmt.setString(1, "false");
-			sp_update_autorizaciones2pstmt.setString(2, "false");
-			
-			update_fte_dh1pstmt.setString(1,"0");
-			update_fte_auxf1pstmt.setString(1, "0");
-			
-			/** EJECUTA EL PROCEDIMIENTO ALMACENADO sp_insert_lista_raya**/
-			sp_insert_lista_raya25pstmt.execute();
-			
-			/** EJECUTA EL RESETEO DE TABLAS**/
-			sp_update_status_persecciones1pstmt.execute();
-			sp_update_status_deduci_inasis1pstmt.execute();
-			
-			/** EJECUTA LAS AUTORIZACIONES A FALSO **/
-			sp_update_autorizaciones2pstmt.execute();
-			
-			/** EJECUTA EL RESETEO DE FUENTE DE SODAS LOS STATUS **/
-			update_fte_dh1pstmt.execute();
-			update_fte_auxf1pstmt.execute();
-			
-			/** EJECUTAMOS EL RESETEO DE LISTA PRE-RAYA**/
-			deletetb_pre_listarayapstmt.execute();
-			
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-			if (con != null){
-				try {
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				} catch(SQLException ex) {
-					System.out.println(ex.getMessage());
-				}
-			} 
-			return false;
-		}finally{
-			try {				
-				sp_insert_lista_raya25pstmt.close();
-				sp_insert_abono4pstmt.close();
-				sp_update_abono2pstmt.close();
-				sp_update_prestamo1pstmt.close();
-				sp_insert_abono_cortes4pstmt.close();
-				sp_update_abono_cortes2pstmt.close();
-				sp_update_cortes1pstmt.close();
-				sp_update_status_persecciones1pstmt.close();
-				sp_update_status_deduci_inasis1pstmt.close();
-				sp_update_autorizaciones2pstmt.close();
-				update_fte_dh1pstmt.close();
-				update_fte_auxf1pstmt.close();
-				deletetb_pre_listarayapstmt.close();
-				
 				con.close();
 			} catch(SQLException e){
 				e.printStackTrace();
@@ -1596,42 +1253,6 @@ public class GuardarSQL {
 			e1.printStackTrace();
 		}
 		return valor;
-	}
-	
-	public boolean Guardar_Costos_Totales(Obj_Alimentacion_Totales costos){
-		String query = "exec sp_insert_costos_totales ?,?,?";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-					
-			pstmt.setInt(1, costos.getFolio_raya());
-			pstmt.setString(2, costos.getEstablecimiento().toUpperCase());
-			pstmt.setFloat(3, costos.getNomina());
-			
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: " + e.getMessage());
-			if (con != null){
-				try {
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				} catch(SQLException ex) {
-					System.out.println(ex.getMessage());
-				}
-			} 
-			return false;
-		}finally{
-			try {
-				pstmt.close();
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
 	}
 	
 	public boolean GuardarImportarVoucher(Obj_Importar_Voucher importar){
