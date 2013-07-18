@@ -283,6 +283,7 @@ public class Cargar_Combo {
 			
 	}
 	
+	@SuppressWarnings("unchecked")
 	public String[] jefatu(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla+" order by descripcion asc";
 		Statement stmt = null;
@@ -312,9 +313,7 @@ public class Cargar_Combo {
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}
-		
 		return pila;
-			
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -589,7 +588,7 @@ public class Cargar_Combo {
 	
 	@SuppressWarnings("unchecked")
 	public String[] Respuesta(String tabla) throws SQLException{
-		String query = "select opciones+' -> '+nombre as nombre from " + tabla + " order by nombre asc";
+		String query = "select nombre as nombre from " + tabla + " order by nombre asc";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

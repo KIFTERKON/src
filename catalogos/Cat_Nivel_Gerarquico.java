@@ -31,8 +31,6 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_Puesto;
 
-
-
 @SuppressWarnings("serial")
 public class Cat_Nivel_Gerarquico extends JFrame
 {
@@ -54,7 +52,6 @@ public class Cat_Nivel_Gerarquico extends JFrame
 	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
 
 	String lista2[] = new Obj_Puesto().Combo_Jefatura();
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbP_Principal = new JComboBox(lista2);
 	

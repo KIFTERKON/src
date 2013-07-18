@@ -39,6 +39,8 @@ public class Cat_Actividad extends JFrame {
 	
 	JTextField txtFolio = new JTextField();	
 	
+	JCheckBox chCondicion = new JCheckBox("Automatica");
+	
 	JCheckBox chbStatus = new JCheckBox("Status",true);
 	
 	JTextArea txaDescripcion = new JTextArea();
@@ -118,11 +120,12 @@ public class Cat_Actividad extends JFrame {
 		this.panel.add(chbStatus).setBounds(280,y,80,20);
 		
 		this.panel.add(btnModificar).setBounds(365,y,80,20);
+		this.panel.add(chCondicion).setBounds(620,15,80,20);
 		
 		this.panel.add(new JLabel("Descripción:")).setBounds(365,y+=25,150,20);
 		this.panel.add(scrolltxa).setBounds(365,y+=25,340,410);
 		
-		this.panel.add(new JLabel("Actividad:")).setBounds(15,y-=25,100,20);
+		this.panel.add(new JLabel("Actividad:")).setBounds(15,y-=25,100,20);//añadiendo nuevo checkbos de guardado automatico
 		this.panel.add(scrollact).setBounds(80,y,260,150);
 		
 		this.panel.add(new JLabel("Respuesta:")).setBounds(15,y+=155,100,20);
@@ -309,9 +312,13 @@ public class Cat_Actividad extends JFrame {
 						
 						actividad.setActividad(txaActividad.getText());
 						actividad.setDescripcion(txaDescripcion.getText());
+						
+						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+						
 						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 						actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
 						actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+						
 						actividad.setDomingo(chDomingo.isSelected()? 1 : 0);
 						actividad.setLunes(chLunes.isSelected()? 1 : 0);
 						actividad.setMartes(chMartes.isSelected()? 1 : 0);

@@ -27,7 +27,6 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.poi.ss.formula.ptg.ScalarConstantPtg;
 
 import SQL.Connexion;
 
@@ -77,9 +76,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.setTitle("Empleados en Cuadrantes");
 		
 		txtCuadrantes.setEditable(false);
-		
-		int x=30, y=30;
-		
 		
 		this.panel.add(new JLabel("Folio:")).setBounds(30,30,50,20);
 		this.panel.add(txtFolio).setBounds(90,30,90,20);
