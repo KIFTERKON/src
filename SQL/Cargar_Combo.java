@@ -754,7 +754,7 @@ public class Cargar_Combo {
 
 	
 	@SuppressWarnings("unchecked")
-	public String[] NivelGerarquico(String tabla) throws SQLException{
+	public String[] niveljerarquico(String tabla) throws SQLException{
 		String query = "select descripcion from " + tabla + " order by descripcion asc";
 		Statement stmt = null;
 		try {
@@ -764,7 +764,7 @@ public class Cargar_Combo {
 			int j=0;
 			while(rs.next()){
 				if(j == 0){
-					miVector.add("Selecciona un Nivel Gerarquico");
+					miVector.add("Selecciona un Nivel Jerarquico");
 				}
 				miVector.add(rs.getString("descripcion"));
 				j++;

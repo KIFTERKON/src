@@ -32,7 +32,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
-import objetos.Obj_Nivel_Gerarquico;
+import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Ponderacion;
 import objetos.Obj_Prestamo;
@@ -2155,7 +2155,7 @@ public class BuscarSQL {
 			rs = s.executeQuery(query);
 			
 			while(rs.next()){
-				existe = Boolean.parseBoolean(rs.getString("Existe"));
+				existe = Boolean.parseBoolean(rs.getString("Existe").trim());
 			}
 			
 		} catch (SQLException e1) {
@@ -2190,8 +2190,8 @@ public class BuscarSQL {
 	}
 	
 	//agregar buscar nivel_gerarquico
-	public Obj_Nivel_Gerarquico Gerarquico(int folio) throws SQLException{
-		Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico();
+	public Obj_Nivel_Jerarquico Gerarquico(int folio) throws SQLException{
+		Obj_Nivel_Jerarquico pond = new Obj_Nivel_Jerarquico();
 		String query = "exec sp_nivel_gerarquico "+ folio;
 		
 		Statement stmt = null;
@@ -2244,8 +2244,8 @@ public class BuscarSQL {
 	 
 //	buscar nivel gerarquico
 
-	public Obj_Nivel_Gerarquico Gerarquico_nuevo() throws SQLException{
-		Obj_Nivel_Gerarquico pond = new Obj_Nivel_Gerarquico();
+	public Obj_Nivel_Jerarquico Gerarquico_nuevo() throws SQLException{
+		Obj_Nivel_Jerarquico pond = new Obj_Nivel_Jerarquico();
 		String query = "select max(folio) as 'Maximo' from tb_Nivel_gerarquico";
 		Statement stmt = null;
 		try {
@@ -2298,7 +2298,7 @@ public class BuscarSQL {
 	
 	public Obj_Actividad Buscar_Actividad(int folio) throws SQLException{
 		Obj_Actividad actividad = new Obj_Actividad();
-		String query = "select * from tb_actividad where folio="+folio;
+		String query = "exec sp_select_actividad'"+folio+"';";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2307,8 +2307,10 @@ public class BuscarSQL {
 				actividad.setActividad(rs.getString("actividad"));
 				actividad.setDescripcion(rs.getString("descripcion"));
 				actividad.setRespuesta(rs.getString("respuesta"));
+				
 				actividad.setAtributos(rs.getString("atributo"));
-				actividad.setNivel_critico(rs.getString("nivel_critico"));
+				actividad.setNivel_critico(rs.getString("critico"));
+				
 				actividad.setDomingo(rs.getInt("domingo"));
 				actividad.setLunes(rs.getInt("lunes"));
 				actividad.setMartes(rs.getInt("martes"));
@@ -2316,8 +2318,8 @@ public class BuscarSQL {
 				actividad.setJueves(rs.getInt("jueves"));
 				actividad.setViernes(rs.getInt("viernes"));
 				actividad.setSabado(rs.getInt("sabado"));
-				actividad.setHora_inicio(rs.getString("hora_inicio"));
-				actividad.setHora_final(rs.getString("hora_final"));
+				actividad.setHora_inicio(rs.getString("inicio"));
+				actividad.setHora_final(rs.getString("final"));
 				actividad.setTemporada(rs.getString("temporada"));
 				actividad.setCarga(rs.getInt("carga") == 1 ? true : false);
 				actividad.setRepetir(rs.getInt("repetir"));
@@ -2425,7 +2427,7 @@ public class BuscarSQL {
 	
 	public String OpNivel() throws SQLException{
 		String numero  ="";
-		String query = "exec sp_nivel_gerarquico";
+		String query = "exec sp_nivel_jerarquico";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2444,9 +2446,9 @@ public class BuscarSQL {
 		return numero;
 	}
 	
-	public Obj_Nivel_Gerarquico buscarnivel(int folio) throws SQLException{
-		Obj_Nivel_Gerarquico nivel_gerarquico = new Obj_Nivel_Gerarquico();
-		String query = "select * from tb_nivel_gerarquico where folio ="+ folio;
+	public Obj_Nivel_Jerarquico buscarnivel(int folio) throws SQLException{
+		Obj_Nivel_Jerarquico nivel_gerarquico = new Obj_Nivel_Jerarquico();
+		String query = "select * from tb_nivel_jerarquico where folio ="+ folio;
 		
 		Statement stmt = null;
 		try {
@@ -2470,9 +2472,9 @@ public class BuscarSQL {
 		return nivel_gerarquico;
 	}
 	
-	public Obj_Nivel_Gerarquico buscartablanivel(int folio) throws SQLException{
-		Obj_Nivel_Gerarquico nivel_gerarquico = new Obj_Nivel_Gerarquico();
-		String query = "select * from tb_tabla_nivel_gerarquico where folio ="+ folio;
+	public Obj_Nivel_Jerarquico buscartablanivel(int folio) throws SQLException{
+		Obj_Nivel_Jerarquico nivel_gerarquico = new Obj_Nivel_Jerarquico();
+		String query = "select * from tb_tabla_nivel_jerarquico where folio ="+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

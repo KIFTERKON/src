@@ -233,15 +233,23 @@ public class Cat_Actividad extends JFrame {
 	};
 	
 	ActionListener opBuscar = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			if(txtFolio.getText().equals("")){
+				
+				JOptionPane.showMessageDialog(null, "Introdusca un numero de folio");
+			}else{
+			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText()))==true)
+			{
 				Obj_Actividad actividad = new Obj_Actividad().Buscar(Integer.parseInt(txtFolio.getText()));
 				
 				txaActividad.setText(actividad.getActividad());
 				txaDescripcion.setText(actividad.getDescripcion());
+				
 				cmbRespuesta.setSelectedItem(actividad.getRespuesta());
 				cmbAtributos.setSelectedItem(actividad.getAtributos());
 				cmbNivelCritico.setSelectedItem(actividad.getNivel_critico());
+				
 				chDomingo.setSelected(actividad.getDomingo()==1 ? true : false);
 				chLunes.setSelected(actividad.getLunes()==1 ? true : false);
 				chMartes.setSelected(actividad.getMartes()==1 ? true : false);
@@ -264,7 +272,6 @@ public class Cat_Actividad extends JFrame {
 				rbtAM1.setSelected((horaFin.substring(horaFin.indexOf(' ')+1,horaFin.length()).equals("AM")) ? true : false);
 				rbtPM1.setSelected((horaFin.substring(horaFin.indexOf(' ')+1,horaFin.length()).equals("PM")) ? true : false);
 				
-
 				cmbTemporada.setSelectedItem(actividad.getTemporada());
 				chbCajaDeTrabajo.setSelected(actividad.isCarga());
 				spRepetir.setValue(actividad.getRepetir());
@@ -291,7 +298,10 @@ public class Cat_Actividad extends JFrame {
 				return;
 			}
 		}
+		}
 	};
+	
+	
 	
 	ActionListener opSalir = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
@@ -301,7 +311,7 @@ public class Cat_Actividad extends JFrame {
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			if(txtFolio.getText()==""){
+			
 			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
 				if(validaCampos() !=""){
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -312,9 +322,7 @@ public class Cat_Actividad extends JFrame {
 						
 						actividad.setActividad(txaActividad.getText());
 						actividad.setDescripcion(txaDescripcion.getText());
-						
-						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
-						
+
 						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 						actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
 						actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
@@ -344,7 +352,6 @@ public class Cat_Actividad extends JFrame {
 						return;
 					}
 				}
-			}
 			}else{
 				if(validaCampos() !="") {
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -388,20 +395,21 @@ public class Cat_Actividad extends JFrame {
 	
 	public String validaCampos(){
 		String error="";
-			
+		
+		if(txtFolio.getText().equals("")) error += "Folio\n";
 		if(txaActividad.getText().equals("")) error += "Actividad\n";
 		if(txaDescripcion.getText().equals("")) error += "Descripcion\n";
 		if(cmbRespuesta.getSelectedIndex()==0) error += "Respuesta\n";
 		if(cmbAtributos.getSelectedIndex()==0) error += "Atributo\n";
 		if(cmbNivelCritico.getSelectedIndex()==0) error += "Nivel Crítico\n";
 		
-		if(chDomingo.isSelected() == false &&
-		   chLunes.isSelected() == false &&
-		   chMartes.isSelected() == false &&
-		   chMiercoles.isSelected() == false &&
-		   chJueves.isSelected() == false &&
-		   chViernes.isSelected() == false &&
-		   chSabado.isSelected() == false )	error += "Día\n";
+//		if(chDomingo.isSelected() == false &&
+//		   chLunes.isSelected() == false &&
+//		   chMartes.isSelected() == false &&
+//		   chMiercoles.isSelected() == false &&
+//		   chJueves.isSelected() == false &&
+//		   chViernes.isSelected() == false &&
+//		   chSabado.isSelected() == false )	error += "Día\n";
 													
 //		if((spHoraInicio.getValue()+":"+spMinutosInicio.getValue()).equals("0:0")) error += "Hora Inicio\n";	
 //		if((spHoraFin.getValue()+":"+spMinutosFin.getValue()).equals("0:0")) error += "Hora Fin\n";

@@ -500,7 +500,7 @@ public class InitMenuBar extends Init{
 			/* LISTA DE RAYA 
 			 * 		REPORTES */
 			if(e.getActionCommand().equals("Reporte Depositos A Bancos"))
-				new reporte.Reporte_Bancos();			
+				new reporte.Reporte_Bancos_Por_Estab();			
 			if(e.getActionCommand().equals("Reporte Deducciones Por Inasistencia"))
 				new reporte.Reporte_Deducciones_Inasistencia();
 			if(e.getActionCommand().equals("Reporte Fuente Sodas"))

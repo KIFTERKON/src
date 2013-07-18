@@ -33,7 +33,7 @@ import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
-import objetos.Obj_Nivel_Gerarquico;
+import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Importar_Voucher;
@@ -1453,7 +1453,7 @@ public class GuardarSQL {
 
 	
 	//guardar nivel gerarquico
-	public boolean Guardar_Nivel_G(Obj_Nivel_Gerarquico pond){
+	public boolean Guardar_Nivel_G(Obj_Nivel_Jerarquico pond){
 		String query = "exec sp_insert_tb_nivel_gerarquico  ?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1541,9 +1541,9 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Tabla_Nivel(Obj_Nivel_Gerarquico pond,String[][] tabla){
-		String query = "insert into tb_nivel_gerarquico(descripcion,puesto_principal) values(?,?)";
-		String querytabla="insert into tb_tabla_nivel_gerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
+	public boolean Guardar_Tabla_Nivel(Obj_Nivel_Jerarquico pond,String[][] tabla){
+		String query = "exec sp_insert_nivel_jerarquico ?,?";
+		String querytabla="exec sp_insert_tabla_nivel_jerarquico ?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmtabla =null;
@@ -1560,7 +1560,6 @@ public class GuardarSQL {
 			for (int i = 0; i < tabla.length; i++) {
 
 				pstmtabla.setString (1, pond.getDescripcion().toUpperCase());
-				
 				pstmtabla.setString (2, tabla[i][0]);
 				pstmtabla.setString (3, tabla[i][1]);
 				pstmtabla.executeUpdate();

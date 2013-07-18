@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Lista_Raya" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41a184d8-20ed-43b8-9b4d-904fd1d76008">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT 
+	   tb_empleado.folio as Folio,
+       tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno AS NombreCompleto,
+       tb_establecimiento.nombre AS Establecimiento,
+       tb_sueldo.sueldo AS Sueldo, 
+       tb_bono.bono AS Bono,
+	   CASE WHEN sum(tb_abono.descuento) IS NULL
+				THEN tb_prestamo.cantidad
+			WHEN sum(tb_abono.descuento) >= 0
+				THEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
+			ELSE 0 
+	   END as Cantidad,
+	   CASE 
+			WHEN sum(tb_abono.descuento) IS NULL   
+				THEN tb_prestamo.descuento
+			WHEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1) <  tb_prestamo.descuento
+				THEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
+			WHEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1) >=  tb_prestamo.descuento
+				THEN tb_prestamo.descuento
+			ELSE 0
+		END as descuento,
+	   CASE WHEN sum(tb_abono.descuento) IS NULL
+				THEN tb_prestamo.cantidad - tb_prestamo.descuento
+			WHEN tb_prestamo.cantidad - tb_prestamo.descuento - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1) > 0
+				THEN tb_prestamo.cantidad - tb_prestamo.descuento - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
+			ELSE 0		
+	   END as Saldo,
+	   CASE WHEN sum(tb_fuente_sodas_rh.cantidad) IS NULL
+				THEN 0
+			WHEN sum(tb_fuente_sodas_rh.cantidad) > 0
+				THEN (select sum(tb_fuente_sodas_rh.cantidad) from tb_fuente_sodas_rh where tb_fuente_sodas_rh.folio_empleado = tb_empleado.folio and tb_fuente_sodas_rh.status=1 and tb_fuente_sodas_rh.status_ticket = 1)
+			ELSE 0
+	   END as FSoda,
+       CASE
+		   WHEN tb_deduccion_inasistencia.puntualidad = 'true'
+		   THEN (SELECT tb_asistencia_puntualidad.puntualidad FROM tb_asistencia_puntualidad)
+		   ELSE '0.0'
+	   END as Inpuntualidad,
+	   tb_deduccion_inasistencia.cantidad_falta as Falta,
+	   CASE		
+		   WHEN tb_deduccion_inasistencia.asistencia = 'true'
+	       THEN (SELECT asistencia FROM tb_asistencia_puntualidad)
+		   ELSE '0.0'
+       END AS Inasistencia,
+	   CASE
+			WHEN tb_deduccion_inasistencia.gafete = 'true' 
+			THEN (SELECT gafete FROM tb_asistencia_puntualidad)
+			ELSE '0.0'
+	   END AS Gafete,
+	   CASE
+	       WHEN (select sum(tb_abono_cortes.descuento) from tb_abono_cortes where tb_abono_cortes.folio_empleado = tb_empleado.folio AND tb_abono_cortes.status = 1) IS NULL
+		       THEN (select tb_diferencia_cortes.descuento from tb_diferencia_cortes where tb_diferencia_cortes.folio_empleado = tb_empleado.folio AND tb_diferencia_cortes.status=1 AND tb_diferencia_cortes.status_descuento = 1)
+		   WHEN (select sum(tb_abono_cortes.descuento) from tb_abono_cortes where tb_abono_cortes.folio_empleado = tb_empleado.folio AND tb_abono_cortes.status = 1) = 0
+			   THEN (select tb_diferencia_cortes.descuento from tb_diferencia_cortes where tb_diferencia_cortes.folio_empleado = tb_empleado.folio AND tb_diferencia_cortes.status=1 AND tb_diferencia_cortes.status_descuento = 1)
+		   WHEN ((select tb_diferencia_cortes.cantidad from tb_diferencia_cortes where tb_diferencia_cortes.folio_empleado = tb_empleado.folio AND tb_diferencia_cortes.status=1 AND tb_diferencia_cortes.status_descuento = 1) - (select sum(tb_abono_cortes.descuento) from tb_abono_cortes where tb_abono_cortes.folio_empleado = tb_empleado.folio AND tb_abono_cortes.status = 1)) >= (select tb_diferencia_cortes.descuento from tb_diferencia_cortes where tb_diferencia_cortes.folio_empleado = tb_empleado.folio AND tb_diferencia_cortes.status=1 AND tb_diferencia_cortes.status_descuento = 1)
+			   THEN (select tb_diferencia_cortes.descuento from tb_diferencia_cortes where tb_diferencia_cortes.folio_empleado = tb_empleado.folio AND tb_diferencia_cortes.status=1 AND tb_diferencia_cortes.status_descuento = 1)
+		   ELSE ((select tb_diferencia_cortes.cantidad from tb_diferencia_cortes where tb_diferencia_cortes.folio_empleado = tb_empleado.folio AND tb_diferencia_cortes.status=1 AND tb_diferencia_cortes.status_descuento = 1) - (select sum(tb_abono_cortes.descuento) from tb_abono_cortes where tb_abono_cortes.folio_empleado = tb_empleado.folio AND tb_abono_cortes.status = 1))
+	   END as D_Cortes,
+
+	   tb_empleado.infonavit as Infonavit,
+       tb_empleado.pension_alimenticia as Pension,
+       tb_bancos.banamex as Banamex,
+       tb_bancos.banorte as Banorte, 
+	   tb_deduccion_inasistencia.extra as D_Extra,
+	   tb_persecciones_extra.cantidad_dias_extra as P_Dia_Extra,
+       tb_persecciones_extra.bono as Bono_Extra,
+       tb_pre_listaraya.a_pagar as A_Pagar,
+       tb_pre_listaraya.observasion_i as observacioni,
+       tb_pre_listaraya.fecha_final 
+
+ FROM tb_empleado 
+left outer join tb_pre_listaraya 
+		  ON tb_pre_listaraya.folio_empleado = tb_empleado.folio
+left join tb_establecimiento 
+          ON tb_establecimiento.folio=tb_empleado.establecimiento_id
+left join tb_sueldo 
+          ON tb_sueldo.folio=tb_empleado.sueldo_id
+left join tb_bono
+          ON tb_bono.folio=tb_empleado.bono_id
+left outer join tb_prestamo
+          ON tb_prestamo.folio_empleado=tb_empleado.folio
+          and tb_prestamo.status=1
+left outer join tb_abono 
+		  ON tb_abono.folio_empleado = tb_prestamo.folio_empleado 
+		  and  tb_abono.status=1
+left outer join tb_fuente_sodas_rh 
+          ON tb_fuente_sodas_rh.folio_empleado = tb_empleado.folio 
+          and tb_fuente_sodas_rh.status=1 and tb_fuente_sodas_rh.status_ticket = 1
+left outer join tb_deduccion_inasistencia
+          ON tb_deduccion_inasistencia.folio_empleado=tb_empleado.folio 
+          and tb_deduccion_inasistencia.status=1
+left outer join tb_diferencia_cortes
+          ON tb_diferencia_cortes.folio_empleado=tb_empleado.folio
+		  and tb_diferencia_cortes.status=1
+left outer join tb_bancos
+          ON tb_bancos.folio_empleado=tb_empleado.folio and tb_bancos.status=1
+left outer join tb_persecciones_extra
+          ON tb_persecciones_extra.folio_empleado=tb_empleado.folio and tb_persecciones_extra.status=1
+left outer join tb_abono_cortes 
+				on tb_abono_cortes.folio_empleado = tb_diferencia_cortes.folio_empleado 
+				and tb_abono_cortes.status = 1
+
+where tb_empleado.status = 1 
+GROUP BY tb_empleado.folio ,
+       tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno ,
+       tb_establecimiento.nombre ,
+       tb_sueldo.sueldo , 
+       tb_bono.bono ,
+	   tb_prestamo.cantidad,
+       tb_prestamo.descuento, 
+	   tb_prestamo.cantidad ,
+	   tb_diferencia_cortes.descuento ,
+	   tb_diferencia_cortes.cantidad,
+       tb_empleado.infonavit ,
+       tb_empleado.pension_alimenticia ,
+       tb_bancos.banamex ,
+       tb_bancos.banorte , 
+	   tb_deduccion_inasistencia.extra ,
+	   tb_persecciones_extra.cantidad_dias_extra ,
+       tb_persecciones_extra.bono ,
+       tb_pre_listaraya.observasion_i ,
+	   tb_deduccion_inasistencia.puntualidad ,
+	   tb_deduccion_inasistencia.gafete ,
+       tb_deduccion_inasistencia.cantidad_falta ,
+       tb_deduccion_inasistencia.asistencia ,
+       tb_pre_listaraya.a_pagar,
+       tb_pre_listaraya.fecha_final  
+
+Order By
+	tb_establecimiento.nombre,
+	tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno]]>
+	</queryString>
+	<field name="Folio" class="java.lang.Integer"/>
+	<field name="NombreCompleto" class="java.lang.String"/>
+	<field name="Establecimiento" class="java.lang.String"/>
+	<field name="Sueldo" class="java.lang.Double"/>
+	<field name="Bono" class="java.lang.Double"/>
+	<field name="Cantidad" class="java.math.BigDecimal"/>
+	<field name="descuento" class="java.math.BigDecimal"/>
+	<field name="Saldo" class="java.math.BigDecimal"/>
+	<field name="FSoda" class="java.math.BigDecimal"/>
+	<field name="Inpuntualidad" class="java.math.BigDecimal"/>
+	<field name="Falta" class="java.math.BigDecimal"/>
+	<field name="Inasistencia" class="java.math.BigDecimal"/>
+	<field name="Gafete" class="java.math.BigDecimal"/>
+	<field name="D_Cortes" class="java.math.BigDecimal"/>
+	<field name="Infonavit" class="java.math.BigDecimal"/>
+	<field name="Pension" class="java.math.BigDecimal"/>
+	<field name="Banamex" class="java.math.BigDecimal"/>
+	<field name="Banorte" class="java.math.BigDecimal"/>
+	<field name="D_Extra" class="java.math.BigDecimal"/>
+	<field name="P_Dia_Extra" class="java.math.BigDecimal"/>
+	<field name="Bono_Extra" class="java.lang.Integer"/>
+	<field name="A_Pagar" class="java.math.BigDecimal"/>
+	<field name="observacioni" class="java.lang.String"/>
+	<field name="fecha_final" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement uuid="70051c23-5f77-4692-a0c4-995b11500eea" mode="Opaque" x="0" y="3" width="966" height="24" forecolor="#B89F7D" backcolor="#000000"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="469a178d-3828-4683-b729-78ca00590194" style="SubTitle" x="2" y="0" width="695" height="24" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="1"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75" splitType="Stretch">
+			<frame>
+				<reportElement uuid="007cdd7e-037e-40b1-a913-0de5f1266cc7" mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000"/>
+				<staticText>
+					<reportElement uuid="373c9c09-0320-437a-9b2c-1a152bd4f76c" style="Title" x="0" y="0" width="370" height="66"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Lista de Raya]]></text>
+				</staticText>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="c9983c8a-88e8-47f8-8481-74e1e94fc209" x="557" y="40" width="144" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="433b1527-0ac7-4af5-804c-f531f11a8071" x="490" y="10" width="221" height="30" forecolor="#FFFFFF"/>
+					<textElement>
+						<font size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_final}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e8bb7ac4-2f19-4887-8c6c-1de2c295ae73" style="Column header" x="72" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sueldo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="392f80b3-6857-49af-adc0-7ff5b2287158" style="Column header" x="108" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bc1b9fb7-2b71-4e14-a210-183882af8112" style="Column header" x="144" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="91ba57f9-2dfa-42dd-8009-b9adb87dec52" style="Column header" x="180" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b46bb721-112f-47ed-ad79-4bdd8858156d" style="Column header" x="216" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="be6f0ed5-2d81-47f7-a3d3-d360b2a84f60" style="Column header" x="252" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FSoda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5fdd8db1-92b2-44f3-95a3-cf2a0770157e" style="Column header" x="288" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Inpuntualidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="78cfeda7-d708-412b-b0f6-86cf4ca4aaef" style="Column header" x="324" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Falta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b0f9ee37-471c-4ed4-a993-efb349b8a8b8" style="Column header" x="360" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Inasistencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6ecc394d-29da-413d-80ca-c699e5976677" style="Column header" x="396" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Gafete]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4a88763f-0e0a-41af-b89f-2fcdaf6111b1" style="Column header" x="432" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[D_Cortes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="49d5d045-c2eb-48f3-8ef7-83c7a4e3b12e" style="Column header" x="468" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Infonavit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d80f653a-ac88-4a89-b4bb-09cd7a12f37c" style="Column header" x="504" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Pension]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0332a1fc-aa12-4863-90fa-2b5f8ca307d0" style="Column header" x="540" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Banamex]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="284d00b9-fe65-4715-96e1-40d8cf9da623" style="Column header" x="576" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Banorte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff9f9131-646b-48c3-872b-63ce1b39abe1" style="Column header" x="612" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[D_Extra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c03f22e4-5a8b-492b-a3c7-8f3a71a788b0" style="Column header" x="648" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[P_Dia_Extra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="841903e3-ed82-43c3-88ae-b2335d1b22c7" style="Column header" x="684" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bono_Extra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="29e7d686-7e12-426b-bf90-31579a8e00ba" style="Column header" x="720" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[A_Pagar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="afb8ec66-aa51-4a5e-bcf9-29b1eb5800cd" style="Column header" x="756" y="0" width="36" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[observacioni]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement uuid="3d4529c9-5cf2-4cda-89dc-bfebd2189cf9" style="Row" mode="Opaque" x="0" y="0" width="967" height="18"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d2af87ee-4085-4593-8184-d5fa8e094b17" style="Detail" positionType="Float" x="0" y="0" width="20" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Folio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="4b80bc5a-ae29-4e4e-834d-7b057489f75c" style="Detail" positionType="Float" x="20" y="0" width="195" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NombreCompleto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="8df14fa3-b2e2-44f8-be3a-737c0b3d5f12" style="Detail" positionType="Float" x="216" y="0" width="36" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Sueldo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="62debac0-4a56-48bd-b132-9b5000aa4971" style="Detail" positionType="Float" x="252" y="0" width="36" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Bono}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="4e8d55b1-57ca-482d-b3d2-da33045264ca" style="Detail" positionType="Float" x="288" y="0" width="36" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Cantidad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="b5b4c621-6c5c-4b73-90af-e7b0f580c07b" style="Detail" positionType="Float" x="324" y="0" width="36" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="8fb641a1-590c-4337-bd7c-109ee74fb01c" style="Detail" positionType="Float" x="360" y="0" width="36" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Saldo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="2bcc10c0-b159-4374-bc90-13ff8fcd8f78" style="Detail" positionType="Float" x="396" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{FSoda}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="b581edb0-0042-4de5-9a8c-a82de80965d9" style="Detail" positionType="Float" x="432" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Inpuntualidad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="aea98f7c-e9fd-4956-acc4-97af055bbb20" style="Detail" positionType="Float" x="468" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Falta}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="2cdfd87d-a21d-4365-93ac-a76c92d0c9bc" style="Detail" positionType="Float" x="504" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Inasistencia}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="352a0c95-f7d3-4909-af97-ffd0b2e0132c" style="Detail" positionType="Float" x="540" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Gafete}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="49e4132c-8823-4f68-99e0-039fb632298b" style="Detail" positionType="Float" x="576" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{D_Cortes}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="6af30ee3-7aef-461f-a014-3ea7327dbcec" style="Detail" positionType="Float" x="612" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Infonavit}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="155624b4-f997-4ca0-9d9a-f4a5ab499827" style="Detail" positionType="Float" x="648" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Pension}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="6e799475-e0e6-4a85-b765-a00eb2fc4b5f" style="Detail" positionType="Float" x="684" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Banamex}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="e9a374ef-e139-4842-b4f7-7af04d322519" style="Detail" positionType="Float" x="720" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Banorte}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="a9844075-1eaa-472f-9ef3-311e453a46ae" style="Detail" positionType="Float" x="756" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{D_Extra}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="92fc8d6b-b053-430a-b60c-b95c55cc5a68" style="Detail" positionType="Float" x="792" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{P_Dia_Extra}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="8880b8e3-4665-41fb-a02f-c1532ff2ae2d" style="Detail" positionType="Float" x="830" y="0" width="21" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Bono_Extra}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#" isBlankWhenNull="true">
+					<reportElement uuid="78e944e2-8bef-4368-99d4-3861981770bb" style="Detail" positionType="Float" x="850" y="0" width="50" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font fontName="Arial" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{A_Pagar}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="5475abb7-6d17-4e5d-984a-b267f99e823d" x="900" y="0" width="64" height="18"/>
+					<box>
+						<topPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.3" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Agency FB" size="5"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{observacioni}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement uuid="06f05da2-49ba-430f-8424-94c4966d0d9a" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

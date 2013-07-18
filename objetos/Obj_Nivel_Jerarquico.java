@@ -9,7 +9,7 @@ import SQL.GuardarSQL;
 
 
 
-public class Obj_Nivel_Gerarquico 
+public class Obj_Nivel_Jerarquico 
 {
 	private int folio;
 	private String descripcion;
@@ -19,7 +19,7 @@ public class Obj_Nivel_Gerarquico
 	private String establecimiento;
 	private boolean status;
 	
-	public Obj_Nivel_Gerarquico()
+	public Obj_Nivel_Jerarquico()
 	{
 		this.folio=0; this.descripcion=""; this.puesto_principal=""; this.puesto_dependiente="";
 		this.puesto=""; this.status=false;
@@ -94,7 +94,7 @@ public class Obj_Nivel_Gerarquico
 	public boolean guardar_multiple(String[][] tabla){ return new GuardarSQL().Guardar_Tabla_Nivel(this,tabla); }
 	
 	/*buscamos la primer parte del catalogo*/
-	public Obj_Nivel_Gerarquico buscar(int folio){
+	public Obj_Nivel_Jerarquico buscar(int folio){
 		try {
 			return new BuscarSQL().buscarnivel(folio);
 		} catch (SQLException e) {
@@ -103,7 +103,7 @@ public class Obj_Nivel_Gerarquico
 		return null; 
 	}
 	/*buscamos la segunda parte del catalogo*/
-	public Obj_Nivel_Gerarquico buscartabla(int folio){
+	public Obj_Nivel_Jerarquico buscartabla(int folio){
 		try {
 			return new BuscarSQL().buscartablanivel(folio);
 		} catch (SQLException e) {
@@ -116,9 +116,9 @@ public class Obj_Nivel_Gerarquico
 	/*Actualizacion de la segunda tabla*/
 	public boolean actualizar(String[][] tabla){ return new ActualizarSQL().nivelGerarquico(this,tabla); }
 	
-	public String[] Combo_Nivel_Gerarquico() {
+	public String[] combo_nivel_jerarquico() {
 		try {
-			return new Cargar_Combo().NivelGerarquico("tb_nivel_gerarquico");
+			return new Cargar_Combo().niveljerarquico("tb_nivel_jerarquico");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
