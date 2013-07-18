@@ -313,9 +313,7 @@ public class Cargar_Combo {
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}
-		
 		return pila;
-			
 	}
 	
 	@SuppressWarnings("unchecked")

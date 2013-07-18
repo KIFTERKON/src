@@ -13,7 +13,7 @@ public class Init extends JFrame{
 	
 	public Init() {
 		this.setTitle("SCOI [Sistema de Control Operativo Izagar]");
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/izagar2.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/layers_1_icon&16.png"));
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}

@@ -121,14 +121,13 @@ public class Cat_Bancos extends Cat_Root {
 		this.init_tabla();
 		
 		this.btn_guardar.addActionListener(op_guardar);
-			this.btn_guardar.setToolTipText("Guardar");
 		this.btn_refrescar.setVisible(false);
 			
 		this.txtFolio.addKeyListener(op_filtro_folio);
 		this.txtNombre_Completo.addKeyListener(op_filtro_nombre);
 		this.cmbEstablecimientos.addActionListener(op_filtro_establecimiento);
 		this.chbNegativos.addActionListener(op_negativos);
-
+		
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -142,6 +141,11 @@ public class Cat_Bancos extends Cat_Root {
 			trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
 			trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
 			trsfiltro.setRowFilter(RowFilter.regexFilter("", 3));
+			
+			txtFolio.setText("");
+			txtNombre_Completo.setText("");
+			cmbEstablecimientos.setSelectedIndex(0);
+			chbNegativos.setSelected(false);
 			
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();

@@ -3,11 +3,10 @@ package objetos;
 import SQL.BuscarTablasModel;
 import SQL.GuardarTablasModel;
 
-public class Obj_Persecciones_Extra {
-	
+public class Obj_Deduccion_Inasistencia {
 	Object[][] tabla_model;
 	
-	public Obj_Persecciones_Extra(){
+	public Obj_Deduccion_Inasistencia() {
 		this.tabla_model = null;
 	}
 
@@ -20,10 +19,11 @@ public class Obj_Persecciones_Extra {
 	}
 	
 	public Object[][] get_tabla_model(){
-		return new BuscarTablasModel().tabla_model_persecciones();
+		return new BuscarTablasModel().tabla_model_deduccion_inasistencia();
 	}
 	
 	public boolean guardar(Object[][] tabla){
-		return new GuardarTablasModel().tabla_model_persecciones(tabla);
+		return new GuardarTablasModel().tabla_model_inasistencia(tabla);
 	}
+
 }

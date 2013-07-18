@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Denominacion;
-import objetos.Obj_Alimentacion_Totales;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
@@ -16,7 +15,6 @@ import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
-import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
@@ -31,8 +29,6 @@ import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Nomina;
 import objetos.Obj_OpRespuesta;
 import objetos.Obj_Ponderacion;
-import objetos.Obj_Revision_Lista_Raya;
-import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
@@ -879,45 +875,6 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	
-	public boolean Actualizar_Deduccion_Asistencia(Obj_Deduccion_Iasistencia lista, int folio){
-		String query = "update tb_deduccion_inasistencia set puntualidad=?, falta=?, dia_faltas=?, asistencia=?, gafete=?, dia_gafete=?, extra=?, cantidad_falta=? where folio_empleado="+folio +" and status=1";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, lista.getPuntualidad());
-			pstmt.setString(2, lista.getFalta());
-			pstmt.setInt(3, lista.getDia_faltas());
-			pstmt.setString(4, lista.getAsistencia());
-			pstmt.setString(5, lista.getGafete());
-			pstmt.setInt(6, lista.getDia_gafete());
-			pstmt.setFloat(7, lista.getExtra());
-			pstmt.setFloat(8, lista.getCantidad_faltas());
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}	
-	
 	public boolean Asistecia_Puntualidad(Obj_Asistencia_Puntualidad asistencia_puntualidad, int folio){
 		String query = "update tb_asistencia_puntualidad set asistencia=?, puntualidad=?, gafete=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
@@ -928,40 +885,6 @@ public class ActualizarSQL {
 			pstmt.setFloat(1, asistencia_puntualidad.getValorAsistencia());
 			pstmt.setFloat(2, asistencia_puntualidad.getValorPuntualidad());
 			pstmt.setFloat(3, asistencia_puntualidad.getValorGafete());
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
-	public boolean Actualizar(Obj_Persecciones_Extra lista, int folio){
-		String query = "update tb_persecciones_extra set bono=?, dia_extra=?, dias=?, cantidad_dias_extra=? where folio_empleado="+folio +" and status=1";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setFloat(1, lista.getBono());
-			pstmt.setString(2, lista.getDia_extra());
-			pstmt.setInt(3, lista.getDias());
-			pstmt.setFloat(4, lista.getCantidad_dias());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1052,45 +975,6 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	
-	public boolean Actualizar_Pre_Lista(Obj_Revision_Lista_Raya raya, int folio){
-		String query ="update tb_pre_listaraya set boolean=?, a_pagar=?, observasion_i=?, observasion_ii=?, folio_empleado=?, establecimiento=? where folio="+folio+" and status=1";
-
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, (raya.isChecado()) ? "true": "false");
-			pstmt.setFloat(2, raya.getA_pagar());
-			pstmt.setString(3, raya.getObservasion_i());
-			pstmt.setString(4, raya.getObservasion_ii());
-			pstmt.setInt(5, raya.getFolio_empleado());
-			pstmt.setString(6, raya.getEstablecimiento());
-			
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}	
-	
 	public boolean Configurar_Sistema(Obj_Configuracion_Sistema configs){
 		String query = "update tb_configuracion_sistema set bono_10_12=?, bono_dia_extra=?";
 				
@@ -1170,37 +1054,6 @@ public class ActualizarSQL {
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, (auditoria.isAutorizar())? "true" : "false");
 			
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
-	public boolean ActualizarCostosTotales(Obj_Alimentacion_Totales alimentacion){
-		String query = "update tb_captura_totales_nomina set nomina=? where lista_raya ="+ alimentacion.getFolio_raya() + " and establecimiento='"+alimentacion.getEstablecimiento()+"'";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setFloat(1, alimentacion.getNomina());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

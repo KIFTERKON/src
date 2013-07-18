@@ -1,42 +1,29 @@
 package catalogos;
 
-import java.awt.Container;
+import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-
-import SQL.Connexion;
-
+import javax.swing.table.TableCellRenderer;
 
 import objetos.Obj_Alimentacion_Totales;
 
 @SuppressWarnings("serial")
-public class Cat_Alimentacion_Totales extends JFrame{
+public class Cat_Alimentacion_Totales extends Cat_Root {
 	
-	Container cont = getContentPane();
-	JLayeredPane panel = new JLayeredPane();
-	
-	String[][] Tabla = new Obj_Alimentacion_Totales().EstablecimientoMatriz();
-	DefaultTableModel model = new DefaultTableModel(Tabla,
-            new String[]{"Establecimiento", "Nomina"}
-			){
+	DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Alimentacion_Totales().get_tabla_model(), new String[]{"Establecimiento", "Nómina"}) {
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
-	    	java.lang.String.class,
-	    	java.lang.String.class
+	    	java.lang.Object.class,
+	    	java.lang.Object.class
          };
 	     
 	     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -52,157 +39,134 @@ public class Cat_Alimentacion_Totales extends JFrame{
  		}
 	};
 	
-	JTable tabla = new JTable(model);
-	JScrollPane scroll = new JScrollPane(tabla);
-	
-	JButton btnGuardar = new JButton("Guardar");
-	JButton btnLimpiar = new JButton("Limpiar");
-	JButton btnSalir   = new JButton("Salir");
+	JTable tabla = new JTable(tabla_model);
+	JScrollPane scroll_tabla = new JScrollPane(tabla);
 	
 	public Cat_Alimentacion_Totales(){
 		this.setTitle("Alimentación de Totales de Nomina");
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Lista.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/captura_nomina_icon&16.png"));
 		
-		panel.add(scroll).setBounds(20,20,400,343);
+		this.txtFolio.setVisible(false);
+		this.txtNombre_Completo.setVisible(false);
+		this.btn_refrescar.setVisible(false);
 		
-		panel.add(btnSalir).setBounds(20,400,80,20);
-		panel.add(btnLimpiar).setBounds(185,400,80,20);
-		panel.add(btnGuardar).setBounds(340,400,80,20);
+		this.panel.add(scroll_tabla).setBounds(20,30,400,420);
 		
-		cont.add(panel);
+		this.cont.add(panel);
 		
-		btnSalir.addActionListener(opSalir);
-		btnLimpiar.addActionListener(opLimpiar);
-		btnGuardar.addActionListener(opGuardar);
+		this.init_tabla();
 		
-		tabla.getColumnModel().getColumn(0).setMaxWidth(190);
-		tabla.getColumnModel().getColumn(0).setMinWidth(190);
+		this.btn_guardar.addActionListener(op_guardar);
 		
 		this.setSize(450,500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
 	}
 	
-	ActionListener opSalir = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0) {
-			dispose();
-		}
-		
-	};
-	
-	ActionListener opLimpiar = new ActionListener(){
+	ActionListener op_guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-			for(int i=0; i<model.getRowCount(); i++){
-				model.setValueAt("", i, 1);
-			}
-		}
 		
-	};
-	
-	ActionListener opGuardar = new ActionListener(){
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void actionPerformed(ActionEvent arg0){
-			if(tabla.isEditing()){
-				tabla.getCellEditor().stopCellEditing();
-			}
-			int numero = getNumeroLista();
-			Vector miVector = new Vector();
-			
-			if(getExisteLista(numero) == 0){
-				for(int i=0; i<model.getRowCount(); i++){
-					for(int j=0; j<model.getColumnCount(); j++){
-						miVector.add(model.getValueAt(i,j)+"");
-					}
-					Obj_Alimentacion_Totales costos = new Obj_Alimentacion_Totales();
-					
-					costos.setFolio_raya(numero);
-					costos.setEstablecimiento(miVector.get(0).toString());
-					if(miVector.get(1).toString().length() == 0){
-						costos.setNomina(Float.parseFloat(0.0+""));
-					}else{
-						costos.setNomina(Float.parseFloat(miVector.get(1)+""));
-					}
-
-					costos.guardar();
-					miVector.clear();
-					
-					
-				}
-				JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
-				
+			if(valida_tabla() != ""){
+				JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
+				return;
 			}else{
-				if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-					for(int i=0; i<model.getRowCount(); i++){
-						for(int j=0; j<model.getColumnCount(); j++){
-							miVector.add(model.getValueAt(i,j)+"");
-						}
-						Obj_Alimentacion_Totales costos = new Obj_Alimentacion_Totales();
-						
-						costos.setFolio_raya(numero);
-						costos.setEstablecimiento(miVector.get(0).toString());
-						if(miVector.get(1).toString().length() == 0){
-							costos.setNomina(Float.parseFloat(0.0+""));
-						}else{
-							costos.setNomina(Float.parseFloat(miVector.get(1)+""));
-						}
-
-						costos.actualizar();
-						miVector.clear();
-						
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de bancos?") == 0){
+					Obj_Alimentacion_Totales totales = new Obj_Alimentacion_Totales();
+					if(totales.guardar(tabla_guardar())){
+						JOptionPane.showMessageDialog(null, "La tabla bancos se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar guardar la tabla","Error",JOptionPane.ERROR_MESSAGE);
+						return;
 					}
 				}else{
 					return;
 				}
-				
 			}
-		}
-	};
-	
-	public int getExisteLista(int lista_raya){
-		int valor = 0;
-		try {
-			Connexion con = new Connexion();
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("select max(lista_raya) as Lista from tb_captura_totales_nomina where lista_raya ="+lista_raya);
-			while(rs.next()){
-				valor = rs.getInt(1);			
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-	
-	public int getNumeroLista(){
-		int valor = 0;
-		try {
-			Connexion con = new Connexion();
-			Statement s = con.conexion().createStatement();
-			ResultSet rs = s.executeQuery("exec sp_max_folio_lista_raya");
-			while(rs.next()){
-				valor = rs.getInt(1);			
-			}
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return valor;
-	}
-	
-	public static void main(String args[]){
-		try	{  
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Alimentacion_Totales().setVisible(true);
-		} catch (Exception e){
-		   e.printStackTrace();
 		}
 		
+	};
+	
+	private Object[][] tabla_guardar(){
+		Object[][] matriz = new Object[tabla.getRowCount()][2];
+		for(int i=0; i<tabla.getRowCount(); i++){
+			matriz[i][0] = tabla_model.getValueAt(i,0).toString().trim();
+			if(tabla_model.getValueAt(i,1).toString().trim().length() == 0){
+				matriz[i][1] = Float.parseFloat("0"); 
+			}else{
+				matriz[i][1] = Float.parseFloat(tabla_model.getValueAt(i,1).toString().trim());
+			}
+		}
+		return matriz;
+	}
+	
+	private String valida_tabla(){
+		String error = "";
+		for(int i=0; i<tabla.getRowCount(); i++){
+			try{
+				if(!isNumeric(tabla_model.getValueAt(i,1).toString())){
+					error += "   La celda de la columna Nómina no es un número en el [Establecimiento: "+tabla_model.getValueAt(i,0)+"]\t\n";
+				}
+			} catch(Exception e){
+				JOptionPane.showMessageDialog(null, "La tabla tiene una celda con texto en lugar de un valor numérico: \n"+e,"Error",JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+		return error;
+	}
+	
+	public void init_tabla(){
+    	this.tabla.getColumnModel().getColumn(0).setMaxWidth(300);
+    	this.tabla.getColumnModel().getColumn(0).setMinWidth(300);		
+    	this.tabla.getColumnModel().getColumn(1).setMaxWidth(90);
+    	this.tabla.getColumnModel().getColumn(1).setMinWidth(90);
+    	
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+				switch(column){
+					case 0 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+					case 1 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+				}
+			return lbl; 
+			} 
+		}; 
+
+		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+				
+    }
+	
+    private static boolean isNumeric(String cadena){
+    	try {
+    		if(cadena.equals("")){
+    			return true;
+    		}else{
+    			Float.parseFloat(cadena);
+        		return true;
+    		}
+    	} catch (NumberFormatException nfe){
+    		return false;
+    	}
+    }
+    
+
+	public static void main(String[] args) {
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Alimentacion_Totales().setVisible(true);
+		}catch(Exception e){
+			
+		}
 	}
 
 }

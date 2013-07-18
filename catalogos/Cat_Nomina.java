@@ -11,29 +11,27 @@ import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import objetos.Obj_Nomina;
 
 @SuppressWarnings("serial")
-public class Cat_Nomina extends JFrame{
-	Container cont = getContentPane();
-	JLayeredPane panel = new JLayeredPane();
+public class Cat_Nomina extends Cat_Root {
 	
-	JButton btnImprimir = new JButton("Imprimir");
-	JButton btnGuardar = new JButton("Guardar");
+	public JButton btn_imprimir = new JButton(new ImageIcon("Iconos/print_icon&16.png"));
 	
-	int folio = new Obj_Nomina().MaxListaRaya();
+	public int folio = new Obj_Nomina().MaxListaRaya();
 	
 	String[] espacio = {"","","","","",""};
 	String[][] Tabla = new Obj_Nomina().MatrizNomina(folio);
@@ -70,17 +68,20 @@ public class Cat_Nomina extends JFrame{
 	JScrollPane scroll = new JScrollPane(tabla);
 	
 	public Cat_Nomina(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Accounting.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cat_nomina_icon&16.png"));
 		this.setTitle("Totales de Cheque");
 		
-		panel.setBorder(BorderFactory.createTitledBorder("Totales De Cheque"));
+		this.txtFolio.setVisible(false);
+		this.txtNombre_Completo.setVisible(false);
+		this.btn_refrescar.setVisible(false);
 		
 		panel.add(scroll).setBounds(15,50,460,503);
-		panel.add(btnImprimir).setBounds(370,15,100,20);
-		panel.add(btnGuardar).setBounds(260,15,100,20);
 		
-		btnImprimir.addActionListener(opImprimir);
-		btnGuardar.addActionListener(opGuardar);
+		this.menu_toolbar.add(btn_imprimir);
+			this.btn_imprimir.setToolTipText("Imprimir");
+		
+		btn_imprimir.addActionListener(opImprimir);
+		this.btn_guardar.addActionListener(opGuardar);
 		
 		cont.add(panel);
 		
@@ -270,6 +271,7 @@ public class Cat_Nomina extends JFrame{
 			String mes = (c.get(Calendar.MONTH)+1)+"";
 			String anio = c.get(Calendar.YEAR)+"";
 			MessageFormat encabezado = new MessageFormat("Totales De Cheque pag.[{0,number,integer}] FECHA: ["+dia+"-"+mes+"-"+anio+"]");
+			
 			try {
 				tabla.print(JTable.PrintMode.NORMAL, encabezado, null);
 			} catch (java.awt.print.PrinterException e1) {
@@ -324,7 +326,7 @@ public class Cat_Nomina extends JFrame{
 				
 				Vector miVector = new Vector();
 				Obj_Nomina maximo = new Obj_Nomina();
-								
+				
 				if(folio != maximo.returnMaximo()){
 					for(int i=0; i<model.getRowCount(); i++){
 						for(int j=0; j<model.getColumnCount(); j++){
@@ -390,6 +392,15 @@ public class Cat_Nomina extends JFrame{
 					}
 				}
 			}
+		}
+	}
+	
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Nomina().setVisible(true);
+		}catch(Exception e){
+			
 		}
 	}
 

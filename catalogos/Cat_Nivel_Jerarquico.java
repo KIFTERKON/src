@@ -31,8 +31,6 @@ import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Puesto;
 
-
-
 @SuppressWarnings("serial")
 public class Cat_Nivel_Jerarquico extends JFrame
 {
