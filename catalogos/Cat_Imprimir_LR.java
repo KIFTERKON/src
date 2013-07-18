@@ -1,7 +1,6 @@
 package catalogos;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -21,9 +20,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -40,12 +38,9 @@ import export.exportar_excel;
 
 
 @SuppressWarnings("serial")
-public class Cat_Imprimir_LR extends JFrame {
-
-	Container cont = getContentPane();
-	JLayeredPane campo = new JLayeredPane();
+public class Cat_Imprimir_LR extends Cat_Root{
 	
-	 private static GregorianCalendar calendar = new GregorianCalendar();
+	private static GregorianCalendar calendar = new GregorianCalendar();
 	
 	DefaultTableModel model = new DefaultTableModel(0,20){
 		public boolean isCellEditable(int fila, int columna){
@@ -56,29 +51,38 @@ public class Cat_Imprimir_LR extends JFrame {
 	};
 	JTable tabla = new JTable(model);
 	
-	JLabel lblImprimir = new JLabel(new ImageIcon("imagen//imprimir-32.png"));
-	JLabel lblExpor = new JLabel(new ImageIcon("imagen/export_excel.png"));
+	public JButton btn_imprimir = new JButton(new ImageIcon("Iconos/print_icon&16.png"));
+	public JButton btn_exportar = new JButton(new ImageIcon("Iconos/export_doc_icon&16.png"));
 	
 	public Cat_Imprimir_LR(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Print.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/print_orange_icon&16.png"));
 		this.setTitle("Impresión de Lista de Raya");
-		this.lblExpor.setText("Exportar");
-		this.lblImprimir.setText("Imprimir");
+		
+		this.txtFolio.setVisible(false);
+		this.txtNombre_Completo.setVisible(false);
+		this.cmbEstablecimientos.setVisible(false);
+		this.btn_guardar.setVisible(false);
+		this.btn_refrescar.setVisible(false);
 		
 		new Obj_Imprimir_LR().Imprimir();
+
 
 		int largo = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 		int ancho = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 		
-		campo.add(lblImprimir).setBounds(630, 10, 90, 45);
-		campo.add(lblExpor).setBounds(725, 10, 90, 45);
-		campo.add(getPanelTabla()).setBounds(20,60,largo-548,ancho-120);
-	
-		lblImprimir.addMouseListener(OpImprimir);
-		lblExpor.addMouseListener(opExportar);
+		this.panel.add(getPanelTabla()).setBounds(20,60,largo-548,ancho-120);
 		
-		cont.add(campo);
+		this.menu_toolbar.add(btn_imprimir);
+		this.menu_toolbar.add(btn_exportar);
+	
+		this.btn_imprimir.addMouseListener(OpImprimir);
+			this.btn_imprimir.setToolTipText("Imprimir");
+		this.btn_exportar.addMouseListener(opExportar);
+			this.btn_exportar.setToolTipText("Exportar a Excell");
+			
+		this.cont.add(panel);
 
+		
 		this.setSize(largo-500,ancho);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

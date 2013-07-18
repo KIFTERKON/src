@@ -22,7 +22,6 @@ import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
-import objetos.Obj_Deduccion_Iasistencia;
 import objetos.Obj_Denominaciones;
 import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
@@ -35,9 +34,7 @@ import objetos.Obj_Jefatura;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_Nivel_Gerarquico;
 import objetos.Obj_OpRespuesta;
-import objetos.Obj_Persecciones_Extra;
 import objetos.Obj_Ponderacion;
-import objetos.Obj_Revision_Lista_Raya;
 import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
@@ -850,27 +847,27 @@ public class BuscarSQL {
 		return denom;
 	}
 	
-	public Obj_Revision_Lista_Raya ListaR(int numero_lista) throws SQLException{
-		Obj_Revision_Lista_Raya LR = new Obj_Revision_Lista_Raya();
-		String query = "select * from tb_lista_raya where numero_lista ="+ numero_lista;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				LR.setNumero_lista(rs.getInt("numero_lista"));
-				
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return LR;
-	}
+//	public Obj_Revision_Lista_Raya ListaR(int numero_lista) throws SQLException{
+//		Obj_Revision_Lista_Raya LR = new Obj_Revision_Lista_Raya();
+//		String query = "select * from tb_lista_raya where numero_lista ="+ numero_lista;
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+//				LR.setNumero_lista(rs.getInt("numero_lista"));
+//				
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return LR;
+//	}
 	
 	public Obj_Prestamo Prestamo(int folio) throws SQLException{
 		Obj_Prestamo pre = new Obj_Prestamo();
@@ -1250,30 +1247,6 @@ public class BuscarSQL {
 		return fuente_sodas;
 	}
 	
-	public Obj_Deduccion_Iasistencia Deduccion(int folio) throws SQLException{
-		Obj_Deduccion_Iasistencia deduccion = new Obj_Deduccion_Iasistencia();
-		String query = "select puntualidad,falta,asistencia,extra from tb_deduccion_asistencia where folio_empleado ="+ folio;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				deduccion.setPuntualidad(rs.getString("puntualidad"));
-				deduccion.setFalta(rs.getString("falta"));
-				deduccion.setAsistencia(rs.getString("asistencia"));
-				deduccion.setExtra(rs.getFloat("extra"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return deduccion;
-	}
-	
 	public Obj_Diferencia_Cortes maximo_diferencia_cortes() throws SQLException{
 		Obj_Diferencia_Cortes bono = new Obj_Diferencia_Cortes();
 		String query = "select max(folio) as 'Maximo' from tb_prestamo";
@@ -1599,27 +1572,27 @@ public class BuscarSQL {
 	}
 	
 	
-	public Obj_Revision_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
-		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
-		String query = "select folio from tb_pre_listaraya where folio_empleado = "+folio+" and status = 1;";
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-		    ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				lista.setFolio(rs.getInt("folio"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("Error");
-			return null;
-		}
-		finally{
-			 if (stmt != null) { stmt.close(); }
-		}
-		return lista;
-	}
+//	public Obj_Revision_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
+//		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
+//		String query = "select folio from tb_pre_listaraya where folio_empleado = "+folio+" and status = 1;";
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//		    ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+//				lista.setFolio(rs.getInt("folio"));
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			System.err.println("Error");
+//			return null;
+//		}
+//		finally{
+//			 if (stmt != null) { stmt.close(); }
+//		}
+//		return lista;
+//	}
 	
 	
 	public Obj_Configuracion_Sistema Configuracion_sistema() throws SQLException{
@@ -1731,132 +1704,28 @@ public class BuscarSQL {
 		}
 		return auditoria;
 	}
-		
-	public Obj_Deduccion_Iasistencia DeduccionExiste(int folio) throws SQLException{
-		Obj_Deduccion_Iasistencia Deduccion = new Obj_Deduccion_Iasistencia();
-		String query = "select folio_empleado from tb_deduccion_inasistencia where status = 1 and folio_empleado ="+ folio;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				Deduccion.setFolio_empleado(rs.getInt("folio_empleado"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return Deduccion;
-	}
 	
-	public Obj_Persecciones_Extra PerseccionExiste(int folio) throws SQLException{
-		Obj_Persecciones_Extra perseccion = new Obj_Persecciones_Extra();
-		String query = "select folio_empleado from tb_persecciones_extra where status = 1 and folio_empleado ="+ folio;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				perseccion.setFolio_empleado(rs.getInt("folio_empleado"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return perseccion;
-	}
-	
-	
-	public Obj_Revision_Lista_Raya Lista_Exist_Emp(int folio) throws SQLException{
-		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
-		String query = "select folio_empleado from tb_pre_listaraya where status=1 and folio_empleado ="+ folio;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				lista.setFolio_empleado(rs.getInt("folio_empleado"));
-				
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return lista;
-	}
-	
-	public boolean alimentacion_totales_nomina(){
-		int numero_lista = MaximoListaRaya();
-		int numero_nomina = MaximoListaNomina();
-		if(numero_lista == numero_nomina){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	// estoy trabajando aqui
-	public String[][] getEstablecimientoLista(){
-		int numero_lista = MaximoListaRaya();
-		int numero_nomina = MaximoListaNomina();
-
-		String[][] Matriz = null;
-		
-		if(numero_lista == numero_nomina){
-			String datosif = "select establecimiento, nomina from tb_captura_totales_nomina where lista_raya =" + numero_lista;
-			
-			Matriz = new String[getFilas(datosif)][2];
-			Statement s;
-			ResultSet rs;
-			try {			
-				s = con.conexion().createStatement();
-				rs = s.executeQuery(datosif);
-				int i=0;
-				while(rs.next()){
-					Matriz[i][0] = rs.getString(1);
-					Matriz[i][1] = rs.getString(2);
-					i++;
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-		}else{
-			
-			String datosif = "select nombre from tb_establecimiento where status = 1";
-			Matriz = new String[getFilas(datosif)][2];
-			Statement s;
-			ResultSet rs;
-			try {			
-				s = con.conexion().createStatement();
-				rs = s.executeQuery(datosif);
-				int i=0;
-				while(rs.next()){
-					Matriz[i][0] = rs.getString(1);
-					Matriz[i][1] = "";
-					i++;
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-			
-			
-		}
-		return Matriz;
-	}
+//	public Obj_Revision_Lista_Raya Lista_Exist_Emp(int folio) throws SQLException{
+//		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
+//		String query = "select folio_empleado from tb_pre_listaraya where status=1 and folio_empleado ="+ folio;
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+//				lista.setFolio_empleado(rs.getInt("folio_empleado"));
+//				
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return lista;
+//	}
 	
 	public String[][] getUsuarioPermisos(){
 		String datos = "exec lista_usuario_permisos";
@@ -1938,7 +1807,7 @@ public class BuscarSQL {
 	}
 	
 	public int MaximoListaRaya(){
-		String datos = "select	max(numero_lista) from tb_lista_raya";
+		String datos = "select	max(numero_lista)+1 from tb_lista_raya";
 		int valor = 0;
 		Statement s;
 		ResultSet rs;
@@ -1946,7 +1815,7 @@ public class BuscarSQL {
 			s = con.conexion().createStatement();
 			rs = s.executeQuery(datos);
 			while(rs.next()){
-				valor = rs.getInt(1)+1;
+				valor = rs.getInt(1);
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();

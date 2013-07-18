@@ -27,9 +27,7 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-
 import SQL.Connexion;
-
 
 import objetos.Obj_Empleados_Cuadrantes;
 
@@ -76,7 +74,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.setTitle("Empleados en Cuadrantes");
 		
 		txtCuadrantes.setEditable(false);
-		
+
 		this.panel.add(new JLabel("Folio:")).setBounds(30,30,50,20);
 		this.panel.add(txtFolio).setBounds(90,30,90,20);
 		this.panel.add(chStatus).setBounds(190,30,60,20);

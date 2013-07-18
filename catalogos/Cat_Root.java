@@ -41,6 +41,8 @@ public class Cat_Root extends JFrame {
 		this.menu_toolbar.add(btn_refrescar);
 		this.menu_toolbar.setEnabled(false);
 		
+		this.btn_guardar.setToolTipText("Guardar");
+		
 	}
 	
 }
