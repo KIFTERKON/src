@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>DB_ADAPTER</name><driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver><username>sa</username><password>ragazi*12345</password><savePassword>true</savePassword><url>jdbc:sqlserver://192.168.2.26:1433;databaseName=Grupo_Izagar</url><database></database><serverAddress></serverAddress></jdbcDataAdapter>

@@ -89,6 +89,7 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[3], false),
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[4], false),
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[5], false),
+		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[6], false),
 	};
 	
 	String[] Sub_Cuadrantes_Reportes = new Obj_SubMenus().SubMenuCuadrantes_Reportes();

@@ -64,11 +64,11 @@ public class GuardarTablasModel {
 				pstmt.setInt(1, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmt.setString(2, tabla[i][1].toString().trim());
 				pstmt.setString(3, tabla[i][2].toString().trim());
-				pstmt.setString(4, tabla[i][3].toString().equals("true") ? "true" : "false");
-				pstmt.setString(5, tabla[i][4].toString().equals("true") ? "true" : "false");
+				pstmt.setString(4, tabla[i][3].toString().trim().equals("true") ? "true" : "false");
+				pstmt.setString(5, tabla[i][4].toString().trim().equals("true") ? "true" : "false");
 				pstmt.setInt(6, Integer.parseInt(tabla[i][5].toString()));
-				pstmt.setString(7, tabla[i][6].toString().equals("true") ? "true" : "false");
-				pstmt.setString(8, tabla[i][7].toString().equals("true") ? "true" : "false");
+				pstmt.setString(7, tabla[i][6].toString().trim().equals("true") ? "true" : "false");
+				pstmt.setString(8, tabla[i][7].toString().trim().equals("true") ? "true" : "false");
 				pstmt.setInt(9, Integer.parseInt(tabla[i][8].toString()));
 				pstmt.setFloat(10, Float.parseFloat(tabla[i][9].toString()));
 				pstmt.executeUpdate();
@@ -285,6 +285,50 @@ public class GuardarTablasModel {
 				pstmt.executeUpdate();
 			}
 					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean tabla_model_respuesta(String nombre, Object[][] tabla){
+		String query_delete = "exec sp_actualizar_tabla_respuesta '"+nombre+"';";
+		String query = "exec sp_insert_tabla_respuestas ?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+
+			PreparedStatement pstmt_delete = con.prepareStatement(query_delete);
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+			
+			pstmt_delete.executeUpdate();
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmt.setString(1, nombre.trim());
+				pstmt.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmt.setString(3, tabla[i][1].toString().toUpperCase().trim());
+				
+				pstmt.executeUpdate();
+			}
+		
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

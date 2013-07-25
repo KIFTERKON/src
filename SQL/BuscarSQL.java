@@ -372,9 +372,9 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				opR.setOpcion(rs.getString("opciones"));
-				opR.setNombre(rs.getString("nombre"));
-				opR.setStatus((rs.getString("status").equals("1"))?true:false);
+//				opR.setOpcion(rs.getString("opciones"));
+//				opR.setNombre(rs.getString("nombre"));
+//				opR.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
 			
 		} catch (Exception e) {
@@ -691,20 +691,20 @@ public class BuscarSQL {
 		return actividad;
 	}
 	
-	public String OpRespuesta_Nuevo() throws SQLException{
-		String numero  ="";
+	public int OpRespuesta_Nuevo() throws SQLException{
+		int numero  = 0;
 		String query = "exec sp_nuevo_opciones_respuesta";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				numero = rs.getString("Maximo");
+				numero = rs.getInt("Maximo");
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return 0;
 		}
 		finally{
 			if(stmt!=null){stmt.close();}
@@ -2219,9 +2219,9 @@ public class BuscarSQL {
 		return pond;
 	}
 
-	public boolean OpRespuesta_Existe(String Nombre, String opcion) throws SQLException{
+	public boolean OpRespuesta_Existe(String Nombre) throws SQLException{
 		boolean respuesta = false;
-		String query = "exec sp_existe_opcion_respuesta '"+Nombre+"','"+opcion+"';";
+		String query = "exec sp_existe_opcion_respuesta '"+Nombre+"';";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2240,9 +2240,7 @@ public class BuscarSQL {
 			}
 		}
 		return respuesta;
-		}
-	 
-//	buscar nivel gerarquico
+	}
 
 	public Obj_Nivel_Jerarquico Gerarquico_nuevo() throws SQLException{
 		Obj_Nivel_Jerarquico pond = new Obj_Nivel_Jerarquico();
@@ -2265,40 +2263,9 @@ public class BuscarSQL {
 		return pond;
 	}
 	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public String[] TablaRespuesta(String nombre) throws SQLException{
-		Vector miVector = new Vector();
-		String query = "exec sp_tabla_fill_opcion_respuesta '"+nombre+"';";
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-
-			while(rs.next()){
-				miVector.add(rs.getString("descripcion"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}finally{
-			if(stmt!=null){stmt.close();}
-		}
-		
-		int i=0;
-		String[] pila= new String[miVector.size()];
-		
-		while(i < miVector.size()){
-			pila[i]= miVector.get(i).toString();
-			i++;
-		}
-		return pila;
-			
-	}
-	
 	public Obj_Actividad Buscar_Actividad(int folio) throws SQLException{
 		Obj_Actividad actividad = new Obj_Actividad();
-		String query = "exec sp_select_actividad'"+folio+"';";
+		String query = "exec sp_select_actividad "+folio+";";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2695,4 +2662,49 @@ public class BuscarSQL {
 		return Matriz;
 	}
 	
+	public Obj_OpRespuesta buscar_opcion_respuesta(int folio) throws SQLException{
+		Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
+		String query = "exec sp_select_opcion_respuesta "+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				respuesta.setFolio(rs.getInt("folio"));
+				respuesta.setNombre(rs.getString("nombre"));
+				respuesta.setTipo_opcion(rs.getInt("tipo_opcion") == 0 ? "Opción Libre" : "Opción Múltiple");
+				respuesta.setStatus(rs.getInt("status") == 0 ? false : true);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return respuesta;
+	}
+	
+	public boolean buscar_respuesta_folio(int folio) throws SQLException{
+		String query = "exec sp_select_folio_opcion_respuesta "+ folio;
+		boolean sentencia = false;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				sentencia = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return false;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return sentencia;
+	}
 }

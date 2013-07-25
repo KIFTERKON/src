@@ -67,10 +67,11 @@ public class Cat_Percepciones_Extra extends Cat_Root {
         	 		}
         	 		return false;
         	 	case 4 : 
-        	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,4).toString()) == true){
-        	 			tabla_model.setValueAt("", fila,5);
+         	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,4).toString()) != true){
+        	 			tabla_model.setValueAt(1, fila, 5);
         	 			return true;
-        	 		}else{
+        	 		}else {
+        	 			tabla_model.setValueAt("", fila, 5);
         	 			return true;
         	 		}
         	 	case 5 : 
@@ -248,6 +249,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 1: 
@@ -255,6 +260,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 						if(row %2 == 0){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
@@ -264,6 +273,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
 					case 3: 
@@ -271,6 +284,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 						if(row %2 == 0){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -280,6 +297,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
 						break;
 					case 5: 
@@ -287,6 +308,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 						if(row %2 == 0){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;

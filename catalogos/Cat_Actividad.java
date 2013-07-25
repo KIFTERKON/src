@@ -6,9 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,13 +18,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
+import javax.swing.JSpinner.DateEditor;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Actividad;
@@ -48,7 +50,7 @@ public class Cat_Actividad extends JFrame {
 	
 	JTextArea txaActividad = new JTextArea();
 	JScrollPane scrollact = new JScrollPane(txaActividad); 
-	
+
 	String respuesta[] = new Obj_OpRespuesta().Combo_Respuesta();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbRespuesta = new JComboBox(respuesta);
@@ -69,23 +71,14 @@ public class Cat_Actividad extends JFrame {
 	JCheckBox chJueves = new JCheckBox("Jueves",false);
 	JCheckBox chViernes = new JCheckBox("Viernes",false);
 	JCheckBox chSabado = new JCheckBox("Sábado",false);
-	
-	JSpinner spHoraInicio = new JSpinner(new SpinnerNumberModel(0,0,12,1));
-	JSpinner spMinutosInicio = new JSpinner(new SpinnerNumberModel(0,0,59,1));
-	
-	JRadioButton rbtAM = new JRadioButton("AM",true);
-	JRadioButton rbtPM = new JRadioButton("PM",false); 
-	 
-	ButtonGroup grupoRBT = new ButtonGroup();
 
+	SpinnerDateModel HI_date_model = new SpinnerDateModel();
+	JSpinner HI_spiner = new JSpinner(HI_date_model);
+	DateEditor HI_editor = new DateEditor(HI_spiner,"H:mm");
 	
-	JSpinner spHoraFin = new JSpinner(new SpinnerNumberModel(0,0,12,1));
-	JSpinner spMinutosFin = new JSpinner(new SpinnerNumberModel(0,0,59,1));
-	
-	JRadioButton rbtAM1 = new JRadioButton("AM",true);
-	JRadioButton rbtPM1 = new JRadioButton("PM",false); 
-	 
-	ButtonGroup grupoRBT1 = new ButtonGroup();
+	SpinnerDateModel HF_date_model = new SpinnerDateModel();
+	JSpinner HF_spiner = new JSpinner(HF_date_model);
+	DateEditor HF_editor = new DateEditor(HF_spiner,"H:mm");
 	
 	String temporada[] = new Obj_Temporada().Combo_Temporada();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -100,18 +93,84 @@ public class Cat_Actividad extends JFrame {
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnModificar = new JButton("Modificar");
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnSimilar = new JButton("Similar");
+	JButton btnderecha = new JButton(new ImageIcon("Iconos/right_icon&16.png"));
+	JButton btnizquierda = new JButton(new ImageIcon("Iconos/left_icon&16.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	
 	public Cat_Actividad(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Car Key.png"));
+		this.init();
+		
+		this.setSize(730,530);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Cat_Actividad(int Folio){
+		this.init();
+		
+		Obj_Actividad actividad = new Obj_Actividad().Buscar(Folio);
+		
+		txtFolio.setText(Folio+"");		
+		txaActividad.setText(actividad.getActividad());
+		txaDescripcion.setText(actividad.getDescripcion());
+		
+		cmbRespuesta.setSelectedItem(actividad.getRespuesta());
+		cmbAtributos.setSelectedItem(actividad.getAtributos());
+		cmbNivelCritico.setSelectedItem(actividad.getNivel_critico());
+		
+		chDomingo.setSelected(actividad.getDomingo()==1 ? true : false);
+		chLunes.setSelected(actividad.getLunes()==1 ? true : false);
+		chMartes.setSelected(actividad.getMartes()==1 ? true : false);
+		chMiercoles.setSelected(actividad.getMiercoles()==1 ? true : false);
+		chJueves.setSelected(actividad.getJueves()==1 ? true : false);
+		chViernes.setSelected(actividad.getViernes()==1 ? true : false);
+		chSabado.setSelected(actividad.getSabado()==1 ? true : false);
+		
+		String[] arrayH_I = actividad.getHora_inicio().split(":");
+		HI_spiner.setValue(new Time(Integer.parseInt(arrayH_I[0]), Integer.parseInt(arrayH_I[1]), Integer.parseInt(arrayH_I[2])));
+		
+		String[] arrayH_F = actividad.getHora_final().split(":");
+		HF_spiner.setValue(new Time(Integer.parseInt(arrayH_F[0]), Integer.parseInt(arrayH_F[1]), Integer.parseInt(arrayH_F[2])));
+	
+		cmbTemporada.setSelectedItem(actividad.getTemporada());
+		chbCajaDeTrabajo.setSelected(actividad.isCarga());
+		spRepetir.setValue(actividad.getRepetir());
+		chbStatus.setSelected(actividad.isStatus());
+		
+		if(chDomingo.isSelected() == true &&
+		   chLunes.isSelected() == true &&
+		   chMartes.isSelected() == true &&
+		   chMiercoles.isSelected() == true &&
+		   chJueves.isSelected() == true &&
+		   chViernes.isSelected() == true &&
+		   chSabado.isSelected() == true){
+		   chTodos.setSelected(true);
+		}else{
+			chTodos.setSelected(false);
+		}
+		   
+		panelEnabledFalse();
+		txtFolio.setEditable(true);
+		txtFolio.requestFocus();
+		
+		this.setSize(730,530);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void init(){
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/actividad_icon&16.png"));
 		this.setTitle("Actividad");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Actividad"));
 		
 		this.spRepetir.setEnabled(false);
-		grupoRBT.add(rbtAM);
-		grupoRBT.add(rbtPM);
-		grupoRBT1.add(rbtAM1);
-		grupoRBT1.add(rbtPM1);
 		int y = 15;
 		this.panel.add(new JLabel("Folio:")).setBounds(15,y,100,20);
 		this.panel.add(txtFolio).setBounds(80,y,80,20);
@@ -119,13 +178,18 @@ public class Cat_Actividad extends JFrame {
 		this.panel.add(btnNuevo).setBounds(212,y,65,20);
 		this.panel.add(chbStatus).setBounds(280,y,80,20);
 		
-		this.panel.add(btnModificar).setBounds(365,y,80,20);
-		this.panel.add(chCondicion).setBounds(620,15,80,20);
+		this.panel.add(btnizquierda).setBounds(365, y, 25, 20);
+		this.panel.add(btnderecha).setBounds(395, y, 25, 20);
 		
+		this.panel.add(btnModificar).setBounds(435,y,80,20);
+		this.panel.add(btnSimilar).setBounds(530,y,80,20);
+		
+		this.panel.add(chCondicion).setBounds(620,15,80,20);
+
 		this.panel.add(new JLabel("Descripción:")).setBounds(365,y+=25,150,20);
 		this.panel.add(scrolltxa).setBounds(365,y+=25,340,410);
 		
-		this.panel.add(new JLabel("Actividad:")).setBounds(15,y-=25,100,20);//añadiendo nuevo checkbos de guardado automatico
+		this.panel.add(new JLabel("Actividad:")).setBounds(15,y-=25,100,20);
 		this.panel.add(scrollact).setBounds(80,y,260,150);
 		
 		this.panel.add(new JLabel("Respuesta:")).setBounds(15,y+=155,100,20);
@@ -148,22 +212,17 @@ public class Cat_Actividad extends JFrame {
 			this.panel.add(chViernes).setBounds(217,y,60,20);
 			this.panel.add(chSabado).setBounds(280,y,70,20);
 		
-		this.panel.add(new JLabel("Hora Inicio:")).setBounds(15,y+=30,100,20);
-			this.panel.add(spHoraInicio).setBounds(85,y,35,20);
-			this.panel.add(new JLabel(":")).setBounds(130,y,10,20);
-			this.panel.add(spMinutosInicio).setBounds(140,y,35,20);
-			this.panel.add(rbtAM).setBounds(217,y,50,20);
-			this.panel.add(rbtPM).setBounds(280,y,50,20);
-
-		this.panel.add(new JLabel("Hora Final:")).setBounds(15,y+=25,100,20);
-			this.panel.add(spHoraFin).setBounds(85,y,35,20);
-			this.panel.add(new JLabel(":")).setBounds(130,y,10,20);
-			this.panel.add(spMinutosFin).setBounds(140,y,35,20);
-			this.panel.add(rbtAM1).setBounds(217,y,50,20);
-			this.panel.add(rbtPM1).setBounds(280,y,50,20);
-			
+		this.panel.add(new JLabel("Hora Inicio:")).setBounds(85, y+=35, 100 , 20);
+		this.HI_spiner.setEditor(HI_editor);
+		this.HI_spiner.setValue(new Time(7,00,00));
+		this.panel.add(HI_spiner).setBounds(155, y, 50,20);
 		
-		this.panel.add(new JLabel("Temporada:")).setBounds(15,y+=30,100,20);
+		this.panel.add(new JLabel("Hora Final:")).setBounds(230, y, 100 , 20);
+		this.HF_spiner.setEditor(HF_editor);
+		this.HF_spiner.setValue(new Time(7,00,00));
+		this.panel.add(HF_spiner).setBounds(290, y, 50,20);
+		
+		this.panel.add(new JLabel("Temporada:")).setBounds(15,y+=35,100,20);
 		this.panel.add(cmbTemporada).setBounds(80,y,260,20);
 
 		this.panel.add(chbCajaDeTrabajo).setBounds(80,y+=30,120,20);
@@ -185,16 +244,160 @@ public class Cat_Actividad extends JFrame {
 		this.btnBuscar.addActionListener(opBuscar);
 		this.btnModificar.addActionListener(opModificar);
 		this.txtFolio.addKeyListener(numerico_action);
+		this.btnSimilar.addActionListener(op_similar);
+		this.btnizquierda.addActionListener(opLeft);
+		this.btnderecha.addActionListener(opRigth);
 		
 		txtFolio.setDocument(new JTextFieldLimit(10));
 		this.chTodos.addActionListener(opTodos);
 		
-		this.setSize(730,530);
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
 	}
+	
+	ActionListener opRigth = new ActionListener() {
+		@SuppressWarnings("deprecation")
+		public void actionPerformed(ActionEvent arg0) {
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "El campo de texto de folio está vacío", "Error al modificar", JOptionPane.WARNING_MESSAGE);
+				return;
+			}else{
+				if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())+1)==false) {
+					JOptionPane.showMessageDialog(null, "El registro no existe", "Error al buscar registro", JOptionPane.WARNING_MESSAGE);
+					return;
+				}else{
+					Obj_Actividad actividad = new Obj_Actividad().Buscar(Integer.parseInt(txtFolio.getText())+1);
+					
+					txtFolio.setText(Integer.parseInt(txtFolio.getText())+1+"");
+					txaActividad.setText(actividad.getActividad());
+					txaDescripcion.setText(actividad.getDescripcion());
+					
+					cmbRespuesta.setSelectedItem(actividad.getRespuesta());
+					cmbAtributos.setSelectedItem(actividad.getAtributos());
+					cmbNivelCritico.setSelectedItem(actividad.getNivel_critico());
+					
+					chDomingo.setSelected(actividad.getDomingo()==1 ? true : false);
+					chLunes.setSelected(actividad.getLunes()==1 ? true : false);
+					chMartes.setSelected(actividad.getMartes()==1 ? true : false);
+					chMiercoles.setSelected(actividad.getMiercoles()==1 ? true : false);
+					chJueves.setSelected(actividad.getJueves()==1 ? true : false);
+					chViernes.setSelected(actividad.getViernes()==1 ? true : false);
+					chSabado.setSelected(actividad.getSabado()==1 ? true : false);
+				
+					String[] arrayH_I = actividad.getHora_inicio().split(":");
+					HI_spiner.setValue(new Time(Integer.parseInt(arrayH_I[0]), Integer.parseInt(arrayH_I[1]), Integer.parseInt(arrayH_I[2])));
+					
+					String[] arrayH_F = actividad.getHora_final().split(":");
+					HF_spiner.setValue(new Time(Integer.parseInt(arrayH_F[0]), Integer.parseInt(arrayH_F[1]), Integer.parseInt(arrayH_F[2])));
+					
+					cmbTemporada.setSelectedItem(actividad.getTemporada());
+					chbCajaDeTrabajo.setSelected(actividad.isCarga());
+					spRepetir.setValue(actividad.getRepetir());
+					chbStatus.setSelected(actividad.isStatus());
+					
+					if(chDomingo.isSelected() == true &&
+					   chLunes.isSelected() == true &&
+					   chMartes.isSelected() == true &&
+					   chMiercoles.isSelected() == true &&
+					   chJueves.isSelected() == true &&
+					   chViernes.isSelected() == true &&
+					   chSabado.isSelected() == true){
+					   chTodos.setSelected(true);
+					}else{
+						chTodos.setSelected(false);
+					}
+					
+					panelEnabledFalse();
+					txtFolio.setEditable(true);
+					txtFolio.requestFocus();
+
+				}
+
+			}
+		}
+
+	};
+	
+	ActionListener opLeft = new ActionListener() {
+		@SuppressWarnings("deprecation")
+		public void actionPerformed(ActionEvent arg0) {
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "El campo de texto de folio está vacío", "Error al modificar", JOptionPane.WARNING_MESSAGE);
+				return;
+			}else{
+				if(txtFolio.getText().equals("1")){
+					JOptionPane.showMessageDialog(null, "No hay más registros", "Error al modificar", JOptionPane.WARNING_MESSAGE);
+					return;
+				}else{
+					if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())-1)==false) {
+						JOptionPane.showMessageDialog(null, "El registro no existe", "Error al buscar registro", JOptionPane.WARNING_MESSAGE);
+						return;
+					}else{
+						Obj_Actividad actividad = new Obj_Actividad().Buscar(Integer.parseInt(txtFolio.getText())-1);
+						
+						txtFolio.setText(Integer.parseInt(txtFolio.getText())-1+"");
+						txaActividad.setText(actividad.getActividad());
+						txaDescripcion.setText(actividad.getDescripcion());
+						
+						cmbRespuesta.setSelectedItem(actividad.getRespuesta());
+						cmbAtributos.setSelectedItem(actividad.getAtributos());
+						cmbNivelCritico.setSelectedItem(actividad.getNivel_critico());
+						
+						chDomingo.setSelected(actividad.getDomingo()==1 ? true : false);
+						chLunes.setSelected(actividad.getLunes()==1 ? true : false);
+						chMartes.setSelected(actividad.getMartes()==1 ? true : false);
+						chMiercoles.setSelected(actividad.getMiercoles()==1 ? true : false);
+						chJueves.setSelected(actividad.getJueves()==1 ? true : false);
+						chViernes.setSelected(actividad.getViernes()==1 ? true : false);
+						chSabado.setSelected(actividad.getSabado()==1 ? true : false);
+						
+						String[] arrayH_I = actividad.getHora_inicio().split(":");
+						HI_spiner.setValue(new Time(Integer.parseInt(arrayH_I[0]), Integer.parseInt(arrayH_I[1]), Integer.parseInt(arrayH_I[2])));
+						
+						String[] arrayH_F = actividad.getHora_final().split(":");
+						HF_spiner.setValue(new Time(Integer.parseInt(arrayH_F[0]), Integer.parseInt(arrayH_F[1]), Integer.parseInt(arrayH_F[2])));
+					
+						cmbTemporada.setSelectedItem(actividad.getTemporada());
+						chbCajaDeTrabajo.setSelected(actividad.isCarga());
+						spRepetir.setValue(actividad.getRepetir());
+						chbStatus.setSelected(actividad.isStatus());
+						
+						if(chDomingo.isSelected() == true &&
+						   chLunes.isSelected() == true &&
+						   chMartes.isSelected() == true &&
+						   chMiercoles.isSelected() == true &&
+						   chJueves.isSelected() == true &&
+						   chViernes.isSelected() == true &&
+						   chSabado.isSelected() == true){
+						   chTodos.setSelected(true);
+						}else{
+							chTodos.setSelected(false);
+						}
+						
+						panelEnabledFalse();
+						txtFolio.setEditable(true);
+						txtFolio.requestFocus();
+					}
+
+				}
+
+			}
+		}
+
+	};
+	
+	ActionListener op_similar = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(!txtFolio.getText().equals("")){
+				panelEnabledTrue();
+				txtFolio.setEditable(false);
+				txaActividad.requestFocus();
+				txtFolio.setText(new Obj_Actividad().Nuevo()+"");
+				
+			}else{
+				JOptionPane.showMessageDialog(null, "Busque un registro primero antes de hacer un similar", "Error al modificar", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		}
+	};
 	
 	ActionListener opTodos = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
@@ -233,14 +436,14 @@ public class Cat_Actividad extends JFrame {
 	};
 	
 	ActionListener opBuscar = new ActionListener() {
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			if(txtFolio.getText().equals("")){
-				
-				JOptionPane.showMessageDialog(null, "Introdusca un numero de folio");
+				new Cat_Filtro_Actividades().setVisible(true);
+				dispose();
 			}else{
-			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText()))==true)
-			{
+			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText()))==true) {
 				Obj_Actividad actividad = new Obj_Actividad().Buscar(Integer.parseInt(txtFolio.getText()));
 				
 				txaActividad.setText(actividad.getActividad());
@@ -258,19 +461,11 @@ public class Cat_Actividad extends JFrame {
 				chViernes.setSelected(actividad.getViernes()==1 ? true : false);
 				chSabado.setSelected(actividad.getSabado()==1 ? true : false);
 			
-				String horaInicio = actividad.getHora_inicio();
-						
-				spHoraInicio.setValue(Integer.parseInt(horaInicio.substring(0,horaInicio.indexOf(':'))));
-				spMinutosInicio.setValue(Integer.parseInt(horaInicio.substring(horaInicio.indexOf(':')+1,horaInicio.indexOf(' '))));
-				rbtAM.setSelected((horaInicio.substring(horaInicio.indexOf(' ')+1,horaInicio.length()).equals("AM")) ? true : false);
-				rbtPM.setSelected((horaInicio.substring(horaInicio.indexOf(' ')+1,horaInicio.length()).equals("PM")) ? true : false);
+				String[] arrayH_I = actividad.getHora_inicio().split(":");
+				HI_spiner.setValue(new Time(Integer.parseInt(arrayH_I[0]), Integer.parseInt(arrayH_I[1]), Integer.parseInt(arrayH_I[2])));
 				
-				String horaFin = actividad.getHora_final();
-				
-				spHoraFin.setValue(Integer.parseInt(horaFin.substring(0,horaFin.indexOf(':'))));
-				spMinutosFin.setValue(Integer.parseInt(horaFin.substring(horaFin.indexOf(':')+1,horaFin.indexOf(' '))));
-				rbtAM1.setSelected((horaFin.substring(horaFin.indexOf(' ')+1,horaFin.length()).equals("AM")) ? true : false);
-				rbtPM1.setSelected((horaFin.substring(horaFin.indexOf(' ')+1,horaFin.length()).equals("PM")) ? true : false);
+				String[] arrayH_F = actividad.getHora_final().split(":");
+				HF_spiner.setValue(new Time(Integer.parseInt(arrayH_F[0]), Integer.parseInt(arrayH_F[1]), Integer.parseInt(arrayH_F[2])));
 				
 				cmbTemporada.setSelectedItem(actividad.getTemporada());
 				chbCajaDeTrabajo.setSelected(actividad.isCarga());
@@ -301,8 +496,6 @@ public class Cat_Actividad extends JFrame {
 		}
 	};
 	
-	
-	
 	ActionListener opSalir = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
@@ -311,15 +504,15 @@ public class Cat_Actividad extends JFrame {
 	
 	ActionListener opGuardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			
-			if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
-				if(validaCampos() !=""){
-					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					return;
-				}else{
+			if(validaCampos() !=""){
+				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				Obj_Actividad actividad = new Obj_Actividad();
+				SimpleDateFormat simpledateformat = new SimpleDateFormat("H:mm");
+				
+				if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-						Obj_Actividad actividad = new Obj_Actividad();
-						
 						actividad.setActividad(txaActividad.getText());
 						actividad.setDescripcion(txaDescripcion.getText());
 
@@ -334,8 +527,10 @@ public class Cat_Actividad extends JFrame {
 						actividad.setJueves(chJueves.isSelected()? 1 : 0);
 						actividad.setViernes(chViernes.isSelected()? 1 : 0);
 						actividad.setSabado(chSabado.isSelected()? 1 : 0);
-						actividad.setHora_inicio(spHoraInicio.getValue()+":"+spMinutosInicio.getValue()+rubro_inicio());	
-						actividad.setHora_final(spHoraFin.getValue()+":"+spMinutosFin.getValue()+rubro_fin());
+						
+						actividad.setHora_inicio(simpledateformat.format(HI_spiner.getValue()));
+						actividad.setHora_final(simpledateformat.format(HF_spiner.getValue()));
+						
 						actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
 						actividad.setCarga(chbCajaDeTrabajo.isSelected());
 						actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
@@ -348,22 +543,18 @@ public class Cat_Actividad extends JFrame {
 							JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
 							return;
 						}
+						
 					}else{
 						return;
 					}
-				}
-			}else{
-				if(validaCampos() !="") {
-					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					return;
 				}else{
-					Obj_Actividad actividad = new Obj_Actividad();
-					
 					actividad.setActividad(txaActividad.getText());
 					actividad.setDescripcion(txaDescripcion.getText());
+
 					actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 					actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
 					actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+					
 					actividad.setDomingo(chDomingo.isSelected()? 1 : 0);
 					actividad.setLunes(chLunes.isSelected()? 1 : 0);
 					actividad.setMartes(chMartes.isSelected()? 1 : 0);
@@ -371,8 +562,10 @@ public class Cat_Actividad extends JFrame {
 					actividad.setJueves(chJueves.isSelected()? 1 : 0);
 					actividad.setViernes(chViernes.isSelected()? 1 : 0);
 					actividad.setSabado(chSabado.isSelected()? 1 : 0);
-					actividad.setHora_inicio(spHoraInicio.getValue()+":"+spMinutosInicio.getValue()+rubro_inicio());	
-					actividad.setHora_final(spHoraFin.getValue()+":"+spMinutosFin.getValue()+rubro_fin());
+					
+					actividad.setHora_inicio(simpledateformat.format(HI_spiner.getValue()));
+					actividad.setHora_final(simpledateformat.format(HF_spiner.getValue()));
+					
 					actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
 					actividad.setCarga(chbCajaDeTrabajo.isSelected());
 					actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
@@ -386,11 +579,10 @@ public class Cat_Actividad extends JFrame {
 						JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
+					
 				}
-				
 			}
 		}
-		
 	};
 	
 	public String validaCampos(){
@@ -411,30 +603,9 @@ public class Cat_Actividad extends JFrame {
 //		   chViernes.isSelected() == false &&
 //		   chSabado.isSelected() == false )	error += "Día\n";
 													
-//		if((spHoraInicio.getValue()+":"+spMinutosInicio.getValue()).equals("0:0")) error += "Hora Inicio\n";	
-//		if((spHoraFin.getValue()+":"+spMinutosFin.getValue()).equals("0:0")) error += "Hora Fin\n";
-//		if(cmbTemporada.getSelectedIndex()==0) error += "Temporada\n";
-		
 		return error;
 	}
 
-	
-	public String rubro_inicio(){
-		if(rbtAM.isSelected()){
-			return " AM";
-		}else{
-			return " PM";
-		}
-	}
-	
-	public String rubro_fin(){
-		if(rbtAM1.isSelected()){
-			return " AM";
-		}else{
-			return " PM";
-		}
-	}
-	
 	ActionListener opLimpiar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			panelEnabledTrue();
@@ -472,10 +643,6 @@ public class Cat_Actividad extends JFrame {
 		cmbRespuesta.setEnabled(false);
 		cmbAtributos.setEnabled(false);
 		cmbNivelCritico.setEnabled(false);
-		spHoraInicio.setEnabled(false);
-		spMinutosInicio.setEnabled(false);
-		spHoraFin.setEnabled(false);
-		spMinutosFin.setEnabled(false);
 		cmbTemporada.setEnabled(false);
 		chbCajaDeTrabajo.setEnabled(false);
 		spRepetir.setEnabled(false);
@@ -487,10 +654,8 @@ public class Cat_Actividad extends JFrame {
 		chViernes.setEnabled(false);
 		chSabado.setEnabled(false);
 		chTodos.setEnabled(false);
-		rbtAM.setEnabled(false);
-		rbtAM1.setEnabled(false);
-		rbtPM.setEnabled(false);
-		rbtPM1.setEnabled(false);
+		HI_spiner.setEnabled(false);
+		HF_spiner.setEnabled(false);
 			
 	}
 	
@@ -501,10 +666,6 @@ public class Cat_Actividad extends JFrame {
 		cmbRespuesta.setEnabled(true);
 		cmbAtributos.setEnabled(true);
 		cmbNivelCritico.setEnabled(true);
-		spHoraInicio.setEnabled(true);
-		spMinutosInicio.setEnabled(true);
-		spHoraFin.setEnabled(true);
-		spMinutosFin.setEnabled(true);
 		cmbTemporada.setEnabled(true);
 		chbCajaDeTrabajo.setEnabled(true);
 		spRepetir.setEnabled(true);
@@ -516,12 +677,11 @@ public class Cat_Actividad extends JFrame {
 		chViernes.setEnabled(true);
 		chSabado.setEnabled(true);
 		chTodos.setEnabled(true);
-		rbtAM.setEnabled(true);
-		rbtAM1.setEnabled(true);
-		rbtPM.setEnabled(true);
-		rbtPM1.setEnabled(true);
+		HI_spiner.setEnabled(true);
+		HF_spiner.setEnabled(true);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void panelLimpiar(){	
 		txtFolio.setText("");
 		txaActividad.setText("");
@@ -537,12 +697,8 @@ public class Cat_Actividad extends JFrame {
 		chJueves.setSelected(false);
 		chViernes.setSelected(false);
 		chSabado.setSelected(false);
-		rbtAM.setSelected(true);
-		rbtAM1.setSelected(true);
-		spHoraInicio.setValue(0);
-		spMinutosInicio.setValue(0);
-		spHoraFin.setValue(0);
-		spMinutosFin.setValue(0);
+		HI_spiner.setValue(new Time(7,00,00));
+		HF_spiner.setValue(new Time(7,00,00));
 		cmbTemporada.setSelectedIndex(0);
 		chbCajaDeTrabajo.setSelected(false);
 		spRepetir.setValue(0);

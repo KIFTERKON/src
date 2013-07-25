@@ -122,18 +122,18 @@ public class Main extends InitButton {
 				
 				/* CUADRANTES 
 				*		ALIMENTACION */
-				if(permisos[i].equals("Actividades"))
-					Cuadrantes_Alimentacion_Actividades.setEnabled(true);
 				if(permisos[i].equals("Actividades en Cuadrantes"))
 					Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
 				if(permisos[i].equals("Cuadrante"))
 					Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
 				if(permisos[i].equals("Empleados en Cuadrantes"))
 					Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(true);	
-				if(permisos[i].equals("Asignación de Telefonos"))
-					Cuadrantes_Alimentacion_Telefono.setEnabled(true);
 				/* CUADRANTES
 				 * 		CATALOGO */
+				if(permisos[i].equals("Actividades"))
+					Cuadrantes_Catalogo_Actividades.setEnabled(true);
+				if(permisos[i].equals("Asignación de Telefonos"))
+					Cuadrantes_Catalogo_Telefono.setEnabled(true);
 				if(permisos[i].equals("Atributos"))
 					Cuadrantes_Catalogo_Atributos.setEnabled(true);
 				if(permisos[i].equals("Equipo de Trabajo"))
@@ -144,6 +144,8 @@ public class Main extends InitButton {
 					Cuadrantes_Catalogo_Nivel_Critico.setEnabled(true);
 				if(permisos[i].equals("Opciones de Respuesta"))
 					Cuadrantes_Catalogo_Respuesta.setEnabled(true);
+				if(permisos[i].equals("Opciones Múltiple de Respuesta"))
+					Cuadrantes_Catalogo_Respuesta_Multiple.setEnabled(true);
 				if(permisos[i].equals("Ponderacion"))
 					Cuadrantes_Catalogo_Ponderacion.setEnabled(true);
 				/* CUADRANTES

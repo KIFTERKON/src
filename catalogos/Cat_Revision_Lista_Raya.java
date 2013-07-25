@@ -386,9 +386,7 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 				}else{
 					return;
 				}
-				
 			}
-			
 		}
 	};
 	
@@ -406,7 +404,6 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 				JOptionPane.showMessageDialog(null, "Se necesita que alimente los totales de nómina", "Error al visualizar la revisión de totales", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-		
 		}
 	};
 	
@@ -444,7 +441,6 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 				e1.printStackTrace();
 			}
 		}
-
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -519,13 +515,22 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
 						break;
 					case 1: 
+						
 						componente = new JLabel(value == null? "": value.toString());
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -535,6 +540,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
 					case 3: 
@@ -542,6 +551,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
@@ -551,6 +564,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 5: 
@@ -558,6 +575,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -567,6 +588,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 7: 
@@ -574,6 +599,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -583,6 +612,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 9: 
@@ -590,6 +623,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -599,6 +636,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 11:
@@ -606,6 +647,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -615,6 +660,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 13: 
@@ -622,6 +671,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -631,6 +684,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 15: 
@@ -638,6 +695,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -647,6 +708,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 17: 
@@ -654,6 +719,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -663,6 +732,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 19: 
@@ -670,6 +743,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -679,6 +756,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 21: 
@@ -686,6 +767,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
@@ -695,6 +780,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
 						break;
 					case 23: 
@@ -703,6 +792,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
 						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
 					case 24: 
@@ -710,6 +803,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 						if(Boolean.parseBoolean(tabla.getValueAt(row,0)+"")== true){
 							((JComponent) componente).setOpaque(true); 
 							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
@@ -772,5 +869,4 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 			
 		}
 	}
-
 }

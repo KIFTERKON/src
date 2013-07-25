@@ -20,14 +20,12 @@ public class Reporte_Prestamos extends JFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Reporte_Prestamos() {
 		try {
-			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Prestamos.jrxml");
+			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\plantillaIR\\Reporte_Prestamos.jrxml");
 			
 			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
 			JasperViewer.viewReport(print, false);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-
-			
 		}
 		
 	}

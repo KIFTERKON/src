@@ -828,9 +828,9 @@ public class InitButton extends InitMenuBar{
 				Importar_Voucher.setEnabled(false);
 			/* CUADRANTES 
 			*		ALIMENTACION */
-				Cuadrantes_Alimentacion_Actividades.setEnabled(false);
+				Cuadrantes_Catalogo_Actividades.setEnabled(false);
 				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(false);
-				Cuadrantes_Alimentacion_Telefono.setEnabled(false);
+				Cuadrantes_Catalogo_Telefono.setEnabled(false);
 				Cuadrantes_Alimentacion_Cuadrante.setEnabled(false);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 				

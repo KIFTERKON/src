@@ -19,8 +19,7 @@ public class Reporte_Deducciones_Inasistencia  extends JFrame {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Reporte_Deducciones_Inasistencia() {
 			try {
-				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Deducciones_Inasistencia.jrxml");
-				
+				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\plantillaIR\\Reporte_Deducciones_Inasistencia.jrxml");
 				JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
 				JasperViewer.viewReport(print, false);
 			} catch (Exception e) {

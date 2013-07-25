@@ -3,8 +3,6 @@ package catalogos;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -23,7 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -32,8 +28,7 @@ import javax.swing.table.TableRowSorter;
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
-public class Cat_Filtro_Opciones_Respuesta extends JFrame {
-	
+public class Cat_Filtro_Opciones_Multiples extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -72,15 +67,11 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre = new JTextField();
 	
-	String lista[] = {"Seleccione Una Opción","Opción Libre","Opción Múltiple"};
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbOpcionesDeRespuesta = new JComboBox(lista);
-
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	public Cat_Filtro_Opciones_Respuesta(){
+	public Cat_Filtro_Opciones_Multiples() {
     	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-    	this.setTitle("Filtro de Opciones de Respuesta");
-		panel.setBorder(BorderFactory.createTitledBorder("Filtro De Opciones de Respuesta"));
+    	this.setTitle("Filtro de Opciones Múltiple");
+		panel.setBorder(BorderFactory.createTitledBorder("Filtro de Opciones Múltiple"));
 		trsfiltro = new TableRowSorter(tabla_model); 
 		tabla.setRowSorter(trsfiltro);  
 		
@@ -88,7 +79,6 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 		
 		panel.add(txtFolio).setBounds(15,20,48,20);
 		panel.add(txtNombre).setBounds(64,20,229,20);
-		panel.add(cmbOpcionesDeRespuesta).setBounds(295,20, 168, 20);
 		
 		agregar(tabla);
 		
@@ -96,7 +86,6 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 		
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre.addKeyListener(opFiltroNombre);
-		cmbOpcionesDeRespuesta.addActionListener(opFiltro);
 		
 		this.setSize(500,400);
 		this.setLocationRelativeTo(null);
@@ -109,9 +98,9 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
 	    			int fila = tabla.getSelectedRow();
-	    			Object folio =  tabla.getValueAt(fila, 0);
+	    			Object folio =  tabla.getValueAt(fila, 1);
 	    			dispose();
-	    			new Cat_Opciones_Respuesta(Integer.parseInt(folio.toString().trim())).setVisible(true);
+	    			new Cat_Tabla_Opciones_Respuesta(folio.toString()).setVisible(true);
 	        	}
 	        }
         });
@@ -142,17 +131,6 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 		public void keyPressed(KeyEvent arg0) {}		
 	};
 	
-	ActionListener opFiltro = new ActionListener(){
-		@SuppressWarnings("unchecked")
-		public void actionPerformed(ActionEvent arg0){
-			if(cmbOpcionesDeRespuesta.getSelectedIndex() != 0){
-				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbOpcionesDeRespuesta.getSelectedItem()+"", 2));
-			}else{
-				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
-			}
-		}
-	};
-    
     private JScrollPane getPanelTabla()	{		
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
@@ -201,7 +179,7 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 		ResultSet rs;
 		try {
 			s = new Connexion().conexion().createStatement();
-			rs = s.executeQuery("exec sp_filtro_opciones_respuesta");
+			rs = s.executeQuery("exec sp_filtro_opciones_respuesta_multiple");
 				
 			while (rs.next()) { 
 			   String [] fila = new String[4];
@@ -219,21 +197,13 @@ public class Cat_Filtro_Opciones_Respuesta extends JFrame {
 		return new JScrollPane(tabla);
 		  
 	}
-    
-    public static void main(String args[]){
-   		try {
+	public static void main(String[] args) {
+		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Filtro_Opciones_Respuesta().setVisible(true);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
+			new Cat_Filtro_Opciones_Multiples().setVisible(true);
+		}catch(Exception e){
+			System.out.println("Error:"+e);
 		}
-    	
-    }
-    
+	}
+
 }

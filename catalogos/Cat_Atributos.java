@@ -335,8 +335,7 @@ Connexion con = new Connexion();
 								
 	};
 	
-	ActionListener buscar = new ActionListener()
-	{
+	ActionListener buscar = new ActionListener() {
 		public void actionPerformed(ActionEvent e)
 		{
 			if(txtFolio.getText().equals("")){

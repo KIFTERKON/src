@@ -133,6 +133,10 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 						lbl.setOpaque(true); 
 						lbl.setBackground(new java.awt.Color(177,177,177));
 				} 
+				if(table.getSelectedRow() == row){
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(186,143,73));
+				}
 				switch(column){
 					case 0 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
 					case 1 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;

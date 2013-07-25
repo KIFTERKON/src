@@ -30,9 +30,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import com.toedter.calendar.JDateChooser;
 
 import SQL.Connexion;
 
@@ -75,29 +76,29 @@ public class Cat_Ponderacion extends JFrame{
 	JCheckBox chDomingo = new JCheckBox("Domingo");
 	
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
-	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
-	com.toedter.calendar.JDateChooser txtCalendario1 = new com.toedter.calendar.JDateChooser();
+	JDateChooser txtCalendario = new JDateChooser();
+	JDateChooser txtCalendario1 = new JDateChooser();
 	
 	
 	public Cat_Ponderacion(){
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Ponderaciones"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/ponderacion_icon&16.png"));
+		this.panel.setBorder(BorderFactory.createTitledBorder("Ponderaciones"));
 		
-		this.setTitle("Ponderacion");
+		this.setTitle("Ponderaciones");
 		
 		int x = 15, y=30, ancho=100;
 		
-		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
-		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
-		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
+		this.panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
+		this.panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
+		this.panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
 		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
@@ -111,11 +112,13 @@ public class Cat_Ponderacion extends JFrame{
 		
 		panel.add(new JLabel("Fecha:      De")).setBounds(5,y+=30,100,20);
 		panel.add(txtCalendario).setBounds(ancho-20,y,ancho-8,20);
+		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
 		panel.add(new JLabel("A")).setBounds(ancho+75,y,30,20);
 		panel.add(txtCalendario1).setBounds(ancho+87,y,ancho-8,20);
+		this.txtCalendario1.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
-		panel.add(new JLabel("Dia: ")).setBounds(5,y+=30,100,20);
+		panel.add(new JLabel("Dia: ")).setBounds(5,y+=45,100,20);
 		
 		panel.add(chTodos).setBounds(85,y,60,20);
 		panel.add(chDomingo).setBounds(160,y,80,20);
@@ -131,7 +134,7 @@ public class Cat_Ponderacion extends JFrame{
 		panel.add(btnSalir).setBounds(x-10+40,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+290,y,ancho,20);
 		
-		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,180);
+		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+50,20,ancho+210,250);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtDescripcion.setDocument(new JTextFieldLimit(100));
@@ -180,22 +183,25 @@ public class Cat_Ponderacion extends JFrame{
 		tabla.getColumnModel().getColumn(2).setMinWidth(80);
 		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
 		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
-		
-		TableCellRenderer render = new TableCellRenderer(){ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
 				if(row%2==0){
 						lbl.setOpaque(true); 
 						lbl.setBackground(new java.awt.Color(177,177,177));
 				} 
+				
+				if(table.getSelectedRow() == row){
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(186,143,73));
+				}
+				
+				switch(column){
+					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+					case 2 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+				}
 			return lbl; 
 			} 
 		}; 

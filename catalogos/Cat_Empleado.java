@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -56,9 +57,10 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtNombre = new JTextField();
 	JTextField txtApPaterno = new JTextField();
 	JTextField txtApMaterno = new JTextField();
-	JTextField txtFecha = new JTextField(new Date().toString());
+	JTextField txtFecha = new JTextField(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 	JTextField txtPensionAli = new JTextField();
 	JTextField txtHorario = new JTextField();
+	JTextField txtImss = new JTextField();
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento();
 	@SuppressWarnings("rawtypes")
@@ -106,8 +108,8 @@ public class Cat_Empleado extends JFrame{
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-	JButton btnFiltro = new JButton(new ImageIcon("imagen/Text preview.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
+	JButton btnFiltro = new JButton(new ImageIcon("Iconos/users_icon&16.png"));
 	JButton btnNuevo = new JButton("Nuevo");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnSalir = new JButton("Salir");
@@ -130,10 +132,12 @@ public class Cat_Empleado extends JFrame{
 	}
 	
 	public void getContenedor(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Usuario.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/user_icon&16.png"));
 		this.setTitle("Alta de Empleados");
 		
 		int x = 40, y=30, ancho=140;
+		
+		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
 		panel.setBorder(BorderFactory.createTitledBorder("Alta de Empleados"));
 		
@@ -203,6 +207,9 @@ public class Cat_Empleado extends JFrame{
 		
 		panel.add(new JLabel("Tipo de Bancos:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbTipoBancos).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(new JLabel("N° Seguro Social:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtImss).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-10,20);
@@ -335,6 +342,7 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	ActionListener buscar = new ActionListener() {
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
@@ -392,7 +400,7 @@ public class Cat_Empleado extends JFrame{
 						case 4:btnStatus.setIcon(new ImageIcon("imagen/baja.png"));break;
 					}
 					
-					txtFecha.setText(re.getFecha());
+					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 					txaObservaciones.setText(re.getObservasiones());
 					img = re.getFoto();
 					ImageIcon tmpIconAux = new ImageIcon(re.getFoto());
@@ -429,7 +437,7 @@ public class Cat_Empleado extends JFrame{
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
-							txtFecha.setText(new Date().toString());
+							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 							empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
 							empleado.setNombre(txtNombre.getText());
 							empleado.setAp_paterno(txtApPaterno.getText());
@@ -509,7 +517,7 @@ public class Cat_Empleado extends JFrame{
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						txtFecha.setText(new Date().toString());
+						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 						empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
 						empleado.setNombre(txtNombre.getText());
 						empleado.setAp_paterno(txtApPaterno.getText());
@@ -691,7 +699,7 @@ public class Cat_Empleado extends JFrame{
 					txtFolio.setText(empleado.getFolio()+1+"");
 					txtFolio.setEditable(false);
 					txtChecador.requestFocus();
-					txtFecha.setText(new Date().toString());
+					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = "X:\\Empleados\\Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -700,7 +708,7 @@ public class Cat_Empleado extends JFrame{
 					txtFolio.setText(1+"");
 					txtFolio.setEditable(false);
 					txtChecador.requestFocus();
-					txtFecha.setText(new Date().toString());
+					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = "X:\\Empleados\\Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -862,6 +870,7 @@ public class Cat_Empleado extends JFrame{
 		return error;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Cat_Empleado(String algo) {
 		
 		getContenedor();
@@ -917,7 +926,7 @@ public class Cat_Empleado extends JFrame{
 				}
 			}
 			
-			txtFecha.setText(re.getFecha());
+			txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 			txaObservaciones.setText(re.getObservasiones());
 			img = re.getFoto();
 			ImageIcon tmpIconAux = new ImageIcon(re.getFoto());
@@ -942,7 +951,15 @@ public class Cat_Empleado extends JFrame{
 		panelEnabledFalse();
 		txtFolio.setEnabled(true);
 		
+	}
 	
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Empleado().setVisible(true);
+		}catch(Exception e){
+			
+		}
 	}
 	
 }

@@ -28,7 +28,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -65,7 +64,7 @@ public class Cat_Nivel_Critico extends JFrame{
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
@@ -74,24 +73,24 @@ public class Cat_Nivel_Critico extends JFrame{
 	
 	public Cat_Nivel_Critico(){
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/nivel_critico_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Nivel Critico"));
 		
 		this.setTitle("Nivel Critico");
 		
 		int x = 15, y=30, ancho=100;
 		
-		panel.add(new JLabel("Folio:")).setBounds(5,y,ancho,20);
+		panel.add(new JLabel("Folio:")).setBounds(15,y,ancho,20);
 		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
 		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
 		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
 		
-		panel.add(new JLabel("Descripcion:")).setBounds(5,y+=30,ancho,20);
+		panel.add(new JLabel("Descripcion:")).setBounds(15,y+=30,ancho,20);
 		panel.add(txtDescripcion).setBounds(ancho-20,y,ancho+ancho,20);
 		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
 		
-		panel.add(new JLabel("Valor:")).setBounds(5,y+=30,ancho,20);
+		panel.add(new JLabel("Valor:")).setBounds(15,y+=30,ancho,20);
 		panel.add(cmbValor).setBounds(ancho-20,y,ancho+ancho,20);
 		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
 		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
@@ -118,11 +117,11 @@ public class Cat_Nivel_Critico extends JFrame{
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
 		btnEditar.setEnabled(false);
-		cmbValor.addActionListener(opColores);
+	
 		cont.add(panel);
 		
 		tabla.addMouseListener(agregar);
-		
+		cmbValor.addActionListener(opColores);
 		this.setSize(760,210);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -133,10 +132,10 @@ public class Cat_Nivel_Critico extends JFrame{
 	ActionListener opColores = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			switch(cmbValor.getSelectedIndex()){
-				case 0: cmbValor.setBackground(Color.WHITE); txtFolio.requestFocus(); break;
-				case 1: cmbValor.setBackground(new Color(Integer.parseInt("A60000",16))); txtFolio.requestFocus(); break;
-				case 2: cmbValor.setBackground(new Color(Integer.parseInt("FF952B",16))); txtFolio.requestFocus(); break;
-				case 3: cmbValor.setBackground(new Color(Integer.parseInt("008000",16))); txtFolio.requestFocus(); break;
+				case 0: cmbValor.setForeground(Color.BLACK); txtFolio.requestFocus(); break;
+				case 1: cmbValor.setForeground(new Color(Integer.parseInt("A60000",16))); txtFolio.requestFocus(); break;
+				case 2: cmbValor.setForeground(new Color(Integer.parseInt("FF952B",16))); txtFolio.requestFocus(); break;
+				case 3: cmbValor.setForeground(new Color(Integer.parseInt("008000",16))); txtFolio.requestFocus(); break;
 			}
 			
 		}
@@ -154,24 +153,30 @@ public class Cat_Nivel_Critico extends JFrame{
 		tabla.getColumnModel().getColumn(2).setMinWidth(80);
 		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
 		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
-		
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
 				if(row%2==0){
 						lbl.setOpaque(true); 
 						lbl.setBackground(new java.awt.Color(177,177,177));
 				} 
+				
+				if(table.getSelectedRow() == row){
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(186,143,73));
+				}
+				
+				switch(column){
+					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+					case 2 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+				}
 			return lbl; 
 			} 
 		}; 
+
 		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
@@ -184,9 +189,9 @@ public class Cat_Nivel_Critico extends JFrame{
 
 			while (rs.next()){ 
 			   String [] fila = new String[3];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim();
-			   fila[2] = rs.getString(3).trim();			   
+			   fila[0] = rs.getString(1).trim()+"  ";
+			   fila[1] = "   "+rs.getString(2).trim();
+			   fila[2] = "   "+rs.getString(3).trim();			   
 			   modelo.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
@@ -200,14 +205,14 @@ public class Cat_Nivel_Critico extends JFrame{
 		public void mouseClicked(MouseEvent e) {
 		  	if(e.getClickCount()==2){
         		int fila = tabla.getSelectedRow();
-        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+        		int id = Integer.parseInt(modelo.getValueAt(fila,0).toString().trim());
         
 				txtFolio.setText(id+"");
-				txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
-				cmbValor.setSelectedItem(modelo.getValueAt(fila,2)+"");
+				txtDescripcion.setText(modelo.getValueAt(fila,1).toString().trim());
+				cmbValor.setSelectedItem(modelo.getValueAt(fila,2).toString().trim());
 				btnEditar.setEnabled(true);
 				chStatus.setSelected(true);
-				
+			
         	}
 		}
 		public void mouseEntered(MouseEvent e){}

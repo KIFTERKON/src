@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.BuscarTablasModel;
 import SQL.GuardarSQL;
 
 
@@ -210,6 +211,10 @@ public class Obj_Actividad {
 			e.printStackTrace();
 		}
 	return null; 
+	}
+	
+	public Object[][] filtro(){
+		return new BuscarTablasModel().filtro_actividad();
 	}
 
 }

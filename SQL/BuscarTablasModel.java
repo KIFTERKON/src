@@ -213,6 +213,48 @@ public class BuscarTablasModel {
 		return varlor;
 	}
 	
+	public Object[][] filtro_actividad(){
+		String query_lista = "exec sp_filtro_actividad";
+		Object[][] matriz = new Object[get_filas(query_lista)][3];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getInt(1)+" ";
+				matriz[i][1] = "   "+rs.getString(2);
+				matriz[i][2] = "   "+rs.getString(3);
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
+	public Object[][] tabla_model_respuesta(String nombre){
+		String query_lista = "exec sp_select_tabla_respuesta '"+nombre+"'";
+		Object[][] matriz = new Object[get_filas(query_lista)][2];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getInt(1)+" ";
+				matriz[i][1] = "   "+rs.getString(2);
+
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
 	public int get_filas(String sentencia){
 		int filas = 0;
 		try {

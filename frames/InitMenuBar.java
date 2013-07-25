@@ -47,6 +47,7 @@ import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
+import catalogos.Cat_Tabla_Opciones_Respuesta;
 import catalogos.Cat_Tipo_Banco;
 import catalogos.Cat_Turno;
 import catalogos.Cat_Usuario;
@@ -57,8 +58,8 @@ public class InitMenuBar extends Init{
 	/* PANEL DEL MENU */
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
-	//Declaramos el objeto runtime para ejecutar aplicaciones
-	Runtime r=Runtime.getRuntime();
+	// DECLARAMOS EL OBJETO RUNTIME PARA EJECUTAR APLICACIONES
+	Runtime R = Runtime.getRuntime();
 	
 	/* ARCHIVO */
 	JMenu Archivo = new JMenu("Archivo");
@@ -66,7 +67,7 @@ public class InitMenuBar extends Init{
 	
 	/* CATALOGO */
 	JMenu Catalogo = new JMenu("Catalogo");
-		JMenuItem Catalogo_Empleado	       = new JMenuItem("Nuevo Empleado");
+		JMenuItem Catalogo_Empleado	       = new JMenuItem("Nuevo Empleado", new ImageIcon("Iconos/user_icon&16.png"));
 		JMenuItem Catalogo_Establecimiento = new JMenuItem("Nuevo Establecimiento");
 		JMenuItem Catalogo_Puesto 		   = new JMenuItem("Nuevo Puesto");
 		JMenuItem Catalogo_Rango_Prestamo  = new JMenuItem("Nuevo Rango de Prestamo");
@@ -97,20 +98,19 @@ public class InitMenuBar extends Init{
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
 		/* ALIMENTACION */
 		JMenu Cuadrantes_Alimentacion = new JMenu("Alimentación");
-			JMenuItem Cuadrantes_Alimentacion_Actividades 			 = new JMenuItem("Actividades");
 			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Actividades en Cuadrantes");
-			JMenuItem Cuadrantes_Alimentacion_Telefono   			 = new JMenuItem("Asignación de Telefonos");
 			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante");
 			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes");
-			
-			
 		/* CATALOGO */
 		JMenu Cuadrantes_Catalogo = new JMenu("Catalogo");
+			JMenuItem Cuadrantes_Catalogo_Actividades 		= new JMenuItem("Actividades");
+			JMenuItem Cuadrantes_Catalogo_Telefono   		= new JMenuItem("Asignación de Telefonos");
 			JMenuItem Cuadrantes_Catalogo_Atributos 		= new JMenuItem("Atributos");
 			JMenuItem Cuadrantes_Catalogo_Equipo_Trabajo 	= new JMenuItem("Equipo de Trabajo");
 			JMenuItem Cuadrantes_Catalogo_Jefatura 			= new JMenuItem("Jefatura");
 			JMenuItem Cuadrantes_Catalogo_Nivel_Critico 	= new JMenuItem("Nivel Crítico");
 			JMenuItem Cuadrantes_Catalogo_Respuesta 		= new JMenuItem("Opciones de Respuesta");
+			JMenuItem Cuadrantes_Catalogo_Respuesta_Multiple	= new JMenuItem("Opciones Múltiple de Respuesta");
 			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion");
 		/* REPORTE */
 		JMenu Cuadrantes_Reportes = new JMenu("Reporte");
@@ -233,9 +233,6 @@ public class InitMenuBar extends Init{
 		/* CUADRANTES 
 		*		ALIMENTACION */
 		Cuadrantes.add(Cuadrantes_Alimentacion);
-			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Actividades);
-				Cuadrantes_Alimentacion_Actividades.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Actividades.setEnabled(false);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Actividades_Cuadrantes);
 				Cuadrantes_Alimentacion_Actividades_Cuadrantes.addActionListener(Opciones);
 				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(false);
@@ -246,13 +243,15 @@ public class InitMenuBar extends Init{
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.addActionListener(Opciones);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 				
-			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Telefono);
-				Cuadrantes_Alimentacion_Telefono.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Telefono.setEnabled(false);
-				
 		/* CUADRANTES 
 		*		CATALOGO */
 		Cuadrantes.add(Cuadrantes_Catalogo);
+			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Actividades);
+				Cuadrantes_Catalogo_Actividades.addActionListener(Opciones);
+				Cuadrantes_Catalogo_Actividades.setEnabled(false);
+			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Telefono);
+				Cuadrantes_Catalogo_Telefono.addActionListener(Opciones);
+				Cuadrantes_Catalogo_Telefono.setEnabled(false);
 			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Atributos);
 				Cuadrantes_Catalogo_Atributos.addActionListener(Opciones);
 				Cuadrantes_Catalogo_Atributos.setEnabled(false);
@@ -268,6 +267,9 @@ public class InitMenuBar extends Init{
 			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Respuesta);
 				Cuadrantes_Catalogo_Respuesta.addActionListener(Opciones);
 				Cuadrantes_Catalogo_Respuesta.setEnabled(false);
+			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Respuesta_Multiple);
+				Cuadrantes_Catalogo_Respuesta_Multiple.addActionListener(Opciones);
+				Cuadrantes_Catalogo_Respuesta_Multiple.setEnabled(false);
 			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Ponderacion);
 				Cuadrantes_Catalogo_Ponderacion.addActionListener(Opciones);
 				Cuadrantes_Catalogo_Ponderacion.setEnabled(false);
@@ -284,6 +286,7 @@ public class InitMenuBar extends Init{
 			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Usuario);
 				Cuadrantes_Reportes_Usuario.addActionListener(Opciones);
 				Cuadrantes_Reportes_Usuario.setEnabled(false);
+				
 		/* LISTA DE RAYA 
 		* 		ALIMENTACION */
 		Lista_Raya.add(Alimentacion);
@@ -382,7 +385,7 @@ public class InitMenuBar extends Init{
 				dispose();
 			
 			try {
-				r.exec("taskkill /f /im javaw.exe");
+				R.exec("taskkill /f /im javaw.exe");
 			} catch (Exception e2){}
 			}
 			
@@ -430,18 +433,18 @@ public class InitMenuBar extends Init{
 			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
-			if(e.getActionCommand().equals("Actividades"))
-				new Cat_Actividad().setVisible(true);
 			if(e.getActionCommand().equals("Actividades en Cuadrantes"))
 				new Cat_Alimentacion_Cuadrante().setVisible(true);
-			if(e.getActionCommand().equals("Asignación de Telefonos"))
-				new Cat_Filtro_Empleado_Directorio().setVisible(true);
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Empleados en Cuadrantes"))
 				new Cat_Empleados_Cuadrantes().setVisible(true);
 			/* CUADRANTES 
 			 * 		CATALOGO */
+			if(e.getActionCommand().equals("Actividades"))
+				new Cat_Actividad().setVisible(true);
+			if(e.getActionCommand().equals("Asignación de Telefonos"))
+				new Cat_Filtro_Empleado_Directorio().setVisible(true);
 			if(e.getActionCommand().equals("Atributos"))
 				new Cat_Atributos().setVisible(true);
 			if(e.getActionCommand().equals("Equipo de Trabajo"))
@@ -452,6 +455,8 @@ public class InitMenuBar extends Init{
 				new Cat_Nivel_Critico().setVisible(true);
 			if(e.getActionCommand().equals("Opciones de Respuesta"))
 				new Cat_Opciones_Respuesta().setVisible(true);
+			if(e.getActionCommand().equals("Opciones Múltiple de Respuesta"))
+				new Cat_Tabla_Opciones_Respuesta().setVisible(true);
 			if(e.getActionCommand().equals("Ponderacion"))
 				new Cat_Ponderacion().setVisible(true);
 			/* CUADRANTES 

@@ -33,6 +33,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import com.toedter.calendar.JDateChooser;
+
 import SQL.Connexion;
 
 
@@ -44,8 +46,6 @@ public class Cat_Temporada extends JFrame{
 
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
-	
-	Connexion con = new Connexion();
 	
 	DefaultTableModel modelo = new DefaultTableModel(0,2)	{
 		public boolean isCellEditable(int fila, int columna){
@@ -63,22 +63,22 @@ public class Cat_Temporada extends JFrame{
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
-	com.toedter.calendar.JDateChooser txtCalendario = new com.toedter.calendar.JDateChooser();
-	com.toedter.calendar.JDateChooser txtCalendario1 = new com.toedter.calendar.JDateChooser();
+	JDateChooser txtCalendario = new JDateChooser();
+	JDateChooser txtCalendario1 = new JDateChooser();
 	
 	String dias[] = {"Seleccione un dia","Todos","Lunes","Martes","Miercoles","Jueves","Viernes","Savado","Domingo",};
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbDias = new JComboBox(dias);
 	
 	public Cat_Temporada(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Bookmark.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/sun_icon&16.png"));
 		this.setTitle("Temporada");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Temporada"));
 		
@@ -96,15 +96,17 @@ public class Cat_Temporada extends JFrame{
 		
 		panel.add(new JLabel("Fecha:      De")).setBounds(5,y+=30,100,20);
 		panel.add(txtCalendario).setBounds(ancho-20,y,ancho-8,20);
+		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
 		
 		panel.add(new JLabel("A")).setBounds(ancho+75,y,30,20);
 		panel.add(txtCalendario1).setBounds(ancho+87,y,ancho-8,20);
+		this.txtCalendario1.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
 		panel.add(new JLabel("Dia: ")).setBounds(5,y+=30,100,20);
 		panel.add(cmbDias).setBounds(ancho-20,y,ancho+ancho-2,20);
 		
-		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=50,ancho,20);
 		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
 		
@@ -384,8 +386,8 @@ public class Cat_Temporada extends JFrame{
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Descripcion");
-		tabla.getColumnModel().getColumn(1).setMinWidth(160);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
+//		tabla.getColumnModel().getColumn(1).setMinWidth(160);
+//		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
 			
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -411,7 +413,7 @@ public class Cat_Temporada extends JFrame{
 		Statement s;
 		ResultSet rs;
 		try {
-			s = con.conexion().createStatement();
+			s = new Connexion().conexion().createStatement();
 			rs = s.executeQuery("select tb_temporada.folio as [Folio], " +
 									  " tb_temporada.descripcion as [Descripcion] " +
 								"from tb_temporada");

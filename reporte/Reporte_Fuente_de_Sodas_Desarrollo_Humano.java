@@ -18,8 +18,7 @@ public class Reporte_Fuente_de_Sodas_Desarrollo_Humano extends JFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Reporte_Fuente_de_Sodas_Desarrollo_Humano() {
 		try {
-			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Fuente_de_Sodas_Desarrollo_Humano.jrxml");
-			
+			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\plantillaIR\\Reporte_Fuente_de_Sodas_Desarrollo_Humano.jrxml");
 			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
 			JasperViewer.viewReport(print, false);
 		} catch (Exception e) {

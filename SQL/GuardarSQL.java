@@ -416,15 +416,18 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_OpRespuesta_Libre(Obj_OpRespuesta respuesta){
-		String query = "exec sp_insert_op_respuesta_libre	?,?";
+	public boolean opcion_respuesta(Obj_OpRespuesta respuesta){
+		String query = "exec sp_insert_opciones_respuesta	?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, respuesta.getOpcion());
-			pstmt.setString(2, respuesta.getNombre());
+			
+			pstmt.setString(1, respuesta.getNombre().toUpperCase().trim());
+			pstmt.setInt(2, respuesta.getTipo_opcion().equals("Opción Libre") ? 0 : 1);
+			pstmt.setInt(3, respuesta.isStatus() ? 1 : 0);
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -458,50 +461,6 @@ public class GuardarSQL {
 			pstmt.setString(1, banck.getBanco().toUpperCase());
 			pstmt.setString(2, banck.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (banck.getStatus())?"1":"0");
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
-	public boolean Guardar_OpRespuesta_Multiple(Obj_OpRespuesta respuesta, String[] tabla){
-		String query = "exec sp_insert_op_respuesta_libre	?,?";
-		String querytabla = "exec sp_insert_tabla_op_respuesta_multiple ?,?";
-		
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmttabla = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmttabla = con.prepareStatement(querytabla);
-			
-			pstmt.setString(1, respuesta.getOpcion());
-			pstmt.setString(2, respuesta.getNombre());
-			
-			for(int i=0; i<tabla.length; i++){
-				pstmttabla.setString(1, respuesta.getNombre());
-				pstmttabla.setString(2, tabla[i].toUpperCase());
-				pstmttabla.executeUpdate();
-			}
-			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1514,8 +1473,9 @@ public class GuardarSQL {
 			pstmt.setString(13, actividad.getHora_inicio());
 			pstmt.setString(14, actividad.getHora_final());
 			pstmt.setString(15, actividad.getTemporada());
-			pstmt.setBoolean(16, actividad.isCarga());
+			pstmt.setInt(16, actividad.isCarga() ? 1 : 0);
 			pstmt.setInt(17, actividad.getRepetir());
+			
 			
 			pstmt.executeUpdate();
 			con.commit();
