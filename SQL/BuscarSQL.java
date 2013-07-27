@@ -2274,19 +2274,8 @@ public class BuscarSQL {
 				actividad.setActividad(rs.getString("actividad"));
 				actividad.setDescripcion(rs.getString("descripcion"));
 				actividad.setRespuesta(rs.getString("respuesta"));
-				
 				actividad.setAtributos(rs.getString("atributo"));
 				actividad.setNivel_critico(rs.getString("critico"));
-				
-				actividad.setDomingo(rs.getInt("domingo"));
-				actividad.setLunes(rs.getInt("lunes"));
-				actividad.setMartes(rs.getInt("martes"));
-				actividad.setMiercoles(rs.getInt("miercoles"));
-				actividad.setJueves(rs.getInt("jueves"));
-				actividad.setViernes(rs.getInt("viernes"));
-				actividad.setSabado(rs.getInt("sabado"));
-				actividad.setHora_inicio(rs.getString("inicio"));
-				actividad.setHora_final(rs.getString("final"));
 				actividad.setTemporada(rs.getString("temporada"));
 				actividad.setCarga(rs.getInt("carga") == 1 ? true : false);
 				actividad.setRepetir(rs.getInt("repetir"));
@@ -2363,10 +2352,10 @@ public class BuscarSQL {
 	}
 	
 	
-	public String[][] getTablaDias(String cuadrante){
+	public String[][] getTablaDias(int cuadrante){
 		String[][] Matriz = null;
 		
-		String datosif = "select dia,folio,actividad,nivel_critico,con_hora,hora_inicio,hora_fin from tb_tabla_cuadrante where cuadrante = '" + cuadrante+"'";
+		String datosif = "exec sp_select_tabla_cuadrante " + cuadrante;
 		
 		Matriz = new String[getFilas(datosif)][7];
 		Statement s;

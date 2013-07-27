@@ -1234,9 +1234,7 @@ public class ActualizarSQL {
 	
 	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
 		
-		String query = "exec sp_update_actividad ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-		
-
+		String query = "exec sp_update_actividad ?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1249,19 +1247,10 @@ public class ActualizarSQL {
 			pstmt.setString(3, actividad.getRespuesta());
 			pstmt.setString(4, actividad.getAtributos());
 			pstmt.setString(5, actividad.getNivel_critico());
-			pstmt.setInt(6, actividad.getDomingo());
-			pstmt.setInt(7, actividad.getLunes());
-			pstmt.setInt(8, actividad.getMartes());
-			pstmt.setInt(9, actividad.getMiercoles());
-			pstmt.setInt(10, actividad.getJueves());
-			pstmt.setInt(11, actividad.getViernes());
-			pstmt.setInt(12, actividad.getSabado());
-			pstmt.setString(13, actividad.getHora_inicio());
-			pstmt.setString(14, actividad.getHora_final());
-			pstmt.setString(15, actividad.getTemporada());
-			pstmt.setInt(16, actividad.isCarga()? 1 : 0);
-			pstmt.setInt(17, actividad.getRepetir());
-			pstmt.setInt(18, folio);
+			pstmt.setString(6, actividad.getTemporada());
+			pstmt.setInt(7, actividad.isCarga()? 1 : 0);
+			pstmt.setInt(8, actividad.getRepetir());
+			pstmt.setInt(9, folio);
 			
 			
 			

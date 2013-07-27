@@ -88,11 +88,6 @@ public class InitButton extends InitMenuBar{
 	JLabel lblListaFirma2= new JLabel("Lista de");
 	JLabel lblListaFirma3= new JLabel("Firmas");
 	
-	/* BOTON LISTA DE PRESTAMOS */
-	JButton btnListaPrestamo= new JButton(new ImageIcon("imagen/listaP.png"));
-	JLabel lblListaPrestamo2= new JLabel("Lista de");
-	JLabel lblListaPrestamo3= new JLabel("Prestamos");
-	
 	/* BOTON LISTA DE COMPARACION DE FUENTE DE SODAS */
 	JButton btnListaComparacion= new JButton(new ImageIcon("imagen/comparacion.png"));
 	JLabel lblListaComparacion2= new JLabel("Lista de");
@@ -133,7 +128,6 @@ public class InitButton extends InitMenuBar{
 		btnSueldo.addActionListener(Opciones);
 		btnListaRaya.addActionListener(Opciones);
 		btnListaFirma.addActionListener(Opciones);
-		btnListaPrestamo.addActionListener(Opciones);
 		btnListaComparacion.addActionListener(Opciones);
 		
 		btnBanco.setEnabled(false);
@@ -148,7 +142,6 @@ public class InitButton extends InitMenuBar{
 		btnSueldo.setEnabled(false);
 		btnListaRaya.setEnabled(false);
 		btnListaFirma.setEnabled(false);
-		btnListaPrestamo.setEnabled(false);
 		btnListaComparacion.setEnabled(false);
 		
 	}
@@ -180,8 +173,6 @@ public class InitButton extends InitMenuBar{
 				new Cat_Revision_Lista_Raya().setVisible(true);
 			if(arg0.getSource().equals(btnListaFirma))
 				new Cat_Lista_Pago().setVisible(true);
-			if(arg0.getSource().equals(btnListaPrestamo))
-//				new Cat_Lista_Deudores_Prestamo().setVisible(true);
 			if(arg0.getSource().equals(btnListaComparacion))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
 
@@ -225,22 +216,19 @@ public class InitButton extends InitMenuBar{
 			/* FILA 3 */
 			campo.add(btnCaja).setBounds(x, y+=115, z, z);
 			campo.add(btnSueldo).setBounds(405, y, z, z);
-			campo.add(btnListaPrestamo).setBounds(594, y, z, z);
+			campo.add(btnListaComparacion).setBounds(594, y, z, z);
 			
 			campo.add(lblCaja2).setBounds(112, y+=20, zl, 20);
 			campo.add(lblCaja3).setBounds(112, y+10, zl, 20);
 			campo.add(lblSueldo2).setBounds(488, y, zl, 20);
-			campo.add(lblListaPrestamo2).setBounds(676, y, zl, 20);
-			campo.add(lblListaPrestamo3).setBounds(676, y+10, zl, 20);
+			campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
+			campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 			
 			/* FILA 4 */
 			campo.add(btnFsRH).setBounds(x, y+=115, z, z);
-			campo.add(btnListaComparacion).setBounds(594, y, z, z);
 
 			campo.add(lblFsRH2).setBounds(112, y+=20, zl, 20);
 			campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
-			campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
-			campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 			
 			/* FILA 5 */
 			campo.add(btnFsAux).setBounds(x, y+=115, z, z);		
@@ -304,22 +292,19 @@ public class InitButton extends InitMenuBar{
 					/* FILA 3 */
 					campo.add(btnCaja).setBounds(x, y+=115, z, z);
 					campo.add(btnSueldo).setBounds(405, y, z, z);
-					campo.add(btnListaPrestamo).setBounds(594, y, z, z);
+					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 					
 					campo.add(lblCaja2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblCaja3).setBounds(112, y+10, zl, 20);
 					campo.add(lblSueldo2).setBounds(488, y, zl, 20);
-					campo.add(lblListaPrestamo2).setBounds(676, y, zl, 20);
-					campo.add(lblListaPrestamo3).setBounds(676, y+10, zl, 20);
+					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
+					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 4 */
 					campo.add(btnFsRH).setBounds(x, y+=115, z, z);
-					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 
 					campo.add(lblFsRH2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
-					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
-					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 5 */
 					campo.add(btnFsAux).setBounds(x, y+=115, z, z);		
@@ -380,22 +365,19 @@ public class InitButton extends InitMenuBar{
 					/* FILA 3 */
 					campo.add(btnCaja).setBounds(x, y+=105, z, z);
 					campo.add(btnSueldo).setBounds(405, y, z, z);
-					campo.add(btnListaPrestamo).setBounds(594, y, z, z);
+					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 					
 					campo.add(lblCaja2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblCaja3).setBounds(112, y+10, zl, 20);
 					campo.add(lblSueldo2).setBounds(488, y, zl, 20);
-					campo.add(lblListaPrestamo2).setBounds(676, y, zl, 20);
-					campo.add(lblListaPrestamo3).setBounds(676, y+10, zl, 20);
+					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
+					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 4 */
 					campo.add(btnFsRH).setBounds(x, y+=105, z, z);
-					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 
 					campo.add(lblFsRH2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
-					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
-					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 5 */
 					campo.add(btnFsAux).setBounds(x, y+=105, z, z);		
@@ -457,22 +439,19 @@ public class InitButton extends InitMenuBar{
 					/* FILA 3 */
 					campo.add(btnCaja).setBounds(x, y+=80, z, z);
 					campo.add(btnSueldo).setBounds(405, y, z, z);
-					campo.add(btnListaPrestamo).setBounds(594, y, z, z);
+					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 					
 					campo.add(lblCaja2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblCaja3).setBounds(112, y+10, zl, 20);
 					campo.add(lblSueldo2).setBounds(488, y, zl, 20);
-					campo.add(lblListaPrestamo2).setBounds(676, y, zl, 20);
-					campo.add(lblListaPrestamo3).setBounds(676, y+10, zl, 20);
+					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
+					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 4 */
 					campo.add(btnFsRH).setBounds(x, y+=80, z, z);
-					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 
 					campo.add(lblFsRH2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
-					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
-					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 5 */
 					campo.add(btnFsAux).setBounds(x, y+=80, z, z);		
@@ -533,22 +512,19 @@ public class InitButton extends InitMenuBar{
 					/* FILA 3 */
 					campo.add(btnCaja).setBounds(x, y+=80, z, z);
 					campo.add(btnSueldo).setBounds(405, y, z, z);
-					campo.add(btnListaPrestamo).setBounds(594, y, z, z);
+					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 					
 					campo.add(lblCaja2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblCaja3).setBounds(112, y+10, zl, 20);
 					campo.add(lblSueldo2).setBounds(488, y, zl, 20);
-					campo.add(lblListaPrestamo2).setBounds(676, y, zl, 20);
-					campo.add(lblListaPrestamo3).setBounds(676, y+10, zl, 20);
+					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
+					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 4 */
 					campo.add(btnFsRH).setBounds(x, y+=80, z, z);
-					campo.add(btnListaComparacion).setBounds(594, y, z, z);
 
 					campo.add(lblFsRH2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
-					campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
-					campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 					
 					/* FILA 5 */
 					campo.add(btnFsAux).setBounds(x, y+=80, z, z);		
@@ -615,22 +591,19 @@ public class InitButton extends InitMenuBar{
 			/* FILA 3 */
 			campo.add(btnCaja).setBounds(x, y+=80, z, z);
 			campo.add(btnSueldo).setBounds(405, y, z, z);
-			campo.add(btnListaPrestamo).setBounds(594, y, z, z);
+			campo.add(btnListaComparacion).setBounds(594, y, z, z);
 			
 			campo.add(lblCaja2).setBounds(112, y+=20, zl, 20);
 			campo.add(lblCaja3).setBounds(112, y+10, zl, 20);
 			campo.add(lblSueldo2).setBounds(488, y, zl, 20);
-			campo.add(lblListaPrestamo2).setBounds(676, y, zl, 20);
-			campo.add(lblListaPrestamo3).setBounds(676, y+10, zl, 20);
+			campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
+			campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 			
 			/* FILA 4 */
 			campo.add(btnFsRH).setBounds(x, y+=80, z, z);
-			campo.add(btnListaComparacion).setBounds(594, y, z, z);
 
 			campo.add(lblFsRH2).setBounds(112, y+=20, zl, 20);
 			campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
-			campo.add(lblListaComparacion2).setBounds(676, y, zl, 20);
-			campo.add(lblListaComparacion3).setBounds(676, y+10, zl, 20);
 			
 			/* FILA 5 */
 			campo.add(btnFsAux).setBounds(x, y+=80, z, z);		
@@ -694,22 +667,19 @@ public class InitButton extends InitMenuBar{
 			/* FILA 3 */
 			campo.add(btnCaja).setBounds(x, y+=50, z, z);
 			campo.add(btnSueldo).setBounds(350, y, z, z);
-			campo.add(btnListaPrestamo).setBounds(490, y, z, z);
+			campo.add(btnListaComparacion).setBounds(490, y, z, z);
 			
 			campo.add(lblCaja2).setBounds(70, y+=20, zl, 20);
 			campo.add(lblCaja3).setBounds(70, y+10, zl, 20);
 			campo.add(lblSueldo2).setBounds(418, y, zl, 20);
-			campo.add(lblListaPrestamo2).setBounds(560, y, zl, 20);
-			campo.add(lblListaPrestamo3).setBounds(560, y+10, zl, 20);
+			campo.add(lblListaComparacion2).setBounds(560, y, zl, 20);
+			campo.add(lblListaComparacion3).setBounds(560, y+10, zl, 20);
 			
 			/* FILA 4 */
 			campo.add(btnFsRH).setBounds(x, y+=50, z, z);
-			campo.add(btnListaComparacion).setBounds(490, y, z, z);
 
 			campo.add(lblFsRH2).setBounds(70, y+=20, zl, 20);
 			campo.add(lblFsRH3).setBounds(70, y+10, zl, 20);
-			campo.add(lblListaComparacion2).setBounds(560, y, zl, 20);
-			campo.add(lblListaComparacion3).setBounds(560, y+10, zl, 20);
 			
 			/* FILA 5 */
 			campo.add(btnFsAux).setBounds(x, y+=50, z, z);		
@@ -800,7 +770,6 @@ public class InitButton extends InitMenuBar{
 			btnSueldo.setEnabled(false);
 			btnListaRaya.setEnabled(false);
 			btnListaFirma.setEnabled(false);
-			btnListaPrestamo.setEnabled(false);
 			btnListaComparacion.setEnabled(false);
 			
 			/* CATALOGO */

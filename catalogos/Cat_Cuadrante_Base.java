@@ -84,7 +84,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		JLayeredPane pSabado = new JLayeredPane(); 
 	
 	DefaultTableModel modelDomingo = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -106,8 +106,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
-        	 			modelDomingo.setValueAt("00:00 AM",fila,4);
-        	 			modelDomingo.setValueAt("00:00 AM",fila,5);
+        	 			modelDomingo.setValueAt("00:00",fila,4);
+        	 			modelDomingo.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -129,7 +129,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelLunes = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -151,8 +151,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
-        	 			modelLunes.setValueAt("00:00 AM",fila,4);
-        	 			modelLunes.setValueAt("00:00 AM",fila,5);
+        	 			modelLunes.setValueAt("00:00",fila,4);
+        	 			modelLunes.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -174,7 +174,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelMartes = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -196,8 +196,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
-        	 			modelMartes.setValueAt("00:00 AM",fila,4);
-        	 			modelMartes.setValueAt("00:00 AM",fila,5);
+        	 			modelMartes.setValueAt("00:00",fila,4);
+        	 			modelMartes.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -219,7 +219,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelMiercoles = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -241,8 +241,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
-        	 			modelMiercoles.setValueAt("00:00 AM",fila,4);
-        	 			modelMiercoles.setValueAt("00:00 AM",fila,5);
+        	 			modelMiercoles.setValueAt("00:00",fila,4);
+        	 			modelMiercoles.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -264,7 +264,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelJueves = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -286,8 +286,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
-        	 			modelJueves.setValueAt("00:00 AM",fila,4);
-        	 			modelJueves.setValueAt("00:00 AM",fila,5);
+        	 			modelJueves.setValueAt("00:00",fila,4);
+        	 			modelJueves.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -309,7 +309,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelViernes = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -331,8 +331,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
-        	 			modelViernes.setValueAt("00:00 AM",fila,4);
-        	 			modelViernes.setValueAt("00:00 AM",fila,5);
+        	 			modelViernes.setValueAt("00:00",fila,4);
+        	 			modelViernes.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -354,7 +354,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelSabado = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Fin"}
+            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -376,8 +376,8 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 2 : return false;
         	 	case 3 : 
         	 		if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
-        	 			modelSabado.setValueAt("00:00 AM",fila,4);
-        	 			modelSabado.setValueAt("00:00 AM",fila,5);
+        	 			modelSabado.setValueAt("00:00",fila,4);
+        	 			modelSabado.setValueAt("00:00",fila,5);
         	 			return true;
         	 		}else{
         	 			return true;
@@ -422,21 +422,21 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JButton btnAgregarViernes = new JButton("Agregar");
 	JButton btnAgregarSabado = new JButton("Agregar");
 	
-	JButton btnSubirDomingo = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnSubirLunes = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnSubirMartes = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnSubirMiercoles = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnSubirJueves = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnSubirViernes = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnSubirSabado = new JButton(new ImageIcon("Imagen/Up.png"));
+	JButton btnSubirDomingo = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnSubirLunes = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnSubirMartes = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnSubirMiercoles = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnSubirJueves = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnSubirViernes = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnSubirSabado = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
 	
-	JButton btnBajarDomingo = new JButton(new ImageIcon("Imagen/Down.png"));
-	JButton btnBajarLunes = new JButton(new ImageIcon("Imagen/Down.png"));
-	JButton btnBajarMartes = new JButton(new ImageIcon("Imagen/Down.png"));
-	JButton btnBajarMiercoles = new JButton(new ImageIcon("Imagen/Down.png"));
-	JButton btnBajarJueves = new JButton(new ImageIcon("Imagen/Down.png"));
-	JButton btnBajarViernes = new JButton(new ImageIcon("Imagen/Down.png"));
-	JButton btnBajarSabado = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnBajarDomingo = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
+	JButton btnBajarLunes = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
+	JButton btnBajarMartes = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
+	JButton btnBajarMiercoles = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
+	JButton btnBajarJueves = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
+	JButton btnBajarViernes = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
+	JButton btnBajarSabado = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
 	
 	JButton btnRemoverDomingo = new JButton("Quitar");
 	JButton btnRemoverLunes = new JButton("Quitar");
@@ -447,7 +447,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JButton btnRemoverSabado = new JButton("Quitar");
 	
 	public Cat_Cuadrante_Base(){
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_icon&16.png"));
 		this.panel.setBorder(BorderFactory.createTitledBorder("Cuadrantes"));
 		
 		this.setTitle("Cuadrantes");
@@ -1608,134 +1608,337 @@ public class Cat_Cuadrante_Base extends JFrame{
 				
 				switch (diaswitch) {
 				 	case Domingo:
-				 		while(tablaDomingo.getRowCount() > 0){
-				 			modelDomingo.removeRow(0);
-						}
 				 		Object[] filaDom = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaDom[0] = modeloFiltro.getValueAt(i, 0);
-					 			filaDom[1] = modeloFiltro.getValueAt(i, 1);
-					 			filaDom[2] = modeloFiltro.getValueAt(i, 2);
-					 			filaDom[3] = Boolean.parseBoolean("false");
-					 			filaDom[4] = "00:00 AM";
-					 			filaDom[5] = "00:00 AM";
-					 			
-					 			modelDomingo.addRow(filaDom);
+				 		if(modelDomingo.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+					 				filaDom[0] = modeloFiltro.getValueAt(i, 0);
+					 				filaDom[1] = modeloFiltro.getValueAt(i, 1);
+						 			filaDom[2] = modeloFiltro.getValueAt(i, 2);
+						 			filaDom[3] = Boolean.parseBoolean("false");
+						 			filaDom[4] = "00:00";
+						 			filaDom[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelDomingo.getRowCount();){
+						 				if(Integer.parseInt(filaDom[0].toString()) == Integer.parseInt(modelDomingo.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaDom[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelDomingo.addRow(filaDom);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelDomingo.addRow(filaDom);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+					 				filaDom[0] = modeloFiltro.getValueAt(i, 0);
+						 			filaDom[1] = modeloFiltro.getValueAt(i, 1);
+						 			filaDom[2] = modeloFiltro.getValueAt(i, 2);
+						 			filaDom[3] = Boolean.parseBoolean("false");
+						 			filaDom[4] = "00:00";
+						 			filaDom[5] = "00:00";
+						 			
+						 			modelDomingo.addRow(filaDom);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
 				 		 break;
 				 	case Lunes:
-				 		while(tablaLunes.getRowCount() > 0){
-				 			modelLunes.removeRow(0);
-						}
 				 		Object[] filaLun = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaLun[0] = modeloFiltro.getValueAt(i, 0);
-				 				filaLun[1] = modeloFiltro.getValueAt(i, 1);
-				 				filaLun[2] = modeloFiltro.getValueAt(i, 2);
-				 				filaLun[3] = Boolean.parseBoolean("false");
-				 				filaLun[4] = "00:00 AM";
-				 				filaLun[5] = "00:00 AM";
-					 			
-					 			modelLunes.addRow(filaLun);
+				 		if(modelLunes.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaLun[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaLun[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaLun[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaLun[3] = Boolean.parseBoolean("false");
+				 					filaLun[4] = "00:00";
+				 					filaLun[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelLunes.getRowCount();){
+						 				if(Integer.parseInt(filaLun[0].toString()) == Integer.parseInt(modelLunes.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaLun[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelLunes.addRow(filaLun);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelLunes.addRow(filaLun);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaLun[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaLun[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaLun[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaLun[3] = Boolean.parseBoolean("false");
+				 					filaLun[4] = "00:00";
+				 					filaLun[5] = "00:00";
+						 			
+						 			modelLunes.addRow(filaLun);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
 				 		 break;
 				 	case Martes:
-				 		while(tablaMartes.getRowCount() > 0){
-				 			modelMartes.removeRow(0);
-						}
 				 		Object[] filaMar = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaMar[0] = modeloFiltro.getValueAt(i, 0);
-				 				filaMar[1] = modeloFiltro.getValueAt(i, 1);
-				 				filaMar[2] = modeloFiltro.getValueAt(i, 2);
-				 				filaMar[3] = Boolean.parseBoolean("false");
-				 				filaMar[4] = "00:00 AM";
-				 				filaMar[5] = "00:00 AM";
-					 			
-					 			modelMartes.addRow(filaMar);
+				 		if(modelMartes.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaMar[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaMar[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaMar[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaMar[3] = Boolean.parseBoolean("false");
+				 					filaMar[4] = "00:00";
+				 					filaMar[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelMartes.getRowCount();){
+						 				if(Integer.parseInt(filaMar[0].toString()) == Integer.parseInt(modelMartes.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaMar[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelMartes.addRow(filaMar);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelMartes.addRow(filaMar);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaMar[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaMar[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaMar[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaMar[3] = Boolean.parseBoolean("false");
+				 					filaMar[4] = "00:00";
+				 					filaMar[5] = "00:00";
+						 			
+						 			modelMartes.addRow(filaMar);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
 				 		 break;
 				 	case Miércoles:
-				 		while(tablaMiercoles.getRowCount() > 0){
-				 			modelMiercoles.removeRow(0);
-						}
 				 		Object[] filaMie = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaMie[0] = modeloFiltro.getValueAt(i, 0);
-				 				filaMie[1] = modeloFiltro.getValueAt(i, 1);
-				 				filaMie[2] = modeloFiltro.getValueAt(i, 2);
-				 				filaMie[3] = Boolean.parseBoolean("false");
-				 				filaMie[4] = "00:00 AM";
-				 				filaMie[5] = "00:00 AM";
-					 			
-					 			modelMiercoles.addRow(filaMie);
+				 		if(modelMiercoles.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaMie[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaMie[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaMie[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaMie[3] = Boolean.parseBoolean("false");
+				 					filaMie[4] = "00:00";
+				 					filaMie[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelMiercoles.getRowCount();){
+						 				if(Integer.parseInt(filaMie[0].toString()) == Integer.parseInt(modelMiercoles.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaMie[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelMiercoles.addRow(filaMie);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelMiercoles.addRow(filaMie);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaMie[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaMie[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaMie[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaMie[3] = Boolean.parseBoolean("false");
+				 					filaMie[4] = "00:00";
+				 					filaMie[5] = "00:00";
+						 			
+						 			modelMiercoles.addRow(filaMie);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
 				 		 break;
 		            case Jueves:
-		            	while(tablaJueves.getRowCount() > 0){
-				 			modelJueves.removeRow(0);
-						}
 		            	Object[] filaJue = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaJue[0] = modeloFiltro.getValueAt(i, 0);
-				 				filaJue[1] = modeloFiltro.getValueAt(i, 1);
-				 				filaJue[2] = modeloFiltro.getValueAt(i, 2);
-				 				filaJue[3] = Boolean.parseBoolean("false");
-				 				filaJue[4] = "00:00 AM";
-				 				filaJue[5] = "00:00 AM";
-					 			
-					 			modelJueves.addRow(filaJue);
+				 		if(modelJueves.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaJue[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaJue[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaJue[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaJue[3] = Boolean.parseBoolean("false");
+				 					filaJue[4] = "00:00";
+				 					filaJue[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelJueves.getRowCount();){
+						 				if(Integer.parseInt(filaJue[0].toString()) == Integer.parseInt(modelJueves.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaJue[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelJueves.addRow(filaJue);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelJueves.addRow(filaJue);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaJue[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaJue[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaJue[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaJue[3] = Boolean.parseBoolean("false");
+				 					filaJue[4] = "00:00";
+				 					filaJue[5] = "00:00";
+						 			
+						 			modelJueves.addRow(filaJue);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
 		            	 break;
 		            case Viernes:
-		            	while(tablaViernes.getRowCount() > 0){
-				 			modelViernes.removeRow(0);
-						}
 		            	Object[] filaVie = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaVie[0] = modeloFiltro.getValueAt(i, 0);
-				 				filaVie[1] = modeloFiltro.getValueAt(i, 1);
-				 				filaVie[2] = modeloFiltro.getValueAt(i, 2);
-				 				filaVie[3] = Boolean.parseBoolean("false");
-				 				filaVie[4] = "00:00 AM";
-				 				filaVie[5] = "00:00 AM";
-					 			
-					 			modelViernes.addRow(filaVie);
+				 		if(modelViernes.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaVie[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaVie[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaVie[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaVie[3] = Boolean.parseBoolean("false");
+				 					filaVie[4] = "00:00";
+				 					filaVie[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelViernes.getRowCount();){
+						 				if(Integer.parseInt(filaVie[0].toString()) == Integer.parseInt(modelViernes.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaVie[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelViernes.addRow(filaVie);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelViernes.addRow(filaVie);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaVie[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaVie[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaVie[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaVie[3] = Boolean.parseBoolean("false");
+				 					filaVie[4] = "00:00";
+				 					filaVie[5] = "00:00";
+						 			
+						 			modelViernes.addRow(filaVie);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
 		            	 break;
 		            case Sábado:
-		            	while(tablaSabado.getRowCount() > 0){
-				 			modelSabado.removeRow(0);
-						}
 		            	Object[] filaSab = new Object[6];
-				 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
-				 			if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 				filaSab[0] = modeloFiltro.getValueAt(i, 0);
-				 				filaSab[1] = modeloFiltro.getValueAt(i, 1);
-				 				filaSab[2] = modeloFiltro.getValueAt(i, 2);
-				 				filaSab[3] = Boolean.parseBoolean("false");
-				 				filaSab[4] = "00:00 AM";
-				 				filaSab[5] = "00:00 AM";
-					 			
-					 			modelSabado.addRow(filaSab);
+				 		if(modelSabado.getRowCount() > 0){
+					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaSab[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaSab[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaSab[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaSab[3] = Boolean.parseBoolean("false");
+				 					filaSab[4] = "00:00";
+				 					filaSab[5] = "00:00";
+					 				
+						 			for(int j=0; j<modelSabado.getRowCount();){
+						 				if(Integer.parseInt(filaSab[0].toString()) == Integer.parseInt(modelSabado.getValueAt(i, 0).toString())){
+						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaSab[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+						 						modelSabado.addRow(filaSab);
+						 						j++;
+						 						break;
+						 					}else{
+						 						j++;
+						 						break;
+						 					}
+						 				}else{
+						 					modelSabado.addRow(filaSab);
+						 					j++;
+						 					break;
+						 				}
+						 			}
+				 				}
+					 		}
+				 			
+				 		}else{
+				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+				 					filaSab[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaSab[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaSab[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaSab[3] = Boolean.parseBoolean("false");
+				 					filaSab[4] = "00:00";
+				 					filaSab[5] = "00:00";
+						 			
+						 			modelSabado.addRow(filaSab);
+				 				}
+
 				 			}
 				 		}
 				 		dispose();
@@ -1771,7 +1974,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		
 	   	public Object[][] getTablaFiltro(){
-			String todos = "select folio,actividad,nivel_critico from tb_actividad";
+			String todos = "exec sp_select_tabla_actidad_cuadrante";
 			Statement s;
 			ResultSet rs;
 			try {

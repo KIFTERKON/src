@@ -57,7 +57,7 @@ public class Cat_Jefatura extends JFrame{
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
@@ -66,7 +66,7 @@ public class Cat_Jefatura extends JFrame{
 	
 	public Cat_Jefatura(){
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/jefatura_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Jefatura"));
 		
 		this.setTitle("Jefaturas");

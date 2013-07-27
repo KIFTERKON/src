@@ -16,18 +16,25 @@ import objetos.Obj_Cuadrante;
 @SuppressWarnings("serial")
 public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
+	JButton btnSimilar = new JButton("Similar");
+	JButton btnderecha = new JButton(new ImageIcon("Iconos/right_icon&16.png"));
+	JButton btnizquierda = new JButton(new ImageIcon("Iconos/left_icon&16.png"));
+	
 	public Cat_Cuadrante (){
 		int x=35, y=30;
 		
 		this.panel.add(btnBuscar).setBounds(330,y,32,20);
 		this.panel.add(btnNuevo).setBounds(365, y,65, 20);
+		this.panel.add(btnizquierda).setBounds(875, y, 30,21);
+		this.panel.add(btnderecha).setBounds(910, y, 30, 21);
+		this.panel.add(btnSimilar).setBounds(950, y+1, 75, 20);
 		
 		this.panel.add(btnSalir).setBounds(x, y+=480, 80,20);
 		this.panel.add(btnDeshacer).setBounds(x+=105, y, 80, 20);
@@ -50,6 +57,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	ActionListener opBuscar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
+			tabla_limpiar();
 			if(!txtFolio.getText().equals("")){
 				Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscarCuadrante(Integer.parseInt(txtFolio.getText()));
 								
@@ -58,7 +66,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					return;
 				}else{
 					try {
-						String[][] tabla = new Obj_Cuadrante().tabla(cuadrante.getCuadrante().toUpperCase().trim());
+						String[][] tabla = new Obj_Cuadrante().tabla(Integer.parseInt(txtFolio.getText()));
 											
 						for(int i=0; i<tabla.length; i++){
 							
@@ -66,9 +74,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							
 							 switch (currentDia) {
 							 	case Domingo:
-							 		while(tablaDomingo.getRowCount() > 0){
-										modelDomingo.removeRow(0);
-									}
 							 		Object[] dom = new Object[6];
 							 		dom[0] = tabla[i][1];
 							 		dom[1] = tabla[i][2];
@@ -79,9 +84,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		modelDomingo.addRow(dom);
 							 		 break;
 							 	case Lunes:
-							 		while(tablaLunes.getRowCount() > 0){
-										modelLunes.removeRow(0);
-									}
 							 		Object[] lun = new Object[6];
 							 		lun[0] = tabla[i][1];
 							 		lun[1] = tabla[i][2];
@@ -92,9 +94,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		modelLunes.addRow(lun);
 							 		 break;
 							 	case Martes:
-							 		while(tablaMartes.getRowCount() > 0){
-										modelMartes.removeRow(0);
-									}
 							 		Object[] mar = new Object[6];
 							 		mar[0] = tabla[i][1];
 							 		mar[1] = tabla[i][2];
@@ -105,9 +104,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		modelMartes.addRow(mar);
 							 		 break;
 							 	case Miércoles:
-							 		while(tablaMiercoles.getRowCount() > 0){
-										modelMiercoles.removeRow(0);
-									}
 							 		Object[] mie = new Object[6];
 							 		mie[0] = tabla[i][1];
 							 		mie[1] = tabla[i][2];
@@ -118,9 +114,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		modelMiercoles.addRow(mie);
 							 		 break;
 					            case Jueves:
-					            	while(tablaJueves.getRowCount() > 0){
-										modelJueves.removeRow(0);
-									}
 					            	Object[] jue = new Object[6];
 					            	jue[0] = tabla[i][1];
 					            	jue[1] = tabla[i][2];
@@ -131,9 +124,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		modelJueves.addRow(jue);
 					            	 break;
 					            case Viernes:
-					            	while(tablaViernes.getRowCount() > 0){
-										modelViernes.removeRow(0);
-									}
 					            	Object[] vie = new Object[6];
 					            	vie[0] = tabla[i][1];
 					            	vie[1] = tabla[i][2];
@@ -144,9 +134,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							 		modelViernes.addRow(vie);
 					            	 break;
 					            case Sábado:
-					            	while(tablaSabado.getRowCount() > 0){
-										modelSabado.removeRow(0);
-									}
 					            	Object[] sab = new Object[6];
 					            	sab[0] = tabla[i][1];
 					            	sab[1] = tabla[i][2];
@@ -191,6 +178,30 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			}
 		}
 	};
+	
+	public void tabla_limpiar(){
+		while(tablaDomingo.getRowCount() > 0){
+			modelDomingo.removeRow(0);
+		}
+		while(tablaLunes.getRowCount() > 0){
+			modelLunes.removeRow(0);
+		}
+		while(tablaMartes.getRowCount() > 0){
+			modelMartes.removeRow(0);
+		}
+		while(tablaMiercoles.getRowCount() > 0){
+			modelMiercoles.removeRow(0);
+		}
+		while(tablaJueves.getRowCount() > 0){
+			modelJueves.removeRow(0);
+		}
+		while(tablaViernes.getRowCount() > 0){
+			modelViernes.removeRow(0);
+		}
+		while(tablaSabado.getRowCount() > 0){
+			modelSabado.removeRow(0);
+		}
+	}
 	
 	ActionListener opEditar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {

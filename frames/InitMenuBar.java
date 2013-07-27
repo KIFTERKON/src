@@ -40,6 +40,7 @@ import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Jefatura;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Nivel_Critico;
+import catalogos.Cat_Nivel_Jerarquico;
 import catalogos.Cat_Opciones_Respuesta;
 import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Ponderacion;
@@ -98,25 +99,26 @@ public class InitMenuBar extends Init{
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
 		/* ALIMENTACION */
 		JMenu Cuadrantes_Alimentacion = new JMenu("Alimentación");
-			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Actividades en Cuadrantes");
-			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante");
-			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes");
+			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Alimentación de Cuadrantes", new ImageIcon("Iconos/cuadrante_captura_icon&16.png"));
+			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante", new ImageIcon("Iconos/cuadrante_icon&16.png"));
+			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes", new ImageIcon("Iconos/cuadrante_user_icon&16.png"));
 		/* CATALOGO */
 		JMenu Cuadrantes_Catalogo = new JMenu("Catalogo");
-			JMenuItem Cuadrantes_Catalogo_Actividades 		= new JMenuItem("Actividades");
-			JMenuItem Cuadrantes_Catalogo_Telefono   		= new JMenuItem("Asignación de Telefonos");
-			JMenuItem Cuadrantes_Catalogo_Atributos 		= new JMenuItem("Atributos");
-			JMenuItem Cuadrantes_Catalogo_Equipo_Trabajo 	= new JMenuItem("Equipo de Trabajo");
-			JMenuItem Cuadrantes_Catalogo_Jefatura 			= new JMenuItem("Jefatura");
-			JMenuItem Cuadrantes_Catalogo_Nivel_Critico 	= new JMenuItem("Nivel Crítico");
-			JMenuItem Cuadrantes_Catalogo_Respuesta 		= new JMenuItem("Opciones de Respuesta");
-			JMenuItem Cuadrantes_Catalogo_Respuesta_Multiple	= new JMenuItem("Opciones Múltiple de Respuesta");
-			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion");
+			JMenuItem Cuadrantes_Catalogo_Actividades 		= new JMenuItem("Actividades", new ImageIcon("Iconos/actividad_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Telefono   		= new JMenuItem("Asignación de Telefonos", new ImageIcon("Iconos/iphone_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Atributos 		= new JMenuItem("Atributos", new ImageIcon("Iconos/ray_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Equipo_Trabajo 	= new JMenuItem("Equipo de Trabajo", new ImageIcon("Iconos/users_orange_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Jefatura 			= new JMenuItem("Jefatura", new ImageIcon("Iconos/jefatura_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Nivel_Critico 	= new JMenuItem("Nivel Crítico", new ImageIcon("Iconos/nivel_critico_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Nivel_Jerarquico  = new JMenuItem("Nivel Jerarquico", new ImageIcon("Iconos/nivel_jerarquico_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Respuesta 		= new JMenuItem("Opciones de Respuesta", new ImageIcon("Iconos/page_layout_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Respuesta_Multiple	= new JMenuItem("Opciones Múltiple de Respuesta", new ImageIcon("Iconos/opciones_respuesta_icon&16.png"));
+			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion", new ImageIcon("Iconos/ponderacion_icon&16.png"));
 		/* REPORTE */
 		JMenu Cuadrantes_Reportes = new JMenu("Reporte");
-			JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo");
-			JMenuItem Cuadrantes_Reportes_Jefatura    = new JMenuItem("Reportes Jefatura");
-			JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario");
+			JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Cuadrantes_Reportes_Jefatura    = new JMenuItem("Reportes Jefatura", new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario", new ImageIcon("Iconos/reporte_icon&16.png"));
 					
 	/* LISTA DE RAYA */
 	JMenu Lista_Raya = new JMenu("Lista de Raya");
@@ -264,6 +266,9 @@ public class InitMenuBar extends Init{
 			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Nivel_Critico);
 				Cuadrantes_Catalogo_Nivel_Critico.addActionListener(Opciones);
 				Cuadrantes_Catalogo_Nivel_Critico.setEnabled(false);
+			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Nivel_Jerarquico);
+				Cuadrantes_Catalogo_Nivel_Jerarquico.addActionListener(Opciones);
+				Cuadrantes_Catalogo_Nivel_Jerarquico.setEnabled(false);
 			Cuadrantes_Catalogo.add(Cuadrantes_Catalogo_Respuesta);
 				Cuadrantes_Catalogo_Respuesta.addActionListener(Opciones);
 				Cuadrantes_Catalogo_Respuesta.setEnabled(false);
@@ -433,7 +438,7 @@ public class InitMenuBar extends Init{
 			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
-			if(e.getActionCommand().equals("Actividades en Cuadrantes"))
+			if(e.getActionCommand().equals("Alimentación de Cuadrantes"))
 				new Cat_Alimentacion_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);
@@ -453,6 +458,8 @@ public class InitMenuBar extends Init{
 				new Cat_Jefatura().setVisible(true);
 			if(e.getActionCommand().equals("Nivel Crítico"))
 				new Cat_Nivel_Critico().setVisible(true);
+			if(e.getActionCommand().equals("Nivel Jerarquico"))
+				new Cat_Nivel_Jerarquico().setVisible(true);
 			if(e.getActionCommand().equals("Opciones de Respuesta"))
 				new Cat_Opciones_Respuesta().setVisible(true);
 			if(e.getActionCommand().equals("Opciones Múltiple de Respuesta"))
@@ -460,7 +467,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Ponderacion"))
 				new Cat_Ponderacion().setVisible(true);
 			/* CUADRANTES 
-			 * 		CATALOGO */
+			 * 		REPORTES */
 			if(e.getActionCommand().equals("Reportes Directivo"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reportes Jefatura"))

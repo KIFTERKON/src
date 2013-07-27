@@ -172,7 +172,17 @@ public class Obj_Cuadrante {
 		return false;
 	}
 
-	public boolean guardar(String[][] tabla){ return new GuardarSQL().Guardar_Cuadrante(this, tabla); }
+	public boolean guardar(String[][] tabla){ 
+		boolean registro = new GuardarSQL().Guardar_Cuadrante(this); 
+		boolean tabla1 = new GuardarSQL().Guardar_Cuadrante_Tabla(this, tabla);
+		
+		if(registro == true && tabla1 == true){
+			return true;
+		}else{
+			return false;
+		}
+	
+	}
 	
 	public boolean actualizar(int folio, String[][] tabla){ return new ActualizarSQL().Cuadrante(this,tabla); }
 	
@@ -194,7 +204,7 @@ public class Obj_Cuadrante {
 		return null; 
 	}
 	
-	public String[][] tabla(String cuadrante) throws SQLException{
+	public String[][] tabla(int cuadrante) throws SQLException{
 		return new BuscarSQL().getTablaDias(cuadrante);
 	}
 

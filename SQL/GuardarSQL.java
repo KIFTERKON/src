@@ -352,18 +352,14 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
+	public boolean Guardar_Cuadrante(Obj_Cuadrante cuadrante){
 		String query = "exec sp_insert_cuadrante ?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?,?";
-				
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmtTabla = null;
 		try {
 			con.setAutoCommit(false);
 			
 			pstmt = con.prepareStatement(query);
-			pstmtTabla = con.prepareStatement(querytabla);
 			
 			pstmt.setString(1, cuadrante.getCuadrante().toUpperCase());
 			pstmt.setString(2, cuadrante.getPerfil().toUpperCase());
@@ -379,21 +375,52 @@ public class GuardarSQL {
 			pstmt.setInt(12, cuadrante.getViernes());
 			pstmt.setInt(13, cuadrante.getSabado());
 			pstmt.setInt(14, cuadrante.getStatus());
+				
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Cuadrante_Tabla(Obj_Cuadrante cuadrante, String[][] tabla){
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?";
+				
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
 			
+			pstmtTabla = con.prepareStatement(querytabla);
+				
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
-				pstmtTabla.setString(3, tabla[i][1]);
-				pstmtTabla.setString(4, tabla[i][2]);
-				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
-				pstmtTabla.setString(6, tabla[i][4]);
-				pstmtTabla.setString(7, tabla[i][5]);
-				pstmtTabla.setString(8, tabla[i][6]);
+				pstmtTabla.setString(3, tabla[i][2]);
+				pstmtTabla.setInt(4, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				pstmtTabla.setString(5, tabla[i][4]);
+				pstmtTabla.setString(6, tabla[i][5]);
+				pstmtTabla.setString(7, tabla[i][6]);
+				
 				pstmtTabla.executeUpdate();
 			}
 			
-			
-			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());
@@ -1451,7 +1478,7 @@ public class GuardarSQL {
 	
 	
 	public boolean Guardar_Actividad(Obj_Actividad actividad){
-		String query = "exec sp_insert_actividad ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_actividad ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1463,18 +1490,9 @@ public class GuardarSQL {
 			pstmt.setString(3, actividad.getRespuesta());
 			pstmt.setString(4, actividad.getAtributos());
 			pstmt.setString(5, actividad.getNivel_critico());
-			pstmt.setInt(6, actividad.getDomingo());
-			pstmt.setInt(7, actividad.getLunes());
-			pstmt.setInt(8, actividad.getMartes());
-			pstmt.setInt(9, actividad.getMiercoles());
-			pstmt.setInt(10, actividad.getJueves());
-			pstmt.setInt(11, actividad.getViernes());
-			pstmt.setInt(12, actividad.getSabado());
-			pstmt.setString(13, actividad.getHora_inicio());
-			pstmt.setString(14, actividad.getHora_final());
-			pstmt.setString(15, actividad.getTemporada());
-			pstmt.setInt(16, actividad.isCarga() ? 1 : 0);
-			pstmt.setInt(17, actividad.getRepetir());
+			pstmt.setString(6, actividad.getTemporada());
+			pstmt.setInt(7, actividad.isCarga() ? 1 : 0);
+			pstmt.setInt(8, actividad.getRepetir());
 			
 			
 			pstmt.executeUpdate();

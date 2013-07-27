@@ -16,15 +16,6 @@ public class Obj_Actividad {
 	String respuesta;
 	String atributos;
 	String nivel_critico;
-	int domingo;
-	int lunes;
-	int martes;
-	int miercoles;
-	int jueves;
-	int viernes;
-	int sabado;
-	String hora_inicio;
-	String hora_final;
 	String temporada;
 	boolean carga;
 	int repetir;
@@ -32,8 +23,7 @@ public class Obj_Actividad {
 
 	public Obj_Actividad(){
 		this.folio=0; this.actividad=""; this.descripcion=""; this.respuesta=""; this.atributos=""; this.nivel_critico="";
-		this.domingo=0; this.lunes=0; this.martes=0; this.miercoles=0; this.jueves=0; this.viernes=0; this.sabado=0; this.hora_inicio="";
-		this.hora_final=""; this.temporada=""; this.carga=false; this.repetir=0; this.status = false;
+		this.temporada=""; this.carga=false; this.repetir=0; this.status = false;
 	}
 
 	public int getFolio() {
@@ -82,78 +72,6 @@ public class Obj_Actividad {
 
 	public void setNivel_critico(String nivel_critico) {
 		this.nivel_critico = nivel_critico;
-	}
-
-	public int getDomingo() {
-		return domingo;
-	}
-
-	public void setDomingo(int domingo) {
-		this.domingo = domingo;
-	}
-
-	public int getLunes() {
-		return lunes;
-	}
-
-	public void setLunes(int lunes) {
-		this.lunes = lunes;
-	}
-
-	public int getMartes() {
-		return martes;
-	}
-
-	public void setMartes(int martes) {
-		this.martes = martes;
-	}
-
-	public int getMiercoles() {
-		return miercoles;
-	}
-
-	public void setMiercoles(int miercoles) {
-		this.miercoles = miercoles;
-	}
-
-	public int getJueves() {
-		return jueves;
-	}
-
-	public void setJueves(int jueves) {
-		this.jueves = jueves;
-	}
-
-	public int getViernes() {
-		return viernes;
-	}
-
-	public void setViernes(int viernes) {
-		this.viernes = viernes;
-	}
-
-	public int getSabado() {
-		return sabado;
-	}
-
-	public void setSabado(int sabado) {
-		this.sabado = sabado;
-	}
-
-	public String getHora_inicio() {
-		return hora_inicio;
-	}
-
-	public void setHora_inicio(String hora_inicio) {
-		this.hora_inicio = hora_inicio;
-	}
-
-	public String getHora_final() {
-		return hora_final;
-	}
-
-	public void setHora_final(String hora_final) {
-		this.hora_final = hora_final;
 	}
 
 	public String getTemporada() {

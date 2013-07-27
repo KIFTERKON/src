@@ -32,15 +32,14 @@ import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Puesto;
 
 @SuppressWarnings("serial")
-public class Cat_Nivel_Jerarquico extends JFrame
-{
+public class Cat_Nivel_Jerarquico extends JFrame {
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtDescripcion = new JTextField();
 	
-	JCheckBox chStatus = new JCheckBox("Status");
+	JCheckBox chStatus = new JCheckBox("Status",true);
 	
 	JButton btnNuevo = new JButton("Nuevo");
 	JButton btnModificar = new JButton("Modificar");
@@ -49,7 +48,7 @@ public class Cat_Nivel_Jerarquico extends JFrame
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEliminar = new JButton("Remover");
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 
 	String lista2[] = new Obj_Puesto().Combo_Jefatura();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -74,12 +73,11 @@ public class Cat_Nivel_Jerarquico extends JFrame
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	public Cat_Nivel_Jerarquico()
-	{
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Nivel Jerarquico"));	
-		this.setTitle("Nivel Jerarquico");
+	public Cat_Nivel_Jerarquico(){
 		
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/nivel_jerarquico_icon&16.png"));
+		this.panel.setBorder(BorderFactory.createTitledBorder("Nivel Jerarquico"));	
+		this.setTitle("Nivel Jerarquico");
 		
 		this.panel.add(new JLabel("Folio:")).setBounds(20,30,50,20);
 		this.panel.add(txtFolio).setBounds(140,30,100,20);
@@ -103,45 +101,42 @@ public class Cat_Nivel_Jerarquico extends JFrame
 		this.panel.add(btnAgregar).setBounds(350,150,85,20);
 		this.panel.add(btnEliminar).setBounds(450,150,85,20);
 		
-		panel.add(panelScroll).setBounds(20,180,520,195);
+		this.panel.add(panelScroll).setBounds(20,180,520,195);
 		
 		this.panel.add(btnSalir).setBounds(20,380,80,20);
 		this.panel.add(btnLimpiar).setBounds(220,380,80,20);
 		this.panel.add(btnGuardar).setBounds(430,380,80,20);
 		
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Puesto Principal");
-		tabla.getColumnModel().getColumn(0).setMinWidth(150);
-		tabla.getColumnModel().getColumn(0).setMinWidth(150);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Puesto Dependiente");
-		tabla.getColumnModel().getColumn(1).setMinWidth(150);
-		tabla.getColumnModel().getColumn(1).setMinWidth(150);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(2).setMinWidth(150);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(150);   
+		this.tabla.getColumnModel().getColumn(0).setHeaderValue("Puesto Principal");
+		this.tabla.getColumnModel().getColumn(0).setMinWidth(150);
+		this.tabla.getColumnModel().getColumn(0).setMinWidth(150);
+		this.tabla.getColumnModel().getColumn(1).setHeaderValue("Puesto Dependiente");
+		this.tabla.getColumnModel().getColumn(1).setMinWidth(150);
+		this.tabla.getColumnModel().getColumn(1).setMinWidth(150);
+		this.tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
+		this.tabla.getColumnModel().getColumn(2).setMinWidth(150);
+		this.tabla.getColumnModel().getColumn(2).setMaxWidth(150);   
 		
-		btnSalir.addActionListener(salir);
-		txtFolio.addKeyListener(guardaAction);
-		btnEliminar.addActionListener(opRemover);
-		btnNuevo.addActionListener(opNuevo);
-		btnLimpiar.addActionListener(opLimpiar);
-		txtFolio.addKeyListener(valida);
-		btnAgregar.addActionListener(opAgregar);
+		this.btnSalir.addActionListener(salir);
+		this.txtFolio.addKeyListener(guardaAction);
+		this.btnEliminar.addActionListener(opRemover);
+		this.btnNuevo.addActionListener(opNuevo);
+		this.btnLimpiar.addActionListener(opLimpiar);
+		this.txtFolio.addKeyListener(valida);
+		this.btnAgregar.addActionListener(opAgregar);
 		
-		btnGuardar.addActionListener(guardar);
-		btnBuscar.addActionListener(buscar);
-		btnModificar.addActionListener(modifica);
+		this.btnGuardar.addActionListener(guardar);
+		this.btnBuscar.addActionListener(buscar);
+		this.btnModificar.addActionListener(modifica);
 		
+		this.txtDescripcion.setEditable(false);
+		this.cmbP_Dependiente.setEnabled(false);
+		this.cmbP_Principal.setEnabled(false);
+		this.cmb_Establecimiento.setEnabled(false);
+		this.chStatus.setEnabled(false);
 		
-//		txtFolio.setEditable(false);
-		txtDescripcion.setEditable(false);
-		cmbP_Dependiente.setEnabled(false);
-		cmbP_Principal.setEnabled(false);
-		cmb_Establecimiento.setEnabled(false);
-	    chStatus.setEnabled(false);
-	    chStatus.setSelected(false);
+		this.cont.add(panel);
 		
-		
-		cont.add(panel);
 		this.setSize(560,450);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -334,7 +329,6 @@ public class Cat_Nivel_Jerarquico extends JFrame
 		cmbP_Dependiente.setSelectedIndex(0);
 		cmb_Establecimiento.setSelectedIndex(0);
 		txtDescripcion.setText("");
-		chStatus.setSelected(false);
 		chStatus.setEnabled(false);
 		 while(modelo.getRowCount() > 0){
 	    	  modelo.removeRow(0);
@@ -411,15 +405,12 @@ public class Cat_Nivel_Jerarquico extends JFrame
 		}
 	};
 	
-	public void limpia()
-	{
-		
+	public void limpia() {
 		txtFolio.setText("");
 		txtDescripcion.setText("");
 		cmbP_Dependiente.setSelectedIndex(0);
 		cmbP_Principal.setSelectedIndex(0);
 		cmb_Establecimiento.setSelectedIndex(0);
-	    chStatus.setSelected(false);
 	    chStatus.setEnabled(false);
 	    
 	    while(modelo.getRowCount() > 0){

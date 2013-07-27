@@ -183,7 +183,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 				JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else{
-				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de bancos?") == 0){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de deducción por inasistencia?") == 0){
 					Obj_Deduccion_Inasistencia inasistencia = new Obj_Deduccion_Inasistencia();
 					if(inasistencia.guardar(tabla_guardar())){
 						JOptionPane.showMessageDialog(null, "La tabla Deducción por Inasistencia se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
