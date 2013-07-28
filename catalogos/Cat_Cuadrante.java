@@ -28,6 +28,17 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	JButton btnizquierda = new JButton(new ImageIcon("Iconos/left_icon&16.png"));
 	
 	public Cat_Cuadrante (){
+		init();
+	}
+	
+	public Cat_Cuadrante (int folio){
+		init();
+		buscar(folio);
+		txtFolio.setText(folio+"");
+		btnSimilar.setEnabled(true);
+	}
+	
+	public void init(){
 		int x=35, y=30;
 		
 		this.panel.add(btnBuscar).setBounds(330,y,32,20);
@@ -53,11 +64,115 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		this.btnizquierda.addActionListener(opleft);
 		this.btnderecha.addActionListener(oprigth);
 		
+		this.btnSimilar.setEnabled(false);
+		
 		txtFolio.addKeyListener(valida);
 		
 		enablesTodos(false);
 		txtFolio.setEditable(true);
-		
+	}
+	
+	public void buscar(int folio){
+		try {
+			Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscarCuadrante(folio);
+			String[][] tabla = new Obj_Cuadrante().tabla(folio);
+								
+			for(int i=0; i<tabla.length; i++){
+				Dias currentDia = Dias.valueOf(tabla[i][0]);
+				
+				 switch (currentDia) {
+				 	case Domingo:
+				 		Object[] dom = new Object[6];
+				 		dom[0] = tabla[i][1];
+				 		dom[1] = tabla[i][2];
+				 		dom[2] = tabla[i][3];
+				 		dom[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+				 		dom[4] = tabla[i][5];
+				 		dom[5] = tabla[i][6];
+				 		modelDomingo.addRow(dom);
+				 		 break;
+				 	case Lunes:
+				 		Object[] lun = new Object[6];
+				 		lun[0] = tabla[i][1];
+				 		lun[1] = tabla[i][2];
+				 		lun[2] = tabla[i][3];
+				 		lun[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+				 		lun[4] = tabla[i][5];
+				 		lun[5] = tabla[i][6];
+				 		modelLunes.addRow(lun);
+				 		 break;
+				 	case Martes:
+				 		Object[] mar = new Object[6];
+				 		mar[0] = tabla[i][1];
+				 		mar[1] = tabla[i][2];
+				 		mar[2] = tabla[i][3];
+				 		mar[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+				 		mar[4] = tabla[i][5];
+				 		mar[5] = tabla[i][6];
+				 		modelMartes.addRow(mar);
+				 		 break;
+				 	case Miércoles:
+				 		Object[] mie = new Object[6];
+				 		mie[0] = tabla[i][1];
+				 		mie[1] = tabla[i][2];
+				 		mie[2] = tabla[i][3];
+				 		mie[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+				 		mie[4] = tabla[i][5];
+				 		mie[5] = tabla[i][6];
+				 		modelMiercoles.addRow(mie);
+				 		 break;
+		            case Jueves:
+		            	Object[] jue = new Object[6];
+		            	jue[0] = tabla[i][1];
+		            	jue[1] = tabla[i][2];
+		            	jue[2] = tabla[i][3];
+		            	jue[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+		            	jue[4] = tabla[i][5];
+		            	jue[5] = tabla[i][6];
+				 		modelJueves.addRow(jue);
+		            	 break;
+		            case Viernes:
+		            	Object[] vie = new Object[6];
+		            	vie[0] = tabla[i][1];
+		            	vie[1] = tabla[i][2];
+		            	vie[2] = tabla[i][3];
+		            	vie[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+		            	vie[4] = tabla[i][5];
+		            	vie[5] = tabla[i][6];
+				 		modelViernes.addRow(vie);
+		            	 break;
+		            case Sábado:
+		            	Object[] sab = new Object[6];
+		            	sab[0] = tabla[i][1];
+		            	sab[1] = tabla[i][2];
+		            	sab[2] = tabla[i][3];
+		            	sab[3] = Integer.parseInt(tabla[i][4]) == 1 ? true : false;
+		            	sab[4] = tabla[i][5];
+		            	sab[5] = tabla[i][6];
+				 		modelSabado.addRow(sab);
+		            	 break;
+				 }
+				
+			}
+			
+			txtCuadrante.setText(cuadrante.getCuadrante());
+			txaDescripcion.setText(cuadrante.getPerfil());
+			cmbJefatura.setSelectedItem(cuadrante.getJefatura());
+			cmbnivel_jerarquico.setSelectedItem(cuadrante.getNivel_gerarquico());
+			cmbEquipo_Trabajo.setSelectedItem(cuadrante.getEquipo_trabajo());
+			cmbEstablecimiento.setSelectedItem(cuadrante.getEstablecimiento());
+			chDomingo.setSelected(cuadrante.getDomingo() == 1 ? true : false);
+			chLunes.setSelected(cuadrante.getLunes() == 1 ? true : false);
+			chMartes.setSelected(cuadrante.getMartes() == 1 ? true : false);
+			chMiercoles.setSelected(cuadrante.getMiercoles() == 1 ? true : false);
+			chJueves.setSelected(cuadrante.getJueves() == 1 ? true : false);
+			chViernes.setSelected(cuadrante.getViernes() == 1 ? true : false);
+			chSabado.setSelected(cuadrante.getSabado() == 1 ? true : false);
+			chbStatus.setSelected(cuadrante.getStatus() == 1 ? true : false);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	ActionListener opSimilar = new ActionListener() {
@@ -179,6 +294,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	ActionListener opBuscar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			tabla_limpiar();
+			btnSimilar.setEnabled(true);
 			if(!txtFolio.getText().equals("")){
 				Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscarCuadrante(Integer.parseInt(txtFolio.getText()));
 								
@@ -287,8 +403,8 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}
 				}
 			}else{
-				JOptionPane.showMessageDialog(null,"No ha ingresado ningún folio para buscar","Aviso",JOptionPane.ERROR_MESSAGE);
-				return;
+				dispose();
+				new Cat_Filtro_Cuadrante().setVisible(true);
 			}
 		}
 	};
@@ -305,6 +421,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				}else{
 					try {
 						tabla_limpiar();
+						btnSimilar.setEnabled(true);
 						txtFolio.setText(Integer.parseInt(txtFolio.getText())+1+"");
 						String[][] tabla = new Obj_Cuadrante().tabla(Integer.parseInt(txtFolio.getText()));
 											
@@ -426,6 +543,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					}else{
 						try {
 							tabla_limpiar();
+							btnSimilar.setEnabled(true);
 							txtFolio.setText(Integer.parseInt(txtFolio.getText())-1+"");
 							String[][] tabla = new Obj_Cuadrante().tabla(Integer.parseInt(txtFolio.getText()));
 												
@@ -738,6 +856,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							
 							if(cuadrante.actualizar(Integer.parseInt(txtFolio.getText()),DiasTablas())){
 								limpiar();
+								btnSimilar.setEnabled(false);
 								JOptionPane.showMessageDialog(null,"El registro se actualizó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{
@@ -772,6 +891,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 																
 							if(cuadrante.guardar(DiasTablas())){
 								limpiar();
+								btnSimilar.setEnabled(false);
 								JOptionPane.showMessageDialog(null,"El registro se guardó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
 							}else{

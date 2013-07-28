@@ -99,7 +99,7 @@ public class InitButton extends InitMenuBar{
 	
 	JButton btnSalir = new JButton("Salir");
 	JButton btnAceptar = new JButton("Entrar");
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	
 	public InitButton(){
 		int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
