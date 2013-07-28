@@ -411,8 +411,8 @@ public class GuardarSQL {
 				
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
-				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
-				pstmtTabla.setString(3, tabla[i][2]);
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][2].toString().trim());
 				pstmtTabla.setInt(4, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
 				pstmtTabla.setString(5, tabla[i][4]);
 				pstmtTabla.setString(6, tabla[i][5]);

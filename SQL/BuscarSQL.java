@@ -2293,9 +2293,31 @@ public class BuscarSQL {
 		return actividad;
 	}
 	
+	public boolean existeCuadrante(int cuadrante) throws SQLException{
+		boolean resultado = false;
+		String query = "exec sp_existe_cuadrante "+cuadrante+";";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				resultado = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return false;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return resultado;
+	}
+	
 	public boolean existeCuadrante(String cuadrante) throws SQLException{
 		boolean resultado = false;
-		String query = "exec sp_existe_cuadrante '"+cuadrante.toUpperCase()+"';";
+		String query = "exec sp_existe_cuadrante_nombre '"+cuadrante+"';";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2317,26 +2339,26 @@ public class BuscarSQL {
 	
 	public Obj_Cuadrante Cuadrante(int folio) throws SQLException{
 		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
-		String query = "select * from tb_cuadrante where folio ="+ folio;
+		String query = "exec sp_select_cuadrante_folio "+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 		    ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				cuadrante.setCuadrante(rs.getString("cuadrante"));
-				cuadrante.setPerfil(rs.getString("perfil"));
-				cuadrante.setJefatura(rs.getString("jefatura"));
-				cuadrante.setNivel_gerarquico(rs.getString("nivel_gerarquico"));
-				cuadrante.setEquipo_trabajo(rs.getString("equipo_trabajo"));
-				cuadrante.setEstablecimiento(rs.getString("establecimiento"));
-				cuadrante.setDomingo(rs.getInt("domingo"));
-				cuadrante.setLunes(rs.getInt("lunes"));
-				cuadrante.setMartes(rs.getInt("martes"));
-				cuadrante.setMiercoles(rs.getInt("miercoles"));
-				cuadrante.setJueves(rs.getInt("jueves"));
-				cuadrante.setViernes(rs.getInt("viernes"));
-				cuadrante.setSabado(rs.getInt("sabado"));
-				cuadrante.setStatus(rs.getInt("status"));
+				cuadrante.setCuadrante(rs.getString(1));
+				cuadrante.setPerfil(rs.getString(2));
+				cuadrante.setJefatura(rs.getString(3));
+				cuadrante.setNivel_gerarquico(rs.getString(4));
+				cuadrante.setEquipo_trabajo(rs.getString(5));
+				cuadrante.setEstablecimiento(rs.getString(6));
+				cuadrante.setDomingo(rs.getInt(7));
+				cuadrante.setLunes(rs.getInt(8));
+				cuadrante.setMartes(rs.getInt(9));
+				cuadrante.setMiercoles(rs.getInt(10));
+				cuadrante.setJueves(rs.getInt(11));
+				cuadrante.setViernes(rs.getInt(12));
+				cuadrante.setSabado(rs.getInt(13));
+				cuadrante.setStatus(rs.getInt(14));
 				
 			}
 			
@@ -2366,9 +2388,9 @@ public class BuscarSQL {
 			int i=0;
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1);
-				Matriz[i][1] = rs.getString(2);
-				Matriz[i][2] = rs.getString(3);
-				Matriz[i][3] = rs.getString(4);
+				Matriz[i][1] = rs.getString(2)+"  ";
+				Matriz[i][2] = "   "+rs.getString(3);
+				Matriz[i][3] = "   "+rs.getString(4);
 				Matriz[i][4] = rs.getString(5);
 				Matriz[i][5] = rs.getString(6);
 				Matriz[i][6] = rs.getString(7);

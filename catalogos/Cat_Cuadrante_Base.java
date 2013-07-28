@@ -1,6 +1,7 @@
 package catalogos;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -11,11 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -26,7 +29,9 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
@@ -595,6 +600,99 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaDomingo.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaDomingo.getColumnModel().getColumn(5).setMinWidth(80);
 		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaDomingo.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaDomingo.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaDomingo.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaDomingo.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaDomingo.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaDomingo.getColumnModel().getColumn(5).setCellRenderer(render);
+		
 	}
 	
 	public void lunes(){
@@ -623,6 +721,100 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaLunes.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaLunes.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaLunes.getColumnModel().getColumn(5).setMinWidth(80);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaLunes.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaLunes.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaLunes.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaLunes.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaLunes.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaLunes.getColumnModel().getColumn(5).setCellRenderer(render);
+		
 	}
 	
 	public void martes(){
@@ -651,6 +843,100 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaMartes.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaMartes.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaMartes.getColumnModel().getColumn(5).setMinWidth(80);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaMartes.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaMartes.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaMartes.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaMartes.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaMartes.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaMartes.getColumnModel().getColumn(5).setCellRenderer(render);
+		
 	}
 	
 	public void miercoles(){
@@ -679,6 +965,100 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaMiercoles.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaMiercoles.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaMiercoles.getColumnModel().getColumn(5).setMinWidth(80);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaMiercoles.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaMiercoles.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaMiercoles.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaMiercoles.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaMiercoles.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaMiercoles.getColumnModel().getColumn(5).setCellRenderer(render);
+		
 	}
 	
 	public void jueves(){
@@ -707,6 +1087,99 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaJueves.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaJueves.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaJueves.getColumnModel().getColumn(5).setMinWidth(80);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaJueves.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaJueves.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaJueves.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaJueves.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaJueves.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaJueves.getColumnModel().getColumn(5).setCellRenderer(render);
 
 	}
 	
@@ -736,6 +1209,100 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaViernes.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaViernes.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaViernes.getColumnModel().getColumn(5).setMinWidth(80);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaViernes.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaViernes.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaViernes.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaViernes.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaViernes.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaViernes.getColumnModel().getColumn(5).setCellRenderer(render);
+		
 	}
 	
 	public void sabado(){
@@ -764,6 +1331,100 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaSabado.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaSabado.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaSabado.getColumnModel().getColumn(5).setMinWidth(80);
+		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+	
+		this.tablaSabado.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tablaSabado.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tablaSabado.getColumnModel().getColumn(2).setCellRenderer(render);
+		this.tablaSabado.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tablaSabado.getColumnModel().getColumn(4).setCellRenderer(render); 
+		this.tablaSabado.getColumnModel().getColumn(5).setCellRenderer(render);
+		
 	}
 	
 	ActionListener opAgregarDomingo = new ActionListener() {
@@ -1581,6 +2242,74 @@ public class Cat_Cuadrante_Base extends JFrame{
 			tablaFiltro.getColumnModel().getColumn(1).setMinWidth(340);
 			tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(50);
 			tablaFiltro.getColumnModel().getColumn(3).setMinWidth(50);
+			
+			TableCellRenderer render = new TableCellRenderer() { 
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column) { 
+					
+					Component componente = null;
+					
+					switch(column){
+						case 0: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 1: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 2:
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 3: 
+							componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+							break;
+						
+					}
+						
+					return componente;
+				} 
+			}; 
+		
+			tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
+			tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
+			tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
+			tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
+			
 			txtFolio.addKeyListener(opFiltroFolio);
 			txtNombre_Completo.addKeyListener(opFiltroNombre);
 			
@@ -1620,7 +2349,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 						 			filaDom[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelDomingo.getRowCount();){
-						 				if(Integer.parseInt(filaDom[0].toString()) == Integer.parseInt(modelDomingo.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaDom[0].toString().trim()) == Integer.parseInt(modelDomingo.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaDom[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelDomingo.addRow(filaDom);
 						 						j++;
@@ -1668,7 +2397,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaLun[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelLunes.getRowCount();){
-						 				if(Integer.parseInt(filaLun[0].toString()) == Integer.parseInt(modelLunes.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaLun[0].toString().trim()) == Integer.parseInt(modelLunes.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaLun[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelLunes.addRow(filaLun);
 						 						j++;
@@ -1716,7 +2445,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaMar[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelMartes.getRowCount();){
-						 				if(Integer.parseInt(filaMar[0].toString()) == Integer.parseInt(modelMartes.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaMar[0].toString().trim()) == Integer.parseInt(modelMartes.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaMar[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelMartes.addRow(filaMar);
 						 						j++;
@@ -1764,7 +2493,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaMie[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelMiercoles.getRowCount();){
-						 				if(Integer.parseInt(filaMie[0].toString()) == Integer.parseInt(modelMiercoles.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaMie[0].toString().trim()) == Integer.parseInt(modelMiercoles.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaMie[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelMiercoles.addRow(filaMie);
 						 						j++;
@@ -1812,7 +2541,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaJue[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelJueves.getRowCount();){
-						 				if(Integer.parseInt(filaJue[0].toString()) == Integer.parseInt(modelJueves.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaJue[0].toString().trim()) == Integer.parseInt(modelJueves.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaJue[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelJueves.addRow(filaJue);
 						 						j++;
@@ -1860,7 +2589,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaVie[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelViernes.getRowCount();){
-						 				if(Integer.parseInt(filaVie[0].toString()) == Integer.parseInt(modelViernes.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaVie[0].toString().trim()) == Integer.parseInt(modelViernes.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaVie[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelViernes.addRow(filaVie);
 						 						j++;
@@ -1908,7 +2637,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaSab[5] = "00:00";
 					 				
 						 			for(int j=0; j<modelSabado.getRowCount();){
-						 				if(Integer.parseInt(filaSab[0].toString()) == Integer.parseInt(modelSabado.getValueAt(i, 0).toString())){
+						 				if(Integer.parseInt(filaSab[0].toString().trim()) == Integer.parseInt(modelSabado.getValueAt(i, 0).toString().trim())){
 						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaSab[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 						 						modelSabado.addRow(filaSab);
 						 						j++;
@@ -1983,9 +2712,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 				MatrizFiltro = new Object[getFilas(todos)][4];
 				int i=0;
 				while(rs.next()){
-					MatrizFiltro[i][0] = rs.getString(1).trim();
-					MatrizFiltro[i][1] = rs.getString(2).trim();
-					MatrizFiltro[i][2] = rs.getString(3).trim();
+					MatrizFiltro[i][0] = rs.getString(1)+"  ";
+					MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
+					MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
 					MatrizFiltro[i][3] = false;
 					i++;
 				}

@@ -163,6 +163,15 @@ public class Obj_Cuadrante {
 		this.status = status;
 	}
 	
+	public boolean existe(int cuadrante){
+		try {
+			return new BuscarSQL().existeCuadrante(cuadrante);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public boolean existe(String cuadrante){
 		try {
 			return new BuscarSQL().existeCuadrante(cuadrante);
