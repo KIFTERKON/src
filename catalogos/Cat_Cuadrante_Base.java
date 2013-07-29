@@ -2256,6 +2256,10 @@ public class Cat_Cuadrante_Base extends JFrame{
 								((JComponent) componente).setOpaque(true); 
 								componente.setBackground(new java.awt.Color(177,177,177));	
 							}
+							if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
 							if(table.getSelectedRow() == row){
 								((JComponent) componente).setOpaque(true); 
 								componente.setBackground(new java.awt.Color(186,143,73));
@@ -2267,6 +2271,10 @@ public class Cat_Cuadrante_Base extends JFrame{
 							if(row %2 == 0){
 								((JComponent) componente).setOpaque(true); 
 								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
 							}
 							if(table.getSelectedRow() == row){
 								((JComponent) componente).setOpaque(true); 
@@ -2280,6 +2288,10 @@ public class Cat_Cuadrante_Base extends JFrame{
 								((JComponent) componente).setOpaque(true); 
 								componente.setBackground(new java.awt.Color(177,177,177));	
 							}
+							if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
 							if(table.getSelectedRow() == row){
 								((JComponent) componente).setOpaque(true); 
 								componente.setBackground(new java.awt.Color(186,143,73));
@@ -2291,6 +2303,10 @@ public class Cat_Cuadrante_Base extends JFrame{
 							if(row%2==0){
 								((JComponent) componente).setOpaque(true); 
 								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
 							}
 							if(table.getSelectedRow() == row){
 								((JComponent) componente).setOpaque(true); 

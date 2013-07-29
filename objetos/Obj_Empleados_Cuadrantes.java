@@ -11,13 +11,12 @@ import SQL.GuardarSQL;
 public class Obj_Empleados_Cuadrantes 
 {
 	private int folio;
-	private String nombre;
 	private String cuadrante;
 	private boolean status;
 
 	
 	public Obj_Empleados_Cuadrantes(){
-		this.folio=0; this.nombre=""; this.cuadrante=""; this.status=false;
+		this.folio=0; this.cuadrante=""; this.status=false;
 	}
 	
 	public int getFolio() {
@@ -26,14 +25,6 @@ public class Obj_Empleados_Cuadrantes
 
 	public void setFolio(int folio) {
 		this.folio = folio;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getCuadrante() {
@@ -70,9 +61,9 @@ public class Obj_Empleados_Cuadrantes
 		return 1;
 	}
 	
-	public boolean existe(String nombre){
+	public boolean existe(int folio){
 		try {
-			return new BuscarSQL().existeEmpleadoCuadrante(nombre);
+			return new BuscarSQL().existeEmpleadoCuadrante(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -80,15 +71,22 @@ public class Obj_Empleados_Cuadrantes
 		
 	}
 	
-	public boolean guardar(String[][] tabla){
-		return new GuardarSQL().EmpleadoCuadrante(this,tabla);
+	public boolean guardar(String[] lista){
+		boolean registro = new GuardarSQL().EmpleadoCuadrante(this);
+		boolean tabla = new GuardarSQL().EmpleadoCuadranteTabla(this,lista);
+		
+		if(registro == true && tabla == true){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
-	public boolean actualizar(String[][] tabla){
+	public boolean actualizar(String[] tabla){
 		return new ActualizarSQL().EmpleadoCuadrante(this,tabla);
 	}
 	
-	public static String[][] getTablaCuadrante(String nombre){
-		return new BuscarSQL().getTablaEmpleadoCuadrante(nombre);
+	public static String[][] getTablaCuadrante(int folio){
+		return new BuscarSQL().getTablaEmpleadoCuadrante(folio);
 	}
 }

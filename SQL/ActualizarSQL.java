@@ -1451,10 +1451,10 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean EmpleadoCuadrante(Obj_Empleados_Cuadrantes empleado_cuadrante, String[][] tabla){
-		String queryClear = "delete from tb_tabla_empleado_cuadrante where nombre ='"+empleado_cuadrante.getNombre().toUpperCase()+"';";
-		String queryUpdate = "update tb_empleado_cuadrante set nombre=?, cuadrante=?,	status=? where folio = ?";
-		String querytabla = "exec sp_insert_tabla_empleado_cuadrante ?,?,?";
+	public boolean EmpleadoCuadrante(Obj_Empleados_Cuadrantes empleado_cuadrante, String[] tabla){
+		String queryClear = "delete from tb_tabla_empleado_cuadrante where folio_cuadrante ="+empleado_cuadrante.getFolio();
+		String queryUpdate = "update tb_empleado_cuadrante set cuadrante=?,	status=? where folio = ?";
+		String querytabla = "exec sp_insert_tabla_empleado_cuadrante ?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmtDelete = null;
@@ -1468,24 +1468,20 @@ public class ActualizarSQL {
 			
 			pstmtUpdate = con.prepareStatement(queryUpdate);
 			
-			pstmtUpdate.setString(1, empleado_cuadrante.getNombre());
-			pstmtUpdate.setString(2, empleado_cuadrante.getCuadrante());
-			pstmtUpdate.setInt(3, empleado_cuadrante.isStatus() ? 1 : 0);
-			pstmtUpdate.setInt(4, empleado_cuadrante.getFolio());
+			pstmtUpdate.setString(1, empleado_cuadrante.getCuadrante());
+			pstmtUpdate.setInt(2, empleado_cuadrante.isStatus() ? 1 : 0);
+			pstmtUpdate.setInt(3, empleado_cuadrante.getFolio());
 			
 			pstmtUpdate.executeUpdate();
 			
 			pstmtTabla = con.prepareStatement(querytabla);
 
 			for(int i=0; i<tabla.length; i++){
-				pstmtTabla.setString(1, empleado_cuadrante.getNombre().toUpperCase());
-				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
-				pstmtTabla.setString(3, tabla[i][1]);
+				pstmtTabla.setString(1, empleado_cuadrante.getCuadrante().toUpperCase().trim());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i]));
 				pstmtTabla.executeUpdate();
 			}
-			
-			
-			
+						
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

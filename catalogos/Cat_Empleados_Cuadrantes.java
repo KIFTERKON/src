@@ -1,5 +1,6 @@
 package catalogos;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -11,10 +12,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -23,8 +26,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
@@ -37,12 +42,11 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	JLayeredPane panel = new JLayeredPane();
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtNombre = new JTextField();
 	JTextField txtCuadrantes = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status",true);
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnCuadrante = new JButton("Cuadrante");
 	JButton btnEmpleado = new JButton("Empleados");
 	JButton btnNuevo = new JButton("Nuevo");
@@ -50,8 +54,8 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar  = new JButton("Guardar");
 	
-	JButton btnSubir = new JButton(new ImageIcon("Imagen/Up.png"));
-	JButton btnBajar = new JButton(new ImageIcon("Imagen/Down.png"));
+	JButton btnSubir = new JButton(new ImageIcon("Iconos/up_icon&16.png"));
+	JButton btnBajar = new JButton(new ImageIcon("Iconos/down_icon&16.png"));
 
 	JButton btnRemover = new JButton("Quitar");
 	
@@ -66,9 +70,8 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
-	public Cat_Empleados_Cuadrantes()
-	{
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/How-to.png"));
+	public Cat_Empleados_Cuadrantes() {
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Empleados en Cuadrantes"));	
 		
 		this.setTitle("Empleados en Cuadrantes");
@@ -96,30 +99,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.panel.add(btnLimpiar).setBounds(200,400,90,20);
 		this.panel.add(btnGuardar).setBounds(380,400,90,20);
 		
-		
-//		this.panel.add(new JLabel("Folio:")).setBounds(x,y,50,20);
-//		this.panel.add(txtFolio).setBounds(x+=60,30,90,20);
-//		this.panel.add(chStatus).setBounds(x+=100,30,60,20);
-//		this.panel.add(btnBuscar).setBounds(x+=60,30,32,20);
-//		this.panel.add(btnNuevo).setBounds(x+=40,30,80,20);
-//		
-//		this.panel.add(new JLabel("Nombre:")).setBounds(x-=260,y+=25,50,20);
-//		this.panel.add(txtNombre).setBounds(x+=60,y,280,20);
-//		
-//		this.panel.add(new JLabel("Cuadrante:")).setBounds(x-=60,y+=25,65,20);
-//		this.panel.add(txtCuadrantes).setBounds(x+=60,y,280,20);
-//		this.panel.add(btnCuadrante).setBounds(x+=290,y,90,20);
-//		this.panel.add(btnEmpleado).setBounds(x-=290,y+=25,90,20);
-//		
-//		this.panel.add(btnBajar).setBounds(x+=100,y,40,20);
-//		this.panel.add(btnSubir).setBounds(x+=50,y,40,20);
-//		this.panel.add(btnRemover).setBounds(x+=50,y,80,20);
-//		
-//		this.panel.add(panelScroll).setBounds(x-=260,y+=25,440,270);
-//		
-//		this.panel.add(btnSalir).setBounds(x,y+=300,90,20);
-//		this.panel.add(btnLimpiar).setBounds(x+=175,y,90,20);
-//		this.panel.add(btnGuardar).setBounds(x+=175,y,90,20);
 		btnSubir.setToolTipText("Boton de subir");
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
@@ -129,6 +108,46 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		tabla.getColumnModel().getColumn(1).setMinWidth(370);
 		tabla.getColumnModel().getColumn(1).setMaxWidth(370);
 		
+		TableCellRenderer render = new TableCellRenderer() { 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					
+				}
+					
+				return componente;
+			} 
+		}; 
+		
+		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		
 		btnCuadrante.addActionListener(opBuscarCuadrante);
 		btnSalir.addActionListener(opSalir);
@@ -156,6 +175,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		cont.add(panel);
 	}
+	
 	ActionListener opQuitar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(tabla.getRowCount()>0){
@@ -224,19 +244,20 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 				return;
 			}else {
 				Obj_Empleados_Cuadrantes empleado_cuadrante = new Obj_Empleados_Cuadrantes().buscar(Integer.parseInt(txtFolio.getText()));
-				if(empleado_cuadrante.getNombre().equals("")){
+				if(empleado_cuadrante.getCuadrante().equals("")){
 					JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+txtFolio.getText(),"Error",JOptionPane.WARNING_MESSAGE);
 					return;
 				}else{
-					txtNombre.setText(empleado_cuadrante.getNombre());
 					txtCuadrantes.setText(empleado_cuadrante.getCuadrante());
 					chStatus.setSelected(empleado_cuadrante.isStatus());
-					
-					String[][] lista_tabla = Obj_Empleados_Cuadrantes.getTablaCuadrante(empleado_cuadrante.getNombre());
+					while(tabla.getRowCount()>0){
+						modelo.removeRow(0);
+					}
+					String[][] lista_tabla = Obj_Empleados_Cuadrantes.getTablaCuadrante(Integer.parseInt(txtFolio.getText()));
 					String[] fila = new String[2];
 					for(int i=0; i<lista_tabla.length; i++){
-						fila[0] = lista_tabla[i][0];
-						fila[1] = lista_tabla[i][1];
+						fila[0] = lista_tabla[i][0]+"  ";
+						fila[1] = "   "+lista_tabla[i][1];
 						modelo.addRow(fila);
 					}
 				}
@@ -248,14 +269,12 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			txtFolio.setText(new Obj_Empleados_Cuadrantes().nuevoEmpleadoCuadrante()+"");
 			txtFolio.setEditable(false);
-			txtNombre.requestFocus();
 		}
 	};
 	
 	public String ValidaCampos(){
 		String error ="";
 		if(txtFolio.getText().equals("")) error+= "Folio\n";
-//		if(txtNombre.getText().equals("")) error+= "Nombre\n";
 		if(txtCuadrantes.getText().equals("")) error+= "Cuadrante\n";
 		if(!(tabla.getRowCount() > 0)) error += "No hay datos en la tabla\n";
 		
@@ -265,12 +284,11 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	ActionListener guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(ValidaCampos().equals("")){
-				if(new Obj_Empleados_Cuadrantes().existe(txtNombre.getText().toUpperCase())){
+				if(new Obj_Empleados_Cuadrantes().existe(Integer.parseInt(txtFolio.getText()))){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 						Obj_Empleados_Cuadrantes empleados_cuadrantes = new Obj_Empleados_Cuadrantes();
 						
 						empleados_cuadrantes.setFolio(Integer.parseInt(txtFolio.getText()));
-						empleados_cuadrantes.setNombre(txtNombre.getText());
 						empleados_cuadrantes.setCuadrante(txtCuadrantes.getText());
 						empleados_cuadrantes.setStatus(chStatus.isSelected());
 						
@@ -290,7 +308,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 					Obj_Empleados_Cuadrantes empleados_cuadrantes = new Obj_Empleados_Cuadrantes();
 					
 					empleados_cuadrantes.setFolio(Integer.parseInt(txtFolio.getText()));
-					empleados_cuadrantes.setNombre(txtNombre.getText());
 					empleados_cuadrantes.setCuadrante(txtCuadrantes.getText());
 					empleados_cuadrantes.setStatus(chStatus.isSelected());
 					
@@ -310,26 +327,23 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		}
 	};
 	
-	public String[][] lista_tabla(){
-		String[][] lista = new String[tabla.getRowCount()][2];
+	public String[] lista_tabla(){
+		String[] lista = new String[tabla.getRowCount()];
 		for(int i=0; i<tabla.getRowCount(); i++){
-			lista[i][0] = modelo.getValueAt(i,0).toString();
-			lista[i][1] = modelo.getValueAt(i,1).toString();
+			lista[i] = modelo.getValueAt(i,0).toString().trim();
 		}
 	
 		return lista;
 	}
 	
 	ActionListener opBuscarEmpleado = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
+		public void actionPerformed(ActionEvent arg0) {
 			new Cat_Filtro_Empleado_Cuadrantes().setVisible(true);
 		}
 	};
 	
 	ActionListener opBuscarCuadrante = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
+		public void actionPerformed(ActionEvent arg0) {
 			new Cat_Filtro_Cuadrantes().setVisible(true);
 		}
 	};
@@ -350,19 +364,17 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	};
 	
 	
-	public void limpia()
-	{
+	public void limpia() {
 		txtFolio.setText("");
 		txtCuadrantes.setText("");
-		txtNombre.setText("");
 		chStatus.setEnabled(false);
 		chStatus.setSelected(false);
 		
-		 while(modelo.getRowCount() > 0){
-	    	  modelo.removeRow(0);
+		while(modelo.getRowCount() > 0){
+			modelo.removeRow(0);
 		}
-		 txtFolio.requestFocus();
-		 txtFolio.setEditable(true);
+		txtFolio.requestFocus();
+		txtFolio.setEditable(true);
 	}
 	
 	KeyListener valida = new KeyListener() {
@@ -446,6 +458,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		
 		public Cat_Filtro_Empleado_Cuadrantes()	{
+			setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 			setTitle("Filtro de Empleados");
 			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
 			trsfiltro = new TableRowSorter(model1); 
@@ -466,6 +479,72 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 			tabla1.getColumnModel().getColumn(1).setMinWidth(250);
 			tabla1.getColumnModel().getColumn(2).setMaxWidth(85);
 			tabla1.getColumnModel().getColumn(2).setMinWidth(85);
+			
+			TableCellRenderer render = new TableCellRenderer() { 
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column) { 
+					
+					Component componente = null;
+					
+					switch(column){
+						case 0: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(model1.getValueAt(row,2).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 1: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(model1.getValueAt(row,2).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 2: 
+							componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(model1.getValueAt(row,2).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+							break;
+						
+					}
+						
+					return componente;
+				} 
+			}; 
+			
+			for(int i= 0; i<tabla1.getColumnCount(); i++){
+				tabla1.getColumnModel().getColumn(i).setCellRenderer(render); 
+			}
 			
 			txtFolio.addKeyListener(opFiltroFolio);
 			txtNombre_Completo.addKeyListener(opFiltroNombre);
@@ -529,7 +608,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 			public void keyPressed(KeyEvent arg0) {}		
 		};
 		
-		
 	   	public Object[][] getTabla(){
 			String todos = "exec sp_compara_empleados_con_cuadrante";
 			Statement s;
@@ -540,8 +618,8 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 				Matriz = new Object[getFilas(todos)][10];
 				int i=0;
 				while(rs.next()){
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2).trim();
+					Matriz[i][0] = rs.getString(1)+"  ";
+					Matriz[i][1] = "   "+rs.getString(2);
 					Matriz[i][2] = false;
 					i++;
 				}
@@ -567,26 +645,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 			return filas;
 		}	
 	   	
-	   	public void getTabla(int folio){
-			String todos1 = "exec sp_select_empleado_cuadrante "+folio;
-			Statement stmt = null;
-			ResultSet rs;
-			Connexion con = new Connexion();
-			try {
-				stmt = con.conexion().createStatement();
-				rs = stmt.executeQuery(todos1);
-				Object[] vector = new Object[2];
-				while(rs.next()){
-					vector[0] = (rs.getString(1));
-					vector[1] = (rs.getString(2));
-					modelo.addRow(vector);
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
-		
-		
 		KeyListener validaCantidad = new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e){
@@ -667,6 +725,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		
 		public Cat_Filtro_Cuadrantes()	{
+			setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 			setTitle("Filtro de Cuadrantes");
 			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Cuadrantes"));
 			trsfiltro = new TableRowSorter(model2); 
@@ -683,6 +742,33 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 			tabla2.getColumnModel().getColumn(0).setMinWidth(50);
 			tabla2.getColumnModel().getColumn(1).setMaxWidth(340);
 			tabla2.getColumnModel().getColumn(1).setMinWidth(340);
+			
+			TableCellRenderer render = new TableCellRenderer() { 
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column) { 
+					JLabel lbl = new JLabel(value == null? "": value.toString());
+					if(row%2==0){
+							lbl.setOpaque(true); 
+							lbl.setBackground(new java.awt.Color(177,177,177));
+					} 
+					
+					if(table.getSelectedRow() == row){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(186,143,73));
+					}
+					
+					switch(column){
+						case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+						case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+					}
+				return lbl; 
+				} 
+			}; 
+			
+			for(int i= 0; i<tabla2.getColumnCount(); i++){
+				tabla2.getColumnModel().getColumn(i).setCellRenderer(render); 
+			}
+			
 			agregar(tabla2);
 			txtFolio.addKeyListener(opFiltroFolio);
 			txtNombre_Completo.addKeyListener(opFiltroNombre);
@@ -731,8 +817,8 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 				Matriz = new Object[getFilas(todos)][2];
 				int i=0;
 				while(rs.next()){
-					Matriz[i][0] = rs.getString(1).trim();
-					Matriz[i][1] = rs.getString(2).trim();
+					Matriz[i][0] = rs.getString(1)+"  ";
+					Matriz[i][1] = "   "+rs.getString(2);
 					i++;
 				}
 			} catch (SQLException e1) {
@@ -801,7 +887,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		    			int fila = tabla2.getSelectedRow();
 		    			Object folio =  tabla2.getValueAt(fila, 1);
 		    			dispose();
-		    			txtCuadrantes.setText(folio.toString());
+		    			txtCuadrantes.setText(folio.toString().trim());
 		        	}
 		        }
 	        });

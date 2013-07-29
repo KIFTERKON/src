@@ -18,6 +18,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -36,9 +37,9 @@ public class Cat_Reporte_Venta_Gerencia extends JFrame {
 	JLayeredPane panel = new JLayeredPane();
 	
 	Object[][] Matriz;
-	Object[][] Tabla = getTabla();
+//	Object[][] Tabla = getTabla();
 	
-	DefaultTableModel model = new DefaultTableModel(Tabla,
+	DefaultTableModel model = new DefaultTableModel(null,
 			new String[]{"Venta","Departamento", "Unidades", "Venta Total", "Costo Total",
 			"Markup", "Establecimiento", "Fecha", "Día", "Semana del Año",
 			"Mes", "Año", "Semana" }){
@@ -213,54 +214,54 @@ public class Cat_Reporte_Venta_Gerencia extends JFrame {
 		}
 	};
 	
-	private Object[][] getTabla(){
-		String datos = "exec Sp_Prueba_Reporte_Venta_Gerencia";
-//		String datos ="exec sp_prueba_nula";
-		
-		Statement s;
-		ResultSet rs;
-		try {			
-			s = new Connexion().conexionDB_DOS().createStatement();
-			rs = s.executeQuery(datos);
-			Matriz = new Object[getFilas(datos)][13];
-			int i=0;
-			while(rs.next()){
-				
-//				Matriz[i][0] ="";
-//				Matriz[i][1] ="";
-//				Matriz[i][2] ="";
-//				Matriz[i][3] ="";
-//				Matriz[i][4] ="";
-//				Matriz[i][5] ="";
-//				Matriz[i][6] ="";
-//				Matriz[i][7] ="";
-//				Matriz[i][8] ="";
-//				Matriz[i][9] ="";
-//				Matriz[i][10] ="";
-//				Matriz[i][11] ="";
-//				Matriz[i][12] ="";
-				
-				Matriz[i][0] = rs.getString(1);
-				Matriz[i][1] = rs.getString(2).trim();
-				Matriz[i][2] = rs.getInt(3);
-				Matriz[i][3] = rs.getFloat(4);
-				Matriz[i][4] = rs.getFloat(5);
-				Matriz[i][5] = rs.getFloat(6);
-				Matriz[i][6] = rs.getString(7).trim().toUpperCase();
-				Matriz[i][7] = rs.getString(8).trim();
-				Matriz[i][8] = rs.getString(9).trim();
-				Matriz[i][9] = rs.getInt(10);
-				Matriz[i][10] = rs.getString(11).trim();
-				Matriz[i][11] = rs.getInt(12);
-				Matriz[i][12] = rs.getString(13).trim();
-				
-				i++;
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		return Matriz; 
-	}
+//	private Object[][] getTabla(){
+//		String datos = "exec Sp_Prueba_Reporte_Venta_Gerencia";
+////		String datos ="exec sp_prueba_nula";
+//		
+//		Statement s;
+//		ResultSet rs;
+//		try {			
+//			s = new Connexion().conexionDB_DOS().createStatement();
+//			rs = s.executeQuery(datos);
+//			Matriz = new Object[getFilas(datos)][13];
+//			int i=0;
+//			while(rs.next()){
+//				
+////				Matriz[i][0] ="";
+////				Matriz[i][1] ="";
+////				Matriz[i][2] ="";
+////				Matriz[i][3] ="";
+////				Matriz[i][4] ="";
+////				Matriz[i][5] ="";
+////				Matriz[i][6] ="";
+////				Matriz[i][7] ="";
+////				Matriz[i][8] ="";
+////				Matriz[i][9] ="";
+////				Matriz[i][10] ="";
+////				Matriz[i][11] ="";
+////				Matriz[i][12] ="";
+//				
+////				Matriz[i][0] = rs.getString(1);
+////				Matriz[i][1] = rs.getString(2).trim();
+////				Matriz[i][2] = rs.getInt(3);
+////				Matriz[i][3] = rs.getFloat(4);
+////				Matriz[i][4] = rs.getFloat(5);
+////				Matriz[i][5] = rs.getFloat(6);
+////				Matriz[i][6] = rs.getString(7).trim().toUpperCase();
+////				Matriz[i][7] = rs.getString(8).trim();
+////				Matriz[i][8] = rs.getString(9).trim();
+////				Matriz[i][9] = rs.getInt(10);
+////				Matriz[i][10] = rs.getString(11).trim();
+////				Matriz[i][11] = rs.getInt(12);
+////				Matriz[i][12] = rs.getString(13).trim();
+//				
+//				i++;
+//			}
+//		} catch (SQLException e1) {
+//			e1.printStackTrace();
+//		}
+//		return Matriz; 
+//	}
 	
 	public int getFilas(String qry){
 		int filas=0;
@@ -277,15 +278,14 @@ public class Cat_Reporte_Venta_Gerencia extends JFrame {
 		return filas;
 	}	
 	
-//	public static void main(String[] args) {
-//		try {
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//			new Cat_Reporte_Venta_Gerencia().setVisible(true);
-//		} catch (ClassNotFoundException | InstantiationException
-//				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-//			e.printStackTrace();
-//		}
-//			
-//	}
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Reporte_Venta_Gerencia().setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+	}
 
 }

@@ -2486,7 +2486,6 @@ public class BuscarSQL {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				empleado_cuadrante.setFolio(rs.getInt("folio"));
-				empleado_cuadrante.setNombre(rs.getString("nombre"));
 				empleado_cuadrante.setCuadrante(rs.getString("cuadrante"));
 				empleado_cuadrante.setStatus(rs.getInt("status")==1 ? true : false);
 			}
@@ -2522,9 +2521,9 @@ public class BuscarSQL {
 		return folio;
 	}
 	
-	public boolean existeEmpleadoCuadrante(String nombre) throws SQLException{
+	public boolean existeEmpleadoCuadrante(int folio) throws SQLException{
 		boolean existe = false;
-		String query = "exec sp_existe_empleado_cuadrante '"+nombre+"'";
+		String query = "exec sp_existe_empleado_cuadrante "+folio;
 		
 		Statement stmt = null;
 		try {
@@ -2544,8 +2543,8 @@ public class BuscarSQL {
 		return existe;
 	}
 	
-	public String[][] getTablaEmpleadoCuadrante(String nombre){
-		String datos = "exec sp_select_tabla_empleado_cuadrante '"+nombre.toUpperCase().trim()+"';";
+	public String[][] getTablaEmpleadoCuadrante(int folio){
+		String datos = "exec sp_select_tabla_empleado_cuadrante "+folio;
 		
 		String[][] Matriz = new String[getFilas(datos)][2];
 		Statement s;
@@ -2592,7 +2591,7 @@ public class BuscarSQL {
 	public Obj_Alimentacion_Cuadrante EmpleadoNombre(String nombre) throws SQLException{
 		Obj_Alimentacion_Cuadrante empleado_cuadrante = new Obj_Alimentacion_Cuadrante();
 		String query = "exec sp_select_cuadrante_empleado '"+nombre+"'";
-	
+		
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2619,10 +2618,10 @@ public class BuscarSQL {
 		return empleado_cuadrante;
 	}
 	
-	public String[][] tabla_alimentacion_cuadrante_libre(String nomgbre, String dia){
+	public String[][] tabla_alimentacion_cuadrante_libre(String nombre, String dia){
 		String[][] Matriz = null;
 		
-		String datosif = "exec sp_select_tabla_alimentacion_libre '"+nomgbre+"', '"+dia+"';";
+		String datosif = "exec sp_select_tabla_alimentacion_libre '"+nombre+"', '"+dia+"';";
 		System.out.println(datosif);
 			
 		Matriz = new String[getFilas(datosif)][3];
