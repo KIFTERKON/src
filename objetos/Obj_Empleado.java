@@ -27,6 +27,7 @@ public class Obj_Empleado {
 	private float infonavit;
 	private String targeta_nomina;
 	private int tipo_banco;
+	private String imss;
 	private boolean fuente_sodas;
 	private boolean gafete;
 	private int status;
@@ -38,7 +39,7 @@ public class Obj_Empleado {
 	public Obj_Empleado(){
 		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto ="";
 		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; 
-		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones="";
+		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss="";
 	}
 
 	public boolean getFuente_sodas() {
@@ -207,6 +208,14 @@ public class Obj_Empleado {
 
 	public void setTipo_banco(int tipo_banco) {
 		this.tipo_banco = tipo_banco;
+	}
+
+	public String getImss() {
+		return imss;
+	}
+
+	public void setImss(String imss) {
+		this.imss = imss;
 	}
 
 	public String getObservasiones() {

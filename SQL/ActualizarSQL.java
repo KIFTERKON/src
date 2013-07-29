@@ -44,7 +44,7 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=? where folio=" + folio;
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -74,6 +74,7 @@ public class ActualizarSQL {
 			pstmt.setString(20, empleado.getTargeta_nomina());
 			pstmt.setInt(21, empleado.getTipo_banco());
 			pstmt.setString(22, empleado.getFecha_nacimiento());
+			pstmt.setString(23,empleado.getImss()+"");
 					
 			pstmt.executeUpdate();
 			con.commit();

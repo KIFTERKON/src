@@ -212,7 +212,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(txtImss).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-10,20);
+		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-15,20);
 		
 		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
 		panel.add(chbGafete).setBounds((x*3)+(ancho*2)+5,y,70,20);
@@ -237,6 +237,7 @@ public class Cat_Empleado extends JFrame{
 		txtApPaterno.setDocument(new JTextFieldLimit(20));
 		txtApMaterno.setDocument(new JTextFieldLimit(20));
 		txtTarjetaNomina.setDocument(new JTextFieldLimit(19));
+		txtImss.setDocument(new JTextFieldLimit(11));
 		
 		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
@@ -348,8 +349,7 @@ public class Cat_Empleado extends JFrame{
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-				Obj_Empleado re = new Obj_Empleado();
-				re = re.buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 				if(re.getFolio() != 0){			
 					txtFolio.setText(re.getFolio()+"");
 					txtChecador.setText(re.getNo_checador()+"");
@@ -379,6 +379,8 @@ public class Cat_Empleado extends JFrame{
 					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
 					Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
 					cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
+					
+					txtImss.setText(re.getImss()+"");
 					
 					if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
 					else{chbFuente_Sodas.setSelected(false);}
@@ -482,7 +484,7 @@ public class Cat_Empleado extends JFrame{
 							}
 							
 							empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
-							
+							empleado.setImss(txtImss.getText());
 							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
 							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -557,6 +559,7 @@ public class Cat_Empleado extends JFrame{
 						}
 						
 						empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
+						empleado.setImss(txtImss.getText());
 						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
@@ -628,6 +631,7 @@ public class Cat_Empleado extends JFrame{
 		txtInfonavit.setEditable(true);
 		txtTarjetaNomina.setEditable(true);
 		cmbTipoBancos.setEnabled(true);
+		txtImss.setEnabled(true);
 		chbFuente_Sodas.setEnabled(true);
 		chbGafete.setEnabled(true);
 		cmbStatus.setEnabled(true);
@@ -654,6 +658,7 @@ public class Cat_Empleado extends JFrame{
 		txtInfonavit.setEditable(false);
 		txtTarjetaNomina.setEditable(false);
 		cmbTipoBancos.setEnabled(false);
+		txtImss.setEnabled(false);
 		chbFuente_Sodas.setEnabled(false);
 		chbGafete.setEnabled(false);
 		cmbStatus.setEnabled(false);
@@ -680,6 +685,7 @@ public class Cat_Empleado extends JFrame{
 		txtInfonavit.setText("");
 		txtTarjetaNomina.setText("");
 		cmbTipoBancos.setSelectedIndex(0);
+		txtImss.setText("");
 		chbFuente_Sodas.setSelected(false);
 		chbGafete.setSelected(false);
 		cmbStatus.setSelectedIndex(0);
@@ -911,6 +917,8 @@ public class Cat_Empleado extends JFrame{
 			txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
 			Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
 			cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
+			
+			txtImss.setText(re.getImss()+"");
 			
 			if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
 			else{chbFuente_Sodas.setSelected(false);}

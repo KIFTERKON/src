@@ -52,7 +52,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class GuardarSQL {
 
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -86,6 +86,7 @@ public class GuardarSQL {
 			pstmt.setInt(21, empleado.getTipo_banco());
 			pstmt.setString(22, empleado.getTargeta_nomina());
 			pstmt.setString(23, empleado.getFecha_nacimiento());
+			pstmt.setString(24, empleado.getImss().toUpperCase().trim());
 			
 			pstmt.executeUpdate();
 			con.commit();

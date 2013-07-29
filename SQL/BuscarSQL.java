@@ -808,6 +808,7 @@ public class BuscarSQL {
 				empleado.setObservasiones(rs.getString("observaciones"));
 				empleado.setFoto(rs.getString("foto"));
 				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
+				empleado.setImss(rs.getString("imss"));
 			}
 			
 		} catch (Exception e) {
