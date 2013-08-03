@@ -2,6 +2,7 @@ package SQL;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,13 +53,13 @@ import objetos.Obj_fuente_sodas_rh;
 public class GuardarSQL {
 
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-					
+			
 			pstmt.setInt(1, empleado.getNo_checador());
 			pstmt.setString(2, empleado.getNombre().toUpperCase());
 			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
@@ -81,12 +82,16 @@ public class GuardarSQL {
 			pstmt.setInt(17, empleado.getStatus());				
 			pstmt.setString(18, empleado.getFecha());
 			pstmt.setString(19, empleado.getObservasiones());
-			pstmt.setString(20, empleado.getFoto());
+			
+			FileInputStream stream_foto = new FileInputStream(empleado.getFoto());
+			pstmt.setBinaryStream(20, stream_foto, empleado.getFoto().length());
 
 			pstmt.setInt(21, empleado.getTipo_banco());
 			pstmt.setString(22, empleado.getTargeta_nomina());
 			pstmt.setString(23, empleado.getFecha_nacimiento());
 			pstmt.setString(24, empleado.getImss().toUpperCase().trim());
+			pstmt.setInt(25, empleado.getStatus_imss());
+			pstmt.setString(26, empleado.getFecha_ingreso());
 			
 			pstmt.executeUpdate();
 			con.commit();

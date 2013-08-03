@@ -24,7 +24,7 @@ public class Splash extends JFrame{
 	//declaramos un label que sera la version de nuestro sistema
 	JLabel version = new JLabel("Beta");
 	//declaramos otro label el cual contiene la imagen de fondo con el imageicon
-	static JLabel fondo = new JLabel(new ImageIcon("Imagen/izalog.png"));
+	static JLabel fondo = new JLabel(new ImageIcon("Imagen/splash.png"));
 	
 	//declaramos los labels que son puntos suspensivos
 	JLabel p1 = new JLabel(".");

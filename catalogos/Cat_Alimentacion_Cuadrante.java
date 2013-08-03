@@ -274,7 +274,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 	}
 	
-    private class MyComboEditor extends DefaultCellEditor{
+    @SuppressWarnings("unused")
+	private class MyComboEditor extends DefaultCellEditor{
         List<String[]> values;
          
         @SuppressWarnings("rawtypes")

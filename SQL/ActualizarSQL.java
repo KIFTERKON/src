@@ -1,5 +1,6 @@
 package SQL;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -44,7 +45,7 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=?, status_imss=?, fecha_ingreso=? where folio=" + folio;
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -70,12 +71,17 @@ public class ActualizarSQL {
 			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
 			pstmt.setInt(17, empleado.getStatus());
 			pstmt.setString(18,empleado.getObservasiones());
-			pstmt.setString(19, empleado.getFoto());
+			
+			FileInputStream stream_foto = new FileInputStream(empleado.getFoto());
+			pstmt.setBinaryStream(19, stream_foto, empleado.getFoto().length());
+			
 			pstmt.setString(20, empleado.getTargeta_nomina());
 			pstmt.setInt(21, empleado.getTipo_banco());
 			pstmt.setString(22, empleado.getFecha_nacimiento());
 			pstmt.setString(23,empleado.getImss()+"");
-					
+			pstmt.setInt(24, empleado.getStatus_imss());
+			pstmt.setString(25, empleado.getFecha_ingreso());
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

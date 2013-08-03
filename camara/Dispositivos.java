@@ -159,27 +159,20 @@ public class Dispositivos {
         if (img != null) {
             Integer i = new Integer(JFileChooser.APPROVE_OPTION);
             if (i != null){
-            	File folder = new File("x:\\Empleados");
-            	if(folder.exists()){
-            		  String imagen = "X:\\Empleados\\"+nombre;
-                      if (imagen.lastIndexOf(".") > 0){
-                          imagen = imagen.substring(0,imagen.lastIndexOf("."));
-                      }
-                      imagen = imagen+".JPG";
-                      System.out.println("imagen:"+imagen);
-                      File imagenArch = new File(imagen);
-                      String formato = "JPEG";
-                      player.close();
-                      padre.dispose();
-                       try{
-                         ImageIO.write((RenderedImage) img,formato,imagenArch);
-                      }catch (IOException ioe){
-                    	  System.out.println("Error al guardar la imagen");
-                      }
-            	}else{
-            		JOptionPane.showMessageDialog(null, "El directorio '\\192.168.2.180\\RRHH' no está conectado a la unidad de red ");	
-            	}
-              
+            	File folder = new File(System.getProperty("user.dir")+"/tmp");
+            	folder.mkdirs();
+				String imagen = System.getProperty("user.dir")+"/tmp/"+nombre;
+				File imagenArch = new File(imagen);
+				String formato = "JPG";
+				player.close();
+				padre.dispose();
+				
+				try{
+					ImageIO.write((RenderedImage) img,formato,imagenArch);
+				}catch(IOException ioe){
+					JOptionPane.showMessageDialog(null,"Error al guardar la imagen", "Error!",JOptionPane.ERROR_MESSAGE);
+				}
+             
             }
         }
         else
@@ -187,5 +180,5 @@ public class Dispositivos {
             javax.swing.JOptionPane.showMessageDialog(padre, "A ocurrido un error!!");
         }
         img=null;
-     }
+    }
 }

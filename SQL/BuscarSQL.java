@@ -1,9 +1,12 @@
 package SQL;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,6 +76,24 @@ public class BuscarSQL {
 			 if (stmt != null) { stmt.close(); }
 		}
 		return establecimiento;
+	}
+	
+	public boolean nombre_disponible(String nombre){
+		String query = "exec sp_existe_empleado '" + nombre + "';";
+		boolean disponible = false;
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				disponible = rs.getBoolean(1);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return disponible;
 	}
 	
 	public Obj_Establecimiento Establecimiento_Nuevo() throws SQLException{
@@ -780,9 +801,11 @@ public class BuscarSQL {
 		Obj_Empleado empleado = new Obj_Empleado();
 		String query = "select * from tb_empleado where folio ="+ folio;
 		Statement stmt = null;
+
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+		
 			while(rs.next()){
 				empleado.setFolio(rs.getInt("folio"));
 				empleado.setNo_checador(rs.getInt("no_checador"));
@@ -806,9 +829,21 @@ public class BuscarSQL {
 				empleado.setStatus(rs.getInt("status"));
 				empleado.setFecha(rs.getString("fecha"));
 				empleado.setObservasiones(rs.getString("observaciones"));
-				empleado.setFoto(rs.getString("foto"));
 				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
 				empleado.setImss(rs.getString("imss"));
+				empleado.setStatus_imss(rs.getInt("status_imss"));
+				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
+				
+				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				FileOutputStream fos = new FileOutputStream(photo);
+
+		            byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
+		            
 			}
 			
 		} catch (Exception e) {
@@ -2715,6 +2750,28 @@ public class BuscarSQL {
 		}
 		finally{
 			 if (stmt != null) { stmt.close(); }
+		}
+		return sentencia;
+	}
+	
+	
+	public boolean isFoto(int folio) throws SQLException{
+		String query = "exec sp_existe_foto"+ folio;
+		boolean sentencia = false;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				sentencia = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt != null){stmt.close();}
 		}
 		return sentencia;
 	}

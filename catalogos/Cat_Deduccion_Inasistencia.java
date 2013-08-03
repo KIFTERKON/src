@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;
@@ -29,25 +31,17 @@ import objetos.Obj_Deduccion_Inasistencia;
 @SuppressWarnings("serial")
 public class Cat_Deduccion_Inasistencia extends Cat_Root{
 	
-	private JCheckBox chb_inpuntualidad = new JCheckBox("Inpuntualidad");
-	private JCheckBox chb_falta = new JCheckBox("Falta");
-	private JCheckBox chb_gafete = new JCheckBox("Gafete");
 	private JCheckBox chb_habilitar = new JCheckBox("Habilitar");
 	
-	private String lista[] = {"      S/N","1","2","3","4","5","6","7"};
 	private String lista1[] = {"","1","2","3","4","5","6","7"};
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public JComboBox cmb_layaout_dias = new JComboBox(lista);
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private JComboBox cmb_tabla_dias = new JComboBox(lista1);
   
-    @SuppressWarnings({ "rawtypes", "unchecked", })
-    private JComboBox cmb_layaout_gafete = new JComboBox(lista);
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private JComboBox cmb_tabla_gafete = new JComboBox(lista1);
     	
     private DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Deduccion_Inasistencia().get_tabla_model(),
-            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Inpuntualidad", "Falta", "Días Falta", "Asistencia", "Gafete", "Días Gafete","Extra" }
+            new String[]{"Folio", "Nombre Completo", "Establecimiento", "Inpuntualidad", "Falta", "Días Falta", "Asistencia", "Gaf Status", "Gafete", "Días Gafete","Extra" }
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -57,6 +51,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 	    	java.lang.Boolean.class, 
 	    	java.lang.Boolean.class, 
 	    	java.lang.Object.class,
+	    	java.lang.Boolean.class,
 	    	java.lang.Boolean.class,
 	    	java.lang.Boolean.class,
 	    	java.lang.Object.class,
@@ -93,16 +88,26 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
         	 		}else{
         	 			return false;
         	 		}
-        	 	case 7 :
-        	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,7).toString()) != true){
-        	 			tabla_model.setValueAt(1, fila, 8);
+        	 	case 7 : return false;
+        	 	case 8 :
+        	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,7).toString()) == true){
+        	 			if(Boolean.parseBoolean(tabla.getValueAt(fila, 8).toString()) == true){
+        	 				tabla_model.setValueAt("", fila, 9);
+        	 				
+        	 			}else{
+        	 				tabla_model.setValueAt(1, fila, 9);
+        	 			}
         	 			return true;
-        	 		}else {
-        	 			tabla_model.setValueAt("", fila, 8);
-        	 			return true;
+        	 		}else{
+        	 			return false;
         	 		}
-        	 	case 8 : return true;
         	 	case 9 :
+        	 		if(Boolean.parseBoolean(tabla.getValueAt(fila, 8).toString()) == true){
+        	 			return true;
+        	 		}else{
+        	 			return false;
+        	 		}
+        	 	case 10 :
         	 		if(chb_habilitar.isSelected()){
         	 			return true;
         	 		}else{
@@ -122,24 +127,20 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 	public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
     
 	public TableColumn columna_dia_falta = tabla.getColumnModel().getColumn(5);
-	public TableColumn columna_dia_gafete = tabla.getColumnModel().getColumn(8);
+	public TableColumn columna_dia_gafete = tabla.getColumnModel().getColumn(9);
     
 	public Cat_Deduccion_Inasistencia(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/hand_contra_icon&16.png"));
 		this.setTitle("Deducción por Inasistencia");
 		
 		this.panel.add(cmbEstablecimientos).setBounds(463,35,150,20);
-		this.panel.add(chb_inpuntualidad).setBounds(615,35,100,20);
-		this.panel.add(chb_falta).setBounds(715,35,60,20);
-		this.panel.add(cmb_layaout_dias).setBounds(775,35,65,20);
-		this.panel.add(chb_gafete).setBounds(905,35,65,20);
-		this.panel.add(cmb_layaout_gafete).setBounds(975,35,65,20);
+
 		this.panel.add(chb_habilitar).setBounds(1050,35,65,20);
 		
 		this.columna_dia_falta.setCellEditor(new javax.swing.DefaultCellEditor(cmb_tabla_dias));
 		this.columna_dia_gafete.setCellEditor(new javax.swing.DefaultCellEditor(cmb_tabla_gafete));
 		
-		this.panel.add(scroll_tabla).setBounds(30,60,1125,615);
+		this.panel.add(scroll_tabla).setBounds(30,60,1195,615);
 		
 		this.cont.add(panel);
 		
@@ -148,11 +149,6 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		this.btn_guardar.addActionListener(op_guardar);
 			this.btn_guardar.setToolTipText("Guardar");
 		this.btn_refrescar.setVisible(false);
-		this.chb_inpuntualidad.addActionListener(op_inpuntualidad);
-		this.chb_falta.addActionListener(op_faltas);
-		this.cmb_layaout_dias.addActionListener(op_layaout_dia);
-		this.chb_gafete.addActionListener(op_gafete);
-		this.cmb_layaout_gafete.addActionListener(op_layaout_gafete);
 		
 		this.txtFolio.addKeyListener(op_filtro_folio);
 		this.txtNombre_Completo.addKeyListener(op_filtro_nombre);
@@ -160,9 +156,24 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
+		this.addWindowListener(op_cerrar);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 	}
+	
+	WindowListener op_cerrar = new WindowListener() {
+		public void windowOpened(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {
+			if(JOptionPane.showConfirmDialog(null, "¿Desea guardar antes de cerrar?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+				new Obj_Deduccion_Inasistencia().guardar(tabla_guardar());
+			}
+		}
+		public void windowClosed(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+	};
 	
 	ActionListener op_guardar = new ActionListener() {
 		@SuppressWarnings("unchecked")
@@ -241,21 +252,21 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 							matriz[i][j] = Boolean.parseBoolean(tabla_model.getValueAt(i,j).toString());
 						}
 						break;
-					case 7: 
+					case 8: 
 						if(tabla_model.getValueAt(i,j).toString().equals("")){
 							matriz[i][j] = Boolean.parseBoolean("false");
 						}else{
 							matriz[i][j] = Boolean.parseBoolean(tabla_model.getValueAt(i,j).toString());
 						}
 						break;
-					case 8: 
+					case 9: 
 						if(tabla_model.getValueAt(i,j).toString().trim().length() == 0){
 							matriz[i][j] = Integer.parseInt("0"); 
 						}else{
 							matriz[i][j] = Integer.parseInt(tabla_model.getValueAt(i,j).toString().trim());
 						}
 						break;
-					case 9: 
+					case 10: 
 						if(tabla_model.getValueAt(i,j).toString().trim().length() == 0){
 							matriz[i][j] = Float.parseFloat("0"); 
 						}else{
@@ -273,7 +284,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		String error = "";
 		for(int i=0; i<tabla.getRowCount(); i++){
 			try{
-				if(!isNumeric(tabla_model.getValueAt(i,9).toString())){
+				if(!isNumeric(tabla_model.getValueAt(i,10).toString())){
 					error += "   La celda de la columna Extra no es un número en el [Folio: "+tabla_model.getValueAt(i,0)+"]\t\n";
 				}
 			} catch(Exception e){
@@ -285,6 +296,8 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 	
 	@SuppressWarnings("unchecked")
 	public void init_tabla(){
+		this.tabla.getTableHeader().setReorderingAllowed(false) ;
+		
 		this.tabla.getColumnModel().getColumn(0).setMaxWidth(72);
 		this.tabla.getColumnModel().getColumn(0).setMinWidth(72);
 		this.tabla.getColumnModel().getColumn(1).setMaxWidth(360);
@@ -303,8 +316,10 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		this.tabla.getColumnModel().getColumn(7).setMinWidth(70);
 		this.tabla.getColumnModel().getColumn(8).setMaxWidth(70);
 		this.tabla.getColumnModel().getColumn(8).setMinWidth(70);
-		this.tabla.getColumnModel().getColumn(9).setMaxWidth(90);
-		this.tabla.getColumnModel().getColumn(9).setMinWidth(90);
+		this.tabla.getColumnModel().getColumn(9).setMaxWidth(70);
+		this.tabla.getColumnModel().getColumn(9).setMinWidth(70);
+		this.tabla.getColumnModel().getColumn(10).setMaxWidth(90);
+		this.tabla.getColumnModel().getColumn(10).setMinWidth(90);
     	
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -410,6 +425,18 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
 						break;
 					case 8: 
+						componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 9: 
 						componente = new JLabel(value == null? "": value.toString());
 						if(row %2 == 0){
 							((JComponent) componente).setOpaque(true); 
@@ -421,7 +448,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
 						break;
-					case 9: 
+					case 10: 
 						componente = new JLabel(value == null? "": value.toString());
 						if(row %2 == 0){
 							((JComponent) componente).setOpaque(true); 
@@ -451,6 +478,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		this.tabla.getColumnModel().getColumn(7).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(8).setCellRenderer(render);
 		this.tabla.getColumnModel().getColumn(9).setCellRenderer(render);
+		this.tabla.getColumnModel().getColumn(10).setCellRenderer(render);
 		
 		this.tabla.setRowSorter(trsfiltro);  
 		
@@ -505,91 +533,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 			}
 		}
 	};
-	
-	ActionListener op_inpuntualidad = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			if(chb_inpuntualidad.isSelected()){
-				for(int j=0; j<tabla.getRowCount(); j++){
-					tabla_model.setValueAt(Boolean.parseBoolean("true"), j,3);
-				}
-			}else{
-				for(int j=0; j<tabla.getRowCount(); j++){
-					tabla_model.setValueAt(Boolean.parseBoolean("false"), j,3);					
-				}
-			}
-			
-		}
-	};
-	
-	ActionListener op_faltas = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			if(chb_falta.isSelected()){
-				for(int j=0; j<tabla.getRowCount(); j++){
-					tabla_model.setValueAt(Boolean.parseBoolean("true"), j,4);
-					tabla_model.setValueAt(1, j,5);
-				}
-			}else{
-				for(int j=0; j<tabla.getRowCount(); j++){
-					tabla_model.setValueAt(Boolean.parseBoolean("false"), j,4);
-					tabla_model.setValueAt("", j,5);
-				}
-				cmb_layaout_dias.setSelectedIndex(0);
-			}
-			
-		}
-	};
-	
-	ActionListener op_layaout_dia = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			for(int i=0; i<tabla.getRowCount(); i++) {
-				if(Boolean.parseBoolean(tabla_model.getValueAt(i,4).toString()) != true){
-					tabla_model.setValueAt("", i,5);
-				}else{
-					if(Integer.parseInt(cmb_layaout_dias.getSelectedItem()+"") == 0){
-						tabla_model.setValueAt("", i,5);
-					}else{
-						tabla_model.setValueAt(cmb_layaout_dias.getSelectedIndex(), i,5);
-					}
-				}
-			}			
-		}
-	};
-	
-	ActionListener op_gafete = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			if(chb_gafete.isSelected()){
-				for(int j=0; j<tabla.getRowCount(); j++){
-					tabla_model.setValueAt(Boolean.parseBoolean("true"), j,7);
-					tabla_model.setValueAt(1, j, 8);
-				}
-			}else{
-				for(int j=0; j<tabla.getRowCount(); j++){
-					tabla_model.setValueAt(Boolean.parseBoolean("false"), j,7);
-					tabla_model.setValueAt("", j, 8);
-				}
-				cmb_layaout_gafete.setSelectedIndex(0);
-			}
-			
-		}
-	};
-	
-	ActionListener op_layaout_gafete = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			for(int i=0; i<tabla.getRowCount(); i++) {
-				if(Boolean.parseBoolean(tabla_model.getValueAt(i,7).toString()) != true){
-					tabla_model.setValueAt("", i,8);
-				}else{
-					if(cmb_layaout_gafete.getSelectedIndex() == 0){
-						tabla_model.setValueAt("", i,8);
-					}else{
-						tabla_model.setValueAt(cmb_layaout_gafete.getSelectedIndex(), i,8);
-					}
-					
-				}
-			}			
-		}
-	};
-	
+		
 	public static void main(String[] args) {
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

@@ -68,10 +68,11 @@ public class GuardarTablasModel {
 				pstmt.setString(5, tabla[i][4].toString().trim().equals("true") ? "true" : "false");
 				pstmt.setInt(6, Integer.parseInt(tabla[i][5].toString()));
 				pstmt.setString(7, tabla[i][6].toString().trim().equals("true") ? "true" : "false");
-				pstmt.setString(8, tabla[i][7].toString().trim().equals("true") ? "true" : "false");
-				pstmt.setInt(9, Integer.parseInt(tabla[i][8].toString()));
-				pstmt.setFloat(10, Float.parseFloat(tabla[i][9].toString()));
+				pstmt.setString(8, tabla[i][8].toString().trim().equals("true") ? "true" : "false");
+				pstmt.setInt(9, Integer.parseInt(tabla[i][9].toString()));
+				pstmt.setFloat(10, Float.parseFloat(tabla[i][10].toString()));
 				pstmt.executeUpdate();
+			
 			}
 		
 			con.commit();

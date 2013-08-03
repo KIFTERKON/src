@@ -4,11 +4,14 @@ import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +21,8 @@ import objetos.Obj_Alimentacion_Totales;
 
 @SuppressWarnings("serial")
 public class Cat_Alimentacion_Totales extends Cat_Root {
+	
+	JTextField txtTotal = new JTextField();
 	
 	DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Alimentacion_Totales().get_tabla_model(), new String[]{"Establecimiento", "Nómina"}) {
 	     @SuppressWarnings("rawtypes")
@@ -33,7 +38,18 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
          public boolean isCellEditable(int fila, int columna){
         	 switch(columna){
         	 	case 0 : return false; 
-        	 	case 1 : return true; 
+        	 	case 1 :
+        	 		float suma = 0;
+	    			for(int i=0; i<tabla.getRowCount(); i++){
+	    				if(tabla_model.getValueAt(i,1).toString().length() == 0){
+	    					suma = suma + 0;
+	    				}else{
+	    					suma += Float.parseFloat(tabla_model.getValueAt(i,1).toString());
+	    				}
+	    				
+	    			}
+	    			txtTotal.setText("$  "+suma);
+        	 		return true; 
         	 } 				
  			return false;
  		}
@@ -50,6 +66,11 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 		this.txtNombre_Completo.setVisible(false);
 		this.btn_refrescar.setVisible(false);
 		
+		this.panel.add(new JLabel("Total de Cantidades:")).setBounds(220,5,100,20);
+		this.panel.add(txtTotal).setBounds(330,5,90,20);
+		
+		this.txtTotal.setEditable(false);
+		
 		this.panel.add(scroll_tabla).setBounds(20,30,400,420);
 		
 		this.cont.add(panel);
@@ -57,12 +78,31 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 		this.init_tabla();
 		
 		this.btn_guardar.addActionListener(op_guardar);
+		this.tabla.addKeyListener(op_key);
 		
 		this.setSize(450,500);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
+	
+	KeyListener op_key = new KeyListener() {
+		public void keyTyped(KeyEvent e) {
+		}
+		public void keyReleased(KeyEvent e) {
+			float suma = 0;
+			for(int i=0; i<tabla.getRowCount(); i++){
+				if(tabla_model.getValueAt(i,1).toString().length() == 0){
+					suma = suma + 0;
+				}else{
+					suma += Float.parseFloat(tabla_model.getValueAt(i,1).toString());
+				}
+			}
+			txtTotal.setText("$  "+suma);
+		}
+		public void keyPressed(KeyEvent e) {
+		}
+	};
 	
 	ActionListener op_guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
@@ -120,6 +160,8 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 	}
 	
 	public void init_tabla(){
+		this.tabla.getTableHeader().setReorderingAllowed(false) ;
+		
     	this.tabla.getColumnModel().getColumn(0).setMaxWidth(300);
     	this.tabla.getColumnModel().getColumn(0).setMinWidth(300);		
     	this.tabla.getColumnModel().getColumn(1).setMaxWidth(90);
@@ -147,7 +189,16 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 
 		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-				
+		
+		float suma = 0;
+		for(int i=0; i<tabla.getRowCount(); i++){
+			if(tabla_model.getValueAt(i,1).toString().length() == 0){
+				suma = suma + 0;
+			}else{
+				suma += Float.parseFloat(tabla_model.getValueAt(i,1).toString());
+			}
+		}
+		txtTotal.setText("$  "+suma);
     }
 	
     private static boolean isNumeric(String cadena){

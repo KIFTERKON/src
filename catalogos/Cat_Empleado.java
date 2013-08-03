@@ -1,36 +1,60 @@
 package catalogos;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.RenderedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.media.Buffer;
+import javax.media.CannotRealizeException;
+import javax.media.CaptureDeviceInfo;
+import javax.media.Format;
+import javax.media.Manager;
+import javax.media.MediaLocator;
+import javax.media.NoPlayerException;
+import javax.media.Player;
+import javax.media.cdm.CaptureDeviceManager;
+import javax.media.control.FrameGrabbingControl;
+import javax.media.format.RGBFormat;
+import javax.media.format.VideoFormat;
+import javax.media.format.YUVFormat;
+import javax.media.util.BufferToImage;
 import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
 
 import com.toedter.calendar.JDateChooser;
@@ -48,7 +72,6 @@ import objetos.Obj_Turno;
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Empleado extends JFrame{
 
-	int forma;
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -61,6 +84,9 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtPensionAli = new JTextField();
 	JTextField txtHorario = new JTextField();
 	JTextField txtImss = new JTextField();
+	JTextField txtTelefono_Familiar = new JTextField();
+	
+	JToggleButton btnTrueFoto = new JToggleButton("Para actualizar la foto Presiona aquí !!!");
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento();
 	@SuppressWarnings("rawtypes")
@@ -108,6 +134,10 @@ public class Cat_Empleado extends JFrame{
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
+	String activo_inactivo[] = {"Activo","Inactivo"};
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbActivo_Inactivo = new JComboBox(activo_inactivo);
+	
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnFiltro = new JButton(new ImageIcon("Iconos/users_icon&16.png"));
 	JButton btnNuevo = new JButton("Nuevo");
@@ -115,15 +145,20 @@ public class Cat_Empleado extends JFrame{
 	JButton btnSalir = new JButton("Salir");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnDeshacer = new JButton("Deshacer");
-	
+	JButton btnVerificar = new JButton("Verificar Usuario");
+		
 	JButton btnFoto = new JButton();
 	JButton btnStatus = new JButton();
 	JButton btnExaminar = new JButton("Examinar");
+	JButton btnCamara = new JButton(new ImageIcon("Iconos/camara_icon&16.png"));
+	JButton btnCumpleaños_del_Mes = new JButton("Cumpleaños del Mes");
+	JButton btnIncontratables = new JButton("No contratables");
 	
 	JTextArea txaObservaciones = new JTextArea(5,5);
 	JScrollPane Observasiones = new JScrollPane(txaObservaciones);
 	
 	JDateChooser txtCalendario = new JDateChooser();
+	JDateChooser txtIngreso = new JDateChooser();
 	
 	public String img = "";
 	
@@ -138,6 +173,7 @@ public class Cat_Empleado extends JFrame{
 		int x = 40, y=30, ancho=140;
 		
 		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+		this.txtIngreso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
 		panel.setBorder(BorderFactory.createTitledBorder("Alta de Empleados"));
 		
@@ -153,10 +189,16 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
 		panel.add(btnFoto).setBounds(x*2+ancho*3-20,y,ancho+95,200);
-		panel.add(txaObservaciones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
-		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+205,80,25);
-		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+235,ancho+95,210);
+		panel.add(Observasiones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
 		
+		panel.add(btnCumpleaños_del_Mes).setBounds(x*2+ancho*3-20+ancho+110,y+450,130,20);
+		panel.add(btnIncontratables).setBounds(x*2+ancho*3-20+ancho+330,y+450,130,20);
+		
+		panel.add(btnTrueFoto).setBounds(x*2+ancho*3-20, y+205,235,25);
+		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+235,80,25);
+		panel.add(btnCamara).setBounds(x*2+ancho*3+135, y+235,80,25);
+		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+265,ancho+95,205);
+	
 		panel.add(new JLabel("No Checador:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtChecador).setBounds(x+ancho,y,ancho*2,20);
 		
@@ -168,6 +210,8 @@ public class Cat_Empleado extends JFrame{
 		
 		panel.add(new JLabel("Apellido Materno:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtApMaterno).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(btnVerificar).setBounds(x+ancho, y+=25,150,20);
 		
 		panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbEstablecimiento).setBounds(x+ancho,y,ancho*2,20);
@@ -209,19 +253,27 @@ public class Cat_Empleado extends JFrame{
 		panel.add(cmbTipoBancos).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("N° Seguro Social:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtImss).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(txtImss).setBounds(x+ancho,y,125,20);
+		
+		panel.add(cmbActivo_Inactivo).setBounds(x+ancho+135,y,145,20);
+		
+		panel.add(new JLabel("Telefono Familiar:")).setBounds(480,y,90,20);
+		panel.add(txtTelefono_Familiar).setBounds(570,y,145,20);
 		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-15,20);
 		
 		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
-		panel.add(chbGafete).setBounds((x*3)+(ancho*2)+5,y,70,20);
-		
-		panel.add(new JLabel("Fecha:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtFecha).setBounds(x+ancho,y,ancho+50,20);
+		panel.add(chbGafete).setBounds((x*3)+(ancho*2)+5,y,60,20);
 		
 		panel.add(new JLabel("Fecha de Nacimiento:")).setBounds(x,y+=25, ancho, 20);
-		panel.add(txtCalendario).setBounds(x+ancho,y,ancho+50,20);
+		panel.add(txtCalendario).setBounds(x+ancho,y,125,20);
+		
+		panel.add(new JLabel("Ingreso:")).setBounds(x+ancho+130,y, ancho, 20);
+		panel.add(txtIngreso).setBounds(x+ancho+180,y,100,20);
+		
+		panel.add(new JLabel("Ultima actualización:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtFecha).setBounds(x+ancho,y,125,20);
 		
 		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
@@ -247,12 +299,13 @@ public class Cat_Empleado extends JFrame{
 		btnNuevo.addActionListener(nuevo);
 		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
-//		btnFoto.addActionListener(opFoto);
-		btnExaminar.addActionListener(opExaminar);
-
+		btnCamara.addActionListener(opFoto);
+		btnVerificar.addActionListener(opVerificar);
+		btnTrueFoto.addActionListener(opPresionFoto);
+		
 		txtTarjetaNomina.addKeyListener(txtlogns);
 		btnExaminar.setEnabled(false);
-		
+		btnCamara.setEnabled(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
@@ -266,15 +319,63 @@ public class Cat_Empleado extends JFrame{
 		txtFecha.setEditable(false);
 		panelEnabledFalse();
 		txtFolio.setEditable(true);
-		String file = "X:\\Empleados\\Un.JPG";
+		
+		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 		
-		this.setSize(1100,645);
+		String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
+		ImageIcon tmpIconAux_status = new ImageIcon(file_status);
+		btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+		
+		this.setSize(1100,670);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
+	
+	ActionListener opPresionFoto = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			btnExaminar.setEnabled(true);
+			btnCamara.setEnabled(true);
+		}
+	};
+	
+	ActionListener opExaminar = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+						
+		}
+		
+	};
+	
+	ActionListener opVerificar = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			if(txtNombre.getText().length() == 0 || txtApPaterno.getText().length() == 0 || txtApMaterno.getText().length() == 0){
+				JOptionPane.showMessageDialog(null,"Los campos nombre y apellidos deben tener texto","Aviso!", JOptionPane.WARNING_MESSAGE);
+				return;
+			}else{
+				String nombre = procesa_texto(txtNombre.getText()) + " " + procesa_texto(txtApPaterno.getText()) + " " + procesa_texto(txtApMaterno.getText());
+				if(new Obj_Empleado().nombre_disponible(nombre)){
+					btnVerificar.setBackground(Color.red);
+					
+				}else{
+					btnVerificar.setBackground(Color.blue);
+					panelEnabledTrue();
+				}
+			}
+		}
+	};
+	
+    public String procesa_texto(String texto) {
+        StringTokenizer tokens = new StringTokenizer(texto);
+        texto = "";
+        while(tokens.hasMoreTokens()){
+            texto += " "+tokens.nextToken();
+        }
+        texto = texto.toString();
+        texto = texto.trim().toUpperCase();
+        return texto;
+    }
 	
 	ActionListener opHorario_Turno = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
@@ -283,62 +384,18 @@ public class Cat_Empleado extends JFrame{
 		}
 	};
 	
-//	ActionListener opFoto = new ActionListener(){
-//		public void actionPerformed(ActionEvent e){
-//			if(txtFolio.getText().length() != 0){
-//				String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
-//				img = file;
-//				File fichero = new File(file);
-//				if(fichero.exists()){
-//					ImageIcon tmpIconAux = new ImageIcon(file);
-//				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-//				}else {
-//					new MainCamara(txtFolio.getText()).setVisible(true);
-//				}				
-//			}else {
-//				  JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.");				
-//			}
-//			
-//		}
-//	};
-	
-	ActionListener opExaminar = new ActionListener(){
-		public void actionPerformed(ActionEvent arg0){
-			
-			FileDialog f = new FileDialog(new Frame());
-			f.setTitle("Selecciona una Imagen");
-			f.setMode(FileDialog.LOAD);
-			f.setVisible(true);
-			String ruta = f.getDirectory();
-			
-			if(ruta == null){
-				img = "X:\\Empleados\\Un.JPG";
+	ActionListener opFoto = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			if(txtFolio.getText().length() == 0){
+				JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.","Aviso", JOptionPane.WARNING_MESSAGE);
 				return;
-			}
-			String nombre = f.getFile();
-			
-			if(nombre != null){
-				ruta += nombre;
-				
-			img = ruta;
-			ImageIcon tmpIconAux = new ImageIcon(img);
-			btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));			
-			
-			try{
-				FileInputStream fis = new FileInputStream(img);
-				img = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
-				FileOutputStream fos = new FileOutputStream(img); 
-				FileChannel inChannel = fis.getChannel(); 
-				FileChannel outChannel = fos.getChannel(); 
-				inChannel.transferTo(0, inChannel.size(), outChannel); 
-				fis.close(); 
-				fos.close();
-				}catch (IOException e) {
-					System.err.println("Error al Generar Copia");
+			}else{
+				try{
+					new MainCamara("tmp.jpg").setVisible(true);
+				}catch(Exception ee){
+					JOptionPane.showMessageDialog(null, "Verifique si está conectada y configurada la camara", "Error!", JOptionPane.ERROR_MESSAGE);
 				}
-			
 			}
-		
 		}
 	};
 	
@@ -390,23 +447,30 @@ public class Cat_Empleado extends JFrame{
 
 					try {
 						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
+						Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
 						txtCalendario.setDate(date);
+						txtIngreso.setDate(date_ingreso);
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}
 					
 					switch(cmbStatus.getSelectedIndex()+1){
-						case 1:btnStatus.setIcon(new ImageIcon("imagen/vigente.png"));break;
-						case 2:btnStatus.setIcon(new ImageIcon("imagen/vacaciones.png"));break;
-						case 3:btnStatus.setIcon(new ImageIcon("imagen/incapacidad.png"));break;
-						case 4:btnStatus.setIcon(new ImageIcon("imagen/baja.png"));break;
+						case 1: 
+							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+						    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+							;break;
+						case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));break;
+						case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));break;
+						case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png"));break;
 					}
 					
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 					txaObservaciones.setText(re.getObservasiones());
-					img = re.getFoto();
-					ImageIcon tmpIconAux = new ImageIcon(re.getFoto());
+					
+					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+				    
+				    cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
 			    
 				    btnNuevo.setVisible(false);
 					btnEditar.setVisible(true);
@@ -441,10 +505,10 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 							empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
-							empleado.setNombre(txtNombre.getText());
-							empleado.setAp_paterno(txtApPaterno.getText());
+							empleado.setNombre(procesa_texto(txtNombre.getText()));
+							empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 							if(txtApMaterno.getText().length() != 0){
-								empleado.setAp_materno(txtApMaterno.getText());
+								empleado.setAp_materno(procesa_texto(txtApMaterno.getText()));
 							}else{
 								empleado.setAp_materno("");
 							}
@@ -482,7 +546,6 @@ public class Cat_Empleado extends JFrame{
 							}else{
 								empleado.setTargeta_nomina("");
 							}
-							
 							empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
 							empleado.setImss(txtImss.getText());
 							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
@@ -495,22 +558,27 @@ public class Cat_Empleado extends JFrame{
 							}else{
 								empleado.setObservasiones("");
 							}
-							String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
-							File fichero = new File(file);
-							if(fichero.exists()){
-								empleado.setFoto(file);
+							
+							if(btnTrueFoto.isSelected()){
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
 							}else{
-								empleado.setFoto("X:\\Empleados\\Un.JPG");
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
 							}
+							
 							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-							empleado.actualizar(Integer.parseInt(txtFolio.getText()));
-							panelLimpiar();
-							panelEnabledFalse();
-							txtFolio.setEditable(true);
-							txtFolio.requestFocus();
-							JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+							
+							if(empleado.actualizar(Integer.parseInt(txtFolio.getText()))){
+								panelLimpiar();
+								panelEnabledFalse();
+								txtFolio.setEditable(true);
+								txtFolio.requestFocus();
+								JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE);
+							}else{
+								JOptionPane.showMessageDialog(null,"Error al intentar actualizar los datos","Aviso",JOptionPane.WARNING_MESSAGE);
+							}
 						}
-						
 					}else{
 						return;
 					}
@@ -521,10 +589,11 @@ public class Cat_Empleado extends JFrame{
 					}else{
 						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 						empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
-						empleado.setNombre(txtNombre.getText());
-						empleado.setAp_paterno(txtApPaterno.getText());
+						empleado.setNombre(procesa_texto(txtNombre.getText()));
+						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
+						
 						if(txtApMaterno.getText().length() != 0){
-							empleado.setAp_materno(txtApMaterno.getText());
+							empleado.setAp_materno(procesa_texto(txtApMaterno.getText()));
 						}else{
 							empleado.setAp_materno("");
 						}
@@ -540,6 +609,7 @@ public class Cat_Empleado extends JFrame{
 						empleado.setSueldo(cmbSueldo.getSelectedIndex());
 						empleado.setBono(cmbBono.getSelectedIndex());
 						empleado.setPrestamo(cmbPrestamos.getSelectedIndex());
+						
 						if(txtPensionAli.getText().length() != 0){
 							empleado.setPension_alimenticia(Float.parseFloat(txtPensionAli.getText()));
 						}else{
@@ -564,25 +634,32 @@ public class Cat_Empleado extends JFrame{
 						empleado.setGafete(chbGafete.isSelected());
 						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
 						empleado.setFecha(txtFecha.getText());
+						
 						if(txaObservaciones.getText().length() != 0){
 							empleado.setObservasiones(txaObservaciones.getText());
 						}else{
 							empleado.setObservasiones("");
 						}
-						String file = "X:\\Empleados\\"+txtFolio.getText()+".JPG";
-						File fichero = new File(file);
-						if(fichero.exists()){
-							empleado.setFoto(file);
+						 
+						if(btnTrueFoto.isSelected()){
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
 						}else{
-							empleado.setFoto("X:\\Empleados\\Un.JPG");
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
 						}
+						
 						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						empleado.guardar();	
-						panelLimpiar();
-						panelEnabledFalse();
-						txtFolio.setEditable(true);
-						txtFolio.requestFocus();
-						JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+						
+						if(empleado.guardar()){
+							panelLimpiar();
+							panelEnabledFalse();
+							txtFolio.setEditable(true);
+							txtFolio.requestFocus();
+							JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE);
+						}else{
+							JOptionPane.showMessageDialog(null, "Ocurrió un problema al almacenar el empleado", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 			}			
@@ -606,6 +683,7 @@ public class Cat_Empleado extends JFrame{
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
 				btnExaminar.setEnabled(true);
+			
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;
@@ -637,6 +715,8 @@ public class Cat_Empleado extends JFrame{
 		cmbStatus.setEnabled(true);
 		txaObservaciones.setEditable(true);
 		txtCalendario.setEnabled(true);
+		cmbActivo_Inactivo.setEnabled(true);
+		txtIngreso.setEnabled(true);
 		
 	}
 	
@@ -664,6 +744,8 @@ public class Cat_Empleado extends JFrame{
 		cmbStatus.setEnabled(false);
 		txaObservaciones.setEditable(false);
 		txtCalendario.setEnabled(false);
+		cmbActivo_Inactivo.setEnabled(false);
+		txtIngreso.setEnabled(false);
 		
 	}
 	
@@ -692,6 +774,11 @@ public class Cat_Empleado extends JFrame{
 		txaObservaciones.setText("");
 	    btnFoto.setIcon(new ImageIcon(""));	
 	    btnStatus.setIcon(new ImageIcon(""));
+	    cmbActivo_Inactivo.setSelectedIndex(0);
+		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
+		ImageIcon tmpIconAux = new ImageIcon(file);
+		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+		
 	    
 	}
 	
@@ -701,21 +788,25 @@ public class Cat_Empleado extends JFrame{
 				Obj_Empleado empleado = new Obj_Empleado().buscar_nuevo();
 				if(empleado.getFolio() != 0){
 					panelLimpiar();
-					panelEnabledTrue();
+					txtChecador.setEditable(true);
+					txtNombre.setEditable(true);
+					txtApPaterno.setEditable(true);
+					txtApMaterno.setEditable(true);
 					txtFolio.setText(empleado.getFolio()+1+"");
 					txtFolio.setEditable(false);
 					txtChecador.requestFocus();
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-					String file = "X:\\Empleados\\Un.JPG";
+					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+							
 				}else{
 					panelEnabledTrue();
 					txtFolio.setText(1+"");
 					txtFolio.setEditable(false);
 					txtChecador.requestFocus();
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-					String file = "X:\\Empleados\\Un.JPG";
+					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 				}
@@ -791,7 +882,6 @@ public class Cat_Empleado extends JFrame{
 						e.consume(); 
 				}				
 			}
-			
 				   
 		}
 		@Override
@@ -813,12 +903,9 @@ public class Cat_Empleado extends JFrame{
 		    	}
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){
-		    		    	
 		    	String texto = txtInfonavit.getText().toString();
 				if (texto.indexOf(".")>-1) e.consume();
-				
 			}
-		    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
@@ -839,12 +926,9 @@ public class Cat_Empleado extends JFrame{
 		    	}
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){
-		    		    	
 		    	String texto = txtPensionAli.getText().toString();
 				if (texto.indexOf(".")>-1) e.consume();
-				
 			}
-		    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
@@ -856,6 +940,7 @@ public class Cat_Empleado extends JFrame{
 	private String validaCampos(){
 		String error="";
 		String fechaNull = txtCalendario.getDate()+"";
+		String fechaIngresoNull = txtIngreso.getDate()+"";
 		
 		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
 		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
@@ -867,11 +952,11 @@ public class Cat_Empleado extends JFrame{
 		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
 		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
-		if(txtTarjetaNomina.getText().equals("")) error += "Tarjeta de Nomina\n";
 		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
 		if(cmbPrestamos.getSelectedItem().equals("Selecciona un Rango de Prestamo")) error += "Rango de Prestamo\n";
 		if(fechaNull.equals("null"))error+= "Fecha de Nacimiento\n";	
+		if(fechaIngresoNull.equals("null"))error += "Fecha de ingreso\n";
 		
 		return error;
 	}
@@ -925,10 +1010,21 @@ public class Cat_Empleado extends JFrame{
 			if(re.getGafete() == true){chbGafete.setSelected(true);}
 			else{chbGafete.setSelected(false);}
 			cmbStatus.setSelectedIndex(re.getStatus()-1);
+			
+			switch(cmbStatus.getSelectedIndex()+1){
+			case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png"));break;
+			case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));break;
+			case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));break;
+			case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png"));break;
+		}
+			
 			if(re.getFecha_nacimiento() != null){
 				try {
 					Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
+					Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
+					
 					txtCalendario.setDate(date);
+					txtIngreso.setDate(date_ingreso);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
@@ -936,10 +1032,13 @@ public class Cat_Empleado extends JFrame{
 			
 			txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 			txaObservaciones.setText(re.getObservasiones());
-			img = re.getFoto();
-			ImageIcon tmpIconAux = new ImageIcon(re.getFoto());
+			
+			cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
+			
+			ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 		    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 			
+		    
 		    btnNuevo.setVisible(false);
 			btnEditar.setVisible(true);
 			panelEnabledFalse();
@@ -951,7 +1050,7 @@ public class Cat_Empleado extends JFrame{
 			panelLimpiar();
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
-			String file = "X:\\Empleados\\Un.JPG";
+			String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 			ImageIcon tmpIconAux = new ImageIcon(file);
 			btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 		}
@@ -970,4 +1069,290 @@ public class Cat_Empleado extends JFrame{
 		}
 	}
 	
+	public class MainCamara extends javax.swing.JFrame {
+		
+		
+	    private Dispositivos misDispositivos;
+	    String nombre;
+	    JButton btnGuardar = new JButton("Guardar");
+	    JButton btnSalir = new JButton("Salir");
+	    JPanel jPWebCam = new JPanel();
+	    JPanel jPanel1 = new JPanel();
+	    JScrollPane jScrollPane1 = new JScrollPane();
+	    JTextArea txtInfo = new JTextArea();
+	    JTextField txtNombre = new JTextField();
+	    
+	    public MainCamara(String folio) {
+	    	nombre=folio;
+	        initComponents();
+	        misDispositivos= new Dispositivos(this);
+	        btnGuardar.setEnabled(false);
+	        setLocationRelativeTo(null);
+	        ver();
+	    }
+
+	    private void initComponents() {
+	    	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/camara_icon&16.png"));
+	        this.setTitle("Captura Foto");
+	 
+	        jPWebCam.setBorder(javax.swing.BorderFactory.createTitledBorder("Wisky!"));
+	        jPWebCam.setLayout(new java.awt.BorderLayout());
+	        
+	        getContentPane().add(jPWebCam, java.awt.BorderLayout.CENTER);
+
+	        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+	        jPanel1.setPreferredSize(new java.awt.Dimension(397, 160));
+
+	        txtInfo.setColumns(20);
+	        txtInfo.setRows(5);
+	        jScrollPane1.setViewportView(txtInfo);
+	        
+	        btnSalir.addActionListener(new ActionListener(){
+	        	public void actionPerformed(ActionEvent evt){
+	        		misDispositivos.salir();
+	        		dispose();
+	        	}
+	        });
+	        btnGuardar.addActionListener(new ActionListener(){
+	            public void actionPerformed(ActionEvent evt){
+	            	 misDispositivos.CapturaFoto(nombre);
+	            }
+	        });
+	        
+	        addWindowListener( new java.awt.event.WindowAdapter() {
+	        	public void windowClosing(java.awt.event.WindowEvent e ) { 
+	        		misDispositivos.salir();
+	        		dispose();
+	        	} 
+	        });
+
+	        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+	        
+	        jPanel1.setLayout(jPanel1Layout);
+	        jPanel1Layout.setHorizontalGroup(
+	        		jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+	                .addGap(71, 71, 71)
+	                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+	                .addComponent(btnGuardar)
+	                .addGap(20, 20, 20)
+	                .addComponent(btnSalir)
+	                .addGap(10, 10, 10))
+	            .addGroup(jPanel1Layout.createSequentialGroup()
+	                .addContainerGap()
+	                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+	                .addContainerGap()));
+	        
+	        jPanel1Layout.setVerticalGroup(
+	            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+	            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+	                .addContainerGap()
+	                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+	                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                    .addComponent(btnGuardar)
+	                    .addComponent(btnSalir))
+	                .addContainerGap()));
+	      
+	        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
+
+	        setSize(new java.awt.Dimension(430, 513));
+	    }
+
+	    public void ver(){
+	    	btnGuardar.setEnabled(true);
+	    	infoDispositivo();
+	    	try {
+				misDispositivos.MuestraWebCam(jPWebCam,"vfw:Microsoft WDM Image Capture (Win32):0","yuv");
+			} catch (CannotRealizeException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }
+	    
+	    private void infoDispositivo() {
+	        txtInfo.setText(misDispositivos.verInfoDispositivos());
+	    }
+	 
+	}
+	
+	public class Dispositivos {
+
+	    private MainCamara padre;
+		private Player player;
+		
+		public Dispositivos(){
+			
+		}
+		
+		public Dispositivos(MainCamara padre){
+	        this.padre=padre;
+	    }
+
+	   
+		@SuppressWarnings("rawtypes")
+		public String verInfoDispositivos()
+	    {
+	      String rpta="";
+	      Vector listaDispositivos = null;
+	      
+	     listaDispositivos = CaptureDeviceManager.getDeviceList();
+	     Iterator it = listaDispositivos.iterator();
+	      while (it.hasNext())
+	      {
+	        CaptureDeviceInfo cdi = (CaptureDeviceInfo)it.next();
+	        rpta+=cdi.getName()+"\n";
+	      }
+	      if(rpta.compareTo("")!=0)
+	          rpta="Dispositivos detectados:\n\n"+rpta;
+	      else
+	          rpta="Sin Dispositivos Detectados";
+	      
+	      return rpta;
+	    }
+		public void salir(){
+			player.close();
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public void detectarDispositivos(JMenu dispositivos)
+	    {
+	      Vector listaDispositivos = null;
+	      listaDispositivos = CaptureDeviceManager.getDeviceList();
+	      Iterator it = listaDispositivos.iterator();
+
+	      String nombre="";
+	      while (it.hasNext())
+	      {
+	          CaptureDeviceInfo cdi = (CaptureDeviceInfo)it.next();
+	          nombre=cdi.getName(); //cdi.getName() --> Obtiene el nombre del Dispositivo Detectado
+	          
+	          if(nombre.indexOf("Image")!=-1)
+	          {
+	              JMenu menuFormato=new JMenu(nombre);
+	              JMenuFormato tamanios=null;
+	              CaptureDeviceInfo dev = CaptureDeviceManager.getDevice(nombre);
+	              Format[] cfmts = dev.getFormats();
+
+	              for(int i=0; i<cfmts.length;i++)
+	              {
+	                  if(cfmts[i].getEncoding().compareTo("yuv")==0)
+	                  {tamanios=new JMenuFormato(cfmts[i].getEncoding()+" "+
+	                          ((YUVFormat)cfmts[i]).getSize().width+"x"+
+	                          ((YUVFormat)cfmts[i]).getSize().height,
+	                          ((YUVFormat)cfmts[i]).getSize().width,
+	                          ((YUVFormat)cfmts[i]).getSize().height,
+	                          padre,
+	                          padre.jPWebCam);
+	                  }
+	                  else if(cfmts[i].getEncoding().compareTo("rgb")==0)
+	                  {tamanios=new JMenuFormato(cfmts[i].getEncoding()+" "+
+	                          ((RGBFormat)cfmts[i]).getSize().width+"x"+
+	                          ((RGBFormat)cfmts[i]).getSize().height,
+	                          ((RGBFormat)cfmts[i]).getSize().width,
+	                          ((RGBFormat)cfmts[i]).getSize().height,
+	                          padre,
+	                          padre.jPWebCam);
+	                  }
+	                  menuFormato.add(tamanios);
+	              }
+	              dispositivos.add(menuFormato);
+	          }
+	      }
+	    }
+
+		public void MuestraWebCam(JPanel panelCam,String dispositivo,String FormatoColor) throws IOException, CannotRealizeException {
+			if(player != null)
+	            return;
+	        
+	        CaptureDeviceInfo dev = CaptureDeviceManager.getDevice(dispositivo);
+	        MediaLocator loc = dev.getLocator();
+	        try {
+	                player = Manager.createRealizedPlayer(loc);
+	                System.out.println(player);
+	               
+	            } catch (IOException ex) {
+	            	System.out.println("Ponga la camara 0");
+	            } catch (NoPlayerException ex) {
+	            	System.out.println("Ponga la camara 1");
+	            } catch (CannotRealizeException ex) { 
+	            	System.out.println("Ponga la camara 3");
+	            }
+	          
+	    
+	        player.start();
+	           
+	        try {
+	        	
+	            Thread.sleep(1000);
+	        } catch (InterruptedException ex) { }
+
+	        Component comp;
+
+	        if ((comp = player.getVisualComponent())!= null) {
+	          panelCam.add(comp,BorderLayout.CENTER);
+	          padre.pack();
+	        }
+	    }
+	    
+		public void CapturaFoto(String nombre) {
+	    	Image img=null;
+	        FrameGrabbingControl fgc = (FrameGrabbingControl)
+	        player.getControl("javax.media.control.FrameGrabbingControl");
+	        Buffer buf = fgc.grabFrame();
+	        BufferToImage btoi = new BufferToImage((VideoFormat)buf.getFormat());
+	        img = btoi.createImage(buf);
+
+	        if (img != null) {
+	            Integer i = new Integer(JFileChooser.APPROVE_OPTION);
+	            if (i != null){
+	            	File folder = new File(System.getProperty("user.dir")+"/tmp/tmp_update");
+	            	folder.mkdirs();
+					String imagen = System.getProperty("user.dir")+"/tmp/tmp_update/"+nombre;
+					File imagenArch = new File(imagen);
+					String formato = "JPG";
+					player.close();
+					padre.dispose();
+					
+					try{
+						ImageIO.write((RenderedImage) img,formato,imagenArch);
+						ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg");
+					    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+					}catch(IOException ioe){
+						JOptionPane.showMessageDialog(null,"Error al guardar la imagen", "Error!",JOptionPane.ERROR_MESSAGE);
+					}
+	             
+	            }
+	        }
+	        else
+	        {
+	            javax.swing.JOptionPane.showMessageDialog(padre, "A ocurrido un error!!");
+	        }
+	        img=null;
+	    }
+	}
+	
+	public class JMenuFormato extends JMenuItem implements ActionListener{
+
+	    private int ancho;
+	    private int alto;
+	    @SuppressWarnings("unused")
+		private JPanel modificable;
+	    private MainCamara padre;
+
+	    public JMenuFormato(String etiqueta,int ancho,int alto,MainCamara Padre,JPanel modificable)
+	    {
+	        super(etiqueta);
+	        this.modificable=modificable;
+	        this.ancho=ancho;
+	        this.alto=alto;
+	        this.addActionListener(this);
+	        this.padre=Padre;
+	    }
+
+	    public void actionPerformed(ActionEvent e) {
+	        padre.setSize(ancho, alto+200);
+	    }
+	}
 }
