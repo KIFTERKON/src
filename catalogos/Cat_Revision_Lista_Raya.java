@@ -1,4 +1,4 @@
-package catalogos;
+            package catalogos;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -29,6 +29,7 @@ import javax.swing.table.TableRowSorter;
 import objetos.Obj_Revision_Lista_Raya;
 
 @SuppressWarnings("serial")
+//ctrlen cat root_lista_Raya para agregar boton
 public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 	
 	private DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Revision_Lista_Raya().get_tabla_model(),
@@ -115,7 +116,8 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
-		
+///el constructor tiene el nombre public y seguido del nombre de la clase
+	
 	public Cat_Revision_Lista_Raya(){
 		this.setTitle("Revisión lista raya");
 		
@@ -130,6 +132,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		this.btn_nomina.addActionListener(op_nomina);
 		this.btn_refrescar.addActionListener(op_refrescar);
 		this.btn_generar.addActionListener(op_generar);
+		//aquise le agrega al boton una acccion listener que  cargara el evento mostrado entre parentesis
+		
+		this.btn_lista_raya_pasadas.addActionListener(op_consulta_lista);
+		
 		
 		this.txtFolio.addKeyListener(op_filtro_folio);
 		this.txtNombre_Completo.addKeyListener(op_filtro_nombre);
@@ -141,8 +147,22 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		this.addWindowListener(op_cerrar);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
+	//aquise se dio de alta la accion listener op_consulta lista
+	//se le dara click ala operacion y mostrara la opcion add metod
+	
+	ActionListener op_consulta_lista = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+		new Cat_Consulta_Lista_de_Raya_Pasadas().setVisible(true);	
+			
+		}
+		
+	};
+	
 	
 	WindowListener op_cerrar = new WindowListener() {
+		
 		public void windowOpened(WindowEvent e) {}
 		public void windowIconified(WindowEvent e) {}
 		public void windowDeiconified(WindowEvent e) {}
