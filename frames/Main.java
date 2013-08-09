@@ -142,6 +142,8 @@ public class Main extends InitButton {
 					Cuadrantes_Catalogo_Jefatura.setEnabled(true);
 				if(permisos[i].equals("Nivel Crítico"))
 					Cuadrantes_Catalogo_Nivel_Critico.setEnabled(true);
+				if(permisos[i].equals("Nivel Jerarquico"))
+					Cuadrantes_Catalogo_Nivel_Jerarquico.setEnabled(true);
 				if(permisos[i].equals("Opciones de Respuesta"))
 					Cuadrantes_Catalogo_Respuesta.setEnabled(true);
 				if(permisos[i].equals("Opciones Múltiple de Respuesta"))

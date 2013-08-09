@@ -47,8 +47,6 @@ public class Cat_Ponderacion extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	Connexion con = new Connexion();
-	
 	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
@@ -212,7 +210,7 @@ public class Cat_Ponderacion extends JFrame{
 		Statement s;
 		ResultSet rs;
 		try {
-			s = con.conexion().createStatement();
+			s = new Connexion().conexion().createStatement();
 			rs = s.executeQuery("select tb_ponderacion.folio as [Folio],"+
 					 "  tb_ponderacion.descripcion as [Descripcion], "+
 					 "  tb_ponderacion.valor as [Valor] "+
@@ -224,11 +222,11 @@ public class Cat_Ponderacion extends JFrame{
 				DecimalFormat decimal = new DecimalFormat("#0.00");
 				
 			   String [] fila = new String[3];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim();
+			   fila[0] = rs.getString(1).trim()+"  ";
+			   fila[1] = "   "+rs.getString(2).trim();
 			   
 			  float valor = Float.parseFloat(rs.getString(3));
-			   fila[2] = decimal.format(valor); 
+			   fila[2] = decimal.format(valor)+"  "; 
 			   
 			   modelo.addRow(fila); 
 			}	
@@ -245,13 +243,13 @@ public class Cat_Ponderacion extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount()==2){
 	        		int fila = tabla.getSelectedRow();
-	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        		int id = Integer.parseInt(modelo.getValueAt(fila,0).toString().trim());
 	        
 						Obj_Ponderacion ponderacion = new Obj_Ponderacion().buscar(id);
 						
 						txtFolio.setText(id+"");
-						txtDescripcion.setText(modelo.getValueAt(fila,1)+"");
-						txtValor.setText(modelo.getValueAt(fila,2)+"");
+						txtDescripcion.setText(modelo.getValueAt(fila,1).toString().trim());
+						txtValor.setText(modelo.getValueAt(fila,2).toString().trim());
 						
 						
 						if(ponderacion.isDomingo()==true){

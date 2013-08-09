@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Bancos_Por_Empleado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98810376-372e-4e41-a516-7bfa0d73593f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[select  tb_bancos.folio_empleado
+       ,tb_bancos.establecimiento  
+       ,tb_bancos.nombre_completo
+       ,tb_bancos.banamex
+       ,tb_bancos.banorte
+from tb_bancos where tb_bancos.banamex>0 or tb_bancos.banorte>0 and tb_bancos.status=1
+
+order by tb_bancos.nombre_completo]]>
+	</queryString>
+	<field name="folio_empleado" class="java.lang.Integer"/>
+	<field name="establecimiento" class="java.lang.String"/>
+	<field name="nombre_completo" class="java.lang.String"/>
+	<field name="banamex" class="java.math.BigDecimal"/>
+	<field name="banorte" class="java.math.BigDecimal"/>
+	<variable name="Suma_Banamex" class="java.math.BigDecimal" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{banamex}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="7" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<frame>
+				<reportElement uuid="7021dca3-bdac-4433-89be-b633c905bf50" mode="Opaque" x="0" y="0" width="451" height="50" backcolor="#000000"/>
+				<staticText>
+					<reportElement uuid="c984b51f-7305-4985-afd8-2393f909fb19" style="Title" x="0" y="0" width="370" height="39"/>
+					<textElement>
+						<font size="24" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Depositos a Bancos Por Empleado]]></text>
+				</staticText>
+				<image>
+					<reportElement uuid="991a7035-36d6-4042-88a3-dabdaac71417" x="410" y="0" width="41" height="45"/>
+					<imageExpression><![CDATA["C:/SCOI/imagen/altaEmp.png"]]></imageExpression>
+				</image>
+			</frame>
+			<image>
+				<reportElement uuid="245a3d8d-bde1-4a48-86b4-4d1c35cfef13" x="503" y="0" width="50" height="50"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/logPrincipal.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d9c3ea05-bf39-4f9e-b7a5-6537d16afa2b" style="Column header" x="490" y="1" width="64" height="18" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banorte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5d3ba926-ffeb-4b50-9520-b1754e16a90b" style="Column header" x="400" y="1" width="63" height="18" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banamex]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement uuid="2fbe46aa-0ac4-4616-bb66-d6eda8d3fa17" style="Row" mode="Opaque" x="0" y="0" width="555" height="18"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="9147c241-c738-427a-8144-60b02c87834e" style="Detail" positionType="Float" x="0" y="0" width="20" height="18"/>
+					<textElement textAlignment="Left">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio_empleado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d0dbdc18-7aab-432f-9d60-107e42f5d21a" style="Detail" positionType="Float" x="300" y="0" width="79" height="18"/>
+					<textElement textAlignment="Left">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="a7b3c0b1-a3ff-4333-8295-3b2fd254f5a3" style="Detail" positionType="Float" x="20" y="0" width="270" height="18"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
+					<reportElement uuid="e7de07d6-8fc8-4fc5-9f66-6056afb315dd" style="Detail" positionType="Float" x="380" y="0" width="83" height="18"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{banamex}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
+					<reportElement uuid="b6a332b7-3cae-4b02-842c-b8127c53e95b" style="Detail" x="470" y="0" width="84" height="18"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{banorte}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement uuid="cdef39ee-1776-4352-a4c2-b82a561ec924" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="ca72fdf5-1792-436a-b9a0-8d9da18168ae" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="8ebae9a1-302d-44e2-bdc8-ccf3e2615d88" style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="222a6683-2b61-425b-918d-da52b435e4da" style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="fe915fe9-75de-4954-90f0-5a941febb6fd" style="Column header" x="0" y="1" width="197" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="4"/>
+	</lastPageFooter>
+	<summary>
+		<band height="6" splitType="Stretch"/>
+	</summary>
+</jasperReport>

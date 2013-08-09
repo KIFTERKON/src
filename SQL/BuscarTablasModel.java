@@ -1,5 +1,7 @@
 package SQL;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -286,5 +288,41 @@ public class BuscarTablasModel {
 			return valor + 1;
 		}
 		return valor;
+	}
+
+	public boolean Lista_Raya_Obtener(int parseInt) {
+		String query = "update tb_folio_lista_raya_pasada set folio=?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+		
+			pstmt.setInt(1, parseInt);
+	
+			pstmt.executeUpdate();
+		
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
 	}
 }

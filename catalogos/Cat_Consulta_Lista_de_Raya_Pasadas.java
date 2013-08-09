@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -31,9 +32,11 @@ import javax.swing.table.TableRowSorter;
 import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Revision_Lista_Raya;
+import reporte.Reporte_Consulta_Lista_de_Raya_Pasadas;
 
 @SuppressWarnings("serial")
-public class Cat_Filtro_Lista_Raya extends JFrame {
+public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
@@ -61,9 +64,9 @@ public class Cat_Filtro_Lista_Raya extends JFrame {
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
     
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Cat_Filtro_Lista_Raya()	{
-		this.setTitle("Filtro de Empleados");
-		campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
+	public Cat_Consulta_Lista_de_Raya_Pasadas()	{
+		this.setTitle("Consulta de Listas de Raya Pasadas");
+		campo.setBorder(BorderFactory.createTitledBorder("Listas de Rayas Pasadas"));
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
@@ -92,10 +95,26 @@ public class Cat_Filtro_Lista_Raya extends JFrame {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
-	    			int fila = tabla.getSelectedRow();
-	    			Object folio =  tabla.getValueAt(fila, 0);
-	    			dispose();
-	    			new Cat_Empleado(folio+"").setVisible(true);
+	        		int fila = tabla.getSelectedRow();
+	    			int folio = Integer.parseInt(tabla.getValueAt(fila, 0).toString());
+	    			
+	    				    			
+	    			 if (new Obj_Revision_Lista_Raya().Lista_de_Raya_Pasada(folio))
+	    			 { dispose();
+	    				 new Reporte_Consulta_Lista_de_Raya_Pasadas();
+	    				
+	    				 
+	    			 }
+	    			 else{JOptionPane.showMessageDialog(null,"Error Al Intentar Abrir el Reporte","Error",JOptionPane.ERROR_MESSAGE);
+	    				 
+	    				 
+	    			 }
+	    				 
+	    				 ;
+	    			
+	    			
+	    			
+	        		
 	        	}
 	        }
         });
@@ -243,7 +262,7 @@ public class Cat_Filtro_Lista_Raya extends JFrame {
 		
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Filtro_Lista_Raya().setVisible(true);
+			new Cat_Consulta_Lista_de_Raya_Pasadas().setVisible(true);
 		}catch(Exception e){
 			e.printStackTrace();
 		}		

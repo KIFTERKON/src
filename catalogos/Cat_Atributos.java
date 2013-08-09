@@ -60,7 +60,7 @@ Connexion con = new Connexion();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
-	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnSalir = new JButton("Salir");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
@@ -69,7 +69,7 @@ Connexion con = new Connexion();
 	
 	public Cat_Atributos(){
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/ray_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Atributos"));
 		
 		this.setTitle("Atributo");

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Deducciones_Inasistencia" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1395f30d-adab-4020-b8b9-b76b75c9cd90">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[declare @inpun money,@inasis money, @gafete money
+
+ set @inpun = (select tb_asistencia_puntualidad.puntualidad from tb_asistencia_puntualidad)
+ set @inasis = (select tb_asistencia_puntualidad.asistencia from tb_asistencia_puntualidad)
+ set @gafete = (select tb_asistencia_puntualidad.gafete from tb_asistencia_puntualidad)
+
+select  tb_establecimiento.nombre as Establecimiento,
+        tb_deduccion_inasistencia.folio_empleado as Folio,
+        tb_deduccion_inasistencia.nombre_completo as Nombre,
+        Case when tb_deduccion_inasistencia.puntualidad='true'
+             then '- $' + (select cast((tb_asistencia_puntualidad.puntualidad )as varchar (5)) from tb_asistencia_puntualidad)
+             else ' '
+             end as Inpuntualidad,
+        Case when tb_deduccion_inasistencia.falta='true'
+             then 'Falto'+' '+ cast((tb_deduccion_inasistencia.dia_faltas)as varchar (1))+ ' dia(s)'+ '-$' + cast((tb_deduccion_inasistencia.cantidad_falta)as varchar (9))
+             else ' '
+             end as Falta,
+       Case when tb_deduccion_inasistencia.asistencia='true'
+             then '-$'+ (select cast((tb_asistencia_puntualidad.asistencia)as varchar (5)) from tb_asistencia_puntualidad)
+             else ' '
+             end as Inasistencia,
+       Case when tb_deduccion_inasistencia.gafete ='true'  
+             then '-$'+ (select cast((tb_asistencia_puntualidad.gafete)as varchar (5)) from tb_asistencia_puntualidad)  
+             else ' '
+             end as Gafete,
+       Case when tb_deduccion_inasistencia.extra > 0
+             then 'PE$'+ cast((tb_deduccion_inasistencia.extra)as varchar (9))
+             when tb_deduccion_inasistencia.extra < 0
+             then 'DE$' + cast((tb_deduccion_inasistencia.extra)as varchar (9))   
+             else '.'
+             end Extra,
+      
+       Case --inpuntulidad 
+              when tb_deduccion_inasistencia.puntualidad='true' 
+                 and tb_deduccion_inasistencia.falta='false'
+                 and tb_deduccion_inasistencia.asistencia='false'
+                 and tb_deduccion_inasistencia.gafete ='false'
+              then @inpun
+            --inpuntulidad + Falta
+             when tb_deduccion_inasistencia.puntualidad='true' 
+                 and tb_deduccion_inasistencia.falta='true'
+                 and tb_deduccion_inasistencia.asistencia='false'
+                 and tb_deduccion_inasistencia.gafete ='false' 
+                 then @inpun+tb_deduccion_inasistencia.cantidad_falta  
+            --inpuntulidad + Falta + No aviso
+             when tb_deduccion_inasistencia.puntualidad='true' 
+                 and tb_deduccion_inasistencia.falta='true'
+                 and tb_deduccion_inasistencia.asistencia='true'
+                 and tb_deduccion_inasistencia.gafete ='false'
+                 then @inpun+tb_deduccion_inasistencia.cantidad_falta+@inasis
+             --inpuntulidad + extra
+             when tb_deduccion_inasistencia.puntualidad='true' 
+                 and tb_deduccion_inasistencia.falta='false'
+                 and tb_deduccion_inasistencia.asistencia='false'
+                 and tb_deduccion_inasistencia.gafete ='false' 
+                 and tb_deduccion_inasistencia.extra<>0 
+                then @inpun+tb_deduccion_inasistencia.extra
+            --inpuntulidad + Falta + Si aviso + extra
+             when tb_deduccion_inasistencia.puntualidad='true' 
+                 and tb_deduccion_inasistencia.falta='true'
+                 and tb_deduccion_inasistencia.asistencia='false'
+                 and tb_deduccion_inasistencia.gafete ='false' 
+                 and tb_deduccion_inasistencia.extra<>0
+                then @inpun+tb_deduccion_inasistencia.cantidad_falta+tb_deduccion_inasistencia.extra
+            --inpuntulidad + Falta + No aviso + extra
+             when tb_deduccion_inasistencia.puntualidad='true' 
+                 and tb_deduccion_inasistencia.falta='true'
+                 and tb_deduccion_inasistencia.asistencia='true'
+                 and tb_deduccion_inasistencia.gafete ='false'
+                 and tb_deduccion_inasistencia.extra<>0 
+                then @inpun+tb_deduccion_inasistencia.cantidad_falta+@inasis+tb_deduccion_inasistencia.extra  
+            --Falta + No aviso 
+             when tb_deduccion_inasistencia.puntualidad='false' 
+                 and tb_deduccion_inasistencia.falta='true'
+                 and tb_deduccion_inasistencia.asistencia='true'
+                 and tb_deduccion_inasistencia.gafete ='false' 
+                then tb_deduccion_inasistencia.cantidad_falta+@inasis  
+
+             --Falta
+             when tb_deduccion_inasistencia.puntualidad='False' 
+                 and tb_deduccion_inasistencia.falta='True'
+                 and tb_deduccion_inasistencia.asistencia='False'
+                 and tb_deduccion_inasistencia.gafete ='False' 
+                then cast((tb_deduccion_inasistencia.cantidad_falta)as varchar (9))  
+
+             --extra
+             when tb_deduccion_inasistencia.puntualidad='false' 
+                 and tb_deduccion_inasistencia.falta='false'
+                 and tb_deduccion_inasistencia.asistencia='false'
+                 and tb_deduccion_inasistencia.gafete ='false' 
+                 and tb_deduccion_inasistencia.extra <>0  
+                then tb_deduccion_inasistencia.extra  
+ 
+             else  99999999999.9999999
+             end as Total
+             
+      
+from tb_deduccion_inasistencia
+         
+left outer join tb_empleado on tb_empleado.folio=tb_deduccion_inasistencia.folio_empleado
+left outer join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+                                                
+where tb_deduccion_inasistencia.status=1 and 
+                                              (tb_deduccion_inasistencia.puntualidad <>'false' 
+                                               or tb_deduccion_inasistencia.falta <>'false'
+                                               or tb_deduccion_inasistencia.asistencia<>'false'
+                                               or tb_deduccion_inasistencia.gafete<>'false'
+                                               or tb_deduccion_inasistencia.extra<>0  )
+order by tb_establecimiento.nombre]]>
+	</queryString>
+	<field name="Establecimiento" class="java.lang.String"/>
+	<field name="Folio" class="java.lang.Integer"/>
+	<field name="Nombre" class="java.lang.String"/>
+	<field name="Inpuntualidad" class="java.lang.String"/>
+	<field name="Falta" class="java.lang.String"/>
+	<field name="Inasistencia" class="java.lang.String"/>
+	<field name="Gafete" class="java.lang.String"/>
+	<field name="Extra" class="java.lang.String"/>
+	<field name="Total" class="java.math.BigDecimal"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement uuid="311dd563-03ce-4322-a00f-39274fef92b2" mode="Opaque" x="0" y="3" width="719" height="24" forecolor="#B89F7D" backcolor="#000000"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="daab3699-af84-4606-8954-e8bf7c711866" style="SubTitle" x="10" y="0" width="240" height="24" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement uuid="fa949559-ee2f-48a4-881c-05b1cb67181d" style="Column header" x="290" y="0" width="32" height="18" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<text><![CDATA[Inp]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="46c20df3-6ed3-4198-984b-314acae7a15f" style="Column header" x="364" y="0" width="46" height="18" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<text><![CDATA[Falta]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="9d27d4c6-11d3-481e-9e0c-a841414f4a8a" style="Column header" x="489" y="0" width="70" height="18" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<text><![CDATA[Inasistencia]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="c34e974d-4086-4f14-972c-a6af8033020b" style="Column header" x="570" y="0" width="50" height="18" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<text><![CDATA[Gafete]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="fd9dee69-ed00-4032-a37b-408b426062f7" style="Column header" x="650" y="0" width="37" height="18" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<text><![CDATA[Extra]]></text>
+					</staticText>
+				</frame>
+				<rectangle>
+					<reportElement uuid="af09f154-452e-411a-948e-4eb6bb6d0e13" x="725" y="3" width="77" height="24" backcolor="#808080"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="c48f6fd1-06c1-4c9a-b819-140344c0d134" style="Column header" x="741" y="4" width="49" height="18" forecolor="#FFFFFF" backcolor="#808080"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="55" splitType="Stretch">
+			<frame>
+				<reportElement uuid="11cf0537-9591-4deb-b2a5-8d35390583f0" mode="Opaque" x="0" y="0" width="687" height="50" backcolor="#000000"/>
+				<staticText>
+					<reportElement uuid="d17dce81-e9e1-4401-b520-8801f996ae9e" style="Title" x="0" y="0" width="620" height="50"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="36" isBold="false"/>
+					</textElement>
+					<text><![CDATA[DEDUCCIONES POR INASISTENCIA]]></text>
+				</staticText>
+				<image>
+					<reportElement uuid="19727f0e-a1af-4c71-af6d-f736b5b5fcde" x="629" y="0" width="50" height="50"/>
+					<imageExpression><![CDATA["C:/SCOI/imagen/inasistencia.png"]]></imageExpression>
+				</image>
+			</frame>
+			<image>
+				<reportElement uuid="76c02bf6-8aa1-4882-bcd0-6eefda162ce5" x="752" y="0" width="50" height="50"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/logPrincipal.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement uuid="82326b5f-60f3-40b6-b7f0-5ece7320c0d6" style="Row" mode="Opaque" x="0" y="0" width="797" height="18"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="0ece4dee-ec44-4e19-ab03-ba965efc1b9d" style="Detail" positionType="Float" x="0" y="0" width="20" height="18"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Folio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="8605f7c1-3e32-4215-9b0d-17dfdea19f7f" style="Detail" positionType="Float" x="20" y="0" width="260" height="18"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="c2e7d9c1-9de9-43d7-b39b-125c9354309d" style="Detail" positionType="Float" x="290" y="0" width="47" height="18"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Inpuntualidad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d8cbb5e9-e40d-4c29-85a1-22efaea50ca4" style="Detail" positionType="Float" x="350" y="0" width="143" height="18"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Falta}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="3f33d3c4-9561-4a00-abd8-3d7818bfab11" style="Detail" positionType="Float" x="500" y="0" width="60" height="18"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Inasistencia}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="5f0a8407-90f7-4c1e-8efe-28569bf5b84a" style="Detail" positionType="Float" x="570" y="0" width="70" height="18"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Gafete}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="c3a45dc5-d3c4-4b83-8724-e5442c8c490f" style="Detail" positionType="Float" x="650" y="0" width="69" height="18"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Extra}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
+					<reportElement uuid="d9f9957f-337b-49a0-88fc-afd5277703be" style="Detail" positionType="Float" x="730" y="0" width="67" height="18"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement uuid="5e1b804f-8449-4a1a-aa56-91a62935b7f7" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="22561a7d-5d7c-44b9-a243-63e135b727f7" mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="f7e07efc-9a5a-492f-9269-c07fa5eb2584" style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="78584f66-5a9a-4b5e-81ee-77b24e830e98" style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="18b67c27-ea4b-4ee4-b2d2-3063b86281dd" style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

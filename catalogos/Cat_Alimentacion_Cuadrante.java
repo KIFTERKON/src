@@ -45,7 +45,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
 	    	java.lang.Integer.class,
-	    	java.lang.String.class, 
+	    	java.lang.String.class,   
 	    	java.lang.String.class, 
 	    	java.lang.String.class, 
 	    	java.lang.String.class,
