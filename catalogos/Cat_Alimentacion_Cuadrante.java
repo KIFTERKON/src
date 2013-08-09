@@ -367,6 +367,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
             for(int i=0; i<valores.length; i++){
             	combo.addItem(valores[i]);
             }
+
             return combo;          
         }
     }

@@ -48,4 +48,9 @@ public class Obj_Revision_Lista_Raya {
 	public boolean init_totales_nomina(){
 		return new BuscarTablasModel().tabla_model_lista_raya_init_totales_nomina();
 	}
+
+	public boolean Lista_de_Raya_Pasada(int parseInt) {
+		
+		return new BuscarTablasModel().Lista_Raya_Obtener(parseInt);
+	}
 }
