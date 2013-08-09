@@ -39,11 +39,12 @@ public class Obj_Empleado {
 	private int status_imss;
 	private String fecha_ingreso;
 	private boolean foto_status;
+	private String telefono_familiar;
 	
 	public Obj_Empleado(){
 		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto = null;
 		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; 
-		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss=""; status_imss=0; fecha_ingreso=""; foto_status = false;
+		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss=""; status_imss=0; fecha_ingreso=""; foto_status = false; telefono_familiar = "";
 	}
 
 	public boolean getFuente_sodas() {
@@ -270,6 +271,14 @@ public class Obj_Empleado {
 
 	public void setFecha_ingreso(String fecha_ingreso) {
 		this.fecha_ingreso = fecha_ingreso;
+	}
+
+	public String getTelefono_familiar() {
+		return telefono_familiar;
+	}
+
+	public void setTelefono_familiar(String telefono_familiar) {
+		this.telefono_familiar = telefono_familiar;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }

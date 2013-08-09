@@ -788,8 +788,8 @@ public class Cargar_Combo {
 	
 	
 	@SuppressWarnings("unchecked")
-	public String[] ComboALimentacionMultiple(String actividad) throws SQLException{
-		String query = "exec sp_select_combo_opciones_respuesta '"+actividad+"'";
+	public String[] ComboALimentacionMultiple(int actividad) throws SQLException{
+		String query = "exec sp_select_combo_opciones_respuesta "+actividad;
 		
 		Statement stmt = null;
 		try {
@@ -799,9 +799,9 @@ public class Cargar_Combo {
 			int j=0;
 			while(rs.next()){
 				if(j == 0){
-					miVector.add("Respuestas");
+					miVector.add("   Respuestas");
 				}
-				miVector.add(rs.getString("descripcion"));
+				miVector.add("   "+rs.getString("descripcion"));
 				j++;
 			}
 		} catch (Exception e) {

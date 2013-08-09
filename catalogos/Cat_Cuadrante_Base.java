@@ -36,7 +36,6 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
-
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Jerarquico;
 
@@ -451,6 +450,22 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JButton btnRemoverViernes = new JButton("Quitar");
 	JButton btnRemoverSabado = new JButton("Quitar");
 	
+	JButton btn_copiar_domingo_al_lunes = new JButton("Copiar al Lunes");
+	JButton btn_copiar_lunes_al_martes = new JButton("Copiar al Martes");
+	JButton btn_copiar_martes_al_miercoles = new JButton("Copiar al Miércoles");
+	JButton btn_copiar_miercoles_al_jueves = new JButton("Copiar al Jueves");
+	JButton btn_copiar_jueves_al_viernes = new JButton("Copiar al Viernes");
+	JButton btn_copiar_vienres_al_sabado = new JButton("Copiar al Sábado");
+	JButton btn_copiar_sabado_al_domingo = new JButton("Copiar al Domingo");
+	
+	JButton btn_copiar_domingo_todos = new JButton("Copiar a Todos");
+	JButton btn_copiar_lunes_todos = new JButton("Copiar a Todos");
+	JButton btn_copiar_martes_todos = new JButton("Copiar a Todos");
+	JButton btn_copiar_miercoles_todos = new JButton("Copiar a Todos");
+	JButton btn_copiar_jueves_todos = new JButton("Copiar a Todos");
+	JButton btn_copiar_vienres_todos = new JButton("Copiar a Todos");
+	JButton btn_copiar_sabado_todos = new JButton("Copiar a Todos");
+	
 	public Cat_Cuadrante_Base(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_icon&16.png"));
 		this.panel.setBorder(BorderFactory.createTitledBorder("Cuadrantes"));
@@ -555,6 +570,22 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.chSabado.addActionListener(opDiaSabado);
 		this.chTodos.addActionListener(opDiaTodos);
 		
+		btn_copiar_domingo_al_lunes.addActionListener(opcion_copiar_next);
+		btn_copiar_lunes_al_martes.addActionListener(opcion_copiar_next);
+		btn_copiar_martes_al_miercoles.addActionListener(opcion_copiar_next);
+		btn_copiar_miercoles_al_jueves.addActionListener(opcion_copiar_next);
+		btn_copiar_jueves_al_viernes.addActionListener(opcion_copiar_next);
+		btn_copiar_vienres_al_sabado.addActionListener(opcion_copiar_next);
+		btn_copiar_sabado_al_domingo.addActionListener(opcion_copiar_next);
+		
+		btn_copiar_domingo_todos.addActionListener(opcion_copiar_todos);
+		btn_copiar_lunes_todos.addActionListener(opcion_copiar_todos);
+		btn_copiar_martes_todos.addActionListener(opcion_copiar_todos);
+		btn_copiar_miercoles_todos.addActionListener(opcion_copiar_todos);
+		btn_copiar_jueves_todos.addActionListener(opcion_copiar_todos);
+		btn_copiar_vienres_todos.addActionListener(opcion_copiar_todos);
+		btn_copiar_sabado_todos.addActionListener(opcion_copiar_todos);
+		
 		this.todoFalse();
 		
 		this.setSize(1200,600);
@@ -580,13 +611,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pDomingo.add(scrollDomingo).setBounds(15,50,690,405);
 
-		this.pDomingo.add(btnAgregarDomingo).setBounds(320,20,75,20);
+		this.pDomingo.add(btnAgregarDomingo).setBounds(120,20,75,20);
 		
-		this.pDomingo.add(btnBajarDomingo).setBounds(400,20,40,20);
-		this.pDomingo.add(btnSubirDomingo).setBounds(455,20,40,20);
+		this.pDomingo.add(btnBajarDomingo).setBounds(200,20,40,20);
+		this.pDomingo.add(btnSubirDomingo).setBounds(255,20,40,20);
 		
-		this.pDomingo.add(btnRemoverDomingo).setBounds(500,20,75,20);
+		this.pDomingo.add(btnRemoverDomingo).setBounds(300,20,75,20);
 		
+		this.pDomingo.add(btn_copiar_domingo_al_lunes).setBounds(380,20,125,20);
+		
+		this.pDomingo.add(btn_copiar_domingo_todos).setBounds(520,20,120,20);
+		
+		this.tablaDomingo.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaDomingo.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaDomingo.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaDomingo.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -702,13 +738,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pLunes.add(scrollLunes).setBounds(15,50,690,405);
 		
-		this.pLunes.add(btnAgregarLunes).setBounds(320,20,75,20);
+		this.pLunes.add(btnAgregarLunes).setBounds(120,20,75,20);
 		
-		this.pLunes.add(btnBajarLunes).setBounds(400,20,40,20);
-		this.pLunes.add(btnSubirLunes).setBounds(455,20,40,20);
+		this.pLunes.add(btnBajarLunes).setBounds(200,20,40,20);
+		this.pLunes.add(btnSubirLunes).setBounds(255,20,40,20);
 		
-		this.pLunes.add(btnRemoverLunes).setBounds(500,20,75,20);
+		this.pLunes.add(btnRemoverLunes).setBounds(300,20,75,20);
 		
+		this.pLunes.add(btn_copiar_lunes_al_martes).setBounds(380,20,125,20);
+		
+		this.pLunes.add(btn_copiar_lunes_todos).setBounds(520,20,120,20);
+		
+		this.tablaLunes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaLunes.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaLunes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaLunes.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -824,13 +865,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pMarte.add(scrollMartes).setBounds(15,50,690,405);
 		
-		this.pMarte.add(btnAgregarMartes).setBounds(320,20,75,20);
+		this.pMarte.add(btnAgregarMartes).setBounds(120,20,75,20);
 		
-		this.pMarte.add(btnBajarMartes).setBounds(400,20,40,20);
-		this.pMarte.add(btnSubirMartes).setBounds(455,20,40,20);
+		this.pMarte.add(btnBajarMartes).setBounds(200,20,40,20);
+		this.pMarte.add(btnSubirMartes).setBounds(255,20,40,20);
 		
-		this.pMarte.add(btnRemoverMartes).setBounds(500,20,75,20);
+		this.pMarte.add(btnRemoverMartes).setBounds(300,20,75,20);
 		
+		this.pMarte.add(btn_copiar_martes_al_miercoles).setBounds(380,20,125,20);
+		
+		this.pMarte.add(btn_copiar_martes_todos).setBounds(520,20,120,20);
+		
+		this.tablaMartes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMartes.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaMartes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaMartes.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -946,13 +992,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pMiercoles.add(scrollMiercoles).setBounds(15,50,690,405);
 		
-		this.pMiercoles.add(btnAgregarMiercoles).setBounds(320,20,75,20);
+		this.pMiercoles.add(btnAgregarMiercoles).setBounds(120,20,75,20);
 		
-		this.pMiercoles.add(btnBajarMiercoles).setBounds(400,20,40,20);
-		this.pMiercoles.add(btnSubirMiercoles).setBounds(455,20,40,20);
+		this.pMiercoles.add(btnBajarMiercoles).setBounds(200,20,40,20);
+		this.pMiercoles.add(btnSubirMiercoles).setBounds(255,20,40,20);
 		
-		this.pMiercoles.add(btnRemoverMiercoles).setBounds(500,20,75,20);
+		this.pMiercoles.add(btnRemoverMiercoles).setBounds(300,20,75,20);
 		
+		this.pMiercoles.add(btn_copiar_miercoles_al_jueves).setBounds(380,20,125,20);
+		
+		this.pMiercoles.add(btn_copiar_miercoles_todos).setBounds(520,20,120,20);
+		
+		this.tablaMiercoles.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMiercoles.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaMiercoles.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaMiercoles.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -1068,13 +1119,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pJueves.add(scrollJueves).setBounds(15,50,690,405);
 		
-		this.pJueves.add(btnAgregarJueves).setBounds(320,20,75,20);
+		this.pJueves.add(btnAgregarJueves).setBounds(120,20,75,20);
 		
-		this.pJueves.add(btnBajarJueves).setBounds(400,20,40,20);
-		this.pJueves.add(btnSubirJueves).setBounds(455,20,40,20);
+		this.pJueves.add(btnBajarJueves).setBounds(200,20,40,20);
+		this.pJueves.add(btnSubirJueves).setBounds(255,20,40,20);
 		
-		this.pJueves.add(btnRemoverJueves).setBounds(500,20,75,20);
+		this.pJueves.add(btnRemoverJueves).setBounds(300,20,75,20);
 		
+		this.pJueves.add(btn_copiar_jueves_al_viernes).setBounds(380,20,125,20);
+
+		this.pJueves.add(btn_copiar_jueves_todos).setBounds(520,20,120,20);
+		
+		this.tablaJueves.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaJueves.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaJueves.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaJueves.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -1190,13 +1246,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pViernes.add(scrollViernes).setBounds(15,50,690,405);
 		
-		this.pViernes.add(btnAgregarViernes).setBounds(320,20,75,20);
+		this.pViernes.add(btnAgregarViernes).setBounds(120,20,75,20);
 		
-		this.pViernes.add(btnBajarViernes).setBounds(400,20,40,20);
-		this.pViernes.add(btnSubirViernes).setBounds(455,20,40,20);
+		this.pViernes.add(btnBajarViernes).setBounds(200,20,40,20);
+		this.pViernes.add(btnSubirViernes).setBounds(255,20,40,20);
 		
-		this.pViernes.add(btnRemoverViernes).setBounds(500,20,75,20);
+		this.pViernes.add(btnRemoverViernes).setBounds(300,20,75,20);
 		
+		this.pViernes.add(btn_copiar_vienres_al_sabado).setBounds(380,20,125,20);
+		
+		this.pViernes.add(btn_copiar_vienres_todos).setBounds(520,20,120,20);
+		
+		this.tablaViernes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaViernes.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaViernes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaViernes.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -1312,13 +1373,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.pSabado.add(scrollSabado).setBounds(15,50,690,405);
 		
-		this.pSabado.add(btnAgregarSabado).setBounds(320,20,75,20);
+		this.pSabado.add(btnAgregarSabado).setBounds(120,20,75,20);
 		
-		this.pSabado.add(btnBajarSabado).setBounds(400,20,40,20);
-		this.pSabado.add(btnSubirSabado).setBounds(455,20,40,20);
+		this.pSabado.add(btnBajarSabado).setBounds(200,20,40,20);
+		this.pSabado.add(btnSubirSabado).setBounds(255,20,40,20);
 		
-		this.pSabado.add(btnRemoverSabado).setBounds(500,20,75,20);
+		this.pSabado.add(btnRemoverSabado).setBounds(300,20,75,20);
 		
+		this.pSabado.add(btn_copiar_sabado_al_domingo).setBounds(380,20,125,20);
+		
+		this.pSabado.add(btn_copiar_sabado_todos).setBounds(520,20,120,20);
+		
+		this.tablaSabado.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaSabado.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaSabado.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaSabado.getColumnModel().getColumn(1).setMaxWidth(270);
@@ -1789,7 +1855,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaDomingo.isRowSelected(tablaDomingo.getSelectedRow())){
 					modelDomingo.removeRow(tablaDomingo.getSelectedRow());
 					for(int i=0; i<tablaSabado.getRowCount(); i ++){
-						modelDomingo.setValueAt(i+1,i,0);
+						modelDomingo.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1808,7 +1874,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaLunes.isRowSelected(tablaLunes.getSelectedRow())){
 					modelLunes.removeRow(tablaLunes.getSelectedRow());
 					for(int i=0; i<tablaLunes.getRowCount(); i ++){
-						modelLunes.setValueAt(i+1,i,0);
+						modelLunes.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1827,7 +1893,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaMartes.isRowSelected(tablaMartes.getSelectedRow())){
 					modelMartes.removeRow(tablaMartes.getSelectedRow());
 					for(int i=0; i<tablaMartes.getRowCount(); i ++){
-						modelMartes.setValueAt(i+1,i,0);
+						modelMartes.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1846,7 +1912,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaMiercoles.isRowSelected(tablaMiercoles.getSelectedRow())){
 					modelMiercoles.removeRow(tablaMiercoles.getSelectedRow());
 					for(int i=0; i<tablaMiercoles.getRowCount(); i ++){
-						modelMiercoles.setValueAt(i+1,i,0);
+						modelMiercoles.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1865,7 +1931,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaJueves.isRowSelected(tablaJueves.getSelectedRow())){
 					modelJueves.removeRow(tablaJueves.getSelectedRow());
 					for(int i=0; i<tablaJueves.getRowCount(); i ++){
-						modelJueves.setValueAt(i+1,i,0);
+						modelJueves.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1884,7 +1950,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaViernes.isRowSelected(tablaViernes.getSelectedRow())){
 					modelViernes.removeRow(tablaViernes.getSelectedRow());
 					for(int i=0; i<tablaViernes.getRowCount(); i ++){
-						modelViernes.setValueAt(i+1,i,0);
+						modelViernes.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1903,7 +1969,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				if(tablaSabado.isRowSelected(tablaSabado.getSelectedRow())){
 					modelSabado.removeRow(tablaSabado.getSelectedRow());
 					for(int i=0; i<tablaSabado.getRowCount(); i ++){
-						modelSabado.setValueAt(i+1,i,0);
+						modelSabado.setValueAt((i+1)+"  ",i,0);
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1916,6 +1982,1214 @@ public class Cat_Cuadrante_Base extends JFrame{
 		}
 	};
 	
+	ActionListener opcion_copiar_next = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(arg0.getSource().equals(btn_copiar_domingo_al_lunes)){
+				if(modelDomingo.getRowCount() > 0){
+					while(tablaLunes.getRowCount() > 0){
+						modelLunes.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelDomingo.getRowCount(); i++){
+						modelLunes.addRow(fila);
+						modelLunes.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+						modelLunes.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+						modelLunes.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+						modelLunes.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+						modelLunes.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+						modelLunes.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chLunes.setSelected(true);
+					btnAgregarLunes.setEnabled(true);
+					btnSubirLunes.setEnabled(true);
+					btnBajarLunes.setEnabled(true);
+					btnRemoverLunes.setEnabled(true);
+					btn_copiar_lunes_al_martes.setEnabled(true);
+					tablaLunes.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_lunes_al_martes)){
+				if(modelLunes.getRowCount() > 0){
+					while(tablaMartes.getRowCount() > 0){
+						modelMartes.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelLunes.getRowCount(); i++){
+						modelMartes.addRow(fila);
+						modelMartes.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+						modelMartes.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+						modelMartes.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+						modelMartes.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+						modelMartes.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+						modelMartes.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chMartes.setSelected(true);
+					btnAgregarMartes.setEnabled(true);
+					btnSubirMartes.setEnabled(true);
+					btnBajarMartes.setEnabled(true);
+					btnRemoverMartes.setEnabled(true);
+					btn_copiar_martes_al_miercoles.setEnabled(true);
+					tablaMartes.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_martes_al_miercoles)){
+				if(modelMartes.getRowCount() > 0){
+					while(tablaMiercoles.getRowCount() > 0){
+						modelMiercoles.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelMartes.getRowCount(); i++){
+						modelMiercoles.addRow(fila);
+						modelMiercoles.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+						modelMiercoles.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+						modelMiercoles.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+						modelMiercoles.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+						modelMiercoles.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+						modelMiercoles.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chMiercoles.setSelected(true);
+					btnAgregarMiercoles.setEnabled(true);
+					btnSubirMiercoles.setEnabled(true);
+					btnBajarMiercoles.setEnabled(true);
+					btnRemoverMiercoles.setEnabled(true);
+					btn_copiar_miercoles_al_jueves.setEnabled(true);
+					tablaMiercoles.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_miercoles_al_jueves)){
+				if(modelMiercoles.getRowCount() > 0){
+					while(tablaJueves.getRowCount() > 0){
+						modelJueves.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelMiercoles.getRowCount(); i++){
+						modelJueves.addRow(fila);
+						modelJueves.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+						modelJueves.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+						modelJueves.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+						modelJueves.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+						modelJueves.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+						modelJueves.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chJueves.setSelected(true);
+					btnAgregarJueves.setEnabled(true);
+					btnSubirJueves.setEnabled(true);
+					btnBajarJueves.setEnabled(true);
+					btnRemoverJueves.setEnabled(true);
+					btn_copiar_jueves_al_viernes.setEnabled(true);
+					tablaJueves.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_jueves_al_viernes)){
+				if(modelJueves.getRowCount() > 0){
+					while(tablaViernes.getRowCount() > 0){
+						modelViernes.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelJueves.getRowCount(); i++){
+						modelViernes.addRow(fila);
+						modelViernes.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+						modelViernes.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+						modelViernes.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+						modelViernes.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+						modelViernes.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+						modelViernes.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chViernes.setSelected(true);
+					btnAgregarViernes.setEnabled(true);
+					btnSubirViernes.setEnabled(true);
+					btnBajarViernes.setEnabled(true);
+					btnRemoverViernes.setEnabled(true);
+					btn_copiar_vienres_al_sabado.setEnabled(true);
+					tablaViernes.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_vienres_al_sabado)){
+				if(modelViernes.getRowCount() > 0){
+					while(tablaSabado.getRowCount() > 0){
+						modelSabado.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelViernes.getRowCount(); i++){
+						modelSabado.addRow(fila);
+						modelSabado.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+						modelSabado.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+						modelSabado.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+						modelSabado.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+						modelSabado.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+						modelSabado.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chSabado.setSelected(true);
+					btnAgregarSabado.setEnabled(true);
+					btnSubirSabado.setEnabled(true);
+					btnBajarSabado.setEnabled(true);
+					btnRemoverSabado.setEnabled(true);
+					btn_copiar_sabado_al_domingo.setEnabled(true);
+					tablaSabado.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_sabado_al_domingo)){
+				if(modelSabado.getRowCount() > 0){
+					while(tablaDomingo.getRowCount() > 0){
+						modelDomingo.removeRow(0);
+					}
+					Object[] fila = {"","","","false","",""};
+					for(int i=0; i<modelSabado.getRowCount(); i++){
+						modelDomingo.addRow(fila);
+						modelDomingo.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+						modelDomingo.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+						modelDomingo.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+						modelDomingo.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+						modelDomingo.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+						modelDomingo.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+						
+					}
+					chDomingo.setSelected(true);
+					btnAgregarDomingo.setEnabled(true);
+					btnSubirDomingo.setEnabled(true);
+					btnBajarDomingo.setEnabled(true);
+					btnRemoverDomingo.setEnabled(true);
+					btn_copiar_domingo_al_lunes.setEnabled(true);
+					tablaDomingo.setEnabled(true);
+					
+				}else{
+					JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		}
+	};
+	
+	ActionListener opcion_copiar_todos = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(arg0.getSource().equals(btn_copiar_domingo_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Domingo a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_domingo();
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_lunes_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Lunes a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_lunes();
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_martes_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Martes a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_martes();
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_miercoles_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Miércoles a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_miercoles();
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_jueves_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Jueves a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_jueves();
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_vienres_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Viernes a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_viernes();
+				}
+			}
+			if(arg0.getSource().equals(btn_copiar_sabado_todos)){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea copiar el contenido del Sábado a todos los días?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					copiar_todos_sabado();
+				}
+			}
+		}
+	};
+	
+	/** DOMINGO **/
+	public void copiar_todos_domingo(){
+		if(modelDomingo.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaLunes.getRowCount() > 0){ modelLunes.removeRow(0); }
+			while(tablaMartes.getRowCount() > 0){ modelMartes.removeRow(0); }
+			while(tablaMiercoles.getRowCount() > 0){ modelMiercoles.removeRow(0); }
+			while(tablaJueves.getRowCount() > 0){ modelJueves.removeRow(0); }
+			while(tablaViernes.getRowCount() > 0){ modelViernes.removeRow(0); }
+			while(tablaSabado.getRowCount() > 0){ modelSabado.removeRow(0); }
+			
+			Object[] fila = {"","","","false","",""};
+					
+			/** CARGAR LUNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelDomingo.getRowCount(); i++){
+				modelLunes.addRow(fila);
+				modelLunes.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+				modelLunes.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+				modelLunes.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+				modelLunes.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+				modelLunes.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+				modelLunes.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chLunes.setSelected(true);
+			btnAgregarLunes.setEnabled(true);
+			btnSubirLunes.setEnabled(true);
+			btnBajarLunes.setEnabled(true);
+			btnRemoverLunes.setEnabled(true);
+			btn_copiar_lunes_al_martes.setEnabled(true);
+			tablaLunes.setEnabled(true);
+			
+			/** CARGAR MARTES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelDomingo.getRowCount(); i++){
+				modelMartes.addRow(fila);
+				modelMartes.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+				modelMartes.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+				modelMartes.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+				modelMartes.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+				modelMartes.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+				modelMartes.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMartes.setSelected(true);
+			btnAgregarMartes.setEnabled(true);
+			btnSubirMartes.setEnabled(true);
+			btnBajarMartes.setEnabled(true);
+			btnRemoverMartes.setEnabled(true);
+			btn_copiar_martes_al_miercoles.setEnabled(true);
+			tablaMartes.setEnabled(true);
+			
+			/** CARGAR MIERCOLES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelDomingo.getRowCount(); i++){
+				modelMiercoles.addRow(fila);
+				modelMiercoles.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+				modelMiercoles.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+				modelMiercoles.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+				modelMiercoles.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+				modelMiercoles.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+				modelMiercoles.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMiercoles.setSelected(true);
+			btnAgregarMiercoles.setEnabled(true);
+			btnSubirMiercoles.setEnabled(true);
+			btnBajarMiercoles.setEnabled(true);
+			btnRemoverMiercoles.setEnabled(true);
+			btn_copiar_miercoles_al_jueves.setEnabled(true);
+			tablaMiercoles.setEnabled(true);
+			
+			/** CARGAR JUEVES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelDomingo.getRowCount(); i++){
+				modelJueves.addRow(fila);
+				modelJueves.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+				modelJueves.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+				modelJueves.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+				modelJueves.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+				modelJueves.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+				modelJueves.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chJueves.setSelected(true);
+			btnAgregarJueves.setEnabled(true);
+			btnSubirJueves.setEnabled(true);
+			btnBajarJueves.setEnabled(true);
+			btnRemoverJueves.setEnabled(true);
+			btn_copiar_jueves_al_viernes.setEnabled(true);
+			tablaJueves.setEnabled(true);
+			
+			/** CARGAR VIERNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelDomingo.getRowCount(); i++){
+				modelViernes.addRow(fila);
+				modelViernes.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+				modelViernes.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+				modelViernes.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+				modelViernes.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+				modelViernes.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+				modelViernes.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chViernes.setSelected(true);
+			btnAgregarViernes.setEnabled(true);
+			btnSubirViernes.setEnabled(true);
+			btnBajarViernes.setEnabled(true);
+			btnRemoverViernes.setEnabled(true);
+			btn_copiar_vienres_al_sabado.setEnabled(true);
+			tablaViernes.setEnabled(true);
+			
+			/** CARGAR SABADO CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelDomingo.getRowCount(); i++){
+				modelSabado.addRow(fila);
+				modelSabado.setValueAt(modelDomingo.getValueAt(i,0).toString(), i,0);
+				modelSabado.setValueAt(modelDomingo.getValueAt(i,1).toString(), i,1);
+				modelSabado.setValueAt(modelDomingo.getValueAt(i,2).toString(), i,2);
+				modelSabado.setValueAt(Boolean.parseBoolean(modelDomingo.getValueAt(i,3).toString()), i,3);
+				modelSabado.setValueAt(modelDomingo.getValueAt(i,4).toString(), i,4);
+				modelSabado.setValueAt(modelDomingo.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chSabado.setSelected(true);
+			btnAgregarSabado.setEnabled(true);
+			btnSubirSabado.setEnabled(true);
+			btnBajarSabado.setEnabled(true);
+			btnRemoverSabado.setEnabled(true);
+			btn_copiar_sabado_al_domingo.setEnabled(true);
+			tablaSabado.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	/** LUNES **/
+	public void copiar_todos_lunes(){
+		if(modelLunes.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaDomingo.getRowCount() > 0){ modelDomingo.removeRow(0); }
+			while(tablaMartes.getRowCount() > 0){ modelMartes.removeRow(0); }
+			while(tablaMiercoles.getRowCount() > 0){ modelMiercoles.removeRow(0); }
+			while(tablaJueves.getRowCount() > 0){ modelJueves.removeRow(0); }
+			while(tablaViernes.getRowCount() > 0){ modelViernes.removeRow(0); }
+			while(tablaSabado.getRowCount() > 0){ modelSabado.removeRow(0); }
+			
+			/** CARGAR DOMINGO CON DATOS DEL ANFITRION **/
+			Object[] fila = {"","","","false","",""};
+			for(int i=0; i<modelLunes.getRowCount(); i++){
+				modelDomingo.addRow(fila);
+				modelDomingo.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+				modelDomingo.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+				modelDomingo.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+				modelDomingo.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+				modelDomingo.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+				modelDomingo.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chDomingo.setSelected(true);
+			btnAgregarDomingo.setEnabled(true);
+			btnSubirDomingo.setEnabled(true);
+			btnBajarDomingo.setEnabled(true);
+			btnRemoverDomingo.setEnabled(true);
+			btn_copiar_domingo_al_lunes.setEnabled(true);
+			tablaDomingo.setEnabled(true);
+			
+			/** CARGAR MARTES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelLunes.getRowCount(); i++){
+				modelMartes.addRow(fila);
+				modelMartes.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+				modelMartes.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+				modelMartes.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+				modelMartes.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+				modelMartes.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+				modelMartes.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMartes.setSelected(true);
+			btnAgregarMartes.setEnabled(true);
+			btnSubirMartes.setEnabled(true);
+			btnBajarMartes.setEnabled(true);
+			btnRemoverMartes.setEnabled(true);
+			btn_copiar_martes_al_miercoles.setEnabled(true);
+			tablaMartes.setEnabled(true);
+			
+			/** CARGAR MIERCOLES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelLunes.getRowCount(); i++){
+				modelMiercoles.addRow(fila);
+				modelMiercoles.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+				modelMiercoles.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+				modelMiercoles.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+				modelMiercoles.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+				modelMiercoles.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+				modelMiercoles.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMiercoles.setSelected(true);
+			btnAgregarMiercoles.setEnabled(true);
+			btnSubirMiercoles.setEnabled(true);
+			btnBajarMiercoles.setEnabled(true);
+			btnRemoverMiercoles.setEnabled(true);
+			btn_copiar_miercoles_al_jueves.setEnabled(true);
+			tablaMiercoles.setEnabled(true);
+			
+			/** CARGAR JUEVES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelLunes.getRowCount(); i++){
+				modelJueves.addRow(fila);
+				modelJueves.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+				modelJueves.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+				modelJueves.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+				modelJueves.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+				modelJueves.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+				modelJueves.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chJueves.setSelected(true);
+			btnAgregarJueves.setEnabled(true);
+			btnSubirJueves.setEnabled(true);
+			btnBajarJueves.setEnabled(true);
+			btnRemoverJueves.setEnabled(true);
+			btn_copiar_jueves_al_viernes.setEnabled(true);
+			tablaJueves.setEnabled(true);
+			
+			/** CARGAR VIERNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelLunes.getRowCount(); i++){
+				modelViernes.addRow(fila);
+				modelViernes.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+				modelViernes.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+				modelViernes.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+				modelViernes.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+				modelViernes.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+				modelViernes.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chViernes.setSelected(true);
+			btnAgregarViernes.setEnabled(true);
+			btnSubirViernes.setEnabled(true);
+			btnBajarViernes.setEnabled(true);
+			btnRemoverViernes.setEnabled(true);
+			btn_copiar_vienres_al_sabado.setEnabled(true);
+			tablaViernes.setEnabled(true);
+			
+			/** CARGAR SABADO CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelLunes.getRowCount(); i++){
+				modelSabado.addRow(fila);
+				modelSabado.setValueAt(modelLunes.getValueAt(i,0).toString(), i,0);
+				modelSabado.setValueAt(modelLunes.getValueAt(i,1).toString(), i,1);
+				modelSabado.setValueAt(modelLunes.getValueAt(i,2).toString(), i,2);
+				modelSabado.setValueAt(Boolean.parseBoolean(modelLunes.getValueAt(i,3).toString()), i,3);
+				modelSabado.setValueAt(modelLunes.getValueAt(i,4).toString(), i,4);
+				modelSabado.setValueAt(modelLunes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chSabado.setSelected(true);
+			btnAgregarSabado.setEnabled(true);
+			btnSubirSabado.setEnabled(true);
+			btnBajarSabado.setEnabled(true);
+			btnRemoverSabado.setEnabled(true);
+			btn_copiar_sabado_al_domingo.setEnabled(true);
+			tablaSabado.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	/** MARTES **/
+	public void copiar_todos_martes(){
+		if(modelMartes.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaDomingo.getRowCount() > 0){ modelDomingo.removeRow(0); }
+			while(tablaLunes.getRowCount() > 0){ modelLunes.removeRow(0); }
+			while(tablaMiercoles.getRowCount() > 0){ modelMiercoles.removeRow(0); }
+			while(tablaJueves.getRowCount() > 0){ modelJueves.removeRow(0); }
+			while(tablaViernes.getRowCount() > 0){ modelViernes.removeRow(0); }
+			while(tablaSabado.getRowCount() > 0){ modelSabado.removeRow(0); }
+			
+			/** CARGAR DOMINGO CON DATOS DEL ANFITRION **/
+			Object[] fila = {"","","","false","",""};
+			for(int i=0; i<modelMartes.getRowCount(); i++){
+				modelDomingo.addRow(fila);
+				modelDomingo.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+				modelDomingo.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+				modelDomingo.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+				modelDomingo.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+				modelDomingo.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+				modelDomingo.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chDomingo.setSelected(true);
+			btnAgregarDomingo.setEnabled(true);
+			btnSubirDomingo.setEnabled(true);
+			btnBajarDomingo.setEnabled(true);
+			btnRemoverDomingo.setEnabled(true);
+			btn_copiar_domingo_al_lunes.setEnabled(true);
+			tablaDomingo.setEnabled(true);
+			
+			/** CARGAR LUNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMartes.getRowCount(); i++){
+				modelLunes.addRow(fila);
+				modelLunes.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+				modelLunes.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+				modelLunes.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+				modelLunes.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+				modelLunes.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+				modelLunes.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chLunes.setSelected(true);
+			btnAgregarLunes.setEnabled(true);
+			btnSubirLunes.setEnabled(true);
+			btnBajarLunes.setEnabled(true);
+			btnRemoverLunes.setEnabled(true);
+			btn_copiar_lunes_al_martes.setEnabled(true);
+			tablaLunes.setEnabled(true);
+			
+			/** CARGAR MIERCOLES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMartes.getRowCount(); i++){
+				modelMiercoles.addRow(fila);
+				modelMiercoles.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+				modelMiercoles.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+				modelMiercoles.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+				modelMiercoles.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+				modelMiercoles.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+				modelMiercoles.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMiercoles.setSelected(true);
+			btnAgregarMiercoles.setEnabled(true);
+			btnSubirMiercoles.setEnabled(true);
+			btnBajarMiercoles.setEnabled(true);
+			btnRemoverMiercoles.setEnabled(true);
+			btn_copiar_miercoles_al_jueves.setEnabled(true);
+			tablaMiercoles.setEnabled(true);
+			
+			/** CARGAR JUEVES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMartes.getRowCount(); i++){
+				modelJueves.addRow(fila);
+				modelJueves.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+				modelJueves.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+				modelJueves.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+				modelJueves.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+				modelJueves.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+				modelJueves.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chJueves.setSelected(true);
+			btnAgregarJueves.setEnabled(true);
+			btnSubirJueves.setEnabled(true);
+			btnBajarJueves.setEnabled(true);
+			btnRemoverJueves.setEnabled(true);
+			btn_copiar_jueves_al_viernes.setEnabled(true);
+			tablaJueves.setEnabled(true);
+			
+			/** CARGAR VIERNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMartes.getRowCount(); i++){
+				modelViernes.addRow(fila);
+				modelViernes.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+				modelViernes.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+				modelViernes.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+				modelViernes.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+				modelViernes.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+				modelViernes.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chViernes.setSelected(true);
+			btnAgregarViernes.setEnabled(true);
+			btnSubirViernes.setEnabled(true);
+			btnBajarViernes.setEnabled(true);
+			btnRemoverViernes.setEnabled(true);
+			btn_copiar_vienres_al_sabado.setEnabled(true);
+			tablaViernes.setEnabled(true);
+			
+			/** CARGAR SABADO CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMartes.getRowCount(); i++){
+				modelSabado.addRow(fila);
+				modelSabado.setValueAt(modelMartes.getValueAt(i,0).toString(), i,0);
+				modelSabado.setValueAt(modelMartes.getValueAt(i,1).toString(), i,1);
+				modelSabado.setValueAt(modelMartes.getValueAt(i,2).toString(), i,2);
+				modelSabado.setValueAt(Boolean.parseBoolean(modelMartes.getValueAt(i,3).toString()), i,3);
+				modelSabado.setValueAt(modelMartes.getValueAt(i,4).toString(), i,4);
+				modelSabado.setValueAt(modelMartes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chSabado.setSelected(true);
+			btnAgregarSabado.setEnabled(true);
+			btnSubirSabado.setEnabled(true);
+			btnBajarSabado.setEnabled(true);
+			btnRemoverSabado.setEnabled(true);
+			btn_copiar_sabado_al_domingo.setEnabled(true);
+			tablaSabado.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	/** MIERCOLES **/
+	public void copiar_todos_miercoles(){
+		if(modelMiercoles.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaDomingo.getRowCount() > 0){ modelDomingo.removeRow(0); }
+			while(tablaLunes.getRowCount() > 0){ modelLunes.removeRow(0); }
+			while(tablaMartes.getRowCount() > 0){ modelMartes.removeRow(0); }
+			while(tablaJueves.getRowCount() > 0){ modelJueves.removeRow(0); }
+			while(tablaViernes.getRowCount() > 0){ modelViernes.removeRow(0); }
+			while(tablaSabado.getRowCount() > 0){ modelSabado.removeRow(0); }
+			
+			/** CARGAR DOMINGO CON DATOS DEL ANFITRION **/
+			Object[] fila = {"","","","false","",""};
+			for(int i=0; i<modelMiercoles.getRowCount(); i++){
+				modelDomingo.addRow(fila);
+				modelDomingo.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+				modelDomingo.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+				modelDomingo.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+				modelDomingo.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+				modelDomingo.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+				modelDomingo.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chDomingo.setSelected(true);
+			btnAgregarDomingo.setEnabled(true);
+			btnSubirDomingo.setEnabled(true);
+			btnBajarDomingo.setEnabled(true);
+			btnRemoverDomingo.setEnabled(true);
+			btn_copiar_domingo_al_lunes.setEnabled(true);
+			tablaDomingo.setEnabled(true);
+			
+			/** CARGAR LUNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMiercoles.getRowCount(); i++){
+				modelLunes.addRow(fila);
+				modelLunes.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+				modelLunes.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+				modelLunes.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+				modelLunes.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+				modelLunes.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+				modelLunes.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chLunes.setSelected(true);
+			btnAgregarLunes.setEnabled(true);
+			btnSubirLunes.setEnabled(true);
+			btnBajarLunes.setEnabled(true);
+			btnRemoverLunes.setEnabled(true);
+			btn_copiar_lunes_al_martes.setEnabled(true);
+			tablaLunes.setEnabled(true);
+			
+			/** CARGAR MARTES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMiercoles.getRowCount(); i++){
+				modelMartes.addRow(fila);
+				modelMartes.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+				modelMartes.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+				modelMartes.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+				modelMartes.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+				modelMartes.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+				modelMartes.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMartes.setSelected(true);
+			btnAgregarMartes.setEnabled(true);
+			btnSubirMartes.setEnabled(true);
+			btnBajarMartes.setEnabled(true);
+			btnRemoverMartes.setEnabled(true);
+			btn_copiar_martes_al_miercoles.setEnabled(true);
+			tablaMartes.setEnabled(true);
+			
+			/** CARGAR JUEVES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMiercoles.getRowCount(); i++){
+				modelJueves.addRow(fila);
+				modelJueves.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+				modelJueves.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+				modelJueves.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+				modelJueves.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+				modelJueves.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+				modelJueves.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chJueves.setSelected(true);
+			btnAgregarJueves.setEnabled(true);
+			btnSubirJueves.setEnabled(true);
+			btnBajarJueves.setEnabled(true);
+			btnRemoverJueves.setEnabled(true);
+			btn_copiar_jueves_al_viernes.setEnabled(true);
+			tablaJueves.setEnabled(true);
+			
+			/** CARGAR VIERNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMiercoles.getRowCount(); i++){
+				modelViernes.addRow(fila);
+				modelViernes.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+				modelViernes.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+				modelViernes.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+				modelViernes.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+				modelViernes.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+				modelViernes.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chViernes.setSelected(true);
+			btnAgregarViernes.setEnabled(true);
+			btnSubirViernes.setEnabled(true);
+			btnBajarViernes.setEnabled(true);
+			btnRemoverViernes.setEnabled(true);
+			btn_copiar_vienres_al_sabado.setEnabled(true);
+			tablaViernes.setEnabled(true);
+			
+			/** CARGAR SABADO CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelMiercoles.getRowCount(); i++){
+				modelSabado.addRow(fila);
+				modelSabado.setValueAt(modelMiercoles.getValueAt(i,0).toString(), i,0);
+				modelSabado.setValueAt(modelMiercoles.getValueAt(i,1).toString(), i,1);
+				modelSabado.setValueAt(modelMiercoles.getValueAt(i,2).toString(), i,2);
+				modelSabado.setValueAt(Boolean.parseBoolean(modelMiercoles.getValueAt(i,3).toString()), i,3);
+				modelSabado.setValueAt(modelMiercoles.getValueAt(i,4).toString(), i,4);
+				modelSabado.setValueAt(modelMiercoles.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chSabado.setSelected(true);
+			btnAgregarSabado.setEnabled(true);
+			btnSubirSabado.setEnabled(true);
+			btnBajarSabado.setEnabled(true);
+			btnRemoverSabado.setEnabled(true);
+			btn_copiar_sabado_al_domingo.setEnabled(true);
+			tablaSabado.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	/** JUEVES **/
+	public void copiar_todos_jueves(){
+		if(modelJueves.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaDomingo.getRowCount() > 0){ modelDomingo.removeRow(0); }
+			while(tablaLunes.getRowCount() > 0){ modelLunes.removeRow(0); }
+			while(tablaMartes.getRowCount() > 0){ modelMartes.removeRow(0); }
+			while(tablaMiercoles.getRowCount() > 0){ modelMiercoles.removeRow(0); }
+			while(tablaViernes.getRowCount() > 0){ modelViernes.removeRow(0); }
+			while(tablaSabado.getRowCount() > 0){ modelSabado.removeRow(0); }
+			
+			/** CARGAR DOMINGO CON DATOS DEL ANFITRION **/
+			Object[] fila = {"","","","false","",""};
+			for(int i=0; i<modelJueves.getRowCount(); i++){
+				modelDomingo.addRow(fila);
+				modelDomingo.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+				modelDomingo.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+				modelDomingo.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+				modelDomingo.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+				modelDomingo.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+				modelDomingo.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chDomingo.setSelected(true);
+			btnAgregarDomingo.setEnabled(true);
+			btnSubirDomingo.setEnabled(true);
+			btnBajarDomingo.setEnabled(true);
+			btnRemoverDomingo.setEnabled(true);
+			btn_copiar_domingo_al_lunes.setEnabled(true);
+			tablaDomingo.setEnabled(true);
+			
+			/** CARGAR LUNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelJueves.getRowCount(); i++){
+				modelLunes.addRow(fila);
+				modelLunes.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+				modelLunes.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+				modelLunes.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+				modelLunes.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+				modelLunes.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+				modelLunes.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chLunes.setSelected(true);
+			btnAgregarLunes.setEnabled(true);
+			btnSubirLunes.setEnabled(true);
+			btnBajarLunes.setEnabled(true);
+			btnRemoverLunes.setEnabled(true);
+			btn_copiar_lunes_al_martes.setEnabled(true);
+			tablaLunes.setEnabled(true);
+			
+			/** CARGAR MARTES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelJueves.getRowCount(); i++){
+				modelMartes.addRow(fila);
+				modelMartes.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+				modelMartes.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+				modelMartes.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+				modelMartes.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+				modelMartes.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+				modelMartes.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMartes.setSelected(true);
+			btnAgregarMartes.setEnabled(true);
+			btnSubirMartes.setEnabled(true);
+			btnBajarMartes.setEnabled(true);
+			btnRemoverMartes.setEnabled(true);
+			btn_copiar_martes_al_miercoles.setEnabled(true);
+			tablaMartes.setEnabled(true);
+			
+			/** CARGAR MIERCOLES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelJueves.getRowCount(); i++){
+				modelMiercoles.addRow(fila);
+				modelMiercoles.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+				modelMiercoles.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+				modelMiercoles.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+				modelMiercoles.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+				modelMiercoles.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+				modelMiercoles.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMiercoles.setSelected(true);
+			btnAgregarMiercoles.setEnabled(true);
+			btnSubirMiercoles.setEnabled(true);
+			btnBajarMiercoles.setEnabled(true);
+			btnRemoverMiercoles.setEnabled(true);
+			btn_copiar_miercoles_al_jueves.setEnabled(true);
+			tablaMiercoles.setEnabled(true);
+			
+			/** CARGAR VIERNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelJueves.getRowCount(); i++){
+				modelViernes.addRow(fila);
+				modelViernes.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+				modelViernes.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+				modelViernes.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+				modelViernes.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+				modelViernes.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+				modelViernes.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chViernes.setSelected(true);
+			btnAgregarViernes.setEnabled(true);
+			btnSubirViernes.setEnabled(true);
+			btnBajarViernes.setEnabled(true);
+			btnRemoverViernes.setEnabled(true);
+			btn_copiar_vienres_al_sabado.setEnabled(true);
+			tablaViernes.setEnabled(true);
+			
+			/** CARGAR SABADO CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelJueves.getRowCount(); i++){
+				modelSabado.addRow(fila);
+				modelSabado.setValueAt(modelJueves.getValueAt(i,0).toString(), i,0);
+				modelSabado.setValueAt(modelJueves.getValueAt(i,1).toString(), i,1);
+				modelSabado.setValueAt(modelJueves.getValueAt(i,2).toString(), i,2);
+				modelSabado.setValueAt(Boolean.parseBoolean(modelJueves.getValueAt(i,3).toString()), i,3);
+				modelSabado.setValueAt(modelJueves.getValueAt(i,4).toString(), i,4);
+				modelSabado.setValueAt(modelJueves.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chSabado.setSelected(true);
+			btnAgregarSabado.setEnabled(true);
+			btnSubirSabado.setEnabled(true);
+			btnBajarSabado.setEnabled(true);
+			btnRemoverSabado.setEnabled(true);
+			btn_copiar_sabado_al_domingo.setEnabled(true);
+			tablaSabado.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	/** VIERNES **/
+	public void copiar_todos_viernes(){
+		if(modelViernes.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaDomingo.getRowCount() > 0){ modelDomingo.removeRow(0); }
+			while(tablaLunes.getRowCount() > 0){ modelLunes.removeRow(0); }
+			while(tablaMartes.getRowCount() > 0){ modelMartes.removeRow(0); }
+			while(tablaMiercoles.getRowCount() > 0){ modelMiercoles.removeRow(0); }
+			while(tablaJueves.getRowCount() > 0){ modelJueves.removeRow(0); }
+			while(tablaSabado.getRowCount() > 0){ modelSabado.removeRow(0); }
+			
+			/** CARGAR DOMINGO CON DATOS DEL ANFITRION **/
+			Object[] fila = {"","","","false","",""};
+			for(int i=0; i<modelViernes.getRowCount(); i++){
+				modelDomingo.addRow(fila);
+				modelDomingo.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+				modelDomingo.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+				modelDomingo.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+				modelDomingo.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+				modelDomingo.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+				modelDomingo.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chDomingo.setSelected(true);
+			btnAgregarDomingo.setEnabled(true);
+			btnSubirDomingo.setEnabled(true);
+			btnBajarDomingo.setEnabled(true);
+			btnRemoverDomingo.setEnabled(true);
+			btn_copiar_domingo_al_lunes.setEnabled(true);
+			tablaDomingo.setEnabled(true);
+			
+			/** CARGAR LUNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelViernes.getRowCount(); i++){
+				modelLunes.addRow(fila);
+				modelLunes.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+				modelLunes.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+				modelLunes.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+				modelLunes.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+				modelLunes.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+				modelLunes.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chLunes.setSelected(true);
+			btnAgregarLunes.setEnabled(true);
+			btnSubirLunes.setEnabled(true);
+			btnBajarLunes.setEnabled(true);
+			btnRemoverLunes.setEnabled(true);
+			btn_copiar_lunes_al_martes.setEnabled(true);
+			tablaLunes.setEnabled(true);
+			
+			/** CARGAR MARTES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelViernes.getRowCount(); i++){
+				modelMartes.addRow(fila);
+				modelMartes.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+				modelMartes.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+				modelMartes.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+				modelMartes.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+				modelMartes.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+				modelMartes.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMartes.setSelected(true);
+			btnAgregarMartes.setEnabled(true);
+			btnSubirMartes.setEnabled(true);
+			btnBajarMartes.setEnabled(true);
+			btnRemoverMartes.setEnabled(true);
+			btn_copiar_martes_al_miercoles.setEnabled(true);
+			tablaMartes.setEnabled(true);
+			
+			/** CARGAR MIERCOLES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelViernes.getRowCount(); i++){
+				modelMiercoles.addRow(fila);
+				modelMiercoles.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+				modelMiercoles.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+				modelMiercoles.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+				modelMiercoles.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+				modelMiercoles.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+				modelMiercoles.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMiercoles.setSelected(true);
+			btnAgregarMiercoles.setEnabled(true);
+			btnSubirMiercoles.setEnabled(true);
+			btnBajarMiercoles.setEnabled(true);
+			btnRemoverMiercoles.setEnabled(true);
+			btn_copiar_miercoles_al_jueves.setEnabled(true);
+			tablaMiercoles.setEnabled(true);
+			
+			/** CARGAR JUEVES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelViernes.getRowCount(); i++){
+				modelJueves.addRow(fila);
+				modelJueves.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+				modelJueves.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+				modelJueves.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+				modelJueves.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+				modelJueves.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+				modelJueves.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chJueves.setSelected(true);
+			btnAgregarJueves.setEnabled(true);
+			btnSubirJueves.setEnabled(true);
+			btnBajarJueves.setEnabled(true);
+			btnRemoverJueves.setEnabled(true);
+			btn_copiar_jueves_al_viernes.setEnabled(true);
+			tablaJueves.setEnabled(true);
+			
+			/** CARGAR SABADO CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelViernes.getRowCount(); i++){
+				modelSabado.addRow(fila);
+				modelSabado.setValueAt(modelViernes.getValueAt(i,0).toString(), i,0);
+				modelSabado.setValueAt(modelViernes.getValueAt(i,1).toString(), i,1);
+				modelSabado.setValueAt(modelViernes.getValueAt(i,2).toString(), i,2);
+				modelSabado.setValueAt(Boolean.parseBoolean(modelViernes.getValueAt(i,3).toString()), i,3);
+				modelSabado.setValueAt(modelViernes.getValueAt(i,4).toString(), i,4);
+				modelSabado.setValueAt(modelViernes.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chSabado.setSelected(true);
+			btnAgregarSabado.setEnabled(true);
+			btnSubirSabado.setEnabled(true);
+			btnBajarSabado.setEnabled(true);
+			btnRemoverSabado.setEnabled(true);
+			btn_copiar_sabado_al_domingo.setEnabled(true);
+			tablaSabado.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	/** SABADO **/
+	public void copiar_todos_sabado(){
+		if(modelSabado.getRowCount() > 0){
+			
+			/** RESETEAR LAS TABLAS A LAS QUE SE LES VAN A AGREGAR DATOS **/
+			while(tablaDomingo.getRowCount() > 0){ modelDomingo.removeRow(0); }
+			while(tablaLunes.getRowCount() > 0){ modelLunes.removeRow(0); }
+			while(tablaMartes.getRowCount() > 0){ modelMartes.removeRow(0); }
+			while(tablaMiercoles.getRowCount() > 0){ modelMiercoles.removeRow(0); }
+			while(tablaJueves.getRowCount() > 0){ modelJueves.removeRow(0); }
+			while(tablaViernes.getRowCount() > 0){ modelViernes.removeRow(0); }
+			
+			/** CARGAR DOMINGO CON DATOS DEL ANFITRION **/
+			Object[] fila = {"","","","false","",""};
+			for(int i=0; i<modelSabado.getRowCount(); i++){
+				modelDomingo.addRow(fila);
+				modelDomingo.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+				modelDomingo.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+				modelDomingo.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+				modelDomingo.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+				modelDomingo.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+				modelDomingo.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chDomingo.setSelected(true);
+			btnAgregarDomingo.setEnabled(true);
+			btnSubirDomingo.setEnabled(true);
+			btnBajarDomingo.setEnabled(true);
+			btnRemoverDomingo.setEnabled(true);
+			btn_copiar_domingo_al_lunes.setEnabled(true);
+			tablaDomingo.setEnabled(true);
+			
+			/** CARGAR LUNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelSabado.getRowCount(); i++){
+				modelLunes.addRow(fila);
+				modelLunes.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+				modelLunes.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+				modelLunes.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+				modelLunes.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+				modelLunes.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+				modelLunes.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chLunes.setSelected(true);
+			btnAgregarLunes.setEnabled(true);
+			btnSubirLunes.setEnabled(true);
+			btnBajarLunes.setEnabled(true);
+			btnRemoverLunes.setEnabled(true);
+			btn_copiar_lunes_al_martes.setEnabled(true);
+			tablaLunes.setEnabled(true);
+			
+			/** CARGAR MARTES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelSabado.getRowCount(); i++){
+				modelMartes.addRow(fila);
+				modelMartes.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+				modelMartes.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+				modelMartes.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+				modelMartes.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+				modelMartes.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+				modelMartes.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMartes.setSelected(true);
+			btnAgregarMartes.setEnabled(true);
+			btnSubirMartes.setEnabled(true);
+			btnBajarMartes.setEnabled(true);
+			btnRemoverMartes.setEnabled(true);
+			btn_copiar_martes_al_miercoles.setEnabled(true);
+			tablaMartes.setEnabled(true);
+			
+			/** CARGAR MIERCOLES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelSabado.getRowCount(); i++){
+				modelMiercoles.addRow(fila);
+				modelMiercoles.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+				modelMiercoles.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+				modelMiercoles.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+				modelMiercoles.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+				modelMiercoles.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+				modelMiercoles.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chMiercoles.setSelected(true);
+			btnAgregarMiercoles.setEnabled(true);
+			btnSubirMiercoles.setEnabled(true);
+			btnBajarMiercoles.setEnabled(true);
+			btnRemoverMiercoles.setEnabled(true);
+			btn_copiar_miercoles_al_jueves.setEnabled(true);
+			tablaMiercoles.setEnabled(true);
+			
+			/** CARGAR JUEVES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelSabado.getRowCount(); i++){
+				modelJueves.addRow(fila);
+				modelJueves.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+				modelJueves.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+				modelJueves.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+				modelJueves.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+				modelJueves.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+				modelJueves.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chJueves.setSelected(true);
+			btnAgregarJueves.setEnabled(true);
+			btnSubirJueves.setEnabled(true);
+			btnBajarJueves.setEnabled(true);
+			btnRemoverJueves.setEnabled(true);
+			btn_copiar_jueves_al_viernes.setEnabled(true);
+			tablaJueves.setEnabled(true);
+			
+			/** CARGAR VIERNES CON DATOS DEL ANFITRION **/
+			for(int i=0; i<modelSabado.getRowCount(); i++){
+				modelViernes.addRow(fila);
+				modelViernes.setValueAt(modelSabado.getValueAt(i,0).toString(), i,0);
+				modelViernes.setValueAt(modelSabado.getValueAt(i,1).toString(), i,1);
+				modelViernes.setValueAt(modelSabado.getValueAt(i,2).toString(), i,2);
+				modelViernes.setValueAt(Boolean.parseBoolean(modelSabado.getValueAt(i,3).toString()), i,3);
+				modelViernes.setValueAt(modelSabado.getValueAt(i,4).toString(), i,4);
+				modelViernes.setValueAt(modelSabado.getValueAt(i,5).toString(), i,5);
+				
+			}
+			
+			chViernes.setSelected(true);
+			btnAgregarViernes.setEnabled(true);
+			btnSubirViernes.setEnabled(true);
+			btnBajarViernes.setEnabled(true);
+			btnRemoverViernes.setEnabled(true);
+			btn_copiar_vienres_al_sabado.setEnabled(true);
+			tablaViernes.setEnabled(true);
+			
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay filas en la tabla", "Aviso", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
 	ActionListener opDiaDomingo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			if(chDomingo.isSelected()){
@@ -1923,11 +3197,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirDomingo.setEnabled(true);
 				btnBajarDomingo.setEnabled(true);
 				btnRemoverDomingo.setEnabled(true);
+				btn_copiar_domingo_al_lunes.setEnabled(true);
+				btn_copiar_domingo_todos.setEnabled(true);
+				tablaDomingo.setEnabled(true);
 			}else{
 				btnAgregarDomingo.setEnabled(false);
 				btnSubirDomingo.setEnabled(false);
 				btnBajarDomingo.setEnabled(false);
 				btnRemoverDomingo.setEnabled(false);
+				btn_copiar_domingo_al_lunes.setEnabled(false);
+				btn_copiar_domingo_todos.setEnabled(false);
+				tablaDomingo.setEnabled(false);
 				
 				while(tablaDomingo.getRowCount() > 0){
 					modelDomingo.removeRow(0);
@@ -1943,11 +3223,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirLunes.setEnabled(true);
 				btnBajarLunes.setEnabled(true);
 				btnRemoverLunes.setEnabled(true);
+				btn_copiar_lunes_al_martes.setEnabled(true);
+				btn_copiar_lunes_todos.setEnabled(true);
+				tablaLunes.setEnabled(true);
 			}else{
 				btnAgregarLunes.setEnabled(false);
 				btnSubirLunes.setEnabled(false);
 				btnBajarLunes.setEnabled(false);
 				btnRemoverLunes.setEnabled(false);
+				btn_copiar_lunes_al_martes.setEnabled(false);
+				btn_copiar_lunes_todos.setEnabled(false);
+				tablaLunes.setEnabled(false);
 				
 				while(tablaLunes.getRowCount() > 0){
 					modelLunes.removeRow(0);
@@ -1964,11 +3250,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirMartes.setEnabled(true);
 				btnBajarMartes.setEnabled(true);
 				btnRemoverMartes.setEnabled(true);
+				btn_copiar_martes_al_miercoles.setEnabled(true);
+				btn_copiar_martes_todos.setEnabled(true);
+				tablaMartes.setEnabled(true);
 			}else{
 				btnAgregarMartes.setEnabled(false);
 				btnSubirMartes.setEnabled(false);
 				btnBajarMartes.setEnabled(false);
 				btnRemoverMartes.setEnabled(false);
+				btn_copiar_martes_al_miercoles.setEnabled(false);
+				btn_copiar_martes_todos.setEnabled(false);
+				tablaMartes.setEnabled(false);
 				
 				while(tablaMartes.getRowCount() > 0){
 					modelMartes.removeRow(0);
@@ -1985,11 +3277,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirMiercoles.setEnabled(true);
 				btnBajarMiercoles.setEnabled(true);
 				btnRemoverMiercoles.setEnabled(true);
+				btn_copiar_miercoles_al_jueves.setEnabled(true);
+				btn_copiar_miercoles_todos.setEnabled(true);
+				tablaMiercoles.setEnabled(true);
 			}else{
 				btnAgregarMiercoles.setEnabled(false);
 				btnSubirMiercoles.setEnabled(false);
 				btnBajarMiercoles.setEnabled(false);
 				btnRemoverMiercoles.setEnabled(false);
+				btn_copiar_miercoles_al_jueves.setEnabled(false);
+				btn_copiar_miercoles_todos.setEnabled(false);
+				tablaMiercoles.setEnabled(false);
 				
 				while(tablaMiercoles.getRowCount() > 0){
 					modelMiercoles.removeRow(0);
@@ -2006,11 +3304,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirJueves.setEnabled(true);
 				btnBajarJueves.setEnabled(true);
 				btnRemoverJueves.setEnabled(true);
+				btn_copiar_jueves_al_viernes.setEnabled(true);
+				btn_copiar_jueves_todos.setEnabled(true);
+				tablaJueves.setEnabled(true);
 			}else{
 				btnAgregarJueves.setEnabled(false);
 				btnSubirJueves.setEnabled(false);
 				btnBajarJueves.setEnabled(false);
 				btnRemoverJueves.setEnabled(false);
+				btn_copiar_jueves_al_viernes.setEnabled(false);
+				btn_copiar_jueves_todos.setEnabled(false);
+				tablaJueves.setEnabled(false);
 				
 				while(tablaJueves.getRowCount() > 0){
 					modelJueves.removeRow(0);
@@ -2027,11 +3331,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirViernes.setEnabled(true);
 				btnBajarViernes.setEnabled(true);
 				btnRemoverViernes.setEnabled(true);
+				btn_copiar_vienres_al_sabado.setEnabled(true);
+				btn_copiar_vienres_todos.setEnabled(true);
+				tablaViernes.setEnabled(true);
 			}else{
 				btnAgregarViernes.setEnabled(false);
 				btnSubirViernes.setEnabled(false);
 				btnBajarViernes.setEnabled(false);
 				btnRemoverViernes.setEnabled(false);
+				btn_copiar_vienres_al_sabado.setEnabled(false);
+				btn_copiar_vienres_todos.setEnabled(false);
+				tablaViernes.setEnabled(false);
 				
 				while(tablaViernes.getRowCount() > 0){
 					modelViernes.removeRow(0);
@@ -2048,11 +3358,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirSabado.setEnabled(true);
 				btnBajarSabado.setEnabled(true);
 				btnRemoverSabado.setEnabled(true);
+				btn_copiar_sabado_al_domingo.setEnabled(true);
+				btn_copiar_sabado_todos.setEnabled(true);
+				tablaSabado.setEnabled(true);
 			}else{
 				btnAgregarSabado.setEnabled(false);
 				btnSubirSabado.setEnabled(false);
 				btnBajarSabado.setEnabled(false);
 				btnRemoverSabado.setEnabled(false);
+				btn_copiar_sabado_al_domingo.setEnabled(false);
+				btn_copiar_sabado_todos.setEnabled(false);
+				tablaSabado.setEnabled(false);
 				
 				while(tablaSabado.getRowCount() > 0){
 					modelSabado.removeRow(0);
@@ -2100,6 +3416,28 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirSabado.setEnabled(true);
 				btnBajarSabado.setEnabled(true);
 				btnRemoverSabado.setEnabled(true);
+				btn_copiar_domingo_al_lunes.setEnabled(true);
+				btn_copiar_lunes_al_martes.setEnabled(true);
+				btn_copiar_martes_al_miercoles.setEnabled(true);
+				btn_copiar_miercoles_al_jueves.setEnabled(true);
+				btn_copiar_jueves_al_viernes.setEnabled(true);
+				btn_copiar_vienres_al_sabado.setEnabled(true);
+				btn_copiar_sabado_al_domingo.setEnabled(true);
+				btn_copiar_domingo_todos.setEnabled(true);
+				btn_copiar_lunes_todos.setEnabled(true);
+				btn_copiar_martes_todos.setEnabled(true);
+				btn_copiar_miercoles_todos.setEnabled(true);
+				btn_copiar_jueves_todos.setEnabled(true);
+				btn_copiar_vienres_todos.setEnabled(true);
+				btn_copiar_sabado_todos.setEnabled(true);
+				tablaDomingo.setEnabled(true);
+				tablaLunes.setEnabled(true);
+				tablaMartes.setEnabled(true);
+				tablaMiercoles.setEnabled(true);
+				tablaJueves.setEnabled(true);
+				tablaViernes.setEnabled(true);
+				tablaSabado.setEnabled(true);
+				
 			}else{
 				chDomingo.setSelected(false);
 				chLunes.setSelected(false);
@@ -2136,6 +3474,27 @@ public class Cat_Cuadrante_Base extends JFrame{
 				btnSubirSabado.setEnabled(false);
 				btnBajarSabado.setEnabled(false);
 				btnRemoverSabado.setEnabled(false);
+				btn_copiar_domingo_al_lunes.setEnabled(false);
+				btn_copiar_lunes_al_martes.setEnabled(false);
+				btn_copiar_martes_al_miercoles.setEnabled(false);
+				btn_copiar_miercoles_al_jueves.setEnabled(false);
+				btn_copiar_jueves_al_viernes.setEnabled(false);
+				btn_copiar_vienres_al_sabado.setEnabled(false);
+				btn_copiar_sabado_al_domingo.setEnabled(false);
+				btn_copiar_domingo_todos.setEnabled(false);
+				btn_copiar_lunes_todos.setEnabled(false);
+				btn_copiar_martes_todos.setEnabled(false);
+				btn_copiar_miercoles_todos.setEnabled(false);
+				btn_copiar_jueves_todos.setEnabled(false);
+				btn_copiar_vienres_todos.setEnabled(false);
+				btn_copiar_sabado_todos.setEnabled(false);
+				tablaDomingo.setEnabled(false);
+				tablaLunes.setEnabled(false);
+				tablaMartes.setEnabled(false);
+				tablaMiercoles.setEnabled(false);
+				tablaJueves.setEnabled(false);
+				tablaViernes.setEnabled(false);
+				tablaSabado.setEnabled(false);
 			}
 	
 		}
@@ -2169,6 +3528,27 @@ public class Cat_Cuadrante_Base extends JFrame{
 		btnSubirSabado.setEnabled(false);
 		btnBajarSabado.setEnabled(false);
 		btnRemoverSabado.setEnabled(false);
+		btn_copiar_domingo_al_lunes.setEnabled(false);
+		btn_copiar_lunes_al_martes.setEnabled(false);
+		btn_copiar_martes_al_miercoles.setEnabled(false);
+		btn_copiar_miercoles_al_jueves.setEnabled(false);
+		btn_copiar_jueves_al_viernes.setEnabled(false);
+		btn_copiar_vienres_al_sabado.setEnabled(false);
+		btn_copiar_sabado_al_domingo.setEnabled(false);
+		btn_copiar_domingo_todos.setEnabled(false);
+		btn_copiar_lunes_todos.setEnabled(false);
+		btn_copiar_martes_todos.setEnabled(false);
+		btn_copiar_miercoles_todos.setEnabled(false);
+		btn_copiar_jueves_todos.setEnabled(false);
+		btn_copiar_vienres_todos.setEnabled(false);
+		btn_copiar_sabado_todos.setEnabled(false);
+		tablaDomingo.setEnabled(false);
+		tablaLunes.setEnabled(false);
+		tablaMartes.setEnabled(false);
+		tablaMiercoles.setEnabled(false);
+		tablaJueves.setEnabled(false);
+		tablaViernes.setEnabled(false);
+		tablaSabado.setEnabled(false);
 	}
 	
 	public class Cat_Filtro_Actividades extends JFrame {
@@ -2338,7 +3718,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		}
 		
 		ActionListener opAgregar = new ActionListener() {
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked" })
 			public void actionPerformed(ActionEvent arg0) {
 				Dias diaswitch = Dias.valueOf(dia);
 				
@@ -2354,48 +3734,62 @@ public class Cat_Cuadrante_Base extends JFrame{
 				switch (diaswitch) {
 				 	case Domingo:
 				 		Object[] filaDom = new Object[6];
-				 		if(modelDomingo.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 		if(modelDomingo.getRowCount()>0){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-					 				filaDom[0] = modeloFiltro.getValueAt(i, 0);
-					 				filaDom[1] = modeloFiltro.getValueAt(i, 1);
-						 			filaDom[2] = modeloFiltro.getValueAt(i, 2);
-						 			filaDom[3] = Boolean.parseBoolean("false");
-						 			filaDom[4] = "00:00";
-						 			filaDom[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelDomingo.getRowCount();){
-						 				if(Integer.parseInt(filaDom[0].toString().trim()) == Integer.parseInt(modelDomingo.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaDom[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelDomingo.addRow(filaDom);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelDomingo.addRow(filaDom);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+				 					filaDom[0] = modeloFiltro.getValueAt(i, 0);
+ 									filaDom[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaDom[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaDom[3] = Boolean.parseBoolean("false");
+ 									filaDom[4] = "00:00";
+ 									filaDom[5] = "00:00";
+				 					for(int j=0; j<modelDomingo.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelDomingo.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelDomingo.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelDomingo.addRow(filaDom);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelDomingo.getRowCount()-1 && repetido == 0){
+			 									modelDomingo.addRow(filaDom);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelDomingo.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelDomingo.addRow(filaDom);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelDomingo.getRowCount()-1 && repetido == 0){
+			 									modelDomingo.addRow(filaDom);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-					 				filaDom[0] = modeloFiltro.getValueAt(i, 0);
-						 			filaDom[1] = modeloFiltro.getValueAt(i, 1);
-						 			filaDom[2] = modeloFiltro.getValueAt(i, 2);
-						 			filaDom[3] = Boolean.parseBoolean("false");
-						 			filaDom[4] = "00:00";
-						 			filaDom[5] = "00:00";
+				 					filaDom[0] = modeloFiltro.getValueAt(i, 0);
+				 					filaDom[1] = modeloFiltro.getValueAt(i, 1);
+				 					filaDom[2] = modeloFiltro.getValueAt(i, 2);
+				 					filaDom[3] = Boolean.parseBoolean("false");
+				 					filaDom[4] = "00:00";
+				 					filaDom[5] = "00:00";
 						 			
 						 			modelDomingo.addRow(filaDom);
 				 				}
-
 				 			}
 				 		}
 				 		dispose();
@@ -2403,34 +3797,49 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 	case Lunes:
 				 		Object[] filaLun = new Object[6];
 				 		if(modelLunes.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
 				 					filaLun[0] = modeloFiltro.getValueAt(i, 0);
-				 					filaLun[1] = modeloFiltro.getValueAt(i, 1);
-				 					filaLun[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaLun[3] = Boolean.parseBoolean("false");
-				 					filaLun[4] = "00:00";
-				 					filaLun[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelLunes.getRowCount();){
-						 				if(Integer.parseInt(filaLun[0].toString().trim()) == Integer.parseInt(modelLunes.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaLun[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelLunes.addRow(filaLun);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelLunes.addRow(filaLun);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+ 									filaLun[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaLun[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaLun[3] = Boolean.parseBoolean("false");
+ 									filaLun[4] = "00:00";
+ 									filaLun[5] = "00:00";
+				 					for(int j=0; j<modelLunes.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelLunes.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelLunes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelLunes.addRow(filaLun);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelLunes.getRowCount()-1 && repetido == 0){
+			 									modelLunes.addRow(filaLun);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelLunes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelLunes.addRow(filaLun);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelLunes.getRowCount()-1 && repetido == 0){
+			 									modelLunes.addRow(filaLun);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -2443,7 +3852,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 						 			
 						 			modelLunes.addRow(filaLun);
 				 				}
-
 				 			}
 				 		}
 				 		dispose();
@@ -2451,34 +3859,49 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 	case Martes:
 				 		Object[] filaMar = new Object[6];
 				 		if(modelMartes.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
 				 					filaMar[0] = modeloFiltro.getValueAt(i, 0);
-				 					filaMar[1] = modeloFiltro.getValueAt(i, 1);
-				 					filaMar[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaMar[3] = Boolean.parseBoolean("false");
-				 					filaMar[4] = "00:00";
-				 					filaMar[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelMartes.getRowCount();){
-						 				if(Integer.parseInt(filaMar[0].toString().trim()) == Integer.parseInt(modelMartes.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaMar[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelMartes.addRow(filaMar);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelMartes.addRow(filaMar);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+ 									filaMar[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaMar[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaMar[3] = Boolean.parseBoolean("false");
+ 									filaMar[4] = "00:00";
+ 									filaMar[5] = "00:00";
+				 					for(int j=0; j<modelMartes.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelMartes.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelMartes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelMartes.addRow(filaMar);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelMartes.getRowCount()-1 && repetido == 0){
+			 									modelMartes.addRow(filaMar);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelMartes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelMartes.addRow(filaMar);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelMartes.getRowCount()-1 && repetido == 0){
+			 									modelMartes.addRow(filaMar);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -2499,34 +3922,49 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 	case Miércoles:
 				 		Object[] filaMie = new Object[6];
 				 		if(modelMiercoles.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
 				 					filaMie[0] = modeloFiltro.getValueAt(i, 0);
-				 					filaMie[1] = modeloFiltro.getValueAt(i, 1);
-				 					filaMie[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaMie[3] = Boolean.parseBoolean("false");
-				 					filaMie[4] = "00:00";
-				 					filaMie[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelMiercoles.getRowCount();){
-						 				if(Integer.parseInt(filaMie[0].toString().trim()) == Integer.parseInt(modelMiercoles.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaMie[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelMiercoles.addRow(filaMie);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelMiercoles.addRow(filaMie);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+ 									filaMie[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaMie[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaMie[3] = Boolean.parseBoolean("false");
+ 									filaMie[4] = "00:00";
+ 									filaMie[5] = "00:00";
+				 					for(int j=0; j<modelMiercoles.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelMiercoles.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelMiercoles.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelMiercoles.addRow(filaMie);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelMiercoles.getRowCount()-1 && repetido == 0){
+			 									modelMiercoles.addRow(filaMie);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelMiercoles.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelMiercoles.addRow(filaMie);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelMiercoles.getRowCount()-1 && repetido == 0){
+			 									modelMiercoles.addRow(filaMie);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -2547,34 +3985,49 @@ public class Cat_Cuadrante_Base extends JFrame{
 		            case Jueves:
 		            	Object[] filaJue = new Object[6];
 				 		if(modelJueves.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
 				 					filaJue[0] = modeloFiltro.getValueAt(i, 0);
-				 					filaJue[1] = modeloFiltro.getValueAt(i, 1);
-				 					filaJue[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaJue[3] = Boolean.parseBoolean("false");
-				 					filaJue[4] = "00:00";
-				 					filaJue[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelJueves.getRowCount();){
-						 				if(Integer.parseInt(filaJue[0].toString().trim()) == Integer.parseInt(modelJueves.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaJue[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelJueves.addRow(filaJue);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelJueves.addRow(filaJue);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+ 									filaJue[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaJue[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaJue[3] = Boolean.parseBoolean("false");
+ 									filaJue[4] = "00:00";
+ 									filaJue[5] = "00:00";
+				 					for(int j=0; j<modelJueves.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelJueves.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelJueves.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelJueves.addRow(filaJue);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelJueves.getRowCount()-1 && repetido == 0){
+			 									modelJueves.addRow(filaJue);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelJueves.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelJueves.addRow(filaJue);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelJueves.getRowCount()-1 && repetido == 0){
+			 									modelJueves.addRow(filaJue);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -2595,34 +4048,49 @@ public class Cat_Cuadrante_Base extends JFrame{
 		            case Viernes:
 		            	Object[] filaVie = new Object[6];
 				 		if(modelViernes.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
 				 					filaVie[0] = modeloFiltro.getValueAt(i, 0);
-				 					filaVie[1] = modeloFiltro.getValueAt(i, 1);
-				 					filaVie[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaVie[3] = Boolean.parseBoolean("false");
-				 					filaVie[4] = "00:00";
-				 					filaVie[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelViernes.getRowCount();){
-						 				if(Integer.parseInt(filaVie[0].toString().trim()) == Integer.parseInt(modelViernes.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaVie[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelViernes.addRow(filaVie);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelViernes.addRow(filaVie);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+ 									filaVie[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaVie[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaVie[3] = Boolean.parseBoolean("false");
+ 									filaVie[4] = "00:00";
+ 									filaVie[5] = "00:00";
+				 					for(int j=0; j<modelViernes.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelViernes.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelViernes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelViernes.addRow(filaVie);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelViernes.getRowCount()-1 && repetido == 0){
+			 									modelViernes.addRow(filaVie);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelViernes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelViernes.addRow(filaVie);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelViernes.getRowCount()-1 && repetido == 0){
+			 									modelViernes.addRow(filaVie);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
@@ -2643,34 +4111,49 @@ public class Cat_Cuadrante_Base extends JFrame{
 		            case Sábado:
 		            	Object[] filaSab = new Object[6];
 				 		if(modelSabado.getRowCount() > 0){
-					 		for(int i=0; i<tablaFiltro.getRowCount(); i++){
+				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
+				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
 				 					filaSab[0] = modeloFiltro.getValueAt(i, 0);
-				 					filaSab[1] = modeloFiltro.getValueAt(i, 1);
-				 					filaSab[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaSab[3] = Boolean.parseBoolean("false");
-				 					filaSab[4] = "00:00";
-				 					filaSab[5] = "00:00";
-					 				
-						 			for(int j=0; j<modelSabado.getRowCount();){
-						 				if(Integer.parseInt(filaSab[0].toString().trim()) == Integer.parseInt(modelSabado.getValueAt(i, 0).toString().trim())){
-						 					if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + filaSab[1] + " \n ya existe ¿Desea volver a agregar?" ) == 0){
-						 						modelSabado.addRow(filaSab);
-						 						j++;
-						 						break;
-						 					}else{
-						 						j++;
-						 						break;
-						 					}
-						 				}else{
-						 					modelSabado.addRow(filaSab);
-						 					j++;
-						 					break;
-						 				}
-						 			}
+ 									filaSab[1] = modeloFiltro.getValueAt(i, 1);
+ 									filaSab[2] = modeloFiltro.getValueAt(i, 2);
+ 									filaSab[3] = Boolean.parseBoolean("false");
+ 									filaSab[4] = "00:00";
+ 									filaSab[5] = "00:00";
+				 					for(int j=0; j<modelViernes.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelViernes.getValueAt(j,0).toString().trim())){
+				 							j++;
+				 							repetido++;
+				 							if(j==modelViernes.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelSabado.addRow(filaSab);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelSabado.getRowCount()-1 && repetido == 0){
+			 									modelSabado.addRow(filaSab);
+			 									j++;
+				 							}
+				 						}else{
+				 							j++;
+				 							if(j==modelSabado.getRowCount()-1 && repetido > 0){
+				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
+				 									modelSabado.addRow(filaSab);
+							 						j++;
+				 								}else{
+				 									j++;
+				 								}
+				 							}
+				 							if(j==modelSabado.getRowCount()-1 && repetido == 0){
+			 									modelSabado.addRow(filaSab);
+			 									j++;
+				 							}
+				 						}
+				 					}
 				 				}
-					 		}
-				 			
+				 			}
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){

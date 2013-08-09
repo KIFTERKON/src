@@ -145,13 +145,13 @@ public class InitMenuBar extends Init{
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
 		/* REPORTES */
 		JMenu Reportes = new JMenu("Reportes");
-	     	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia");
-	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos");
-	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas");
-			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas");
-			JMenuItem Reporte_Lista_Raya       = new JMenuItem("Reporte Lista de Raya");
-			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa");
-			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos");
+	     	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia",new ImageIcon("Iconos/reporte_icon&16.png"));
+	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos",new ImageIcon("Iconos/reporte_icon&16.png"));
+	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Lista_Raya       = new JMenuItem("Reporte Lista de Raya",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos",new ImageIcon("Iconos/reporte_icon&16.png"));
 	
 	/* AYUDA */
 	JMenu Ayuda = new JMenu("Ayuda");

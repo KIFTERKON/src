@@ -109,7 +109,8 @@ public class MainCamara extends javax.swing.JFrame {
     	btnGuardar.setEnabled(true);
     	infoDispositivo();
     	try {
-			misDispositivos.MuestraWebCam(jPWebCam,"vfw:Microsoft WDM Image Capture (Win32):0","yuv");
+    		misDispositivos.MuestraWebCam(jPWebCam,"vfw:Microsoft WDM Image Capture (Win32):0","rgb");
+//			misDispositivos.MuestraWebCam(jPWebCam,"vfw:Microsoft WDM Image Capture (Win32):0","yuv");
 		} catch (CannotRealizeException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

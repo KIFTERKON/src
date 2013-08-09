@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -21,6 +23,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
+	boolean status_update = false;
 	JButton btnNuevo = new JButton("Nuevo");
 	
 	JButton btnSimilar = new JButton("Similar");
@@ -70,7 +73,24 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		
 		enablesTodos(false);
 		txtFolio.setEditable(true);
+		this.addWindowListener(op_cerrar);
 	}
+	
+	WindowListener op_cerrar = new WindowListener() {
+		public void windowOpened(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {
+			if(ValidaError().equals("")){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar antes de cerrar?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					guardar();
+				}
+			}
+		}
+		public void windowClosed(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+	};
 	
 	public void buscar(int folio){
 		try {
@@ -177,6 +197,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	ActionListener opSimilar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
+			status_update = false;
 			enablesTodos(true);
 			txtFolio.setEditable(false);
 			
@@ -682,6 +703,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 				JOptionPane.showMessageDialog(null,"No hay ningún registro que editar","Aviso",JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}else{
+				status_update = true;
 				enablesTodos(true);
 				txtFolio.setEditable(false);
 				
@@ -690,11 +712,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirDomingo.setEnabled(true);
 					btnBajarDomingo.setEnabled(true);
 					btnRemoverDomingo.setEnabled(true);
+					btn_copiar_domingo_al_lunes.setEnabled(true);
+					tablaDomingo.setEnabled(true);
 				}else{
 					btnAgregarDomingo.setEnabled(false);
 					btnSubirDomingo.setEnabled(false);
 					btnBajarDomingo.setEnabled(false);
 					btnRemoverDomingo.setEnabled(false);
+					btn_copiar_domingo_al_lunes.setEnabled(false);
+					tablaDomingo.setEnabled(false);
 					
 					while(tablaDomingo.getRowCount() > 0){
 						modelDomingo.removeRow(0);
@@ -706,11 +732,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirLunes.setEnabled(true);
 					btnBajarLunes.setEnabled(true);
 					btnRemoverLunes.setEnabled(true);
+					btn_copiar_lunes_al_martes.setEnabled(true);
+					tablaLunes.setEnabled(true);
 				}else{
 					btnAgregarLunes.setEnabled(false);
 					btnSubirLunes.setEnabled(false);
 					btnBajarLunes.setEnabled(false);
 					btnRemoverLunes.setEnabled(false);
+					btn_copiar_lunes_al_martes.setEnabled(false);
+					tablaLunes.setEnabled(false);
 					
 					while(tablaLunes.getRowCount() > 0){
 						modelLunes.removeRow(0);
@@ -721,11 +751,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirMartes.setEnabled(true);
 					btnBajarMartes.setEnabled(true);
 					btnRemoverMartes.setEnabled(true);
+					btn_copiar_martes_al_miercoles.setEnabled(true);
+					tablaMartes.setEnabled(true);
 				}else{
 					btnAgregarMartes.setEnabled(false);
 					btnSubirMartes.setEnabled(false);
 					btnBajarMartes.setEnabled(false);
 					btnRemoverMartes.setEnabled(false);
+					btn_copiar_martes_al_miercoles.setEnabled(false);
+					tablaMartes.setEnabled(false);
 					
 					while(tablaMartes.getRowCount() > 0){
 						modelMartes.removeRow(0);
@@ -736,11 +770,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirMiercoles.setEnabled(true);
 					btnBajarMiercoles.setEnabled(true);
 					btnRemoverMiercoles.setEnabled(true);
+					btn_copiar_miercoles_al_jueves.setEnabled(true);
+					tablaMiercoles.setEnabled(true);
 				}else{
 					btnAgregarMiercoles.setEnabled(false);
 					btnSubirMiercoles.setEnabled(false);
 					btnBajarMiercoles.setEnabled(false);
 					btnRemoverMiercoles.setEnabled(false);
+					btn_copiar_miercoles_al_jueves.setEnabled(false);
+					tablaMiercoles.setEnabled(false);
 					
 					while(tablaMiercoles.getRowCount() > 0){
 						modelMiercoles.removeRow(0);
@@ -751,11 +789,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirJueves.setEnabled(true);
 					btnBajarJueves.setEnabled(true);
 					btnRemoverJueves.setEnabled(true);
+					btn_copiar_jueves_al_viernes.setEnabled(true);
+					tablaJueves.setEnabled(true);
 				}else{
 					btnAgregarJueves.setEnabled(false);
 					btnSubirJueves.setEnabled(false);
 					btnBajarJueves.setEnabled(false);
 					btnRemoverJueves.setEnabled(false);
+					btn_copiar_jueves_al_viernes.setEnabled(false);
+					tablaJueves.setEnabled(false);
 					
 					while(tablaJueves.getRowCount() > 0){
 						modelJueves.removeRow(0);
@@ -766,11 +808,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirViernes.setEnabled(true);
 					btnBajarViernes.setEnabled(true);
 					btnRemoverViernes.setEnabled(true);
+					btn_copiar_vienres_al_sabado.setEnabled(true);
+					tablaViernes.setEnabled(true);
 				}else{
 					btnAgregarViernes.setEnabled(false);
 					btnSubirViernes.setEnabled(false);
 					btnBajarViernes.setEnabled(false);
 					btnRemoverViernes.setEnabled(false);
+					btn_copiar_vienres_al_sabado.setEnabled(false);
+					tablaViernes.setEnabled(false);
 					
 					while(tablaViernes.getRowCount() > 0){
 						modelViernes.removeRow(0);
@@ -781,11 +827,15 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					btnSubirSabado.setEnabled(true);
 					btnBajarSabado.setEnabled(true);
 					btnRemoverSabado.setEnabled(true);
+					btn_copiar_sabado_al_domingo.setEnabled(true);
+					tablaSabado.setEnabled(true);
 				}else{
 					btnAgregarSabado.setEnabled(false);
 					btnSubirSabado.setEnabled(false);
 					btnBajarSabado.setEnabled(false);
 					btnRemoverSabado.setEnabled(false);
+					btn_copiar_sabado_al_domingo.setEnabled(false);
+					tablaSabado.setEnabled(false);
 					
 					while(tablaSabado.getRowCount() > 0){
 						modelSabado.removeRow(0);
@@ -797,20 +847,20 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	public String erroralllenartabla(){
 		String error="";
-			if(chDomingo.isSelected()== true &&
-			   tablaDomingo.getRowCount()==0) error+="Domingo\n";
-			if(chLunes.isSelected()== true &&
-					   tablaLunes.getRowCount()==0) error+="Lunes\n";
-			if(chMartes.isSelected()== true &&
-					   tablaMartes.getRowCount()==0) error+="Martes\n";
-			if(chMiercoles.isSelected()== true &&
-					   tablaMiercoles.getRowCount()==0) error+="Miercoles\n";
-			if(chJueves.isSelected()== true &&
-					   tablaJueves.getRowCount()==0) error+="Jueves\n";
-			if(chViernes.isSelected()== true &&
-					   tablaViernes.getRowCount()==0) error+="Viernes\n";
-			if(chSabado.isSelected()== true &&
-					   tablaSabado.getRowCount()==0) error+="Sabado\n";
+		if(chDomingo.isSelected()== true &&
+			tablaDomingo.getRowCount()==0) error+="Domingo\n";
+		if(chLunes.isSelected()== true &&
+			tablaLunes.getRowCount()==0) error+="Lunes\n";
+		if(chMartes.isSelected()== true &&
+			tablaMartes.getRowCount()==0) error+="Martes\n";
+		if(chMiercoles.isSelected()== true &&
+			tablaMiercoles.getRowCount()==0) error+="Miercoles\n";
+		if(chJueves.isSelected()== true &&
+			tablaJueves.getRowCount()==0) error+="Jueves\n";
+		if(chViernes.isSelected()== true &&
+			tablaViernes.getRowCount()==0) error+="Viernes\n";
+		if(chSabado.isSelected()== true &&
+			tablaSabado.getRowCount()==0) error+="Sabado\n";
 			
 		return error;
 	}
@@ -823,6 +873,8 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	ActionListener opNuevo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
+			limpiar();
+			status_update = false;
 			enablesTodos(true);
 			txtFolio.setText(new Obj_Cuadrante().nuevo()+"");
 			txtFolio.setEditable(false);
@@ -832,8 +884,46 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	ActionListener opGuardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(ValidaError().equals("")){
-				if(erroralllenartabla().equals("")){
+			guardar();
+		}
+	};
+	
+	public void guardar(){
+		if(ValidaError().equals("")){
+			if(erroralllenartabla().equals("")){
+				if(status_update == true){
+					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+						Obj_Cuadrante cuadrante = new Obj_Cuadrante();
+						
+						cuadrante.setFolio(Integer.parseInt(txtFolio.getText()));
+						cuadrante.setCuadrante(txtCuadrante.getText());
+						cuadrante.setPerfil(txaDescripcion.getText());
+						cuadrante.setJefatura(cmbJefatura.getSelectedItem().toString());
+						cuadrante.setNivel_gerarquico(cmbnivel_jerarquico.getSelectedItem().toString());
+						cuadrante.setEquipo_trabajo(cmbEquipo_Trabajo.getSelectedItem().toString());
+						cuadrante.setEstablecimiento(cmbEstablecimiento.getSelectedItem().toString());
+						cuadrante.setDomingo(chDomingo.isSelected() ? 1 : 0);
+						cuadrante.setLunes(chLunes.isSelected() ? 1 : 0);
+						cuadrante.setMartes(chMartes.isSelected() ? 1 : 0);
+						cuadrante.setMiercoles(chMiercoles.isSelected() ? 1 : 0);
+						cuadrante.setJueves(chJueves.isSelected() ? 1 : 0);
+						cuadrante.setViernes(chViernes.isSelected() ? 1 : 0);
+						cuadrante.setSabado(chSabado.isSelected() ? 1 : 0);
+						cuadrante.setStatus(chbStatus.isSelected() ? 1 : 0);
+						
+						if(cuadrante.actualizar(Integer.parseInt(txtFolio.getText()),DiasTablas())){
+							limpiar();
+							btnSimilar.setEnabled(false);
+							JOptionPane.showMessageDialog(null,"El registro se actualizó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}else{
+							JOptionPane.showMessageDialog(null,"Ha ocurrido un error mientras se intentaba guardar el registro","Error",JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}else{
+						return;
+					}
+				}else{
 					if(new Obj_Cuadrante().existe(txtFolio.getText())){
 						if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 							Obj_Cuadrante cuadrante = new Obj_Cuadrante();
@@ -899,18 +989,17 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 								return;
 							}
 						}
-					
 					}
-				}else{
-					JOptionPane.showMessageDialog(null,"Las siguientes tablas están vacías: \n"+erroralllenartabla(),"Error",JOptionPane.ERROR_MESSAGE);
-					return;
 				}
 			}else{
-				JOptionPane.showMessageDialog(null,"Los siguientes campos son requeridos: \n"+ValidaError(),"Aviso",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Las siguientes tablas están vacías: \n"+erroralllenartabla(),"Error",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+		}else{
+			JOptionPane.showMessageDialog(null,"Los siguientes campos son requeridos: \n"+ValidaError(),"Aviso",JOptionPane.WARNING_MESSAGE);
+			return;
 		}
-	};
+	}
 	
 	public String[][] DiasTablas(){
 		
@@ -1124,6 +1213,22 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		btnBajarSabado.setEnabled(false);
 		btnRemoverSabado.setEnabled(false);
 		
+		btn_copiar_domingo_al_lunes.setEnabled(false);
+		btn_copiar_lunes_al_martes.setEnabled(false);
+		btn_copiar_martes_al_miercoles.setEnabled(false);
+		btn_copiar_miercoles_al_jueves.setEnabled(false);
+		btn_copiar_jueves_al_viernes.setEnabled(false);
+		btn_copiar_vienres_al_sabado.setEnabled(false);
+		btn_copiar_sabado_al_domingo.setEnabled(false);
+		
+		tablaDomingo.setEnabled(false);
+		tablaLunes.setEnabled(false);
+		tablaMartes.setEnabled(false);
+		tablaMiercoles.setEnabled(false);
+		tablaJueves.setEnabled(false);
+		tablaViernes.setEnabled(false);
+		tablaSabado.setEnabled(false);
+		
 		while(tablaDomingo.getRowCount() > 0){
 			modelDomingo.removeRow(0);
 		}
@@ -1178,6 +1283,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			new Cat_Cuadrante().setVisible(true);
+			
 		} catch(Exception e){
 			e.printStackTrace();
 		}

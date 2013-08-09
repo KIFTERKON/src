@@ -145,7 +145,7 @@ public class Cat_Empleado extends JFrame{
 	JButton btnSalir = new JButton("Salir");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnDeshacer = new JButton("Deshacer");
-	JButton btnVerificar = new JButton("Verificar Usuario");
+	JButton btnVerificar = new JButton("Verificar Nombre");
 		
 	JButton btnFoto = new JButton();
 	JButton btnStatus = new JButton();
@@ -189,6 +189,11 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
 		panel.add(btnFoto).setBounds(x*2+ancho*3-20,y,ancho+95,200);
+		
+		System.out.println("Equis:"+(480));
+		System.out.println("Ye:"+30);
+		System.out.println("Zeta:"+(235));
+		
 		panel.add(Observasiones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
 		
 		panel.add(btnCumpleaños_del_Mes).setBounds(x*2+ancho*3-20+ancho+110,y+450,130,20);
@@ -290,6 +295,7 @@ public class Cat_Empleado extends JFrame{
 		txtApMaterno.setDocument(new JTextFieldLimit(20));
 		txtTarjetaNomina.setDocument(new JTextFieldLimit(19));
 		txtImss.setDocument(new JTextFieldLimit(11));
+		txtTelefono_Familiar.setDocument(new JTextFieldLimit(10));
 		
 		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
@@ -357,6 +363,11 @@ public class Cat_Empleado extends JFrame{
 				String nombre = procesa_texto(txtNombre.getText()) + " " + procesa_texto(txtApPaterno.getText()) + " " + procesa_texto(txtApMaterno.getText());
 				if(new Obj_Empleado().nombre_disponible(nombre)){
 					btnVerificar.setBackground(Color.red);
+					panelEnabledFalse();
+					txtChecador.setEditable(true);
+					txtNombre.setEditable(true);
+					txtApPaterno.setEditable(true);
+					txtApMaterno.setEditable(true);
 					
 				}else{
 					btnVerificar.setBackground(Color.blue);
@@ -455,17 +466,26 @@ public class Cat_Empleado extends JFrame{
 					}
 					
 					switch(cmbStatus.getSelectedIndex()+1){
-						case 1: 
-							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-						    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-							;break;
-						case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));break;
-						case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));break;
-						case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png"));break;
+						case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
+							   btnEditar.setVisible(true);
+							   break;
+						case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));
+							   btnEditar.setVisible(true);
+							   break;
+						case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));
+							   btnEditar.setVisible(true);
+							   break;
+						case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
+							   btnEditar.setVisible(true);
+							   break;
+						case 5:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
+							   btnEditar.setVisible(false); 
+							   break;
 					}
-					
+						
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 					txaObservaciones.setText(re.getObservasiones());
+					txtTelefono_Familiar.setText(re.getTelefono_familiar());
 					
 					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -473,7 +493,6 @@ public class Cat_Empleado extends JFrame{
 				    cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
 			    
 				    btnNuevo.setVisible(false);
-					btnEditar.setVisible(true);
 					panelEnabledFalse();
 					txtFolio.setEditable(true);
 					txtFolio.requestFocus();
@@ -568,6 +587,7 @@ public class Cat_Empleado extends JFrame{
 							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
 							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
 							
 							if(empleado.actualizar(Integer.parseInt(txtFolio.getText()))){
 								panelLimpiar();
@@ -650,6 +670,7 @@ public class Cat_Empleado extends JFrame{
 						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
 						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
 						
 						if(empleado.guardar()){
 							panelLimpiar();
@@ -717,6 +738,7 @@ public class Cat_Empleado extends JFrame{
 		txtCalendario.setEnabled(true);
 		cmbActivo_Inactivo.setEnabled(true);
 		txtIngreso.setEnabled(true);
+		txtTelefono_Familiar.setEditable(true);
 		
 	}
 	
@@ -746,6 +768,7 @@ public class Cat_Empleado extends JFrame{
 		txtCalendario.setEnabled(false);
 		cmbActivo_Inactivo.setEnabled(false);
 		txtIngreso.setEnabled(false);
+		txtTelefono_Familiar.setEditable(false);
 		
 	}
 	
@@ -775,6 +798,7 @@ public class Cat_Empleado extends JFrame{
 	    btnFoto.setIcon(new ImageIcon(""));	
 	    btnStatus.setIcon(new ImageIcon(""));
 	    cmbActivo_Inactivo.setSelectedIndex(0);
+	    txtTelefono_Familiar.setText("");
 		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -799,6 +823,9 @@ public class Cat_Empleado extends JFrame{
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+					String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
+					ImageIcon tmpIconAux_status = new ImageIcon(file_status);
+					btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 							
 				}else{
 					panelEnabledTrue();
@@ -809,6 +836,9 @@ public class Cat_Empleado extends JFrame{
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+					String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
+					ImageIcon tmpIconAux_status = new ImageIcon(file_status);
+					btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
@@ -1012,11 +1042,22 @@ public class Cat_Empleado extends JFrame{
 			cmbStatus.setSelectedIndex(re.getStatus()-1);
 			
 			switch(cmbStatus.getSelectedIndex()+1){
-			case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png"));break;
-			case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));break;
-			case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));break;
-			case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png"));break;
-		}
+				case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
+					   btnEditar.setVisible(true);
+					   break;
+				case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));
+					   btnEditar.setVisible(true);
+					   break;
+				case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));
+					   btnEditar.setVisible(true);
+					   break;
+				case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
+					   btnEditar.setVisible(true);
+					   break;
+				case 5:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
+					   btnEditar.setVisible(false); 
+					   break;
+			}
 			
 			if(re.getFecha_nacimiento() != null){
 				try {
@@ -1040,7 +1081,6 @@ public class Cat_Empleado extends JFrame{
 			
 		    
 		    btnNuevo.setVisible(false);
-			btnEditar.setVisible(true);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();

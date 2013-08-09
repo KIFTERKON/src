@@ -833,6 +833,7 @@ public class BuscarSQL {
 				empleado.setImss(rs.getString("imss"));
 				empleado.setStatus_imss(rs.getInt("status_imss"));
 				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
+				empleado.setTelefono_familiar(rs.getString("telefono_familiar"));
 				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
@@ -2641,6 +2642,16 @@ public class BuscarSQL {
 				empleado_cuadrante.setDia(rs.getString("Dia"));
 				empleado_cuadrante.setFecha(rs.getString("Fecha"));
 				empleado_cuadrante.setCuadrante(rs.getString("Cuadrante"));
+				
+				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp_cuadrante/tmp.jpg");
+				FileOutputStream fos = new FileOutputStream(photo);
+
+		            byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("Foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
 
 			}
 			
@@ -2671,7 +2682,6 @@ public class BuscarSQL {
 
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
-				Matriz[i][2] = rs.getString(3);
 				
 				i++;
 			}
@@ -2685,7 +2695,7 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"', '"+dia+"';";
-			
+				
 		Matriz = new String[getFilas(datosif)][4];
 		Statement s;
 		ResultSet rs;
@@ -2775,4 +2785,6 @@ public class BuscarSQL {
 		}
 		return sentencia;
 	}
+	
+	
 }

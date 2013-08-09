@@ -50,11 +50,11 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 	JButton btnEliminar = new JButton("Remover");
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 
-	String lista2[] = new Obj_Puesto().Combo_Jefatura();
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbP_Principal = new JComboBox(lista2);
-	
 	String lista[] = new Obj_Puesto().Combo_Puesto();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbP_Principal = new JComboBox(lista);
+	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbP_Dependiente = new JComboBox(lista);
 	

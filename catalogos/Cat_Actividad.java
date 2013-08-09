@@ -107,7 +107,7 @@ public class Cat_Actividad extends JFrame {
 		cmbRespuesta.setSelectedItem(actividad.getRespuesta());
 		cmbAtributos.setSelectedItem(actividad.getAtributos());
 		cmbNivelCritico.setSelectedItem(actividad.getNivel_critico());
-		
+
 //		String[] arrayH_I = actividad.getHora_inicio().split(":");
 //		HI_spiner.setValue(new Time(Integer.parseInt(arrayH_I[0]), Integer.parseInt(arrayH_I[1]), Integer.parseInt(arrayH_I[2])));
 //		
