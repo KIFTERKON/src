@@ -99,9 +99,9 @@ public class InitMenuBar extends Init{
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
 		/* ALIMENTACION */
 		JMenu Cuadrantes_Alimentacion = new JMenu("Alimentación");
-			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Alimentación de Cuadrantes");
-			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante");
-			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes");
+			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Alimentación de Cuadrantes", new ImageIcon("Iconos/cuadrante_captura_icon&16.png"));
+			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante", new ImageIcon("Iconos/cuadrante_icon&16.png"));
+			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes", new ImageIcon("Iconos/cuadrante_user_icon&16.png"));
 		/* CATALOGO */
 		JMenu Cuadrantes_Catalogo = new JMenu("Catalogo");
 			JMenuItem Cuadrantes_Catalogo_Actividades 		= new JMenuItem("Actividades", new ImageIcon("Iconos/actividad_icon&16.png"));
@@ -116,9 +116,9 @@ public class InitMenuBar extends Init{
 			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion", new ImageIcon("Iconos/ponderacion_icon&16.png"));
 		/* REPORTE */
 		JMenu Cuadrantes_Reportes = new JMenu("Reporte");
-			JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo");
-			JMenuItem Cuadrantes_Reportes_Jefatura    = new JMenuItem("Reportes Jefatura");
-			JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario");
+			JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Cuadrantes_Reportes_Jefatura    = new JMenuItem("Reportes Jefatura", new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario", new ImageIcon("Iconos/reporte_icon&16.png"));
 					
 	/* LISTA DE RAYA */
 	JMenu Lista_Raya = new JMenu("Lista de Raya");
@@ -145,13 +145,13 @@ public class InitMenuBar extends Init{
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
 		/* REPORTES */
 		JMenu Reportes = new JMenu("Reportes");
-	     	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia");
-	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos");
-	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas");
-			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas");
-			JMenuItem Reporte_Lista_Raya       = new JMenuItem("Reporte Lista de Raya");
-			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa");
-			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos");
+	     	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia",new ImageIcon("Iconos/reporte_icon&16.png"));
+	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos",new ImageIcon("Iconos/reporte_icon&16.png"));
+	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Lista_Raya       = new JMenuItem("Reporte Lista de Raya",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa",new ImageIcon("Iconos/reporte_icon&16.png"));
+			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos",new ImageIcon("Iconos/reporte_icon&16.png"));
 	
 	/* AYUDA */
 	JMenu Ayuda = new JMenu("Ayuda");
@@ -438,7 +438,7 @@ public class InitMenuBar extends Init{
 			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
-			if(e.getActionCommand().equals("Actividades en Cuadrantes"))
+			if(e.getActionCommand().equals("Alimentación de Cuadrantes"))
 				new Cat_Alimentacion_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);

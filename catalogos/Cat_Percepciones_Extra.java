@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;
@@ -121,9 +123,24 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 		
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
+		this.addWindowListener(op_cerrar);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
     
+    WindowListener op_cerrar = new WindowListener() {
+		public void windowOpened(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {
+			if(JOptionPane.showConfirmDialog(null, "¿Desea guardar antes de cerrar?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+				new Obj_Persecciones_Extra().guardar(tabla_guardar());
+			}
+		}
+		public void windowClosed(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+	};
+	
     ActionListener op_guardar = new ActionListener() {
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0) {
@@ -140,10 +157,10 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 				JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else{
-				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de bancos?") == 0){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de percepciones extra?") == 0){
 					Obj_Persecciones_Extra persecciones = new Obj_Persecciones_Extra();
 					if(persecciones.guardar(tabla_guardar())){
-						JOptionPane.showMessageDialog(null, "La tabla bancos se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La tabla de percepciones se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{
 						JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar guardar la tabla","Error",JOptionPane.ERROR_MESSAGE);
@@ -223,6 +240,8 @@ public class Cat_Percepciones_Extra extends Cat_Root {
     
 	@SuppressWarnings("unchecked")
 	public void init_tabla(){
+		this.tabla.getTableHeader().setReorderingAllowed(false) ;
+		
 		this.tabla.getColumnModel().getColumn(0).setMaxWidth(72);
 		this.tabla.getColumnModel().getColumn(0).setMinWidth(72);
 		this.tabla.getColumnModel().getColumn(1).setMaxWidth(360);

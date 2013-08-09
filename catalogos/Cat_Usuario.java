@@ -43,6 +43,7 @@ public class Cat_Usuario extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
 	
+	// SECUENCIA 1
 	String[] Sub_Catalogo = new Obj_SubMenus().SubMenuCatalogo();
 	Obj_CheckBoxNode Catalogo[] = {
 		new Obj_CheckBoxNode(Sub_Catalogo[0], false),
@@ -54,6 +55,7 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Catalogo[6], false),
 	};
 	
+	// SECUENCIA 2
 	String[] Sub_Configuracion = new Obj_SubMenus().SubMenuConfiguracion();
 	Obj_CheckBoxNode Configuracion[] = {
 		new Obj_CheckBoxNode(Sub_Configuracion[0], false),
@@ -65,6 +67,7 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Configuracion[6], false),
 	};
 	
+	// SECUENCIA 3
 	String[] Sub_Contabilidad_Conciliacion_Auxiliar_Finanzas = new Obj_SubMenus().SubMenuContabilidad_Conciliacion_Auxiliar_Finanzas();
 	Obj_CheckBoxNode Contabilidad_Conciliacion_Auxiliar_Finanzas[] = {
 		new Obj_CheckBoxNode(Sub_Contabilidad_Conciliacion_Auxiliar_Finanzas[0], false),
@@ -73,14 +76,15 @@ public class Cat_Usuario extends JFrame{
 	    new Obj_CheckBoxNode(Sub_Contabilidad_Conciliacion_Auxiliar_Finanzas[3], false),
 	};
 	
+	// SECUENCIA 4
 	String[] Sub_Cuadrantes_Alimentacion = new Obj_SubMenus().SubMenuCuadrantes_Alimentacion();
 	Obj_CheckBoxNode Cuadrantes_Alimentacion[] = {
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Alimentacion[0], false),
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Alimentacion[1], false),
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Alimentacion[2], false),
-		new Obj_CheckBoxNode(Sub_Cuadrantes_Alimentacion[3], false),
 	};
 	
+	// SECUENCIA 5
 	String[] Sub_Cuadrantes_Catalogo = new Obj_SubMenus().SubMenuCuadrantes_Catalogo();
 	Obj_CheckBoxNode Cuadrantes_Catalogo[] = {
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[0], false),
@@ -90,8 +94,12 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[4], false),
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[5], false),
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[6], false),
+		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[7], false),
+		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[8], false),
+		new Obj_CheckBoxNode(Sub_Cuadrantes_Catalogo[9], false),
 	};
 	
+	// SECUENCIA 6
 	String[] Sub_Cuadrantes_Reportes = new Obj_SubMenus().SubMenuCuadrantes_Reportes();
 	Obj_CheckBoxNode Cuadrantes_Reportes[] = {
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Reportes[0], false),
@@ -99,6 +107,7 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Cuadrantes_Reportes[2], false),
 	};
 	
+	// SECUENCIA 7
 	String[] Sub_Lista_Raya_Alimentacion = new Obj_SubMenus().SubMenuLista_Raya_Alimentacion ();
 	Obj_CheckBoxNode Lista_Raya_Alimentacion[] = {
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Alimentacion[0], false),
@@ -111,23 +120,27 @@ public class Cat_Usuario extends JFrame{
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Alimentacion[7], false),
 	};	
 	
-	String[] Sub_Lista_Raya_Comparaciones = new Obj_SubMenus().SubMenuLista_Raya_Comparaciones();
-	Obj_CheckBoxNode Lista_Raya_Comparaciones[] = {
-		new Obj_CheckBoxNode(Sub_Lista_Raya_Comparaciones[0], false),
-		new Obj_CheckBoxNode(Sub_Lista_Raya_Comparaciones[1], false),
-	};
-	
+	// SECUENCIA 8
 	String[] Sub_Lista_Raya_Autorizaciones = new Obj_SubMenus().SubMenuLista_Raya_Autorizaciones();
 	Obj_CheckBoxNode Lista_Raya_Autorizaciones[] = {
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Autorizaciones[0], false),
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Autorizaciones[1], false),
 	};
 	
+	// SECUENCIA 9
+	String[] Sub_Lista_Raya_Comparaciones = new Obj_SubMenus().SubMenuLista_Raya_Comparaciones();
+	Obj_CheckBoxNode Lista_Raya_Comparaciones[] = {
+		new Obj_CheckBoxNode(Sub_Lista_Raya_Comparaciones[0], false),
+		new Obj_CheckBoxNode(Sub_Lista_Raya_Comparaciones[1], false),
+	};
+	
+	// SECUENCIA 10
 	String[] Sub_Lista_Raya_Departamento_Cortes = new Obj_SubMenus().SubMenuLista_Raya_Departamento_Cortes();
 	Obj_CheckBoxNode Lista_Raya_Departamento_Cortes[] = {
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Departamento_Cortes[0], false),
 	};
 	
+	// SECUENCIA 11
 	String[] Sub_Lista_Raya_Reportes = new Obj_SubMenus().SubMenuLista_Raya_Reportes();
 	Obj_CheckBoxNode Lista_Raya_Reportes[] = {
 		new Obj_CheckBoxNode(Sub_Lista_Raya_Reportes[0], false),
@@ -401,15 +414,15 @@ public class Cat_Usuario extends JFrame{
 	        		}
 	        		tree.collapseRow(6);
 	        		
-	        		Vector lista_raya_comparaciones = new Obj_Usuario().returnPermisos(txtNombre_Completo.getText(), 8);
-	        		for(int i = 0; i<Lista_Raya_Comparaciones.length; i ++){
-	        			Lista_Raya_Comparaciones[i].setSelected(Boolean.parseBoolean(lista_raya_comparaciones.get(i).toString()));
+	        		Vector lista_raya_autorizaciones = new Obj_Usuario().returnPermisos(txtNombre_Completo.getText(), 8);
+	        		for(int i = 0; i<Lista_Raya_Autorizaciones.length; i ++){
+	        			Lista_Raya_Autorizaciones[i].setSelected(Boolean.parseBoolean(lista_raya_autorizaciones.get(i).toString()));
 	        		}
 	        		tree.collapseRow(7);
 	        		
-	        		Vector lista_raya_autorizaciones = new Obj_Usuario().returnPermisos(txtNombre_Completo.getText(), 9);
-	        		for(int i = 0; i<Lista_Raya_Autorizaciones.length; i ++){
-	        			Lista_Raya_Autorizaciones[i].setSelected(Boolean.parseBoolean(lista_raya_autorizaciones.get(i).toString()));
+	        		Vector lista_raya_comparaciones = new Obj_Usuario().returnPermisos(txtNombre_Completo.getText(), 9);
+	        		for(int i = 0; i<Lista_Raya_Comparaciones.length; i ++){
+	        			Lista_Raya_Comparaciones[i].setSelected(Boolean.parseBoolean(lista_raya_comparaciones.get(i).toString()));
 	        		}
 	        		tree.collapseRow(8);
 	        		

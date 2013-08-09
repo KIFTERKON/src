@@ -1,5 +1,6 @@
 package objetos;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
@@ -24,21 +25,26 @@ public class Obj_Empleado {
 	private int sueldo;
 	private int bono;
 	private int prestamo;
+	private File foto;
 	private float infonavit;
 	private String targeta_nomina;
 	private int tipo_banco;
+	private String imss;
 	private boolean fuente_sodas;
 	private boolean gafete;
 	private int status;
 	private String fecha;
 	private String observasiones;
-	private String foto;
 	private String fecha_nacimiento;
+	private int status_imss;
+	private String fecha_ingreso;
+	private boolean foto_status;
+	private String telefono_familiar;
 	
 	public Obj_Empleado(){
-		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto ="";
+		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto = null;
 		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; 
-		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones="";
+		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss=""; status_imss=0; fecha_ingreso=""; foto_status = false; telefono_familiar = "";
 	}
 
 	public boolean getFuente_sodas() {
@@ -185,9 +191,26 @@ public class Obj_Empleado {
 		this.prestamo = prestamo;
 	}
 	
+	public File getFoto() {
+		return foto;
+	}
+
+	public void setFoto(File foto) {
+		this.foto = foto;
+	}
+
+	public boolean isFoto_status() {
+		return foto_status;
+	}
+
+	public void setFoto_status(boolean foto_status) {
+		this.foto_status = foto_status;
+	}
+
 	public float getInfonavit() {
 		return infonavit;
 	}
+	
 
 	public void setInfonavit(float infonavit) {
 		this.infonavit = infonavit;
@@ -209,6 +232,14 @@ public class Obj_Empleado {
 		this.tipo_banco = tipo_banco;
 	}
 
+	public String getImss() {
+		return imss;
+	}
+
+	public void setImss(String imss) {
+		this.imss = imss;
+	}
+
 	public String getObservasiones() {
 		return observasiones;
 	}
@@ -217,13 +248,6 @@ public class Obj_Empleado {
 		this.observasiones = observasiones;
 	}
 
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
 
 	public String getFecha_nacimiento() {
 		return fecha_nacimiento;
@@ -231,6 +255,30 @@ public class Obj_Empleado {
 
 	public void setFecha_nacimiento(String fecha_nacimiento) {
 		this.fecha_nacimiento = fecha_nacimiento;
+	}
+
+	public int getStatus_imss() {
+		return status_imss;
+	}
+
+	public void setStatus_imss(int status_imss) {
+		this.status_imss = status_imss;
+	}
+
+	public String getFecha_ingreso() {
+		return fecha_ingreso;
+	}
+
+	public void setFecha_ingreso(String fecha_ingreso) {
+		this.fecha_ingreso = fecha_ingreso;
+	}
+
+	public String getTelefono_familiar() {
+		return telefono_familiar;
+	}
+
+	public void setTelefono_familiar(String telefono_familiar) {
+		this.telefono_familiar = telefono_familiar;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }
@@ -247,5 +295,16 @@ public class Obj_Empleado {
 	public boolean actualizar(int folio){ return new ActualizarSQL().Empleado(this,folio); }
 	
 	public Obj_Empleado buscar_nuevo() throws SQLException{ return new BuscarSQL().Empleado_Nuevo(); }
+	
+	public boolean existe_foto(int folio){
+		try {
+			return new BuscarSQL().isFoto(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean nombre_disponible(String nombre){ return new BuscarSQL().nombre_disponible(nombre); }
 	
 }

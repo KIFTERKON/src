@@ -1,9 +1,12 @@
 package SQL;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,6 +76,24 @@ public class BuscarSQL {
 			 if (stmt != null) { stmt.close(); }
 		}
 		return establecimiento;
+	}
+	
+	public boolean nombre_disponible(String nombre){
+		String query = "exec sp_existe_empleado '" + nombre + "';";
+		boolean disponible = false;
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				disponible = rs.getBoolean(1);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return disponible;
 	}
 	
 	public Obj_Establecimiento Establecimiento_Nuevo() throws SQLException{
@@ -780,9 +801,11 @@ public class BuscarSQL {
 		Obj_Empleado empleado = new Obj_Empleado();
 		String query = "select * from tb_empleado where folio ="+ folio;
 		Statement stmt = null;
+
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+		
 			while(rs.next()){
 				empleado.setFolio(rs.getInt("folio"));
 				empleado.setNo_checador(rs.getInt("no_checador"));
@@ -806,8 +829,22 @@ public class BuscarSQL {
 				empleado.setStatus(rs.getInt("status"));
 				empleado.setFecha(rs.getString("fecha"));
 				empleado.setObservasiones(rs.getString("observaciones"));
-				empleado.setFoto(rs.getString("foto"));
 				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
+				empleado.setImss(rs.getString("imss"));
+				empleado.setStatus_imss(rs.getInt("status_imss"));
+				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
+				empleado.setTelefono_familiar(rs.getString("telefono_familiar"));
+				
+				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				FileOutputStream fos = new FileOutputStream(photo);
+
+		            byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
+		            
 			}
 			
 		} catch (Exception e) {
@@ -2274,19 +2311,8 @@ public class BuscarSQL {
 				actividad.setActividad(rs.getString("actividad"));
 				actividad.setDescripcion(rs.getString("descripcion"));
 				actividad.setRespuesta(rs.getString("respuesta"));
-				
 				actividad.setAtributos(rs.getString("atributo"));
 				actividad.setNivel_critico(rs.getString("critico"));
-				
-				actividad.setDomingo(rs.getInt("domingo"));
-				actividad.setLunes(rs.getInt("lunes"));
-				actividad.setMartes(rs.getInt("martes"));
-				actividad.setMiercoles(rs.getInt("miercoles"));
-				actividad.setJueves(rs.getInt("jueves"));
-				actividad.setViernes(rs.getInt("viernes"));
-				actividad.setSabado(rs.getInt("sabado"));
-				actividad.setHora_inicio(rs.getString("inicio"));
-				actividad.setHora_final(rs.getString("final"));
 				actividad.setTemporada(rs.getString("temporada"));
 				actividad.setCarga(rs.getInt("carga") == 1 ? true : false);
 				actividad.setRepetir(rs.getInt("repetir"));
@@ -2304,9 +2330,31 @@ public class BuscarSQL {
 		return actividad;
 	}
 	
+	public boolean existeCuadrante(int cuadrante) throws SQLException{
+		boolean resultado = false;
+		String query = "exec sp_existe_cuadrante "+cuadrante+";";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				resultado = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return false;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return resultado;
+	}
+	
 	public boolean existeCuadrante(String cuadrante) throws SQLException{
 		boolean resultado = false;
-		String query = "exec sp_existe_cuadrante '"+cuadrante.toUpperCase()+"';";
+		String query = "exec sp_existe_cuadrante_nombre '"+cuadrante+"';";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2328,26 +2376,26 @@ public class BuscarSQL {
 	
 	public Obj_Cuadrante Cuadrante(int folio) throws SQLException{
 		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
-		String query = "select * from tb_cuadrante where folio ="+ folio;
+		String query = "exec sp_select_cuadrante_folio "+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 		    ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				cuadrante.setCuadrante(rs.getString("cuadrante"));
-				cuadrante.setPerfil(rs.getString("perfil"));
-				cuadrante.setJefatura(rs.getString("jefatura"));
-				cuadrante.setNivel_gerarquico(rs.getString("nivel_gerarquico"));
-				cuadrante.setEquipo_trabajo(rs.getString("equipo_trabajo"));
-				cuadrante.setEstablecimiento(rs.getString("establecimiento"));
-				cuadrante.setDomingo(rs.getInt("domingo"));
-				cuadrante.setLunes(rs.getInt("lunes"));
-				cuadrante.setMartes(rs.getInt("martes"));
-				cuadrante.setMiercoles(rs.getInt("miercoles"));
-				cuadrante.setJueves(rs.getInt("jueves"));
-				cuadrante.setViernes(rs.getInt("viernes"));
-				cuadrante.setSabado(rs.getInt("sabado"));
-				cuadrante.setStatus(rs.getInt("status"));
+				cuadrante.setCuadrante(rs.getString(1));
+				cuadrante.setPerfil(rs.getString(2));
+				cuadrante.setJefatura(rs.getString(3));
+				cuadrante.setNivel_gerarquico(rs.getString(4));
+				cuadrante.setEquipo_trabajo(rs.getString(5));
+				cuadrante.setEstablecimiento(rs.getString(6));
+				cuadrante.setDomingo(rs.getInt(7));
+				cuadrante.setLunes(rs.getInt(8));
+				cuadrante.setMartes(rs.getInt(9));
+				cuadrante.setMiercoles(rs.getInt(10));
+				cuadrante.setJueves(rs.getInt(11));
+				cuadrante.setViernes(rs.getInt(12));
+				cuadrante.setSabado(rs.getInt(13));
+				cuadrante.setStatus(rs.getInt(14));
 				
 			}
 			
@@ -2363,10 +2411,10 @@ public class BuscarSQL {
 	}
 	
 	
-	public String[][] getTablaDias(String cuadrante){
+	public String[][] getTablaDias(int cuadrante){
 		String[][] Matriz = null;
 		
-		String datosif = "select dia,folio,actividad,nivel_critico,con_hora,hora_inicio,hora_fin from tb_tabla_cuadrante where cuadrante = '" + cuadrante+"'";
+		String datosif = "exec sp_select_tabla_cuadrante " + cuadrante;
 		
 		Matriz = new String[getFilas(datosif)][7];
 		Statement s;
@@ -2377,9 +2425,9 @@ public class BuscarSQL {
 			int i=0;
 			while(rs.next()){
 				Matriz[i][0] = rs.getString(1);
-				Matriz[i][1] = rs.getString(2);
-				Matriz[i][2] = rs.getString(3);
-				Matriz[i][3] = rs.getString(4);
+				Matriz[i][1] = rs.getString(2)+"  ";
+				Matriz[i][2] = "   "+rs.getString(3);
+				Matriz[i][3] = "   "+rs.getString(4);
 				Matriz[i][4] = rs.getString(5);
 				Matriz[i][5] = rs.getString(6);
 				Matriz[i][6] = rs.getString(7);
@@ -2475,7 +2523,6 @@ public class BuscarSQL {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				empleado_cuadrante.setFolio(rs.getInt("folio"));
-				empleado_cuadrante.setNombre(rs.getString("nombre"));
 				empleado_cuadrante.setCuadrante(rs.getString("cuadrante"));
 				empleado_cuadrante.setStatus(rs.getInt("status")==1 ? true : false);
 			}
@@ -2511,9 +2558,9 @@ public class BuscarSQL {
 		return folio;
 	}
 	
-	public boolean existeEmpleadoCuadrante(String nombre) throws SQLException{
+	public boolean existeEmpleadoCuadrante(int folio) throws SQLException{
 		boolean existe = false;
-		String query = "exec sp_existe_empleado_cuadrante '"+nombre+"'";
+		String query = "exec sp_existe_empleado_cuadrante "+folio;
 		
 		Statement stmt = null;
 		try {
@@ -2533,8 +2580,8 @@ public class BuscarSQL {
 		return existe;
 	}
 	
-	public String[][] getTablaEmpleadoCuadrante(String nombre){
-		String datos = "exec sp_select_tabla_empleado_cuadrante '"+nombre.toUpperCase().trim()+"';";
+	public String[][] getTablaEmpleadoCuadrante(int folio){
+		String datos = "exec sp_select_tabla_empleado_cuadrante "+folio;
 		
 		String[][] Matriz = new String[getFilas(datos)][2];
 		Statement s;
@@ -2581,7 +2628,7 @@ public class BuscarSQL {
 	public Obj_Alimentacion_Cuadrante EmpleadoNombre(String nombre) throws SQLException{
 		Obj_Alimentacion_Cuadrante empleado_cuadrante = new Obj_Alimentacion_Cuadrante();
 		String query = "exec sp_select_cuadrante_empleado '"+nombre+"'";
-	
+		
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2595,6 +2642,16 @@ public class BuscarSQL {
 				empleado_cuadrante.setDia(rs.getString("Dia"));
 				empleado_cuadrante.setFecha(rs.getString("Fecha"));
 				empleado_cuadrante.setCuadrante(rs.getString("Cuadrante"));
+				
+				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp_cuadrante/tmp.jpg");
+				FileOutputStream fos = new FileOutputStream(photo);
+
+		            byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("Foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
 
 			}
 			
@@ -2608,10 +2665,10 @@ public class BuscarSQL {
 		return empleado_cuadrante;
 	}
 	
-	public String[][] tabla_alimentacion_cuadrante_libre(String nomgbre, String dia){
+	public String[][] tabla_alimentacion_cuadrante_libre(String nombre, String dia){
 		String[][] Matriz = null;
 		
-		String datosif = "exec sp_select_tabla_alimentacion_libre '"+nomgbre+"', '"+dia+"';";
+		String datosif = "exec sp_select_tabla_alimentacion_libre '"+nombre+"', '"+dia+"';";
 		System.out.println(datosif);
 			
 		Matriz = new String[getFilas(datosif)][3];
@@ -2625,7 +2682,6 @@ public class BuscarSQL {
 
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
-				Matriz[i][2] = rs.getString(3);
 				
 				i++;
 			}
@@ -2639,7 +2695,7 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"', '"+dia+"';";
-			
+				
 		Matriz = new String[getFilas(datosif)][4];
 		Statement s;
 		ResultSet rs;
@@ -2707,4 +2763,28 @@ public class BuscarSQL {
 		}
 		return sentencia;
 	}
+	
+	
+	public boolean isFoto(int folio) throws SQLException{
+		String query = "exec sp_existe_foto"+ folio;
+		boolean sentencia = false;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				sentencia = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt != null){stmt.close();}
+		}
+		return sentencia;
+	}
+	
+	
 }

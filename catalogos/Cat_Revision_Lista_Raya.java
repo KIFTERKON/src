@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -136,8 +138,23 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
+		this.addWindowListener(op_cerrar);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
+	
+	WindowListener op_cerrar = new WindowListener() {
+		public void windowOpened(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {
+			if(JOptionPane.showConfirmDialog(null, "¿Desea guardar antes de cerrar?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+				new Obj_Revision_Lista_Raya().guardar(tabla_guardar(),new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+			}
+		}
+		public void windowClosed(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+	};
 	
 	ActionListener op_generar = new ActionListener() {
 		@SuppressWarnings("unchecked")
@@ -374,10 +391,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 				JOptionPane.showMessageDialog(null, "Los siguientes datos son requeridos:\n"+valida_error(),"Error",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else{
-				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista de bancos?") == 0){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar la lista pre-raya?") == 0){
 					Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
 					if(lista_raya.guardar(tabla_guardar(),new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()))){
-						JOptionPane.showMessageDialog(null, "La tabla bancos se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La tabla pre-raya se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{
 						JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar guardar la tabla","Error",JOptionPane.ERROR_MESSAGE);
@@ -445,6 +462,8 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 	
 	@SuppressWarnings("unchecked")
 	public void init_tabla(){
+		this.tabla.getTableHeader().setReorderingAllowed(false) ;
+		
 		this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
 		this.tabla.getColumnModel().getColumn(0).setMaxWidth(16);

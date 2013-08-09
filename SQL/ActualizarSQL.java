@@ -1,5 +1,6 @@
 package SQL;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -44,7 +45,7 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=? where folio=" + folio;
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=?, status_imss=?, fecha_ingreso=?, telefono_familiar=? where folio=" + folio;
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -70,11 +71,18 @@ public class ActualizarSQL {
 			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
 			pstmt.setInt(17, empleado.getStatus());
 			pstmt.setString(18,empleado.getObservasiones());
-			pstmt.setString(19, empleado.getFoto());
+			
+			FileInputStream stream_foto = new FileInputStream(empleado.getFoto());
+			pstmt.setBinaryStream(19, stream_foto, empleado.getFoto().length());
+			
 			pstmt.setString(20, empleado.getTargeta_nomina());
 			pstmt.setInt(21, empleado.getTipo_banco());
 			pstmt.setString(22, empleado.getFecha_nacimiento());
-					
+			pstmt.setString(23,empleado.getImss()+"");
+			pstmt.setInt(24, empleado.getStatus_imss());
+			pstmt.setString(25, empleado.getFecha_ingreso());
+			pstmt.setString(26, empleado.getTelefono_familiar());
+			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1234,9 +1242,7 @@ public class ActualizarSQL {
 	
 	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
 		
-		String query = "exec sp_update_actividad ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-		
-
+		String query = "exec sp_update_actividad ?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1249,19 +1255,10 @@ public class ActualizarSQL {
 			pstmt.setString(3, actividad.getRespuesta());
 			pstmt.setString(4, actividad.getAtributos());
 			pstmt.setString(5, actividad.getNivel_critico());
-			pstmt.setInt(6, actividad.getDomingo());
-			pstmt.setInt(7, actividad.getLunes());
-			pstmt.setInt(8, actividad.getMartes());
-			pstmt.setInt(9, actividad.getMiercoles());
-			pstmt.setInt(10, actividad.getJueves());
-			pstmt.setInt(11, actividad.getViernes());
-			pstmt.setInt(12, actividad.getSabado());
-			pstmt.setString(13, actividad.getHora_inicio());
-			pstmt.setString(14, actividad.getHora_final());
-			pstmt.setString(15, actividad.getTemporada());
-			pstmt.setInt(16, actividad.isCarga()? 1 : 0);
-			pstmt.setInt(17, actividad.getRepetir());
-			pstmt.setInt(18, folio);
+			pstmt.setString(6, actividad.getTemporada());
+			pstmt.setInt(7, actividad.isCarga()? 1 : 0);
+			pstmt.setInt(8, actividad.getRepetir());
+			pstmt.setInt(9, folio);
 			
 			
 			
@@ -1346,9 +1343,9 @@ public class ActualizarSQL {
 	
 	
 	public boolean Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
-		String queryDelete ="delete tb_tabla_cuadrante where cuadrante = ?";
-		String query = "update tb_cuadrante set cuadrante=?, perfil=?,	jefatura=?, nivel_gerarquico=?, equipo_trabajo=?,	establecimiento=?,	domingo=?, lunes=?,	martes=?,	miercoles=?, jueves=?, viernes=?,	sabado=?,	status=? where folio = ?";
-		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?,?";
+		String queryDelete ="delete tb_tabla_cuadrante where folio_cuadrante = ?";
+		String query = "exec sp_update_cuadrante ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		
@@ -1380,18 +1377,18 @@ public class ActualizarSQL {
 			pstmt.setInt(15, cuadrante.getFolio());
 			pstmt.executeUpdate();
 			
-			pstmtDelete.setString(1, cuadrante.getCuadrante().toUpperCase());
+			pstmtDelete.setInt(1, cuadrante.getFolio());
 			pstmtDelete.executeUpdate();
 					
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
-				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
-				pstmtTabla.setString(3, tabla[i][1]);
-				pstmtTabla.setString(4, tabla[i][2]);
-				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
-				pstmtTabla.setString(6, tabla[i][4]);
-				pstmtTabla.setString(7, tabla[i][5]);
-				pstmtTabla.setString(8, tabla[i][6]);
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][2].toString().trim());
+				pstmtTabla.setInt(4, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				pstmtTabla.setString(5, tabla[i][4]);
+				pstmtTabla.setString(6, tabla[i][5]);
+				pstmtTabla.setString(7, tabla[i][6]);
+				
 				pstmtTabla.executeUpdate();
 			}
 
@@ -1462,10 +1459,10 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean EmpleadoCuadrante(Obj_Empleados_Cuadrantes empleado_cuadrante, String[][] tabla){
-		String queryClear = "delete from tb_tabla_empleado_cuadrante where nombre ='"+empleado_cuadrante.getNombre().toUpperCase()+"';";
-		String queryUpdate = "update tb_empleado_cuadrante set nombre=?, cuadrante=?,	status=? where folio = ?";
-		String querytabla = "exec sp_insert_tabla_empleado_cuadrante ?,?,?";
+	public boolean EmpleadoCuadrante(Obj_Empleados_Cuadrantes empleado_cuadrante, String[] tabla){
+		String queryClear = "delete from tb_tabla_empleado_cuadrante where folio_cuadrante ="+empleado_cuadrante.getFolio();
+		String queryUpdate = "update tb_empleado_cuadrante set cuadrante=?,	status=? where folio = ?";
+		String querytabla = "exec sp_insert_tabla_empleado_cuadrante ?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmtDelete = null;
@@ -1479,24 +1476,20 @@ public class ActualizarSQL {
 			
 			pstmtUpdate = con.prepareStatement(queryUpdate);
 			
-			pstmtUpdate.setString(1, empleado_cuadrante.getNombre());
-			pstmtUpdate.setString(2, empleado_cuadrante.getCuadrante());
-			pstmtUpdate.setInt(3, empleado_cuadrante.isStatus() ? 1 : 0);
-			pstmtUpdate.setInt(4, empleado_cuadrante.getFolio());
+			pstmtUpdate.setString(1, empleado_cuadrante.getCuadrante());
+			pstmtUpdate.setInt(2, empleado_cuadrante.isStatus() ? 1 : 0);
+			pstmtUpdate.setInt(3, empleado_cuadrante.getFolio());
 			
 			pstmtUpdate.executeUpdate();
 			
 			pstmtTabla = con.prepareStatement(querytabla);
 
 			for(int i=0; i<tabla.length; i++){
-				pstmtTabla.setString(1, empleado_cuadrante.getNombre().toUpperCase());
-				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0]));
-				pstmtTabla.setString(3, tabla[i][1]);
+				pstmtTabla.setString(1, empleado_cuadrante.getCuadrante().toUpperCase().trim());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i]));
 				pstmtTabla.executeUpdate();
 			}
-			
-			
-			
+						
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

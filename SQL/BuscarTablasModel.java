@@ -37,7 +37,7 @@ public class BuscarTablasModel {
 	
 	public Object[][] tabla_model_deduccion_inasistencia(){
 		String query_lista = "exec sp_buscar_deduccion_inasistencia";
-		Object[][] matriz = new Object[get_filas(query_lista)][10];
+		Object[][] matriz = new Object[get_filas(query_lista)][11];
 		try {
 			Statement stmt = new Connexion().conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query_lista);
@@ -52,8 +52,9 @@ public class BuscarTablasModel {
 				matriz[i][5] = Integer.parseInt(rs.getString(6)) == 0 ? "":Integer.parseInt(rs.getString(6));
 				matriz[i][6] = rs.getString(7).trim().equals("true") ? true : false;
 				matriz[i][7] = rs.getString(8).trim().equals("true") ? true : false;
-				matriz[i][8] = Integer.parseInt(rs.getString(9)) == 0 ? "":Integer.parseInt(rs.getString(9));
-				matriz[i][9] = Float.parseFloat(rs.getString(10)) == 0 ? "":Float.parseFloat(rs.getString(10));
+				matriz[i][8] = rs.getString(9).trim().equals("true") ? true : false;
+				matriz[i][9] = Integer.parseInt(rs.getString(10)) == 0 ? "":Integer.parseInt(rs.getString(10));
+				matriz[i][10] = Float.parseFloat(rs.getString(11)) == 0 ? "":Float.parseFloat(rs.getString(11));
 				i++;
 			}
 

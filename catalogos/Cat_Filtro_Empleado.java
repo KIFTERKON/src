@@ -2,6 +2,7 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,6 +14,7 @@ import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -21,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -57,12 +60,13 @@ public class Cat_Filtro_Empleado extends JFrame {
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Filtro_Empleado()	{
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 		this.setTitle("Filtro de Empleados");
 		campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(getPanelTabla()).setBounds(15,42,700,337);
+		campo.add(getPanelTabla()).setBounds(15,42,1000,565);
 		
 		campo.add(txtFolio).setBounds(15,20,48,20);
 		campo.add(txtNombre_Completo).setBounds(64,20,229,20);
@@ -76,7 +80,7 @@ public class Cat_Filtro_Empleado extends JFrame {
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
 		cmbEstablecimientos.addActionListener(opFiltro);
 		
-		this.setSize(740,450);
+		this.setSize(1040,650);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -87,7 +91,7 @@ public class Cat_Filtro_Empleado extends JFrame {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
 	    			int fila = tabla.getSelectedRow();
-	    			Object folio =  tabla.getValueAt(fila, 0);
+	    			Object folio =  tabla.getValueAt(fila, 0).toString().trim();
 	    			dispose();
 	    			new Cat_Empleado(folio+"").setVisible(true);
 	        	}
@@ -155,20 +159,20 @@ public class Cat_Filtro_Empleado extends JFrame {
 		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
 		tabla.getColumnModel().getColumn(1).setMinWidth(230);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
-		tabla.getColumnModel().getColumn(2).setMinWidth(100);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(150);
+		tabla.getColumnModel().getColumn(2).setMinWidth(150);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Puesto");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(3).setMinWidth(50);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(180);
+		tabla.getColumnModel().getColumn(3).setMinWidth(180);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("Sueldo");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(4).setMinWidth(50);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(4).setMinWidth(70);
 		tabla.getColumnModel().getColumn(5).setHeaderValue("Bono");
-		tabla.getColumnModel().getColumn(5).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(5).setMinWidth(50);
+		tabla.getColumnModel().getColumn(5).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(5).setMinWidth(70);
 		tabla.getColumnModel().getColumn(6).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(6).setMaxWidth(50);
-		tabla.getColumnModel().getColumn(6).setMinWidth(50);
+		tabla.getColumnModel().getColumn(6).setMaxWidth(120);
+		tabla.getColumnModel().getColumn(6).setMinWidth(120);
 		tabla.getColumnModel().getColumn(7).setHeaderValue("F Sodas");
 		tabla.getColumnModel().getColumn(7).setMaxWidth(50);
 		tabla.getColumnModel().getColumn(7).setMinWidth(50);
@@ -176,19 +180,128 @@ public class Cat_Filtro_Empleado extends JFrame {
 		tabla.getColumnModel().getColumn(8).setMaxWidth(50);
 		tabla.getColumnModel().getColumn(8).setMinWidth(50);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-			return lbl; 
+				
+				Component componente = null;
+				
+				switch(column){
+					case 0: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}				
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 1: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 2:
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 3: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 4: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 5: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row %2 == 0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+						break;
+					case 6: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+						break;
+					case 7: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					case 8: 
+						componente = new JLabel(value == null? "": value.toString());
+						if(row%2==0){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(177,177,177));	
+						}
+						if(table.getSelectedRow() == row){
+							((JComponent) componente).setOpaque(true); 
+							componente.setBackground(new java.awt.Color(186,143,73));
+						}
+						((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+						break;
+					
+				}
+					
+				return componente;
 			} 
 		}; 
+		
 		tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
 		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
@@ -203,52 +316,21 @@ public class Cat_Filtro_Empleado extends JFrame {
 		ResultSet rs;
 		try {
 			s = new Connexion().conexion().createStatement();
-			rs = s.executeQuery("select tb_empleado.folio as [Folio],"+
-								 "  tb_empleado.nombre as [Nombre], "+
-								 "  tb_empleado.ap_paterno as [Paterno], "+
-								 "  tb_empleado.ap_materno as [Materno], "+ 
-								 "  tb_establecimiento.nombre as [Establecimiento], "+
-								 "  tb_puesto.nombre as [Puesto], "+
-								 "  tb_sueldo.sueldo as [Sueldo], "+
-								 "  tb_bono.bono as [Bono], "+
-								 "  tb_empleado.status as [Status], "+
-								 "  tb_empleado.fuente_sodas as [Fuentes], "+
-								 "  tb_empleado.gafete as [Gafete]  "+
-
-								"  from tb_empleado, tb_establecimiento, tb_puesto, tb_sueldo, tb_bono "+
-
-								"  where "+
-									"  tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-									"  tb_empleado.puesto_id = tb_puesto.folio and "+
-									"  tb_empleado.sueldo_id = tb_sueldo.folio and "+
-									"  tb_empleado.bono_id = tb_bono.folio");
+			rs = s.executeQuery("exec sp_filtro_empleado");
 			
 			while (rs.next())
 			{ 
 			   String [] fila = new String[9];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
-			   fila[2] = rs.getString(5).trim();
-			   fila[3] = rs.getString(6).trim();
-			   fila[4] = rs.getString(7).trim();
-			   fila[5] = rs.getString(8).trim();
-			   
-		   switch(Integer.parseInt(rs.getString(9).trim())){
-		   case 1:  fila[6] = "Vigente";break;
-		   case 2:  fila[6] = "Vacaciones";break;
-		   case 3:  fila[6] = "Baja";break;
-		   }
-			   if(Integer.parseInt(rs.getString(10).trim()) == 1){
-				  fila[7] = "Si";
-			   }else {
-				  fila[7] = "No";
-			   }
-			   if(Integer.parseInt(rs.getString(11).trim()) == 1){
-					  fila[8] = "Si";
-			   }else {
-					  fila[8] = "No";
-			   }
-			   
+			   fila[0] = rs.getString(1)+"  ";
+			   fila[1] = "   "+rs.getString(2);
+			   fila[2] = "   "+rs.getString(3).trim();
+			   fila[3] = "   "+rs.getString(4).trim();
+			   fila[4] = rs.getString(5).trim();
+			   fila[5] = rs.getString(6).trim();
+			   fila[6] = "   "+rs.getString(7).trim();
+			   fila[7] = rs.getString(8).trim();
+			   fila[8] = rs.getString(9).trim();
+			
 			   model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
@@ -295,5 +377,15 @@ public class Cat_Filtro_Empleado extends JFrame {
 		public void keyReleased(KeyEvent e){}
 								
 	};
+	
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Filtro_Empleado().setVisible(true);
+		}catch(Exception e){
+			System.err.println("Error: "+e);
+		}
+		
+	}
 
 }

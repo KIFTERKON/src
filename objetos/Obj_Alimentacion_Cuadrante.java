@@ -111,7 +111,7 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre, dia);
 	}
 	
-	public String[] ComboBox(String actividad){
+	public String[] ComboBox(int actividad){
 		try {
 			return new Cargar_Combo().ComboALimentacionMultiple(actividad);
 		} catch (SQLException e) {

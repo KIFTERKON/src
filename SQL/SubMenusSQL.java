@@ -193,7 +193,7 @@ public class SubMenusSQL {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Lista_Raya_Comparaciones() throws SQLException{
+	public String[] Lista_Raya_Autorizaciones() throws SQLException{
 		String query = "select nombre from tb_submenus where menu_id = 8 order by nombre asc";
 		Statement stmt = null;
 		try {
@@ -219,7 +219,7 @@ public class SubMenusSQL {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String[] Lista_Raya_Autorizaciones() throws SQLException{
+	public String[] Lista_Raya_Comparaciones() throws SQLException{
 		String query = "select nombre from tb_submenus where menu_id = 9 order by nombre asc";
 		Statement stmt = null;
 		try {
