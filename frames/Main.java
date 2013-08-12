@@ -21,7 +21,7 @@ import objetos.Obj_Usuario;
 ***												   *** 
 ***     https://github.com/RguezMario/src.git      ***
 ***	                     						   ***
-***	                Colaboradores    			   ***       
+***	                vaquetones      			   ***       
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    online + López Arballo Oscar Manuel        ***
