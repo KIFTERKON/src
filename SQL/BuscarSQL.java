@@ -799,7 +799,7 @@ public class BuscarSQL {
 	
 	public Obj_Empleado Empleado(int folio) throws SQLException{
 		Obj_Empleado empleado = new Obj_Empleado();
-		String query = "select * from tb_empleado where folio ="+ folio;
+		String query = "exec sp_empleados "+ folio;
 		Statement stmt = null;
 
 		try {
@@ -834,6 +834,7 @@ public class BuscarSQL {
 				empleado.setStatus_imss(rs.getInt("status_imss"));
 				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
 				empleado.setTelefono_familiar(rs.getString("telefono_familiar"));
+				empleado.setTelefono_propio(rs.getString("numero"));
 				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
@@ -2784,6 +2785,34 @@ public class BuscarSQL {
 			if(stmt != null){stmt.close();}
 		}
 		return sentencia;
+	}
+
+	public boolean existe_submenu(String nombre) {
+		//se manda el nombre para el procedimiento almacenado
+		String query = "exec sp_comprobar_submenus '" + nombre+"'";
+		boolean sentencia = false;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				sentencia = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt != null){try {
+				stmt.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}}
+		}
+		return sentencia;
+	
 	}
 	
 	

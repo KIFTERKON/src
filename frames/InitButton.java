@@ -787,6 +787,7 @@ public class InitButton extends InitMenuBar{
 				Configuracion_Bono.setEnabled(false);
 				Configuracion_Denominaciones.setEnabled(false);
 				Configuracion_Divisas.setEnabled(false);
+				Configuracion_Mantenimiento.setEnabled(false);
 				Configuracion_Sistema.setEnabled(false);
 				Configuracion_Usuario.setEnabled(false);
 		

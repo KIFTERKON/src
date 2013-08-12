@@ -39,6 +39,7 @@ import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Jefatura;
 import catalogos.Cat_Lista_Pago;
+import catalogos.Cat_Mantenimimiento_Base_de_Datos;
 import catalogos.Cat_Nivel_Critico;
 import catalogos.Cat_Nivel_Jerarquico;
 import catalogos.Cat_Opciones_Respuesta;
@@ -83,6 +84,7 @@ public class InitMenuBar extends Init{
 		JMenuItem Configuracion_Bono				   = new JMenuItem("Configuración de Bono" );
 		JMenuItem Configuracion_Denominaciones		   = new JMenuItem("Configuración de Denominaciones");
 		JMenuItem Configuracion_Divisas 			   = new JMenuItem("Configuración de Divisas y Tipo de Cambio");
+		JMenuItem Configuracion_Mantenimiento   	   = new JMenuItem("Configuración Mantenimiento Base de Datos"); 
 		JMenuItem Configuracion_Sistema 			   = new JMenuItem("Configuración de Sistema");
 		JMenuItem Configuracion_Usuario 			   = new JMenuItem("Configuración de Usuarios");
 		
@@ -209,6 +211,11 @@ public class InitMenuBar extends Init{
 		Configuracion.add(Configuracion_Divisas);
 			Configuracion_Divisas.addActionListener(Opciones);
 			Configuracion_Divisas.setEnabled(false);
+			
+		Configuracion.add(Configuracion_Mantenimiento);
+			Configuracion_Mantenimiento.addActionListener(Opciones);
+			Configuracion_Mantenimiento.setEnabled(false);	
+				
 		Configuracion.add(Configuracion_Sistema);
 			Configuracion_Sistema.addActionListener(Opciones);
 			Configuracion_Sistema.setEnabled(false);
@@ -421,6 +428,10 @@ public class InitMenuBar extends Init{
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Configuración de Divisas y Tipo de Cambio"))
 				System.out.println("Pendiente");
+			
+			if(e.getActionCommand().equals("Configuración Mantenimiento Base de Datos"))
+				new Cat_Mantenimimiento_Base_de_Datos().setVisible(true);
+			
 			if(e.getActionCommand().equals("Configuración de Sistema"))
 				new Cat_Configuracion_Sistema().setVisible(true);
 			if(e.getActionCommand().equals("Configuración de Usuarios"))
