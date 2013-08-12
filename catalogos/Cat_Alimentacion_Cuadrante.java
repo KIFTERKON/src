@@ -6,9 +6,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -89,7 +86,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	    	java.lang.Object.class
          };
 	     
-	     @SuppressWarnings({ "rawtypes", "unchecked" })
+	    @SuppressWarnings({ "rawtypes", "unchecked" })
 		public Class getColumnClass(int columnIndex) {
              return types[columnIndex];
          }
@@ -167,8 +164,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	
 		this.panel.add(btnFoto).setBounds(470,30,235,200);
 	
-		this.paneles.addTab("Opciones Múltiples", panelMultiple);
-		this.paneles.addTab("Opciones Libre", panelLibre);
+		this.paneles.addTab("Actividades de Rutina", panelMultiple);
+		this.paneles.addTab("Actividades por Avance", panelLibre);
 		
 		this.panelMultiple.add(scrollMultiple).setBounds(5,5,865,335);
 		this.panelLibre.add(scrollLibre).setBounds(5,5,865,335);
@@ -370,24 +367,10 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
             for(int i=0; i<valores.length; i++){
             	combo.addItem(valores[i]);
             }
-//            combo.addActionListener(op_espacio);
+
             return combo;          
         }
     }
-	
-//	KeyListener op_espacio = new KeyListener() {
-//		public void keyTyped(KeyEvent e) {
-//			char caracter = e.getKeyChar();
-//			if(caracter  == KeyEvent.VK_SPACE){
-//				System.out.println("Se está oprimiendo la tecla espacio");
-//		   	}		
-//		}
-//		@Override
-//		public void keyPressed(KeyEvent e){}
-//		@Override
-//		public void keyReleased(KeyEvent e){}
-//								
-//	};
 	
 	public int getFilas(String qry){
 		int filas=0;
