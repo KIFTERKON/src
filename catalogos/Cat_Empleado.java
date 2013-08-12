@@ -50,6 +50,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -76,7 +77,7 @@ public class Cat_Empleado extends JFrame{
 	JLayeredPane panel = new JLayeredPane();
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtChecador = new JTextField();
+	JPasswordField txtChecador = new JPasswordField();
 	JTextField txtNombre = new JTextField();
 	JTextField txtApPaterno = new JTextField();
 	JTextField txtApMaterno = new JTextField();
@@ -85,6 +86,7 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtHorario = new JTextField();
 	JTextField txtImss = new JTextField();
 	JTextField txtTelefono_Familiar = new JTextField();
+	JTextField txtTelefono_Propio = new JTextField();  
 	
 	JToggleButton btnTrueFoto = new JToggleButton("Para actualizar la foto Presiona aquí !!!");
 	
@@ -200,7 +202,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnCamara).setBounds(x*2+ancho*3+135, y+235,80,25);
 		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+265,ancho+95,205);
 	
-		panel.add(new JLabel("No Checador:")).setBounds(x,y+=25,ancho,20);
+		panel.add(new JLabel("Clave Checador")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtChecador).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("Nombre:")).setBounds(x,y+=25,ancho,20);
@@ -261,7 +263,10 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Telefono Familiar:")).setBounds(480,y,90,20);
 		panel.add(txtTelefono_Familiar).setBounds(570,y,145,20);
 		
-		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
+		panel.add(new JLabel("Telefono Propio")).setBounds(480,y+=25,90,20);
+		panel.add(txtTelefono_Propio).setBounds(570,y,145,20);
+		
+		panel.add(new JLabel("Status:")).setBounds(x,y,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-15,20);
 		
 		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
@@ -321,6 +326,7 @@ public class Cat_Empleado extends JFrame{
 		txtFecha.setEditable(false);
 		panelEnabledFalse();
 		txtFolio.setEditable(true);
+		txtTelefono_Propio.setEditable(false);
 		
 		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
@@ -477,11 +483,13 @@ public class Cat_Empleado extends JFrame{
 						case 5:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
 							   btnEditar.setVisible(false); 
 							   break;
+							   
 					}
 						
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 					txaObservaciones.setText(re.getObservasiones());
 					txtTelefono_Familiar.setText(re.getTelefono_familiar());
+					txtTelefono_Propio.setText(re.getTelefono_propio());
 					
 					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -767,7 +775,7 @@ public class Cat_Empleado extends JFrame{
 		txtTelefono_Familiar.setEditable(false);
 		
 	}
-	
+	///boton deshacer
 	public void panelLimpiar(){	
 		txtFolio.setText("");
 		txtChecador.setText("");
@@ -795,6 +803,7 @@ public class Cat_Empleado extends JFrame{
 	    btnStatus.setIcon(new ImageIcon(""));
 	    cmbActivo_Inactivo.setSelectedIndex(0);
 	    txtTelefono_Familiar.setText("");
+	    txtTelefono_Propio.setText("");
 		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -988,6 +997,9 @@ public class Cat_Empleado extends JFrame{
 	}
 	
 	@SuppressWarnings("deprecation")
+	
+	//constructor del filtro
+	
 	public Cat_Empleado(String algo) {
 		
 		getContenedor();
@@ -1036,6 +1048,8 @@ public class Cat_Empleado extends JFrame{
 			if(re.getGafete() == true){chbGafete.setSelected(true);}
 			else{chbGafete.setSelected(false);}
 			cmbStatus.setSelectedIndex(re.getStatus()-1);
+			txtTelefono_Familiar.setText(re.getTelefono_familiar());
+			txtTelefono_Propio.setText(re.getTelefono_propio());
 			
 			switch(cmbStatus.getSelectedIndex()+1){
 				case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 

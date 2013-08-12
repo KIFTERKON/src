@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import objetos.Obj_Actividad;
+import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
@@ -1733,5 +1734,43 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
+
+	public boolean guardar(
+			Obj_Agregar_Submenus_Nuevos obj_Agregar_Submenus_Nuevos) {
+	        	String query = "exec sp_agregar_nuevo_submenu ?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1,obj_Agregar_Submenus_Nuevos.getNombre());
+			pstmt.setString(2,obj_Agregar_Submenus_Nuevos.getCatalogo());
+			pstmt.setString(3,obj_Agregar_Submenus_Nuevos.getMenu());
+						
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 
 }
