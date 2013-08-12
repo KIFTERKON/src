@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.File;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -22,7 +24,33 @@ import objetos.Obj_Usuario;
 ***												   *** 
 ***     https://github.com/RguezMario/src.git      ***
 ***	                     						   ***
-***	                vaquetones      			   ***       
+***	                Marihuanadas
+*
+*      public String[] Configuracion() throws SQLException{
+		String query = "select nombre from tb_submenus where menu_id = 2 order by nombre asc";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+				miVector.add(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;	
+	}			   ***       
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    online + López Arballo Oscar Manuel        ***
