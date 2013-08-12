@@ -7,7 +7,6 @@ public class prueba {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Puro pajaro nalgon");
-		System.out.println("Puro pajaro nalgon 2");
 
 
 	}
