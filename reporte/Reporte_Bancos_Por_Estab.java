@@ -20,7 +20,7 @@ public class Reporte_Bancos_Por_Estab extends JFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Reporte_Bancos_Por_Estab() {
 		try {
-			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\plantillaIR\\Reporte_Bancos.jrxml");
+			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Bancos.jrxml");
 			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
 			JasperViewer.viewReport(print, false);
 		} catch (Exception e) {
