@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -172,7 +173,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		
 		this.panel.add(paneles).setBounds(8,240,880,375);
 		
-		this.btnEditar.addActionListener(editar);
 		this.btnSalir.addActionListener(salir);
 		this.btnGuardar.addActionListener(op_guardar);
 
@@ -348,6 +348,17 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 	}
 	
+	public String procesa_texto(String texto) {
+		StringTokenizer tokens = new StringTokenizer(texto);
+	    texto = "";
+	    while(tokens.hasMoreTokens()){
+	    	texto += " "+tokens.nextToken();
+	    }
+	    texto = texto.toString();
+	    texto = texto.trim().toUpperCase();
+	     return texto;
+	}
+	
 	private class MyComboEditor extends DefaultCellEditor{
         List<String[]> values;
         @SuppressWarnings("rawtypes")
@@ -387,28 +398,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		return filas;
 	}	
 	
-	public String celdasVaciasLibre(){
-		String error="";
-		for(int i=0; i<tablaLibre.getRowCount(); i++){
-			if(modelLibre.getValueAt(i,3) == null){
-				error+="      la celda de respuesta en la actividad '"+modelLibre.getValueAt(i,1).toString()+"' está vacía en la tabla opciones libre.\n";
-			}
-		}
-		
-		return error;
-	}
-	
-	public String celdasVaciasMultiple(){
-		String error="";
-		for(int i=0; i<tablaMultiple.getRowCount(); i++){
-			if(modelMultiple.getValueAt(i,3).toString() == "Respuestas"){
-				error+="      la celda de respuesta en la actividad '"+modelMultiple.getValueAt(i,1).toString()+"' está vacía en la tabla opciones multiple.\n";
-			}
-		}
-		
-		return error;
-	}
-	
 	ActionListener op_guardar = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -423,7 +412,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			if(celdasVaciasLibre().equals("") && celdasVaciasMultiple().equals("")){
 				Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante();
 				
-				datos_cuadrante.setNombre(txtNombre_Completo.getText());
+				datos_cuadrante.setNombre(procesa_texto(txtNombre_Completo.getText()));
 				datos_cuadrante.setPuesto(txtPuesto.getText());
 				datos_cuadrante.setEstablecimiento(txtEstablecimiento.getText());
 				datos_cuadrante.setEquipo_trabajo(txtEquipo_Trabajo.getText());
@@ -432,14 +421,13 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				datos_cuadrante.setDia(txtDia.getText());
 				datos_cuadrante.setCuadrante(txtCuadrante.getText());
 				
-				if(datos_cuadrante.guardar()){
+				if(datos_cuadrante.guardar(tabla_multiple(), tabla_libre())){
 					JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}else{
 					JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				
 			}else{
 				JOptionPane.showMessageDialog(null, "Los siguientes campos son requeridos\n"+celdasVaciasLibre() +celdasVaciasMultiple() , "Aviso", JOptionPane.WARNING_MESSAGE);
 				return;
@@ -447,11 +435,50 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 	};
 	
-	ActionListener editar = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-//			CamposEnabledTrue();
+	public Object[][] tabla_multiple(){
+		Object[][] multiple = new Object[tablaMultiple.getRowCount()][3];
+		
+		for(int i = 0; i<tablaMultiple.getRowCount(); i++){
+			multiple[i][0] = modelMultiple.getValueAt(i,0).toString().trim();
+			multiple[i][1] = modelMultiple.getValueAt(i,2).toString().trim();
+			multiple[i][2] = modelMultiple.getValueAt(i,3).toString().trim();
 		}
-	};
+		return multiple;
+	}
+	
+	public Object[][] tabla_libre(){
+		Object[][] libre = new Object[tablaLibre.getRowCount()][3];
+		
+		for(int i = 0; i<tablaMultiple.getRowCount(); i++){
+			libre[i][0] = modelLibre.getValueAt(i,0).toString().trim();
+			libre[i][1] = modelLibre.getValueAt(i,2).toString().trim();
+			libre[i][2] = modelLibre.getValueAt(i,3).toString().trim();
+		}
+		return libre;
+	}
+	
+	public String celdasVaciasMultiple(){
+		String error = "";
+		
+		for(int i=0; i<tablaMultiple.getRowCount(); i++){
+			if(modelMultiple.getValueAt(i, 2).toString().trim().equals("Respuestas")){
+				error += "   La actividad con el folio: [ "+modelMultiple.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
+			}
+		}
+		
+		return error;
+	}
+	
+	public String celdasVaciasLibre(){
+		String error="";
+		for(int i=0; i<tablaLibre.getRowCount(); i++){
+			if(modelLibre.getValueAt(i,2).toString().trim().equals("")){
+				error += "   La actividad con el folio: [ "+modelLibre.getValueAt(i,0).toString().trim()+" ] en actividades por avance no tiene una respuesta asignada.        \n";
+			}
+		}
+		
+		return error;
+	}
 	
 	public void CamposLimpiar()	{
 		txtNombre_Completo.setText("");

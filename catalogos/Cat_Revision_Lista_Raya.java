@@ -29,13 +29,13 @@ import javax.swing.table.TableRowSorter;
 import objetos.Obj_Revision_Lista_Raya;
 
 @SuppressWarnings("serial")
-//ctrlen cat root_lista_Raya para agregar boton
+/** CTRL EN CAT_ROOT_LISTA_RAYA PARA AGREGAR BOTON **/
 public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 	
 	private DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Revision_Lista_Raya().get_tabla_model(),
 		new String[]{"","Folio", "Nombre Completo", "Establecimiento", "Sueldo",
 			"P Bono complementario", "Saldo Prestamo Inicial", "Descuento Prestamo", "Saldo Final", "D Fuente Sodas",
-			"D Puntualidad", "D Faltas", "D Asistencia", "D Gafere", "D Cortes", 
+			"D Puntualidad", "D Faltas", "D Asistencia", "D Gafete", "D Cortes", 
 			"D Infonavit", "Pension", "D Banamex", "D Banorte", "D Extra", 
 			"P Día Extras", "P Bono Extra", "A Pagar", "Observasiones I", "Observasiones II" }){
 			
@@ -116,8 +116,8 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
-///el constructor tiene el nombre public y seguido del nombre de la clase
 	
+	/* EL CONSTRUCTOR TIENE EL NOMBRE PUBLIC Y SEGUIDO DEL NOMBRE DE LA CLASE */
 	public Cat_Revision_Lista_Raya(){
 		this.setTitle("Revisión lista raya");
 		
@@ -132,8 +132,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		this.btn_nomina.addActionListener(op_nomina);
 		this.btn_refrescar.addActionListener(op_refrescar);
 		this.btn_generar.addActionListener(op_generar);
-		//aquise le agrega al boton una acccion listener que  cargara el evento mostrado entre parentesis
-		
+
+		/*
+		 * LE AGREGA AL BOTON UN ACCION LISTENER QUE CARGARA EL EVENTO MOSTRADO ENTRE PARENTESIS
+		*/
 		this.btn_lista_raya_pasadas.addActionListener(op_consulta_lista);
 		
 		
@@ -147,28 +149,40 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		this.addWindowListener(op_cerrar);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	//aquise se dio de alta la accion listener op_consulta lista
-	//se le dara click ala operacion y mostrara la opcion add metod
-	
-	ActionListener op_consulta_lista = new ActionListener() {
 
+	/**
+	 *  SE DIO DE ALTA LA ACCION LISTENER OP_CONSULTA LISTA
+	 *  SE LE DARA CLICK ALA OPERACION Y MOSTRARA LA OPCION ADD METOD
+	**/
+	ActionListener op_consulta_lista = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-		new Cat_Consulta_Lista_de_Raya_Pasadas().setVisible(true);	
-			
+			new Cat_Consulta_Lista_de_Raya_Pasadas().setVisible(true);	
 		}
 		
 	};
 	
 	
 	WindowListener op_cerrar = new WindowListener() {
-		
 		public void windowOpened(WindowEvent e) {}
 		public void windowIconified(WindowEvent e) {}
 		public void windowDeiconified(WindowEvent e) {}
 		public void windowDeactivated(WindowEvent e) {}
+		@SuppressWarnings("unchecked")
 		public void windowClosing(WindowEvent e) {
 			if(JOptionPane.showConfirmDialog(null, "¿Desea guardar antes de cerrar?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+				trsfiltro.setRowFilter(RowFilter.regexFilter("", 3));
+				
+				txtFolio.setText("");
+				txtNombre_Completo.setText("");
+				cmbEstablecimientos.setSelectedIndex(0);
+				
+				if(tabla.isEditing()){
+					tabla.getCellEditor().stopCellEditing();
+				}
+				
 				new Obj_Revision_Lista_Raya().guardar(tabla_guardar(),new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 			}
 		}
@@ -373,23 +387,40 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 	ActionListener op_refrescar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			actualizar();
-			JOptionPane.showMessageDialog(null, "Se refrescaron los datos correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Se guardó y se refrescaron los datos correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 		}
 	};
 	
+	@SuppressWarnings("unchecked")
 	public void actualizar(){
-		while(tabla.getRowCount() > 0){
-			tabla_model.removeRow(0);
+		trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
+		trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+		trsfiltro.setRowFilter(RowFilter.regexFilter("", 3));
+		
+		txtFolio.setText("");
+		txtNombre_Completo.setText("");
+		cmbEstablecimientos.setSelectedIndex(0);
+		
+		if(tabla.isEditing()){
+			tabla.getCellEditor().stopCellEditing();
 		}
 		
-		Object[][] Tabla = new Obj_Revision_Lista_Raya().get_tabla_model();
-		Object[] fila = new Object[tabla.getColumnCount()];
-		for(int i=0; i<Tabla.length; i++){
-			tabla_model.addRow(fila); 
-			for(int j=0; j<tabla.getColumnCount(); j++){
-				tabla_model.setValueAt(Tabla[i][j], i,j);
+		Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
+		
+		if(lista_raya.guardar(tabla_guardar(),new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()))){
+			while(tabla.getRowCount() > 0){
+				tabla_model.removeRow(0);
 			}
-		}
+			
+			Object[][] Tabla = new Obj_Revision_Lista_Raya().get_tabla_model();
+			Object[] fila = new Object[tabla.getColumnCount()];
+			for(int i=0; i<Tabla.length; i++){
+				tabla_model.addRow(fila); 
+				for(int j=0; j<tabla.getColumnCount(); j++){
+					tabla_model.setValueAt(Tabla[i][j], i,j);
+				}
+			}
+		}		
 	}
 	
 	ActionListener op_guardar = new ActionListener() {

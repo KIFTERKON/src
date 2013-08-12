@@ -189,11 +189,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
 		panel.add(btnFoto).setBounds(x*2+ancho*3-20,y,ancho+95,200);
-		
-		System.out.println("Equis:"+(480));
-		System.out.println("Ye:"+30);
-		System.out.println("Zeta:"+(235));
-		
+	
 		panel.add(Observasiones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
 		
 		panel.add(btnCumpleaños_del_Mes).setBounds(x*2+ancho*3-20+ancho+110,y+450,130,20);

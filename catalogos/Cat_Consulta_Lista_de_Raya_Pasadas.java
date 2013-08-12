@@ -2,8 +2,7 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,7 +12,6 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -31,7 +29,6 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Revision_Lista_Raya;
 import reporte.Reporte_Consulta_Lista_de_Raya_Pasadas;
 
@@ -58,23 +55,20 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre_Completo = new JTextField();
-	
-	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
     
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Consulta_Lista_de_Raya_Pasadas()	{
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 		this.setTitle("Consulta de Listas de Raya Pasadas");
+
 		campo.setBorder(BorderFactory.createTitledBorder("Listas de Rayas Pasadas"));
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(getPanelTabla()).setBounds(15,42,700,337);
+		campo.add(getPanelTabla()).setBounds(15,42,425,337);
 		
-		campo.add(txtFolio).setBounds(15,20,48,20);
-		campo.add(txtNombre_Completo).setBounds(64,20,229,20);
-		campo.add(cmbEstablecimientos).setBounds(295,20, 148, 20);
+		campo.add(txtFolio).setBounds(15,20,90,20);
+		campo.add(txtNombre_Completo).setBounds(106,20,229,20);
 		
 		agregar(tabla);
 		
@@ -82,9 +76,8 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 		
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
-		cmbEstablecimientos.addActionListener(opFiltro);
 		
-		this.setSize(740,450);
+		this.setSize(460,450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -96,25 +89,15 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 	        public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount() == 2){
 	        		int fila = tabla.getSelectedRow();
-	    			int folio = Integer.parseInt(tabla.getValueAt(fila, 0).toString());
-	    			
+	    			int folio = Integer.parseInt(tabla.getValueAt(fila, 0).toString().trim());
 	    				    			
-	    			 if (new Obj_Revision_Lista_Raya().Lista_de_Raya_Pasada(folio))
-	    			 { dispose();
-	    				 new Reporte_Consulta_Lista_de_Raya_Pasadas();
-	    				
-	    				 
+	    			if (new Obj_Revision_Lista_Raya().Lista_de_Raya_Pasada(folio)) {
+	    				dispose();
+	    				new Reporte_Consulta_Lista_de_Raya_Pasadas();
+	    			}
+	    			else{
+	    				JOptionPane.showMessageDialog(null,"Error Al Intentar Abrir el Reporte","Error",JOptionPane.ERROR_MESSAGE);
 	    			 }
-	    			 else{JOptionPane.showMessageDialog(null,"Error Al Intentar Abrir el Reporte","Error",JOptionPane.ERROR_MESSAGE);
-	    				 
-	    				 
-	    			 }
-	    				 
-	    				 ;
-	    			
-	    			
-	    			
-	        		
 	        	}
 	        }
         });
@@ -145,26 +128,11 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 		public void keyPressed(KeyEvent arg0) {}		
 	};
 	
-	ActionListener opFiltro = new ActionListener(){
-		@SuppressWarnings("unchecked")
-		public void actionPerformed(ActionEvent arg0){
-			if(cmbEstablecimientos.getSelectedIndex() != 0){
-				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
-			}else{
-				trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
-			}
-		}
-	};
-	
    	private JScrollPane getPanelTabla()	{		
-		new Connexion();
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		int a=2;
-
-
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Número Lista");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(90);
 		tabla.getColumnModel().getColumn(0).setMinWidth(90);
@@ -175,41 +143,44 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
 		
-		TableCellRenderer render = new TableCellRenderer() 
-		{ 
+		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
 				if(row%2==0){
 						lbl.setOpaque(true); 
 						lbl.setBackground(new java.awt.Color(177,177,177));
 				} 
+				
+				if(table.getSelectedRow() == row){
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(186,143,73));
+				}
+				
+				switch(column){
+					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+					case 2 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+				}
 			return lbl; 
 			} 
 		}; 
-		tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
+
+		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(2).setCellRenderer(render);
 				
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select numero_lista as Lista, fecha as Fecha, round(sum(a_pagar),2)as Total from tb_lista_raya " +
-								"	group by " +
-										"	numero_lista, " +
-										"	fecha		  " +
-									"order by Lista desc");
+			rs = s.executeQuery("exec sp_filtro_lista_rayas_pasadas");
 			String [] fila = new String[4];
 			DecimalFormat format =  new DecimalFormat("#0.00");
-			while (rs.next())
-			{ 
-			   
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = "			"+rs.getString(2).trim();
+			while (rs.next()) {
+			   fila[0] = rs.getString(1)+"  ";
+			   fila[1] = "   "+rs.getString(2);
 			   fila[2] = format.format(Float.parseFloat(rs.getString(3).trim()));
-		
 			   
 		  	   model.addRow(fila); 
 			}	
@@ -226,10 +197,10 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 		public void keyTyped(KeyEvent e){
 			char caracter = e.getKeyChar();				
 			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
-			    	}
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+	    	}
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {	
@@ -248,8 +219,7 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){
 		    	e.consume();
-		    	}
-		    		    		       	
+	    	}
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
@@ -259,7 +229,6 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 	};
 	
 	public static void main(String args[]){
-		
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			new Cat_Consulta_Lista_de_Raya_Pasadas().setVisible(true);
@@ -267,6 +236,4 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 			e.printStackTrace();
 		}		
 	}
-	
-
 }

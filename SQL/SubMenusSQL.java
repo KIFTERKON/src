@@ -47,6 +47,7 @@ public class SubMenusSQL {
 			while(rs.next()){
 				miVector.add(rs.getString("nombre"));
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

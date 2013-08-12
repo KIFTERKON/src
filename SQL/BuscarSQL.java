@@ -2669,7 +2669,6 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_libre '"+nombre+"', '"+dia+"';";
-		System.out.println(datosif);
 			
 		Matriz = new String[getFilas(datosif)][3];
 		Statement s;

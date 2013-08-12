@@ -348,7 +348,6 @@ public class Cat_Imprimir_LR extends Cat_Root{
 				   contadorGeneral++;
 				  if(cont>=1){
 					  
-					 
 					  	fila[0]  ="";
 					  	fila[1]  ="";
 						fila[2]  ="";
@@ -443,7 +442,6 @@ public class Cat_Imprimir_LR extends Cat_Root{
 					  totalDeTotales = totalDeTotales+=pagar;
 					  					
 				  }else{
-					  
 					  	fila[0]  ="                        "+establ;
 					  	fila[1]  ="SUELDO";
 						fila[2]  ="  PREST";
@@ -466,33 +464,36 @@ public class Cat_Imprimir_LR extends Cat_Root{
 						fila[19] ="            OBSERVACIONES";
 						
 					model.addRow(fila);
-					 fila[0]  ="  "+nombre;
-					    fila[1]  ="  "+sueldo;
-						fila[2]  ="  "+prestamo;
-						fila[3]  ="  "+descuento;
-						fila[4]  ="  "+pfinal;
-						fila[5]  ="  "+fsod;
-						fila[6]  ="  "+punt;
-						fila[7]  ="  "+falta;
-						fila[8]  ="  "+asis;
-						fila[9]  ="  "+gafete;
-						fila[10]  ="  "+corte;
-						fila[11] ="  "+infon;
-						fila[12] ="  "+pension;
-						fila[13] ="  "+banamex;
-						fila[14] ="  "+banorte;
-						fila[15] ="  "+ext;
-						fila[16] ="  "+diaE;
-						fila[17] ="  "+bono;
-						fila[18] ="  "+pagar;
-						fila[19] ="  "+obs;
 						
+				 		fila[0]  ="  "+nombre;
+				 		fila[1]  ="  "+sueldo;
+				    
+				    	if(prestamo==0.0){fila[2]  ="";}	else{fila[2]  ="  "+prestamo;}
+				    	if(descuento==0.0){fila[3] ="";}	else{fila[3]  ="  "+descuento;}	
+				    	if(pfinal==0.0){fila[4]  ="";}		else{fila[4]  ="  "+pfinal;}
+				    	if(fsod==0.0){fila[5]  ="";}		else{fila[5]  ="  "+fsod;}
+				    	if(punt==0.0){fila[6]  ="";}		else{fila[6]  ="  "+punt;}
+				    	if(falta==0.0){fila[7]  ="";}		else{fila[7]  ="  "+falta;}
+				    	if(asis==0.0){fila[8]  ="";}		else{fila[8]  ="  "+asis;}
+				    	
+				    	if(gafete==0.0){fila[9]  ="";}		else{fila[9]  ="  "+gafete;}
+				    	if(corte==0.0){fila[10]  ="";}		else{fila[10]  ="  "+corte;}
+				    	if(infon==0.0){fila[11] ="";}		else{fila[11] ="  "+infon;}
+				    	if(pension==0.0){fila[12] ="";}		else{fila[12] ="  "+pension;}
+				    	if(banamex==0.0){fila[13] ="";}		else{fila[13] ="  "+banamex;}
+				    	if(banorte==0.0){fila[14] ="";}		else{fila[14] ="  "+banorte;}
+				    	if(ext==0.0){fila[15] ="";}			else{fila[15] ="  "+ext;}
+				    	if(diaE==0.0){fila[16] ="";}		else{fila[16] ="  "+diaE;}
+				    	if(bono==0.0){fila[17] ="";}		else{fila[17] ="  "+bono;}
+
+				    	fila[18] ="  "+decimal.format(pagar);
+				    	fila[19] ="  "+obs;
+			    					
 						aux = establ;
 						cont=cont+1;
 						subtotal=subtotal+=pagar;
 						
 						totalDeTotales = totalDeTotales+=pagar;
-						
 					
 				  }
 			   }

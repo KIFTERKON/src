@@ -1,10 +1,12 @@
 package objetos;
 
 import java.sql.SQLException;
+import java.util.StringTokenizer;
 
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
+import SQL.GuardarTablasModel;
 
 
 
@@ -91,7 +93,7 @@ public class Obj_Alimentacion_Cuadrante {
 	}
 
 	public void setCuadrante(String cuadrante) {
-		this.cuadrante = cuadrante;
+		this.cuadrante = procesa_texto(cuadrante);
 	}
 	
 	public Obj_Alimentacion_Cuadrante buscarEmpleado(String nombre){ 
@@ -101,6 +103,17 @@ public class Obj_Alimentacion_Cuadrante {
 			e.printStackTrace();
 		}
 	return null; 
+	}
+	
+	public String procesa_texto(String texto) {
+		StringTokenizer tokens = new StringTokenizer(texto);
+	    texto = "";
+	    while(tokens.hasMoreTokens()){
+	    	texto += " "+tokens.nextToken();
+	    }
+	    texto = texto.toString();
+	    texto = texto.trim().toUpperCase();
+	     return texto;
 	}
 	
 	public String[][] buscarTablaLibre(String nombre, String dia){
@@ -120,8 +133,14 @@ public class Obj_Alimentacion_Cuadrante {
 	return null; 
 	}
 	
-	public boolean guardar(){
-		return new GuardarSQL().guardarAlimentacionCuadrante(this);	
+	public boolean guardar(Object[][] multiple, Object[][] libre){
+		if(new GuardarSQL().guardarAlimentacionCuadrante(this)){
+			new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple,this);
+//			new GuardarTablasModel().Alimentacion_cuadrante_libre(libre,this);
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }
