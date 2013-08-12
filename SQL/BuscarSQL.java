@@ -835,6 +835,7 @@ public class BuscarSQL {
 				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
 				empleado.setTelefono_familiar(rs.getString("telefono_familiar"));
 				empleado.setTelefono_propio(rs.getString("numero"));
+				empleado.setCuadrante_parcial(rs.getInt("cuadrante_parcial") == 1 ? true : false);
 				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);

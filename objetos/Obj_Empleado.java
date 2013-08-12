@@ -41,11 +41,21 @@ public class Obj_Empleado {
 	private boolean foto_status;
 	private String telefono_familiar;
 	private String telefono_propio;
+	private boolean cuadrante_parcial;
 	
 	public Obj_Empleado(){
 		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto = null;
 		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; 
 		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss=""; status_imss=0; fecha_ingreso=""; foto_status = false; telefono_familiar = ""; telefono_propio = "";
+		cuadrante_parcial = false;
+	}
+
+	public boolean isCuadrante_parcial() {
+		return cuadrante_parcial;
+	}
+
+	public void setCuadrante_parcial(boolean cuadrante_parcial) {
+		this.cuadrante_parcial = cuadrante_parcial;
 	}
 
 	public String getTelefono_propio() {

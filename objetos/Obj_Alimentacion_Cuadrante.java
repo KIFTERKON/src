@@ -133,7 +133,7 @@ public class Obj_Alimentacion_Cuadrante {
 	return null; 
 	}
 	
-	public boolean guardar(Object[][] multiple, Object[][] libre){
+	public boolean guardar(Object[][] multiple){
 		if(new GuardarSQL().guardarAlimentacionCuadrante(this)){
 			new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple,this);
 //			new GuardarTablasModel().Alimentacion_cuadrante_libre(libre,this);

@@ -105,16 +105,18 @@ public class Cat_Cuadrante_Base extends JFrame{
          }
          public boolean isCellEditable(int fila, int columna){
         	 switch(columna){
-        	 	case 0 : return false; 
+        	 	case 0 : return false;
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
-        	 			modelDomingo.setValueAt("00:00",fila,4);
-        	 			modelDomingo.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelDomingo.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelDomingo.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
+            	 			modelDomingo.setValueAt("00:00",fila,4);
+            	 			modelDomingo.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
@@ -154,12 +156,14 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
-        	 			modelLunes.setValueAt("00:00",fila,4);
-        	 			modelLunes.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelLunes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelLunes.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
+        	 				modelLunes.setValueAt("00:00",fila,4);
+        	 				modelLunes.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
@@ -199,12 +203,14 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
-        	 			modelMartes.setValueAt("00:00",fila,4);
-        	 			modelMartes.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelMartes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelMartes.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
+        	 				modelMartes.setValueAt("00:00",fila,4);
+        	 				modelMartes.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
@@ -244,12 +250,14 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
-        	 			modelMiercoles.setValueAt("00:00",fila,4);
-        	 			modelMiercoles.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelMiercoles.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelMiercoles.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
+        	 				modelMiercoles.setValueAt("00:00",fila,4);
+        	 				modelMiercoles.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
@@ -289,12 +297,14 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
-        	 			modelJueves.setValueAt("00:00",fila,4);
-        	 			modelJueves.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelJueves.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelJueves.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
+        	 				modelJueves.setValueAt("00:00",fila,4);
+        	 				modelJueves.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
@@ -334,12 +344,14 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
-        	 			modelViernes.setValueAt("00:00",fila,4);
-        	 			modelViernes.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelViernes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelViernes.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
+        	 				modelViernes.setValueAt("00:00",fila,4);
+        	 				modelViernes.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
@@ -379,12 +391,14 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
-        	 			modelSabado.setValueAt("00:00",fila,4);
-        	 			modelSabado.setValueAt("00:00",fila,5);
-        	 			return true;
+        	 		if(Integer.parseInt(modelSabado.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelSabado.getValueAt(fila,0).toString().trim()) == 2){
+        	 			return false;
         	 		}else{
-        	 			return true;
+        	 			if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
+        	 				modelSabado.setValueAt("00:00",fila,4);
+        	 				modelSabado.setValueAt("00:00",fila,5);
+            	 		}
+	        	 		return true;
         	 		}
         	 	case 4 :
         	 		if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){
@@ -1539,32 +1553,37 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaDomingo.getRowCount()>1){
 				if(tablaDomingo.isRowSelected(tablaDomingo.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirDomingo)){
-						if(tablaDomingo.getSelectedRow() != 0){
-							Object primero = modelDomingo.getValueAt(tablaDomingo.getSelectedRow(),1);
-							Object segundo = modelDomingo.getValueAt(tablaDomingo.getSelectedRow()-1,1);
-							
-							modelDomingo.setValueAt(primero,tablaDomingo.getSelectedRow()-1,1);
-							modelDomingo.setValueAt(segundo,tablaDomingo.getSelectedRow(),1);	
-							tablaDomingo.setRowSelectionInterval(tablaDomingo.getSelectedRow()-1,tablaDomingo.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaDomingo.getSelectedRow() == 0 || tablaDomingo.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirDomingo)){
+							if(tablaDomingo.getSelectedRow() > 2){
+								Object primero = modelDomingo.getValueAt(tablaDomingo.getSelectedRow(),1);
+								Object segundo = modelDomingo.getValueAt(tablaDomingo.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarDomingo)){
-						if(tablaDomingo.getSelectedRow()+1 < tablaDomingo.getRowCount()){
-							Object primero = modelDomingo.getValueAt(tablaDomingo.getSelectedRow(),1);
-							Object segundo = modelDomingo.getValueAt(tablaDomingo.getSelectedRow()+1,1);
+								modelDomingo.setValueAt(primero,tablaDomingo.getSelectedRow()-1,1);
+								modelDomingo.setValueAt(segundo,tablaDomingo.getSelectedRow(),1);	
+								tablaDomingo.setRowSelectionInterval(tablaDomingo.getSelectedRow()-1,tablaDomingo.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarDomingo)){
+							if(tablaDomingo.getSelectedRow()+1 < tablaDomingo.getRowCount()){
+								Object primero = modelDomingo.getValueAt(tablaDomingo.getSelectedRow(),1);
+								Object segundo = modelDomingo.getValueAt(tablaDomingo.getSelectedRow()+1,1);
+								
+								modelDomingo.setValueAt(primero,tablaDomingo.getSelectedRow()+1,1);
+								modelDomingo.setValueAt(segundo,tablaDomingo.getSelectedRow(),1);	
+								tablaDomingo.setRowSelectionInterval(tablaDomingo.getSelectedRow()+1,tablaDomingo.getSelectedRow()+1);
 							
-							modelDomingo.setValueAt(primero,tablaDomingo.getSelectedRow()+1,1);
-							modelDomingo.setValueAt(segundo,tablaDomingo.getSelectedRow(),1);	
-							tablaDomingo.setRowSelectionInterval(tablaDomingo.getSelectedRow()+1,tablaDomingo.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No máss filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
 	
@@ -1584,32 +1603,37 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaLunes.getRowCount()>1){
 				if(tablaLunes.isRowSelected(tablaLunes.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirLunes)){
-						if(tablaLunes.getSelectedRow() != 0){
-							Object primero = modelLunes.getValueAt(tablaLunes.getSelectedRow(),1);
-							Object segundo = modelLunes.getValueAt(tablaLunes.getSelectedRow()-1,1);
-							
-							modelLunes.setValueAt(primero,tablaLunes.getSelectedRow()-1,1);
-							modelLunes.setValueAt(segundo,tablaLunes.getSelectedRow(),1);	
-							tablaLunes.setRowSelectionInterval(tablaLunes.getSelectedRow()-1,tablaLunes.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaLunes.getSelectedRow() == 0 || tablaLunes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirLunes)){
+							if(tablaLunes.getSelectedRow() > 2){
+								Object primero = modelLunes.getValueAt(tablaLunes.getSelectedRow(),1);
+								Object segundo = modelLunes.getValueAt(tablaLunes.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarLunes)){
-						if(tablaLunes.getSelectedRow()+1 < tablaLunes.getRowCount()){
-							Object primero = modelLunes.getValueAt(tablaLunes.getSelectedRow(),1);
-							Object segundo = modelLunes.getValueAt(tablaLunes.getSelectedRow()+1,1);
+								modelLunes.setValueAt(primero,tablaLunes.getSelectedRow()-1,1);
+								modelLunes.setValueAt(segundo,tablaLunes.getSelectedRow(),1);	
+								tablaLunes.setRowSelectionInterval(tablaLunes.getSelectedRow()-1,tablaLunes.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarLunes)){
+							if(tablaLunes.getSelectedRow()+1 < tablaLunes.getRowCount()){
+								Object primero = modelLunes.getValueAt(tablaLunes.getSelectedRow(),1);
+								Object segundo = modelLunes.getValueAt(tablaLunes.getSelectedRow()+1,1);
+								
+								modelLunes.setValueAt(primero,tablaLunes.getSelectedRow()+1,1);
+								modelLunes.setValueAt(segundo,tablaLunes.getSelectedRow(),1);	
+								tablaLunes.setRowSelectionInterval(tablaLunes.getSelectedRow()+1,tablaLunes.getSelectedRow()+1);
 							
-							modelLunes.setValueAt(primero,tablaLunes.getSelectedRow()+1,1);
-							modelLunes.setValueAt(segundo,tablaLunes.getSelectedRow(),1);	
-							tablaLunes.setRowSelectionInterval(tablaLunes.getSelectedRow()+1,tablaLunes.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
 		
@@ -1629,32 +1653,37 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaMartes.getRowCount()>1){
 				if(tablaMartes.isRowSelected(tablaMartes.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirMartes)){
-						if(tablaMartes.getSelectedRow() != 0){
-							Object primero = modelMartes.getValueAt(tablaMartes.getSelectedRow(),1);
-							Object segundo = modelMartes.getValueAt(tablaMartes.getSelectedRow()-1,1);
-							
-							modelMartes.setValueAt(primero,tablaMartes.getSelectedRow()-1,1);
-							modelMartes.setValueAt(segundo,tablaMartes.getSelectedRow(),1);	
-							tablaMartes.setRowSelectionInterval(tablaMartes.getSelectedRow()-1,tablaMartes.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaMartes.getSelectedRow() == 0 || tablaMartes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirMartes)){
+							if(tablaMartes.getSelectedRow() > 2){
+								Object primero = modelMartes.getValueAt(tablaMartes.getSelectedRow(),1);
+								Object segundo = modelMartes.getValueAt(tablaMartes.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarMartes)){
-						if(tablaMartes.getSelectedRow()+1 < tablaMartes.getRowCount()){
-							Object primero = modelMartes.getValueAt(tablaMartes.getSelectedRow(),1);
-							Object segundo = modelMartes.getValueAt(tablaMartes.getSelectedRow()+1,1);
+								modelMartes.setValueAt(primero,tablaMartes.getSelectedRow()-1,1);
+								modelMartes.setValueAt(segundo,tablaMartes.getSelectedRow(),1);	
+								tablaMartes.setRowSelectionInterval(tablaMartes.getSelectedRow()-1,tablaMartes.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarMartes)){
+							if(tablaMartes.getSelectedRow()+1 < tablaMartes.getRowCount()){
+								Object primero = modelMartes.getValueAt(tablaMartes.getSelectedRow(),1);
+								Object segundo = modelMartes.getValueAt(tablaMartes.getSelectedRow()+1,1);
+								
+								modelMartes.setValueAt(primero,tablaMartes.getSelectedRow()+1,1);
+								modelMartes.setValueAt(segundo,tablaMartes.getSelectedRow(),1);	
+								tablaMartes.setRowSelectionInterval(tablaMartes.getSelectedRow()+1,tablaMartes.getSelectedRow()+1);
 							
-							modelMartes.setValueAt(primero,tablaMartes.getSelectedRow()+1,1);
-							modelMartes.setValueAt(segundo,tablaMartes.getSelectedRow(),1);	
-							tablaMartes.setRowSelectionInterval(tablaMartes.getSelectedRow()+1,tablaMartes.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
 	
@@ -1674,32 +1703,37 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaMiercoles.getRowCount()>1){
 				if(tablaMiercoles.isRowSelected(tablaMiercoles.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirMiercoles)){
-						if(tablaMiercoles.getSelectedRow() != 0){
-							Object primero = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow(),1);
-							Object segundo = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow()-1,1);
-							
-							modelMiercoles.setValueAt(primero,tablaMiercoles.getSelectedRow()-1,1);
-							modelMiercoles.setValueAt(segundo,tablaMiercoles.getSelectedRow(),1);	
-							tablaMiercoles.setRowSelectionInterval(tablaMiercoles.getSelectedRow()-1,tablaMiercoles.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaMiercoles.getSelectedRow() == 0 || tablaMiercoles.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirMiercoles)){
+							if(tablaMiercoles.getSelectedRow() > 2){
+								Object primero = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow(),1);
+								Object segundo = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarMiercoles)){
-						if(tablaMiercoles.getSelectedRow()+1 < tablaMiercoles.getRowCount()){
-							Object primero = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow(),1);
-							Object segundo = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow()+1,1);
+								modelMiercoles.setValueAt(primero,tablaMiercoles.getSelectedRow()-1,1);
+								modelMiercoles.setValueAt(segundo,tablaMiercoles.getSelectedRow(),1);	
+								tablaMiercoles.setRowSelectionInterval(tablaMiercoles.getSelectedRow()-1,tablaMiercoles.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarMiercoles)){
+							if(tablaMiercoles.getSelectedRow()+1 < tablaMiercoles.getRowCount()){
+								Object primero = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow(),1);
+								Object segundo = modelMiercoles.getValueAt(tablaMiercoles.getSelectedRow()+1,1);
+								
+								modelMiercoles.setValueAt(primero,tablaMiercoles.getSelectedRow()+1,1);
+								modelMiercoles.setValueAt(segundo,tablaMiercoles.getSelectedRow(),1);	
+								tablaMiercoles.setRowSelectionInterval(tablaMiercoles.getSelectedRow()+1,tablaMiercoles.getSelectedRow()+1);
 							
-							modelMiercoles.setValueAt(primero,tablaMiercoles.getSelectedRow()+1,1);
-							modelMiercoles.setValueAt(segundo,tablaMiercoles.getSelectedRow(),1);	
-							tablaMiercoles.setRowSelectionInterval(tablaMiercoles.getSelectedRow()+1,tablaMiercoles.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
 			
@@ -1719,35 +1753,39 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaJueves.getRowCount()>1){
 				if(tablaJueves.isRowSelected(tablaJueves.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirJueves)){
-						if(tablaJueves.getSelectedRow() != 0){
-							Object primero = modelJueves.getValueAt(tablaJueves.getSelectedRow(),1);
-							Object segundo = modelJueves.getValueAt(tablaJueves.getSelectedRow()-1,1);
-							
-							modelJueves.setValueAt(primero,tablaJueves.getSelectedRow()-1,1);
-							modelJueves.setValueAt(segundo,tablaJueves.getSelectedRow(),1);	
-							tablaJueves.setRowSelectionInterval(tablaJueves.getSelectedRow()-1,tablaJueves.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaJueves.getSelectedRow() == 0 || tablaJueves.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirJueves)){
+							if(tablaJueves.getSelectedRow() > 2){
+								Object primero = modelJueves.getValueAt(tablaJueves.getSelectedRow(),1);
+								Object segundo = modelJueves.getValueAt(tablaJueves.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarJueves)){
-						if(tablaJueves.getSelectedRow()+1 < tablaJueves.getRowCount()){
-							Object primero = modelJueves.getValueAt(tablaJueves.getSelectedRow(),1);
-							Object segundo = modelJueves.getValueAt(tablaJueves.getSelectedRow()+1,1);
+								modelJueves.setValueAt(primero,tablaJueves.getSelectedRow()-1,1);
+								modelJueves.setValueAt(segundo,tablaJueves.getSelectedRow(),1);	
+								tablaJueves.setRowSelectionInterval(tablaJueves.getSelectedRow()-1,tablaJueves.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarJueves)){
+							if(tablaJueves.getSelectedRow()+1 < tablaJueves.getRowCount()){
+								Object primero = modelJueves.getValueAt(tablaJueves.getSelectedRow(),1);
+								Object segundo = modelJueves.getValueAt(tablaJueves.getSelectedRow()+1,1);
+								
+								modelJueves.setValueAt(primero,tablaJueves.getSelectedRow()+1,1);
+								modelJueves.setValueAt(segundo,tablaJueves.getSelectedRow(),1);	
+								tablaJueves.setRowSelectionInterval(tablaJueves.getSelectedRow()+1,tablaJueves.getSelectedRow()+1);
 							
-							modelJueves.setValueAt(primero,tablaJueves.getSelectedRow()+1,1);
-							modelJueves.setValueAt(segundo,tablaJueves.getSelectedRow(),1);	
-							tablaJueves.setRowSelectionInterval(tablaJueves.getSelectedRow()+1,tablaJueves.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
-			
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
@@ -1764,35 +1802,39 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaViernes.getRowCount()>1){
 				if(tablaViernes.isRowSelected(tablaViernes.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirViernes)){
-						if(tablaViernes.getSelectedRow() != 0){
-							Object primero = modelViernes.getValueAt(tablaViernes.getSelectedRow(),1);
-							Object segundo = modelViernes.getValueAt(tablaViernes.getSelectedRow()-1,1);
-							
-							modelViernes.setValueAt(primero,tablaViernes.getSelectedRow()-1,1);
-							modelViernes.setValueAt(segundo,tablaViernes.getSelectedRow(),1);	
-							tablaViernes.setRowSelectionInterval(tablaViernes.getSelectedRow()-1,tablaViernes.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaViernes.getSelectedRow() == 0 || tablaViernes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirViernes)){
+							if(tablaViernes.getSelectedRow() > 2){
+								Object primero = modelViernes.getValueAt(tablaViernes.getSelectedRow(),1);
+								Object segundo = modelViernes.getValueAt(tablaViernes.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarViernes)){
-						if(tablaViernes.getSelectedRow()+1 < tablaViernes.getRowCount()){
-							Object primero = modelViernes.getValueAt(tablaViernes.getSelectedRow(),1);
-							Object segundo = modelViernes.getValueAt(tablaViernes.getSelectedRow()+1,1);
+								modelViernes.setValueAt(primero,tablaViernes.getSelectedRow()-1,1);
+								modelViernes.setValueAt(segundo,tablaViernes.getSelectedRow(),1);	
+								tablaViernes.setRowSelectionInterval(tablaViernes.getSelectedRow()-1,tablaViernes.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarViernes)){
+							if(tablaViernes.getSelectedRow()+1 < tablaViernes.getRowCount()){
+								Object primero = modelViernes.getValueAt(tablaViernes.getSelectedRow(),1);
+								Object segundo = modelViernes.getValueAt(tablaViernes.getSelectedRow()+1,1);
+								
+								modelViernes.setValueAt(primero,tablaViernes.getSelectedRow()+1,1);
+								modelViernes.setValueAt(segundo,tablaViernes.getSelectedRow(),1);	
+								tablaViernes.setRowSelectionInterval(tablaViernes.getSelectedRow()+1,tablaViernes.getSelectedRow()+1);
 							
-							modelViernes.setValueAt(primero,tablaViernes.getSelectedRow()+1,1);
-							modelViernes.setValueAt(segundo,tablaViernes.getSelectedRow(),1);	
-							tablaViernes.setRowSelectionInterval(tablaViernes.getSelectedRow()+1,tablaViernes.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
-				
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
@@ -1809,32 +1851,37 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaSabado.getRowCount()>1){
 				if(tablaSabado.isRowSelected(tablaSabado.getSelectedRow())){
-					if(arg0.getSource().equals(btnSubirSabado)){
-						if(tablaSabado.getSelectedRow() != 0){
-							Object primero = modelSabado.getValueAt(tablaSabado.getSelectedRow(),1);
-							Object segundo = modelSabado.getValueAt(tablaSabado.getSelectedRow()-1,1);
-							
-							modelSabado.setValueAt(primero,tablaSabado.getSelectedRow()-1,1);
-							modelSabado.setValueAt(segundo,tablaSabado.getSelectedRow(),1);	
-							tablaSabado.setRowSelectionInterval(tablaSabado.getSelectedRow()-1,tablaSabado.getSelectedRow()-1);
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
+					if(tablaSabado.getSelectedRow() == 0 || tablaSabado.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						if(arg0.getSource().equals(btnSubirSabado)){
+							if(tablaSabado.getSelectedRow() > 2){
+								Object primero = modelSabado.getValueAt(tablaSabado.getSelectedRow(),1);
+								Object segundo = modelSabado.getValueAt(tablaSabado.getSelectedRow()-1,1);
 								
-					}
-					if(arg0.getSource().equals(btnBajarSabado)){
-						if(tablaSabado.getSelectedRow()+1 < tablaSabado.getRowCount()){
-							Object primero = modelSabado.getValueAt(tablaSabado.getSelectedRow(),1);
-							Object segundo = modelSabado.getValueAt(tablaSabado.getSelectedRow()+1,1);
+								modelSabado.setValueAt(primero,tablaSabado.getSelectedRow()-1,1);
+								modelSabado.setValueAt(segundo,tablaSabado.getSelectedRow(),1);	
+								tablaSabado.setRowSelectionInterval(tablaSabado.getSelectedRow()-1,tablaSabado.getSelectedRow()-1);
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
+									
+						}
+						if(arg0.getSource().equals(btnBajarSabado)){
+							if(tablaSabado.getSelectedRow()+1 < tablaSabado.getRowCount()){
+								Object primero = modelSabado.getValueAt(tablaSabado.getSelectedRow(),1);
+								Object segundo = modelSabado.getValueAt(tablaSabado.getSelectedRow()+1,1);
+								
+								modelSabado.setValueAt(primero,tablaSabado.getSelectedRow()+1,1);
+								modelSabado.setValueAt(segundo,tablaSabado.getSelectedRow(),1);	
+								tablaSabado.setRowSelectionInterval(tablaSabado.getSelectedRow()+1,tablaSabado.getSelectedRow()+1);
 							
-							modelSabado.setValueAt(primero,tablaSabado.getSelectedRow()+1,1);
-							modelSabado.setValueAt(segundo,tablaSabado.getSelectedRow(),1);	
-							tablaSabado.setRowSelectionInterval(tablaSabado.getSelectedRow()+1,tablaSabado.getSelectedRow()+1);
-						
-						}else{
-							JOptionPane.showMessageDialog(null,"No mÃ¡s filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							return;
+							}else{
+								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}
 						}
 					}
 				}else{
@@ -1853,9 +1900,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaDomingo.getRowCount()>0){
 				if(tablaDomingo.isRowSelected(tablaDomingo.getSelectedRow())){
-					modelDomingo.removeRow(tablaDomingo.getSelectedRow());
-					for(int i=0; i<tablaSabado.getRowCount(); i ++){
-						modelDomingo.setValueAt((i+1)+"  ",i,0);
+					if(tablaDomingo.getSelectedRow() == 0 || tablaDomingo.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelDomingo.removeRow(tablaDomingo.getSelectedRow());
+						for(int i=0; i<tablaSabado.getRowCount(); i ++){
+							modelDomingo.setValueAt((i+1)+"  ",i,0);
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1872,9 +1924,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaLunes.getRowCount()>0){
 				if(tablaLunes.isRowSelected(tablaLunes.getSelectedRow())){
-					modelLunes.removeRow(tablaLunes.getSelectedRow());
-					for(int i=0; i<tablaLunes.getRowCount(); i ++){
-						modelLunes.setValueAt((i+1)+"  ",i,0);
+					if(tablaLunes.getSelectedRow() == 0 || tablaLunes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelLunes.removeRow(tablaLunes.getSelectedRow());
+						for(int i=0; i<tablaLunes.getRowCount(); i ++){
+							modelLunes.setValueAt((i+1)+"  ",i,0);
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1891,9 +1948,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaMartes.getRowCount()>0){
 				if(tablaMartes.isRowSelected(tablaMartes.getSelectedRow())){
-					modelMartes.removeRow(tablaMartes.getSelectedRow());
-					for(int i=0; i<tablaMartes.getRowCount(); i ++){
-						modelMartes.setValueAt((i+1)+"  ",i,0);
+					if(tablaMartes.getSelectedRow() == 0 || tablaMartes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelMartes.removeRow(tablaMartes.getSelectedRow());
+						for(int i=0; i<tablaMartes.getRowCount(); i ++){
+							modelMartes.setValueAt((i+1)+"  ",i,0);
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1910,9 +1972,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaMiercoles.getRowCount()>0){
 				if(tablaMiercoles.isRowSelected(tablaMiercoles.getSelectedRow())){
-					modelMiercoles.removeRow(tablaMiercoles.getSelectedRow());
-					for(int i=0; i<tablaMiercoles.getRowCount(); i ++){
-						modelMiercoles.setValueAt((i+1)+"  ",i,0);
+					if(tablaMiercoles.getSelectedRow() == 0 || tablaMiercoles.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelMiercoles.removeRow(tablaMiercoles.getSelectedRow());
+						for(int i=0; i<tablaMiercoles.getRowCount(); i ++){
+							modelMiercoles.setValueAt((i+1)+"  ",i,0);
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1929,9 +1996,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaJueves.getRowCount()>0){
 				if(tablaJueves.isRowSelected(tablaJueves.getSelectedRow())){
-					modelJueves.removeRow(tablaJueves.getSelectedRow());
-					for(int i=0; i<tablaJueves.getRowCount(); i ++){
-						modelJueves.setValueAt((i+1)+"  ",i,0);
+					if(tablaJueves.getSelectedRow() == 0 || tablaJueves.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelJueves.removeRow(tablaJueves.getSelectedRow());
+						for(int i=0; i<tablaJueves.getRowCount(); i ++){
+							modelJueves.setValueAt((i+1)+"  ",i,0);
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1948,9 +2020,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaViernes.getRowCount()>0){
 				if(tablaViernes.isRowSelected(tablaViernes.getSelectedRow())){
-					modelViernes.removeRow(tablaViernes.getSelectedRow());
-					for(int i=0; i<tablaViernes.getRowCount(); i ++){
-						modelViernes.setValueAt((i+1)+"  ",i,0);
+					if(tablaViernes.getSelectedRow() == 0 || tablaViernes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelViernes.removeRow(tablaViernes.getSelectedRow());
+						for(int i=0; i<tablaViernes.getRowCount(); i ++){
+							modelViernes.setValueAt((i+1)+"  ",i,0);
+						}					
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1967,9 +2044,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaSabado.getRowCount()>0){
 				if(tablaSabado.isRowSelected(tablaSabado.getSelectedRow())){
-					modelSabado.removeRow(tablaSabado.getSelectedRow());
-					for(int i=0; i<tablaSabado.getRowCount(); i ++){
-						modelSabado.setValueAt((i+1)+"  ",i,0);
+					if(tablaViernes.getSelectedRow() == 0 || tablaViernes.getSelectedRow() == 1){
+						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						modelSabado.removeRow(tablaSabado.getSelectedRow());
+						for(int i=0; i<tablaSabado.getRowCount(); i ++){
+							modelSabado.setValueAt((i+1)+"  ",i,0);
+						}					
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -3580,7 +3662,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 	        	 	case 0 : return false; 
 	        	 	case 1 : return false; 
 	        	 	case 2 : return false;
-	        	 	case 3 : return true;
+	        	 	case 3 : 
+	        	 		if(Integer.parseInt(modeloFiltro.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modeloFiltro.getValueAt(fila,0).toString().trim()) == 2){
+	        	 			return false;
+	        	 		}else{
+		        	 		return true;
+	        	 		}
 	        	 } 				
 	 			return false;
 	 		}
@@ -3600,7 +3687,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		
-		public Cat_Filtro_Actividades(String Dia)	{
+		public Cat_Filtro_Actividades(String Dia) {
+			setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 			setTitle("Filtro de Actividades");
 			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Actividades"));
 			trsfiltro = new TableRowSorter(modeloFiltro); 
@@ -3738,17 +3826,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaDom[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaDom[0] = posicion;
  									filaDom[1] = modeloFiltro.getValueAt(i, 1);
  									filaDom[2] = modeloFiltro.getValueAt(i, 2);
- 									filaDom[3] = Boolean.parseBoolean("false");
+ 									filaDom[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaDom[4] = "00:00";
  									filaDom[5] = "00:00";
 				 					for(int j=0; j<modelDomingo.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelDomingo.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelDomingo.getRowCount()-1 && repetido > 0){
+				 							if(j==modelDomingo.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelDomingo.addRow(filaDom);
 							 						j++;
@@ -3756,13 +3845,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelDomingo.getRowCount()-1 && repetido == 0){
+				 							if(j==modelDomingo.getRowCount() && repetido == 0){
 			 									modelDomingo.addRow(filaDom);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelDomingo.getRowCount()-1 && repetido > 0){
+				 							if(j==modelDomingo.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelDomingo.addRow(filaDom);
 							 						j++;
@@ -3770,7 +3859,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelDomingo.getRowCount()-1 && repetido == 0){
+				 							if(j==modelDomingo.getRowCount() && repetido == 0){
 			 									modelDomingo.addRow(filaDom);
 			 									j++;
 				 							}
@@ -3781,10 +3870,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaDom[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaDom[0] = posicion;
 				 					filaDom[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaDom[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaDom[3] = Boolean.parseBoolean("false");
+				 					filaDom[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaDom[4] = "00:00";
 				 					filaDom[5] = "00:00";
 						 			
@@ -3800,17 +3890,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaLun[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaLun[0] = posicion;
  									filaLun[1] = modeloFiltro.getValueAt(i, 1);
  									filaLun[2] = modeloFiltro.getValueAt(i, 2);
- 									filaLun[3] = Boolean.parseBoolean("false");
+ 									filaLun[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaLun[4] = "00:00";
  									filaLun[5] = "00:00";
 				 					for(int j=0; j<modelLunes.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelLunes.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelLunes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelLunes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelLunes.addRow(filaLun);
 							 						j++;
@@ -3818,13 +3909,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelLunes.getRowCount()-1 && repetido == 0){
+				 							if(j==modelLunes.getRowCount() && repetido == 0){
 			 									modelLunes.addRow(filaLun);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelLunes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelLunes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelLunes.addRow(filaLun);
 							 						j++;
@@ -3832,7 +3923,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelLunes.getRowCount()-1 && repetido == 0){
+				 							if(j==modelLunes.getRowCount() && repetido == 0){
 			 									modelLunes.addRow(filaLun);
 			 									j++;
 				 							}
@@ -3843,10 +3934,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaLun[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaLun[0] = posicion;
 				 					filaLun[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaLun[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaLun[3] = Boolean.parseBoolean("false");
+				 					filaLun[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaLun[4] = "00:00";
 				 					filaLun[5] = "00:00";
 						 			
@@ -3862,17 +3954,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaMar[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaMar[0] = posicion;
  									filaMar[1] = modeloFiltro.getValueAt(i, 1);
  									filaMar[2] = modeloFiltro.getValueAt(i, 2);
- 									filaMar[3] = Boolean.parseBoolean("false");
+ 									filaMar[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaMar[4] = "00:00";
  									filaMar[5] = "00:00";
 				 					for(int j=0; j<modelMartes.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelMartes.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelMartes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelMartes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelMartes.addRow(filaMar);
 							 						j++;
@@ -3880,13 +3973,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelMartes.getRowCount()-1 && repetido == 0){
+				 							if(j==modelMartes.getRowCount() && repetido == 0){
 			 									modelMartes.addRow(filaMar);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelMartes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelMartes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelMartes.addRow(filaMar);
 							 						j++;
@@ -3894,7 +3987,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelMartes.getRowCount()-1 && repetido == 0){
+				 							if(j==modelMartes.getRowCount() && repetido == 0){
 			 									modelMartes.addRow(filaMar);
 			 									j++;
 				 							}
@@ -3905,10 +3998,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaMar[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaMar[0] = posicion;
 				 					filaMar[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaMar[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaMar[3] = Boolean.parseBoolean("false");
+				 					filaMar[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaMar[4] = "00:00";
 				 					filaMar[5] = "00:00";
 						 			
@@ -3925,17 +4019,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaMie[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaMie[0] = posicion;
  									filaMie[1] = modeloFiltro.getValueAt(i, 1);
  									filaMie[2] = modeloFiltro.getValueAt(i, 2);
- 									filaMie[3] = Boolean.parseBoolean("false");
+ 									filaMie[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaMie[4] = "00:00";
  									filaMie[5] = "00:00";
 				 					for(int j=0; j<modelMiercoles.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelMiercoles.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelMiercoles.getRowCount()-1 && repetido > 0){
+				 							if(j==modelMiercoles.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelMiercoles.addRow(filaMie);
 							 						j++;
@@ -3943,13 +4038,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelMiercoles.getRowCount()-1 && repetido == 0){
+				 							if(j==modelMiercoles.getRowCount() && repetido == 0){
 			 									modelMiercoles.addRow(filaMie);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelMiercoles.getRowCount()-1 && repetido > 0){
+				 							if(j==modelMiercoles.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelMiercoles.addRow(filaMie);
 							 						j++;
@@ -3957,7 +4052,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelMiercoles.getRowCount()-1 && repetido == 0){
+				 							if(j==modelMiercoles.getRowCount() && repetido == 0){
 			 									modelMiercoles.addRow(filaMie);
 			 									j++;
 				 							}
@@ -3968,10 +4063,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaMie[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaMie[0] = posicion;
 				 					filaMie[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaMie[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaMie[3] = Boolean.parseBoolean("false");
+				 					filaMie[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaMie[4] = "00:00";
 				 					filaMie[5] = "00:00";
 						 			
@@ -3988,17 +4084,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaJue[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaJue[0] = posicion;
  									filaJue[1] = modeloFiltro.getValueAt(i, 1);
  									filaJue[2] = modeloFiltro.getValueAt(i, 2);
- 									filaJue[3] = Boolean.parseBoolean("false");
+ 									filaJue[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaJue[4] = "00:00";
  									filaJue[5] = "00:00";
 				 					for(int j=0; j<modelJueves.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelJueves.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelJueves.getRowCount()-1 && repetido > 0){
+				 							if(j==modelJueves.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelJueves.addRow(filaJue);
 							 						j++;
@@ -4006,13 +4103,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelJueves.getRowCount()-1 && repetido == 0){
+				 							if(j==modelJueves.getRowCount() && repetido == 0){
 			 									modelJueves.addRow(filaJue);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelJueves.getRowCount()-1 && repetido > 0){
+				 							if(j==modelJueves.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelJueves.addRow(filaJue);
 							 						j++;
@@ -4020,7 +4117,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelJueves.getRowCount()-1 && repetido == 0){
+				 							if(j==modelJueves.getRowCount() && repetido == 0){
 			 									modelJueves.addRow(filaJue);
 			 									j++;
 				 							}
@@ -4031,10 +4128,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaJue[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaJue[0] = posicion;
 				 					filaJue[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaJue[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaJue[3] = Boolean.parseBoolean("false");
+				 					filaJue[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaJue[4] = "00:00";
 				 					filaJue[5] = "00:00";
 						 			
@@ -4051,17 +4149,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaVie[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaVie[0] = posicion;
  									filaVie[1] = modeloFiltro.getValueAt(i, 1);
  									filaVie[2] = modeloFiltro.getValueAt(i, 2);
- 									filaVie[3] = Boolean.parseBoolean("false");
+ 									filaVie[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaVie[4] = "00:00";
  									filaVie[5] = "00:00";
 				 					for(int j=0; j<modelViernes.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelViernes.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelViernes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelViernes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelViernes.addRow(filaVie);
 							 						j++;
@@ -4069,13 +4168,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelViernes.getRowCount()-1 && repetido == 0){
+				 							if(j==modelViernes.getRowCount() && repetido == 0){
 			 									modelViernes.addRow(filaVie);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelViernes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelViernes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelViernes.addRow(filaVie);
 							 						j++;
@@ -4083,7 +4182,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelViernes.getRowCount()-1 && repetido == 0){
+				 							if(j==modelViernes.getRowCount() && repetido == 0){
 			 									modelViernes.addRow(filaVie);
 			 									j++;
 				 							}
@@ -4094,10 +4193,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaVie[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaVie[0] = posicion;
 				 					filaVie[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaVie[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaVie[3] = Boolean.parseBoolean("false");
+				 					filaVie[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaVie[4] = "00:00";
 				 					filaVie[5] = "00:00";
 						 			
@@ -4114,17 +4214,18 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaSab[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaSab[0] = posicion;
  									filaSab[1] = modeloFiltro.getValueAt(i, 1);
  									filaSab[2] = modeloFiltro.getValueAt(i, 2);
- 									filaSab[3] = Boolean.parseBoolean("false");
+ 									filaSab[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaSab[4] = "00:00";
  									filaSab[5] = "00:00";
 				 					for(int j=0; j<modelViernes.getRowCount();){
 				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelViernes.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelViernes.getRowCount()-1 && repetido > 0){
+				 							if(j==modelViernes.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelSabado.addRow(filaSab);
 							 						j++;
@@ -4132,13 +4233,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelSabado.getRowCount()-1 && repetido == 0){
+				 							if(j==modelSabado.getRowCount() && repetido == 0){
 			 									modelSabado.addRow(filaSab);
 			 									j++;
 				 							}
 				 						}else{
 				 							j++;
-				 							if(j==modelSabado.getRowCount()-1 && repetido > 0){
+				 							if(j==modelSabado.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelSabado.addRow(filaSab);
 							 						j++;
@@ -4146,7 +4247,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 									j++;
 				 								}
 				 							}
-				 							if(j==modelSabado.getRowCount()-1 && repetido == 0){
+				 							if(j==modelSabado.getRowCount() && repetido == 0){
 			 									modelSabado.addRow(filaSab);
 			 									j++;
 				 							}
@@ -4157,10 +4258,11 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		}else{
 				 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
 				 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
-				 					filaSab[0] = modeloFiltro.getValueAt(i, 0);
+				 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+				 					filaSab[0] = posicion;
 				 					filaSab[1] = modeloFiltro.getValueAt(i, 1);
 				 					filaSab[2] = modeloFiltro.getValueAt(i, 2);
-				 					filaSab[3] = Boolean.parseBoolean("false");
+				 					filaSab[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
 				 					filaSab[4] = "00:00";
 				 					filaSab[5] = "00:00";
 						 			
@@ -4211,10 +4313,15 @@ public class Cat_Cuadrante_Base extends JFrame{
 				MatrizFiltro = new Object[getFilas(todos)][4];
 				int i=0;
 				while(rs.next()){
-					MatrizFiltro[i][0] = rs.getString(1)+"  ";
+					int folio = rs.getInt(1);
+					MatrizFiltro[i][0] = folio+"  ";
 					MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
 					MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-					MatrizFiltro[i][3] = false;
+					if(folio == 1 || folio == 2){
+						MatrizFiltro[i][3] = true;
+					}else{
+						MatrizFiltro[i][3] = false;
+					}
 					i++;
 				}
 			} catch (SQLException e1) {

@@ -356,7 +356,7 @@ public class GuardarTablasModel {
 	
 	public boolean Alimentacion_cuadrante_multiple(Object[][] tabla, Obj_Alimentacion_Cuadrante alimentacion){
 		String query_delete = "exec sp_delete_alimentacion_multiple ?";
-		String query = "exec sp_insert_bancos ?,?,?,?,?,?";
+		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {
@@ -370,14 +370,14 @@ public class GuardarTablasModel {
 			pstmtDelete.executeUpdate();
 			
 			for(int i=0; i<tabla.length; i++){
-				pstmt.setString(1, alimentacion.getNombre());
-				pstmt.setInt(2, Integer.parseInt(tabla[i][0].toString()));
+				pstmt.setString(1, alimentacion.getNombre().toString().trim());
+				pstmt.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmt.setString(3, tabla[i][1].toString().trim());
 				pstmt.setString(4, tabla[i][2].toString().trim());
 				pstmt.setString(5, alimentacion.getFecha());
 				pstmt.executeUpdate();
 			}
-		
+					
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());
