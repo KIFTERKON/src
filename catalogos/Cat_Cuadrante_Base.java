@@ -3608,20 +3608,20 @@ public class Cat_Cuadrante_Base extends JFrame{
 			
 			dia = Dia;
 			
-			campo.add(scroll).setBounds(15,43,550,360);
+			campo.add(scroll).setBounds(15,43,994,360);
 			
-			campo.add(txtFolio).setBounds(15,20,48,20);
-			campo.add(txtNombre_Completo).setBounds(64,20,340,20);
-			campo.add(btnAgregar).setBounds(485,20,80,20);
+			campo.add(txtFolio).setBounds(15,20,40,20);
+			campo.add(txtNombre_Completo).setBounds(56,20,800,20);
+			campo.add(btnAgregar).setBounds(920,20,80,20);
 			
 			cont.add(campo);
 			
-			tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(50);
-			tablaFiltro.getColumnModel().getColumn(0).setMinWidth(50);
-			tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(340);
-			tablaFiltro.getColumnModel().getColumn(1).setMinWidth(340);
-			tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(50);
-			tablaFiltro.getColumnModel().getColumn(3).setMinWidth(50);
+			tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(40);
+			tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
+			tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(800);
+			tablaFiltro.getColumnModel().getColumn(1).setMinWidth(800);
+			tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
+			tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
 			
 			TableCellRenderer render = new TableCellRenderer() { 
 				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -3711,7 +3711,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 			
 			btnAgregar.addActionListener(opAgregar);
 			
-			setSize(600,450);
+			setSize(1024,450);
 			setResizable(false);
 			setLocationRelativeTo(null);
 			

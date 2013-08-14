@@ -119,6 +119,10 @@ public class GuardarSQL {
 		return true;
 	}
 	
+//	public boolean generar_gafete(){
+////		string query = "exec sp_insert_"
+//	}
+		
 	public boolean Guardar_Establecimiento(Obj_Establecimiento establecimiento){
 		String query = "exec sp_insert_establecimiento ?,?,?";
 		Connection con = new Connexion().conexion();

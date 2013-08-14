@@ -61,7 +61,7 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="57" splitType="Stretch">
+		<band height="56" splitType="Stretch">
 			<frame>
 				<reportElement uuid="1a8f6f58-dbcf-4cdf-8e7c-ef098f690004" mode="Opaque" x="0" y="0" width="481" height="50" backcolor="#000000"/>
 				<staticText>
@@ -73,8 +73,8 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 				</staticText>
 			</frame>
 			<image>
-				<reportElement uuid="01f950c7-8fbd-4895-bfcc-c58040db9443" x="505" y="0" width="48" height="50"/>
-				<imageExpression><![CDATA["C:/SCOI/imagen/fsRH.png"]]></imageExpression>
+				<reportElement uuid="5e763356-bbb9-4c61-8e70-37ca4a0844f5" x="502" y="0" width="50" height="50"/>
+				<imageExpression><![CDATA["C:/Proyecto/Grupo Izagar/Imagen/fsRH.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -82,7 +82,7 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="5" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
 		<band height="18" splitType="Stretch">
