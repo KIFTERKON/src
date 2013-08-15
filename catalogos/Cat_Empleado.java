@@ -668,6 +668,9 @@ public class Cat_Empleado extends JFrame{
 								panelEnabledFalse();
 								txtFolio.setEditable(true);
 								txtFolio.requestFocus();
+								btnTrueFoto.setSelected(false);
+								btnExaminar.setEnabled(false);
+								btnCamara.setEnabled(false);
 								JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							}else{
 								JOptionPane.showMessageDialog(null,"Error al intentar actualizar los datos","Aviso",JOptionPane.ERROR_MESSAGE);
@@ -752,6 +755,9 @@ public class Cat_Empleado extends JFrame{
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
+							btnTrueFoto.setSelected(false);
+							btnExaminar.setEnabled(false);
+							btnCamara.setEnabled(false);
 							JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						}else{
 							JOptionPane.showMessageDialog(null, "Ocurrió un problema al almacenar el empleado", "Error", JOptionPane.ERROR_MESSAGE);
