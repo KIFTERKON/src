@@ -351,8 +351,8 @@ public class BuscarTablasModel {
 	    return matriz; 
 	}
 	public Object[][] tabla_model_filtro_imprimir_cuadrantes(){
-		String query_lista = "exec sp_select_empleados_gafete";
-		Object[][] matriz = new Object[get_filas(query_lista)][5];
+		String query_lista = "exec sp_select_impresion_cuadrante";
+		Object[][] matriz = new Object[get_filas(query_lista)][6];
 		try {
 			Statement stmt = new Connexion().conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query_lista);
@@ -364,6 +364,7 @@ public class BuscarTablasModel {
 				matriz[i][2] = "   "+rs.getString(3);
 				matriz[i][3] = "   "+rs.getString(4);
 				matriz[i][4] = "   "+rs.getString(5);
+				matriz[i][5] = "   "+rs.getString(6);
 				
 				i++;
 			}
