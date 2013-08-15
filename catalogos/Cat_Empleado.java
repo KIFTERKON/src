@@ -141,6 +141,8 @@ public class Cat_Empleado extends JFrame{
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbActivo_Inactivo = new JComboBox(activo_inactivo);
 	
+	JCheckBox chb_cuadrante_parcial = new JCheckBox("Permite Cuadrante Parcial",false);
+	
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnFiltro = new JButton(new ImageIcon("Iconos/users_icon&16.png"));
 	JButton btnNuevo = new JButton("Nuevo");
@@ -279,7 +281,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Ingreso:")).setBounds(x+ancho+130,y, ancho, 20);
 		panel.add(txtIngreso).setBounds(x+ancho+180,y,100,20);
 		
-		panel.add(new JLabel("Ultima actualización:")).setBounds(x,y+=25,ancho,20);
+		panel.add(chb_cuadrante_parcial).setBounds(x+ancho+130,y+=25,150,20);
+		
+		panel.add(new JLabel("Ultima actualización:")).setBounds(x,y,ancho,20);
 		panel.add(txtFecha).setBounds(x+ancho,y,125,20);
 		
 		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
@@ -469,6 +473,8 @@ public class Cat_Empleado extends JFrame{
 						e1.printStackTrace();
 					}
 					
+					chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
+					
 					switch(cmbStatus.getSelectedIndex()+1){
 						case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
 							   btnEditar.setVisible(true);
@@ -592,6 +598,7 @@ public class Cat_Empleado extends JFrame{
 							
 							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+							empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
 							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
 							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
 							
@@ -675,6 +682,7 @@ public class Cat_Empleado extends JFrame{
 						
 						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+						empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
 						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
 						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
 						
@@ -745,6 +753,7 @@ public class Cat_Empleado extends JFrame{
 		cmbActivo_Inactivo.setEnabled(true);
 		txtIngreso.setEnabled(true);
 		txtTelefono_Familiar.setEditable(true);
+		chb_cuadrante_parcial.setEnabled(true);
 		
 	}
 	
@@ -775,6 +784,7 @@ public class Cat_Empleado extends JFrame{
 		cmbActivo_Inactivo.setEnabled(false);
 		txtIngreso.setEnabled(false);
 		txtTelefono_Familiar.setEditable(false);
+		chb_cuadrante_parcial.setEnabled(false);
 		
 	}
 	///boton deshacer
@@ -806,6 +816,8 @@ public class Cat_Empleado extends JFrame{
 	    cmbActivo_Inactivo.setSelectedIndex(0);
 	    txtTelefono_Familiar.setText("");
 	    txtTelefono_Propio.setText("");
+	    chb_cuadrante_parcial.setSelected(false);
+	    
 		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -1088,6 +1100,8 @@ public class Cat_Empleado extends JFrame{
 					e1.printStackTrace();
 				}
 			}
+			
+			chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
 			
 			txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
 			txaObservaciones.setText(re.getObservasiones());

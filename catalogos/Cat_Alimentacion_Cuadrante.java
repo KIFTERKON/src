@@ -421,13 +421,13 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				datos_cuadrante.setDia(txtDia.getText());
 				datos_cuadrante.setCuadrante(txtCuadrante.getText());
 				
-				if(datos_cuadrante.guardar(tabla_multiple(), tabla_libre())){
-					JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}else{
-					JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
+					if(datos_cuadrante.guardar(tabla_multiple())){
+						JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
 			}else{
 				JOptionPane.showMessageDialog(null, "Los siguientes campos son requeridos\n"+celdasVaciasLibre() +celdasVaciasMultiple() , "Aviso", JOptionPane.WARNING_MESSAGE);
 				return;

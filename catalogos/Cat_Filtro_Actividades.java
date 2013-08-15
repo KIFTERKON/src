@@ -71,9 +71,9 @@ public class Cat_Filtro_Actividades extends JFrame {
 		this.panel.setBorder(BorderFactory.createTitledBorder("Filtro de Actividades"));
 		
 		this.panel.add(txtFolio).setBounds(30,35,69,20);
-		this.panel.add(txtActividad).setBounds(101,35,200,20);
+		this.panel.add(txtActividad).setBounds(101,35,300,20);
 		
-		this.panel.add(scroll_tabla).setBounds(30,60,600,335);
+		this.panel.add(scroll_tabla).setBounds(30,60,800,335);
 		
 		this.cont.add(panel);
 		
@@ -84,7 +84,7 @@ public class Cat_Filtro_Actividades extends JFrame {
 		this.txtFolio.addKeyListener(op_filtro_folio);
 		this.txtActividad.addKeyListener(op_filtro_nombre);
 		
-		this.setSize(670,450);
+		this.setSize(870,450);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -110,10 +110,10 @@ public class Cat_Filtro_Actividades extends JFrame {
 	public void init_tabla(){
     	this.tabla.getColumnModel().getColumn(0).setMaxWidth(70);
     	this.tabla.getColumnModel().getColumn(0).setMinWidth(70);		
-    	this.tabla.getColumnModel().getColumn(1).setMaxWidth(200);
-    	this.tabla.getColumnModel().getColumn(1).setMinWidth(200);
-    	this.tabla.getColumnModel().getColumn(2).setMaxWidth(325);
-    	this.tabla.getColumnModel().getColumn(2).setMinWidth(325);
+    	this.tabla.getColumnModel().getColumn(1).setMaxWidth(300);
+    	this.tabla.getColumnModel().getColumn(1).setMinWidth(300);
+    	this.tabla.getColumnModel().getColumn(2).setMaxWidth(425);
+    	this.tabla.getColumnModel().getColumn(2).setMinWidth(425);
     	
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -123,6 +123,12 @@ public class Cat_Filtro_Actividades extends JFrame {
 						lbl.setOpaque(true); 
 						lbl.setBackground(new java.awt.Color(177,177,177));
 				} 
+				
+				if(table.getSelectedRow() == row){
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(186,143,73));
+				}
+			
 				switch(column){
 					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
 					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
