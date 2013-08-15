@@ -292,12 +292,9 @@ public class Cat_Bancos extends Cat_Root {
 			} 
 		}; 
 
-		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-		this.tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-		this.tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-		this.tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
-		this.tabla.getColumnModel().getColumn(5).setCellRenderer(render);
+		for(int x = 0; x<tabla.getRowCount(); x++){
+			this.tabla.getColumnModel().getColumn(x).setCellRenderer(render); 
+		}
 		
 		this.tabla.setRowSorter(trsfiltro);  
 		

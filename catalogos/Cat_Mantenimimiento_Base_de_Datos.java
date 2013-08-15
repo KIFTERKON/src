@@ -5,18 +5,14 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 
-import objetos.Obj_Main;
 import objetos.Obj_Mantenimiento_Base_de_Datos;
 
-
-
+@SuppressWarnings("serial")
 public class Cat_Mantenimimiento_Base_de_Datos extends JFrame {
           //se declara la variable global cont el contenedor de la ventana
 	Container cont=getContentPane();

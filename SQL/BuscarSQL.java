@@ -2815,5 +2815,33 @@ public class BuscarSQL {
 	
 	}
 	
+	public int[]  hora_minut_segundo(){
+		int[] horas = new int[3];
+		
+		String query = "exec sp_hora_sincronizacion";
+		Statement stmt = null;
+		
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				horas[0] = rs.getInt(1);
+				horas[1] = rs.getInt(2);
+				horas[2] = rs.getInt(3);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(stmt != null){try {
+				stmt.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}}
+		}
+		return horas;
+	}
 	
 }

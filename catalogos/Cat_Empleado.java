@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -313,6 +319,7 @@ public class Cat_Empleado extends JFrame{
 		btnCamara.addActionListener(opFoto);
 		btnVerificar.addActionListener(opVerificar);
 		btnTrueFoto.addActionListener(opPresionFoto);
+		btnExaminar.addActionListener(opExaminar);
 		
 		txtTarjetaNomina.addKeyListener(txtlogns);
 		btnExaminar.setEnabled(false);
@@ -355,6 +362,40 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opExaminar = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
+			FileDialog file = new FileDialog(new Frame());
+			
+			file.setTitle("Selecciona una Imagen");
+			file.setMode(FileDialog.LOAD);
+			file.setVisible(true);
+			
+			if(file.getDirectory() != null){
+
+				File foto = new File(file.getDirectory()+file.getFile());
+				
+				File destino = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				
+			    try {
+			    	InputStream in = new FileInputStream(foto);
+					OutputStream out = new FileOutputStream(destino);
+					
+				    byte[] buf = new byte[1024];
+				    int len;
+
+				    while ((len = in.read(buf)) > 0) {
+				    	out.write(buf, 0, len);
+				    }
+				    
+				    in.close();
+				    out.close();
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			}else{
+				JOptionPane.showMessageDialog(null,"No ha seleccionado ninguna imagen","Aviso",JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 						
 		}
 		
@@ -520,6 +561,7 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	ActionListener guardar = new ActionListener(){
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -984,6 +1026,7 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
+	@SuppressWarnings("deprecation")
 	private String validaCampos(){
 		String error="";
 		String fechaNull = txtCalendario.getDate()+"";
