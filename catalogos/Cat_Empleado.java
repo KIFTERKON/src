@@ -370,11 +370,12 @@ public class Cat_Empleado extends JFrame{
 			
 			if(file.getDirectory() != null){
 
-				File foto = new File(file.getDirectory()+file.getFile());
-				
-				File destino = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-				
-			    try {
+				try {
+					String rootPicture = file.getDirectory()+file.getFile();
+					
+					File foto = new File(rootPicture);
+					File destino = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+			    	
 			    	InputStream in = new FileInputStream(foto);
 					OutputStream out = new FileOutputStream(destino);
 					
@@ -387,6 +388,26 @@ public class Cat_Empleado extends JFrame{
 				    
 				    in.close();
 				    out.close();
+					
+					File foto1 = new File(rootPicture);
+					File destino1 = new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg");
+			    	
+			    	InputStream in1 = new FileInputStream(foto1);
+					OutputStream out1 = new FileOutputStream(destino1);
+					
+				    byte[] buf1 = new byte[1024];
+				    int len1;
+
+				    while ((len1 = in1.read(buf1)) > 0) {
+				    	out1.write(buf1, 0, len1);
+				    }
+				    
+				    in1.close();
+				    out1.close();
+				    
+							    
+				    ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 					
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -647,9 +668,9 @@ public class Cat_Empleado extends JFrame{
 								panelEnabledFalse();
 								txtFolio.setEditable(true);
 								txtFolio.requestFocus();
-								JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							}else{
-								JOptionPane.showMessageDialog(null,"Error al intentar actualizar los datos","Aviso",JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null,"Error al intentar actualizar los datos","Aviso",JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}else{
@@ -731,7 +752,7 @@ public class Cat_Empleado extends JFrame{
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
-							JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						}else{
 							JOptionPane.showMessageDialog(null, "Ocurrió un problema al almacenar el empleado", "Error", JOptionPane.ERROR_MESSAGE);
 						}
