@@ -355,8 +355,14 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opPresionFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
-			btnExaminar.setEnabled(true);
-			btnCamara.setEnabled(true);
+			if(btnTrueFoto.isSelected()){
+				btnExaminar.setEnabled(true);
+				btnCamara.setEnabled(true);
+			}else{
+				btnExaminar.setEnabled(false);
+				btnCamara.setEnabled(false);
+			}
+	
 		}
 	};
 	
