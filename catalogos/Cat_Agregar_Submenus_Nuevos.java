@@ -15,8 +15,7 @@ import javax.swing.JTextField;
 import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Mantenimiento_Base_de_Datos;
 
-import SQL.Cargar_Combo;
-
+@SuppressWarnings("serial")
 public class Cat_Agregar_Submenus_Nuevos extends JFrame  {
 
 	Container cont=getContentPane();
@@ -24,7 +23,8 @@ public class Cat_Agregar_Submenus_Nuevos extends JFrame  {
 	JTextField txtsubmenu =new JTextField () ; 
 	JTextField txtcatsubmenu =new JTextField () ; 
 	String lista [] = new Obj_Agregar_Submenus_Nuevos().Combo_Menus(); 
-    JComboBox  cmbmenuid =new JComboBox	(lista);
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox  cmbmenuid =new JComboBox	(lista);
     JButton btn_guardar =new JButton("Guardar");
 	
     public Cat_Agregar_Submenus_Nuevos () {

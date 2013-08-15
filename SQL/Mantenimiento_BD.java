@@ -1,11 +1,8 @@
 package SQL;
 
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import objetos.Obj_Empleado;
 
 public class Mantenimiento_BD {
 	//se declara la funcion que sera carga en el objeto
