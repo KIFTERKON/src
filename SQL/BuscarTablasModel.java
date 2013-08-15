@@ -326,4 +326,52 @@ public class BuscarTablasModel {
 		}		
 		return true;
 	}
+	
+	public Object[][] tabla_model_filtro_gafetes(){
+		String query_lista = "exec sp_select_empleados_gafete";
+		Object[][] matriz = new Object[get_filas(query_lista)][5];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getInt(1)+" ";
+				matriz[i][1] = "   "+rs.getString(2);
+				matriz[i][2] = "   "+rs.getString(3);
+				matriz[i][3] = "   "+rs.getString(4);
+				matriz[i][4] = "   "+rs.getString(5);
+				
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	public Object[][] tabla_model_filtro_imprimir_cuadrantes(){
+		String query_lista = "exec sp_select_empleados_gafete";
+		Object[][] matriz = new Object[get_filas(query_lista)][5];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getInt(1)+" ";
+				matriz[i][1] = "   "+rs.getString(2);
+				matriz[i][2] = "   "+rs.getString(3);
+				matriz[i][3] = "   "+rs.getString(4);
+				matriz[i][4] = "   "+rs.getString(5);
+				
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
 }

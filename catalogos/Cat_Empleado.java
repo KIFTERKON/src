@@ -75,6 +75,7 @@ import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
+import reporte.Reporte_de_Empleados_No_Contratables;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Empleado extends JFrame{
@@ -319,7 +320,9 @@ public class Cat_Empleado extends JFrame{
 		btnCamara.addActionListener(opFoto);
 		btnVerificar.addActionListener(opVerificar);
 		btnTrueFoto.addActionListener(opPresionFoto);
+		btnIncontratables.addActionListener(Reporte_de_Empleados_No_Contratables);
 		btnExaminar.addActionListener(opExaminar);
+
 		
 		txtTarjetaNomina.addKeyListener(txtlogns);
 		btnExaminar.setEnabled(false);
@@ -950,6 +953,12 @@ public class Cat_Empleado extends JFrame{
 		}
 	};
 	
+	ActionListener Reporte_de_Empleados_No_Contratables = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+				new Reporte_de_Empleados_No_Contratables();
+			
+		}
+	};
 	ActionListener salir = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
