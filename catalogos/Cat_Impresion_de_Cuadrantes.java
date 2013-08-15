@@ -33,11 +33,12 @@ import objetos.Obj_Imprimir_Cuadrante;
 			
 			
 			DefaultTableModel modeloFiltro = new DefaultTableModel(new Obj_Imprimir_Cuadrante().Obj_Obtener_Cuadrantes(),
-		            new String[]{"Folio", "Nombre","Establecimiento","Puesto",""}
+		            new String[]{"Folio", "Nombre","Establecimiento","Puesto","Cuadrante",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
+			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.String.class,
@@ -53,7 +54,8 @@ import objetos.Obj_Imprimir_Cuadrante;
 		        	 	case 1 : return false; 
 		        	 	case 2 : return false;
 		        	 	case 3 : return false;
-		        	 	case 4 : return true;
+		        	 	case 4 : return false;
+		        	 	case 5 : return true;
 		        	 } 				
 		 			return false;
 		 		}
@@ -69,35 +71,37 @@ import objetos.Obj_Imprimir_Cuadrante;
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnGenerar = new JButton("Genenerar");
+			JButton btnGenerar = new JButton("Generar Reporte de Seleccion");
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
 			public Cat_Impresion_de_Cuadrantes()	{
-				setTitle("Filtro de Actividades");
-				campo.setBorder(BorderFactory.createTitledBorder("Filtro De Actividades"));
+				setTitle("Impresion de Cuadrantes");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion de Cuadrante Para Impresion"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
 				
 				
-				campo.add(scroll).setBounds(15,43,880,760);
+				campo.add(scroll).setBounds(15,43,1000,760);
 				
-				campo.add(txtFolio).setBounds(15,20,48,20);
-				campo.add(txtNombre_Completo).setBounds(64,20,340,20);
-				campo.add(btnGenerar).setBounds(485,20,100,20);
+				campo.add(txtFolio).setBounds(15,20,38,20);
+				campo.add(txtNombre_Completo).setBounds(54,20,300,20);
+				campo.add(btnGenerar).setBounds(585,20,250,20);
 				
 				cont.add(campo);
 				
-				tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(50);
-				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(50);
-				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(340);
-				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(340);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(200);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(200);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(220);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(220);
-				tablaFiltro.getColumnModel().getColumn(4).setMaxWidth(50);
-				tablaFiltro.getColumnModel().getColumn(4).setMinWidth(50);
+				tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(300);
+				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(300);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(180);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(180);
+				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(180);
+				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(180);
+				tablaFiltro.getColumnModel().getColumn(4).setMaxWidth(240);
+				tablaFiltro.getColumnModel().getColumn(4).setMinWidth(240);
+				tablaFiltro.getColumnModel().getColumn(5).setMaxWidth(50);
+				tablaFiltro.getColumnModel().getColumn(5).setMinWidth(50);
 				
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -170,8 +174,24 @@ import objetos.Obj_Imprimir_Cuadrante;
 									}
 									((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
+								case 4:
+									componente = new JLabel(value == null? "": value.toString());
+									if(row %2 == 0){
+										((JComponent) componente).setOpaque(true); 
+										componente.setBackground(new java.awt.Color(177,177,177));	
+									}
+									if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+										((JComponent) componente).setOpaque(true); 
+										componente.setBackground(new java.awt.Color(186,143,73));
+									}
+									if(table.getSelectedRow() == row){
+										((JComponent) componente).setOpaque(true); 
+										componente.setBackground(new java.awt.Color(186,143,73));
+									}
+									((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+								break;
 																						
-							case 4: 
+							case 5: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
@@ -199,12 +219,13 @@ import objetos.Obj_Imprimir_Cuadrante;
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(4).setCellRenderer(render);
+				tablaFiltro.getColumnModel().getColumn(5).setCellRenderer(render);
 //				txtFolio.addKeyListener(opFiltroFolio);
 //				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnGenerar.addActionListener(opAgregar);
 				
-				setSize(920,850);
+				setSize(1024,850);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
