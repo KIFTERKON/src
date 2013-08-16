@@ -292,7 +292,7 @@ public class Cat_Bancos extends Cat_Root {
 			} 
 		}; 
 
-		for(int x = 0; x<tabla.getRowCount(); x++){
+		for(int x = 0; x<tabla.getColumnCount(); x++){
 			this.tabla.getColumnModel().getColumn(x).setCellRenderer(render); 
 		}
 		

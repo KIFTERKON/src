@@ -2695,7 +2695,7 @@ public class BuscarSQL {
 	public String[][] tabla_alimentacion_cuadrante_multiple(String nomgbre, String dia){
 		String[][] Matriz = null;
 		
-		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"', '"+dia+"';";
+		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"';";
 				
 		Matriz = new String[getFilas(datosif)][4];
 		Statement s;
@@ -2709,7 +2709,6 @@ public class BuscarSQL {
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
-				Matriz[i][3] = rs.getString(4);
 				
 				i++;
 			}
@@ -2718,6 +2717,35 @@ public class BuscarSQL {
 		}
 		return Matriz;
 	}
+	
+	public String[][] tabla_alimentacion_cuadrante_primera_parte(String nombre){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_pre_captura_cuadrante '"+nombre+"';";
+		
+		Matriz = new String[getFilas(datosif)][5];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				Matriz[i][3] = rs.getString(4);
+				Matriz[i][4] = rs.getString(5);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz;
+	}
+	
+
 	
 	public Obj_OpRespuesta buscar_opcion_respuesta(int folio) throws SQLException{
 		Obj_OpRespuesta respuesta = new Obj_OpRespuesta();
@@ -2842,6 +2870,24 @@ public class BuscarSQL {
 			}}
 		}
 		return horas;
+	}
+	
+	public boolean Existe_Cuadrante_Muliple(String nombre){
+		String query = "exec sp_existe_respuesta_cuadrante '" + nombre + "';";
+		boolean disponible = false;
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				disponible = rs.getBoolean(1);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return disponible;
 	}
 	
 }

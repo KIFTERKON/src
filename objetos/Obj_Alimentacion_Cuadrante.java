@@ -124,6 +124,10 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre, dia);
 	}
 	
+	public String[][] buscarTablaPrimeraParte(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_primera_parte(nombre);
+	}
+	
 	public String[] ComboBox(int actividad){
 		try {
 			return new Cargar_Combo().ComboALimentacionMultiple(actividad);
@@ -131,6 +135,10 @@ public class Obj_Alimentacion_Cuadrante {
 			e.printStackTrace();
 		}
 	return null; 
+	}
+	
+	public boolean Existe(String nombre){
+		return new BuscarSQL().Existe_Cuadrante_Muliple(nombre);		
 	}
 	
 	public boolean guardar(Object[][] multiple){
