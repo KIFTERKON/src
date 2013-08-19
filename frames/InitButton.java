@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import CatalogoChecador.Cat_Checador;
 
 import objetos.Obj_Usuario;
 import catalogos.Cat_Bancos;
@@ -101,6 +105,8 @@ public class InitButton extends InitMenuBar{
 	JButton btnAceptar = new JButton("Entrar");
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	
+	JLabel lblLogo = new JLabel(new ImageIcon("imagen/LogPrincipal.png"));
+	
 	public InitButton(){
 		int ancho = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int alto = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -182,7 +188,7 @@ public class InitButton extends InitMenuBar{
 	
 	public void Resolucion(int ancho, int alto){
 		if(ancho >= 1360){
-			campo.add(new JLabel(new ImageIcon("imagen/LogPrincipal.png"))).setBounds(980,0,400,218);
+			campo.add(lblLogo).setBounds(980,0,400,218);
 			int x = 30, y = 40, z = 65;
 			int yl = 60, zl = 120;
 					
@@ -705,6 +711,13 @@ public class InitButton extends InitMenuBar{
 			this.setSize(ancho,alto);
 			
 		}
+		lblLogo.addMouseListener ( new  MouseAdapter ()  
+		{  
+			public void mouseReleased (MouseEvent e)  
+			{  
+	    		new Cat_Checador().setVisible(true);
+	    	}  
+		});
 	}
 	
 	KeyListener enterIn = new KeyListener() {

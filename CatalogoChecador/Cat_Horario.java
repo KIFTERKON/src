@@ -1,262 +1,36 @@
 package CatalogoChecador;
 
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
 
+import ObjetoChecador.ObjHorario;
+
+/**
+ ** @author Toche
+ ** @proyecto Scoi
+ **
+ **/
 @SuppressWarnings("serial")
-public class Cat_Horario extends JFrame
+public class Cat_Horario extends Cat_Horario_base
 {
-	Container cont = getContentPane();
-	JLayeredPane panel = new JLayeredPane();
-	
-	Cat_Horario2 hora = new Cat_Horario2();
-	
-	
-	JLayeredPane horario1 = new JLayeredPane();
-	JTabbedPane paneles = new JTabbedPane();
-	
-	JToggleButton btnDomingo = new JToggleButton("Domingo");
-	JToggleButton btnLunes = new JToggleButton("Lunes");
-	JToggleButton btnMartes = new JToggleButton("Martes");
-	JToggleButton btnMiercoles = new JToggleButton("Miércoles");
-	JToggleButton btnJueves = new JToggleButton("Jueves");
-	JToggleButton btnViernes = new JToggleButton("Viernes");
-	JToggleButton btnSabado = new JToggleButton("Sábado");
-	
-	JToggleButton btnTurno = new JToggleButton(new ImageIcon("Imagen/2do.png"));
-	
-	JButton btnIgual = new JButton(new ImageIcon("Imagen/igual.png"));
-	JButton btnAceptar = new JButton("Aceptar");
-	JButton btnCancelar = new JButton("Cancelar");
-	
-	JTextField txtNombre = new JTextField();
-	
-	Date date = new Date();
-	
-      //Domingo//
-	  SpinnerDateModel sm1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spDomingo1 = new JSpinner(sm1);
-	  JSpinner.DateEditor de1 = new JSpinner.DateEditor(spDomingo1,"H:mm");
-	  
-	  SpinnerDateModel sm2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spDomingo2 = new JSpinner(sm2);
-	  JSpinner.DateEditor de2 = new JSpinner.DateEditor(spDomingo2, "EEE H:mm");
-	  
-	  SpinnerDateModel sm3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spDomingo3 = new JSpinner(sm3);
-	  JSpinner.DateEditor de3 = new JSpinner.DateEditor(spDomingo3, "H:mm");
-	  
-	  SpinnerDateModel sm4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spDomingo4 = new JSpinner(sm4);
-	  JSpinner.DateEditor de4 = new JSpinner.DateEditor(spDomingo4, "H:mm");
-	  
-	  SpinnerDateModel sm5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spDomingo5 = new JSpinner(sm5);
-	  JSpinner.DateEditor de5 = new JSpinner.DateEditor(spDomingo5, "H:mm");
-	  
-
-	  SpinnerDateModel sm6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spDomingo6 = new JSpinner(sm6);
-	  JSpinner.DateEditor de6 = new JSpinner.DateEditor(spDomingo6, "H:mm");
-	 
-	  
-	  //Lunes//
-	  SpinnerDateModel sml1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spLunes1 = new JSpinner(sml1);
-	  JSpinner.DateEditor del1 = new JSpinner.DateEditor(spLunes1, "H:mm");
-	  
-	  SpinnerDateModel sml2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spLunes2 = new JSpinner(sml2);
-	  JSpinner.DateEditor del2 = new JSpinner.DateEditor(spLunes2, "EEE H:mm");
-	  
-	  SpinnerDateModel sml3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spLunes3 = new JSpinner(sml3);
-	  JSpinner.DateEditor del3 = new JSpinner.DateEditor(spLunes3, "H:mm");
-
-	  SpinnerDateModel sml4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spLunes4 = new JSpinner(sml4);
-	  JSpinner.DateEditor del4 = new JSpinner.DateEditor(spLunes4, "H:mm");
-	  
-	  SpinnerDateModel sml5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spLunes5 = new JSpinner(sml5);
-	  JSpinner.DateEditor del5 = new JSpinner.DateEditor(spLunes5, "H:mm");
-	  
-	  SpinnerDateModel sml6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spLunes6 = new JSpinner(sml6);
-	  JSpinner.DateEditor del6 = new JSpinner.DateEditor(spLunes6, "H:mm");
-	  
-	  
-	  //Martes//
-	  SpinnerDateModel smm1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMartes1 = new JSpinner(smm1);
-	  JSpinner.DateEditor dem1 = new JSpinner.DateEditor(spMartes1, "H:mm");
-	  
-	  SpinnerDateModel smm2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMartes2 = new JSpinner(smm2);
-	  JSpinner.DateEditor dem2 = new JSpinner.DateEditor(spMartes2, "EEE H:mm");
-	  
-	  SpinnerDateModel smm3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMartes3 = new JSpinner(smm3);
-	  JSpinner.DateEditor dem3 = new JSpinner.DateEditor(spMartes3, "H:mm");
-	  
-	  SpinnerDateModel smm4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMartes4 = new JSpinner(smm4);
-	  JSpinner.DateEditor dem4 = new JSpinner.DateEditor(spMartes4, "H:mm");
-	  
-	  SpinnerDateModel smm5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMartes5 = new JSpinner(smm5);
-	  JSpinner.DateEditor dem5 = new JSpinner.DateEditor(spMartes5, "H:mm");
-	  
-	  SpinnerDateModel smm6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMartes6 = new JSpinner(smm6);
-	  JSpinner.DateEditor dem6 = new JSpinner.DateEditor(spMartes6, "H:mm");
-	
-	  	
-	  //Miercoles//
-	  SpinnerDateModel smmi1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMiercoles1 = new JSpinner(smmi1);
-	  JSpinner.DateEditor demmi1 = new JSpinner.DateEditor(spMiercoles1, "H:mm");
-	  
-	  SpinnerDateModel smmi2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMiercoles2 = new JSpinner(smmi2);
-	  JSpinner.DateEditor demmi2 = new JSpinner.DateEditor(spMiercoles2, "EEE H:mm");
-	  
-	  SpinnerDateModel smmi3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMiercoles3 = new JSpinner(smmi3);
-	  JSpinner.DateEditor demmi3 = new JSpinner.DateEditor(spMiercoles3, "H:mm");
-	  
-	  SpinnerDateModel smmi4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMiercoles4 = new JSpinner(smmi4);
-	  JSpinner.DateEditor demmi4 = new JSpinner.DateEditor(spMiercoles4, "H:mm");
-	  
-	  SpinnerDateModel smmi5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMiercoles5 = new JSpinner(smmi5);
-	  JSpinner.DateEditor demmi5 = new JSpinner.DateEditor(spMiercoles5, "H:mm");
-	  
-	  SpinnerDateModel smmi6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spMiercoles6 = new JSpinner(smmi6);
-	  JSpinner.DateEditor demmi6 = new JSpinner.DateEditor(spMiercoles6, "H:mm");
-	  
-	  
-	  //Jueves//
-	  SpinnerDateModel smj1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spJueves1 = new JSpinner(smj1);
-	  JSpinner.DateEditor dej1 = new JSpinner.DateEditor(spJueves1, "H:mm");
-	  
-	  SpinnerDateModel smj2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spJueves2 = new JSpinner(smj2);
-	  JSpinner.DateEditor dej2 = new JSpinner.DateEditor(spJueves2, "EEE H:mm");
-	  
-	  SpinnerDateModel smj3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spJueves3 = new JSpinner(smj3);
-	  JSpinner.DateEditor dej3 = new JSpinner.DateEditor(spJueves3, "H:mm");
-	  
-	  SpinnerDateModel smj4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spJueves4 = new JSpinner(smj4);
-	  JSpinner.DateEditor dej4 = new JSpinner.DateEditor(spJueves4, "H:mm");
-	  
-	  SpinnerDateModel smj5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spJueves5 = new JSpinner(smj5);
-	  JSpinner.DateEditor dej5 = new JSpinner.DateEditor(spJueves5, "H:mm");
-	  
-	  SpinnerDateModel smj6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spJueves6 = new JSpinner(smj6);
-	  JSpinner.DateEditor dej6 = new JSpinner.DateEditor(spJueves6, "H:mm");
-	  
-	  
-	  //Viernes//
-	  SpinnerDateModel smv1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spViernes1 = new JSpinner(smv1);
-	  JSpinner.DateEditor dev1 = new JSpinner.DateEditor(spViernes1, "H:mm");
-	  
-	  SpinnerDateModel smv2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spViernes2 = new JSpinner(smv2);
-	  JSpinner.DateEditor dev2 = new JSpinner.DateEditor(spViernes2, "EEE H:mm");
-	  
-	  SpinnerDateModel smv3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spViernes3 = new JSpinner(smv3);
-	  JSpinner.DateEditor dev3 = new JSpinner.DateEditor(spViernes3, "H:mm");
-	  
-	  SpinnerDateModel smv4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spViernes4 = new JSpinner(smv4);
-	  JSpinner.DateEditor dev4 = new JSpinner.DateEditor(spViernes4, "H:mm");
-	  
-	  SpinnerDateModel smv5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spViernes5 = new JSpinner(smv5);
-	  JSpinner.DateEditor dev5 = new JSpinner.DateEditor(spViernes5, "H:mm");
-	  
-	  SpinnerDateModel smv6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spViernes6 = new JSpinner(smv6);
-	  JSpinner.DateEditor dev6 = new JSpinner.DateEditor(spViernes6, "H:mm");
-	  
-	  //Sabado//
-	  SpinnerDateModel sms1 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spSabado1 = new JSpinner(sms1);
-	  JSpinner.DateEditor des1 = new JSpinner.DateEditor(spSabado1, "H:mm");
-	  
-	  SpinnerDateModel sms2 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spSabado2 = new JSpinner(sms2);
-	  JSpinner.DateEditor des2 = new JSpinner.DateEditor(spSabado2, "EEE H:mm");
-	  
-	  SpinnerDateModel sms3 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spSabado3 = new JSpinner(sms3);
-	  JSpinner.DateEditor des3 = new JSpinner.DateEditor(spSabado3, "H:mm");
-	  
-	  SpinnerDateModel sms4 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spSabado4 = new JSpinner(sms4);
-	  JSpinner.DateEditor des4 = new JSpinner.DateEditor(spSabado4, "H:mm");
-	  
-	  SpinnerDateModel sms5 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spSabado5 = new JSpinner(sms5);
-	  JSpinner.DateEditor des5 = new JSpinner.DateEditor(spSabado5, "H:mm");
-	  
-	  SpinnerDateModel sms6 =  new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
-	  JSpinner spSabado6 = new JSpinner(sms6);
-	  JSpinner.DateEditor des6 = new JSpinner.DateEditor(spSabado6, "H:mm");
-	
-	JCheckBox chLunes = new JCheckBox();
-	JCheckBox chMartes = new JCheckBox();
-	JCheckBox chMiercoles = new JCheckBox();
-	JCheckBox chJueves = new JCheckBox();
-	JCheckBox chViernes = new JCheckBox();
-	JCheckBox chSabado = new JCheckBox();
-	JCheckBox chDomingo = new JCheckBox();
-	
-	JLabel lblDia = new JLabel("Día");
-	JLabel lblLimi = new JLabel("Límites del día");
-	JLabel lblInicio = new JLabel("Inicio");
-	JLabel lblFin = new JLabel("Fin");
-	
-	JLabel lblTrabajo = new JLabel("Trabajo");
-	JLabel lblEntrada = new JLabel("Entrada");
-	JLabel lblSalida = new JLabel("Salida");
-	
-	JLabel lblComida = new JLabel("Comida");
-	JLabel lblSalidaC = new JLabel("Salida");
-	JLabel lblRegreso = new JLabel("Regreso");
-	
-	public Cat_Horario()
-	{
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/reloj.png"));
+//	Cat_Horario2 hora = new Cat_Horario2();                                            
+	public void getContenedor(){
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/reloj.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Horario"));	
 		this.setTitle("Horario");
 		
@@ -264,61 +38,13 @@ public class Cat_Horario extends JFrame
 		lblFin.setFont(new Font("arial", Font.BOLD, 10));
 		lblEntrada.setFont(new Font("arial", Font.BOLD, 10));
 		lblSalida.setFont(new Font("arial", Font.BOLD, 10));
-		lblSalidaC.setFont(new Font("arial", Font.BOLD, 10));
-		lblRegreso.setFont(new Font("arial", Font.BOLD, 10));
+		lblReceso.setFont(new Font("arial", Font.BOLD, 10));
 		
 		lblLimi.setFont(new Font("Arial Black",Font.BOLD,10));
 		lblTrabajo.setFont(new Font("Arial Black",Font.BOLD,10));
 		lblComida.setFont(new Font("Arial Black",Font.BOLD,10));
 		
-		spDomingo1.setEditor(de1);
-		spDomingo2.setEditor(de2);
-		spDomingo3.setEditor(de3);
-		spDomingo4.setEditor(de4);
-		spDomingo5.setEditor(de5);
-		spDomingo6.setEditor(de6);
-		
-		spLunes1.setEditor(del1);
-		spLunes2.setEditor(del2);
-		spLunes3.setEditor(del3);
-		spLunes4.setEditor(del4);
-		spLunes5.setEditor(del5);
-		spLunes6.setEditor(del6);
-		
-		spMartes1.setEditor(dem1);
-		spMartes2.setEditor(dem2);
-		spMartes3.setEditor(dem3);
-		spMartes4.setEditor(dem4);
-		spMartes5.setEditor(dem5);
-		spMartes6.setEditor(dem6);
-		
-		spMiercoles1.setEditor(demmi1);
-		spMiercoles2.setEditor(demmi2);
-		spMiercoles3.setEditor(demmi3);
-		spMiercoles4.setEditor(demmi4);
-		spMiercoles5.setEditor(demmi5);
-		spMiercoles6.setEditor(demmi6);
-
-		spJueves1.setEditor(dej1);
-		spJueves2.setEditor(dej2);
-		spJueves3.setEditor(dej3);
-		spJueves4.setEditor(dej4);
-		spJueves5.setEditor(dej5);
-		spJueves6.setEditor(dej6);
-
-		spViernes1.setEditor(dev1);
-		spViernes2.setEditor(dev2);
-		spViernes3.setEditor(dev3);
-		spViernes4.setEditor(dev4);
-		spViernes5.setEditor(dev5);
-		spViernes6.setEditor(dev6);
-
-		spSabado1.setEditor(des1);
-		spSabado2.setEditor(des2);
-		spSabado3.setEditor(des3);
-		spSabado4.setEditor(des4);
-		spSabado5.setEditor(des5);
-		spSabado6.setEditor(des6);
+		int x=40;
 		
 		horario1.add(lblDia).setBounds			(20,90,50,20);
 		horario1.add(btnDomingo).setBounds		(20,120,90,20);
@@ -330,84 +56,74 @@ public class Cat_Horario extends JFrame
 		horario1.add(btnSabado).setBounds		(20,300,90,20);
 		
 		this.horario1.add(lblLimi).setBounds(130,60,100,20);
-		this.horario1.add(lblTrabajo).setBounds(310,60,60,20);
-		this.horario1.add(lblComida).setBounds(490,60,90,20);
+		this.horario1.add(lblTrabajo).setBounds(310+x,60,60,20);
+		this.horario1.add(lblComida).setBounds(490+x,60,90,20);
 		
 		this.horario1.add(lblInicio).setBounds(130,90,50,20);
 		this.horario1.add(lblFin).setBounds(210,90,50,20);
 		
-		this.horario1.add(lblEntrada).setBounds(310,90,60,20);
-		this.horario1.add(lblSalida).setBounds(390,90,60,20);
+		this.horario1.add(lblEntrada).setBounds(310+x,90,60,20);
+		this.horario1.add(lblSalida).setBounds(390+x,90,60,20);
 		
-		this.horario1.add(lblSalidaC).setBounds(505,90,50,20);
-		this.horario1.add(lblRegreso).setBounds(585,90,60,20);
+		this.horario1.add(lblReceso).setBounds(505+x,90,50,20);
 
 		horario1.add(spDomingo1).setBounds(130,120,70,20);
 		horario1.add(spDomingo2).setBounds(210,120,70,20);
-		horario1.add(spDomingo3).setBounds(310,120,70,20);
-		horario1.add(spDomingo4).setBounds(390,120,70,20);
-		horario1.add(spDomingo5).setBounds(505,120,70,20);
-		horario1.add(spDomingo6).setBounds(585,120,70,20);
+		horario1.add(spDomingo3).setBounds(310+x,120,70,20);
+		horario1.add(spDomingo4).setBounds(390+x,120,70,20);
+		horario1.add(spDomingo5).setBounds(490+x,120,70,20);
 		
-		horario1.add(chDomingo).setBounds	(480, 120, 18, 18);
-		horario1.add(chLunes).setBounds		(480, 150, 18, 18);
-		horario1.add(chMartes).setBounds	(480, 180, 18, 18);
-		horario1.add(chMiercoles).setBounds	(480, 210, 18, 18);
-		horario1.add(chJueves).setBounds	(480, 240, 18, 18);
-		horario1.add(chViernes).setBounds	(480, 270, 18, 18);
-		horario1.add(chSabado).setBounds	(480, 300, 18, 18);
-
 		horario1.add(spLunes1).setBounds(130,150,70,20);
 		horario1.add(spLunes2).setBounds(210,150,70,20);
-		horario1.add(spLunes3).setBounds(310,150,70,20);
-		horario1.add(spLunes4).setBounds(390,150,70,20);
-		horario1.add(spLunes5).setBounds(505,150,70,20);
-		horario1.add(spLunes6).setBounds(585,150,70,20);
+		horario1.add(spLunes3).setBounds(310+x,150,70,20);
+		horario1.add(spLunes4).setBounds(390+x,150,70,20);
+		horario1.add(spLunes5).setBounds(490+x,150,70,20);
 
 		horario1.add(spMartes1).setBounds(130,180,70,20);
 		horario1.add(spMartes2).setBounds(210,180,70,20);
-		horario1.add(spMartes3).setBounds(310,180,70,20);
-		horario1.add(spMartes4).setBounds(390,180,70,20);
-		horario1.add(spMartes5).setBounds(505,180,70,20);
-		horario1.add(spMartes6).setBounds(585,180,70,20);
+		horario1.add(spMartes3).setBounds(310+x,180,70,20);
+		horario1.add(spMartes4).setBounds(390+x,180,70,20);
+		horario1.add(spMartes5).setBounds(490+x,180,70,20);
 		
 		horario1.add(spMiercoles1).setBounds(130,210,70,20);
 		horario1.add(spMiercoles2).setBounds(210,210,70,20);
-		horario1.add(spMiercoles3).setBounds(310,210,70,20);
-		horario1.add(spMiercoles4).setBounds(390,210,70,20);
-		horario1.add(spMiercoles5).setBounds(505,210,70,20);
-		horario1.add(spMiercoles6).setBounds(585,210,70,20);
+		horario1.add(spMiercoles3).setBounds(310+x,210,70,20);
+		horario1.add(spMiercoles4).setBounds(390+x,210,70,20);
+		horario1.add(spMiercoles5).setBounds(490+x,210,70,20);
 
 		horario1.add(spJueves1).setBounds(130,240,70,20);
 		horario1.add(spJueves2).setBounds(210,240,70,20);
-		horario1.add(spJueves3).setBounds(310,240,70,20);
-		horario1.add(spJueves4).setBounds(390,240,70,20);
-		horario1.add(spJueves5).setBounds(505,240,70,20);
-		horario1.add(spJueves6).setBounds(585,240,70,20);
+		horario1.add(spJueves3).setBounds(310+x,240,70,20);
+		horario1.add(spJueves4).setBounds(390+x,240,70,20);
+		horario1.add(spJueves5).setBounds(490+x,240,70,20);
 		
 		horario1.add(spViernes1).setBounds(130,270,70,20);
 		horario1.add(spViernes2).setBounds(210,270,70,20);
-		horario1.add(spViernes3).setBounds(310,270,70,20);
-		horario1.add(spViernes4).setBounds(390,270,70,20);
-		horario1.add(spViernes5).setBounds(505,270,70,20);
-		horario1.add(spViernes6).setBounds(585,270,70,20);
+		horario1.add(spViernes3).setBounds(310+x,270,70,20);
+		horario1.add(spViernes4).setBounds(390+x,270,70,20);
+		horario1.add(spViernes5).setBounds(490+x,270,70,20);
 
 		horario1.add(spSabado1).setBounds(130,300,70,20);
 		horario1.add(spSabado2).setBounds(210,300,70,20);
-		horario1.add(spSabado3).setBounds(310,300,70,20);
-		horario1.add(spSabado4).setBounds(390,300,70,20);
-		horario1.add(spSabado5).setBounds(505,300,70,20);
-		horario1.add(spSabado6).setBounds(585,300,70,20);
+		horario1.add(spSabado3).setBounds(310+x,300,70,20);
+		horario1.add(spSabado4).setBounds(390+x,300,70,20);
+		horario1.add(spSabado5).setBounds(490+x,300,70,20);
 
+		horario1.add(btnNuevo).setBounds(150,5,70,20);
+		horario1.add(btnFiltro).setBounds(220,5,70,20);
 		horario1.add(btnIgual).setBounds(620,60,20,20);
 		
-		horario1.add(new JLabel("Nombre:")).setBounds(20,20,50,20);
-		horario1.add(txtNombre).setBounds(70,20,580,20);
+		horario1.add(lblFolio).setBounds(20,5,50,20);
+		horario1.add(txtFolio).setBounds(70,5,70,20);
 		
-		horario1.add(btnAceptar).setBounds(490,350,80,20);
-		horario1.add(btnCancelar).setBounds(580,350,80,20);
+		horario1.add(new JLabel("Nombre:")).setBounds(20,35,50,20);
+		horario1.add(txtNombre).setBounds(70,35,580,20);
 		
-		panel.add(btnTurno).setBounds(660,	20,	20,	20);
+		horario1.add(btnAceptar).setBounds(350,340,80,20);
+		horario1.add(btnDeshacer).setBounds(435,340,80,20);
+		horario1.add(btnCancelar).setBounds(520,340,80,20);
+		
+//		panel.add(btnTurno).setBounds(660,20,20,20);
 		
 		this.panel.add(paneles).setBounds(10,20,675,400);
 		this.paneles.addTab("Horario 1", horario1);
@@ -421,21 +137,247 @@ public class Cat_Horario extends JFrame
 		btnSabado.addActionListener(Sabado);
 		btnIgual.addActionListener(igualar);
 		
+		btnNuevo.addActionListener(nuevo);
+		
 		btnCancelar.addActionListener(cancelar);
 		btnAceptar.addActionListener(Guardar);
-		btnTurno.addActionListener(turno);
+//		btnTurno.addActionListener(turno);
 		btnTurno.setToolTipText("Agregar Segundo Horario");
-		btnAceptar.setToolTipText("Aceptar");
+		btnAceptar.setToolTipText("Guardar");
+		btnDeshacer.setToolTipText("Deshacer");
+		btnDeshacer.addActionListener(deshacer);
 		btnCancelar.setToolTipText("Cancelar");
 		btnIgual.setToolTipText("Igualar todos los dias");
+		txtNombre.addKeyListener(valida);
+		
+		txtFolio.setEditable(false);
+		
+//		asigna el foco al JTextField deseado al arrancar la ventana
+		this.addWindowListener(new WindowAdapter() {
+			public void windowOpened( WindowEvent e ){
+		        txtNombre.requestFocus();
+		     }
+		});
+		
+		btnFiltro.addActionListener(filtro);
+		
+		spDomingo1.setEditor(de1);
+		spDomingo2.setEditor(de2);
+		spDomingo3.setEditor(de3);
+		spDomingo4.setEditor(de4);
+		spDomingo5.setEditor(de5);
+
+		spLunes1.setEditor(del1);
+		spLunes2.setEditor(del2);
+		spLunes3.setEditor(del3);
+		spLunes4.setEditor(del4);
+		spLunes5.setEditor(del5);
+		
+		spMartes1.setEditor(dem1);
+		spMartes2.setEditor(dem2);
+		spMartes3.setEditor(dem3);
+		spMartes4.setEditor(dem4);
+		spMartes5.setEditor(dem5);
+		
+		spMiercoles1.setEditor(demmi1);
+		spMiercoles2.setEditor(demmi2);
+		spMiercoles3.setEditor(demmi3);
+		spMiercoles4.setEditor(demmi4);
+		spMiercoles5.setEditor(demmi5);
+
+		spJueves1.setEditor(dej1);
+		spJueves2.setEditor(dej2);
+		spJueves3.setEditor(dej3);
+		spJueves4.setEditor(dej4);
+		spJueves5.setEditor(dej5);
+
+		spViernes1.setEditor(dev1);
+		spViernes2.setEditor(dev2);
+		spViernes3.setEditor(dev3);
+		spViernes4.setEditor(dev4);
+		spViernes5.setEditor(dev5);
+
+		spSabado1.setEditor(des1);
+		spSabado2.setEditor(des2);
+		spSabado3.setEditor(des3);
+		spSabado4.setEditor(des4);
+		spSabado5.setEditor(des5);
 		
 		cont.add(panel);
 		this.setSize(700,460);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+	}		
+	
+	@SuppressWarnings("deprecation")
+	public Cat_Horario(int folio)//String nom
+	{
+		getContenedor();
+		ObjHorario buscar_horario = new ObjHorario().buscar(folio);
+		
+		
+		if(buscar_horario.getFolio() != 0){
+			
+			System.out.println(buscar_horario.getFolio());
+			System.out.println(buscar_horario.getNombre());
+			
+			System.out.println(buscar_horario.getDiaD()+"    "+buscar_horario.getDomingo1()+" "+buscar_horario.getDomingo2()+" "+buscar_horario.getDomingo3()+" "+buscar_horario.getDomingo4()+" "+buscar_horario.getDomingo5());
+			System.out.println(buscar_horario.getDiaL()+"      "+buscar_horario.getLunes1()+" "+buscar_horario.getLunes2()+" "+buscar_horario.getLunes3()+" "+buscar_horario.getLunes4()+" "+buscar_horario.getLunes5());
+			System.out.println(buscar_horario.getDiaM()+"     "+buscar_horario.getMartes1()+" "+buscar_horario.getMartes2()+" "+buscar_horario.getMartes3()+" "+buscar_horario.getMartes4()+" "+buscar_horario.getMartes5());
+			System.out.println(buscar_horario.getDiaMI()+"  "+buscar_horario.getMiercoles1()+" "+buscar_horario.getMiercoles2()+" "+buscar_horario.getMiercoles3()+" "+buscar_horario.getMiercoles4()+" "+buscar_horario.getMiercoles5());
+			System.out.println(buscar_horario.getDiaJ()+"     "+buscar_horario.getJueves1()+" "+buscar_horario.getJueves2()+" "+buscar_horario.getJueves3()+" "+buscar_horario.getJueves4()+" "+buscar_horario.getJueves5());
+			System.out.println(buscar_horario.getDiaV()+"    "+buscar_horario.getViernes1()+" "+buscar_horario.getViernes2()+" "+buscar_horario.getViernes3()+" "+buscar_horario.getViernes4()+" "+buscar_horario.getViernes5());
+			System.out.println(buscar_horario.getDiaS()+"     "+buscar_horario.getSabado1()+" "+buscar_horario.getSabado2()+" "+buscar_horario.getSabado3()+" "+buscar_horario.getSabado4()+" "+buscar_horario.getSabado5());
+			
+			System.out.println(buscar_horario.getDescanso());
+			
+			txtFolio.setText(buscar_horario.getFolio()+"");
+			txtNombre.setText(buscar_horario.getNombre());
+			
+//			ASIGNAR AL BOTON SELECCIONADO Y OCULTAR SU CAMPOS DE DIA DE DESCANSO
+			switch(buscar_horario.getDescanso()){
+			
+			case "D":	btnDomingo.setSelected(true);	 DomingoOculto();	break;
+			case "L":	btnLunes.setSelected(true);		 LunesOculto();		break;
+			case "M":	btnMartes.setSelected(true); 	 MartesOculto();	break;
+			case "MI":	btnMiercoles.setSelected(true);  MiercolesOculto();	break;
+			case "J":	btnJueves.setSelected(true); 	 JuevesOculto();	break;
+			case "V":	btnViernes.setSelected(true); 	 ViernesOculto();	break;
+			case "S":	btnSabado.setSelected(true); 	 SabadoOculto();	break;
+			
+			}
+			
+//			DOMINGO
+			String[] domingoIn = buscar_horario.getDomingo1().split(":");
+			spDomingo1.setValue(new Time(Integer.parseInt(domingoIn[0]),Integer.parseInt(domingoIn[1]),Integer.parseInt(domingoIn[2])));
+			
+			String[] domingoFin = buscar_horario.getDomingo2().split(":");
+			spDomingo2.setValue(new Time(Integer.parseInt(domingoFin[0]),Integer.parseInt(domingoFin[1]),Integer.parseInt(domingoFin[2])));
+			
+			String[] domingoEn = buscar_horario.getDomingo3().split(":");
+			spDomingo3.setValue(new Time(Integer.parseInt(domingoEn[0]),Integer.parseInt(domingoEn[1]),Integer.parseInt(domingoEn[2])));
+			
+			String[] domingoSal = buscar_horario.getDomingo4().split(":");
+			spDomingo4.setValue(new Time(Integer.parseInt(domingoSal[0]),Integer.parseInt(domingoSal[1]),Integer.parseInt(domingoSal[2])));
+			
+			String[] domingoRec = buscar_horario.getDomingo5().split(":");
+			spDomingo5.setValue(new Time(Integer.parseInt(domingoRec[0]),Integer.parseInt(domingoRec[1]),Integer.parseInt(domingoRec[2])));
+			
+//			LUNES
+			String[] lunesIn = buscar_horario.getLunes1().split(":");
+			spLunes1.setValue(new Time(Integer.parseInt(lunesIn[0]),Integer.parseInt(lunesIn[1]),Integer.parseInt(lunesIn[2])));
+			
+			String[] lunesFin = buscar_horario.getLunes2().split(":");
+			spLunes2.setValue(new Time(Integer.parseInt(lunesFin[0]),Integer.parseInt(lunesFin[1]),Integer.parseInt(lunesFin[2])));
+			
+			String[] lunesEn = buscar_horario.getLunes3().split(":");
+			spLunes3.setValue(new Time(Integer.parseInt(lunesEn[0]),Integer.parseInt(lunesEn[1]),Integer.parseInt(lunesEn[2])));
+			
+			String[] lunesSal = buscar_horario.getLunes4().split(":");
+			spLunes4.setValue(new Time(Integer.parseInt(lunesSal[0]),Integer.parseInt(lunesSal[1]),Integer.parseInt(lunesSal[2])));
+			
+			String[] lunesRec = buscar_horario.getLunes5().split(":");
+			spLunes5.setValue(new Time(Integer.parseInt(lunesRec[0]),Integer.parseInt(lunesRec[1]),Integer.parseInt(lunesRec[2])));
+			
+//			MARTES
+			String[] martesIn = buscar_horario.getMartes1().split(":");
+			spMartes1.setValue(new Time(Integer.parseInt(martesIn[0]),Integer.parseInt(martesIn[1]),Integer.parseInt(martesIn[2])));
+			
+			String[] martesFin = buscar_horario.getMartes2().split(":");
+			spMartes2.setValue(new Time(Integer.parseInt(martesFin[0]),Integer.parseInt(martesFin[1]),Integer.parseInt(martesFin[2])));
+			
+			String[] martesEn = buscar_horario.getMartes3().split(":");
+			spMartes3.setValue(new Time(Integer.parseInt(martesEn[0]),Integer.parseInt(martesEn[1]),Integer.parseInt(martesEn[2])));
+			
+			String[] martesSal = buscar_horario.getMartes4().split(":");
+			spMartes4.setValue(new Time(Integer.parseInt(martesSal[0]),Integer.parseInt(martesSal[1]),Integer.parseInt(martesSal[2])));
+			
+			String[] martesRec = buscar_horario.getMartes5().split(":");
+			spMartes5.setValue(new Time(Integer.parseInt(martesRec[0]),Integer.parseInt(martesRec[1]),Integer.parseInt(martesRec[2])));
+			
+//			MIERCOLES
+			String[] miercolesIn = buscar_horario.getMiercoles1().split(":");
+			spMiercoles1.setValue(new Time(Integer.parseInt(miercolesIn[0]),Integer.parseInt(miercolesIn[1]),Integer.parseInt(miercolesIn[2])));
+			
+			String[] miercolesFin = buscar_horario.getMiercoles2().split(":");
+			spMiercoles2.setValue(new Time(Integer.parseInt(miercolesFin[0]),Integer.parseInt(miercolesFin[1]),Integer.parseInt(miercolesFin[2])));
+			
+			String[] miercolesEn = buscar_horario.getMiercoles3().split(":");
+			spMiercoles3.setValue(new Time(Integer.parseInt(miercolesEn[0]),Integer.parseInt(miercolesEn[1]),Integer.parseInt(miercolesEn[2])));
+			
+			String[] miercolesSal = buscar_horario.getMiercoles4().split(":");
+			spMiercoles4.setValue(new Time(Integer.parseInt(miercolesSal[0]),Integer.parseInt(miercolesSal[1]),Integer.parseInt(miercolesSal[2])));
+			
+			String[] miercolesRec = buscar_horario.getMiercoles5().split(":");
+			spMiercoles5.setValue(new Time(Integer.parseInt(miercolesRec[0]),Integer.parseInt(miercolesRec[1]),Integer.parseInt(miercolesRec[2])));
+			
+//			JUEVES
+			String[] juevesIn = buscar_horario.getJueves1().split(":");
+			spJueves1.setValue(new Time(Integer.parseInt(juevesIn[0]),Integer.parseInt(juevesIn[1]),Integer.parseInt(juevesIn[2])));
+			
+			String[] juevesFin = buscar_horario.getJueves2().split(":");
+			spJueves2.setValue(new Time(Integer.parseInt(juevesFin[0]),Integer.parseInt(juevesFin[1]),Integer.parseInt(juevesFin[2])));
+			
+			String[] juevesEn = buscar_horario.getJueves3().split(":");
+			spJueves3.setValue(new Time(Integer.parseInt(juevesEn[0]),Integer.parseInt(juevesEn[1]),Integer.parseInt(juevesEn[2])));
+			
+			String[] juevesSal = buscar_horario.getJueves4().split(":");
+			spJueves4.setValue(new Time(Integer.parseInt(juevesSal[0]),Integer.parseInt(juevesSal[1]),Integer.parseInt(juevesSal[2])));
+			
+			String[] juevesRec = buscar_horario.getJueves5().split(":");
+			spJueves5.setValue(new Time(Integer.parseInt(juevesRec[0]),Integer.parseInt(juevesRec[1]),Integer.parseInt(juevesRec[2])));
+			
+//			VIERNES
+			String[] viernesIn = buscar_horario.getViernes1().split(":");
+			spViernes1.setValue(new Time(Integer.parseInt(viernesIn[0]),Integer.parseInt(viernesIn[1]),Integer.parseInt(viernesIn[2])));
+			
+			String[] viernesFin = buscar_horario.getViernes2().split(":");
+			spViernes2.setValue(new Time(Integer.parseInt(viernesFin[0]),Integer.parseInt(viernesFin[1]),Integer.parseInt(viernesFin[2])));
+			
+			String[] viernesEn = buscar_horario.getViernes3().split(":");
+			spViernes3.setValue(new Time(Integer.parseInt(viernesEn[0]),Integer.parseInt(viernesEn[1]),Integer.parseInt(viernesEn[2])));
+			
+			String[] viernesSal = buscar_horario.getViernes4().split(":");
+			spViernes4.setValue(new Time(Integer.parseInt(viernesSal[0]),Integer.parseInt(viernesSal[1]),Integer.parseInt(viernesSal[2])));
+			
+			String[] viernesRec = buscar_horario.getViernes5().split(":");
+			spViernes5.setValue(new Time(Integer.parseInt(viernesRec[0]),Integer.parseInt(viernesRec[1]),Integer.parseInt(viernesRec[2])));
+			
+//			SABADO
+			String[] sabadoIn = buscar_horario.getSabado1().split(":");
+			spSabado1.setValue(new Time(Integer.parseInt(sabadoIn[0]),Integer.parseInt(sabadoIn[1]),Integer.parseInt(sabadoIn[2])));
+			
+			String[] sabadoFin = buscar_horario.getSabado2().split(":");
+			spSabado2.setValue(new Time(Integer.parseInt(sabadoFin[0]),Integer.parseInt(sabadoFin[1]),Integer.parseInt(sabadoFin[2])));
+			
+			String[] sabadoEn = buscar_horario.getSabado3().split(":");
+			spSabado3.setValue(new Time(Integer.parseInt(sabadoEn[0]),Integer.parseInt(sabadoEn[1]),Integer.parseInt(sabadoEn[2])));
+			
+			String[] sabadoSal = buscar_horario.getSabado4().split(":");
+			spSabado4.setValue(new Time(Integer.parseInt(sabadoSal[0]),Integer.parseInt(sabadoSal[1]),Integer.parseInt(sabadoSal[2])));
+			
+			String[] sabadoRec = buscar_horario.getSabado5().split(":");
+			spSabado5.setValue(new Time(Integer.parseInt(sabadoRec[0]),Integer.parseInt(sabadoRec[1]),Integer.parseInt(sabadoRec[2])));
+						
+		}else{
+			
+			}
 	}
 	
+	public Cat_Horario()
+	{
+		getContenedor();
+		
+	}
+	ActionListener filtro = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			dispose();
+			new Filtro_Horario().setVisible(true);
+		}
+	};
 	public void DomingoOculto()
 	{
 		spDomingo1.setVisible(false);
@@ -443,8 +385,6 @@ public class Cat_Horario extends JFrame
 		spDomingo3.setVisible(false);
 		spDomingo4.setVisible(false);
 		spDomingo5.setVisible(false);
-		spDomingo6.setVisible(false);
-		chDomingo.setVisible(false);
 	}
 	
 	public void DomingoVisible()
@@ -454,9 +394,6 @@ public class Cat_Horario extends JFrame
 		spDomingo3.setVisible(true);
 		spDomingo4.setVisible(true);
 		spDomingo5.setVisible(true);
-		spDomingo6.setVisible(true);
-		chDomingo.setVisible(true);
-		chDomingo.setVisible(true);
 	}
 	
 	public void LunesOculto()
@@ -466,8 +403,6 @@ public class Cat_Horario extends JFrame
 		spLunes3.setVisible(false);
 		spLunes4.setVisible(false);
 		spLunes5.setVisible(false);
-		spLunes6.setVisible(false);
-		chLunes.setVisible(false);
 	}
 	
 	public void LunesVisible()
@@ -477,8 +412,6 @@ public class Cat_Horario extends JFrame
 		spLunes3.setVisible(true);
 		spLunes4.setVisible(true);
 		spLunes5.setVisible(true);
-		spLunes6.setVisible(true);
-		chLunes.setVisible(true);
 	}
 	
 	public void MartesOculto()
@@ -488,8 +421,6 @@ public class Cat_Horario extends JFrame
 		spMartes3.setVisible(false);
 		spMartes4.setVisible(false);
 		spMartes5.setVisible(false);
-		spMartes6.setVisible(false);
-		chMartes.setVisible(false);
 	}
 	
 	public void MartesVisible()
@@ -499,8 +430,6 @@ public class Cat_Horario extends JFrame
 		spMartes3.setVisible(true);
 		spMartes4.setVisible(true);
 		spMartes5.setVisible(true);
-		spMartes6.setVisible(true);
-		chMartes.setVisible(true);
 	}
 	
 	public void MiercolesOculto()
@@ -510,8 +439,6 @@ public class Cat_Horario extends JFrame
 		spMiercoles3.setVisible(false);
 		spMiercoles4.setVisible(false);
 		spMiercoles5.setVisible(false);
-		spMiercoles6.setVisible(false);
-		chMiercoles.setVisible(false);
 	}
 
 	public void MiercolesVisible()
@@ -521,8 +448,6 @@ public class Cat_Horario extends JFrame
 		spMiercoles3.setVisible(true);
 		spMiercoles4.setVisible(true);
 		spMiercoles5.setVisible(true);
-		spMiercoles6.setVisible(true);
-		chMiercoles.setVisible(true);
 	}
 	
 	public void JuevesOculto()
@@ -532,8 +457,6 @@ public class Cat_Horario extends JFrame
 		spJueves3.setVisible(false);
 		spJueves4.setVisible(false);
 		spJueves5.setVisible(false);
-		spJueves6.setVisible(false);
-		chJueves.setVisible(false);
 	}
 	
 	public void JuevesVisible()
@@ -543,8 +466,6 @@ public class Cat_Horario extends JFrame
 		spJueves3.setVisible(true);
 		spJueves4.setVisible(true);
 		spJueves5.setVisible(true);
-		spJueves6.setVisible(true);
-		chJueves.setVisible(true);
 	}
 	
 	public void ViernesOculto()
@@ -554,8 +475,7 @@ public class Cat_Horario extends JFrame
 		spViernes3.setVisible(false);
 		spViernes4.setVisible(false);
 		spViernes5.setVisible(false);
-		spViernes6.setVisible(false);
-		chViernes.setVisible(false);
+
 	}
 	
 	public void ViernesVisible()
@@ -565,8 +485,6 @@ public class Cat_Horario extends JFrame
 		spViernes3.setVisible(true);
 		spViernes4.setVisible(true);
 		spViernes5.setVisible(true);
-		spViernes6.setVisible(true);
-		chViernes.setVisible(true);
 	}
 	
 	public void SabadoOculto()
@@ -576,8 +494,6 @@ public class Cat_Horario extends JFrame
 		spSabado3.setVisible(false);
 		spSabado4.setVisible(false);
 		spSabado5.setVisible(false);
-		spSabado6.setVisible(false);
-		chSabado.setVisible(false);
 	}
 	
 	public void SabadoVisible()
@@ -587,135 +503,489 @@ public class Cat_Horario extends JFrame
 		spSabado3.setVisible(true);
 		spSabado4.setVisible(true);
 		spSabado5.setVisible(true);
-		spSabado6.setVisible(true);
-		chSabado.setVisible(true);
 	}
-	
-	ActionListener turno = new ActionListener() {
+	ActionListener deshacer = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if(btnTurno.isSelected())
-			{
-				paneles.addTab("Horario2",hora.horario2);
-			}else{
-				paneles.remove(hora.horario2);
-				}
+			resetear();
 		}
 	};
 	
+//	ActionListener turno = new ActionListener() {
+//		public void actionPerformed(ActionEvent arg0) 
+//		{
+//			if(btnTurno.isSelected())
+//			{
+//				paneles.addTab("Horario 2",hora.horario2);
+//			}else{
+//				paneles.remove(hora.horario2);
+//				}
+//		}
+//	};
+	
 	public void resetear()
 	{
-		//Reseteamos a la hora del dia todos los campos de la primer ventana
+		 
 		spDomingo1.setValue(date);
 		spDomingo2.setValue(date);
 		spDomingo3.setValue(date);
 		spDomingo4.setValue(date);
 		spDomingo5.setValue(date);
-		spDomingo6.setValue(date);
 		
 		spLunes1.setValue(date);
 		spLunes2.setValue(date);
 		spLunes3.setValue(date);
 		spLunes4.setValue(date);
 		spLunes5.setValue(date);
-		spLunes6.setValue(date);
 		
 		spMartes1.setValue(date);
 		spMartes2.setValue(date);
 		spMartes3.setValue(date);
 		spMartes4.setValue(date);
 		spMartes5.setValue(date);
-		spMartes6.setValue(date);
 		
 		spMiercoles1.setValue(date);
 		spMiercoles2.setValue(date);
 		spMiercoles3.setValue(date);
 		spMiercoles4.setValue(date);
 		spMiercoles5.setValue(date);
-		spMiercoles6.setValue(date);
 		
 		spJueves1.setValue(date);
 		spJueves2.setValue(date);
 		spJueves3.setValue(date);
 		spJueves4.setValue(date);
 		spJueves5.setValue(date);
-		spJueves6.setValue(date);
 		
 		spViernes1.setValue(date);
 		spViernes2.setValue(date);
 		spViernes3.setValue(date);
 		spViernes4.setValue(date);
 		spViernes5.setValue(date);
-		spViernes6.setValue(date);
 		
 		spSabado1.setValue(date);
 		spSabado2.setValue(date);
 		spSabado3.setValue(date);
 		spSabado4.setValue(date);
 		spSabado5.setValue(date);
-		spSabado6.setValue(date);
+
+		DomingoVisible();
+		LunesVisible();
+		MartesVisible();
+		MiercolesVisible();
+		JuevesVisible();
+		ViernesVisible();
+		SabadoVisible();
+		txtNombre.setText("");
 		
 		//Reseteamos a la hora del dia todos los campos de la segunda ventana
-		hora.spDomingo1.setValue(date);
-		hora.spDomingo2.setValue(date);
-		hora.spDomingo3.setValue(date);
-		hora.spDomingo4.setValue(date);
-		hora.spDomingo5.setValue(date);
-		hora.spDomingo6.setValue(date);
-				
-		hora.spLunes1.setValue(date);
-		hora.spLunes2.setValue(date);
-		hora.spLunes3.setValue(date);
-		hora.spLunes4.setValue(date);
-		hora.spLunes5.setValue(date);
-		hora.spLunes6.setValue(date);
-				
-		hora.spMartes1.setValue(date);
-		hora.spMartes2.setValue(date);
-		hora.spMartes3.setValue(date);
-		hora.spMartes4.setValue(date);
-		hora.spMartes5.setValue(date);
-		hora.spMartes6.setValue(date);
-				
-		hora.spMiercoles1.setValue(date);
-		hora.spMiercoles2.setValue(date);
-		hora.spMiercoles3.setValue(date);
-		hora.spMiercoles4.setValue(date);
-		hora.spMiercoles5.setValue(date);
-		hora.spMiercoles6.setValue(date);
-				
-		hora.spJueves1.setValue(date);
-		hora.spJueves2.setValue(date);
-		hora.spJueves3.setValue(date);
-		hora.spJueves4.setValue(date);
-		hora.spJueves5.setValue(date);
-		hora.spJueves6.setValue(date);
-				
-		hora.spViernes1.setValue(date);
-		hora.spViernes2.setValue(date);
-		hora.spViernes3.setValue(date);
-		hora.spViernes4.setValue(date);
-		hora.spViernes5.setValue(date);
-		hora.spViernes6.setValue(date);
-		
-		hora.spSabado1.setValue(date);
-		hora.spSabado2.setValue(date);
-		hora.spSabado3.setValue(date);
-		hora.spSabado4.setValue(date);
-		hora.spSabado5.setValue(date);
-		hora.spSabado6.setValue(date);
+//		hora.spDomingo1.setValue(date);
+//		hora.spDomingo2.setValue(date);
+//		hora.spDomingo3.setValue(date);
+//		hora.spDomingo4.setValue(date);
+//		hora.spDomingo5.setValue(date);
+//				
+//		hora.spLunes1.setValue(date);
+//		hora.spLunes2.setValue(date);
+//		hora.spLunes3.setValue(date);
+//		hora.spLunes4.setValue(date);
+//		hora.spLunes5.setValue(date);
+//				
+//		hora.spMartes1.setValue(date);
+//		hora.spMartes2.setValue(date);
+//		hora.spMartes3.setValue(date);
+//		hora.spMartes4.setValue(date);
+//		hora.spMartes5.setValue(date);
+//				
+//		hora.spMiercoles1.setValue(date);
+//		hora.spMiercoles2.setValue(date);
+//		hora.spMiercoles3.setValue(date);
+//		hora.spMiercoles4.setValue(date);
+//		hora.spMiercoles5.setValue(date);
+//				
+//		hora.spJueves1.setValue(date);
+//		hora.spJueves2.setValue(date);
+//		hora.spJueves3.setValue(date);
+//		hora.spJueves4.setValue(date);
+//		hora.spJueves5.setValue(date);
+//				
+//		hora.spViernes1.setValue(date);
+//		hora.spViernes2.setValue(date);
+//		hora.spViernes3.setValue(date);
+//		hora.spViernes4.setValue(date);
+//		hora.spViernes5.setValue(date);
+//		
+//		hora.spSabado1.setValue(date);
+//		hora.spSabado2.setValue(date);
+//		hora.spSabado3.setValue(date);
+//		hora.spSabado4.setValue(date);
+//		hora.spSabado5.setValue(date);
+//		
+//		hora.DomingoVisible();
+//		hora.LunesVisible();
+//		hora.MartesVisible();
+//		hora.MiercolesVisible();
+//		hora.JuevesVisible();
+//		hora.ViernesVisible();
+//		hora.SabadoVisible();
+//		txtNombre.setText("");
+//		
+//		btnDomingo.setSelected(false);
+//		btnLunes.setSelected(false);
+//		btnMartes.setSelected(false);
+//		btnMiercoles.setSelected(false);
+//		btnJueves.setSelected(false);
+//		btnViernes.setSelected(false);
+//		btnSabado.setSelected(false);
+//
+//		hora.btnDomingo.setSelected(false);
+//		hora.btnLunes.setSelected(false);
+//		btnMartes.setSelected(false);
+//		hora.btnMiercoles.setSelected(false);
+//		hora.btnJueves.setSelected(false);
+//		hora.btnViernes.setSelected(false);
+//		hora.btnSabado.setSelected(false);
+	}
+	@SuppressWarnings("deprecation")
+	public void preguntas()
+	{
+		ObjHorario horario = new ObjHorario();
+		if(btnDomingo.isSelected()==true)
+		{
+			spDomingo1.setValue(new Date(00,00,00));
+			spDomingo2.setValue(new Date(00,00,00));
+			spDomingo3.setValue(new Date(00,00,00));
+			spDomingo4.setValue(new Date(00,00,00));
+			spDomingo5.setValue(new Date(00,00,00));
+			Descanso="D";
+		}
+		if (btnLunes.isSelected()==true)
+		{
+			spLunes1.setValue(new Date(00,00,00));
+			spLunes2.setValue(new Date(00,00,00));
+			spLunes3.setValue(new Date(00,00,00));
+			spLunes4.setValue(new Date(00,00,00));
+			spLunes5.setValue(new Date(00,00,00));
+			Descanso="L";
+		}
+		if (btnMartes.isSelected()==true)
+		{
+			spMartes1.setValue(new Date(00,00,00));
+			spMartes2.setValue(new Date(00,00,00));
+			spMartes3.setValue(new Date(00,00,00));
+			spMartes4.setValue(new Date(00,00,00));
+			spMartes5.setValue(new Date(00,00,00));
+			Descanso="M";
+		}
+		if (btnMiercoles.isSelected()==true)
+		{
+			spMiercoles1.setValue(new Date(00,00,00));
+			spMiercoles2.setValue(new Date(00,00,00));
+			spMiercoles3.setValue(new Date(00,00,00));
+			spMiercoles4.setValue(new Date(00,00,00));
+			spMiercoles5.setValue(new Date(00,00,00));
+			Descanso="MI";
+		}
+		if (btnJueves.isSelected()==true)
+		{
+			spJueves1.setValue(new Date(00,00,00));
+			spJueves2.setValue(new Date(00,00,00));
+			spJueves3.setValue(new Date(00,00,00));
+			spJueves4.setValue(new Date(00,00,00));
+			spJueves5.setValue(new Date(00,00,00));
+			Descanso="J";
+		}
+		if (btnViernes.isSelected()==true)
+		{
+			spViernes1.setValue(new Date(00,00,00));
+			spViernes2.setValue(new Date(00,00,00));
+			spViernes3.setValue(new Date(00,00,00));
+			spViernes4.setValue(new Date(00,00,00));
+			spViernes5.setValue(new Date(00,00,00));
+			Descanso="V";
+		}
+		if (btnSabado.isSelected()==true)
+		{
+			spSabado1.setValue(new Date(00,00,00));
+			spSabado2.setValue(new Date(00,00,00));
+			spSabado3.setValue(new Date(00,00,00));
+			spSabado4.setValue(new Date(00,00,00));
+			spSabado5.setValue(new Date(00,00,00));
+			Descanso="S";
+		}
 	}
 	
 	ActionListener Guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if(txtNombre.getText().equals(""))
-			{
-				JOptionPane.showMessageDialog(null, "Favor De Insertar Un Nombre", "Aviso", JOptionPane.WARNING_MESSAGE);
+			if(txtFolio.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				JOptionPane.showMessageDialog(null, "El Registro Se Guardo Completamente");
-				resetear();
+				ObjHorario horario = new ObjHorario().buscar(Integer.parseInt(txtFolio.getText()));
+				
+				if(new ObjHorario().Existe(Integer.parseInt(txtFolio.getText())) == true){
+					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
+						if(txtNombre.getText().equals("")) {
+							JOptionPane.showMessageDialog(null, "El Nombre es Requerido:", "Error al Actualizar el Registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}else{
+//							actualizar
+							preguntas();
+							
+							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
+							
+//							SimpleDateFormat sdf1 = new SimpleDateFormat ("E H:mm");
+							
+							//Domingo
+							String Domingo_resultado1 = sdf.format ((Date) spDomingo1.getValue());
+							String Domingo_resultado2 = sdf.format((Date) spDomingo2.getValue());
+							String Domingo_resultado3 = sdf.format ((Date) spDomingo3.getValue());
+							String Domingo_resultado4 = sdf.format ((Date) spDomingo4.getValue());
+							String Domingo_resultado5 = sdf.format ((Date) spDomingo5.getValue());
+							
+							//Lunes
+							String Lunes_resultado1 = sdf.format ((Date) spLunes1.getValue());
+							String Lunes_resultado2 = sdf.format((Date) spLunes2.getValue());
+							String Lunes_resultado3 = sdf.format ((Date) spLunes3.getValue());
+							String Lunes_resultado4 = sdf.format ((Date) spLunes4.getValue());
+							String Lunes_resultado5 = sdf.format ((Date) spLunes5.getValue());
+							
+							//Martes
+							String Martes_resultado1 = sdf.format ((Date) spMartes1.getValue());
+							String Martes_resultado2 = sdf.format((Date)spMartes2.getValue());
+							String Martes_resultado3 = sdf.format ((Date) spMartes3.getValue());
+							String Martes_resultado4 = sdf.format ((Date) spMartes4.getValue());
+							String Martes_resultado5 = sdf.format ((Date) spMartes5.getValue());
+							
+							//Miercoles
+							String Miercoles_resultado1 = sdf.format ((Date) spMiercoles1.getValue());
+							String Miercoles_resultado2 = sdf.format ((Date) spMiercoles2.getValue());
+							String Miercoles_resultado3 = sdf.format ((Date) spMiercoles3.getValue());
+							String Miercoles_resultado4 = sdf.format ((Date) spMiercoles4.getValue());
+							String Miercoles_resultado5 = sdf.format ((Date) spMiercoles5.getValue());
+							
+							//Jueves
+							String Jueves_resultado1 = sdf.format ((Date) spJueves1.getValue());
+							String Jueves_resultado2 = sdf.format ((Date) spJueves2.getValue());
+							String Jueves_resultado3 = sdf.format ((Date) spJueves3.getValue());
+							String Jueves_resultado4 = sdf.format ((Date) spJueves4.getValue());
+							String Jueves_resultado5 = sdf.format ((Date) spJueves5.getValue());
+							
+							//Viernes
+							String Viernes_resultado1 = sdf.format ((Date) spViernes1.getValue());
+							String Viernes_resultado2 = sdf.format ((Date) spViernes2.getValue());
+							String Viernes_resultado3 = sdf.format ((Date) spViernes3.getValue());
+							String Viernes_resultado4 = sdf.format ((Date) spViernes4.getValue());
+							String Viernes_resultado5 = sdf.format ((Date) spViernes5.getValue());
+							
+							//Sabado
+							String Sabado_resultado1 = sdf.format ((Date) spSabado1.getValue());
+							String Sabado_resultado2 = sdf.format ((Date) spSabado2.getValue());
+							String Sabado_resultado3 = sdf.format ((Date) spSabado3.getValue());
+							String Sabado_resultado4 = sdf.format ((Date) spSabado4.getValue());
+							String Sabado_resultado5 = sdf.format ((Date) spSabado5.getValue());
+							
+							
+							ObjHorario horario_emp = new ObjHorario();
+							
+								//Asignamos los datos
+								horario_emp.setFolio(Integer.parseInt(txtFolio.getText()));
+								horario_emp.setNombre(txtNombre.getText().toUpperCase());
+								
+								horario_emp.setDomingo1(Domingo_resultado1);
+								horario_emp.setDomingo2(Domingo_resultado2);
+								horario_emp.setDomingo3(Domingo_resultado3);
+								horario_emp.setDomingo4(Domingo_resultado4);
+								horario_emp.setDomingo5(Domingo_resultado5);
+								
+								horario_emp.setLunes1(Lunes_resultado1);
+								horario_emp.setLunes2(Lunes_resultado2);
+								horario_emp.setLunes3(Lunes_resultado3);
+								horario_emp.setLunes4(Lunes_resultado4);
+								horario_emp.setLunes5(Lunes_resultado5);
+								
+								horario_emp.setMartes1(Martes_resultado1);
+								horario_emp.setMartes2(Martes_resultado2);
+								horario_emp.setMartes3(Martes_resultado3);
+								horario_emp.setMartes4(Martes_resultado4);
+								horario_emp.setMartes5(Martes_resultado5);
+								
+								horario_emp.setMiercoles1(Miercoles_resultado1);
+								horario_emp.setMiercoles2(Miercoles_resultado2);
+								horario_emp.setMiercoles3(Miercoles_resultado3);
+								horario_emp.setMiercoles4(Miercoles_resultado4);
+								horario_emp.setMiercoles5(Miercoles_resultado5);
+								
+								horario_emp.setJueves1(Jueves_resultado1);
+								horario_emp.setJueves2(Jueves_resultado2);
+								horario_emp.setJueves3(Jueves_resultado3);
+								horario_emp.setJueves4(Jueves_resultado4);
+								horario_emp.setJueves5(Jueves_resultado5);
+								
+								horario_emp.setViernes1(Viernes_resultado1);
+								horario_emp.setViernes2(Viernes_resultado2);
+								horario_emp.setViernes3(Viernes_resultado3);
+								horario_emp.setViernes4(Viernes_resultado4);
+								horario_emp.setViernes5(Viernes_resultado5);
+								
+								horario_emp.setSabado1(Sabado_resultado1);
+								horario_emp.setSabado2(Sabado_resultado2);
+								horario_emp.setSabado3(Sabado_resultado3);
+								horario_emp.setSabado4(Sabado_resultado4);
+								horario_emp.setSabado5(Sabado_resultado5);
+								
+								horario_emp.setDescanso(Descanso);
+								
+								if(horario_emp.Actualizar(Integer.parseInt(txtFolio.getText()))){
+									
+									JOptionPane.showMessageDialog(null, "El registro se Actualizo exitosamente!" , "Exito al Actualizar!", JOptionPane.INFORMATION_MESSAGE);
+//									resetear();
+									return;
+								}else{
+									JOptionPane.showMessageDialog(null, "Error al tratar de Actualizar el registro", "Error al Actualizar registro", JOptionPane.WARNING_MESSAGE);
+									return;
+								}
+						}
+					}
+					
+				}else{
+//						guardar
+						if(txtNombre.getText().equals(""))
+						{
+								JOptionPane.showMessageDialog(null, "El Nombre es Requerido:", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+								return;
+						}else{
+							preguntas();
+							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
+							
+//							SimpleDateFormat sdf1 = new SimpleDateFormat ("E H:mm");
+							
+							//Domingo
+							String Domingo_resultado1 = sdf.format ((Date) spDomingo1.getValue());
+							String Domingo_resultado2 = sdf.format((Date) spDomingo2.getValue());
+							String Domingo_resultado3 = sdf.format ((Date) spDomingo3.getValue());
+							String Domingo_resultado4 = sdf.format ((Date) spDomingo4.getValue());
+							String Domingo_resultado5 = sdf.format ((Date) spDomingo5.getValue());
+							
+							//Lunes
+							String Lunes_resultado1 = sdf.format ((Date) spLunes1.getValue());
+							String Lunes_resultado2 = sdf.format((Date) spLunes2.getValue());
+							String Lunes_resultado3 = sdf.format ((Date) spLunes3.getValue());
+							String Lunes_resultado4 = sdf.format ((Date) spLunes4.getValue());
+							String Lunes_resultado5 = sdf.format ((Date) spLunes5.getValue());
+							
+							//Martes
+							String Martes_resultado1 = sdf.format ((Date) spMartes1.getValue());
+							String Martes_resultado2 = sdf.format((Date)spMartes2.getValue());
+							String Martes_resultado3 = sdf.format ((Date) spMartes3.getValue());
+							String Martes_resultado4 = sdf.format ((Date) spMartes4.getValue());
+							String Martes_resultado5 = sdf.format ((Date) spMartes5.getValue());
+							
+							//Miercoles
+							String Miercoles_resultado1 = sdf.format ((Date) spMiercoles1.getValue());
+							String Miercoles_resultado2 = sdf.format ((Date) spMiercoles2.getValue());
+							String Miercoles_resultado3 = sdf.format ((Date) spMiercoles3.getValue());
+							String Miercoles_resultado4 = sdf.format ((Date) spMiercoles4.getValue());
+							String Miercoles_resultado5 = sdf.format ((Date) spMiercoles5.getValue());
+							
+							//Jueves
+							String Jueves_resultado1 = sdf.format ((Date) spJueves1.getValue());
+							String Jueves_resultado2 = sdf.format ((Date) spJueves2.getValue());
+							String Jueves_resultado3 = sdf.format ((Date) spJueves3.getValue());
+							String Jueves_resultado4 = sdf.format ((Date) spJueves4.getValue());
+							String Jueves_resultado5 = sdf.format ((Date) spJueves5.getValue());
+							
+							//Viernes
+							String Viernes_resultado1 = sdf.format ((Date) spViernes1.getValue());
+							String Viernes_resultado2 = sdf.format ((Date) spViernes2.getValue());
+							String Viernes_resultado3 = sdf.format ((Date) spViernes3.getValue());
+							String Viernes_resultado4 = sdf.format ((Date) spViernes4.getValue());
+							String Viernes_resultado5 = sdf.format ((Date) spViernes5.getValue());
+							
+							//Sabado
+							String Sabado_resultado1 = sdf.format ((Date) spSabado1.getValue());
+							String Sabado_resultado2 = sdf.format ((Date) spSabado2.getValue());
+							String Sabado_resultado3 = sdf.format ((Date) spSabado3.getValue());
+							String Sabado_resultado4 = sdf.format ((Date) spSabado4.getValue());
+							String Sabado_resultado5 = sdf.format ((Date) spSabado5.getValue());
+							
+							
+							
+//							ObjHorario horario_emp = new ObjHorario();
+							horario.setNombre(txtNombre.getText().toUpperCase());
+							
+							//Asignamos los datos
+							horario.setDomingo1(Domingo_resultado1);
+							horario.setDomingo2(Domingo_resultado2);
+							horario.setDomingo3(Domingo_resultado3);
+							horario.setDomingo4(Domingo_resultado4);
+							horario.setDomingo5(Domingo_resultado5);
+							
+							horario.setLunes1(Lunes_resultado1);
+							horario.setLunes2(Lunes_resultado2);
+							horario.setLunes3(Lunes_resultado3);
+							horario.setLunes4(Lunes_resultado4);
+							horario.setLunes5(Lunes_resultado5);
+							
+							horario.setMartes1(Martes_resultado1);
+							horario.setMartes2(Martes_resultado2);
+							horario.setMartes3(Martes_resultado3);
+							horario.setMartes4(Martes_resultado4);
+							horario.setMartes5(Martes_resultado5);
+							
+							horario.setMiercoles1(Miercoles_resultado1);
+							horario.setMiercoles2(Miercoles_resultado2);
+							horario.setMiercoles3(Miercoles_resultado3);
+							horario.setMiercoles4(Miercoles_resultado4);
+							horario.setMiercoles5(Miercoles_resultado5);
+							
+							horario.setJueves1(Jueves_resultado1);
+							horario.setJueves2(Jueves_resultado2);
+							horario.setJueves3(Jueves_resultado3);
+							horario.setJueves4(Jueves_resultado4);
+							horario.setJueves5(Jueves_resultado5);
+							
+							horario.setViernes1(Viernes_resultado1);
+							horario.setViernes2(Viernes_resultado2);
+							horario.setViernes3(Viernes_resultado3);
+							horario.setViernes4(Viernes_resultado4);
+							horario.setViernes5(Viernes_resultado5);
+							
+							horario.setSabado1(Sabado_resultado1);
+							horario.setSabado2(Sabado_resultado2);
+							horario.setSabado3(Sabado_resultado3);
+							horario.setSabado4(Sabado_resultado4);
+							horario.setSabado5(Sabado_resultado5);
+							
+							horario.setDescanso(Descanso);
+							
+							if(horario.Guardar()){
+								JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
+//								resetear();
+								return;
+							}else{
+								JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
+								return;
+							}
+						}
+					}
 			}
+			
+		}
+	};
+	
+	ActionListener nuevo = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+				try {
+					ObjHorario horario = new ObjHorario().buscar_nuevo();
+					
+					if(horario.getFolio() >= 0){
+						txtFolio.setText(horario.getFolio()+1+"");
+						txtNombre.setText("");
+						txtNombre.requestFocus();
+					}
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 		}
 	};
 	
@@ -793,16 +1063,6 @@ public class Cat_Horario extends JFrame
 			spViernes1.setValue(spDomingo1.getValue());
 			spSabado1.setValue(spDomingo1.getValue());
 			
-			//validamos si el primer checkbox esta seleccionado para asignar los mismos valores a todos los checkbox
-			if(chDomingo.isSelected()){
-				chLunes.setSelected(true);
-				chMartes.setSelected(true);
-				chMiercoles.setSelected(true);
-				chJueves.setSelected(true);
-				chViernes.setSelected(true);
-				chSabado.setSelected(true);				
-			}else{}
-			
 			//Igualamos todos los campos al primer campo
 			spLunes2.setValue(spDomingo2.getValue());
 			spMartes2.setValue(spDomingo2.getValue());
@@ -835,16 +1095,21 @@ public class Cat_Horario extends JFrame
 			spViernes5.setValue(spDomingo5.getValue());
 			spSabado5.setValue(spDomingo5.getValue());
 			
-			//Igualamos todos los campos al primer campo
-			spLunes6.setValue(spDomingo6.getValue());
-			spMartes6.setValue(spDomingo6.getValue());
-			spMiercoles6.setValue(spDomingo6.getValue());
-			spJueves6.setValue(spDomingo6.getValue());
-			spViernes6.setValue(spDomingo6.getValue());
-			spSabado6.setValue(spDomingo6.getValue());
 		}
 	};
 
+	
+	KeyListener valida = new KeyListener() {
+		public void keyTyped(KeyEvent arg0){}
+		public void keyReleased(KeyEvent arg0){}
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				btnAceptar.doClick();
+				txtNombre.requestFocus();
+			}
+		}
+	};
+	
 	public static void main(String[]a)
 	{
 		try {

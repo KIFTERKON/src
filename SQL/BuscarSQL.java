@@ -13,6 +13,9 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
+import ObjetoChecador.ObjHorario;
+import ObjetoChecador.Obj_Entosal;
+
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
@@ -2890,4 +2893,202 @@ public class BuscarSQL {
 		return disponible;
 	}
 	
+//	buscar entosal
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Vector buscar_entosal(int folio) throws SQLException{
+		Vector fila = new Vector();
+		String query = "exec sp_select_entosal "+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+		    
+			while(rs.next()){
+				fila.add(rs.getObject(1));
+				fila.add(rs.getObject(2));
+				fila.add(rs.getObject(3));
+				fila.add(rs.getObject(4));
+				fila.add(rs.getObject(5));
+				fila.add(rs.getObject(6));
+				fila.add(rs.getObject(7));
+				fila.add(rs.getObject(8));
+				fila.add(rs.getObject(9));
+				fila.add(rs.getObject(10));
+						
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return fila;
+	}
+	
+	public Obj_Entosal Entosal(int clave) throws SQLException{
+		Obj_Entosal entosal = new Obj_Entosal();
+		String query = "select * from tb_key_check_master where keyCheckMaster ="+ clave;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				entosal.setClave(rs.getInt("keyCheckMaster"));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return entosal;
+	}
+	
+	public boolean existeColisionTiempo(int folio)throws SQLException{
+		boolean existe = false;
+		String query = "exec sp_valida_hora_recurrente_minuto "+folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				existe = rs.getBoolean("valor");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return existe;
+	}
+	
+	//Buscamos el horario por su nombre
+	public ObjHorario buscahorario(int folio) throws SQLException{
+		ObjHorario horaa = new ObjHorario();
+		String query = "exec sp_select_horarios "+folio;
+		
+		Statement stmt = null;
+		try {
+			
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				horaa.setFolio(rs.getInt("folio"));
+				horaa.setNombre(rs.getString("nombre").trim());
+				
+				horaa.setDiaD(rs.getString("diaD").trim());
+				horaa.setDomingo1(rs.getString("inicioD"));
+				horaa.setDomingo2(rs.getString("finD"));
+				horaa.setDomingo3(rs.getString("entradaD"));
+				horaa.setDomingo4(rs.getString("salidaD"));
+				horaa.setDomingo5(rs.getString("recesoD"));
+				
+				horaa.setDiaL(rs.getString("diaL").trim());
+				horaa.setLunes1(rs.getString("inicioL"));
+				horaa.setLunes2(rs.getString("finL"));
+				horaa.setLunes3(rs.getString("entradaL"));
+				horaa.setLunes4(rs.getString("salidaL"));
+				horaa.setLunes5(rs.getString("recesoL"));
+				
+				horaa.setDiaM(rs.getString("diaM").trim());
+				horaa.setMartes1(rs.getString("inicioM"));
+				horaa.setMartes2(rs.getString("finM"));
+				horaa.setMartes3(rs.getString("entradaM"));
+				horaa.setMartes4(rs.getString("salidaM"));
+				horaa.setMartes5(rs.getString("recesoM"));
+				
+				horaa.setDiaMI(rs.getString("diaMI").trim());
+				horaa.setMiercoles1(rs.getString("inicioMI"));
+				horaa.setMiercoles2(rs.getString("finMI"));
+				horaa.setMiercoles3(rs.getString("entradaMI"));
+				horaa.setMiercoles4(rs.getString("salidaMI"));
+				horaa.setMiercoles5(rs.getString("recesoMI"));
+				
+				horaa.setDiaJ(rs.getString("diaJ").trim());
+				horaa.setJueves1(rs.getString("inicioJ"));
+				horaa.setJueves2(rs.getString("finJ"));
+				horaa.setJueves3(rs.getString("entradaJ"));
+				horaa.setJueves4(rs.getString("salidaJ"));
+				horaa.setJueves5(rs.getString("recesoJ"));
+				
+				horaa.setDiaV(rs.getString("diaV").trim());
+				horaa.setViernes1(rs.getString("inicioV"));
+				horaa.setViernes2(rs.getString("finV"));
+				horaa.setViernes3(rs.getString("entradaV"));
+				horaa.setViernes4(rs.getString("salidaV"));
+				horaa.setViernes5(rs.getString("recesoV"));
+				
+				horaa.setDiaS(rs.getString("diaS").trim());
+				horaa.setSabado1(rs.getString("inicioS"));
+				horaa.setSabado2(rs.getString("finS"));
+				horaa.setSabado3(rs.getString("entradaS"));
+				horaa.setSabado4(rs.getString("salidaS"));
+				horaa.setSabado5(rs.getString("recesoS"));
+				
+				horaa.setDescanso(rs.getString("descanso"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return horaa;
+	}
+	
+//	buscarHorario
+	public boolean HorarioExiste(int horario){
+		String query = "exec sp_folio_horario "+horario;
+		
+		boolean existe = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = Boolean.parseBoolean(rs.getString("Existe").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return existe;
+	}
+	
+	public ObjHorario Horario_Nuevo() throws SQLException{
+		ObjHorario horario = new ObjHorario();
+		String query = "select max(folio) as 'Maximo' from tb_horarios";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+				horario.setFolio(rs.getInt("Maximo"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return horario;
+	}
 }

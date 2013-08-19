@@ -326,4 +326,6 @@ public class Obj_Empleado {
 	
 	public boolean nombre_disponible(String nombre){ return new BuscarSQL().nombre_disponible(nombre); }
 	
+	public boolean insertar(int folio,String t_entrada){return new GuardarSQL().Insert_Empleado(folio,t_entrada);}
+	
 }

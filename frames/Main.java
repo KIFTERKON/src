@@ -1,5 +1,6 @@
 package frames;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -38,6 +39,25 @@ import objetos.Obj_Usuario;
 public class Main extends InitButton {
 	
 	public Main(){
+//----Edicion de ToolTipText---------------------------------------------------------------------------------
+		try { 
+			UIManager.put ("ToolTip.background", Color.black); 
+			UIManager.put ("ToolTip.foreground", Color.white); 
+		} catch (Throwable th) { 
+			th.printStackTrace (); 
+		} 
+		//asigna color de fondo,color de texto al JLabel
+		lblLogo.updateUI ();
+		//cacha la ruta e informacion con HTML para despues asignarla al JLabel
+		String tooltiptext ="<html>" +
+		 						"<img src=\"file:iconoChecador.jpg\">" + "<br/>" +
+		 							"<DIV ALIGN=center>" +
+		 									"CHECADOR!!!" +
+		 							"</DIV>" +
+		 					"</html>";
+		lblLogo.setToolTipText(tooltiptext);
+//----Termina Edicion de ToolTipText--------------------------------------------------------------------------
+		
 		btnAceptar.addActionListener(opIn);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
