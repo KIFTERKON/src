@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Impresion_Cuadrante" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="9d760aa8-188d-449b-a44e-dd7288683b99">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[declare
+  @dia int,@folio_empleado int
+
+set @dia=(SELECT
+
+CASE WHEN ((select(datepart(weekday,getdate())))=7)
+     THEN 1
+     ELSE (select(datepart(weekday,getdate()))+1)
+     END    )
+set @folio_empleado=(select * from tb_temp_imprimir_Cuadrante_femp)
+ select 
+        tb_empleado.folio
+       ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as [Empleado]
+       ,tb_establecimiento.nombre as Establecimiento
+       ,tb_puesto.nombre as Puesto
+       ,tb_empleado_cuadrante.cuadrante as Cuadrante
+       ,tb_actividad.actividad as Actividad  
+       ,substring(CONVERT([varchar](30),(tb_tabla_cuadrante.hora_i),108),0,6)as Hora
+       ,tb_opciones_respuesta.nombre as Respuestas  
+      from tb_tabla_empleado_cuadrante
+INNER JOIN tb_empleado ON tb_empleado.folio=tb_tabla_empleado_cuadrante.folio_empleado
+INNER JOIN tb_puesto on tb_puesto.folio=tb_empleado.puesto_id
+INNER JOIN tb_empleado_cuadrante on tb_empleado_cuadrante.folio=tb_tabla_empleado_cuadrante.folio_cuadrante
+INNER JOIN tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
+INNER JOIN tb_tabla_cuadrante on tb_tabla_cuadrante.folio_cuadrante=tb_tabla_empleado_cuadrante.folio_cuadrante
+left outer join tb_actividad on tb_actividad.folio=tb_tabla_cuadrante.folio_actividad
+INNER JOIN tb_opciones_respuesta on tb_opciones_respuesta.folio=tb_actividad.respuesta
+
+where tb_tabla_empleado_cuadrante.folio_empleado=@folio_empleado and tb_tabla_cuadrante.dia=@dia
+order by CONVERT([varchar](30),(tb_tabla_cuadrante.hora_i),108),tb_actividad.actividad]]>
+	</queryString>
+	<field name="folio" class="java.lang.Integer"/>
+	<field name="Empleado" class="java.lang.String"/>
+	<field name="Establecimiento" class="java.lang.String"/>
+	<field name="Puesto" class="java.lang.String"/>
+	<field name="Cuadrante" class="java.lang.String"/>
+	<field name="Actividad" class="java.lang.String"/>
+	<field name="Hora" class="java.lang.String"/>
+	<field name="Respuestas" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{folio}]]></groupExpression>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{Empleado}]]></groupExpression>
+	</group>
+	<group name="Establecimiento">
+		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
+	</group>
+	<group name="Puesto">
+		<groupExpression><![CDATA[$F{Puesto}]]></groupExpression>
+	</group>
+	<group name="Cuadrante">
+		<groupExpression><![CDATA[$F{Cuadrante}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="142" splitType="Stretch">
+			<image>
+				<reportElement uuid="28d83606-6be2-478f-bc7c-81782dd50c86" x="0" y="0" width="200" height="138"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/cuadrantes.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="2230fe1f-4b98-47b2-988e-9cd9f5810a9c" x="70" y="40" width="128" height="39" forecolor="#000000"/>
+				<box>
+					<topPen lineColor="#FFFFFF"/>
+					<leftPen lineColor="#FFFFFF"/>
+					<bottomPen lineColor="#FFFFFF"/>
+					<rightPen lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial Black" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cuadrante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f63d82dd-e3ee-403f-9bbc-204337aee415" x="30" y="81" width="168" height="19" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Empleado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9f62fa5-89fb-45cd-9096-2c1c1855950f" x="30" y="100" width="168" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="89f8f7ae-f8c3-4e11-9d26-7aa3fa71f5a8" x="170" y="120" width="28" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{folio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cff8af9d-b97b-4bd4-a90c-8d8b54d453e0" x="30" y="121" width="158" height="18" forecolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Puesto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="bd66ddbe-b03e-442d-acfe-87322cf9eb82" style="Column header" x="10" y="59" width="60" height="20" forecolor="#000000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="11" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d6a0a927-d683-4c34-9fe0-0c6b900f7b04" style="Column header" x="0" y="0" width="50" height="10" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+					<paragraph tabStopWidth="30"/>
+				</textElement>
+				<text><![CDATA[Actividad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="028cc436-a72f-4efc-b5bb-37e4860431b1" style="Column header" x="70" y="0" width="50" height="10" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Hora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6a3eb6be-fe98-4cd0-9478-97a50f54ddb0" style="Column header" x="150" y="0" width="50" height="10" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Respuestas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<frame>
+				<reportElement uuid="f151e353-76a8-4f3f-a714-a571e7d11bc9" style="Row" mode="Opaque" x="0" y="0" width="198" height="22"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="773a5243-2ecd-45cf-9563-0c43a320e47a" style="Detail" positionType="Float" x="0" y="0" width="198" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Actividad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="75818117-f9aa-4f8a-9a0c-d9e09a1e7899" style="Detail" positionType="Float" x="0" y="10" width="40" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Hora}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="523ad565-ae68-481d-8970-d1a4d4dcc905" style="Detail" positionType="Float" x="119" y="10" width="79" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Respuestas}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

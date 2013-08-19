@@ -22,17 +22,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import objetos.Obj_Gafete;
 import objetos.Obj_Imprimir_Cuadrante;
+import reporte.Reporte_Impresion_de_Cuadrantes;
 
 
+
+	@SuppressWarnings("serial")
 	public class Cat_Impresion_de_Cuadrantes extends JFrame{
 				
 			Container cont = getContentPane();
 			JLayeredPane campo = new JLayeredPane();
 			
 			
-			DefaultTableModel modeloFiltro = new DefaultTableModel(new Obj_Imprimir_Cuadrante().Obj_Obtener_Cuadrantes(),
+			DefaultTableModel modeloFiltro = new DefaultTableModel(new Obj_Imprimir_Cuadrante().Obj_Obtener_Empleados_Cuadrantes(),
 		            new String[]{"Folio", "Nombre","Establecimiento","Puesto","Cuadrante",""}
 					){
 			     @SuppressWarnings("rawtypes")
@@ -76,26 +78,29 @@ import objetos.Obj_Imprimir_Cuadrante;
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
 			public Cat_Impresion_de_Cuadrantes()	{
+				
+				
+				
 				setTitle("Impresion de Cuadrantes");
 				campo.setBorder(BorderFactory.createTitledBorder("Seleccion de Cuadrante Para Impresion"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
 				
-				
-				campo.add(scroll).setBounds(15,43,1000,760);
-				
+				setSize(1024,350);
+				setResizable(false);
+				setLocationRelativeTo(null);
+				campo.add(scroll).setBounds(15,43,1000,250);
 				campo.add(txtFolio).setBounds(15,20,38,20);
 				campo.add(txtNombre_Completo).setBounds(54,20,300,20);
 				campo.add(btnGenerar).setBounds(585,20,250,20);
-				
 				cont.add(campo);
 				
 				tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(40);
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(300);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(300);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(180);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(180);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(190);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(190);
 				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(180);
 				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(180);
 				tablaFiltro.getColumnModel().getColumn(4).setMaxWidth(240);
@@ -220,19 +225,14 @@ import objetos.Obj_Imprimir_Cuadrante;
 				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(4).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(5).setCellRenderer(render);
-//				txtFolio.addKeyListener(opFiltroFolio);
-//				txtNombre_Completo.addKeyListener(opFiltroNombre);
-				
 				btnGenerar.addActionListener(opAgregar);
 				
-				setSize(1024,850);
-				setResizable(false);
-				setLocationRelativeTo(null);
+				
 				
 			}
 			
 			ActionListener opAgregar = new ActionListener() {
-				@SuppressWarnings({ "unchecked" })
+				@SuppressWarnings({ })
 				public void actionPerformed(ActionEvent arg0) {
 					
 					txtFolio.setText("");
@@ -241,25 +241,38 @@ import objetos.Obj_Imprimir_Cuadrante;
 					if(tablaFiltro.isEditing()){
 						tablaFiltro.getCellEditor().stopCellEditing();
 					}
-					if(valida_cantidad_seleccion ()==6){
-						System.out.println("correcto");
-						int[] prueba = Obtener_empleados_seleccionados();
-						
-						for(int j =0; j<prueba.length; j++){
-							System.out.println(prueba[j]);
-						}
+					if(valida_cantidad_seleccion ()==0){
+						JOptionPane.showMessageDialog(null,"Seleciona Un Empleado","Aviso",JOptionPane.NO_OPTION);
 					}
-					else{JOptionPane.showMessageDialog(null,"Solo Se Pueden Seleccionar Seis Empleados","Aviso",JOptionPane.NO_OPTION);
+					if(valida_cantidad_seleccion ()==1){
+//						System.out.println("correcto");
+						int fila = tablaFiltro.getSelectedRow();
+						//se asigna la seleccion a la variable folio
+						int Folio = Integer.parseInt(tablaFiltro.getValueAt(fila, 0).toString().trim());
 						
+						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(Folio)) {
+		    										
+//					  		dispose();
+					  		new Reporte_Impresion_de_Cuadrantes();
+    
+						
+					}
+					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
+					}
 					}				
 				}
 				
 			};
+
+			    				    			
+			    			
+			    		
+			
 			
 		public int valida_cantidad_seleccion (){
 			int i=0;
 			for (int y=0; y<tablaFiltro.getRowCount(); y=y+1){
-				if(Boolean.parseBoolean(modeloFiltro.getValueAt(y,4).toString().trim())){
+				if(Boolean.parseBoolean(modeloFiltro.getValueAt(y,5).toString().trim())){
 					i=i+1;
 				}
 			}
@@ -268,10 +281,10 @@ import objetos.Obj_Imprimir_Cuadrante;
 		}
 		
 		public  int [] Obtener_empleados_seleccionados (){
-			int [] vector_seleccionados=new int[6] ;
+			int [] vector_seleccionados=new int[1] ;
 			int i=0;
 			for (int y=0; y<tablaFiltro.getRowCount(); y=y+1){
-				if(Boolean.parseBoolean(modeloFiltro.getValueAt(y,4).toString().trim()) == true){
+				if(Boolean.parseBoolean(modeloFiltro.getValueAt(y,5).toString().trim()) == true){
 					vector_seleccionados[i]=Integer.parseInt(modeloFiltro.getValueAt(y,0).toString().trim());
 					i++;
 				}
