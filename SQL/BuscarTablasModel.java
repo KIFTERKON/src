@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import objetos.Obj_Usuario;
+
 public class BuscarTablasModel {
 	
 	public Object[][] tabla_model_bancos(){
@@ -350,8 +352,11 @@ public class BuscarTablasModel {
 		}
 	    return matriz; 
 	}
-	public Object[][] tabla_model_filtro_imprimir_cuadrantes(){
-		String query_lista = "exec sp_select_impresion_cuadrante";
+	public Object[][] tabla_model_filtro_Obtener_Emp_imprimir_cuadrantes(){
+		Obj_Usuario usuario = new Obj_Usuario().LeerSession();
+		System.out.println(usuario.getNombre_completo());
+		String query_lista = "exec sp_select_impresion_cuadrante "+"'"+usuario.getNombre_completo()+"'" ;
+		
 		Object[][] matriz = new Object[get_filas(query_lista)][6];
 		try {
 			Statement stmt = new Connexion().conexion().createStatement();
@@ -375,4 +380,75 @@ public class BuscarTablasModel {
 	    return matriz; 
 	}
 	
+
+public boolean Guardar_Folio_de_Empleado_Imprimir_Cuadrante(int Folio) {
+    
+	String query = "exec sp_crear_tb_folio_impresion_cuadrante ?";
+	Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+	
+		try {
+		con.setAutoCommit(false);
+		pstmt=con.prepareStatement(query);
+		
+		pstmt.setInt(1,Folio);
+		pstmt.executeUpdate();
+		
+		con.commit();
+		
+	} catch (Exception e) {
+		
+		System.out.println("SQLException: "+e.getMessage());
+		if(con != null){
+			try{
+				System.out.println("La transacción ha sido abortada");
+				con.rollback();
+			}catch(SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+		return false;
+	}finally{
+		try {
+			con.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}		
+	return true;
 }
+	public Object[][] tabla_model_checador(){
+		String query_lista = "exec sp_select_tabla_checador";
+		Object[][] matriz = new Object[get_filas(query_lista)][9];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = "   "+rs.getString(1);
+				matriz[i][1] = "   "+rs.getString(2);
+				matriz[i][2] = "   "+rs.getString(3);
+				matriz[i][3] = "   "+rs.getString(4);
+				matriz[i][4] = "   "+rs.getString(5);
+				matriz[i][5] = "   "+rs.getString(6);
+				matriz[i][6] = "   "+rs.getString(7);
+				matriz[i][7] = "   "+rs.getString(8);
+				matriz[i][8] = "   "+rs.getString(9);
+				
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
+
+}
+
+
+
+
+	

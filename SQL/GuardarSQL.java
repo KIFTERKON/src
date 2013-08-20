@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.Vector;
+
+import ObjetoChecador.ObjHorario;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Agregar_Submenus_Nuevos;
@@ -1814,7 +1817,80 @@ public class GuardarSQL {
 			return true;
 		}
 	
-	public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
+		
+	public boolean Insert_Empleado(int folio,String t_entrada){
+		
+		String insert ="exec sp_insert_entosal "+folio+",?,?,?;";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		
+		try{
+			String pc_nombre = InetAddress.getLocalHost().getHostName();
+			String pc_ip = InetAddress.getLocalHost().getHostAddress();
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(insert);
+			
+			pstmt.setString(1, pc_nombre);
+			pstmt.setString(2, pc_ip);
+			pstmt.setString(3, t_entrada);
+			
+			pstmt.executeUpdate();
+			con.commit();
+			
+		}catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}
+		return true;
+	}
+	
+//	public boolean Guardar_Checador(Obj_Checador chec){
+//		String query = "exec sp_insert_checador ?,?,?,?,?,?";
+//		Connection con = new Connexion().conexion();
+//		PreparedStatement pstmt = null;
+//		try {
+//			con.setAutoCommit(false);
+//			pstmt = con.prepareStatement(query);
+//			pstmt.setInt(1,chec.getFolio_emp());
+//			pstmt.setInt(2, chec.getClave());
+//			pstmt.setString(3, chec.getEntrada());
+//			pstmt.setString(4, chec.getSalida());
+//			pstmt.setString(5, chec.getEntrada2());
+//			pstmt.setString(6, chec.getSalida2());
+//		 	pstmt.executeUpdate();
+//		 	con.commit();
+//		 	
+//		} catch (Exception e) {
+//			System.out.println("SQLException: "+e.getMessage());
+//			if(con != null){
+//				try{
+//					System.out.println("La transacción ha sido abortada");
+//					con.rollback();
+//				}catch(SQLException ex){
+//					System.out.println(ex.getMessage());
+//				}
+//			}
+//			return false;
+//		}finally{
+//			try {
+//				con.close();
+//			} catch(SQLException e){
+//				e.printStackTrace();
+//			}
+//		}		
+//		return true;
+//	}
+	
+public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 		
 		String query ="insert into tb_asignacion_mensaje(mensaje,mensajearea,puesto,equipo,jefatura,empleado,rbpuesto,rbequipo,rbjefatura,rbempleado)values(?,?,?,?,?,?,?,?,?,?)";
 		
@@ -1858,5 +1934,91 @@ public class GuardarSQL {
 		return true;
 	}
 
+//Guardamos el horario
+	public boolean Guardar_Horario(ObjHorario horario){
+		String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			int i=1;
+			pstmt.setString(i, horario.getNombre().trim().toUpperCase());
+			
+			pstmt.setString(i+=1, "DOMINGO");
+			pstmt.setString(i+=1, horario.getDomingo1());
+			pstmt.setString(i+=1, horario.getDomingo2());
+			pstmt.setString(i+=1, horario.getDomingo3());
+			pstmt.setString(i+=1, horario.getDomingo4());
+			pstmt.setString(i+=1, horario.getDomingo5());
+			
+			pstmt.setString(i+=1, "LUNES");
+			pstmt.setString(i+=1, horario.getLunes1());
+			pstmt.setString(i+=1, horario.getLunes2());
+			pstmt.setString(i+=1, horario.getLunes3());
+			pstmt.setString(i+=1, horario.getLunes4());
+			pstmt.setString(i+=1, horario.getLunes5());
+			
+			pstmt.setString(i+=1, "MARTES");
+			pstmt.setString(i+=1, horario.getMartes1());
+			pstmt.setString(i+=1, horario.getMartes2());
+			pstmt.setString(i+=1, horario.getMartes3());
+			pstmt.setString(i+=1, horario.getMartes4());
+			pstmt.setString(i+=1, horario.getMartes5());
+			
+			pstmt.setString(i+=1, "MIERCOLES");
+			pstmt.setString(i+=1, horario.getMiercoles1());
+			pstmt.setString(i+=1, horario.getMiercoles2());
+			pstmt.setString(i+=1, horario.getMiercoles3());
+			pstmt.setString(i+=1, horario.getMiercoles4());
+			pstmt.setString(i+=1, horario.getMiercoles5());
+			
+			pstmt.setString(i+=1, "JUEVES");
+			pstmt.setString(i+=1, horario.getJueves1());
+			pstmt.setString(i+=1, horario.getJueves2());
+			pstmt.setString(i+=1, horario.getJueves3());
+			pstmt.setString(i+=1, horario.getJueves4());
+			pstmt.setString(i+=1, horario.getJueves5());
+			
+			pstmt.setString(i+=1, "VIERNES");
+			pstmt.setString(i+=1, horario.getViernes1());
+			pstmt.setString(i+=1, horario.getViernes2());
+			pstmt.setString(i+=1, horario.getViernes3());
+			pstmt.setString(i+=1, horario.getViernes4());
+			pstmt.setString(i+=1, horario.getViernes5());
+			
+			pstmt.setString(i+=1, "SABADO");
+			pstmt.setString(i+=1, horario.getSabado1());
+			pstmt.setString(i+=1, horario.getSabado2());
+			pstmt.setString(i+=1, horario.getSabado3());
+			pstmt.setString(i+=1, horario.getSabado4());
+			pstmt.setString(i+=1, horario.getSabado5());
+			
+			pstmt.setString(i+=1, horario.getDescanso());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 
 }

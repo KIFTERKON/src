@@ -336,4 +336,5 @@ public class Obj_Empleado {
 		}
 		return null; 
 	}
+	public boolean insertar(int folio,String t_entrada){return new GuardarSQL().Insert_Empleado(folio,t_entrada);}
 }

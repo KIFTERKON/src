@@ -2,7 +2,7 @@ package reporte;
 
 	import java.util.HashMap;
 
-	import javax.swing.JFrame;
+	
 import javax.swing.UIManager;
 
 	import SQL.Connexion;
@@ -14,8 +14,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-	@SuppressWarnings("serial")
-public class Reporte_de_Empleados_No_Contratables {
+	public class Reporte_de_Empleados_No_Contratables {
 	
 
 	
