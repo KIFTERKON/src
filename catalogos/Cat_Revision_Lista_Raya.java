@@ -214,8 +214,10 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 					
 						Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
 						if(lista_raya.generar(tabla_generar(),new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()))){
-							actualizar();
+//							actualizar();
 							JOptionPane.showMessageDialog(null, "La lista de raya se generó con éxito","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+							new Cat_Revision_Lista_Raya().setVisible(true);
 							return;
 						}else{
 							JOptionPane.showMessageDialog(null, "La lista de raya no se pudo generar","Error",JOptionPane.ERROR_MESSAGE);

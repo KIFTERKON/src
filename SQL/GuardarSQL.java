@@ -22,6 +22,7 @@ import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Bono_Complemento_Sueldo;
@@ -37,6 +38,7 @@ import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
+import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Nomina;
@@ -1783,6 +1785,43 @@ public class GuardarSQL {
 		return true;
 	}
 	
+	
+	//Guardar mensajes
+	
+	public boolean Guardar_Mensajes(Obj_Mensajes mensaje){
+			
+			String query = "insert into tb_mensajes(mensaje)values(?)";
+			
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, mensaje.getMensaje().toUpperCase());
+				pstmt.executeUpdate();
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: "+e.getMessage());
+				if(con != null){
+					try{
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					}catch(SQLException ex){
+						System.out.println(ex.getMessage());
+					}
+				}
+				return false;
+			}finally{
+				try {
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+	
+		
 	public boolean Insert_Empleado(int folio,String t_entrada){
 		
 		String insert ="exec sp_insert_entosal "+folio+",?,?,?;";
@@ -1855,7 +1894,51 @@ public class GuardarSQL {
 //		return true;
 //	}
 	
-	//Guardamos el horario
+public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
+		
+		String query ="insert into tb_asignacion_mensaje(mensaje,mensajearea,puesto,equipo,jefatura,empleado,rbpuesto,rbequipo,rbjefatura,rbempleado)values(?,?,?,?,?,?,?,?,?,?)";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, mensj.getNo_mensajes());
+			pstmt.setString(2, mensj.getMensaje());
+			pstmt.setString(3,mensj.getPuesto() );
+			pstmt.setString(4,mensj.getEquipo() );
+			pstmt.setString(5,mensj.getJefatura());
+			pstmt.setString(6,mensj.getEmpleado());
+			
+			pstmt.setBoolean(7, mensj.getRbpuesto());
+			pstmt.setBoolean(8, mensj.getRbequipo());
+			pstmt.setBoolean(9, mensj.getRbjefatura());
+			pstmt.setBoolean(10, mensj.getRbempleado());
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
+//Guardamos el horario
 	public boolean Guardar_Horario(ObjHorario horario){
 		String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
@@ -1866,49 +1949,49 @@ public class GuardarSQL {
 			int i=1;
 			pstmt.setString(i, horario.getNombre().trim().toUpperCase());
 			
-			pstmt.setString(i+=1, "DOMINGO");
+			pstmt.setString(i+=1, "Domingo");
 			pstmt.setString(i+=1, horario.getDomingo1());
 			pstmt.setString(i+=1, horario.getDomingo2());
 			pstmt.setString(i+=1, horario.getDomingo3());
 			pstmt.setString(i+=1, horario.getDomingo4());
 			pstmt.setString(i+=1, horario.getDomingo5());
 			
-			pstmt.setString(i+=1, "LUNES");
+			pstmt.setString(i+=1, "Lunes");
 			pstmt.setString(i+=1, horario.getLunes1());
 			pstmt.setString(i+=1, horario.getLunes2());
 			pstmt.setString(i+=1, horario.getLunes3());
 			pstmt.setString(i+=1, horario.getLunes4());
 			pstmt.setString(i+=1, horario.getLunes5());
 			
-			pstmt.setString(i+=1, "MARTES");
+			pstmt.setString(i+=1, "Martes");
 			pstmt.setString(i+=1, horario.getMartes1());
 			pstmt.setString(i+=1, horario.getMartes2());
 			pstmt.setString(i+=1, horario.getMartes3());
 			pstmt.setString(i+=1, horario.getMartes4());
 			pstmt.setString(i+=1, horario.getMartes5());
 			
-			pstmt.setString(i+=1, "MIERCOLES");
+			pstmt.setString(i+=1, "Miércoles");
 			pstmt.setString(i+=1, horario.getMiercoles1());
 			pstmt.setString(i+=1, horario.getMiercoles2());
 			pstmt.setString(i+=1, horario.getMiercoles3());
 			pstmt.setString(i+=1, horario.getMiercoles4());
 			pstmt.setString(i+=1, horario.getMiercoles5());
 			
-			pstmt.setString(i+=1, "JUEVES");
+			pstmt.setString(i+=1, "Jueves");
 			pstmt.setString(i+=1, horario.getJueves1());
 			pstmt.setString(i+=1, horario.getJueves2());
 			pstmt.setString(i+=1, horario.getJueves3());
 			pstmt.setString(i+=1, horario.getJueves4());
 			pstmt.setString(i+=1, horario.getJueves5());
 			
-			pstmt.setString(i+=1, "VIERNES");
+			pstmt.setString(i+=1, "Viernes");
 			pstmt.setString(i+=1, horario.getViernes1());
 			pstmt.setString(i+=1, horario.getViernes2());
 			pstmt.setString(i+=1, horario.getViernes3());
 			pstmt.setString(i+=1, horario.getViernes4());
 			pstmt.setString(i+=1, horario.getViernes5());
 			
-			pstmt.setString(i+=1, "SABADO");
+			pstmt.setString(i+=1, "Sábado");
 			pstmt.setString(i+=1, horario.getSabado1());
 			pstmt.setString(i+=1, horario.getSabado2());
 			pstmt.setString(i+=1, horario.getSabado3());
@@ -1940,5 +2023,6 @@ public class GuardarSQL {
 		}		
 		return true;
 	}
+	
 
 }

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 
@@ -346,6 +347,14 @@ public class Obj_Empleado {
 	
 	public boolean nombre_disponible(String nombre){ return new BuscarSQL().nombre_disponible(nombre); }
 	
-	public boolean insertar(int folio,String t_entrada){return new GuardarSQL().Insert_Empleado(folio,t_entrada);}
 	
+	public String[] Combo_Empleado(){ 
+		try {
+			return new Cargar_Combo().Empleado("tb_empleado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	public boolean insertar(int folio,String t_entrada){return new GuardarSQL().Insert_Empleado(folio,t_entrada);}
 }

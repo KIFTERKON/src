@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 
@@ -57,6 +58,15 @@ public class Obj_Jefatura {
 	public Obj_Jefatura buscar_nuevo(){
 		try {
 			return new BuscarSQL().Jefatura_Nuevo();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	//Cargamos el combo jefatura
+	public String[] Combo_Jefatura(){ 
+		try {
+			return new Cargar_Combo().Jefatura("tb_jefatura");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

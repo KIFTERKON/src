@@ -25,6 +25,7 @@ import objetos.Obj_Gafete;
 
 
 
+@SuppressWarnings("serial")
 public class Cat_Gafetes extends JFrame {
 		
 		Container cont = getContentPane();
@@ -210,7 +211,7 @@ public class Cat_Gafetes extends JFrame {
 		}
 		
 		ActionListener opAgregar = new ActionListener() {
-			@SuppressWarnings({ "unchecked" })
+		
 			public void actionPerformed(ActionEvent arg0) {
 				
 				txtFolio.setText("");

@@ -49,5 +49,13 @@ public class Obj_Entosal {
 			return false;
 		}
 	}
+	public boolean checar_dia_descanso(int folio){ 
+		try {
+			return new BuscarSQL().IntentaChecarDiaDescanso(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 }
