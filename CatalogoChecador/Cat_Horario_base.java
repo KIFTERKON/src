@@ -1,8 +1,6 @@
 package CatalogoChecador;
 
 import java.awt.Container;
-import java.sql.Time;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.ImageIcon;

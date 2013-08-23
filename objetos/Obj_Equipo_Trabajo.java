@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
+import SQL.Cargar_Combo;
 import SQL.GuardarSQL;
 
 
@@ -66,6 +67,15 @@ public class Obj_Equipo_Trabajo {
 	public Obj_Equipo_Trabajo buscar_nuevo(){
 		try {
 			return new BuscarSQL().Eq_Trabajo_Nuevo();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
+	public String[] Combo_Equipo(){ 
+		try {
+			return new Cargar_Combo().Equipo("tb_equipo_trabajo");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -26,7 +26,6 @@ import javax.swing.table.TableRowSorter;
 
 import objetos.JTextFieldLimit;
 
-import ObjetoChecador.ObjHorario;
 import SQL.Connexion;
 
 @SuppressWarnings("serial")
@@ -51,6 +50,7 @@ public class Filtro_Horario extends JFrame
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Filtro_Horario()
 	{
 		
@@ -84,7 +84,7 @@ public class Filtro_Horario extends JFrame
 	        		
 	    			int fila = tabla.getSelectedRow();
 	    			int folio = Integer.parseInt(modelo.getValueAt(fila,0)+"");
-	    			
+	    			dispose();
 	    			new Cat_Horario(folio).setVisible(true);
 	    			dispose();
 	        	}

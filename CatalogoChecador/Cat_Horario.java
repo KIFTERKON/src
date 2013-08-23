@@ -1,6 +1,5 @@
 package CatalogoChecador;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -26,7 +25,6 @@ import ObjetoChecador.ObjHorario;
 @SuppressWarnings("serial")
 public class Cat_Horario extends Cat_Horario_base
 {
-//	Cat_Horario2 hora = new Cat_Horario2();                                            
 	public void getContenedor(){
 			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/reloj.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Horario"));	
@@ -553,18 +551,6 @@ public class Cat_Horario extends Cat_Horario_base
 		}
 	};
 	
-//	ActionListener turno = new ActionListener() {
-//		public void actionPerformed(ActionEvent arg0) 
-//		{
-//			if(btnTurno.isSelected())
-//			{
-//				paneles.addTab("Horario 2",hora.horario2);
-//			}else{
-//				paneles.remove(hora.horario2);
-//				}
-//		}
-//	};
-	
 	public void resetear()
 	{
 		 
@@ -621,78 +607,9 @@ public class Cat_Horario extends Cat_Horario_base
 		
 		rbNoDobla.setSelected(true);
 		
-		//Reseteamos a la hora del dia todos los campos de la segunda ventana
-//		hora.spDomingo1.setValue(date);
-//		hora.spDomingo2.setValue(date);
-//		hora.spDomingo3.setValue(date);
-//		hora.spDomingo4.setValue(date);
-//		hora.spDomingo5.setValue(date);
-//				
-//		hora.spLunes1.setValue(date);
-//		hora.spLunes2.setValue(date);
-//		hora.spLunes3.setValue(date);
-//		hora.spLunes4.setValue(date);
-//		hora.spLunes5.setValue(date);
-//				
-//		hora.spMartes1.setValue(date);
-//		hora.spMartes2.setValue(date);
-//		hora.spMartes3.setValue(date);
-//		hora.spMartes4.setValue(date);
-//		hora.spMartes5.setValue(date);
-//				
-//		hora.spMiercoles1.setValue(date);
-//		hora.spMiercoles2.setValue(date);
-//		hora.spMiercoles3.setValue(date);
-//		hora.spMiercoles4.setValue(date);
-//		hora.spMiercoles5.setValue(date);
-//				
-//		hora.spJueves1.setValue(date);
-//		hora.spJueves2.setValue(date);
-//		hora.spJueves3.setValue(date);
-//		hora.spJueves4.setValue(date);
-//		hora.spJueves5.setValue(date);
-//				
-//		hora.spViernes1.setValue(date);
-//		hora.spViernes2.setValue(date);
-//		hora.spViernes3.setValue(date);
-//		hora.spViernes4.setValue(date);
-//		hora.spViernes5.setValue(date);
-//		
-//		hora.spSabado1.setValue(date);
-//		hora.spSabado2.setValue(date);
-//		hora.spSabado3.setValue(date);
-//		hora.spSabado4.setValue(date);
-//		hora.spSabado5.setValue(date);
-//		
-//		hora.DomingoVisible();
-//		hora.LunesVisible();
-//		hora.MartesVisible();
-//		hora.MiercolesVisible();
-//		hora.JuevesVisible();
-//		hora.ViernesVisible();
-//		hora.SabadoVisible();
-//		txtNombre.setText("");
-//		
-//		btnDomingo.setSelected(false);
-//		btnLunes.setSelected(false);
-//		btnMartes.setSelected(false);
-//		btnMiercoles.setSelected(false);
-//		btnJueves.setSelected(false);
-//		btnViernes.setSelected(false);
-//		btnSabado.setSelected(false);
-//
-//		hora.btnDomingo.setSelected(false);
-//		hora.btnLunes.setSelected(false);
-//		btnMartes.setSelected(false);
-//		hora.btnMiercoles.setSelected(false);
-//		hora.btnJueves.setSelected(false);
-//		hora.btnViernes.setSelected(false);
-//		hora.btnSabado.setSelected(false);
 	}
-	@SuppressWarnings("deprecation")
 	public void preguntas()
 	{
-//		ObjHorario horario = new ObjHorario();
 		if(btnDomingo.isSelected()==true)
 		{
 			spDomingo1.setValue(new Date(00,00,00));

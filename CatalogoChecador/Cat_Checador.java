@@ -71,7 +71,6 @@ public class Cat_Checador extends JFrame {
 			   	java.lang.Object.class, 
 			   	java.lang.Object.class, 
 			   	java.lang.Object.class, 
-			    	
 			   	java.lang.Object.class, 
 			   	java.lang.Object.class, 
 			   	java.lang.Object.class,  
@@ -324,7 +323,8 @@ public class Cat_Checador extends JFrame {
 				}else{
 						Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 						
-						if(re.getFolio() != 0){			
+						if(re.getFolio() != 0){	
+								
 							txtFolio.setText(re.getFolio()+"");
 							numero_de_checador = re.getNo_checador();
 							
@@ -377,163 +377,186 @@ public class Cat_Checador extends JFrame {
 		    	txtClaveReal.setText(txtClaveReal.getText()+"  ");
 		    }			
 		}
+		
 		@SuppressWarnings("deprecation")
 		@Override
 		public void keyPressed(KeyEvent e){
-			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				if(txtClaveReal.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "la clave es requerida \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					txtFolio.setEditable(true);
-					txtFolio.setText("");
-					txtFolio.requestFocus();
-					txtClaveReal.setText("");
-					txtClaveReal.setEditable(false);
-				}else{			
-					
-//meter split para que extraiga el puro numero
-//					declarar variable que cachara el valor real de la clave
-				       String CadenaDeClave = "";
-//				       recorer la cadena de la clave para eliminar los espacion
-				       for (int x=0; x < txtClaveReal.getText().length(); x++) {
-//				     	condicion(si el caracter en la posicion ubicada es diferente de vacio entra y asigna asta)
-				     	  if (txtClaveReal.getText().charAt(x) != ' ')
-//				       		toma el valor de CadenaDeClave y le asigna el siguiente caracter
-				      	    CadenaDeClave += txtClaveReal.getText().charAt(x);
-					  }
-			        
-					if(Integer.parseInt(CadenaDeClave) == numero_de_checador){
-						
-						if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
-								JOptionPane.showMessageDialog(null, "Espere un Momento y Reintente","aviso",JOptionPane.WARNING_MESSAGE);
-						}else{
-						
-								Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-								
-								if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+						if(txtClaveReal.getText().equals("")){
 							
-									ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-									Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-									btnFoto.setIcon(icono);	
-									
-									Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
-									
-									tabla_model.addRow(registro);
-									String tipo=registro[2].toString();
-									String hora=registro[3].toString();
-									
-									String Fecha=registro[9].toString();
-									lblFecha.setText(Fecha);
-									
-									txtFolio.setEditable(true);
-									txtFolio.setText("");
-									txtFolio.requestFocus();
-									txtClaveReal.setText("");
-									txtClaveReal.setEditable(false);
-							
-										if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-											lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-											lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
-	
-										}else{
-											lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-											lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-										}
-							
-									lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-									
-									Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-									lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-		
-									Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-									lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-									
-									txtFolio.setEditable(false);
-									txtClaveReal.setEditable(true);
-									txtClaveReal.requestFocus();
-							
-								}else{
-									JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
-									txtFolio.setEditable(true);
-									panelLimpiar();
-									return;
-									}
-						}
-
-						txtFolio.setEditable(true);
-						txtClaveReal.setEditable(false);
-						txtFolio.setText("");
-						txtClaveReal.setText("");
-						txtFolio.requestFocus();
-						
-					}else{
-						
-						Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-						Obj_Entosal entosalClave = new Obj_Entosal().buscar(Integer.parseInt(CadenaDeClave));
-						
-							if(re.getFolio()!= 0 && entosalClave.getClave() == Integer.parseInt(CadenaDeClave)){
-								ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-								Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-								btnFoto.setIcon(icono);	
-								
-								Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
-								
-								tabla_model.addRow(registro);
-								String tipo=registro[2].toString();
-								String hora=registro[3].toString();
-								
-								String Fecha=registro[9].toString();
-								lblFecha.setText(Fecha);
-								
+								JOptionPane.showMessageDialog(null, "la clave es requerida \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 								txtFolio.setEditable(true);
 								txtFolio.setText("");
 								txtFolio.requestFocus();
 								txtClaveReal.setText("");
 								txtClaveReal.setEditable(false);
-								
-									if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-										lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-										lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
-		
-									}else{
-										lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-										lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-									}
-								
-								lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-								
-								Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-								lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-	
-								Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-								lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-								
-								txtFolio.setEditable(false);
-								txtClaveReal.setEditable(true);
-								txtClaveReal.requestFocus();
-								
-							}else{
-								 	JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-									txtFolio.setEditable(true);
-									txtFolio.setText("");
-									txtFolio.requestFocus();
-									txtClaveReal.setText("");
-									txtClaveReal.setEditable(false);
-								}
-							 }
-						
-						txtFolio.setEditable(true);
-						txtFolio.setText("");
-						txtFolio.requestFocus();
-						txtClaveReal.setText("");
-						txtClaveReal.setEditable(false);
-					}			
-				}		
+							
+						}else{	
+							
+							Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+								switch (re.getStatus()){
+								 case 1:registrarEntrada(); break;
+								 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
+								 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
+								 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
+								 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
+													
+									};
+									
+							}			
+					}		
 			}
 		
 		@Override
 		public void keyReleased(KeyEvent e){}
 								
 	};
+	
+	@SuppressWarnings("deprecation")
+	public void registrarEntrada(){
+		
+//meter split para que extraiga el puro numero
+//		declarar variable que cachara el valor real de la clave
+	       String CadenaDeClave = "";
+//	       recorer la cadena de la clave para eliminar los espacion
+	       for (int x=0; x < txtClaveReal.getText().length(); x++) {
+//	     	condicion(si el caracter en la posicion ubicada es diferente de vacio entra y asigna asta)
+	     	  if (txtClaveReal.getText().charAt(x) != ' ')
+//	       		toma el valor de CadenaDeClave y le asigna el siguiente caracter
+	      	    CadenaDeClave += txtClaveReal.getText().charAt(x);
+		  }
+        
+		if(Integer.parseInt(CadenaDeClave) == numero_de_checador){
+			 if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){ 	
+					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","aviso",JOptionPane.WARNING_MESSAGE);
+					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","aviso",JOptionPane.INFORMATION_MESSAGE); 
+			 }else{
+				
+					if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
+								JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","aviso",JOptionPane.WARNING_MESSAGE);
+					}else{
+					
+								Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+								
+								if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
+							
+										ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+										Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+										btnFoto.setIcon(icono);	
+										
+										Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
+										
+										tabla_model.addRow(registro);
+										String tipo=registro[2].toString();
+										String hora=registro[3].toString();
+										
+										String Fecha=registro[9].toString();
+										lblFecha.setText(Fecha);
+										
+										txtFolio.setEditable(true);
+										txtFolio.setText("");
+										txtFolio.requestFocus();
+										txtClaveReal.setText("");
+										txtClaveReal.setEditable(false);
+								
+												if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+														lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+														lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+					
+												}else{
+														lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+														lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+													}
+								
+										lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+										
+										Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+										lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
+				
+										Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+										lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+										
+										txtFolio.setEditable(false);
+										txtClaveReal.setEditable(true);
+										txtClaveReal.requestFocus();
+							
+								}else{
+										JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
+										txtFolio.setEditable(true);
+										panelLimpiar();
+										return;
+									}
+					}
+				}
+	
+				txtFolio.setEditable(true);
+				txtClaveReal.setEditable(false);
+				txtFolio.setText("");
+				txtClaveReal.setText("");
+				txtFolio.requestFocus();
+			
+		}else{
+			
+			Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+			Obj_Entosal entosalClave = new Obj_Entosal().buscar(Integer.parseInt(CadenaDeClave));
+			
+				if(re.getFolio()!= 0 && entosalClave.getClave() == Integer.parseInt(CadenaDeClave)){
+					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+					btnFoto.setIcon(icono);	
+					
+					Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
+					
+					tabla_model.addRow(registro);
+					String tipo=registro[2].toString();
+					String hora=registro[3].toString();
+					
+					String Fecha=registro[9].toString();
+					lblFecha.setText(Fecha);
+					
+					txtFolio.setEditable(true);
+					txtFolio.setText("");
+					txtFolio.requestFocus();
+					txtClaveReal.setText("");
+					txtClaveReal.setEditable(false);
+					
+						if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+							lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+							lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+
+						}else{
+							lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+							lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+						}
+					
+					lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+					
+					Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+					lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
+
+					Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+					lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+					
+					txtFolio.setEditable(false);
+					txtClaveReal.setEditable(true);
+					txtClaveReal.requestFocus();
+					
+				}else{
+					 	JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						txtFolio.setEditable(true);
+						txtFolio.setText("");
+						txtFolio.requestFocus();
+						txtClaveReal.setText("");
+						txtClaveReal.setEditable(false);
+					}
+				 }
+			
+			txtFolio.setEditable(true);
+			txtFolio.setText("");
+			txtFolio.requestFocus();
+			txtClaveReal.setText("");
+			txtClaveReal.setEditable(false);
+	}
 	
 	ActionListener opExaminar = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
@@ -598,7 +621,7 @@ public class Cat_Checador extends JFrame {
 		}
 		
 	};
-	
+
 	ActionListener cerrar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			System.exit(getDefaultCloseOperation());		

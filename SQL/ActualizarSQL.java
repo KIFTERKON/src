@@ -11,6 +11,7 @@ import ObjetoChecador.ObjHorario;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
@@ -27,6 +28,7 @@ import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
+import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_Nomina;
@@ -1557,6 +1559,80 @@ public class ActualizarSQL {
 		return true;
 	}
 	
+	//*Agregando update para mensajes*///
+			public boolean ActualizarMensajes(Obj_Mensajes msj, int folio){
+				String query = "update tb_mensajes set mensaje=? where folio=" + folio;
+				
+				Connection con = new Connexion().conexion();
+				PreparedStatement pstmt = null;
+				try {
+					con.setAutoCommit(false);
+					pstmt = con.prepareStatement(query);
+				
+					pstmt.setString(1, msj.getMensaje());
+									
+					pstmt.executeUpdate();
+					con.commit();
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}		
+				return true;
+			}
+	
+			//*Agregando update para asignacion de mensajes*///
+			public boolean ActualizarAsignacion(Obj_Asignacion_Mensajes msj, int folio){
+				String query = "update tb_asignacion_mensaje set mensaje=?,mensajearea=?,puesto=?,equipo=?,jefatura=?,empleado=? where folio=" + folio;
+				
+				Connection con = new Connexion().conexion();
+				PreparedStatement pstmt = null;
+				try {
+					con.setAutoCommit(false);
+					pstmt = con.prepareStatement(query);
+					
+					pstmt.setInt(1,msj.getNo_mensajes());
+					pstmt.setString(2, msj.getMensaje());
+					pstmt.setString(3,msj.getPuesto());
+					pstmt.setString(4,msj.getEquipo());
+					pstmt.setString(5,msj.getJefatura());
+					pstmt.setString(6, msj.getEmpleado());
+									
+					pstmt.executeUpdate();
+					con.commit();
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}		
+				return true;
+			}
 	public boolean Horario(ObjHorario horario_emp, int folio){
 
 		String query = "exec sp_update_horarios ?,?,?,?,?,?,?,?,?,?," +
