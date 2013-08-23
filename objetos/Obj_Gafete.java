@@ -1,7 +1,7 @@
 package objetos;
 
 import SQL.BuscarTablasModel;
-import SQL.GuardarSQL;
+
 
 public  class Obj_Gafete{
 		

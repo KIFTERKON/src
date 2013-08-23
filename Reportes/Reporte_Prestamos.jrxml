@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Prestamos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="72b28e85-6b85-405a-a19e-a90c0b1b291a">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -38,10 +38,14 @@
 			WHEN tb_prestamo.cantidad - tb_prestamo.descuento - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1) > 0
 				THEN tb_prestamo.cantidad - tb_prestamo.descuento - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
 			ELSE 0		
-	   END as Saldo_Nuevo
+	   END as Saldo_Nuevo,
+       Case when tb_empleado.status_imss=0
+           then 'Contable'
+           else 'No Contable'
+           end as Status,  
+       tb_empleado.imss  
 	  
 
-	
    
  FROM tb_empleado 
 
@@ -64,13 +68,13 @@ GROUP BY tb_empleado.folio ,
        tb_establecimiento.nombre ,
        tb_prestamo.cantidad,
        tb_prestamo.descuento, 
-	   tb_prestamo.cantidad 
+	   tb_prestamo.cantidad,
+       tb_empleado.status_imss,
+       tb_empleado.imss 
 	 
     
        
-Order By
-	tb_establecimiento.nombre,
-	tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno]]>
+Order By 	tb_empleado.status_imss, tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno]]>
 	</queryString>
 	<field name="Establecimiento" class="java.lang.String"/>
 	<field name="Folio" class="java.lang.Integer"/>
@@ -79,18 +83,20 @@ Order By
 	<field name="Saldo" class="java.math.BigDecimal"/>
 	<field name="Descuento_a_Aplicar" class="java.math.BigDecimal"/>
 	<field name="Saldo_Nuevo" class="java.math.BigDecimal"/>
+	<field name="imss" class="java.lang.String"/>
+	<field name="Status" class="java.lang.String"/>
 	<group name="Group1">
-		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
+		<groupExpression><![CDATA[$F{Status}]]></groupExpression>
 		<groupHeader>
 			<band height="37">
 				<frame>
-					<reportElement uuid="9da96497-8519-4d25-858d-de3d9f2646ec" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#000000"/>
-					<textField isStretchWithOverflow="true">
-						<reportElement uuid="aa15137c-8cce-42e6-a32e-45ee4b639aeb" style="SubTitle" isPrintRepeatedValues="false" x="2" y="0" width="182" height="24" forecolor="#FFFFFF"/>
+					<reportElement uuid="9da96497-8519-4d25-858d-de3d9f2646ec" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#FF8000"/>
+					<textField>
+						<reportElement uuid="f6158405-ed54-4845-a652-9760bc6477a8" x="0" y="0" width="260" height="20" forecolor="#FFFFFF"/>
 						<textElement>
-							<font isBold="false"/>
+							<font size="14"/>
 						</textElement>
-						<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
+						<textFieldExpression><![CDATA[$F{Status}]]></textFieldExpression>
 					</textField>
 					<staticText>
 						<reportElement uuid="a9b41f8c-ccb5-470a-92b5-5c0d3b913ad6" style="Column header" x="499" y="2" width="51" height="20" forecolor="#FFFFFF"/>
@@ -128,12 +134,18 @@ Order By
 		</groupFooter>
 	</group>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="321e2ca1-10cb-4415-95c8-9ab2f1cbebf6" x="0" y="0" width="50" height="30"/>
+				<textElement/>
+				<text><![CDATA[Saldo_Nuevo]]></text>
+			</staticText>
+		</band>
 	</background>
 	<title>
 		<band height="57" splitType="Stretch">
 			<frame>
-				<reportElement uuid="f40033e7-3b11-4284-9dc5-639e231aceba" mode="Opaque" x="0" y="0" width="477" height="50" backcolor="#000000"/>
+				<reportElement uuid="f40033e7-3b11-4284-9dc5-639e231aceba" mode="Opaque" x="0" y="0" width="477" height="50" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
 					<reportElement uuid="31bea70f-4e17-4539-aad9-9162208eeb59" style="Title" x="30" y="0" width="370" height="50"/>
 					<textElement>
@@ -165,21 +177,21 @@ Order By
 				<textField isStretchWithOverflow="true">
 					<reportElement uuid="376df1cf-51cd-43e5-93e5-17afe2ac8e23" style="Detail" positionType="Float" x="0" y="0" width="30" height="18"/>
 					<textElement>
-						<font size="12"/>
+						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Folio}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
 					<reportElement uuid="02786b11-bc43-472e-82a4-2c20a7f9fd53" style="Detail" positionType="Float" x="40" y="0" width="230" height="18"/>
 					<textElement>
-						<font size="12"/>
+						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{NombreCompleto}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
 					<reportElement uuid="4d686371-99ec-4d30-91ef-e2c79ba21569" style="Detail" positionType="Float" x="280" y="0" width="60" height="18"/>
 					<textElement textAlignment="Right">
-						<font size="12"/>
+						<font size="11"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Prestamo}]]></textFieldExpression>
 				</textField>
@@ -208,7 +220,7 @@ Order By
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="7" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<line>
 				<reportElement uuid="65bc79b0-0f7a-4d03-9140-554189329500" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
 				<graphicElement>
@@ -220,7 +232,7 @@ Order By
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement uuid="33abdeb0-e9f1-4c75-b348-6d21d5509224" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000"/>
+				<reportElement uuid="33abdeb0-e9f1-4c75-b348-6d21d5509224" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000080"/>
 				<textField evaluationTime="Report">
 					<reportElement uuid="8b54e201-57d3-4808-9667-fe95152a5f9b" style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Bancos_Por_Empleado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="98810376-372e-4e41-a516-7bfa0d73593f">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -14,7 +17,7 @@
 	</style>
 	<queryString>
 		<![CDATA[select  tb_bancos.folio_empleado
-       ,tb_bancos.establecimiento  
+       ,tb_bancos.establecimiento
        ,tb_bancos.nombre_completo
        ,tb_bancos.banamex
        ,tb_bancos.banorte
@@ -36,7 +39,7 @@ order by tb_bancos.nombre_completo]]>
 	<title>
 		<band height="50" splitType="Stretch">
 			<frame>
-				<reportElement uuid="7021dca3-bdac-4433-89be-b633c905bf50" mode="Opaque" x="0" y="0" width="451" height="50" backcolor="#000000"/>
+				<reportElement uuid="7021dca3-bdac-4433-89be-b633c905bf50" mode="Opaque" x="0" y="0" width="451" height="50" backcolor="#000066"/>
 				<staticText>
 					<reportElement uuid="c984b51f-7305-4985-afd8-2393f909fb19" style="Title" x="0" y="0" width="370" height="39"/>
 					<textElement>
@@ -131,7 +134,7 @@ order by tb_bancos.nombre_completo]]>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement uuid="ca72fdf5-1792-436a-b9a0-8d9da18168ae" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000"/>
+				<reportElement uuid="ca72fdf5-1792-436a-b9a0-8d9da18168ae" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000066"/>
 				<textField evaluationTime="Report">
 					<reportElement uuid="8ebae9a1-302d-44e2-bdc8-ccf3e2615d88" style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">

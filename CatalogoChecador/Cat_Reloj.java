@@ -21,6 +21,7 @@ public class Cat_Reloj{
 			
 			String h;
 			String m;
+			@SuppressWarnings("unused")
 			String s;
 			
 			int[] hora = new Obj_Hora_Sincronizada().get_hora_minuto_segundo();

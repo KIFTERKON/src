@@ -3662,12 +3662,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 	        	 	case 0 : return false; 
 	        	 	case 1 : return false; 
 	        	 	case 2 : return false;
-	        	 	case 3 : 
-	        	 		if(Integer.parseInt(modeloFiltro.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modeloFiltro.getValueAt(fila,0).toString().trim()) == 2){
-	        	 			return false;
-	        	 		}else{
-		        	 		return true;
-	        	 		}
+	        	 	case 3 : return true;
+	        	 		
 	        	 } 				
 	 			return false;
 	 		}
@@ -3830,7 +3826,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 					filaDom[0] = posicion;
  									filaDom[1] = modeloFiltro.getValueAt(i, 1);
  									filaDom[2] = modeloFiltro.getValueAt(i, 2);
- 									filaDom[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
+     								filaDom[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaDom[4] = "00:00";
  									filaDom[5] = "00:00";
 				 					for(int j=0; j<modelDomingo.getRowCount();){
