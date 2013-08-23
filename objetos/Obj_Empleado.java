@@ -43,11 +43,15 @@ public class Obj_Empleado {
 	private String telefono_propio;
 	private boolean cuadrante_parcial;
 	
+	private int status_2h;
+	private int turno2;
+	
+	
 	public Obj_Empleado(){
 		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto = null;
 		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; 
 		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss=""; status_imss=0; fecha_ingreso=""; foto_status = false; telefono_familiar = ""; telefono_propio = "";
-		cuadrante_parcial = false;
+		cuadrante_parcial = false; status_2h=0; turno2=0;
 	}
 
 	public boolean isCuadrante_parcial() {
@@ -295,9 +299,25 @@ public class Obj_Empleado {
 	public String getTelefono_familiar() {
 		return telefono_familiar;
 	}
-
+	
 	public void setTelefono_familiar(String telefono_familiar) {
 		this.telefono_familiar = telefono_familiar;
+	}
+	
+	public int getStatus_2h() {
+		return status_2h;
+	}
+
+	public void setStatus_2h(int status_2h) {
+		this.status_2h = status_2h;
+	}
+	
+	public int getTurno2() {
+		return turno2;
+	}
+
+	public void setTurno2(int turno2) {
+		this.turno2 = turno2;
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Empleado(this); }

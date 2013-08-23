@@ -9,14 +9,14 @@ import SQL.GuardarSQL;
 
 
 
-public class Obj_Turno {
+public class Obj_Turno2 {
 	private int folio;
 	private String nombre;
 	private String horario;
 	private boolean status;
 	
 	
-	public Obj_Turno(){
+	public Obj_Turno2(){
 		this.folio=0; nombre=""; horario="";
 	}
 
@@ -52,42 +52,42 @@ public class Obj_Turno {
 		this.status = status;
 	}
 
-	public boolean guardar(){ return new GuardarSQL().Guardar_Turno(this); }
+//	public boolean guardar(){ return new GuardarSQL().Guardar_Turno(this); }
 	
-	public String[] Combo_Turno(){ 
+	public String[] Combo_Turno2(){ 
 		try {
-			return new Cargar_Combo().Turno("tb_horarios");
+			return new Cargar_Combo().Turno2("tb_horarios");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null; 
 	}
 	
-	public Obj_Turno buscar(int folio) {
-		try {
-			return new BuscarSQL().Turno(folio);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null; 
-	}
+//	public Obj_Turno buscar(int folio) {
+//		try {
+//			return new BuscarSQL().Turno2(folio);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null; 
+//	}
 	
-	public boolean actualizar(int folio){ return new ActualizarSQL().Turno(this,folio); }
+//	public boolean actualizar(int folio){ return new ActualizarSQL().Turno2(this,folio); }
 	
-	public Obj_Turno buscar_nuevo() throws SQLException{ return new BuscarSQL().Turno_Nuevo(); }
+//	public Obj_Turno buscar_nuevo() throws SQLException{ return new BuscarSQL().Turno_Nuevo(); }
 	
-	public Obj_Turno buscar_tur(String nombre){
+	public Obj_Turno2 buscar_tur2(String nombre){
 		try{
-			return new BuscarSQL().Turn_buscar(nombre); 
+			return new BuscarSQL().Turn_buscar2(nombre); 
 		} catch(SQLException e){
 			
 		}
 		return null;
 	}
 	
-	public Obj_Turno buscar_tur(int folio){
+	public Obj_Turno2 buscar_tur2(int folio){
 		try{
-			return new BuscarSQL().Turn_buscar(folio); 
+			return new BuscarSQL().Turn_buscar2(folio); 
 		} catch(SQLException e){
 			
 		}

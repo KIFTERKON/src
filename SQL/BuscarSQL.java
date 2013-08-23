@@ -48,6 +48,7 @@ import objetos.Obj_Sueldo;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
+import objetos.Obj_Turno2;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -842,6 +843,10 @@ public class BuscarSQL {
 				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
+				
+				empleado.setTurno2(rs.getInt("horario"));
+				empleado.setStatus_2h(rs.getInt("status_2h"));
+				empleado.setTurno2(rs.getInt("horario_2"));
 
 		            byte[] buffer = new byte[1];
 		            InputStream is = rs.getBinaryStream("foto");
@@ -1489,7 +1494,7 @@ public class BuscarSQL {
 	
 	public Obj_Turno Turn_buscar(String nombre) throws SQLException{
 		Obj_Turno turno = new Obj_Turno();
-		String query = "select folio from tb_turno where nombre='"+nombre+"'";
+		String query = "select folio from tb_horarios where nombre='"+nombre+"'";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -1506,6 +1511,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return turno;
+	}
+	
+	public Obj_Turno2 Turn_buscar2(String nombre) throws SQLException{
+		Obj_Turno2 turno2 = new Obj_Turno2();
+		String query = "select folio from tb_horarios where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno2.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno2;
 	}
 	
 	public Obj_Establecimiento Establ_buscar_folio(int folio) throws SQLException{
@@ -1594,7 +1620,7 @@ public class BuscarSQL {
 	
 	public Obj_Turno Turn_buscar(int folio) throws SQLException{
 		Obj_Turno turno = new Obj_Turno();
-		String query = "select nombre from tb_turno where folio="+folio;
+		String query = "select nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -1613,6 +1639,26 @@ public class BuscarSQL {
 		return turno;
 	}
 	
+	public Obj_Turno2 Turn_buscar2(int folio) throws SQLException{
+		Obj_Turno2 turno2 = new Obj_Turno2();
+		String query = "select nombre from tb_horarios where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno2.setNombre(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno2;
+	}	
 	
 //	public Obj_Revision_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
 //		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
