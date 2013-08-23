@@ -56,11 +56,6 @@ public class Filtro_Horario extends JFrame
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro Horario"));	
-		trsfiltro = new TableRowSorter(modelo); 
-		tabla.setRowSorter(trsfiltro); 
-		
-//		trsfiltro = new TableRowSorter(modelo); 
-//		tabla.setRowSorter(trsfiltro);  
 		
 		panel.add(getPanelTabla()).setBounds(20,50,540        ,400);
 		panel.add(txtFolio).setBounds(20,20,115,20);
@@ -70,7 +65,6 @@ public class Filtro_Horario extends JFrame
 		txtNombre.setToolTipText("Filtro");
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
-//		txtNombre.setDocument(new JTextFieldLimit(40));
 		
 		txtNombre.addKeyListener(opFiltroNombre);
 		txtFolio.addKeyListener(opFiltroFolio);
@@ -92,27 +86,11 @@ public class Filtro_Horario extends JFrame
 	    			int folio = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	    			dispose();
 	    			new Cat_Horario(folio).setVisible(true);
+	    			dispose();
 	        	}
 	        }
         });
     }
-	
-//	KeyListener numerico_action = new KeyListener() {
-//		public void keyTyped(KeyEvent e) {
-//			char caracter = e.getKeyChar();
-//
-//		   if(((caracter < '0') ||
-//		        (caracter > '9')) &&
-//		        (caracter != KeyEvent.VK_BACK_SPACE)){
-//		    	e.consume(); 
-//		    }			
-//		}
-//		@Override
-//		public void keyPressed(KeyEvent e){}
-//		@Override
-//		public void keyReleased(KeyEvent e){}
-//								
-//	};
 	
 	KeyListener opFiltroFolio = new KeyListener(){
 		@SuppressWarnings("unchecked")

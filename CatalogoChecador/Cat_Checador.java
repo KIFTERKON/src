@@ -437,6 +437,7 @@ public class Cat_Checador extends JFrame {
 								
 	};
 	
+	@SuppressWarnings("deprecation")
 	public void registrarEntrada(){
 		
 //meter split para que extraiga el puro numero
@@ -649,7 +650,7 @@ public class Cat_Checador extends JFrame {
 		}
 		
 	};
-	
+
 	ActionListener cerrar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			System.exit(getDefaultCloseOperation());		

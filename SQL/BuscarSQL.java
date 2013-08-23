@@ -3229,7 +3229,8 @@ public class BuscarSQL {
 				horaa.setSabado4(rs.getString("salidaS"));
 				horaa.setSabado5(rs.getString("recesoS"));
 				
-				horaa.setDescanso(rs.getString("descanso"));
+				horaa.setDescanso(rs.getInt("descanso"));
+				horaa.setDiaDobla(rs.getInt("dobla"));
 				
 			}
 		} catch (Exception e) {

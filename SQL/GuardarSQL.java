@@ -1940,7 +1940,7 @@ public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 
 //Guardamos el horario
 	public boolean Guardar_Horario(ObjHorario horario){
-		String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1998,7 +1998,8 @@ public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 			pstmt.setString(i+=1, horario.getSabado4());
 			pstmt.setString(i+=1, horario.getSabado5());
 			
-			pstmt.setString(i+=1, horario.getDescanso());
+			pstmt.setInt(i+=1, horario.getDescanso());
+			pstmt.setInt(i+=1, horario.getDiaDobla());
 			
 			pstmt.executeUpdate();
 			con.commit();

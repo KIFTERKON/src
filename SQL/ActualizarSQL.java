@@ -1638,7 +1638,7 @@ public class ActualizarSQL {
 		String query = "exec sp_update_horarios ?,?,?,?,?,?,?,?,?,?," +
 											"	?,?,?,?,?,?,?,?,?,?," +
 											"	?,?,?,?,?,?,?,?,?,?," +
-											"	?,?,?,?,?,?,?,? ";
+											"	?,?,?,?,?,?,?,?,? ";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1650,7 +1650,7 @@ public class ActualizarSQL {
 			
 			pstmt.setInt(i, folio);
 			pstmt.setString(i+=1, horario_emp.getNombre());
-			pstmt.setString(i+=1, horario_emp.getDescanso());
+			pstmt.setInt(i+=1, horario_emp.getDescanso());
 			
 			
 
@@ -1703,6 +1703,9 @@ public class ActualizarSQL {
 			pstmt.setString(i+=1, horario_emp.getSabado3());
 			pstmt.setString(i+=1, horario_emp.getSabado4());
 			pstmt.setString(i+=1, horario_emp.getSabado5());
+			
+//			dia doble 
+			pstmt.setInt(i+=1, horario_emp.getDiaDobla());
 			
 			pstmt.executeUpdate();
 			con.commit();

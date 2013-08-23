@@ -1,7 +1,6 @@
 package CatalogoChecador;
 
 import java.awt.Container;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -9,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -32,7 +32,19 @@ public class Cat_Horario_base  extends JFrame
 	JToggleButton btnJueves = new JToggleButton("Jueves");                             
 	JToggleButton btnViernes = new JToggleButton("Viernes");                           
 	JToggleButton btnSabado = new JToggleButton("Sábado");                             
-	JToggleButton btnTurno = new JToggleButton(new ImageIcon("Imagen/2do.png"));       
+	JToggleButton btnTurno = new JToggleButton(new ImageIcon("Imagen/2do.png"));  
+	
+	JLabel lblDobla = new JLabel("Dia Dobla");
+	JLabel lblNoDobla = new JLabel("No Dobla");
+	
+	JRadioButton rbDomingo = new JRadioButton("",false);
+	JRadioButton rbLunes = new JRadioButton("",false);
+	JRadioButton rbMartes = new JRadioButton("",false);
+	JRadioButton rbMiercoles = new JRadioButton("",false);
+	JRadioButton rbJueves = new JRadioButton("",false);
+	JRadioButton rbViernes = new JRadioButton("",false);
+	JRadioButton rbSabado = new JRadioButton("",false);
+	JRadioButton rbNoDobla = new JRadioButton("",true);
 	                                                                   
 	JButton btnNuevo = new JButton("Nuevo"); 
 	JLabel lblFolio = new JLabel("Folio");
@@ -44,18 +56,18 @@ public class Cat_Horario_base  extends JFrame
 	JButton btnDeshacer = new JButton("Deshacer");  
 	JButton btnFiltro = new JButton("Filtro");
 	
-	String Descanso="";
+	int Descanso=0;
 	
 	JTextField txtNombre = new JTextField();                                           
 	                               
 	Date date = new Date();	
 	
-	    //Domingo//                                                                    
-	  SpinnerDateModel sm1 =  new SpinnerDateModel();
+    //Domingo//                 
+	SpinnerDateModel sm1 =  new SpinnerDateModel();
 	  JSpinner spDomingo1 = new JSpinner(sm1);                                         
 	  JSpinner.DateEditor de1 = new JSpinner.DateEditor(spDomingo1,"H:mm");              
 	                                                                                   
-	  SpinnerDateModel sm2 =  new SpinnerDateModel();
+	SpinnerDateModel sm2 =  new SpinnerDateModel();
 	  JSpinner spDomingo2 = new JSpinner(sm2);                                         
 	  JSpinner.DateEditor de2 = new JSpinner.DateEditor(spDomingo2,"H:mm");          
 	  
@@ -72,11 +84,11 @@ public class Cat_Horario_base  extends JFrame
 	  JSpinner.DateEditor de5 = new JSpinner.DateEditor(spDomingo5,"H:mm");              
 	                                                                                                                                                                 
 	  //Lunes//                                                                        
-	  SpinnerDateModel sml1 =  new SpinnerDateModel();
+	 SpinnerDateModel sml1 =  new SpinnerDateModel();
 	  JSpinner spLunes1 = new JSpinner(sml1);                                          
 	  JSpinner.DateEditor del1 = new JSpinner.DateEditor(spLunes1,"H:mm");               
 	                                                                                   
-	  SpinnerDateModel sml2 =  new SpinnerDateModel();
+	SpinnerDateModel sml2 =  new SpinnerDateModel();
 	  JSpinner spLunes2 = new JSpinner(sml2);                                          
 	  JSpinner.DateEditor del2 = new JSpinner.DateEditor(spLunes2,"H:mm");           
 	                                                                                   
@@ -93,11 +105,11 @@ public class Cat_Horario_base  extends JFrame
 	  JSpinner.DateEditor del5 = new JSpinner.DateEditor(spLunes5,"H:mm");               
 	                                                                                   
 	  //Martes//                                                                       
-	  SpinnerDateModel smm1 =  new SpinnerDateModel();
+	SpinnerDateModel smm1 =  new SpinnerDateModel();
 	  JSpinner spMartes1 = new JSpinner(smm1);                                         
 	  JSpinner.DateEditor dem1 = new JSpinner.DateEditor(spMartes1,"H:mm");              
 	                                                                                   
-	  SpinnerDateModel smm2 =  new SpinnerDateModel();
+	SpinnerDateModel smm2 =  new SpinnerDateModel();
 	  JSpinner spMartes2 = new JSpinner(smm2);                                         
 	  JSpinner.DateEditor dem2 = new JSpinner.DateEditor(spMartes2,"H:mm");          
 	                                                                                   
@@ -114,11 +126,11 @@ public class Cat_Horario_base  extends JFrame
 	  JSpinner.DateEditor dem5 = new JSpinner.DateEditor(spMartes5,"H:mm");              
 	                                                                                   
 	  //Miercoles//                                                                    
-	  SpinnerDateModel smmi1 =  new SpinnerDateModel();
+	SpinnerDateModel smmi1 =  new SpinnerDateModel();
 	  JSpinner spMiercoles1 = new JSpinner(smmi1);                                     
 	  JSpinner.DateEditor demmi1 = new JSpinner.DateEditor(spMiercoles1,"H:mm");         
 	                                                                                   
-	  SpinnerDateModel smmi2 =  new SpinnerDateModel();
+	SpinnerDateModel smmi2 =  new SpinnerDateModel();
 	  JSpinner spMiercoles2 = new JSpinner(smmi2);                                     
 	  JSpinner.DateEditor demmi2 = new JSpinner.DateEditor(spMiercoles2,"H:mm");     
 	                                                                                   
@@ -135,11 +147,11 @@ public class Cat_Horario_base  extends JFrame
 	  JSpinner.DateEditor demmi5 = new JSpinner.DateEditor(spMiercoles5,"H:mm");         
 	                                                                                   
 	  //Jueves//                                                                       
-	  SpinnerDateModel smj1 =  new SpinnerDateModel();
+	SpinnerDateModel smj1 =  new SpinnerDateModel();
 	  JSpinner spJueves1 = new JSpinner(smj1);                                         
 	  JSpinner.DateEditor dej1 = new JSpinner.DateEditor(spJueves1,"H:mm");              
 	                                                                                   
-	  SpinnerDateModel smj2 =  new SpinnerDateModel();
+	SpinnerDateModel smj2 =  new SpinnerDateModel();
 	  JSpinner spJueves2 = new JSpinner(smj2);                                         
 	  JSpinner.DateEditor dej2 = new JSpinner.DateEditor(spJueves2,"H:mm");          
 	                                                                                   
@@ -156,11 +168,11 @@ public class Cat_Horario_base  extends JFrame
 	  JSpinner.DateEditor dej5 = new JSpinner.DateEditor(spJueves5,"H:mm");              
 	                                                                                   
 	  //Viernes//                                                                      
-	  SpinnerDateModel smv1 =  new SpinnerDateModel();
+	SpinnerDateModel smv1 =  new SpinnerDateModel();
 	  JSpinner spViernes1 = new JSpinner(smv1);                                        
 	  JSpinner.DateEditor dev1 = new JSpinner.DateEditor(spViernes1,"H:mm");             
 	                                                                                   
-	  SpinnerDateModel smv2 =  new SpinnerDateModel();
+	SpinnerDateModel smv2 =  new SpinnerDateModel();
 	  JSpinner spViernes2 = new JSpinner(smv2);                                        
 	  JSpinner.DateEditor dev2 = new JSpinner.DateEditor(spViernes2,"H:mm");         
 	                                                                                   
@@ -177,11 +189,11 @@ public class Cat_Horario_base  extends JFrame
 	  JSpinner.DateEditor dev5 = new JSpinner.DateEditor(spViernes5,"H:mm");             
 
 	  //Sabado//                                                                       
-	  SpinnerDateModel sms1 =  new SpinnerDateModel();
+	SpinnerDateModel sms1 =  new SpinnerDateModel();
 	  JSpinner spSabado1 = new JSpinner(sms1);                                         
 	  JSpinner.DateEditor des1 = new JSpinner.DateEditor(spSabado1,"H:mm");              
-	                                                                                   
-	  SpinnerDateModel sms2 =  new SpinnerDateModel(date, null, null,Calendar.HOUR_OF_DAY);
+	                                                                                 
+	SpinnerDateModel sms2 =  new SpinnerDateModel();
 	  JSpinner spSabado2 = new JSpinner(sms2);                                         
 	  JSpinner.DateEditor des2 = new JSpinner.DateEditor(spSabado2,"H:mm");          
 	                                                                                   
