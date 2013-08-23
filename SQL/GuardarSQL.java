@@ -59,7 +59,7 @@ import objetos.Obj_fuente_sodas_rh;
 public class GuardarSQL {
 
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -100,6 +100,10 @@ public class GuardarSQL {
 			pstmt.setString(26, empleado.getFecha_ingreso());
 			pstmt.setString(27, empleado.getTelefono_familiar());
 			pstmt.setInt(28, empleado.isCuadrante_parcial() ? 1 : 0);
+			
+			pstmt.setInt(29, empleado.getTurno());
+			pstmt.setInt(30, empleado.getStatus_2h());
+			pstmt.setInt(31, empleado.getTurno2());
 			
 			pstmt.executeUpdate();
 			con.commit();

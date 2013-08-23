@@ -3,7 +3,9 @@ package CatalogoChecador;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Vector;
 
@@ -120,6 +128,9 @@ public class Cat_Checador extends JFrame {
 		JLabel lblPuesto = new JLabel("Puesto: ");
 		JLabel lblHorario = new JLabel("Horario: ");
 		
+		JLabel btnMensaje = new JLabel("");
+		JButton btnExaminar = new JButton("Examinar");
+		
 	//	float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
 		int anchoMon = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width);
 	//	int anchoMon = 1366;
@@ -202,6 +213,9 @@ public class Cat_Checador extends JFrame {
 					panel.add(lblPuesto).setBounds(1130,120,320,20);
 					panel.add(lblHorario).setBounds(1130,160,320,20);
 					
+					panel.add(btnExaminar).setBounds(1000,200,80,20);
+					panel.add(btnMensaje).setBounds(960,247,608,608);
+					
 					panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
 					panel.add(fondo).setBounds(-30,-20,1660,900);
 		}
@@ -225,6 +239,8 @@ public class Cat_Checador extends JFrame {
 		ImageIcon tmpIconAuxFoto = new ImageIcon(fileFoto);
 		Icon iconoFoto = new ImageIcon(tmpIconAuxFoto.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 		btnFoto.setIcon(iconoFoto);	
+		
+		btnExaminar.addActionListener(opExaminar);
 		
 		txtFolio.addKeyListener(action_buscar);
 		txtClaveReal.addKeyListener(action_entosal_clave);
@@ -569,6 +585,70 @@ public class Cat_Checador extends JFrame {
 			txtClaveReal.setText("");
 			txtClaveReal.setEditable(false);
 	}
+	
+	ActionListener opExaminar = new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			FileDialog file = new FileDialog(new Frame());
+			
+			file.setTitle("Selecciona una Imagen");
+			file.setMode(FileDialog.LOAD);
+			file.setVisible(true);
+			
+			if(file.getDirectory() != null){
+
+				try {
+					String rootPicture = file.getDirectory()+file.getFile();
+					
+					File foto = new File(rootPicture);
+					File destino = new File(System.getProperty("user.dir")+"/tmp/mensaje.jpg");
+			    	
+			    	InputStream in = new FileInputStream(foto);
+					OutputStream out = new FileOutputStream(destino);
+					
+				    byte[] buf = new byte[1024];
+				    int len;
+
+				    while ((len = in.read(buf)) > 0) {
+				    	out.write(buf, 0, len);
+				    }
+				    
+				    in.close();
+				    out.close();
+					
+//					File foto1 = new File(rootPicture);
+//					File destino1 = new File(System.getProperty("user.dir")+"/tmp/tmp_update/mensaje.jpg");
+//			    	
+//			    	InputStream in1 = new FileInputStream(foto1);
+//					OutputStream out1 = new FileOutputStream(destino1);
+//					
+//				    byte[] buf1 = new byte[1024];
+//				    int len1;
+//
+//				    while ((len1 = in1.read(buf1)) > 0) {
+//				    	out1.write(buf1, 0, len1);
+//				    }
+//				    
+//				    in1.close();
+//				    out1.close();
+				    
+
+					String fileFoto = System.getProperty("user.dir")+"/tmp/mensaje.jpg";
+					ImageIcon tmpIconAuxFoto = new ImageIcon(fileFoto);
+					Icon iconoFoto = new ImageIcon(tmpIconAuxFoto.getImage().getScaledInstance(btnMensaje.getWidth(), btnMensaje.getHeight(), Image.SCALE_DEFAULT));
+					btnMensaje.setIcon(iconoFoto);	
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			}else{
+				JOptionPane.showMessageDialog(null,"No ha seleccionado ninguna imagen","Aviso",JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+						
+		}
+		
+	};
 	
 	ActionListener cerrar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){

@@ -49,8 +49,9 @@ public class ActualizarSQL {
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=?, status_imss=?, fecha_ingreso=?, telefono_familiar=?, cuadrante_parcial=? where folio=" + folio;
-		
+				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=?, status_imss=?, fecha_ingreso=?, telefono_familiar=?, cuadrante_parcial=?," +
+				" horario=?, status_2h=?, horario_2=?  where folio=" + folio;
+
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -87,6 +88,10 @@ public class ActualizarSQL {
 			pstmt.setString(25, empleado.getFecha_ingreso());
 			pstmt.setString(26, empleado.getTelefono_familiar());
 			pstmt.setInt(27, empleado.isCuadrante_parcial() ? 1 : 0);
+			
+			pstmt.setInt(28, empleado.getTurno());
+			pstmt.setInt(29, empleado.getStatus_2h());
+			pstmt.setInt(30, empleado.getTurno2());
 			
 			pstmt.executeUpdate();
 			con.commit();
