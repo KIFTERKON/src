@@ -20,6 +20,7 @@ import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
@@ -37,6 +38,7 @@ import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Jefatura;
+import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
 import objetos.Obj_Nivel_Jerarquico;
 import objetos.Obj_OpRespuesta;
@@ -2892,6 +2894,109 @@ public class BuscarSQL {
 			
 		return disponible;
 	}
+	
+	//Buscar Mensaje
+	
+		public Obj_Mensajes mensaje(int folio) throws SQLException{
+			Obj_Mensajes mensaje = new Obj_Mensajes();
+			String query = "select * from tb_mensajes where folio ="+ folio;
+			Statement stmt = null;
+			try {
+				stmt = con.conexion().createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()){
+					mensaje.setFolio(rs.getInt("folio"));
+					mensaje.setMensaje(rs.getString("mensaje"));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			finally{
+				if(stmt!=null){stmt.close();}
+			}
+			return mensaje;
+		}
+		
+		//agregar nuevo mensaje
+		public Obj_Mensajes Mensaje_Nuevo() throws SQLException{
+			Obj_Mensajes mensaje = new Obj_Mensajes();
+			String query = "select max(folio) as 'Maximo' from tb_mensajes";
+			Statement stmt = null;
+			try {
+				stmt = con.conexion().createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()){
+					mensaje.setFolio(rs.getInt("Maximo"));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			finally{
+				if(stmt!=null){stmt.close();}
+			}
+			return mensaje;
+		}
+		
+		/////
+		public Obj_Asignacion_Mensajes Mensaje_New() throws SQLException{
+			Obj_Asignacion_Mensajes mensajes = new Obj_Asignacion_Mensajes();
+			String query = "select max(folio) as 'Maximo' from tb_asignacion_mensaje";
+			Statement stmt = null;
+			try {
+				stmt = con.conexion().createStatement();
+				ResultSet rs = stmt.executeQuery(query);
+				while(rs.next()){
+					mensajes.setFolio(rs.getInt("Maximo"));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			finally{
+				if(stmt!=null){stmt.close();}
+			}
+			return mensajes;
+		}
+		
+		//Buscar el folio de la asignacion del mensaje
+		
+			public Obj_Asignacion_Mensajes Asignacion(int folio) throws SQLException{
+				Obj_Asignacion_Mensajes mensaje = new Obj_Asignacion_Mensajes();
+				String query = "select * from tb_asignacion_mensaje where folio ="+ folio;
+				Statement stmt = null;
+				try {
+					stmt = con.conexion().createStatement();
+					ResultSet rs = stmt.executeQuery(query);
+					while(rs.next()){
+						mensaje.setFolio(rs.getInt("folio"));
+						mensaje.setNo_mensajes(rs.getInt("mensaje"));
+						mensaje.setMensaje(rs.getString("mensajearea"));
+						mensaje.setPuesto(rs.getString("puesto"));
+						mensaje.setEquipo(rs.getString("equipo"));
+						mensaje.setJefatura(rs.getString("jefatura"));
+						mensaje.setEmpleado(rs.getString("empleado"));
+						
+						
+						mensaje.setRbpuesto(rs.getBoolean("rbpuesto"));
+						mensaje.setRbequipo(rs.getBoolean("rbequipo"));
+						mensaje.setRbjefatura(rs.getBoolean("rbjefatura"));
+						mensaje.setRbempleado(rs.getBoolean("rbempleado"));
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+				finally{
+					if(stmt!=null){stmt.close();}
+				}
+				return mensaje;
+			}
 	
 //	buscar entosal
 	@SuppressWarnings({ "unchecked", "rawtypes" })
