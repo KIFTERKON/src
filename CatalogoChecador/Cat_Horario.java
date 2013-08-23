@@ -20,11 +20,6 @@ import javax.swing.UIManager;
 
 import ObjetoChecador.ObjHorario;
 
-/**
- ** @author Toche
- ** @proyecto Scoi
- **
- **/
 @SuppressWarnings("serial")
 public class Cat_Horario extends Cat_Horario_base
 {
@@ -645,7 +640,7 @@ public class Cat_Horario extends Cat_Horario_base
 //		hora.btnViernes.setSelected(false);
 //		hora.btnSabado.setSelected(false);
 	}
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unused" })
 	public void preguntas()
 	{
 		ObjHorario horario = new ObjHorario();

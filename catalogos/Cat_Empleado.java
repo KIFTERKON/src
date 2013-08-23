@@ -57,6 +57,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -75,6 +76,7 @@ import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Turno;
+import objetos.Obj_Turno2;
 import reporte.Reporte_de_Empleados_No_Contratables;
 
 @SuppressWarnings({ "serial", "unchecked" })
@@ -95,6 +97,9 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtTelefono_Familiar = new JTextField();
 	JTextField txtTelefono_Propio = new JTextField();  
 	
+	 private JRadioButton rbHorario2 = new JRadioButton("",false);
+//	 private ButtonGroup agruparRB = new ButtonGroup();
+	
 	JToggleButton btnTrueFoto = new JToggleButton("Para actualizar la foto Presiona aquí !!!");
 	
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento();
@@ -108,6 +113,10 @@ public class Cat_Empleado extends JFrame{
 	String turno[] = new Obj_Turno().Combo_Turno();
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbTurno = new JComboBox(turno);
+	
+	String turno2[] = new Obj_Turno2().Combo_Turno2();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbTurno2 = new JComboBox(turno2);
 	
 	String dias1[] = {"Selecciona un Día","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
 	@SuppressWarnings("rawtypes")
@@ -235,7 +244,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(cmbTurno).setBounds(x+ancho,y,ancho*2,20);
 		
 		panel.add(new JLabel("Horario:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtHorario).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(cmbTurno2).setBounds(x+ancho,y,ancho*2,20);
+		
+		panel.add(rbHorario2).setBounds(x+120,y,20,20);
 		
 		panel.add(new JLabel("Descanso:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbDescanso).setBounds(x+ancho,y,ancho*2,20);
@@ -295,7 +306,10 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
 		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,y,ancho-20,20);
-
+		
+//		agrupar radiobuton
+//		agruparRB.add(rbHorario2);
+		
 		txaObservaciones.setLineWrap(true); 
 		txaObservaciones.setWrapStyleWord(true);
 		txaObservaciones.setDocument(new JTextFieldLimit(980));
@@ -309,7 +323,10 @@ public class Cat_Empleado extends JFrame{
 		txtImss.setDocument(new JTextFieldLimit(11));
 		txtTelefono_Familiar.setDocument(new JTextFieldLimit(10));
 		
-		cmbTurno.addActionListener(opHorario_Turno);
+		rbHorario2.addActionListener(opRButton);
+		rbHorario2.setEnabled(false);
+		
+//		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
 		btnBuscar.addActionListener(buscar);
 		btnGuardar.addActionListener(guardar);
@@ -336,7 +353,8 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.addKeyListener(validaNumericoPension);
 		
 		cont.add(panel);
-		txtHorario.setEditable(false);
+		cmbTurno.setEnabled(false);
+		cmbTurno2.setEnabled(false);
 		txtFecha.setEditable(false);
 		panelEnabledFalse();
 		txtFolio.setEditable(true);
@@ -364,6 +382,17 @@ public class Cat_Empleado extends JFrame{
 			}else{
 				btnExaminar.setEnabled(false);
 				btnCamara.setEnabled(false);
+			}
+	
+		}
+	};
+	
+	ActionListener opRButton = new ActionListener(){
+		public void actionPerformed(ActionEvent arg0) {
+			if(rbHorario2.isSelected()==true){
+				cmbTurno2.setEnabled(true);
+			}else{
+				cmbTurno2.setEnabled(false);
 			}
 	
 		}
@@ -440,14 +469,22 @@ public class Cat_Empleado extends JFrame{
 				String nombre = procesa_texto(txtNombre.getText()) + " " + procesa_texto(txtApPaterno.getText()) + " " + procesa_texto(txtApMaterno.getText());
 				if(new Obj_Empleado().nombre_disponible(nombre)){
 					btnVerificar.setBackground(Color.red);
-					panelEnabledFalse();
+					
 					txtChecador.setEditable(true);
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
 					
+					cmbTurno.setEnabled(false);
+					rbHorario2.setEnabled(false);
+					cmbTurno2.setEnabled(false);
+					
 				}else{
 					btnVerificar.setBackground(Color.blue);
+					
+					cmbTurno.setEnabled(true);
+					rbHorario2.setEnabled(true);
+					cmbTurno2.setEnabled(false);
 					panelEnabledTrue();
 				}
 			}
@@ -465,12 +502,13 @@ public class Cat_Empleado extends JFrame{
         return texto;
     }
 	
-	ActionListener opHorario_Turno = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			Obj_Turno horario = new Obj_Turno().buscar_hora(cmbTurno.getSelectedIndex());
-			txtHorario.setText(horario.getHorario());
-		}
-	};
+//	ActionListener opHorario_Turno = new ActionListener() {
+//		public void actionPerformed(ActionEvent arg0) {
+//			Obj_Turno horario = new Obj_Turno().buscar_hora(cmbTurno.getSelectedIndex());
+////			cmbTurno2.setSelectedIndex(horar)
+////			Text(horario.getHorario());
+//		}
+//	};
 	
 	ActionListener opFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -511,6 +549,15 @@ public class Cat_Empleado extends JFrame{
 					
 					Obj_Turno comboNombreTurn = new Obj_Turno().buscar_tur(re.getTurno());
 					cmbTurno.setSelectedItem(comboNombreTurn.getNombre());
+					
+					Obj_Turno2 comboNombreTurn2 = new Obj_Turno2().buscar_tur2(re.getTurno2());
+					cmbTurno2.setSelectedItem(comboNombreTurn2.getNombre());
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+					if(re.getStatus_2h()==1){
+						rbHorario2.setSelected(true);
+					}else{
+						rbHorario2.setSelected(false);
+					}
 					
 					cmbDescanso.setSelectedIndex(re.getDescanso());
 					cmbDobla.setSelectedIndex(re.getDobla());
@@ -623,6 +670,17 @@ public class Cat_Empleado extends JFrame{
 							Obj_Turno comboFolioTurno = new Obj_Turno().buscar_tur(cmbTurno.getSelectedItem()+"");
 							empleado.setTurno(comboFolioTurno.getFolio());
 							
+//							segundo turno(horario2)
+							Obj_Turno2 comboFolioTurno2 = new Obj_Turno2().buscar_tur2(cmbTurno2.getSelectedItem()+"");
+//							empleado.setTurno2(comboFolioTurno2.getFolio());
+							if(rbHorario2.isSelected()==true){
+								empleado.setTurno2(comboFolioTurno2.getFolio());
+								empleado.setStatus_2h(1);
+							}else{
+								empleado.setTurno2(comboFolioTurno2.getFolio());
+								empleado.setStatus_2h(0);
+							}
+							
 							empleado.setDescanso(cmbDescanso.getSelectedIndex());
 							empleado.setDobla(cmbDobla.getSelectedIndex());
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
@@ -675,6 +733,9 @@ public class Cat_Empleado extends JFrame{
 							if(empleado.actualizar(Integer.parseInt(txtFolio.getText()))){
 								panelLimpiar();
 								panelEnabledFalse();
+								cmbTurno.setEnabled(false);
+								rbHorario2.setEnabled(false);
+								cmbTurno2.setEnabled(false);
 								txtFolio.setEditable(true);
 								txtFolio.requestFocus();
 								btnTrueFoto.setSelected(false);
@@ -706,10 +767,25 @@ public class Cat_Empleado extends JFrame{
 						
 						Obj_Establecimiento comboFolioEsta = new Obj_Establecimiento().buscar_estab(cmbEstablecimiento.getSelectedItem()+"");
 						empleado.setEstablecimiento(comboFolioEsta.getFolio());
+						
 						Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 						empleado.setPuesto(comboFolioPues.getFolio());
+						
 						Obj_Turno comboFolioTurno = new Obj_Turno().buscar_tur(cmbTurno.getSelectedItem()+"");
 						empleado.setTurno(comboFolioTurno.getFolio());
+						
+//						segundo turno(horario2)
+						Obj_Turno2 comboFolioTurno2 = new Obj_Turno2().buscar_tur2(cmbTurno2.getSelectedItem()+"");
+//						empleado.setTurno2(comboFolioTurno2.getFolio());
+						if(rbHorario2.isSelected()==true){
+							empleado.setTurno2(comboFolioTurno2.getFolio());
+							empleado.setStatus_2h(1);
+						}else{
+							empleado.setTurno2(comboFolioTurno2.getFolio());
+							empleado.setStatus_2h(0);
+						}
+						
+						empleado.setTurno2(comboFolioTurno2.getFolio());
 						empleado.setDescanso(cmbDescanso.getSelectedIndex());
 						empleado.setDobla(cmbDobla.getSelectedIndex());
 						empleado.setSueldo(cmbSueldo.getSelectedIndex());
@@ -761,6 +837,9 @@ public class Cat_Empleado extends JFrame{
 						
 						if(empleado.guardar()){
 							panelLimpiar();
+							cmbTurno.setEnabled(false);
+							rbHorario2.setEnabled(false);
+							cmbTurno2.setEnabled(false);
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
 							txtFolio.requestFocus();
@@ -789,10 +868,18 @@ public class Cat_Empleado extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 			if(empleado.getFolio() != 0){
+				
+				cmbTurno.setEnabled(true);
 				panelEnabledTrue();
+				if(rbHorario2.isSelected()==true){
+					cmbTurno2.setEnabled(true);
+				}else{
+					cmbTurno2.setEnabled(false);
+				}
 				txtFolio.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
+				rbHorario2.setEnabled(true);
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;
@@ -809,7 +896,6 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setEditable(true);
 		cmbEstablecimiento.setEnabled(true);
 		cmbPuesto.setEnabled(true);
-		cmbTurno.setEnabled(true);
 		cmbDescanso.setEnabled(true);
 		cmbDobla.setEnabled(true);
 		cmbSueldo.setEnabled(true);
@@ -840,7 +926,6 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setEditable(false);
 		cmbEstablecimiento.setEnabled(false);
 		cmbPuesto.setEnabled(false);
-		cmbTurno.setEnabled(false);
 		cmbDescanso.setEnabled(false);
 		cmbDobla.setEnabled(false);
 		cmbSueldo.setEnabled(false);
@@ -872,6 +957,7 @@ public class Cat_Empleado extends JFrame{
 		cmbEstablecimiento.setSelectedIndex(0);
 		cmbPuesto.setSelectedIndex(0);
 		cmbTurno.setSelectedIndex(0);
+		cmbTurno2.setSelectedIndex(0);
 		cmbDescanso.setSelectedIndex(0);
 		cmbDobla.setSelectedIndex(0);
 		cmbSueldo.setSelectedIndex(0);
@@ -943,6 +1029,9 @@ public class Cat_Empleado extends JFrame{
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelLimpiar();
+			cmbTurno.setEnabled(false);
+			rbHorario2.setEnabled(false);
+			cmbTurno2.setEnabled(false);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
@@ -1120,6 +1209,9 @@ public class Cat_Empleado extends JFrame{
 			
 			Obj_Turno comboNombreTurn = new Obj_Turno().buscar_tur(re.getTurno());
 			cmbTurno.setSelectedItem(comboNombreTurn.getNombre());
+			
+			Obj_Turno2 comboNombreTurn2 = new Obj_Turno2().buscar_tur2(re.getTurno());
+			cmbTurno2.setSelectedItem(comboNombreTurn2.getNombre());
 			
 			cmbDescanso.setSelectedIndex(re.getDescanso());
 			cmbDobla.setSelectedIndex(re.getDobla());
