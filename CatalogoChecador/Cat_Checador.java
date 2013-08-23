@@ -380,11 +380,34 @@ public class Cat_Checador extends JFrame {
 							Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 								switch (re.getStatus()){
 								 case 1:registrarEntrada(); break;
-								 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
-								 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
-								 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
-								 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);break;
-													
+								 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+								    txtFolio.setEditable(true);
+									txtFolio.setText("");
+									txtFolio.requestFocus();
+									txtClaveReal.setText("");
+									txtClaveReal.setEditable(false);
+								    break;
+								 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+							        txtFolio.setEditable(true);
+									txtFolio.setText("");
+									txtFolio.requestFocus();
+									txtClaveReal.setText("");
+									txtClaveReal.setEditable(false);
+						     		 break;
+								 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+								    txtFolio.setEditable(true);
+									txtFolio.setText("");
+									txtFolio.requestFocus();
+									txtClaveReal.setText("");
+									txtClaveReal.setEditable(false);
+									break;
+								 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+								    txtFolio.setEditable(true);
+									txtFolio.setText("");
+									txtFolio.requestFocus();
+									txtClaveReal.setText("");
+									txtClaveReal.setEditable(false);
+									break;
 									};
 									
 							}			
@@ -392,7 +415,9 @@ public class Cat_Checador extends JFrame {
 			}
 		
 		@Override
-		public void keyReleased(KeyEvent e){}
+		public void keyReleased(KeyEvent e){
+			
+		}
 								
 	};
 	
@@ -418,6 +443,9 @@ public class Cat_Checador extends JFrame {
 					if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
 								JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","aviso",JOptionPane.WARNING_MESSAGE);
 					}else{
+							if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
+								 JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para Dia que Doblan ","aviso",JOptionPane.INFORMATION_MESSAGE);
+							}else{
 					
 								Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 								
@@ -469,6 +497,7 @@ public class Cat_Checador extends JFrame {
 										panelLimpiar();
 										return;
 									}
+							}
 					}
 				}
 	

@@ -3098,6 +3098,28 @@ public class BuscarSQL {
 		}
 		return descanso;
 	}
+	public boolean obtener_checadas_dia_dobla(int folio)throws SQLException{
+		boolean descanso = false;
+		String query = "exec sp_valida_checadas_vs_dia_dobla "+folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				descanso = rs.getBoolean("valor");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return descanso;
+	}
+	
 	//Buscamos el horario por su nombre
 	public ObjHorario buscahorario(int folio) throws SQLException{
 		ObjHorario horaa = new ObjHorario();
