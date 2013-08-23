@@ -91,7 +91,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
         	 	case 7 : return false;
         	 	case 8 :
         	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila,7).toString()) == true){
-        	 			if(Boolean.parseBoolean(tabla.getValueAt(fila, 8).toString()) == true){
+        	 			if(Boolean.parseBoolean(tabla_model.getValueAt(fila, 8).toString()) == true){
         	 				tabla_model.setValueAt("", fila, 9);
         	 				
         	 			}else{
@@ -102,7 +102,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
         	 			return false;
         	 		}
         	 	case 9 :
-        	 		if(Boolean.parseBoolean(tabla.getValueAt(fila, 8).toString()) == true){
+        	 		if(Boolean.parseBoolean(tabla_model.getValueAt(fila, 8).toString()) == true){
         	 			return true;
         	 		}else{
         	 			return false;

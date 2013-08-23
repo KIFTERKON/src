@@ -23,10 +23,7 @@ import objetos.Obj_Usuario;
 ***												   *** 
 ***     https://github.com/RguezMario/src.git      ***
 ***	                     						   ***
-<<<<<<< HEAD
-=======
 ***	                 Colaboradores				   ***
->>>>>>> 516fb8c1bea5d68c9c6d907d2030816bf5b8ef9b
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    online + López Arballo Oscar Manuel        ***
@@ -129,10 +126,8 @@ public class Main extends InitButton {
 					Configuracion_Denominaciones.setEnabled(true);
 				if(permisos[i].equals("Configuración de Divisas y Tipo de Cambio"))
 					Configuracion_Divisas.setEnabled(true);
-				
 				if(permisos[i].equals("Configuración Mantenimiento Base de Datos"))
 					Configuracion_Mantenimiento.setEnabled(true);
-				
 				if(permisos[i].equals("Configuración de Sistema"))
 					Configuracion_Sistema.setEnabled(true);
 				if(permisos[i].equals("Configuración de Usuarios"))

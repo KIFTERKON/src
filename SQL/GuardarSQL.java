@@ -1862,49 +1862,49 @@ public class GuardarSQL {
 			int i=1;
 			pstmt.setString(i, horario.getNombre().trim().toUpperCase());
 			
-			pstmt.setString(i+=1, "DOMINGO");
+			pstmt.setString(i+=1, "Domingo");
 			pstmt.setString(i+=1, horario.getDomingo1());
 			pstmt.setString(i+=1, horario.getDomingo2());
 			pstmt.setString(i+=1, horario.getDomingo3());
 			pstmt.setString(i+=1, horario.getDomingo4());
 			pstmt.setString(i+=1, horario.getDomingo5());
 			
-			pstmt.setString(i+=1, "LUNES");
+			pstmt.setString(i+=1, "Lunes");
 			pstmt.setString(i+=1, horario.getLunes1());
 			pstmt.setString(i+=1, horario.getLunes2());
 			pstmt.setString(i+=1, horario.getLunes3());
 			pstmt.setString(i+=1, horario.getLunes4());
 			pstmt.setString(i+=1, horario.getLunes5());
 			
-			pstmt.setString(i+=1, "MARTES");
+			pstmt.setString(i+=1, "Martes");
 			pstmt.setString(i+=1, horario.getMartes1());
 			pstmt.setString(i+=1, horario.getMartes2());
 			pstmt.setString(i+=1, horario.getMartes3());
 			pstmt.setString(i+=1, horario.getMartes4());
 			pstmt.setString(i+=1, horario.getMartes5());
 			
-			pstmt.setString(i+=1, "MIERCOLES");
+			pstmt.setString(i+=1, "Miércoles");
 			pstmt.setString(i+=1, horario.getMiercoles1());
 			pstmt.setString(i+=1, horario.getMiercoles2());
 			pstmt.setString(i+=1, horario.getMiercoles3());
 			pstmt.setString(i+=1, horario.getMiercoles4());
 			pstmt.setString(i+=1, horario.getMiercoles5());
 			
-			pstmt.setString(i+=1, "JUEVES");
+			pstmt.setString(i+=1, "Jueves");
 			pstmt.setString(i+=1, horario.getJueves1());
 			pstmt.setString(i+=1, horario.getJueves2());
 			pstmt.setString(i+=1, horario.getJueves3());
 			pstmt.setString(i+=1, horario.getJueves4());
 			pstmt.setString(i+=1, horario.getJueves5());
 			
-			pstmt.setString(i+=1, "VIERNES");
+			pstmt.setString(i+=1, "Viernes");
 			pstmt.setString(i+=1, horario.getViernes1());
 			pstmt.setString(i+=1, horario.getViernes2());
 			pstmt.setString(i+=1, horario.getViernes3());
 			pstmt.setString(i+=1, horario.getViernes4());
 			pstmt.setString(i+=1, horario.getViernes5());
 			
-			pstmt.setString(i+=1, "SABADO");
+			pstmt.setString(i+=1, "Sábado");
 			pstmt.setString(i+=1, horario.getSabado1());
 			pstmt.setString(i+=1, horario.getSabado2());
 			pstmt.setString(i+=1, horario.getSabado3());
