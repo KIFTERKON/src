@@ -134,7 +134,7 @@ public class Cat_Diferencia_Cortes extends JFrame{
 		btnGuardar.addMouseListener(guardar);
 		
 		txtCantidad.addKeyListener(validaNumericoConPunto);
-		txtDescuento.addKeyListener(validaNumericoConPunto);
+		txtDescuento.addKeyListener(validaNumericoConPunto2);
 	
 		cont.add(panel);
 		
@@ -374,6 +374,30 @@ public class Cat_Diferencia_Cortes extends JFrame{
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){    	
 		    	String texto = txtCantidad.getText().toString();
+				if (texto.indexOf(".")>0) e.consume();
+				
+			}
+		    		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	KeyListener validaNumericoConPunto2 = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){    	
+		    	String texto = txtDescuento.getText().toString();
 				if (texto.indexOf(".")>0) e.consume();
 				
 			}
