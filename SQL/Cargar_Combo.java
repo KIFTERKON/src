@@ -285,7 +285,9 @@ public class Cargar_Combo {
 	
 	@SuppressWarnings("unchecked")
 	public String[] Puesto(String tabla) throws SQLException{
-		String query = "select nombre from " + tabla+" order by nombre asc";
+		String query = "select nombre from " + tabla+" where status=1 order by nombre asc";
+		
+		System.out.println("select nombre from " + tabla+" order by nombre asc");
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

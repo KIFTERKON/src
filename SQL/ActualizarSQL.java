@@ -1223,7 +1223,7 @@ public class ActualizarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, pond.getDescripcion().toUpperCase());
-			pstmt.setString(2, pond.getPuesto_principal());
+			pstmt.setInt(2, pond.getPuesto_principal());
 			pstmt.setString(3, pond.getPuesto_dependiente());
 			pstmt.setString(4, pond.isStatus()?"1":"0");
 			
@@ -1651,6 +1651,7 @@ public class ActualizarSQL {
 			pstmt.setInt(i, folio);
 			pstmt.setString(i+=1, horario_emp.getNombre());
 			pstmt.setInt(i+=1, horario_emp.getDescanso());
+			pstmt.setInt(i+=1, horario_emp.getDiaDobla());
 			
 			
 
@@ -1703,9 +1704,6 @@ public class ActualizarSQL {
 			pstmt.setString(i+=1, horario_emp.getSabado3());
 			pstmt.setString(i+=1, horario_emp.getSabado4());
 			pstmt.setString(i+=1, horario_emp.getSabado5());
-			
-//			dia doble 
-			pstmt.setInt(i+=1, horario_emp.getDiaDobla());
 			
 			pstmt.executeUpdate();
 			con.commit();
