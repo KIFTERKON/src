@@ -60,7 +60,7 @@ public class Cat_Checador extends JFrame {
 	
 	Cat_Reloj trae_hora = new Cat_Reloj();
 	
-	private DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Traer_Checador().get_tabla_model(),
+	public static DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Traer_Checador().get_tabla_model(),
 			new String[]{"Folio", "Nombre", "Entosal", "H Evento",
 				"T Retardo", "Alerta", "PC", "IP","Tipo de Entrada"}){
 				
@@ -99,7 +99,7 @@ public class Cat_Checador extends JFrame {
 		 	}
 		};
 	
-		private JTable tabla = new JTable(tabla_model);
+		static JTable tabla = new JTable(tabla_model);
 		JScrollPane panelScroll = new JScrollPane(tabla);
 		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -272,17 +272,19 @@ public class Cat_Checador extends JFrame {
 		}
 	
 	@SuppressWarnings("rawtypes")
-	public Object[] fila(int folio,String t_entrada){
+	public static Object[] fila(int folio,String t_entrada){
 		
 //metodo para llenar vector para checador--------------------------------------
 		Object [] vector = new Object[10];
 		
 		if(new Obj_Empleado().insertar(folio,t_entrada)){
-			Vector fila_sql = new Obj_Entosal().buscar_hora_entosal(folio);
-
-			for(int i=0; i<fila_sql.size(); i++){
-				vector[i] = "   "+fila_sql.get(i);
-			}
+         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio);
+         for(int i=0 ; i<fila_sql.size(); i++ ){
+        	 vector[i]= "   "+ fila_sql.get(i);
+        	 
+         }
+			
+			
 		}else{
 			JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
 		}
@@ -453,17 +455,25 @@ public class Cat_Checador extends JFrame {
         
 		if(Integer.parseInt(CadenaDeClave) == numero_de_checador){
 			 if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){ 	
-					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","aviso",JOptionPane.WARNING_MESSAGE);
-					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","aviso",JOptionPane.INFORMATION_MESSAGE); 
+					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
+					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE); 
 			 }else{
 				
 					if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
-								JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","aviso",JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
 					}else{
 							if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
-								 JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para Dia que Doblan ","aviso",JOptionPane.INFORMATION_MESSAGE);
+								 JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
 							}else{
-					
+								  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
+									      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
+									      
+								   }
+								  
+							    else{
+								  
+								
+						     															
 								Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 								
 								if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
@@ -504,17 +514,20 @@ public class Cat_Checador extends JFrame {
 										Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
 										lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
 										
+										
+										
 										txtFolio.setEditable(false);
 										txtClaveReal.setEditable(true);
 										txtClaveReal.requestFocus();
 							
-								}else{
-										JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
-										txtFolio.setEditable(true);
-										panelLimpiar();
-										return;
+								     }else{
+									     	JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
+										    txtFolio.setEditable(true);
+									    	panelLimpiar();
+										    return;
 									}
 							}
+						}
 					}
 				}
 	
@@ -533,7 +546,10 @@ public class Cat_Checador extends JFrame {
 					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 					btnFoto.setIcon(icono);	
-					
+					  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
+					      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
+					   }
+					      else{
 					Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
 					
 					tabla_model.addRow(registro);
@@ -570,7 +586,7 @@ public class Cat_Checador extends JFrame {
 					txtClaveReal.setEditable(true);
 					txtClaveReal.requestFocus();
 					
-				}else{
+				}}else{
 					 	JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						txtFolio.setEditable(true);
 						txtFolio.setText("");
@@ -664,7 +680,7 @@ public class Cat_Checador extends JFrame {
 	
 	int x;			int y;			int z;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "static-access" })
 	public void init_tabla(){
 		
 		if(anchoMon <= 1380){
@@ -840,5 +856,30 @@ public class Cat_Checador extends JFrame {
 			   } catch (Exception e) 
 			   { }	
 	}
+
+	
+	public static void refresh(int folio_empleado,String tipo_entrada,int tipo_salida_comer) {
+		Object[] registro = fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
+		tabla_model.addRow(registro);
+	}
+	@SuppressWarnings("rawtypes")
+	public static Object[] fila2(int folio_empleado,String tipo_entrada,int tipo_salida_comer){
 		
+//metodo para llenar vector para checador--------------------------------------
+		Object [] vector = new Object[10];
+		
+		if(new Obj_Empleado().insertar_comida(folio_empleado,tipo_entrada,tipo_salida_comer)){
+         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio_empleado);
+         for(int i=0 ; i<fila_sql.size(); i++ ){
+        	 vector[i]= "   "+ fila_sql.get(i);
+        	 
+         }
+			
+			
+		}else{
+			JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
+		}
+			
+		return vector;
+	}
 }

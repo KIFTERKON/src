@@ -1835,6 +1835,43 @@ public class GuardarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(insert);
 			
+			
+			pstmt.setString(1, pc_nombre);
+			pstmt.setString(2, pc_ip);
+			pstmt.setString(3, t_entrada);
+			
+			pstmt.executeUpdate();
+			con.commit();
+			
+		}catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean Insert_Empleado_Comida(int folio,String t_entrada){
+		
+		String insert ="exec sp_insert_entosal "+folio+",?,?,?,?;";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		
+		try{
+			String pc_nombre = InetAddress.getLocalHost().getHostName();
+			String pc_ip = InetAddress.getLocalHost().getHostAddress();
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(insert);
+			
+			
 			pstmt.setString(1, pc_nombre);
 			pstmt.setString(2, pc_ip);
 			pstmt.setString(3, t_entrada);
@@ -2024,6 +2061,47 @@ public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 		}		
 		return true;
 	}
+
+	public boolean Insert_Empleado_Comida(int folio, String t_entrada, int tipo_salida_comer) {
+		System.out.println("2sad13asd");
+		
+		System.out.println(tipo_salida_comer);
+		
+		String insert ="exec sp_insert_entosal_comida_dobla "+folio+",?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		
+		try{
+			String pc_nombre = InetAddress.getLocalHost().getHostName();
+			String pc_ip = InetAddress.getLocalHost().getHostAddress();
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(insert);
+			
+			
+			pstmt.setString(1, pc_nombre);
+			pstmt.setString(2, pc_ip);
+			pstmt.setString(3, t_entrada);
+			pstmt.setInt(4, tipo_salida_comer);
+			
+			pstmt.executeUpdate();
+			con.commit();
+			
+		}catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}
+		return true;
+	}
+	
 	
 
 }

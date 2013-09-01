@@ -55,7 +55,7 @@ inner join tb_establecimiento
 inner join tb_prestamo
           ON tb_prestamo.folio_empleado=tb_empleado.folio
           and tb_prestamo.status=1
-inner join tb_abono 
+left outer join tb_abono 
 		  ON tb_abono.folio_empleado = tb_prestamo.folio_empleado 
 		  and  tb_abono.status=1
 

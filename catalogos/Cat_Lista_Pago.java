@@ -101,17 +101,7 @@ public class Cat_Lista_Pago extends JFrame {
 		ResultSet rs;
 		try {
 			s = conn.createStatement();
-			rs = s.executeQuery("select tb_empleado.nombre as [Nombre], "+
-								 "  tb_empleado.ap_paterno as [Paterno], "+
-								 "  tb_empleado.ap_materno as [Materno], "+ 
-								 "  tb_establecimiento.nombre as [Establecimiento] "+
-								 
-								"  from tb_empleado, tb_establecimiento "+
-
-								"  where "+
-									"  tb_empleado.establecimiento_id = tb_establecimiento.folio and "+
-									"  tb_empleado.status = 1 "+
-								" order by Establecimiento, Nombre asc");
+			rs = s.executeQuery("exec sp_select_lista_firmas");
 
 			
 			String aux="";
@@ -120,8 +110,8 @@ public class Cat_Lista_Pago extends JFrame {
 			{ 
 			   String [] fila = new String[3];
 			   
-			   String nombre= 	rs.getString(1).trim()+" "+rs.getString(2).trim()+" "+rs.getString(3).trim();
-			   String stab= 	rs.getString(4).trim();
+			   String nombre=   rs.getString(1);
+			   String stab= 	rs.getString(2).trim();
 			   
 			   if(stab.equals(aux)){
 				   
@@ -217,5 +207,8 @@ public class Cat_Lista_Pago extends JFrame {
 		public void keyReleased(KeyEvent e){}
 								
 	};
-	
+	public static void main (String arg [])
+	{
+		new Cat_Lista_Pago().setVisible(true);
+	}
 }

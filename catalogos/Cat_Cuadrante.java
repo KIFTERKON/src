@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import objetos.JTextFieldLimit;
 import objetos.Obj_Cuadrante;
 
 @SuppressWarnings("serial")
@@ -39,6 +40,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		buscar(folio);
 		txtFolio.setText(folio+"");
 		btnSimilar.setEnabled(true);
+		
 	}
 	
 	public void init(){
@@ -70,6 +72,10 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		this.btnSimilar.setEnabled(false);
 		
 		txtFolio.addKeyListener(valida);
+		
+		txaDescripcion.setLineWrap(true);
+		txaDescripcion.setWrapStyleWord(true);
+		txaDescripcion.setDocument(new JTextFieldLimit(700)); 
 		
 		enablesTodos(false);
 		txtFolio.setEditable(true);

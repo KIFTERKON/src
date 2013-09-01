@@ -241,10 +241,11 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 				return;
 				
 				}else{
-					String[] arreglo = new String[2];
+					String[] arreglo = new String[3];
 			
-					arreglo[0] =cmbP_Dependiente.getSelectedItem()+"";
-					arreglo[1] = cmb_Establecimiento.getSelectedItem()+"";
+					arreglo[0] = cmbP_Principal.getSelectedItem()+"";
+					arreglo[1] =cmbP_Dependiente.getSelectedItem()+"";
+					arreglo[2] = cmb_Establecimiento.getSelectedItem()+"";
 					
 					modelo.addRow(arreglo);
 				}

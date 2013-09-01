@@ -357,4 +357,10 @@ public class Obj_Empleado {
 		return null; 
 	}
 	public boolean insertar(int folio,String t_entrada){return new GuardarSQL().Insert_Empleado(folio,t_entrada);}
+	
+	public boolean insertar_comida(int folio,String t_entrada,int tipo_salida_comer){
+		
+		return new GuardarSQL().Insert_Empleado_Comida(folio,t_entrada,tipo_salida_comer);
+		
+	}
 }

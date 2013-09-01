@@ -5,7 +5,9 @@ import java.util.Vector;
 
 import SQL.BuscarSQL;
 import SQL.BuscarTablasModel;
+import SQL.GuardarSQL;
 
+@SuppressWarnings("unused")
 public class Obj_Entosal {
 	private int clave;
 	
@@ -70,5 +72,16 @@ public class Obj_Entosal {
 			return false;
 		}
 	}
+	public boolean checa_salida_comer(int folio){ 
+		try {
+			return new BuscarSQL().valida_si_dobla_y_esta_saliendo_a_comer(folio);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+
 	
 }

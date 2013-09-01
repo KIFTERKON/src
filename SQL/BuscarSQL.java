@@ -3146,7 +3146,7 @@ public class BuscarSQL {
 	}
 	public boolean obtener_checadas_dia_dobla(int folio)throws SQLException{
 		boolean descanso = false;
-		String query = "exec sp_valida_checadas_vs_dia_dobla "+folio;
+		String query = "sp_valida_cantidad_de_checadas_en_dia_dobla "+folio;
 		
 		Statement stmt = null;
 		try {
@@ -3164,6 +3164,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return descanso;
+	}
+	public boolean valida_si_dobla_y_esta_saliendo_a_comer(int folio)throws SQLException{
+		boolean dobla = false;
+		String query = "exec sp_valida_checadas_vs_dia_dobla "+folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				dobla = rs.getBoolean("valor");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return dobla;
 	}
 	
 	//Buscamos el horario por su nombre
