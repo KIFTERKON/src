@@ -1470,7 +1470,7 @@ public class GuardarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString (1, pond.getDescripcion());
-			pstmt.setString (2, pond.getPuesto_principal());
+			pstmt.setInt (2, pond.getPuesto_principal());
 			pstmt.setString (3, pond.getPuesto_dependiente());
 			pstmt.setString (4, pond.isStatus()?"1":"0");
 			
@@ -1555,7 +1555,7 @@ public class GuardarSQL {
 			
 			
 			pstmt.setString (1, pond.getDescripcion());
-			pstmt.setString (2, pond.getPuesto_principal());
+			pstmt.setInt (2, pond.getPuesto_principal());
 			
 			for (int i = 0; i < tabla.length; i++) {
 

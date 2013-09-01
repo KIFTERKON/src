@@ -160,7 +160,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 							gerarquico.setFolio(Integer.parseInt(txtFolio.getText()));
 							gerarquico.setDescripcion(txtDescripcion.getText().toUpperCase());
 							
-							gerarquico.setPuesto_principal(cmbP_Principal.getSelectedItem().toString());
+							gerarquico.setPuesto_principal(cmbP_Principal.getSelectedIndex());
 							gerarquico.setPuesto_dependiente(cmbP_Dependiente.getSelectedItem().toString());
 							gerarquico.setEstablecimiento(cmb_Establecimiento.getSelectedItem().toString());
 																					
@@ -176,7 +176,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 					}else{
 						Obj_Nivel_Jerarquico nivelg = new Obj_Nivel_Jerarquico();
 						nivelg.setDescripcion(txtDescripcion.getText().toUpperCase());
-						nivelg.setPuesto_principal(cmbP_Principal.getSelectedItem()+"");
+						nivelg.setPuesto_principal(cmbP_Principal.getSelectedIndex());
 						
 						if(nivelg.guardar_multiple(listadatos())){
 							limpia();
@@ -242,8 +242,8 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 				
 				}else{
 					String[] arreglo = new String[3];
-			
-					arreglo[0] = cmbP_Principal.getSelectedItem()+"";
+		
+					arreglo[0] =cmbP_Principal.getSelectedItem()+"";
 					arreglo[1] =cmbP_Dependiente.getSelectedItem()+"";
 					arreglo[2] = cmb_Establecimiento.getSelectedItem()+"";
 					

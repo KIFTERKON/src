@@ -2292,7 +2292,7 @@ public class BuscarSQL {
 				pond.setFolio(rs.getInt("folio"));
 				pond.setDescripcion(rs.getString("descripcion"));
 				pond.setPuesto_dependiente(rs.getString("puestodependiente"));
-				pond.setPuesto_principal(rs.getString("puestoprincipal"));
+				pond.setPuesto_principal(rs.getInt("puestoprincipal"));
 				pond.setPuesto(rs.getString("puesto"));
 				pond.setEstablecimiento(rs.getString("establecimiento"));
 				pond.setStatus((rs.getString("status").equals("1"))?true:false);
@@ -2527,7 +2527,7 @@ public class BuscarSQL {
 				nivel_gerarquico.setFolio(rs.getInt("folio"));
 				
 				nivel_gerarquico.setDescripcion(rs.getString("descripcion"));
-				nivel_gerarquico.setPuesto_principal(rs.getString("puesto_principal"));
+				nivel_gerarquico.setPuesto_principal(rs.getInt("puesto_principal"));
 			}
 			
 		} catch (Exception e) {

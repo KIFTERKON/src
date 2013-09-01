@@ -13,7 +13,7 @@ public class Obj_Nivel_Jerarquico
 {
 	private int folio;
 	private String descripcion;
-	private String puesto_principal;
+	private int puesto_principal;
 	private String puesto_dependiente;
 	private String puesto;
 	private String establecimiento;
@@ -21,7 +21,7 @@ public class Obj_Nivel_Jerarquico
 	
 	public Obj_Nivel_Jerarquico()
 	{
-		this.folio=0; this.descripcion=""; this.puesto_principal=""; this.puesto_dependiente="";
+		this.folio=0; this.descripcion=""; this.puesto_principal=0; this.puesto_dependiente="";
 		this.puesto=""; this.status=false;
 		
 	}
@@ -42,11 +42,12 @@ public class Obj_Nivel_Jerarquico
 		this.descripcion = descripcion;
 	}
 
-	public String getPuesto_principal() {
+
+	public int getPuesto_principal() {
 		return puesto_principal;
 	}
 
-	public void setPuesto_principal(String puesto_principal) {
+	public void setPuesto_principal(int puesto_principal) {
 		this.puesto_principal = puesto_principal;
 	}
 

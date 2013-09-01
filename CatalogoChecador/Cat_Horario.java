@@ -17,7 +17,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 import javax.swing.UIManager;
 
 import ObjetoChecador.ObjHorario;
@@ -25,6 +24,7 @@ import ObjetoChecador.ObjHorario;
 @SuppressWarnings("serial")
 public class Cat_Horario extends Cat_Horario_base
 {
+//	Cat_Horario2 hora = new Cat_Horario2();                                            
 	public void getContenedor(){
 			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/reloj.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Horario"));	
@@ -39,27 +39,6 @@ public class Cat_Horario extends Cat_Horario_base
 		lblLimi.setFont(new Font("Arial Black",Font.BOLD,10));
 		lblTrabajo.setFont(new Font("Arial Black",Font.BOLD,10));
 		lblComida.setFont(new Font("Arial Black",Font.BOLD,10));
-		
-		ButtonGroup botonesAgrupados = new ButtonGroup();
-		
-		botonesAgrupados.add(btnDomingo);
-		botonesAgrupados.add(btnLunes);
-		botonesAgrupados.add(btnMartes);
-		botonesAgrupados.add(btnMiercoles);
-		botonesAgrupados.add(btnJueves);
-		botonesAgrupados.add(btnViernes);
-		botonesAgrupados.add(btnSabado);
-		
-		ButtonGroup RBAgrupados = new ButtonGroup();
-		
-		RBAgrupados.add(rbDomingo);
-		RBAgrupados.add(rbLunes);
-		RBAgrupados.add(rbMartes);
-		RBAgrupados.add(rbMiercoles);
-		RBAgrupados.add(rbJueves);
-		RBAgrupados.add(rbViernes);
-		RBAgrupados.add(rbSabado);
-		RBAgrupados.add(rbNoDobla);
 		
 		int x=40;
 		
@@ -155,6 +134,25 @@ public class Cat_Horario extends Cat_Horario_base
 		this.panel.add(paneles).setBounds(10,20,675,400);
 		this.paneles.addTab("Horario 1", horario1);
 		
+		ButtonGroup botonesAgrupados = new ButtonGroup();
+		
+		botonesAgrupados.add(btnDomingo);
+		botonesAgrupados.add(btnLunes);
+		botonesAgrupados.add(btnMartes);
+		botonesAgrupados.add(btnMiercoles);
+		botonesAgrupados.add(btnJueves);
+		botonesAgrupados.add(btnViernes);
+		botonesAgrupados.add(btnSabado);
+		
+		rbNoDobla.addActionListener(opNoDobla);
+		rbDomingo.addActionListener(opDobla);
+		rbLunes.addActionListener(opDobla);
+		rbMartes.addActionListener(opDobla);
+		rbMiercoles.addActionListener(opDobla);
+		rbJueves.addActionListener(opDobla);
+		rbViernes.addActionListener(opDobla);
+		rbSabado.addActionListener(opDobla);
+		
 		btnDomingo.addActionListener(Domingo);
 		btnLunes.addActionListener(Lunes);
 		btnMartes.addActionListener(Martes);
@@ -162,18 +160,20 @@ public class Cat_Horario extends Cat_Horario_base
 		btnJueves.addActionListener(Jueves);
 		btnViernes.addActionListener(Viernes);
 		btnSabado.addActionListener(Sabado);
-		btnIgual.addActionListener(igualar);
 		
-		btnNuevo.addActionListener(nuevo);
-		btnCancelar.addActionListener(cancelar);
-		btnAceptar.addActionListener(Guardar);
-//		btnTurno.addActionListener(turno);
 		btnTurno.setToolTipText("Agregar Segundo Horario");
-		btnAceptar.setToolTipText("Guardar");
-		btnDeshacer.setToolTipText("Deshacer");
-		btnDeshacer.addActionListener(deshacer);
 		btnCancelar.setToolTipText("Cancelar");
 		btnIgual.setToolTipText("Igualar todos los dias");
+		btnAceptar.setToolTipText("Guardar");
+		btnDeshacer.setToolTipText("Deshacer");
+	
+//		btnTurno.addActionListener(turno);
+		btnCancelar.addActionListener(cancelar);
+		btnIgual.addActionListener(igualar);
+		btnAceptar.addActionListener(Guardar);
+		btnDeshacer.addActionListener(deshacer);
+		
+		btnNuevo.addActionListener(nuevo);
 		txtNombre.addKeyListener(valida);
 		
 		txtFolio.setEditable(false);
@@ -276,18 +276,58 @@ public class Cat_Horario extends Cat_Horario_base
 			}
 			
 //			mostrar rButton
-			switch(buscar_horario.getDiaDobla()){
-			
-			case 7:	rbDomingo.setSelected(true);	break;
-			case 1:	rbLunes.setSelected(true);		break;
-			case 2:	rbMartes.setSelected(true);		break;
-			case 3:	rbMiercoles.setSelected(true);	break;
-			case 4:	rbJueves.setSelected(true);		break;
-			case 5: rbViernes.setSelected(true);	break;
-			case 6:	rbSabado.setSelected(true);		break;
-			case 0:	rbNoDobla.setSelected(true);	break;
-			
+//			if(buscar_horario.getDiaDobla()>=10){
+//				
+//				String horario = buscar_horario.getDiaDobla()+"";
+//				int dia1 = Integer.parseInt(horario.substring(0, 1));
+//				int dia2 = Integer.parseInt(horario.substring(1, 2));
+//				
+//				System.out.println("numero1 "+dia1);
+//				System.out.println("numero2 "+dia2);
+//				
+//				
+//			}else{
+				switch(buscar_horario.getDiaDobla()){
+				
+						case 0:	rbNoDobla.setSelected(true);									break;
+						case 1:	rbLunes.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 2:	rbMartes.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 3:	rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 4:	rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 5: rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 6:	rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 7:	rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						
+						case 12:	rbLunes.setSelected(true);		rbMartes.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 13:	rbLunes.setSelected(true);		rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 14:	rbLunes.setSelected(true);		rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 15:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 16:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 17:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						
+						case 23:	rbLunes.setSelected(true);		rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 24:	rbLunes.setSelected(true);		rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 25:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 26:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 27:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						
+						case 34:	rbLunes.setSelected(true);		rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 35:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 36:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 37:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						
+						case 45:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						case 46:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 47:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						
+						case 56:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+						case 57:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+						
+						case 67:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				}
+//				}
 			}
+			
 //			DOMINGO
 			String[] domingoIn = buscar_horario.getDomingo1().split(":");
 			spDomingo1.setValue(new Time(Integer.parseInt(domingoIn[0]),Integer.parseInt(domingoIn[1]),Integer.parseInt(domingoIn[2])));
@@ -400,10 +440,8 @@ public class Cat_Horario extends Cat_Horario_base
 			String[] sabadoRec = buscar_horario.getSabado5().split(":");
 			spSabado5.setValue(new Time(Integer.parseInt(sabadoRec[0]),Integer.parseInt(sabadoRec[1]),Integer.parseInt(sabadoRec[2])));
 						
-		}else{
-			
-			}
-	}
+		}
+	
 	
 	public Cat_Horario()
 	{
@@ -425,6 +463,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spDomingo3.setVisible(false);
 		spDomingo4.setVisible(false);
 		spDomingo5.setVisible(false);
+		
+		rbDomingo.setSelected(false);
+		rbDomingo.setVisible(false);
 	}
 	
 	public void DomingoVisible()
@@ -434,6 +475,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spDomingo3.setVisible(true);
 		spDomingo4.setVisible(true);
 		spDomingo5.setVisible(true);
+		
+		rbDomingo.setVisible(true);
 	}
 	
 	public void LunesOculto()
@@ -443,6 +486,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spLunes3.setVisible(false);
 		spLunes4.setVisible(false);
 		spLunes5.setVisible(false);
+		
+		rbLunes.setSelected(false);
+		rbLunes.setVisible(false);
 	}
 	
 	public void LunesVisible()
@@ -452,6 +498,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spLunes3.setVisible(true);
 		spLunes4.setVisible(true);
 		spLunes5.setVisible(true);
+		
+		rbLunes.setVisible(true);
 	}
 	
 	public void MartesOculto()
@@ -461,6 +509,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spMartes3.setVisible(false);
 		spMartes4.setVisible(false);
 		spMartes5.setVisible(false);
+		
+		rbMartes.setSelected(false);
+		rbMartes.setVisible(false);
 	}
 	
 	public void MartesVisible()
@@ -470,6 +521,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spMartes3.setVisible(true);
 		spMartes4.setVisible(true);
 		spMartes5.setVisible(true);
+		
+		rbMartes.setVisible(true);
 	}
 	
 	public void MiercolesOculto()
@@ -479,6 +532,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spMiercoles3.setVisible(false);
 		spMiercoles4.setVisible(false);
 		spMiercoles5.setVisible(false);
+		
+		rbMiercoles.setSelected(false);
+		rbMiercoles.setVisible(false);
 	}
 
 	public void MiercolesVisible()
@@ -488,6 +544,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spMiercoles3.setVisible(true);
 		spMiercoles4.setVisible(true);
 		spMiercoles5.setVisible(true);
+		
+		rbMiercoles.setVisible(true);
 	}
 	
 	public void JuevesOculto()
@@ -497,6 +555,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spJueves3.setVisible(false);
 		spJueves4.setVisible(false);
 		spJueves5.setVisible(false);
+		
+		rbJueves.setSelected(false);
+		rbJueves.setVisible(false);
 	}
 	
 	public void JuevesVisible()
@@ -506,6 +567,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spJueves3.setVisible(true);
 		spJueves4.setVisible(true);
 		spJueves5.setVisible(true);
+		
+		rbJueves.setVisible(true);
 	}
 	
 	public void ViernesOculto()
@@ -515,7 +578,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spViernes3.setVisible(false);
 		spViernes4.setVisible(false);
 		spViernes5.setVisible(false);
-
+		
+		rbViernes.setSelected(false);
+		rbViernes.setVisible(false);
 	}
 	
 	public void ViernesVisible()
@@ -525,6 +590,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spViernes3.setVisible(true);
 		spViernes4.setVisible(true);
 		spViernes5.setVisible(true);
+		
+		rbViernes.setVisible(true);
 	}
 	
 	public void SabadoOculto()
@@ -534,6 +601,9 @@ public class Cat_Horario extends Cat_Horario_base
 		spSabado3.setVisible(false);
 		spSabado4.setVisible(false);
 		spSabado5.setVisible(false);
+		
+		rbSabado.setSelected(false);
+		rbSabado.setVisible(false);
 	}
 	
 	public void SabadoVisible()
@@ -543,6 +613,8 @@ public class Cat_Horario extends Cat_Horario_base
 		spSabado3.setVisible(true);
 		spSabado4.setVisible(true);
 		spSabado5.setVisible(true);
+		
+		rbSabado.setVisible(true);
 	}
 	ActionListener deshacer = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
@@ -550,6 +622,18 @@ public class Cat_Horario extends Cat_Horario_base
 			resetear();
 		}
 	};
+	
+//	ActionListener turno = new ActionListener() {
+//		public void actionPerformed(ActionEvent arg0) 
+//		{
+//			if(btnTurno.isSelected())
+//			{
+//				paneles.addTab("Horario 2",hora.horario2);
+//			}else{
+//				paneles.remove(hora.horario2);
+//				}
+//		}
+//	};
 	
 	public void resetear()
 	{
@@ -607,9 +691,78 @@ public class Cat_Horario extends Cat_Horario_base
 		
 		rbNoDobla.setSelected(true);
 		
+		//Reseteamos a la hora del dia todos los campos de la segunda ventana
+//		hora.spDomingo1.setValue(date);
+//		hora.spDomingo2.setValue(date);
+//		hora.spDomingo3.setValue(date);
+//		hora.spDomingo4.setValue(date);
+//		hora.spDomingo5.setValue(date);
+//				
+//		hora.spLunes1.setValue(date);
+//		hora.spLunes2.setValue(date);
+//		hora.spLunes3.setValue(date);
+//		hora.spLunes4.setValue(date);
+//		hora.spLunes5.setValue(date);
+//				
+//		hora.spMartes1.setValue(date);
+//		hora.spMartes2.setValue(date);
+//		hora.spMartes3.setValue(date);
+//		hora.spMartes4.setValue(date);
+//		hora.spMartes5.setValue(date);
+//				
+//		hora.spMiercoles1.setValue(date);
+//		hora.spMiercoles2.setValue(date);
+//		hora.spMiercoles3.setValue(date);
+//		hora.spMiercoles4.setValue(date);
+//		hora.spMiercoles5.setValue(date);
+//				
+//		hora.spJueves1.setValue(date);
+//		hora.spJueves2.setValue(date);
+//		hora.spJueves3.setValue(date);
+//		hora.spJueves4.setValue(date);
+//		hora.spJueves5.setValue(date);
+//				
+//		hora.spViernes1.setValue(date);
+//		hora.spViernes2.setValue(date);
+//		hora.spViernes3.setValue(date);
+//		hora.spViernes4.setValue(date);
+//		hora.spViernes5.setValue(date);
+//		
+//		hora.spSabado1.setValue(date);
+//		hora.spSabado2.setValue(date);
+//		hora.spSabado3.setValue(date);
+//		hora.spSabado4.setValue(date);
+//		hora.spSabado5.setValue(date);
+//		
+//		hora.DomingoVisible();
+//		hora.LunesVisible();
+//		hora.MartesVisible();
+//		hora.MiercolesVisible();
+//		hora.JuevesVisible();
+//		hora.ViernesVisible();
+//		hora.SabadoVisible();
+//		txtNombre.setText("");
+//		
+//		btnDomingo.setSelected(false);
+//		btnLunes.setSelected(false);
+//		btnMartes.setSelected(false);
+//		btnMiercoles.setSelected(false);
+//		btnJueves.setSelected(false);
+//		btnViernes.setSelected(false);
+//		btnSabado.setSelected(false);
+//
+//		hora.btnDomingo.setSelected(false);
+//		hora.btnLunes.setSelected(false);
+//		btnMartes.setSelected(false);
+//		hora.btnMiercoles.setSelected(false);
+//		hora.btnJueves.setSelected(false);
+//		hora.btnViernes.setSelected(false);
+//		hora.btnSabado.setSelected(false);
 	}
+	@SuppressWarnings("deprecation")
 	public void preguntas()
 	{
+//		ObjHorario horario = new ObjHorario();
 		if(btnDomingo.isSelected()==true)
 		{
 			spDomingo1.setValue(new Date(00,00,00));
@@ -794,43 +947,50 @@ public class Cat_Horario extends Cat_Horario_base
 								horario_emp.setSabado4(Sabado_resultado4);
 								horario_emp.setSabado5(Sabado_resultado5);
 								
-//							manda al objeto el dia de la semana numerico
-								if(rbNoDobla.isSelected()==true){
-									horario_emp.setDiaDobla(0);
-								}
-								if(rbLunes.isSelected()==true){
-									horario_emp.setDiaDobla(1);
-								}
-								if(rbMartes.isSelected()==true){
-									horario_emp.setDiaDobla(2);
-								}
-								if(rbMiercoles.isSelected()==true){
-									horario_emp.setDiaDobla(3);
-								}
-								if(rbJueves.isSelected()==true){
-									horario_emp.setDiaDobla(4);
-								}
-								if(rbViernes.isSelected()==true){
-									horario_emp.setDiaDobla(5);
-								}
-								if(rbSabado.isSelected()==true){
-									horario_emp.setDiaDobla(6);
-								}
-								if(rbDomingo.isSelected()==true){
-									horario_emp.setDiaDobla(7);
-								}
-								
-								
 								horario_emp.setDescanso(Descanso);
 								
-								if(horario_emp.Actualizar(Integer.parseInt(txtFolio.getText()))){
+								String diaDobla="";
+//								manda al objeto el dia de la semana numerico
+									if(rbNoDobla.isSelected()==true){
+										diaDobla=diaDobla+0;
+									}
+									if(rbLunes.isSelected()==true){
+										diaDobla=diaDobla+1;
+									}
+									if(rbMartes.isSelected()==true){
+										diaDobla=diaDobla+2;
+									}
+									if(rbMiercoles.isSelected()==true){
+										diaDobla=diaDobla+3;
+									}
+									if(rbJueves.isSelected()==true){
+										diaDobla=diaDobla+4;
+									}
+									if(rbViernes.isSelected()==true){
+										diaDobla=diaDobla+5;
+									}
+									if(rbSabado.isSelected()==true){
+										diaDobla=diaDobla+6;
+									}
+									if(rbDomingo.isSelected()==true){
+										diaDobla=diaDobla+7;
+									}
 									
-									JOptionPane.showMessageDialog(null, "El registro se Actualizo exitosamente!" , "Exito al Actualizar!", JOptionPane.INFORMATION_MESSAGE);
-//									resetear();
+									horario_emp.setDiaDobla(Integer.parseInt(diaDobla));
+									
+									if(Integer.parseInt(diaDobla)>67){
+									JOptionPane.showMessageDialog(null, "Los Cambios No se an guardado Ya Que Un Empleado Solo Puede Doblar 2 Dias Como Maximo!" , "Aviso!", JOptionPane.INFORMATION_MESSAGE);
 									return;
 								}else{
-									JOptionPane.showMessageDialog(null, "Error al tratar de Actualizar el registro", "Error al Actualizar registro", JOptionPane.WARNING_MESSAGE);
-									return;
+									if(horario_emp.Actualizar(Integer.parseInt(txtFolio.getText()))){
+										
+										JOptionPane.showMessageDialog(null, "El registro se Actualizo exitosamente!" , "Exito al Actualizar!", JOptionPane.INFORMATION_MESSAGE);
+//										resetear();
+										return;
+									}else{
+										JOptionPane.showMessageDialog(null, "Error al tratar de Actualizar el registro", "Error al Actualizar registro", JOptionPane.WARNING_MESSAGE);
+										return;
+									}
 								}
 						}
 					}
@@ -946,40 +1106,47 @@ public class Cat_Horario extends Cat_Horario_base
 							
 							horario.setDescanso(Descanso);
 							
+							String diaDobla="";
 //							manda al objeto el dia de la semana numerico
 								if(rbNoDobla.isSelected()==true){
-									horario.setDiaDobla(0);
-								}
+									diaDobla=diaDobla+0;								}
 								if(rbLunes.isSelected()==true){
-									horario.setDiaDobla(1);
+									diaDobla=diaDobla+1;
 								}
 								if(rbMartes.isSelected()==true){
-									horario.setDiaDobla(2);
+									diaDobla=diaDobla+2;
 								}
 								if(rbMiercoles.isSelected()==true){
-									horario.setDiaDobla(3);
+									diaDobla=diaDobla+3;
 								}
 								if(rbJueves.isSelected()==true){
-									horario.setDiaDobla(4);
+									diaDobla=diaDobla+4;
 								}
 								if(rbViernes.isSelected()==true){
-									horario.setDiaDobla(5);
+									diaDobla=diaDobla+5;
 								}
 								if(rbSabado.isSelected()==true){
-									horario.setDiaDobla(6);
+									diaDobla=diaDobla+6;
 								}
 								if(rbDomingo.isSelected()==true){
-									horario.setDiaDobla(7);
+									diaDobla=diaDobla+7;
 								}
-							
-							if(horario.Guardar()){
-								JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
-//								resetear();
-								return;
-							}else{
-								JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
-								return;
-							}
+								
+								horario.setDiaDobla(Integer.parseInt(diaDobla));
+								
+								if(Integer.parseInt(diaDobla)>67){
+									JOptionPane.showMessageDialog(null, "Los Cambios No se an guardado, Un Empleado Solo Puede Doblar 2 Dias Como Maximo!" , "Aviso!", JOptionPane.INFORMATION_MESSAGE);
+									return;
+								}else{
+									if(horario.Guardar()){
+										JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
+//										resetear();
+										return;
+									}else{
+										JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
+										return;
+									}
+								}
 						}
 					}
 			}
@@ -1108,8 +1275,7 @@ public class Cat_Horario extends Cat_Horario_base
 	};
 	
 	ActionListener Sabado = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
+		public void actionPerformed(ActionEvent arg0){
 			if(btnSabado.isSelected()){
 				LunesVisible();
 				MartesVisible();
@@ -1131,9 +1297,36 @@ public class Cat_Horario extends Cat_Horario_base
 		}
 	};
 	
+//REALIZA FUNCIONES DE LOS RADIOBUTTON PARA CUANDO EL EMPLEADO DOBLA---------------------------------------------------------------------------------------
+			ActionListener opNoDobla = new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(rbNoDobla.isSelected()==true){
+						
+						rbDomingo.setSelected(false);	
+						rbLunes.setSelected(false);		
+						rbMartes.setSelected(false);		
+						rbMiercoles.setSelected(false);	
+						rbJueves.setSelected(false);		
+						rbViernes.setSelected(false);	
+						rbSabado.setSelected(false);		
+						rbNoDobla.setSelected(false);
+						
+						rbNoDobla.setSelected(true);
+					}
+				}
+			};
+			ActionListener opDobla = new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(rbDomingo.isSelected()== true || rbLunes.isSelected()== true ||	rbMartes.isSelected()== true ||rbMiercoles.isSelected()== true || 
+					   rbJueves.isSelected()== true || rbViernes.isSelected()== true || rbSabado.isSelected()== true || rbNoDobla.isSelected()== true ){
+								rbNoDobla.setSelected(false);
+					}
+				}
+			};
+//TERMINA FUNCIONES DE LOS RADIOBUTTON PARA CUANDO EL EMPLEADO DOBLA---------------------------------------------------------------------------------------
+	
 	ActionListener igualar = new ActionListener() {
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 //			si el btnDomingo esta deseleccionado, iguala los demas campos a los valores del dia domingo
 //			de lo contrario iguala a lunes
 			if(btnDomingo.isSelected()!=true){
@@ -1220,7 +1413,6 @@ public class Cat_Horario extends Cat_Horario_base
 			}
 		}
 	};
-
 	
 	KeyListener valida = new KeyListener() {
 		public void keyTyped(KeyEvent arg0){}
