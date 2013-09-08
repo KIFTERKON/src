@@ -381,8 +381,6 @@ public class Cat_Usuario extends JFrame{
 	        		tree.collapseRow(0);
 	        		
 	        		Vector configuracion = new Obj_Usuario().returnPermisos(txtNombre_Completo.getText(), 2);
-	        		System.out.println("longitud:" +configuracion.size());
-	        		System.exit(0);
 	        		for(int i=0; i <Configuracion.length; i ++){
 	        			Configuracion[i].setSelected(Boolean.parseBoolean(configuracion.get(i).toString()));
 	        		}
