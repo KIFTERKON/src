@@ -168,7 +168,8 @@ Connexion con = new Connexion();
 					 "  tb_puesto.nombre as [Nombre], "+
 					 "  tb_puesto.abreviatura as [Abreviatura] "+
 					
-					"  from tb_puesto where status=1");
+					"  from tb_puesto where status=1" +
+					"  order by nombre");
 			
 			while (rs.next())
 			{ 

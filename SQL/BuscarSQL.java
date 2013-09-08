@@ -20,12 +20,14 @@ import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Arduino;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
@@ -2292,7 +2294,7 @@ public class BuscarSQL {
 				pond.setFolio(rs.getInt("folio"));
 				pond.setDescripcion(rs.getString("descripcion"));
 				pond.setPuesto_dependiente(rs.getString("puestodependiente"));
-				pond.setPuesto_principal(rs.getInt("puestoprincipal"));
+				pond.setPuesto_principal(rs.getString("puestoprincipal"));
 				pond.setPuesto(rs.getString("puesto"));
 				pond.setEstablecimiento(rs.getString("establecimiento"));
 				pond.setStatus((rs.getString("status").equals("1"))?true:false);
@@ -2516,7 +2518,12 @@ public class BuscarSQL {
 	
 	public Obj_Nivel_Jerarquico buscarnivel(int folio) throws SQLException{
 		Obj_Nivel_Jerarquico nivel_gerarquico = new Obj_Nivel_Jerarquico();
-		String query = "select * from tb_nivel_jerarquico where folio ="+ folio;
+		String query = "select tb_nivel_jerarquico.folio as folio" +
+						",tb_nivel_jerarquico.descripcion as descripcion" +
+						",tb_puesto.nombre as puesto_principal " +
+						"from tb_nivel_jerarquico " +
+						"inner join tb_puesto on tb_puesto.folio=tb_nivel_jerarquico.puesto_principal " +
+						"where tb_nivel_jerarquico.folio ="+ folio;
 		
 		Statement stmt = null;
 		try {
@@ -2527,7 +2534,41 @@ public class BuscarSQL {
 				nivel_gerarquico.setFolio(rs.getInt("folio"));
 				
 				nivel_gerarquico.setDescripcion(rs.getString("descripcion"));
-				nivel_gerarquico.setPuesto_principal(rs.getInt("puesto_principal"));
+				nivel_gerarquico.setPuesto_principal(rs.getString("puesto_principal"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return nivel_gerarquico;
+	}
+	
+	public Obj_Nivel_Jerarquico buscarPDependiente(Object nombrePuestoDependiente) throws SQLException{
+		Obj_Nivel_Jerarquico nivel_gerarquico = new Obj_Nivel_Jerarquico();
+//		String query2 = "select tb_nivel_jerarquico.folio as folio" +
+//						",tb_nivel_jerarquico.descripcion as descripcion" +
+//						",tb_puesto.nombre as puesto_principal " +
+//						"from tb_nivel_jerarquico " +
+//						"inner join tb_puesto on tb_puesto.folio=tb_nivel_jerarquico.puesto_principal " +
+//						"where tb_nivel_jerarquico.folio ="+ folio;
+		
+		String query = "select tb_tabla_nivel_jerarquico where nombre = "+nombrePuestoDependiente;
+//		String query = "delete tb_tabla_nivel_jerarquico where nombre = "+nombrePuestoDependiente;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				nivel_gerarquico.setFolio(rs.getInt("folio"));
+				
+				nivel_gerarquico.setDescripcion(rs.getString("descripcion"));
+				nivel_gerarquico.setPuesto_principal(rs.getString("puesto_principal"));
 			}
 			
 		} catch (Exception e) {
@@ -3309,4 +3350,81 @@ public class BuscarSQL {
 		}
 		return horario;
 	}
+	
+			
+			/**buscamos los campos llenos del arduino**/
+			public Obj_Arduino Buscar_Arduino() throws SQLException{
+				Obj_Arduino arduino = new Obj_Arduino();
+				String query = "exec sp_hora_arduino";
+				
+				Statement stmt = null;
+				try {
+					stmt = con.conexion().createStatement();
+					ResultSet rs = stmt.executeQuery(query);
+					while(rs.next()){
+						arduino.setMañana(rs.getString("mañana"));
+						arduino.setMediodia(rs.getString("medio"));
+						arduino.setTarde(rs.getString("tarde"));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+				finally{
+					if(stmt!=null){stmt.close();}
+				}
+				return arduino;
+			}
+			
+			
+			//Buscar el nombre de la cajera de fuente de sodas
+			
+			public Obj_Captura_Fuente_Sodas fuente(int folio) throws SQLException{
+				Obj_Captura_Fuente_Sodas sodas = new Obj_Captura_Fuente_Sodas();
+				String query = "select * from tb_captura_fuente_sodas where folio ="+ folio;
+				Statement stmt = null;
+				try {
+					stmt = con.conexion().createStatement();
+					ResultSet rs = stmt.executeQuery(query);
+					while(rs.next()){
+						
+//						txtNo_Checador_Cliente.setText(soda.getNo_cliente()+"");
+//						txtClave.setText(soda.getNo_cliente()+"");
+//						txtTicket.setText(soda.getTicket()+"");
+//						txtImporte.setText(soda.getImporte()+"");
+//						
+//						lblNombre_Empleado.setText(soda.getNombre_cliente()+"");
+//						lblEstablecimiento_empleado.setText(soda.getEstablecimiento_cliente()+"");
+//						lblpuesto_empleado.setText(soda.getPuesto_cliente()+"");
+						
+						sodas.setNombre_cajera(rs.getString("nombre_empleado"));
+						sodas.setNo_cliente(rs.getInt("no_cliente"));
+						sodas.setTicket(rs.getString("ticket"));
+						sodas.setImporte(rs.getInt("importe"));
+						
+						sodas.setNombre_cliente(rs.getString("nombre_cliente"));
+						sodas.setEstablecimiento_cliente(rs.getString("establecimiento_cliente"));
+						sodas.setPuesto_cliente(rs.getString("puesto_cliente"));
+						
+						File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+						FileOutputStream fos = new FileOutputStream(photo);
+						
+						 byte[] buffer = new byte[1];
+				            InputStream is = rs.getBinaryStream("foto");
+				            while (is.read(buffer) > 0) {
+				                fos.write(buffer);
+				            }
+				            fos.close();
+						
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+				finally{
+					if(stmt!=null){stmt.close();}
+				}
+				return sodas;
+			}
 }

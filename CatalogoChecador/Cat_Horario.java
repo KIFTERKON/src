@@ -811,6 +811,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	}
 	public void preguntas()
 	{
+<<<<<<< HEAD
 //		ObjHorario horario = new ObjHorario();
 		if(btnDomingo.isSelected()==true)	{	Descanso=7;		}
 		if (btnLunes.isSelected()==true)	{	Descanso=1;		}
@@ -819,6 +820,71 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		if (btnJueves.isSelected()==true)	{	Descanso=4;		}
 		if (btnViernes.isSelected()==true)	{	Descanso=5;		}
 		if (btnSabado.isSelected()==true)	{	Descanso=6;		}
+=======
+		if(btnDomingo.isSelected()==true)
+		{
+			spDomingo1.setValue(new Date(00,00,00));
+			spDomingo2.setValue(new Date(00,00,00));
+			spDomingo3.setValue(new Date(00,00,00));
+			spDomingo4.setValue(new Date(00,00,00));
+			spDomingo5.setValue(new Date(00,00,00));
+			Descanso=7;
+		}
+		if (btnLunes.isSelected()==true)
+		{
+			spLunes1.setValue(new Date(00,00,00));
+			spLunes2.setValue(new Date(00,00,00));
+			spLunes3.setValue(new Date(00,00,00));
+			spLunes4.setValue(new Date(00,00,00));
+			spLunes5.setValue(new Date(00,00,00));
+			Descanso=1;
+		}
+		if (btnMartes.isSelected()==true)
+		{
+			spMartes1.setValue(new Date(00,00,00));
+			spMartes2.setValue(new Date(00,00,00));
+			spMartes3.setValue(new Date(00,00,00));
+			spMartes4.setValue(new Date(00,00,00));
+			spMartes5.setValue(new Date(00,00,00));
+			Descanso=2;
+		}
+		if (btnMiercoles.isSelected()==true)
+		{
+			spMiercoles1.setValue(new Date(00,00,00));
+			spMiercoles2.setValue(new Date(00,00,00));
+			spMiercoles3.setValue(new Date(00,00,00));
+			spMiercoles4.setValue(new Date(00,00,00));
+			spMiercoles5.setValue(new Date(00,00,00));
+			Descanso=3;
+		}
+		if (btnJueves.isSelected()==true)
+		{
+			spJueves1.setValue(new Date(00,00,00));
+			spJueves2.setValue(new Date(00,00,00));
+			spJueves3.setValue(new Date(00,00,00));
+			spJueves4.setValue(new Date(00,00,00));
+			spJueves5.setValue(new Date(00,00,00));
+			Descanso=4;
+		}
+		if (btnViernes.isSelected()==true)
+		{
+			spViernes1.setValue(new Date(00,00,00));
+			spViernes2.setValue(new Date(00,00,00));
+			spViernes3.setValue(new Date(00,00,00));
+			spViernes4.setValue(new Date(00,00,00));
+			spViernes5.setValue(new Date(00,00,00));
+			Descanso=5;
+		}
+		if (btnSabado.isSelected()==true)
+		{
+			spSabado1.setValue(new Date(00,00,00));
+			spSabado2.setValue(new Date(00,00,00));
+			spSabado3.setValue(new Date(00,00,00));
+			spSabado4.setValue(new Date(00,00,00));
+			spSabado5.setValue(new Date(00,00,00));
+			Descanso=6;
+		}
+>>>>>>> 83fd5e9af1f56f4cbf8b58d0c5457bcb8817dce3
 	}
 	
 	ActionListener Guardar = new ActionListener() {

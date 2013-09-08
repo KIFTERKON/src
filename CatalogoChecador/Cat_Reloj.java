@@ -12,16 +12,15 @@ public class Cat_Reloj{
 	
 	public Cat_Reloj() {
 		
-		lblHora.setFont(new java.awt.Font("Algerian",0,130));
 		seg.start();
 	}
 	int reconsultar;
 	public class segundero extends Thread {
+		@SuppressWarnings("unused")
 		public void run() {
 			
 			String h;
 			String m;
-			@SuppressWarnings("unused")
 			String s;
 			
 			int[] hora = new Obj_Hora_Sincronizada().get_hora_minuto_segundo();
