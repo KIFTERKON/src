@@ -20,6 +20,8 @@ public class ObjHorario
 	String sabado1,sabado2,sabado3,sabado4,sabado5;
 	int descanso;
 	int diaDobla;
+	int diaDobla2;
+	int diaDobla3;
 	
 	
 	public ObjHorario()
@@ -79,6 +81,8 @@ public class ObjHorario
 		
 		this.descanso=0;
 		this.diaDobla=0;
+		this.diaDobla2=0;
+		this.diaDobla3=0;
 	}
 	
 
@@ -466,6 +470,26 @@ public class ObjHorario
 
 	public void setDiaDobla(int diaDobla) {
 		this.diaDobla = diaDobla;
+	}
+	
+	
+	public int getDiaDobla2() {
+		return diaDobla2;
+	}
+
+
+	public void setDiaDobla2(int diaDobla2) {
+		this.diaDobla2 = diaDobla2;
+	}
+
+
+	public int getDiaDobla3() {
+		return diaDobla3;
+	}
+
+
+	public void setDiaDobla3(int diaDobla3) {
+		this.diaDobla3 = diaDobla3;
 	}
 
 

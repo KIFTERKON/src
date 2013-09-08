@@ -35,6 +35,13 @@ public class Cat_Horario_base  extends JFrame
 	JToggleButton btnTurno = new JToggleButton(new ImageIcon("Imagen/2do.png"));  
 	
 	JLabel lblDobla = new JLabel("Dia Dobla");
+	
+	JLabel lblDobla2 = new JLabel("Dia Dobla");
+	JLabel lblDobla21 = new JLabel("  Extra 1");
+	
+	JLabel lblDobla3 = new JLabel("Dia Dobla");
+	JLabel lblDobla31 = new JLabel("  Extra 2");
+	
 	JLabel lblNoDobla = new JLabel("No Dobla");
 	
 	JRadioButton rbDomingo = new JRadioButton("",false);
@@ -45,6 +52,24 @@ public class Cat_Horario_base  extends JFrame
 	JRadioButton rbViernes = new JRadioButton("",false);
 	JRadioButton rbSabado = new JRadioButton("",false);
 	JRadioButton rbNoDobla = new JRadioButton("",true);
+	
+	JRadioButton rbDomingo2 = new JRadioButton("",false);
+	JRadioButton rbLunes2 = new JRadioButton("",false);
+	JRadioButton rbMartes2 = new JRadioButton("",false);
+	JRadioButton rbMiercoles2 = new JRadioButton("",false);
+	JRadioButton rbJueves2 = new JRadioButton("",false);
+	JRadioButton rbViernes2 = new JRadioButton("",false);
+	JRadioButton rbSabado2 = new JRadioButton("",false);
+	JRadioButton rbNoDobla2 = new JRadioButton("",true);
+	
+	JRadioButton rbDomingo3 = new JRadioButton("",false);
+	JRadioButton rbLunes3 = new JRadioButton("",false);
+	JRadioButton rbMartes3 = new JRadioButton("",false);
+	JRadioButton rbMiercoles3 = new JRadioButton("",false);
+	JRadioButton rbJueves3 = new JRadioButton("",false);
+	JRadioButton rbViernes3 = new JRadioButton("",false);
+	JRadioButton rbSabado3 = new JRadioButton("",false);
+	JRadioButton rbNoDobla3 = new JRadioButton("",true);
 	                                                                   
 	JButton btnNuevo = new JButton("Nuevo"); 
 	JLabel lblFolio = new JLabel("Folio");
