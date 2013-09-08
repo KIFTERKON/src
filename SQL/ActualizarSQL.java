@@ -1686,100 +1686,103 @@ public class ActualizarSQL {
 				}		
 				return true;
 			}
-	public boolean Horario(ObjHorario horario_emp, int folio){
 
-		String query = "exec sp_update_horarios ?,?,?,?,?,?,?,?,?,?," +
-											"	?,?,?,?,?,?,?,?,?,?," +
-											"	?,?,?,?,?,?,?,?,?,?," +
-											"	?,?,?,?,?,?,?,?,? ";
+			public boolean Horario(ObjHorario horario_emp, int folio){
 
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		try {
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-						
-			int i=1;	
-			
-			pstmt.setInt(i, folio);
-			pstmt.setString(i+=1, horario_emp.getNombre());
-			pstmt.setInt(i+=1, horario_emp.getDescanso());
-			pstmt.setInt(i+=1, horario_emp.getDiaDobla());
-			
-			
+				String query = "exec sp_update_horarios ?,?,?,?,?,?,?,?,?,?," +
+													"	?,?,?,?,?,?,?,?,?,?," +
+													"	?,?,?,?,?,?,?,?,?,?," +
+													"	?,?,?,?,?,?,?,?,?,?," +
+													"	? ";
 
-			//////////////////////////////////////////////////////////////
-//			pstmt.setString(i+=1, "DOMINGO");
-			pstmt.setString(i+=1, horario_emp.getDomingo1());
-			pstmt.setString(i+=1, horario_emp.getDomingo2());
-			pstmt.setString(i+=1, horario_emp.getDomingo3());
-			pstmt.setString(i+=1, horario_emp.getDomingo4());
-			pstmt.setString(i+=1, horario_emp.getDomingo5());
-			
-//			pstmt.setString(i+=1, "LUNES");
-			pstmt.setString(i+=1, horario_emp.getLunes1());
-			pstmt.setString(i+=1, horario_emp.getLunes2());
-			pstmt.setString(i+=1, horario_emp.getLunes3());
-			pstmt.setString(i+=1, horario_emp.getLunes4());
-			pstmt.setString(i+=1, horario_emp.getLunes5());
-			
-//			pstmt.setString(i+=1, "MARTES");
-			pstmt.setString(i+=1, horario_emp.getMartes1());
-			pstmt.setString(i+=1, horario_emp.getMartes2());
-			pstmt.setString(i+=1, horario_emp.getMartes3());
-			pstmt.setString(i+=1, horario_emp.getMartes4());
-			pstmt.setString(i+=1, horario_emp.getMartes5());
-			
-//			pstmt.setString(i+=1, "MIERCOLES");
-			pstmt.setString(i+=1, horario_emp.getMiercoles1());
-			pstmt.setString(i+=1, horario_emp.getMiercoles2());
-			pstmt.setString(i+=1, horario_emp.getMiercoles3());
-			pstmt.setString(i+=1, horario_emp.getMiercoles4());
-			pstmt.setString(i+=1, horario_emp.getMiercoles5());
-			
-//			pstmt.setString(i+=1, "JUEVES");
-			pstmt.setString(i+=1, horario_emp.getJueves1());
-			pstmt.setString(i+=1, horario_emp.getJueves2());
-			pstmt.setString(i+=1, horario_emp.getJueves3());
-			pstmt.setString(i+=1, horario_emp.getJueves4());
-			pstmt.setString(i+=1, horario_emp.getJueves5());
-			
-//			pstmt.setString(i+=1, "VIERNES");
-			pstmt.setString(i+=1, horario_emp.getViernes1());
-			pstmt.setString(i+=1, horario_emp.getViernes2());
-			pstmt.setString(i+=1, horario_emp.getViernes3());
-			pstmt.setString(i+=1, horario_emp.getViernes4());
-			pstmt.setString(i+=1, horario_emp.getViernes5());
-			
-//			pstmt.setString(i+=1, "SABADO");
-			pstmt.setString(i+=1, horario_emp.getSabado1());
-			pstmt.setString(i+=1, horario_emp.getSabado2());
-			pstmt.setString(i+=1, horario_emp.getSabado3());
-			pstmt.setString(i+=1, horario_emp.getSabado4());
-			pstmt.setString(i+=1, horario_emp.getSabado5());
-			
-			pstmt.executeUpdate();
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
+				Connection con = new Connexion().conexion();
+				PreparedStatement pstmt = null;
+				try {
+					con.setAutoCommit(false);
+					pstmt = con.prepareStatement(query);
+								
+					int i=1;	
+					
+					pstmt.setInt(i, folio);
+					pstmt.setString(i+=1, horario_emp.getNombre());
+					pstmt.setInt(i+=1, horario_emp.getDescanso());
+					pstmt.setInt(i+=1, horario_emp.getDiaDobla());
+					pstmt.setInt(i+=1, horario_emp.getDiaDobla2());
+					pstmt.setInt(i+=1, horario_emp.getDiaDobla3());
+					
+
+					//////////////////////////////////////////////////////////////
+//					pstmt.setString(i+=1, "DOMINGO");
+					pstmt.setString(i+=1, horario_emp.getDomingo1());
+					pstmt.setString(i+=1, horario_emp.getDomingo2());
+					pstmt.setString(i+=1, horario_emp.getDomingo3());
+					pstmt.setString(i+=1, horario_emp.getDomingo4());
+					pstmt.setString(i+=1, horario_emp.getDomingo5());
+					
+//					pstmt.setString(i+=1, "LUNES");
+					pstmt.setString(i+=1, horario_emp.getLunes1());
+					pstmt.setString(i+=1, horario_emp.getLunes2());
+					pstmt.setString(i+=1, horario_emp.getLunes3());
+					pstmt.setString(i+=1, horario_emp.getLunes4());
+					pstmt.setString(i+=1, horario_emp.getLunes5());
+					
+//					pstmt.setString(i+=1, "MARTES");
+					pstmt.setString(i+=1, horario_emp.getMartes1());
+					pstmt.setString(i+=1, horario_emp.getMartes2());
+					pstmt.setString(i+=1, horario_emp.getMartes3());
+					pstmt.setString(i+=1, horario_emp.getMartes4());
+					pstmt.setString(i+=1, horario_emp.getMartes5());
+					
+//					pstmt.setString(i+=1, "MIERCOLES");
+					pstmt.setString(i+=1, horario_emp.getMiercoles1());
+					pstmt.setString(i+=1, horario_emp.getMiercoles2());
+					pstmt.setString(i+=1, horario_emp.getMiercoles3());
+					pstmt.setString(i+=1, horario_emp.getMiercoles4());
+					pstmt.setString(i+=1, horario_emp.getMiercoles5());
+					
+//					pstmt.setString(i+=1, "JUEVES");
+					pstmt.setString(i+=1, horario_emp.getJueves1());
+					pstmt.setString(i+=1, horario_emp.getJueves2());
+					pstmt.setString(i+=1, horario_emp.getJueves3());
+					pstmt.setString(i+=1, horario_emp.getJueves4());
+					pstmt.setString(i+=1, horario_emp.getJueves5());
+					
+//					pstmt.setString(i+=1, "VIERNES");
+					pstmt.setString(i+=1, horario_emp.getViernes1());
+					pstmt.setString(i+=1, horario_emp.getViernes2());
+					pstmt.setString(i+=1, horario_emp.getViernes3());
+					pstmt.setString(i+=1, horario_emp.getViernes4());
+					pstmt.setString(i+=1, horario_emp.getViernes5());
+					
+//					pstmt.setString(i+=1, "SABADO");
+					pstmt.setString(i+=1, horario_emp.getSabado1());
+					pstmt.setString(i+=1, horario_emp.getSabado2());
+					pstmt.setString(i+=1, horario_emp.getSabado3());
+					pstmt.setString(i+=1, horario_emp.getSabado4());
+					pstmt.setString(i+=1, horario_emp.getSabado5());
+					
+					pstmt.executeUpdate();
+					con.commit();
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}		
+				return true;
 			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
 	
 	
 	

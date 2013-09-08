@@ -3293,6 +3293,8 @@ public class BuscarSQL {
 				
 				horaa.setDescanso(rs.getInt("descanso"));
 				horaa.setDiaDobla(rs.getInt("dobla"));
+				horaa.setDiaDobla2(rs.getInt("doblaExtra1"));
+				horaa.setDiaDobla3(rs.getInt("doblaExtra2"));
 				
 			}
 		} catch (Exception e) {
