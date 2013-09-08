@@ -84,15 +84,11 @@ public class Cat_Mantenimimiento_Base_de_Datos extends JFrame {
 			
 		}
 	};
-	 ActionListener agregar_submenus_nuevos  =new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Cat_Agregar_Submenus_Nuevos().setVisible(true);				
-	
-				}
-				
-			};
+	ActionListener agregar_submenus_nuevos  =new ActionListener() {			
+		public void actionPerformed(ActionEvent e) {
+			new Cat_Agregar_Submenus_Nuevos().setVisible(true);				
+		}
+	};
 		
 		
 	

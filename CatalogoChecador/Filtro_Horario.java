@@ -50,10 +50,6 @@ public class Filtro_Horario extends JFrame
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
-<<<<<<< HEAD
-
-=======
->>>>>>> 83fd5e9af1f56f4cbf8b58d0c5457bcb8817dce3
 	public Filtro_Horario()
 	{
 		
