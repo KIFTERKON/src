@@ -1609,10 +1609,9 @@ public class GuardarSQL {
 			for (int i = 0; i < tabla.length; i++) {
 
 				pstmtabla.setInt (1, pond.getFolio());
-				pstmtabla.setString (2, tabla[i][0]);
-				pstmtabla.setString (3, tabla[i][1]);
+				pstmtabla.setString (2, tabla[i][0].toString());
+				pstmtabla.setString (3, tabla[i][1].toString());
 				
-				System.out.print(tabla[i][0]+"   ");System.out.println(tabla[i][1]);
 				pstmtabla.executeUpdate();
 				
 			}
