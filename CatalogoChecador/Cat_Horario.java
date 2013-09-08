@@ -762,7 +762,6 @@ public class Cat_Horario extends Cat_Horario_base
 	@SuppressWarnings("deprecation")
 	public void preguntas()
 	{
-//		ObjHorario horario = new ObjHorario();
 		if(btnDomingo.isSelected()==true)
 		{
 			spDomingo1.setValue(new Date(00,00,00));

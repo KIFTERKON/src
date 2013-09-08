@@ -180,8 +180,6 @@ public class Cat_Empleado extends JFrame{
 	JDateChooser txtCalendario = new JDateChooser();
 	JDateChooser txtIngreso = new JDateChooser();
 	
-	public String img = "";
-	
 	public Cat_Empleado() {
 		getContenedor();
 	}
@@ -1187,6 +1185,7 @@ public class Cat_Empleado extends JFrame{
 	public Cat_Empleado(String algo) {
 		
 		getContenedor();
+		
 		
 		btnNuevo.setVisible(false);
 		btnEditar.setVisible(true);

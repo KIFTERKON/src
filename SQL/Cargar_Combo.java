@@ -293,8 +293,9 @@ public class Cargar_Combo {
 			int j=0;
 			while(rs.next()){
 				if(j == 0){
+					
 					miVector.add("Selecciona un Puesto");
-					miVector.add("");
+//					miVector.add("");
 				}
 				miVector.add(rs.getString("nombre").toUpperCase());
 				j++;
@@ -892,77 +893,77 @@ public class Cargar_Combo {
 	}
 	
 	//cargamos el combo equipo
-		@SuppressWarnings("unchecked")
-		public String[] Equipo(String tabla) throws SQLException{
-			String query = "select descripcion from " + tabla+" order by descripcion asc";
-			Statement stmt = null;
-			try {
-				stmt = con.conexion().createStatement();
-				ResultSet rs = stmt.executeQuery(query);
-				int j=0;
-				while(rs.next()){
-					if(j == 0){
-						miVector.add("Selecciona un Equipo");
-						miVector.add("");
+			@SuppressWarnings("unchecked")
+			public String[] Equipo(String tabla) throws SQLException{
+				String query = "select descripcion from " + tabla+" order by descripcion asc";
+				Statement stmt = null;
+				try {
+					stmt = con.conexion().createStatement();
+					ResultSet rs = stmt.executeQuery(query);
+					int j=0;
+					while(rs.next()){
+						if(j == 0){
+							miVector.add("Selecciona un Equipo");
+							miVector.add("");
+						}
+						miVector.add(rs.getString("descripcion").toUpperCase());
+						j++;
 					}
-					miVector.add(rs.getString("descripcion").toUpperCase());
-					j++;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}finally{
+					if(stmt!=null){stmt.close();}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}finally{
-				if(stmt!=null){stmt.close();}
+				
+				int i=0;
+				String[] pila= new String[miVector.size()];
+				
+				while(i < miVector.size()){
+					
+					pila[i]= miVector.get(i).toString();
+					i++;
+				}
+				
+				return pila;
+					
 			}
 			
-			int i=0;
-			String[] pila= new String[miVector.size()];
-			
-			while(i < miVector.size()){
+			//cargamos el combo Empleado
+			@SuppressWarnings("unchecked")
+			public String[] Empleado(String tabla) throws SQLException{
+				String query ="select nombre+' '+ap_paterno+' '+ap_materno as nombre from " +tabla+ " order by nombre asc";
 				
-				pila[i]= miVector.get(i).toString();
-				i++;
-			}
-			
-			return pila;
-				
-		}
-		
-		//cargamos el combo Empleado
-		@SuppressWarnings("unchecked")
-		public String[] Empleado(String tabla) throws SQLException{
-			String query ="select nombre+' '+ap_paterno+' '+ap_materno as nombre from " +tabla+ " order by nombre asc";
-			
-			Statement stmt = null;
-			try {
-				stmt = con.conexion().createStatement();
-				ResultSet rs = stmt.executeQuery(query);
-				int j=0;
-				while(rs.next()){
-					if(j == 0){
-						miVector.add("Selecciona un Empleado");
-						miVector.add("");
+				Statement stmt = null;
+				try {
+					stmt = con.conexion().createStatement();
+					ResultSet rs = stmt.executeQuery(query);
+					int j=0;
+					while(rs.next()){
+						if(j == 0){
+							miVector.add("Selecciona un Empleado");
+							miVector.add("");
+						}
+						miVector.add(rs.getString("nombre").toUpperCase());
+						j++;
 					}
-					miVector.add(rs.getString("nombre").toUpperCase());
-					j++;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}finally{
+					if(stmt!=null){stmt.close();}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}finally{
-				if(stmt!=null){stmt.close();}
-			}
-			
-			int i=0;
-			String[] pila= new String[miVector.size()];
-			
-			while(i < miVector.size()){
 				
-				pila[i]= miVector.get(i).toString();
-				i++;
-			}
-			
-			return pila;
+				int i=0;
+				String[] pila= new String[miVector.size()];
 				
-		}
+				while(i < miVector.size()){
+					
+					pila[i]= miVector.get(i).toString();
+					i++;
+				}
+				
+				return pila;
+					
+			}
 }

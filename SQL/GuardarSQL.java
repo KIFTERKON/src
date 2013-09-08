@@ -26,6 +26,7 @@ import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
@@ -1470,7 +1471,7 @@ public class GuardarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString (1, pond.getDescripcion());
-			pstmt.setInt (2, pond.getPuesto_principal());
+			pstmt.setString (2, pond.getPuesto_principal());
 			pstmt.setString (3, pond.getPuesto_dependiente());
 			pstmt.setString (4, pond.isStatus()?"1":"0");
 			
@@ -1541,7 +1542,7 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Tabla_Nivel(Obj_Nivel_Jerarquico pond,String[][] tabla){
+	public boolean Guardar_Tabla_Nivel(Obj_Nivel_Jerarquico pond){
 		String query = "exec sp_insert_nivel_jerarquico ?,?";
 		String querytabla="exec sp_insert_tabla_nivel_jerarquico ?,?,?";
 		Connection con = new Connexion().conexion();
@@ -1555,13 +1556,63 @@ public class GuardarSQL {
 			
 			
 			pstmt.setString (1, pond.getDescripcion());
-			pstmt.setInt (2, pond.getPuesto_principal());
+			pstmt.setString (2, pond.getPuesto_principal());
+			
+//			for (int i = 0; i < tabla.length; i++) {
+
+				pstmtabla.setInt (1, pond.getFolio());
+				pstmtabla.setString (2, pond.getPuesto_dependiente());
+				pstmtabla.setString (3, pond.getEstablecimiento());
+				pstmtabla.executeUpdate();
+				
+//			}
+			pstmt.executeUpdate();
+		
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Tabla_Nivel2(Obj_Nivel_Jerarquico pond,String[][] tabla){
+		String query = "exec sp_insert_nivel_jerarquico ?,?";
+		String querytabla="exec sp_insert_tabla_nivel_jerarquico ?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla =null;
+		try {
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmtabla=con.prepareStatement(querytabla);
+			
+			
+			pstmt.setString (1, pond.getDescripcion());
+			pstmt.setString (2, pond.getPuesto_principal());
 			
 			for (int i = 0; i < tabla.length; i++) {
 
-				pstmtabla.setString (1, pond.getDescripcion().toUpperCase());
+				pstmtabla.setInt (1, pond.getFolio());
 				pstmtabla.setString (2, tabla[i][0]);
 				pstmtabla.setString (3, tabla[i][1]);
+				
+				System.out.print(tabla[i][0]+"   ");System.out.println(tabla[i][1]);
 				pstmtabla.executeUpdate();
 				
 			}
@@ -2103,5 +2154,82 @@ public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 	}
 	
 	
-
+		
+		//Guardar captura fuente de sodas
+		public boolean Guardar_Fuente_Sodas(Obj_Captura_Fuente_Sodas sodas){
+			String query = "insert into tb_captura_fuente_sodas(nombre_empleado,no_cliente,ticket,importe,nombre_cliente,establecimiento_cliente,puesto_cliente,foto)values(?,?,?,?,?,?,?,?)";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				
+				pstmt.setString(1,sodas.getNombre_cajera());
+				pstmt.setInt(2, sodas.getNo_cliente());
+				pstmt.setString(3,sodas.getTicket());
+				pstmt.setDouble(4,sodas.getImporte());
+				pstmt.setString(5, sodas.getNombre_cliente());
+				pstmt.setString(6,sodas.getEstablecimiento_cliente());
+				pstmt.setString(7, sodas.getPuesto_cliente());
+				
+				FileInputStream stream_foto = new FileInputStream(sodas.getFoto());
+				pstmt.setBinaryStream(8, stream_foto, sodas.getFoto().length());
+				
+				
+				pstmt.executeUpdate();
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: " + e.getMessage());
+				if (con != null){
+					try {
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					} catch(SQLException ex) {
+						System.out.println(ex.getMessage());
+					}
+				} 
+				return false;
+			}finally{
+				try {
+					pstmt.close();
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+	
+		public boolean buscarBorrarPDependiente(String nombre){
+			String query = "exec sp_folio_puesto_dependiente '"+nombre+"'";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				
+				pstmt.executeUpdate();
+			
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: "+e.getMessage());
+				if(con != null){
+					try{
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					}catch(SQLException ex){
+						System.out.println(ex.getMessage());
+					}
+				}
+				return false;
+			}finally{
+				try {
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
 }

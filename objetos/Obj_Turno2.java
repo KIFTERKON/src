@@ -2,10 +2,8 @@ package objetos;
 
 import java.sql.SQLException;
 
-import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
-import SQL.GuardarSQL;
 
 
 

@@ -50,7 +50,6 @@ public class Filtro_Horario extends JFrame
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Filtro_Horario()
 	{
 		

@@ -111,8 +111,6 @@ public class Cat_Checador extends JFrame {
 		JLabel lblClave = new JLabel("Clave:");
 		JPasswordField txtClaveReal = new JPasswordField();
 		
-		static JLabel fondo = new JLabel(new ImageIcon("Imagen/calaFondoChecador.jpg"));
-		
 		JButton btnEmplorar = new JButton("");
 		
 		JLabel lblFecha = new JLabel("");
@@ -135,7 +133,9 @@ public class Cat_Checador extends JFrame {
 		int anchoMon = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width);
 	//	int anchoMon = 1366;
 		int altoMon = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height)-30;
-	
+		
+		static JLabel fondo = new JLabel();
+		
 	public Cat_Checador(){
 		
 		this.init_tabla();
@@ -165,6 +165,11 @@ public class Cat_Checador extends JFrame {
 		
 //		btnFoto.setBorder(null);
 		
+		String fileFondo = "Imagen/calaFondoChecador.jpg";
+		ImageIcon tmpIconAuxFondo = new ImageIcon(fileFondo);
+		Icon iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
+		fondo.setIcon(iconoFondo);
+		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Checador"));
 		this.setTitle("Checador");
@@ -172,27 +177,35 @@ public class Cat_Checador extends JFrame {
 		int x = 15, y=80, ancho=100;
 		
 		if(anchoMon <= 1380){
-//					panel.add(new JLabel("Numero de Empleado:")).setBounds(x+20,y,ancho+50,20);
-//					panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
-//					
-//					panel.add(new JLabel("Clave:")).setBounds(x+20,y+=30,ancho,20);
-//					panel.add(txtClaveReal).setBounds(ancho-20+20,y+20,ancho+70,20);
-//					
-//					panel.add(trae_hora.lblHora).setBounds(290,45, 550, 120);
-//					panel.add(lblNota).setBounds(290,y+=100, 900, 30);
-//					
-//					panel.add(lblFecha).setBounds(935+33+222,-5, 300, 40);
-//					panel.add(lblLogo).setBounds(anchoMon-25,40, 166, 166);
-//					panel.add(lblCerrar).setBounds(anchoMon-25,40, 166, 166);
-//					panel.add(btnFoto).setBounds(anchoMon-166-35,40, 166, 166);
-//					
-//					panel.add(lblNombre).setBounds(1000,40,280,20);
-//					panel.add(lblEstablecimiento).setBounds(1000,50,280,20);
-//					panel.add(lblPuesto).setBounds(1000,60,280,20);
-//					panel.add(lblHorario).setBounds(1000,70,280,20);
-//					
-//					panel.add(panelScroll).setBounds(x+20,y+=25,ancho+1200,altoMon-280);
+			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,115));
+			
+			panel.add(lblFolio).setBounds(10,y-10,ancho+30,20);
+			panel.add(txtFolio).setBounds(ancho+55,y-10,ancho-20,20);
+			
+			panel.add(lblClave).setBounds(10,y+=20,ancho,20);
+			panel.add(txtClaveReal).setBounds(ancho-35,y,ancho+70,20);
+			
+			panel.add(trae_hora.lblHora).setBounds(247,35, 550, 120);
+			panel.add(lblNota).setBounds(60,y+=125, 900, 30);
+			panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
+			
+			panel.add(lblFecha).setBounds(835+33,165, 300, 40);
+			panel.add(lblLogo).setBounds((anchoMon/2)-55,24, 147, 147);
+			panel.add(lblCerrar).setBounds(anchoMon-100,34, 127, 127);
+			panel.add(btnFoto).setBounds(anchoMon-540,34, 127, 127);
+			
+			panel.add(lblNombre).setBounds(960,40,320,20);
+			panel.add(lblEstablecimiento).setBounds(960,70,280,20);
+			panel.add(lblPuesto).setBounds(960,105,280,20);
+			panel.add(lblHorario).setBounds(960,140,280,20);
+			
+			panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-330);
+			panel.add(fondo).setBounds(0,-80,1660,900);
+			
 		}else{
+			
+			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,130));
+			
 					panel.add(lblFolio).setBounds(x+10,y,ancho+50,20);
 					panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
 					
@@ -217,7 +230,7 @@ public class Cat_Checador extends JFrame {
 					panel.add(btnMensaje).setBounds(960,247,608,608);
 					
 					panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
-					panel.add(fondo).setBounds(-30,-20,1660,900);
+					panel.add(fondo).setBounds(0,-20,1660,900);
 		}
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
@@ -227,7 +240,7 @@ public class Cat_Checador extends JFrame {
 		
 		String fileLogo = System.getProperty("user.dir")+"/Imagen/LogPrincipal3.png";
 		ImageIcon tmpIconLogo = new ImageIcon(fileLogo);
-		Icon iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(147, 147, Image.SCALE_DEFAULT));
+		Icon iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(127, 127, Image.SCALE_DEFAULT));
 		lblLogo.setIcon(iconoLogo);	
 		
 		String fileCerrar = System.getProperty("user.dir")+"/Imagen/cerrar.png";
@@ -482,6 +495,14 @@ public class Cat_Checador extends JFrame {
 										Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 										btnFoto.setIcon(icono);	
 										
+										int i=1;
+										if(i==1){
+											
+										}else
+										{
+											
+										}
+										
 										Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
 										
 										tabla_model.addRow(registro);
@@ -683,37 +704,63 @@ public class Cat_Checador extends JFrame {
 	@SuppressWarnings({ "unchecked", "static-access" })
 	public void init_tabla(){
 		
+		
 		if(anchoMon <= 1380){
-			x=100;
-			y=360;
-			z=140;
+			x=45;
+			y=245;
+			z=60;
+			this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			
+			this.tabla.getColumnModel().getColumn(0).setMaxWidth(x);
+			this.tabla.getColumnModel().getColumn(0).setMinWidth(x);
+			this.tabla.getColumnModel().getColumn(1).setMaxWidth(y);
+			this.tabla.getColumnModel().getColumn(1).setMinWidth(y);
+			this.tabla.getColumnModel().getColumn(2).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(2).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(3).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(3).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(4).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(4).setMinWidth(z);
+			
+			this.tabla.getColumnModel().getColumn(5).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(5).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(6).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(6).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(7).setMaxWidth(z+30);
+			this.tabla.getColumnModel().getColumn(7).setMinWidth(z+30);
+			this.tabla.getColumnModel().getColumn(8).setMaxWidth(z+30);
+			this.tabla.getColumnModel().getColumn(8).setMinWidth(z+30);
+			
 		}else{
 			x=50;
 			y=280;
 			z=80;
+			this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			
+			this.tabla.getColumnModel().getColumn(0).setMaxWidth(x);
+			this.tabla.getColumnModel().getColumn(0).setMinWidth(x);
+			this.tabla.getColumnModel().getColumn(1).setMaxWidth(y);
+			this.tabla.getColumnModel().getColumn(1).setMinWidth(y);
+			this.tabla.getColumnModel().getColumn(2).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(2).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(3).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(3).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(4).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(4).setMinWidth(z);
+			
+			this.tabla.getColumnModel().getColumn(5).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(5).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(6).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(6).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(7).setMaxWidth(z);
+			this.tabla.getColumnModel().getColumn(7).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(8).setMaxWidth(z+10);
+			this.tabla.getColumnModel().getColumn(8).setMinWidth(z+10);
 		}
 		
-		this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tabla.getColumnModel().getColumn(0).setMaxWidth(x);
-		this.tabla.getColumnModel().getColumn(0).setMinWidth(x);
-		this.tabla.getColumnModel().getColumn(1).setMaxWidth(y);
-		this.tabla.getColumnModel().getColumn(1).setMinWidth(y);
-		this.tabla.getColumnModel().getColumn(2).setMaxWidth(z);
-		this.tabla.getColumnModel().getColumn(2).setMinWidth(z);
-		this.tabla.getColumnModel().getColumn(3).setMaxWidth(z);
-		this.tabla.getColumnModel().getColumn(3).setMinWidth(z);
-		this.tabla.getColumnModel().getColumn(4).setMaxWidth(z);
-		this.tabla.getColumnModel().getColumn(4).setMinWidth(z);
 		
-		this.tabla.getColumnModel().getColumn(5).setMaxWidth(z);
-		this.tabla.getColumnModel().getColumn(5).setMinWidth(z);
-		this.tabla.getColumnModel().getColumn(6).setMaxWidth(z);
-		this.tabla.getColumnModel().getColumn(6).setMinWidth(z);
-		this.tabla.getColumnModel().getColumn(7).setMaxWidth(z);
-		this.tabla.getColumnModel().getColumn(7).setMinWidth(z);
-		this.tabla.getColumnModel().getColumn(8).setMaxWidth(z+10);
-		this.tabla.getColumnModel().getColumn(8).setMinWidth(z+10);
+		
 		
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -768,10 +815,23 @@ public class Cat_Checador extends JFrame {
 						
 					case 5: 
 						componente = new JLabel(value == null? "": value.toString());
-						if(row%2==0){
 							((JComponent) componente).setOpaque(true); 
-							componente.setBackground(new java.awt.Color(177,177,177));	
-						}
+							
+							int retardo = Integer.parseInt(tabla_model.getValueAt(row,4).toString().trim());
+							
+							if(retardo<4){
+								componente.setBackground(Color.green);
+								}
+							if(retardo>=4 && retardo<7){
+								componente.setBackground(Color.yellow);
+								}
+							if(retardo>=7 && retardo<=10){
+								componente.setBackground(new java.awt.Color(243,97,0));
+							}
+							if(retardo>10){
+								componente.setBackground(new java.awt.Color(255,0,0));
+							}
+								
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
 						break;
 						

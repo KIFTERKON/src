@@ -61,6 +61,7 @@ public class Cat_Horario_base  extends JFrame
 	JTextField txtNombre = new JTextField();                                           
 	                               
 	Date date = new Date();	
+
 	
     //Domingo//                 
 	SpinnerDateModel sm1 =  new SpinnerDateModel();

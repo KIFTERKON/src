@@ -1223,7 +1223,7 @@ public class ActualizarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, pond.getDescripcion().toUpperCase());
-			pstmt.setInt(2, pond.getPuesto_principal());
+			pstmt.setString(2, pond.getPuesto_principal());
 			pstmt.setString(3, pond.getPuesto_dependiente());
 			pstmt.setString(4, pond.isStatus()?"1":"0");
 			
@@ -1424,23 +1424,76 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean nivelGerarquico(Obj_Nivel_Jerarquico niv, String[][]tabla){
-		String queryClear = "delete from tb_tabla_nivel_jerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
-		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
+	public boolean nivelGerarquico(Obj_Nivel_Jerarquico niv, int folio){
+		
+//		String queryUpdate ="update tb_nivel_jerarquico set tb_nivel_jerarquico.descripcion = "+niv.getDescripcion()+"where tb_nivel_jerarquico.folio = "+folio;
+		String queryDEP = "exec sp_insert_tabla_nivel_jerarquico ?,?,?";
+		Connection con = new Connexion().conexion();
+		
+//		PreparedStatement pstmtNivelGerarquico = null;
+		
+//		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			
+//			pstmtNivelGerarquico = con.prepareStatement(queryUpdate);
+//			pstmtNivelGerarquico.executeUpdate();
+			
+//			pstmt = con.prepareStatement(queryClear);
+//			pstmt.executeUpdate();
+			
+			pstmtabla = con.prepareStatement(queryDEP);
+				
+				pstmtabla.setInt (1, folio);
+				pstmtabla.setString (2, niv.getPuesto_dependiente());
+				pstmtabla.setString (3, niv.getEstablecimiento());
+				
+				pstmtabla.executeUpdate();
+
+				con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		return true;
+	}
+	
+	public boolean nivelGerarquico2(Obj_Nivel_Jerarquico niv, String[][]tabla){
+//		String queryClear = "delete from tb_tabla_nivel_jerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
+		String query = "exec sp_insert_tabla_nivel_jerarquico ?,?,?";
+//		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
 		
 		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
+//		PreparedStatement pstmt = null;
 		PreparedStatement pstmtabla = null;
 		
 		try {
 			con.setAutoCommit(false);
 			pstmtabla = con.prepareStatement(query);
-			pstmt = con.prepareStatement(queryClear);
-			pstmt.executeUpdate();
+//			pstmt = con.prepareStatement(queryClear);
+//			pstmt.executeUpdate();
 			
 			for (int i = 0; i < tabla.length; i++) {
 
-				pstmtabla.setString (1, niv.getDescripcion().toUpperCase());
+				pstmtabla.setInt (1, niv.getFolio());
+				
+				System.out.print(tabla[i][0] +"   ");	System.out.println(tabla[i][1]);
 				
 				pstmtabla.setString (2, tabla[i][0]);
 				pstmtabla.setString (3, tabla[i][1]);
@@ -1727,5 +1780,7 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}
+	
+	
 	
 }

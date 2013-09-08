@@ -175,8 +175,10 @@ public class Cat_Mensajes extends JFrame
 						txtFolio.setEditable(false);
 						txtMensaje.setEditable(true);
 						txtMensaje.requestFocus();
-					}else{
+						txtMensaje.setText("");
+					}else{;
 						txtFolio.setText(1+"");
+						txtMensaje.setText("");
 						txtFolio.setEditable(false);
 						txtMensaje.setEditable(true);
 						txtMensaje.requestFocus();
