@@ -812,7 +812,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	@SuppressWarnings("deprecation")
 	public void preguntas()
 	{
-
 		if(btnDomingo.isSelected()==true)
 		{
 			spDomingo1.setValue(new Date(00,00,00));
@@ -876,7 +875,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			spSabado5.setValue(new Date(00,00,00));
 			Descanso=6;
 		}
-
 	}
 	
 	ActionListener Guardar = new ActionListener() {

@@ -20,17 +20,18 @@ public class Cat_Agregar_Submenus_Nuevos extends JFrame  {
 
 	Container cont=getContentPane();
 	JLayeredPane panel=new JLayeredPane();
+	
 	JTextField txtsubmenu =new JTextField () ; 
 	JTextField txtcatsubmenu =new JTextField () ; 
+	
 	String lista [] = new Obj_Agregar_Submenus_Nuevos().Combo_Menus(); 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	JComboBox  cmbmenuid =new JComboBox	(lista);
+	
+    JComboBox  cmbmenuid =new JComboBox	(lista);
     JButton btn_guardar =new JButton("Guardar");
 	
     public Cat_Agregar_Submenus_Nuevos () {
-    	  
     	   this.setTitle("Agregar Submenus Nuevos");
-    	   
     	    this.panel.add(new JLabel("Nom Submenu <Visible>:")).setBounds(10,50,200,20);
         	this.panel.add(txtsubmenu).setBounds(150,50,200,20);
         	this.txtsubmenu.setToolTipText("Se debe de Poner el nombre del Submenu que pones entre comillas");
@@ -44,25 +45,18 @@ public class Cat_Agregar_Submenus_Nuevos extends JFrame  {
 		    this.panel.add(cmbmenuid).setBounds(150,150,200,20);
 		    this.panel.add(btn_guardar).setBounds(150,300,80,20);
 		    this.btn_guardar.addActionListener(Guardar);
-		    
-		  
     }
 	
-ActionListener Guardar =new ActionListener() {
-		
-		@Override
+    ActionListener Guardar =new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			   //aqui se obtiene lo que traiga el texto del textfield txtsubmenu
-			
+			//aqui se obtiene lo que traiga el texto del textfield txtsubmenu
 			if(!txtsubmenu.getText().equals("")){
-                         				
-				   if(!new Obj_Agregar_Submenus_Nuevos().existe(txtsubmenu.getText()) ){
-					
-						//variable instancia para
-						  Obj_Agregar_Submenus_Nuevos agregar= new Obj_Agregar_Submenus_Nuevos();
-						  agregar.setNombre(txtsubmenu.getText());
-						  agregar.setMenu(cmbmenuid.getSelectedItem().toString());
-						  agregar.setCatalogo(txtcatsubmenu.getText());   
+				if(!new Obj_Agregar_Submenus_Nuevos().existe(txtsubmenu.getText()) ){
+					//variable instancia para
+					Obj_Agregar_Submenus_Nuevos agregar= new Obj_Agregar_Submenus_Nuevos();
+					agregar.setNombre(txtsubmenu.getText());
+					agregar.setMenu(cmbmenuid.getSelectedItem().toString());
+					agregar.setCatalogo(txtcatsubmenu.getText());   
 						  if(agregar.guardar()){JOptionPane.showMessageDialog(null,"Se Guardo Exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						  
 						          if(new Obj_Mantenimiento_Base_de_Datos().agregar_submenus_nuevos()==true ){
