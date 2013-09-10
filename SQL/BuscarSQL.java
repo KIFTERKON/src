@@ -848,7 +848,7 @@ public class BuscarSQL {
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
 				
-				empleado.setTurno2(rs.getInt("horario"));
+				empleado.setTurno(rs.getInt("horario"));
 				empleado.setStatus_2h(rs.getInt("status_2h"));
 				empleado.setTurno2(rs.getInt("horario_2"));
 

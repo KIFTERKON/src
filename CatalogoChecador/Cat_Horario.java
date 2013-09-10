@@ -812,16 +812,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	@SuppressWarnings("deprecation")
 	public void preguntas()
 	{
-//<<<<<<< HEAD
-////		ObjHorario horario = new ObjHorario();
-//		if(btnDomingo.isSelected()==true)	{	Descanso=7;		}
-//		if (btnLunes.isSelected()==true)	{	Descanso=1;		}
-//		if (btnMartes.isSelected()==true)	{	Descanso=2;		}
-//		if (btnMiercoles.isSelected()==true){	Descanso=3;		}
-//		if (btnJueves.isSelected()==true)	{	Descanso=4;		}
-//		if (btnViernes.isSelected()==true)	{	Descanso=5;		}
-//		if (btnSabado.isSelected()==true)	{	Descanso=6;		}
-//=======
 		if(btnDomingo.isSelected()==true)
 		{
 			spDomingo1.setValue(new Date(00,00,00));

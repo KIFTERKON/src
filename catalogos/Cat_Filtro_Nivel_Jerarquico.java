@@ -1,6 +1,5 @@
 package catalogos;
 
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyAdapter;
@@ -11,12 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -29,10 +25,8 @@ import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
-
-
 import objetos.JTextFieldLimit;
-import objetos.Obj_Establecimiento;
+
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 	

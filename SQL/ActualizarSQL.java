@@ -1,6 +1,7 @@
 package SQL;
 
 import java.io.FileInputStream;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -46,6 +47,9 @@ import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class ActualizarSQL {
+	String Qbitacora ="exec sp_insert_bitacora ?,?,?,?,?";
+	PreparedStatement pstmtb = null;
+	Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
 		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
@@ -55,6 +59,17 @@ public class ActualizarSQL {
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
+			// insert bitacora
+			String pc = InetAddress.getLocalHost().getHostName();
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			pstmtb = con.prepareStatement(Qbitacora);
+			pstmtb.setString(1, pc);
+			pstmtb.setString(2, ip);
+			pstmtb.setInt(3, usuario.getFolio());
+			pstmtb.setString(4, "sp_insert_empleado modificar Num:"+folio +empleado.getNombre().toUpperCase()+" "+empleado.getAp_paterno().toUpperCase()+" sueldo:"+ empleado.getSueldo()+" Bono:"+empleado.getBono()+ " hor:"+empleado.getTurno()+"Estab:"+ empleado.getEstablecimiento()+"Puesto:"+empleado.getPuesto()+ "INF:"+empleado.getInfonavit()+" FNAC"+empleado.getFecha_nacimiento() );
+			pstmtb.setString(5, "Empleados Actualiza");
+			pstmtb.executeUpdate();
+			
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 		
