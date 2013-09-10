@@ -115,7 +115,14 @@ public class Obj_SubMenus {
 		}
 		return null; 
 	}
-	
+	public String[] SubMenuchecador() {
+		try {
+			return new SubMenusSQL().Checador();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
 	public String[][] UsuarioMatriz(){
 		return new BuscarSQL().getUsuarioPermisos();

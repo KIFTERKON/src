@@ -296,6 +296,32 @@ public class SubMenusSQL {
 		}
 		return pila;	
 	}
+	@SuppressWarnings("unchecked")
+	public String[] Checador() throws SQLException{
+		String query = "select nombre from tb_submenus where menu_id = 12 order by nombre asc";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+				miVector.add(rs.getString("nombre"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;	
+	}
+	
 	
 	
 }

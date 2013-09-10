@@ -58,15 +58,32 @@ import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class GuardarSQL {
-
+	String Qbitacora ="exec sp_insert_bitacora ?,?,?,?,?";
+	PreparedStatement pstmtb = null;
+	Obj_Usuario usuario = new Obj_Usuario().LeerSession();
+	
+				
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
 		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
 			
+			// insert bitacora
+			String pc = InetAddress.getLocalHost().getHostName();
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			pstmtb = con.prepareStatement(Qbitacora);
+			pstmtb.setString(1, pc);
+			pstmtb.setString(2, ip);
+			pstmtb.setInt(3, usuario.getFolio());
+			pstmtb.setString(4, "sp_insert_empleado alta "+empleado.getNombre().toUpperCase()+empleado.getAp_paterno().toUpperCase()+empleado.getAp_materno().toUpperCase());
+			pstmtb.setString(5, "Empleados Nuevo");
+			pstmtb.executeUpdate();
+			
+			
+			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, empleado.getNo_checador());
 			pstmt.setString(2, empleado.getNombre().toUpperCase());
 			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
@@ -101,7 +118,6 @@ public class GuardarSQL {
 			pstmt.setString(26, empleado.getFecha_ingreso());
 			pstmt.setString(27, empleado.getTelefono_familiar());
 			pstmt.setInt(28, empleado.isCuadrante_parcial() ? 1 : 0);
-			
 			pstmt.setInt(29, empleado.getTurno());
 			pstmt.setInt(30, empleado.getStatus_2h());
 			pstmt.setInt(31, empleado.getTurno2());
