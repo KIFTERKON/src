@@ -50,17 +50,13 @@ public class Filtro_Horario extends JFrame
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
-<<<<<<< HEAD
-
-=======
->>>>>>> 83fd5e9af1f56f4cbf8b58d0c5457bcb8817dce3
 	public Filtro_Horario()
 	{
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro Horario"));	
 		
-		panel.add(getPanelTabla()).setBounds(20,50,540        ,400);
+		panel.add(getPanelTabla()).setBounds(20,50,540,400);
 		panel.add(txtFolio).setBounds(20,20,115,20);
 		panel.add(txtNombre).setBounds(140,20,300,20);
 		

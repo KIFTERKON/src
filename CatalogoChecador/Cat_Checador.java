@@ -478,75 +478,63 @@ public class Cat_Checador extends JFrame {
 							if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
 								 JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
 							}else{
-								  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
-									      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
-									      
-								   }
-								  
-							    else{
-								  
-								
-						     															
-								Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-								
-								if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
-							
-										ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-										Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-										btnFoto.setIcon(icono);	
-										
-										int i=1;
-										if(i==1){
+									  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
+										      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
+										      
+									   }else{
+							     															
+											Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 											
-										}else
-										{
-											
-										}
-										
-										Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
-										
-										tabla_model.addRow(registro);
-										String tipo=registro[2].toString();
-										String hora=registro[3].toString();
-										
-										String Fecha=registro[9].toString();
-										lblFecha.setText(Fecha);
-										
-										txtFolio.setEditable(true);
-										txtFolio.setText("");
-										txtFolio.requestFocus();
-										txtClaveReal.setText("");
-										txtClaveReal.setEditable(false);
+											if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
 								
-												if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-														lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-														lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+											ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+											Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+											btnFoto.setIcon(icono);	
+											
+											Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
+											
+											tabla_model.addRow(registro);
+											String tipo=registro[2].toString();
+											String hora=registro[3].toString();
+											
+											String Fecha=registro[9].toString();
+											lblFecha.setText(Fecha);
+											
+											txtFolio.setEditable(true);
+											txtFolio.setText("");
+											txtFolio.requestFocus();
+											txtClaveReal.setText("");
+											txtClaveReal.setEditable(false);
+									
+													if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+															lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+															lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+						
+													}else{
+															lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+															lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+														}
+									
+											lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+											
+											Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+											lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
 					
-												}else{
-														lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-														lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-													}
+											Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+											lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+											
+											
+											
+											txtFolio.setEditable(false);
+											txtClaveReal.setEditable(true);
+											txtClaveReal.requestFocus();
 								
-										lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-										
-										Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-										lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-				
-										Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-										lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-										
-										
-										
-										txtFolio.setEditable(false);
-										txtClaveReal.setEditable(true);
-										txtClaveReal.requestFocus();
-							
-								     }else{
-									     	JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
-										    txtFolio.setEditable(true);
-									    	panelLimpiar();
-										    return;
-									}
+									     }else{
+										     	JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
+											    txtFolio.setEditable(true);
+										    	panelLimpiar();
+											    return;
+										}
 							}
 						}
 					}

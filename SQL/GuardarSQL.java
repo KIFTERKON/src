@@ -1558,14 +1558,11 @@ public class GuardarSQL {
 			pstmt.setString (1, pond.getDescripcion());
 			pstmt.setString (2, pond.getPuesto_principal());
 			
-//			for (int i = 0; i < tabla.length; i++) {
-
 				pstmtabla.setInt (1, pond.getFolio());
 				pstmtabla.setString (2, pond.getPuesto_dependiente());
 				pstmtabla.setString (3, pond.getEstablecimiento());
 				pstmtabla.executeUpdate();
 				
-//			}
 			pstmt.executeUpdate();
 		
 			con.commit();
@@ -1609,8 +1606,8 @@ public class GuardarSQL {
 			for (int i = 0; i < tabla.length; i++) {
 
 				pstmtabla.setInt (1, pond.getFolio());
-				pstmtabla.setString (2, tabla[i][0].toString());
-				pstmtabla.setString (3, tabla[i][1].toString());
+				pstmtabla.setString (2, tabla[i][0]);
+				pstmtabla.setString (3, tabla[i][1]);
 				
 				pstmtabla.executeUpdate();
 				
@@ -2201,8 +2198,8 @@ public boolean Guardar_Horario(ObjHorario horario){
 			return true;
 		}
 	
-		public boolean buscarBorrarPDependiente(String nombre){
-			String query = "exec sp_folio_puesto_dependiente '"+nombre+"'";
+		public boolean buscarBorrarPDependiente(String nombre, int folio_tabla,String establecimineto){
+			String query = "exec sp_folio_puesto_dependiente '"+nombre+"', "+folio_tabla+",'"+establecimineto+"'";
 			Connection con = new Connexion().conexion();
 			PreparedStatement pstmt = null;
 			try {
