@@ -246,4 +246,8 @@ public class Cat_Horario_base  extends JFrame
 	                                                                                   
 	JLabel lblComida = new JLabel("Comida");                                           
 	JLabel lblReceso = new JLabel("Receso");
+	
+	JLabel lblSintaxis = new JLabel("(Puesto   Establecimiento   ");
+	JLabel lblSintaxis2 = new JLabel("Mat/Vesp   ");
+	JLabel lblSintaxis3 = new JLabel("am-pm   C:Comida(hrs)   D:Descanso   DB:Dobla)");
 }

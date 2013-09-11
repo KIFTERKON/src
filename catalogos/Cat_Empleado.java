@@ -52,6 +52,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -64,6 +65,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -110,6 +112,8 @@ public class Cat_Empleado extends JFrame{
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbPuesto = new JComboBox(puesto);
 	
+//	 String[] tooltips = { "Javanese ", "Japanese ", "Latin " };
+	 String[] tooltips = new Obj_Turno().Combo_Turno();
 	String turno[] = new Obj_Turno().Combo_Turno();
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbTurno = new JComboBox(turno);
@@ -207,7 +211,6 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
 		panel.add(btnFoto).setBounds(x*2+ancho*3-20,y,ancho+95,200);
-	
 		panel.add(Observasiones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
 		
 		panel.add(btnCumpleaños_del_Mes).setBounds(x*2+ancho*3-20+ancho+110,y+450,130,20);
@@ -349,6 +352,8 @@ public class Cat_Empleado extends JFrame{
 		txtChecador.addKeyListener(numerico_action);
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		txtPensionAli.addKeyListener(validaNumericoPension);
+		
+		cmbTurno.setRenderer(new MyComboBoxRenderer());
 		
 		cont.add(panel);
 		cmbTurno.setEnabled(false);
@@ -1570,6 +1575,27 @@ public class Cat_Empleado extends JFrame{
 	        img=null;
 	    }
 	}
+	
+//		setToolTipText en comboBox			---------------------------------------------------------------
+	  class MyComboBoxRenderer extends BasicComboBoxRenderer {
+	    @SuppressWarnings("rawtypes")
+		public Component getListCellRendererComponent(JList list, Object value,
+	        int index, boolean isSelected, boolean cellHasFocus) {
+	      if (isSelected) {
+	        setBackground(list.getSelectionBackground());
+	        setForeground(list.getSelectionForeground());
+	        if (-1 < index) {
+	          list.setToolTipText(tooltips[index]);
+	        }
+	      } else {
+	        setBackground(list.getBackground());
+	        setForeground(list.getForeground());
+	      }
+	      setFont(list.getFont());
+	      setText((value == null) ? "" : value.toString());
+	      return this;
+	    }
+	  }
 	
 	public class JMenuFormato extends JMenuItem implements ActionListener{
 

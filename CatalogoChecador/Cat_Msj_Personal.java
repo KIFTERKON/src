@@ -3,6 +3,7 @@ package CatalogoChecador;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,9 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -34,10 +38,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import objetos.JTextFieldLimit;
 import objetos.Obj_Empleados_Cuadrantes;
+import objetos.Obj_Nivel_Jerarquico;
 
+import ObjetoChecador.Obj_Mensaje_Personal;
 import SQL.Connexion;
-import catalogos.Cat_Empleados_Cuadrantes;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -60,17 +66,16 @@ public class Cat_Msj_Personal extends JFrame {
 	JButton btnAnterior = new JButton("Anterior");
 	
 	JTextArea txaMensaje = new JTextArea();
+	JScrollPane Mensaje = new JScrollPane(txaMensaje);
 	
 //	-----------------------------------------------------------------------------------------------------------------------
 	
-	
-	JTextField txtFolio = new JTextField();
-	JTextField txtCuadrantes = new JTextField();
+	JTextField txtAsunto = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status",true);
 	
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
-	JButton btnCuadrante = new JButton("Cuadrante");
+	JButton btnFiltro = new JButton("Filtro");
 	JButton btnEmpleado = new JButton("Empleados");
 	JButton btnNuevo = new JButton("Nuevo");
 	JButton btnSalir = new JButton("Salir");
@@ -97,32 +102,70 @@ public class Cat_Msj_Personal extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Empleados en Cuadrantes"));	
 		
-		this.setTitle("Empleados en Cuadrantes");
+		this.setTitle("Mensaje Personal");
 		
-		txtCuadrantes.setEditable(false);
+		Font font = new Font("Verdana", Font.BOLD, 14);
+		txaMensaje.setFont(font);
+		
+		this.txtFechaInicio.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+		this.txtFechaFin.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+		
+		txtAsunto.setEditable(false);
 
 		this.panel.add(new JLabel("Folio:")).setBounds(30,30,50,20);
-		this.panel.add(txtFolio).setBounds(90,30,90,20);
+		this.panel.add(txtFolioMsj).setBounds(90,30,90,20);
 		this.panel.add(chStatus).setBounds(190,30,60,20);
 		this.panel.add(btnBuscar).setBounds(250,30,30,20);
 		this.panel.add(btnNuevo).setBounds(290,30,80,20);
+//		
+		this.panel.add(new JLabel("Asunto:")).setBounds(30,55,70,20);
+		this.panel.add(txtAsunto).setBounds(90,55,280,20);
+		this.panel.add(btnFiltro).setBounds(280,80,90,20);
+	
+		this.panel.add(new JLabel("Fecha Inicio:")).setBounds(30,80,90,20);
+		this.panel.add(txtFechaInicio).setBounds(90,80,110,20);
 		
-		this.panel.add(new JLabel("Cuadrante:")).setBounds(30,55,70,20);
-		this.panel.add(txtCuadrantes).setBounds(90,55,280,20);
-		this.panel.add(btnCuadrante).setBounds(380,55,90,20);
+		this.panel.add(new JLabel("Fecha Final:")).setBounds(30,105,90,20);
+		this.panel.add(txtFechaFin).setBounds(90,105,110,20);
+//		
+		this.panel.add(btnBajar).setBounds(210,105,40,20);
+		this.panel.add(btnSubir).setBounds(210,80,40,20);
+//		
+//		this.panel.add(btnRemover).setBounds(290,80,80,20);
+		this.panel.add(Mensaje).setBounds(30,135,440,245);
+//		
+//		this.panel.add(btnSalir).setBounds(30,400,90,20);
+//		this.panel.add(btnLimpiar).setBounds(200,400,90,20);
+//		this.panel.add(btnGuardar).setBounds(380,400,90,20);
 		
-		this.panel.add(btnEmpleado).setBounds(90,80,90,20);
-		this.panel.add(btnBajar).setBounds(190,80,40,20);
-		this.panel.add(btnSubir).setBounds(240,80,40,20);
+		int x=500;
 		
-		this.panel.add(btnRemover).setBounds(290,80,80,20);
-		this.panel.add(panelScroll).setBounds(30,110,440,270);
+//		this.panel.add(new JLabel("Folio:")).setBounds(30+x,30,50,20);
+//		this.panel.add(txtFolio).setBounds(90+x,30,90,20);
+//		this.panel.add(chStatus).setBounds(190+x,30,60,20);
+//		this.panel.add(btnBuscar).setBounds(250+x,30,30,20);
+//		this.panel.add(btnNuevo).setBounds(290+x,30,80,20);
 		
-		this.panel.add(btnSalir).setBounds(30,400,90,20);
-		this.panel.add(btnLimpiar).setBounds(200,400,90,20);
-		this.panel.add(btnGuardar).setBounds(380,400,90,20);
+//		this.panel.add(new JLabel("Cuadrante:")).setBounds(30+x,55,70,20);
+//		this.panel.add(txtAsunto).setBounds(90+x,55,280,20);
+//		this.panel.add(btnFiltro).setBounds(380+x,55,90,20);
+		
+		this.panel.add(btnEmpleado).setBounds(90+x,80,90,20);
+//		this.panel.add(btnBajar).setBounds(190+x,80,40,20);
+//		this.panel.add(btnSubir).setBounds(240+x,80,40,20);
+		
+		this.panel.add(btnRemover).setBounds(290+x,80,80,20);
+		this.panel.add(panelScroll).setBounds(30+x,110,440,270);
+		
+		this.panel.add(btnSalir).setBounds(30+x,400,90,20);
+		this.panel.add(btnLimpiar).setBounds(200+x,400,90,20);
+		this.panel.add(btnGuardar).setBounds(380+x,400,90,20);
 		
 		btnSubir.setToolTipText("Boton de subir");
+		
+		txaMensaje.setLineWrap(true); 
+		txaMensaje.setWrapStyleWord(true);
+		txaMensaje.setDocument(new JTextFieldLimit(800));
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
@@ -172,7 +215,7 @@ public class Cat_Msj_Personal extends JFrame {
 		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		
-		btnCuadrante.addActionListener(opBuscarCuadrante);
+		btnFiltro.addActionListener(opBuscarCuadrante);
 		btnSalir.addActionListener(opSalir);
 		btnLimpiar.addActionListener(opLimpiar);
 		btnNuevo.addActionListener(opNuevo);
@@ -184,8 +227,8 @@ public class Cat_Msj_Personal extends JFrame {
 		
 		btnRemover.addActionListener(opQuitar);
 		
-		txtFolio.addKeyListener(valida);
-		txtFolio.addKeyListener(buscaAction);
+		txtFolioMsj.addKeyListener(valida);
+		txtFolioMsj.addKeyListener(buscaAction);
 		btnGuardar.addActionListener(guardar);
 		
 		
@@ -262,27 +305,43 @@ public class Cat_Msj_Personal extends JFrame {
 	
 	ActionListener opBuscar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(txtFolio.getText().equals("")){
+			if(txtFolioMsj.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el folio para poder realizar la busqueda","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else {
-				Obj_Empleados_Cuadrantes empleado_cuadrante = new Obj_Empleados_Cuadrantes().buscar(Integer.parseInt(txtFolio.getText()));
-				if(empleado_cuadrante.getCuadrante().equals("")){
-					JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+txtFolio.getText(),"Error",JOptionPane.WARNING_MESSAGE);
+				Obj_Mensaje_Personal MsjPresonal = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText()));
+				if(MsjPresonal.getAsunto().equals("")){
+					JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+txtFolioMsj.getText(),"Error",JOptionPane.WARNING_MESSAGE);
 					return;
 				}else{
-					txtCuadrantes.setText(empleado_cuadrante.getCuadrante());
-					chStatus.setSelected(empleado_cuadrante.isStatus());
-					while(tabla.getRowCount()>0){
-						modelo.removeRow(0);
-					}
-					String[][] lista_tabla = Obj_Empleados_Cuadrantes.getTablaCuadrante(Integer.parseInt(txtFolio.getText()));
-					String[] fila = new String[2];
-					for(int i=0; i<lista_tabla.length; i++){
-						fila[0] = lista_tabla[i][0]+"  ";
-						fila[1] = "   "+lista_tabla[i][1];
-						modelo.addRow(fila);
-					}
+					
+					txtAsunto.setText(MsjPresonal.getAsunto());
+					txaMensaje.setText(MsjPresonal.getMensaje());
+					
+						try {
+							Date date_inicial = new SimpleDateFormat("dd/MM/yyyy").parse(MsjPresonal.getFechaInicial());
+							Date date_fin = new SimpleDateFormat("dd/MM/yyyy").parse(MsjPresonal.getFechaFin());
+							txtFechaInicio.setDate(date_inicial);
+							txtFechaFin.setDate(date_fin);
+						} catch (ParseException e1) {
+							e1.printStackTrace();
+						}
+					
+					chStatus.setSelected(MsjPresonal.getStatus());
+					
+					
+					////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+					/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+					/**/	   		 getTabla(Integer.parseInt(txtFolioMsj.getText()));			/**/
+					////////////////////////////////////////////////////////////////////////////////
+					
+//					String[][] lista_tabla = Obj_Empleados_Cuadrantes.getTablaCuadrante(Integer.parseInt(txtFolioMsj.getText()));
+//					String[] fila = new String[2];
+//					for(int i=0; i<lista_tabla.length; i++){
+//						fila[0] = lista_tabla[i][0]+"  ";
+//						fila[1] = "   "+lista_tabla[i][1];
+//						modelo.addRow(fila);
+//					}
 				}
 			}
 		}
@@ -290,74 +349,159 @@ public class Cat_Msj_Personal extends JFrame {
 	
 	ActionListener opNuevo = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			txtFolio.setText(new Obj_Empleados_Cuadrantes().nuevoEmpleadoCuadrante()+"");
-			txtFolio.setEditable(false);
+			
+			txtFolioMsj.setText(new Obj_Empleados_Cuadrantes().nuevoEmpleadoCuadrante()+"");
+			txtFolioMsj.setText(new Obj_Mensaje_Personal().nuevoMensaje()+"");
+			txtFolioMsj.setEditable(false);
+			
+			txtAsunto.setEditable(true);
+			txtAsunto.requestFocus();
 		}
 	};
 	
 	public String ValidaCampos(){
 		String error ="";
-		if(txtFolio.getText().equals("")) error+= "Folio\n";
-		if(txtCuadrantes.getText().equals("")) error+= "Cuadrante\n";
+		if(txtFolioMsj.getText().equals("")) error+= "Folio\n";
+		if(txtAsunto.getText().equals("")) error+= "Cuadrante\n";
 		if(!(tabla.getRowCount() > 0)) error += "No hay datos en la tabla\n";
 		
 		return error;
 	}
 	
-	ActionListener guardar = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			if(ValidaCampos().equals("")){
-				if(new Obj_Empleados_Cuadrantes().existe(Integer.parseInt(txtFolio.getText()))){
-					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-						Obj_Empleados_Cuadrantes empleados_cuadrantes = new Obj_Empleados_Cuadrantes();
-						
-						empleados_cuadrantes.setFolio(Integer.parseInt(txtFolio.getText()));
-						empleados_cuadrantes.setCuadrante(txtCuadrantes.getText());
-						empleados_cuadrantes.setStatus(chStatus.isSelected());
-						
-						if(empleados_cuadrantes.actualizar(lista_tabla())){
-							JOptionPane.showMessageDialog(null,"El registro se actualizo exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-							limpia();
-							return;
-						}else{
-							JOptionPane.showMessageDialog(null,"Ocurrio un problema al intentar actualizar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
-							return;
+	ActionListener guardar = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+
+			if(txtFolioMsj.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "El Folio Es Requerido", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				if(validacampos().equals("")){
+					Obj_Nivel_Jerarquico nivelgerarquico = new Obj_Nivel_Jerarquico().buscar(104);
+					
+					if(nivelgerarquico.getFolio() == Integer.parseInt(txtFolioMsj.getText())){
+						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
+						{
+							Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
+								
+							gerarquico.setFolio(Integer.parseInt(txtFolioMsj.getText()));
+							
+//							String[] arreglo = new String[2];
+							
+							
+							
+//							if(valor_referencia==0){
+//										gerarquico.actualizar(Integer.parseInt(txtFolio.getText()));
+//										limpiaGuardar();
+//										////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+//										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+//										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+//										////////////////////////////////////////////////////////////////////////////////
+//										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+//										return;
+//							}else{
+//								
+//								if(valor_referencia>0){
+//										gerarquico.actualizar2(listadatos());
+//										limpiaGuardar();
+//										////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+//										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+//										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+//										////////////////////////////////////////////////////////////////////////////////
+//										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+//										return;
+//								}else{
+//										JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+//										return;
+//									}
+//								}
 						}
-						
 					}else{
-						return;
+						Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal();
+						
+						MSJ.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
+						MSJ.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));
+						MSJ.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaFin.getDate()));
+						MSJ.setAsunto(txtAsunto.getText().toLowerCase());
+						MSJ.setMensaje(txaMensaje.getText().toUpperCase());
+						
+						MSJ.setStatus(chbStatus.isSelected());
+						
+						if(MSJ.guardar_mensaje()){
+							if(modelo.getRowCount() > 0){
+								MSJ.guardar_Empleado_Mensaje(listadatos());
+									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+									return;
+								}else{
+									JOptionPane.showMessageDialog(null,"A Guardado Mensaje Sin Asignarselo a Un Empleado!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+									return;
+								}
+									
+						}else{
+							System.out.println("<<<<<<<<<<<<<<<<<<<<           no guardo            >>>>>>>>>>>>>>>>>>>>");
+//							if(valor_referencia>0){
+//									gerarquico.guardar_multiple2(listadatos());
+//									
+//									////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+//									/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+//									/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+//									////////////////////////////////////////////////////////////////////////////////
+//									
+//									JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+//									return;
+//							}else{
+//									JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+//									return;
+//								}
+						}
+							
+
 					}
 				}else{
-					Obj_Empleados_Cuadrantes empleados_cuadrantes = new Obj_Empleados_Cuadrantes();
-					
-					empleados_cuadrantes.setFolio(Integer.parseInt(txtFolio.getText()));
-					empleados_cuadrantes.setCuadrante(txtCuadrantes.getText());
-					empleados_cuadrantes.setStatus(chStatus.isSelected());
-					
-					if(empleados_cuadrantes.guardar(lista_tabla())){
-						JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-						limpia();
-						return;
-					}else{
-						JOptionPane.showMessageDialog(null,"Ocurró un problema al intentar guardar el registro!","Aviso",JOptionPane.ERROR_MESSAGE);
-						return;
-					}
+					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+validacampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+					return;
 				}
-			}else{
-				JOptionPane.showMessageDialog(null,"Los siguientes campos son necesario\n"+ValidaCampos(),"Aviso",JOptionPane.WARNING_MESSAGE);
-				return;
+				
 			}
+			//valor para trabajar con el guardado desde la tabla
 		}
 	};
 	
-	public String[] lista_tabla(){
-		String[] lista = new String[tabla.getRowCount()];
-		for(int i=0; i<tabla.getRowCount(); i++){
-			lista[i] = modelo.getValueAt(i,0).toString().trim();
+	public  String[] listadatos()
+	{
+		String[] matriz=new String[tabla.getRowCount()];
+		for (int i = 0; i < tabla.getRowCount(); i++) {
+				matriz[i]=modelo.getValueAt(i,0).toString();
 		}
-	
-		return lista;
+		return matriz;
 	}
+	
+	public void getTabla(int folio){
+		String todos1 = "exec sp_select_empleado_mensaje "+folio;
+		Statement stmt = null;
+		ResultSet rs;
+		Connexion con = new Connexion();
+		try {
+			stmt = con.conexion().createStatement();
+			rs = stmt.executeQuery(todos1);
+			Object[] vector = new Object[2];
+			while(rs.next()){
+				vector[0] = (rs.getInt(1));
+				vector[1] = (rs.getString(2));
+				modelo.addRow(vector);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+//	public String[] lista_tabla(){
+//		String[] lista = new String[tabla.getRowCount()];
+//		for(int i=0; i<tabla.getRowCount(); i++){
+//			lista[i] = modelo.getValueAt(i,0).toString().trim();
+//		}
+//	
+//		return lista;
+//	}
 	
 	ActionListener opBuscarEmpleado = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
@@ -388,16 +532,16 @@ public class Cat_Msj_Personal extends JFrame {
 	
 	
 	public void limpia() {
-		txtFolio.setText("");
-		txtCuadrantes.setText("");
+		txtFolioMsj.setText("");
+		txtAsunto.setText("");
 		chStatus.setEnabled(false);
 		chStatus.setSelected(false);
 		
 		while(modelo.getRowCount() > 0){
 			modelo.removeRow(0);
 		}
-		txtFolio.requestFocus();
-		txtFolio.setEditable(true);
+		txtFolioMsj.requestFocus();
+		txtFolioMsj.setEditable(true);
 	}
 	
 	KeyListener valida = new KeyListener() {
@@ -411,7 +555,7 @@ public class Cat_Msj_Personal extends JFrame {
 		        (caracter != KeyEvent.VK_BACK_SPACE)){
 		    	e.consume(); 
 		    }
-				if (txtFolio.getText().length()== limite)
+				if (txtFolioMsj.getText().length()== limite)
 			     e.consume();
 		}
 		@Override
@@ -829,9 +973,9 @@ public class Cat_Msj_Personal extends JFrame {
 		
 		
 	   	public Object[][] getTabla(){
-			String todos = "select tb_cuadrante.folio as [Folio], "+
-						         " tb_cuadrante.cuadrante as [Cuadrante] "+ 
-						   "from tb_cuadrante";
+			String todos = "select folio_mensaje as folio_mensaje," +
+							" asunto as asunto " +
+							"from tb_mensaje_personal";
 			Statement s;
 			ResultSet rs;
 			try {
@@ -910,12 +1054,20 @@ public class Cat_Msj_Personal extends JFrame {
 		    			int fila = tabla2.getSelectedRow();
 		    			Object folio =  tabla2.getValueAt(fila, 1);
 		    			dispose();
-		    			txtCuadrantes.setText(folio.toString().trim());
+		    			txtAsunto.setText(folio.toString().trim());
 		        	}
 		        }
 	        });
 	    }
 	}
+	
+	public String validacampos(){
+		String error="";
+		if (txtFechaInicio.getDateEditor().equals("")){error+="Fecha Inicial\n";}
+		if (txtFechaFin.getDateEditor().equals("")){error+="Fecha Final\n";}
+		return error;
+	}
+	
 	public static void main(String args[]){
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

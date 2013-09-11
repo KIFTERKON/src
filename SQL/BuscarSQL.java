@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
 import ObjetoChecador.Obj_Entosal;
+import ObjetoChecador.Obj_Mensaje_Personal;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
@@ -2631,9 +2632,58 @@ public class BuscarSQL {
 		return empleado_cuadrante;
 	}
 	
+	public Obj_Mensaje_Personal buscar_mensaje(int folio) throws SQLException{
+		Obj_Mensaje_Personal MsjPersonal = new Obj_Mensaje_Personal();
+		String query = "select * from tb_mensaje_personal where folio_mensaje ="+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				MsjPersonal.setFolioMensaje(rs.getInt("folio_mensaje"));
+				MsjPersonal.setAsunto(rs.getString("asunto"));
+				MsjPersonal.setFechaInicial(rs.getString("fecha_inicio"));
+				MsjPersonal.setFechaFin(rs.getString("fecha_fin"));
+				MsjPersonal.setMensaje(rs.getString("mensaje"));
+				MsjPersonal.setStatus(rs.getInt("status")==1 ? true : false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return MsjPersonal;
+	}
+	
 	public int NuevoEmpleadoCuadrante() throws SQLException{
 		int folio = 0;
 		String query = "exec sp_nuevo_empleado_cuadrante";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				folio =  rs.getInt("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return folio;
+	}
+	
+	public int NuevoMensajePersonal() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nuevo_mensaje";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

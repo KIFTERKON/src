@@ -50,6 +50,7 @@ public class Filtro_Horario extends JFrame
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Filtro_Horario()
 	{
 		
@@ -64,6 +65,10 @@ public class Filtro_Horario extends JFrame
 		txtNombre.setToolTipText("Filtro");
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
+		
+		
+		trsfiltro = new TableRowSorter(modelo); 
+		tabla.setRowSorter(trsfiltro);
 		
 		txtNombre.addKeyListener(opFiltroNombre);
 		txtFolio.addKeyListener(opFiltroFolio);
@@ -110,7 +115,6 @@ public class Filtro_Horario extends JFrame
 	KeyListener opFiltroNombre = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
-//			falla filtro
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase().trim(), 1));
 		}
 		public void keyTyped(KeyEvent arg0) {}
