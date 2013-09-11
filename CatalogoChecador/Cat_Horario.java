@@ -286,7 +286,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		this.setSize(850,460);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		
 	}		
 	
@@ -809,74 +809,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		
 
 	}
-	@SuppressWarnings("deprecation")
-	public void preguntas()
-	{
-		if(btnDomingo.isSelected()==true)
-		{
-			spDomingo1.setValue(new Date(00,00,00));
-			spDomingo2.setValue(new Date(00,00,00));
-			spDomingo3.setValue(new Date(00,00,00));
-			spDomingo4.setValue(new Date(00,00,00));
-			spDomingo5.setValue(new Date(00,00,00));
-			Descanso=7;
-		}
-		if (btnLunes.isSelected()==true)
-		{
-			spLunes1.setValue(new Date(00,00,00));
-			spLunes2.setValue(new Date(00,00,00));
-			spLunes3.setValue(new Date(00,00,00));
-			spLunes4.setValue(new Date(00,00,00));
-			spLunes5.setValue(new Date(00,00,00));
-			Descanso=1;
-		}
-		if (btnMartes.isSelected()==true)
-		{
-			spMartes1.setValue(new Date(00,00,00));
-			spMartes2.setValue(new Date(00,00,00));
-			spMartes3.setValue(new Date(00,00,00));
-			spMartes4.setValue(new Date(00,00,00));
-			spMartes5.setValue(new Date(00,00,00));
-			Descanso=2;
-		}
-		if (btnMiercoles.isSelected()==true)
-		{
-			spMiercoles1.setValue(new Date(00,00,00));
-			spMiercoles2.setValue(new Date(00,00,00));
-			spMiercoles3.setValue(new Date(00,00,00));
-			spMiercoles4.setValue(new Date(00,00,00));
-			spMiercoles5.setValue(new Date(00,00,00));
-			Descanso=3;
-		}
-		if (btnJueves.isSelected()==true)
-		{
-			spJueves1.setValue(new Date(00,00,00));
-			spJueves2.setValue(new Date(00,00,00));
-			spJueves3.setValue(new Date(00,00,00));
-			spJueves4.setValue(new Date(00,00,00));
-			spJueves5.setValue(new Date(00,00,00));
-			Descanso=4;
-		}
-		if (btnViernes.isSelected()==true)
-		{
-			spViernes1.setValue(new Date(00,00,00));
-			spViernes2.setValue(new Date(00,00,00));
-			spViernes3.setValue(new Date(00,00,00));
-			spViernes4.setValue(new Date(00,00,00));
-			spViernes5.setValue(new Date(00,00,00));
-			Descanso=5;
-		}
-		if (btnSabado.isSelected()==true)
-		{
-			spSabado1.setValue(new Date(00,00,00));
-			spSabado2.setValue(new Date(00,00,00));
-			spSabado3.setValue(new Date(00,00,00));
-			spSabado4.setValue(new Date(00,00,00));
-			spSabado5.setValue(new Date(00,00,00));
-			Descanso=6;
-		}
-	}
-	
+
 	ActionListener Guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -892,7 +825,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 							return;
 						}else{
 //							actualizar
-							preguntas();
+
 							
 							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
 							
@@ -1080,7 +1013,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 								JOptionPane.showMessageDialog(null, "El Nombre es Requerido:", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 								return;
 						}else{
-							preguntas();
+
 							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
 							
 //							SimpleDateFormat sdf1 = new SimpleDateFormat ("E H:mm");

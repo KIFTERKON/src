@@ -636,11 +636,14 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 				if(tabla.isEditing()){
 					tabla.getCellEditor().stopCellEditing();
 					suma();
+					lblTotal.setText(suma+"");
 				}
 			}
 		};
+		
+		float suma = 0;
 		public void suma(){
-			float suma = 0;
+			
 			int NoFilas=model.getRowCount();
 			
 			for(int i=0;i<NoFilas; i++) {
