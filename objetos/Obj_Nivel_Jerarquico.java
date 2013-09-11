@@ -115,7 +115,7 @@ public class Obj_Nivel_Jerarquico
 //		}
 //		return null; 
 //	}
-	public boolean buscarYborraPuestoDependiente(String nombre){ return new GuardarSQL().buscarBorrarPDependiente(nombre); }
+	public boolean buscarYborraPuestoDependiente(String nombre, int folio_tabla,String establecimiento){ return new GuardarSQL().buscarBorrarPDependiente(nombre, folio_tabla,establecimiento); }
 	
 	/*buscamos la segunda parte del catalogo*/
 	public Obj_Nivel_Jerarquico buscartabla(int folio){

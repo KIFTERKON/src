@@ -50,13 +50,14 @@ public class Filtro_Horario extends JFrame
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Filtro_Horario()
 	{
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro Horario"));	
 		
-		panel.add(getPanelTabla()).setBounds(20,50,540        ,400);
+		panel.add(getPanelTabla()).setBounds(20,50,540,400);
 		panel.add(txtFolio).setBounds(20,20,115,20);
 		panel.add(txtNombre).setBounds(140,20,300,20);
 		
@@ -64,6 +65,10 @@ public class Filtro_Horario extends JFrame
 		txtNombre.setToolTipText("Filtro");
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
+		
+		
+		trsfiltro = new TableRowSorter(modelo); 
+		tabla.setRowSorter(trsfiltro);
 		
 		txtNombre.addKeyListener(opFiltroNombre);
 		txtFolio.addKeyListener(opFiltroFolio);
@@ -110,7 +115,6 @@ public class Filtro_Horario extends JFrame
 	KeyListener opFiltroNombre = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
-//			falla filtro
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase().trim(), 1));
 		}
 		public void keyTyped(KeyEvent arg0) {}

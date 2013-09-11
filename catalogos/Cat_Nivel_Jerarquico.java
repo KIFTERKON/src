@@ -198,26 +198,33 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 							arreglo[0] =cmbP_Dependiente.getSelectedItem()+"";
 							arreglo[1] = cmb_Establecimiento.getSelectedItem()+"";
 							
-							modelo.addRow(arreglo);
+//							modelo.addRow(arreglo);
 							
 							if(valor_referencia==0){
 										gerarquico.actualizar(Integer.parseInt(txtFolio.getText()));
 										limpiaGuardar();
+										////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+										////////////////////////////////////////////////////////////////////////////////
 										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 										return;
 							}else{
 								
-										if(valor_referencia>0){
-												gerarquico.actualizar2(listadatos());
-												limpiaGuardar();
-												JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-												return;
-										}else{
-												JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
-												return;
-											}
+								if(valor_referencia>0){
+										gerarquico.actualizar2(listadatos());
+										limpiaGuardar();
+										////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+										////////////////////////////////////////////////////////////////////////////////
+										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+										return;
+								}else{
+										JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
+										return;
+									}
 								}
-																					
 						}
 					}else{
 						Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
@@ -235,17 +242,16 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 						arreglo[0] =cmbP_Dependiente.getSelectedItem()+"";
 						arreglo[1] = cmb_Establecimiento.getSelectedItem()+"";
 						
-						if(cmbP_Dependiente.getSelectedIndex()==0 || cmb_Establecimiento.getSelectedIndex()==0){
-							
-						}else{
-							modelo.addRow(arreglo);
-						}
 						
-						
+//							modelo.addRow(arreglo);
 						
 						if(valor_referencia==0){
 									gerarquico.guardar_multiple();
 									limpiaGuardar();
+									////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+									/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+									/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+									////////////////////////////////////////////////////////////////////////////////
 									JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 						}else{
@@ -253,6 +259,10 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 							if(valor_referencia>0){
 									gerarquico.guardar_multiple2(listadatos());
 									limpiaGuardar();
+									////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+									/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+									/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
+									////////////////////////////////////////////////////////////////////////////////
 									JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 							}else{
@@ -265,6 +275,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+validacampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
 				}
+				
 			}
 			//valor para trabajar con el guardado desde la tabla
 						valor_referencia=0;
@@ -304,20 +315,23 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 	};
 	
 	ActionListener opRemover = new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
-			int fila = tabla.getSelectedRow();
-			
-			String nombre =  tabla.getValueAt(fila, 0).toString().trim();
+		public void actionPerformed(ActionEvent arg0) {
+			if(tabla.isRowSelected(tabla.getSelectedRow())){
+				int fila = tabla.getSelectedRow();
+				String nombre =  tabla.getValueAt(fila, 0).toString().trim();
+				String establecimiento =  tabla.getValueAt(fila, 1).toString().trim();
 				
 				if(JOptionPane.showConfirmDialog(null, "¿desea eliminar el puesto dependiente seleccionado?","aviso",JOptionPane.YES_NO_OPTION) == 0){
-					new Obj_Nivel_Jerarquico().buscarYborraPuestoDependiente(nombre);
-					
-						  modelo.removeRow(fila);
-						
-						if(tabla.isRowSelected(fila)){}
+					if(new Obj_Nivel_Jerarquico().buscarYborraPuestoDependiente(nombre, Integer.parseInt(txtFolio.getText()),establecimiento)){
+						JOptionPane.showMessageDialog(null,"Se eliminó exitosamente","Exito", JOptionPane.INFORMATION_MESSAGE);
+						modelo.removeRow(fila);
+					}else{
+						JOptionPane.showMessageDialog(null,"No se pudo eliminar el registro","Error",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}else{
+				JOptionPane.showMessageDialog(null,"No ha seleccionado ningún renglón", "Aviso!", JOptionPane.WARNING_MESSAGE);
 			}
-					
 		}
 	};
 	
