@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
+import ObjetoChecador.Obj_Dias_Inhabiles;
+import ObjetoChecador.Obj_Mensaje_Personal;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Denominacion;
@@ -287,6 +289,39 @@ public class ActualizarSQL {
 			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean DiaInHabil(Obj_Dias_Inhabiles diaIA, int folio){
+		String query = "update tb_dias_inhabiles set fecha=?, descripcion=? where folio=" + folio;
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, diaIA.getFecha());
+			pstmt.setString(2, diaIA.getDescripcion().toUpperCase());
+//			pstmt.setString(3, (puesto.getStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1489,6 +1524,69 @@ public class ActualizarSQL {
 		return true;
 	}
 	
+//	update a datos del msj
+//	cambiar procedimiento almacenado
+	public boolean mensajePersonal(Obj_Mensaje_Personal msjPersonal, int folio){
+		 
+//		String queryUpdate ="exec sp_insert_tabla_nivel_jerarquico ?,?,?,?,?,?";
+		String queryDEP = "exec sp_update_mensaje_personal  ?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+//		PreparedStatement pstmtNivelGerarquico = null;
+		
+//		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			
+//			pstmtNivelGerarquico = con.prepareStatement(queryUpdate);
+//			pstmtNivelGerarquico.executeUpdate();
+			
+//			pstmt = con.prepareStatement(queryClear);
+//			pstmt.executeUpdate();
+			
+			pstmtabla = con.prepareStatement(queryDEP);
+			
+			System.out.println(folio);
+			System.out.println(msjPersonal.getFechaInicial());
+			System.out.println(msjPersonal.getFechaFin());
+			System.out.println(msjPersonal.getAsunto());
+			System.out.println(msjPersonal.getMensaje());
+			System.out.println(msjPersonal.getStatus());
+			
+				
+				pstmtabla.setInt (1, folio);
+				pstmtabla.setString (2, msjPersonal.getFechaInicial());
+				pstmtabla.setString (3, msjPersonal.getFechaFin());
+				pstmtabla.setString (4, msjPersonal.getAsunto());
+				pstmtabla.setString (5, msjPersonal.getMensaje());
+				pstmtabla.setString (6,(msjPersonal.getStatus())?"1":"0");
+				
+				pstmtabla.executeUpdate();
+
+				con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		return true;
+	}
+	
 	public boolean nivelGerarquico2(Obj_Nivel_Jerarquico niv, String[][]tabla){
 //		String queryClear = "delete from tb_tabla_nivel_jerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
 		String query = "exec sp_insert_tabla_nivel_jerarquico ?,?,?";
@@ -1512,6 +1610,52 @@ public class ActualizarSQL {
 				
 				pstmtabla.setString (2, tabla[i][0]);
 				pstmtabla.setString (3, tabla[i][1]);
+				pstmtabla.executeUpdate();
+				
+			}
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		return true;
+	}
+//	cambiar procedimiento almacenado y 				(agregar otro para borrar  antes de guarar) 
+	public boolean mensajePersonal2(Obj_Mensaje_Personal msjPersonal, String[] tabla){
+		String queryClear = "delete from tb_empleados_mesaje_personal where folio_mensaje = "+msjPersonal.getFolioMensaje();
+		String query = "exec sp_insert_tabla_empleado_mensaje ?,?";
+//		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(queryClear);
+			pstmtabla = con.prepareStatement(query);
+			
+			pstmt.executeUpdate();
+			
+			for (int i = 0; i < tabla.length; i++) {
+
+				pstmtabla.setInt (1, msjPersonal.getFolioMensaje());
+				pstmtabla.setString (2, tabla[i]);
+				
 				pstmtabla.executeUpdate();
 				
 			}

@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
+import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Mensaje_Personal;
 
@@ -262,6 +263,29 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
+	}
+	
+	public Obj_Dias_Inhabiles diaInA(int folio) throws SQLException{
+		Obj_Dias_Inhabiles diaIA = new Obj_Dias_Inhabiles();
+		String query = "select * from tb_dias_inhabiles where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				diaIA.setFolio(rs.getInt("folio"));
+				diaIA.setFecha(rs.getString("fecha").trim());
+				diaIA.setDescripcion(rs.getString("descripcion").trim());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return diaIA;
 	}
 	
 	public Obj_Atributos Atributos(int folio) throws SQLException{
@@ -572,6 +596,27 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
+	}
+	
+	public Obj_Dias_Inhabiles DiaInA_Nuevo() throws SQLException{
+		Obj_Dias_Inhabiles diaIA = new Obj_Dias_Inhabiles();
+		String query = "select max(folio) as 'Maximo' from tb_dias_inhabiles";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				diaIA.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return diaIA;
 	}
 	
 	public Obj_Atributos Atributo_Nuevo() throws SQLException{

@@ -376,18 +376,39 @@ public class Cat_Msj_Personal extends JFrame {
 				return;
 			}else{
 				if(validacampos().equals("")){
-					Obj_Nivel_Jerarquico nivelgerarquico = new Obj_Nivel_Jerarquico().buscar(104);
+					Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText()));
 					
-					if(nivelgerarquico.getFolio() == Integer.parseInt(txtFolioMsj.getText())){
+					if(MSJ.getFolioMensaje() == Integer.parseInt(txtFolioMsj.getText())){
 						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
 						{
-							Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
-								
-							gerarquico.setFolio(Integer.parseInt(txtFolioMsj.getText()));
+//							Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
+//							
+							Obj_Mensaje_Personal MSJPersonal = new Obj_Mensaje_Personal();
+							
+							MSJPersonal.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
+							MSJPersonal.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));
+							MSJPersonal.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaFin.getDate()));
+							MSJPersonal.setAsunto(txtAsunto.getText().toUpperCase());
+							MSJPersonal.setMensaje(txaMensaje.getText().toUpperCase());
+							
+							MSJPersonal.setStatus(chbStatus.isSelected());
 							
 //							String[] arreglo = new String[2];
 							
+//							Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText()));
+
 							
+							if(MSJ.actualizar(Integer.parseInt(txtFolioMsj.getText()))){
+								if(modelo.getRowCount() > 0){
+									MSJ.actualizar2(listadatos());
+										JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+										return;
+									}else{
+										JOptionPane.showMessageDialog(null,"A Guardado Mensaje Sin Asignarselo a Un Empleado!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+										return;
+									}
+										
+							}
 							
 //							if(valor_referencia==0){
 //										gerarquico.actualizar(Integer.parseInt(txtFolio.getText()));
@@ -416,7 +437,7 @@ public class Cat_Msj_Personal extends JFrame {
 //								}
 						}
 					}else{
-						Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal();
+//						Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal();
 						
 						MSJ.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
 						MSJ.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));

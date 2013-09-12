@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import objetos.Obj_Empleados_Cuadrantes;
 
+import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
@@ -71,6 +72,10 @@ public class Obj_Mensaje_Personal {
 	public boolean guardar_mensaje(){ return new GuardarSQL().Guardar_Mensaje_Personal(this); }
 	
 	public boolean guardar_Empleado_Mensaje(String[] tabla){ return new GuardarSQL().Guardar_Empleado_Msj(this,tabla); }
+	
+	public boolean actualizar(int folio){ return new ActualizarSQL().mensajePersonal(this,folio); }
+	
+	public boolean actualizar2(String[] tabla){ return new ActualizarSQL().mensajePersonal2(this,tabla); }
 	
 	public int nuevoMensaje(){
 		try {

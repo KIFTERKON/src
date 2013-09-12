@@ -207,7 +207,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
 										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
 										////////////////////////////////////////////////////////////////////////////////
-										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+										JOptionPane.showMessageDialog(null,"El registro se actualizo exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 										return;
 							}else{
 								
@@ -218,7 +218,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
 										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
 										////////////////////////////////////////////////////////////////////////////////
-										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+										JOptionPane.showMessageDialog(null,"El registro se actualizo exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 										return;
 								}else{
 										JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
