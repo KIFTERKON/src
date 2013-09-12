@@ -297,8 +297,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		this.setSize(850,460);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 	}		
 	
 	@SuppressWarnings("deprecation")
@@ -768,7 +766,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		
 
 	}
-	
 	ActionListener Guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -784,7 +781,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 							return;
 						}else{
 //							actualizar
-							
 							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
 							
 							//Domingo

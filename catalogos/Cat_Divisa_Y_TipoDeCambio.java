@@ -237,7 +237,7 @@ Connexion con = new Connexion();
 							divisas.setValor(Float.parseFloat(txtValor.getText()));
 							divisas.setStatus(chStatus.isSelected());
 							divisas.actualizar(Integer.parseInt(txtFolio.getText()));
-							
+							btnNuevo.setEnabled(true);
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
 							modelo.setValueAt(txtNombre_divisas.getText(),nroFila,1);
 							modelo.setValueAt(txtValor.getText(), nroFila, 2);
