@@ -1,6 +1,5 @@
 package CatalogoChecador;
 
-
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
@@ -40,13 +39,11 @@ import javax.swing.table.TableRowSorter;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Empleados_Cuadrantes;
-import objetos.Obj_Nivel_Jerarquico;
 
 import ObjetoChecador.Obj_Mensaje_Personal;
 import SQL.Connexion;
 
 import com.toedter.calendar.JDateChooser;
-
 
 @SuppressWarnings("serial")
 public class Cat_Msj_Personal extends JFrame {
@@ -59,7 +56,7 @@ public class Cat_Msj_Personal extends JFrame {
 	JDateChooser txtFechaInicio = new JDateChooser();
 	JDateChooser txtFechaFin = new JDateChooser();
 	
-	JCheckBox chbStatus = new JCheckBox("Status");
+//	JCheckBox chStatus = new JCheckBox("Status");
 	
 	JButton btnFiltroMSJ = new JButton("Filtro");
 	JButton btnSiguiente = new JButton("Siguiente");
@@ -68,11 +65,10 @@ public class Cat_Msj_Personal extends JFrame {
 	JTextArea txaMensaje = new JTextArea();
 	JScrollPane Mensaje = new JScrollPane(txaMensaje);
 	
-//	-----------------------------------------------------------------------------------------------------------------------
-	
 	JTextField txtAsunto = new JTextField();
-	
 	JCheckBox chStatus = new JCheckBox("Status",true);
+	
+//	-----------------------------------------------------------------------------------------------------------------------
 	
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnFiltro = new JButton("Filtro");
@@ -117,7 +113,7 @@ public class Cat_Msj_Personal extends JFrame {
 		this.panel.add(chStatus).setBounds(190,30,60,20);
 		this.panel.add(btnBuscar).setBounds(250,30,30,20);
 		this.panel.add(btnNuevo).setBounds(290,30,80,20);
-//		
+	
 		this.panel.add(new JLabel("Asunto:")).setBounds(30,55,70,20);
 		this.panel.add(txtAsunto).setBounds(90,55,280,20);
 		this.panel.add(btnFiltro).setBounds(280,80,90,20);
@@ -127,32 +123,14 @@ public class Cat_Msj_Personal extends JFrame {
 		
 		this.panel.add(new JLabel("Fecha Final:")).setBounds(30,105,90,20);
 		this.panel.add(txtFechaFin).setBounds(90,105,110,20);
-//		
+
 		this.panel.add(btnBajar).setBounds(210,105,40,20);
 		this.panel.add(btnSubir).setBounds(210,80,40,20);
-//		
-//		this.panel.add(btnRemover).setBounds(290,80,80,20);
 		this.panel.add(Mensaje).setBounds(30,135,440,245);
-//		
-//		this.panel.add(btnSalir).setBounds(30,400,90,20);
-//		this.panel.add(btnLimpiar).setBounds(200,400,90,20);
-//		this.panel.add(btnGuardar).setBounds(380,400,90,20);
 		
 		int x=500;
 		
-//		this.panel.add(new JLabel("Folio:")).setBounds(30+x,30,50,20);
-//		this.panel.add(txtFolio).setBounds(90+x,30,90,20);
-//		this.panel.add(chStatus).setBounds(190+x,30,60,20);
-//		this.panel.add(btnBuscar).setBounds(250+x,30,30,20);
-//		this.panel.add(btnNuevo).setBounds(290+x,30,80,20);
-		
-//		this.panel.add(new JLabel("Cuadrante:")).setBounds(30+x,55,70,20);
-//		this.panel.add(txtAsunto).setBounds(90+x,55,280,20);
-//		this.panel.add(btnFiltro).setBounds(380+x,55,90,20);
-		
 		this.panel.add(btnEmpleado).setBounds(90+x,80,90,20);
-//		this.panel.add(btnBajar).setBounds(190+x,80,40,20);
-//		this.panel.add(btnSubir).setBounds(240+x,80,40,20);
 		
 		this.panel.add(btnRemover).setBounds(290+x,80,80,20);
 		this.panel.add(panelScroll).setBounds(30+x,110,440,270);
@@ -205,7 +183,6 @@ public class Cat_Msj_Personal extends JFrame {
 						}
 						((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 						break;
-					
 				}
 					
 				return componente;
@@ -215,7 +192,7 @@ public class Cat_Msj_Personal extends JFrame {
 		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		
-		btnFiltro.addActionListener(opBuscarCuadrante);
+		btnFiltro.addActionListener(opBuscarMensaje);
 		btnSalir.addActionListener(opSalir);
 		btnLimpiar.addActionListener(opLimpiar);
 		btnNuevo.addActionListener(opNuevo);
@@ -231,9 +208,7 @@ public class Cat_Msj_Personal extends JFrame {
 		txtFolioMsj.addKeyListener(buscaAction);
 		btnGuardar.addActionListener(guardar);
 		
-		
-		
-		chStatus.setEnabled(false);
+		chStatus.setEnabled(true);
 		this.setSize(1000,460);
 		this.setResizable(false);
 
@@ -261,45 +236,73 @@ public class Cat_Msj_Personal extends JFrame {
 	
 	ActionListener opMover = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(tabla.getRowCount()>1){
 				if(arg0.getSource().equals(btnSubir)){
-					if(tabla.getSelectedRow() != 0){
-						Object primero1 = modelo.getValueAt(tabla.getSelectedRow(),0);
-						Object segundo1 = modelo.getValueAt(tabla.getSelectedRow()-1,0);
-						
-						Object primero = modelo.getValueAt(tabla.getSelectedRow(),1);
-						Object segundo = modelo.getValueAt(tabla.getSelectedRow()-1,1);
-						
-						modelo.setValueAt(primero1,tabla.getSelectedRow()-1,0);
-						modelo.setValueAt(segundo1,tabla.getSelectedRow(),0);
-						modelo.setValueAt(primero,tabla.getSelectedRow()-1,1);
-						modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
-						tabla.setRowSelectionInterval(tabla.getSelectedRow()-1,tabla.getSelectedRow()-1);
-					}else{
-						JOptionPane.showMessageDialog(null,"No más filas hacia arriba!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					if(txtFolioMsj.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Ingrese el folio para poder realizar la busqueda","Error",JOptionPane.WARNING_MESSAGE);
 						return;
+					}else {
+						Obj_Mensaje_Personal MsjPresonal = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText())+1);
+						if(MsjPresonal.getAsunto().equals("")){
+							JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+(Integer.parseInt(txtFolioMsj.getText())+1)+"","Error",JOptionPane.WARNING_MESSAGE);
+							return;
+						}else{
+							txtFolioMsj.setText((Integer.parseInt(txtFolioMsj.getText())+1)+"");
+							txtAsunto.setText(MsjPresonal.getAsunto());
+							txaMensaje.setText(MsjPresonal.getMensaje());
+							
+								try {
+									Date date_inicial = new SimpleDateFormat("dd/MM/yyyy").parse(MsjPresonal.getFechaInicial());
+									Date date_fin = new SimpleDateFormat("dd/MM/yyyy").parse(MsjPresonal.getFechaFin());
+									txtFechaInicio.setDate(date_inicial);
+									txtFechaFin.setDate(date_fin);
+								} catch (ParseException e1) {
+									e1.printStackTrace();
+								}
+							
+							chStatus.setSelected(MsjPresonal.getStatus());
+							
+							////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+							/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+							/**/	   		 getTabla(Integer.parseInt(txtFolioMsj.getText()));			/**/
+							////////////////////////////////////////////////////////////////////////////////
+						}
 					}
 							
 				}
 				if(arg0.getSource().equals(btnBajar)){
-					if(tabla.getSelectedRow()+1 < tabla.getRowCount()){
-						Object primero1 = modelo.getValueAt(tabla.getSelectedRow(),0);
-						Object segundo1 = modelo.getValueAt(tabla.getSelectedRow()+1,0);
-						Object primero = modelo.getValueAt(tabla.getSelectedRow(),1);
-						Object segundo = modelo.getValueAt(tabla.getSelectedRow()+1,1);
-						
-						modelo.setValueAt(primero1,tabla.getSelectedRow()+1,0);
-						modelo.setValueAt(segundo1,tabla.getSelectedRow(),0);
-						modelo.setValueAt(primero,tabla.getSelectedRow()+1,1);
-						modelo.setValueAt(segundo,tabla.getSelectedRow(),1);	
-						tabla.setRowSelectionInterval(tabla.getSelectedRow()+1,tabla.getSelectedRow()+1);
-					
-					}else{
-						JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					if(txtFolioMsj.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Ingrese el folio para poder realizar la busqueda","Error",JOptionPane.WARNING_MESSAGE);
 						return;
+					}else {
+						Obj_Mensaje_Personal MsjPresonal = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText())-1);
+						if(MsjPresonal.getAsunto().equals("")){
+							JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+(Integer.parseInt(txtFolioMsj.getText())-1)+"","Error",JOptionPane.WARNING_MESSAGE);
+							return;
+						}else{
+							txtFolioMsj.setText((Integer.parseInt(txtFolioMsj.getText())-1)+"");
+							txtAsunto.setText(MsjPresonal.getAsunto());
+							txaMensaje.setText(MsjPresonal.getMensaje());
+							
+								try {
+									Date date_inicial = new SimpleDateFormat("dd/MM/yyyy").parse(MsjPresonal.getFechaInicial());
+									Date date_fin = new SimpleDateFormat("dd/MM/yyyy").parse(MsjPresonal.getFechaFin());
+									txtFechaInicio.setDate(date_inicial);
+									txtFechaFin.setDate(date_fin);
+								} catch (ParseException e1) {
+									e1.printStackTrace();
+								}
+							
+							chStatus.setSelected(MsjPresonal.getStatus());
+							
+							////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+							/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+							/**/	   		 getTabla(Integer.parseInt(txtFolioMsj.getText()));			/**/
+							////////////////////////////////////////////////////////////////////////////////
+						}
 					}
 				}
-			}
+			txtFolioMsj.setEnabled(false);
+			txtAsunto.setEditable(true);
 		}
 	};
 	
@@ -311,7 +314,7 @@ public class Cat_Msj_Personal extends JFrame {
 			}else {
 				Obj_Mensaje_Personal MsjPresonal = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText()));
 				if(MsjPresonal.getAsunto().equals("")){
-					JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+txtFolioMsj.getText(),"Error",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No existe el registro con el folio: "+txtFolioMsj.getText()+"","Error",JOptionPane.WARNING_MESSAGE);
 					return;
 				}else{
 					
@@ -334,14 +337,8 @@ public class Cat_Msj_Personal extends JFrame {
 					/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
 					/**/	   		 getTabla(Integer.parseInt(txtFolioMsj.getText()));			/**/
 					////////////////////////////////////////////////////////////////////////////////
-					
-//					String[][] lista_tabla = Obj_Empleados_Cuadrantes.getTablaCuadrante(Integer.parseInt(txtFolioMsj.getText()));
-//					String[] fila = new String[2];
-//					for(int i=0; i<lista_tabla.length; i++){
-//						fila[0] = lista_tabla[i][0]+"  ";
-//						fila[1] = "   "+lista_tabla[i][1];
-//						modelo.addRow(fila);
-//					}
+					txtFolioMsj.setEnabled(false);
+					txtAsunto.setEditable(true);
 				}
 			}
 		}
@@ -354,6 +351,8 @@ public class Cat_Msj_Personal extends JFrame {
 			txtFolioMsj.setText(new Obj_Mensaje_Personal().nuevoMensaje()+"");
 			txtFolioMsj.setEditable(false);
 			
+			
+			chStatus.setSelected(true);
 			txtAsunto.setEditable(true);
 			txtAsunto.requestFocus();
 		}
@@ -383,15 +382,15 @@ public class Cat_Msj_Personal extends JFrame {
 						{
 //							Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
 //							
-							Obj_Mensaje_Personal MSJPersonal = new Obj_Mensaje_Personal();
+//							Obj_Mensaje_Personal MSJPersonal = new Obj_Mensaje_Personal();
 							
-							MSJPersonal.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
-							MSJPersonal.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));
-							MSJPersonal.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaFin.getDate()));
-							MSJPersonal.setAsunto(txtAsunto.getText().toUpperCase());
-							MSJPersonal.setMensaje(txaMensaje.getText().toUpperCase());
+							MSJ.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
+							MSJ.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));
+							MSJ.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaFin.getDate()));
+							MSJ.setAsunto(txtAsunto.getText().toUpperCase());
+							MSJ.setMensaje(txaMensaje.getText().toUpperCase());
 							
-							MSJPersonal.setStatus(chbStatus.isSelected());
+							MSJ.setStatus(chStatus.isSelected());
 							
 //							String[] arreglo = new String[2];
 							
@@ -437,7 +436,6 @@ public class Cat_Msj_Personal extends JFrame {
 //								}
 						}
 					}else{
-//						Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal();
 						
 						MSJ.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
 						MSJ.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));
@@ -445,7 +443,7 @@ public class Cat_Msj_Personal extends JFrame {
 						MSJ.setAsunto(txtAsunto.getText().toLowerCase());
 						MSJ.setMensaje(txaMensaje.getText().toUpperCase());
 						
-						MSJ.setStatus(chbStatus.isSelected());
+						MSJ.setStatus(chStatus.isSelected());
 						
 						if(MSJ.guardar_mensaje()){
 							if(modelo.getRowCount() > 0){
@@ -515,24 +513,15 @@ public class Cat_Msj_Personal extends JFrame {
 		}
 	}
 	
-//	public String[] lista_tabla(){
-//		String[] lista = new String[tabla.getRowCount()];
-//		for(int i=0; i<tabla.getRowCount(); i++){
-//			lista[i] = modelo.getValueAt(i,0).toString().trim();
-//		}
-//	
-//		return lista;
-//	}
-	
 	ActionListener opBuscarEmpleado = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Empleado_Cuadrantes().setVisible(true);
+			new Cat_Filtro_Empleado_Mensajes().setVisible(true);
 		}
 	};
 	
-	ActionListener opBuscarCuadrante = new ActionListener() {
+	ActionListener opBuscarMensaje = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			new Cat_Filtro_Cuadrantes().setVisible(true);
+			new Cat_Filtro_Mensaje().setVisible(true);
 		}
 	};
 	
@@ -562,7 +551,8 @@ public class Cat_Msj_Personal extends JFrame {
 			modelo.removeRow(0);
 		}
 		txtFolioMsj.requestFocus();
-		txtFolioMsj.setEditable(true);
+		txtFolioMsj.setEnabled(true);
+		txtAsunto.setEditable(false);
 	}
 	
 	KeyListener valida = new KeyListener() {
@@ -601,7 +591,7 @@ public class Cat_Msj_Personal extends JFrame {
 		}
 	};
 
-	class Cat_Filtro_Empleado_Cuadrantes extends JFrame {
+	class Cat_Filtro_Empleado_Mensajes extends JFrame {
 
 		Container cont = getContentPane();
 		JLayeredPane campo = new JLayeredPane();
@@ -645,7 +635,7 @@ public class Cat_Msj_Personal extends JFrame {
 		JButton btnAgregar = new JButton("Agregar");
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		
-		public Cat_Filtro_Empleado_Cuadrantes()	{
+		public Cat_Filtro_Empleado_Mensajes()	{
 			setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 			setTitle("Filtro de Empleados");
 			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
@@ -871,7 +861,7 @@ public class Cat_Msj_Personal extends JFrame {
 		};
 	}
 	
-	class Cat_Filtro_Cuadrantes extends JFrame {
+	class Cat_Filtro_Mensaje extends JFrame {
 		
 		Container cont = getContentPane();
 		JLayeredPane campo = new JLayeredPane();
@@ -912,10 +902,10 @@ public class Cat_Msj_Personal extends JFrame {
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		
-		public Cat_Filtro_Cuadrantes()	{
+		public Cat_Filtro_Mensaje()	{
 			setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-			setTitle("Filtro de Cuadrantes");
-			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Cuadrantes"));
+			setTitle("Filtro de Mwnsajes");
+			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Mensajes"));
 			trsfiltro = new TableRowSorter(model2); 
 			tabla2.setRowSorter(trsfiltro);  
 			
@@ -1073,9 +1063,13 @@ public class Cat_Msj_Personal extends JFrame {
 		        public void mouseClicked(MouseEvent e) {
 		        	if(e.getClickCount() == 2){
 		    			int fila = tabla2.getSelectedRow();
-		    			Object folio =  tabla2.getValueAt(fila, 1);
+		    			Object folio =  tabla2.getValueAt(fila, 0);
 		    			dispose();
-		    			txtAsunto.setText(folio.toString().trim());
+		    			
+		    			txtFolioMsj.setText(folio.toString().trim());
+		    			txtFolioMsj.setEnabled(false);
+		    			txtAsunto.setEditable(true);
+		    			btnBuscar.doClick();
 		        	}
 		        }
 	        });
@@ -1086,6 +1080,7 @@ public class Cat_Msj_Personal extends JFrame {
 		String error="";
 		if (txtFechaInicio.getDateEditor().equals("")){error+="Fecha Inicial\n";}
 		if (txtFechaFin.getDateEditor().equals("")){error+="Fecha Final\n";}
+		if (txaMensaje.getText().equals("")){error+="Mensaje\n";}
 		return error;
 	}
 	

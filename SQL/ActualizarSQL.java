@@ -1636,7 +1636,7 @@ public class ActualizarSQL {
 	}
 //	cambiar procedimiento almacenado y 				(agregar otro para borrar  antes de guarar) 
 	public boolean mensajePersonal2(Obj_Mensaje_Personal msjPersonal, String[] tabla){
-		String queryClear = "delete from tb_empleados_mesaje_personal where folio_mensaje = "+msjPersonal.getFolioMensaje();
+		String queryClear = "delete from tb_tabla_empleado_mesaje_personal where folio_mensaje = "+msjPersonal.getFolioMensaje();
 		String query = "exec sp_insert_tabla_empleado_mensaje ?,?";
 //		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
 		
