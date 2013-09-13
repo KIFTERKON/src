@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
+import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Mensaje_Personal;
 
 import objetos.Obj_Actividad;
@@ -195,6 +196,38 @@ public class GuardarSQL {
 			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Dia_Inhabil(Obj_Dias_Inhabiles diaInA){
+		String query = "exec sp_insert_diaInHabil ?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, diaInA.getFecha());
+			pstmt.setString(2, diaInA.getDescripcion().toUpperCase());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1705,7 +1738,7 @@ public class GuardarSQL {
 //		String query = "exec sp_insert_nivel_jerarquico ?,?";
 		String querytabla="exec sp_insert_tabla_empleado_mensaje ?,?";
 		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
+//		PreparedStatement pstmt = null;
 		PreparedStatement pstmtabla =null;
 		try {
 			
