@@ -271,14 +271,15 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 								}
 						}
 					}
+					//valor para trabajar con el guardado desde la tabla
+					valor_referencia=0;
 				}else{
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+validacampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
 				}
 				
 			}
-			//valor para trabajar con el guardado desde la tabla
-						valor_referencia=0;
+			
 		}
 	};
 	

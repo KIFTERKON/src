@@ -1678,7 +1678,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Permiso_Checador(Obj_Permisos_Checador Permiso){
-		String query = "exec sp_insert_mensaje ?,?,?,?,?";
+		String query = "exec sp_insert_permiso_checador ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1686,17 +1686,15 @@ public class GuardarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			
-			pstmt.setInt (1, Permiso.getFolio());
-			pstmt.setInt (2, Permiso.getFolio_empleado());
+			pstmt.setInt (1, Permiso.getFolio_empleado());
+			pstmt.setInt(2, Permiso.getFolio_usuario());
 			pstmt.setString(3,Permiso.getFecha());
 			
-			pstmt.setBoolean(4, (Permiso.isP_travajarCorrido())?true: false);
-			pstmt.setBoolean(5, (Permiso.isP_salirTemprano())?	true: false);
-			pstmt.setBoolean(6, (Permiso.isP_entrarTarde())? true: false);
-			pstmt.setBoolean(7, (Permiso.isP_noAsistir())? true: false);
 			
-			pstmt.setString(8, Permiso.getMotivo().toUpperCase().trim());
-				
+			pstmt.setInt(4, Permiso.getTipo_de_permiso());
+			pstmt.setString(5, Permiso.getMotivo().toUpperCase().trim());
+			pstmt.setBoolean(6, (Permiso.isStatus())? true: false);
+			
 			pstmt.executeUpdate();
 		
 			con.commit();

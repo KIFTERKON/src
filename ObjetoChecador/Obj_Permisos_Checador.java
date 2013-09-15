@@ -9,110 +9,74 @@ import SQL.GuardarSQL;
 public class Obj_Permisos_Checador {
 	int folio;
 	int folio_empleado;
+	int folio_usuario;
 	String fecha;
-	boolean p_travajarCorrido;
-	boolean p_salirTemprano;
-	boolean p_entrarTarde;
-	boolean p_noAsistir;
+	int tipo_de_permiso;
 	String motivo;
-//	boolean status;
+	boolean status;
 	
 	public Obj_Permisos_Checador(){
 		
-		this.folio=0;					this.folio_empleado=0;		this.fecha="";				this.p_travajarCorrido=false;
-		this.p_salirTemprano=false;		this.p_entrarTarde=false;	this.p_noAsistir=false;		this.motivo="";			
-//		this.status=false;
+		this.folio=0;	this.folio_empleado=0;	this.folio_usuario=0;	
+		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";		this.status=false;			
 		
 	}
-
+	
 	public int getFolio() {
 		return folio;
 	}
-
 
 	public void setFolio(int folio) {
 		this.folio = folio;
 	}
 
-
 	public int getFolio_empleado() {
 		return folio_empleado;
 	}
-
 
 	public void setFolio_empleado(int folio_empleado) {
 		this.folio_empleado = folio_empleado;
 	}
 
+	public int getFolio_usuario() {
+		return folio_usuario;
+	}
+
+	public void setFolio_usuario(int folio_usuario) {
+		this.folio_usuario = folio_usuario;
+	}
 
 	public String getFecha() {
 		return fecha;
 	}
 
-
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 
-
-	public boolean isP_travajarCorrido() {
-		return p_travajarCorrido;
+	public int getTipo_de_permiso() {
+		return tipo_de_permiso;
 	}
 
-
-	public void setP_travajarCorrido(boolean p_travajarCorrido) {
-		this.p_travajarCorrido = p_travajarCorrido;
+	public void setTipo_de_permiso(int tipo_de_permiso) {
+		this.tipo_de_permiso = tipo_de_permiso;
 	}
-
-
-	public boolean isP_salirTemprano() {
-		return p_salirTemprano;
-	}
-
-
-	public void setP_salirTemprano(boolean p_salirTemprano) {
-		this.p_salirTemprano = p_salirTemprano;
-	}
-
-
-	public boolean isP_entrarTarde() {
-		return p_entrarTarde;
-	}
-
-
-	public void setP_entrarTarde(boolean p_entrarTarde) {
-		this.p_entrarTarde = p_entrarTarde;
-	}
-
-
-	public boolean isP_noAsistir() {
-		return p_noAsistir;
-	}
-
-
-	public void setP_noAsistir(boolean p_noAsistir) {
-		this.p_noAsistir = p_noAsistir;
-	}
-
 
 	public String getMotivo() {
 		return motivo;
 	}
 
-
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
 	}
 
+	public boolean isStatus() {
+		return status;
+	}
 
-//	public boolean isStatus() {
-//		return status;
-//	}
-//
-//
-//	public void setStatus(boolean status) {
-//		this.status = status;
-//	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 	public Obj_Permisos_Checador buscar(int folio){
 		try {

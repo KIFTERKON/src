@@ -1570,7 +1570,7 @@ public class ActualizarSQL {
 	
 	public boolean permiso(Obj_Permisos_Checador Permiso, int folio){
 		 
-		String queryDEP = "exec sp_update_mensaje_personal  ?,?,?,?,?,?";
+		String queryDEP = "exec sp_update_permiso_checador  ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		PreparedStatement pstmtabla = null;
@@ -1583,15 +1583,13 @@ public class ActualizarSQL {
 			
 			pstmtabla.setInt (1,folio);
 			pstmtabla.setInt (2, Permiso.getFolio_empleado());
-			pstmtabla.setString(3,Permiso.getFecha());
+			pstmtabla.setInt (3, Permiso.getFolio_usuario());			
+			pstmtabla.setString(4,Permiso.getFecha());
 			
-			pstmtabla.setBoolean(4, (Permiso.isP_travajarCorrido())?true: false);
-			pstmtabla.setBoolean(5, (Permiso.isP_salirTemprano())?	true: false);
-			pstmtabla.setBoolean(6, (Permiso.isP_entrarTarde())? true: false);
-			pstmtabla.setBoolean(7, (Permiso.isP_noAsistir())? true: false);
+			pstmtabla.setInt(5, Permiso.getTipo_de_permiso());
+			pstmtabla.setString(6, Permiso.getMotivo().toUpperCase().trim());
+			pstmtabla.setBoolean(7, (Permiso.isStatus())? true: false);
 			
-			pstmtabla.setString(8, Permiso.getMotivo().toUpperCase().trim());
-				
 				pstmtabla.executeUpdate();
 
 				con.commit();

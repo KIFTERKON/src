@@ -2708,7 +2708,7 @@ public class BuscarSQL {
 	
 	public Obj_Permisos_Checador buscar_permiso(int folio) throws SQLException{
 		Obj_Permisos_Checador permisoChecador = new Obj_Permisos_Checador();
-		String query = "select * from tb_permisos_checador where folio_empleado ="+ folio;
+		String query = "exec sp_select_permiso_checador "+ folio;
 		
 		Statement stmt = null;
 		try {
@@ -2717,30 +2717,16 @@ public class BuscarSQL {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				
-				
-				
-//				folio int identity,
-//				folio_empleado int,
-//				fecha_permiso varchar(30),
-//				p_trabajar_corrido int,
-//				p_salida_temprano int,
-//				p_entrada_tarde int,
-//				p_no_asistir int,
-//				motivo varchar(500),
-//				status int
-				
 				permisoChecador.setFolio(rs.getInt("folio"));
 				permisoChecador.setFolio_empleado(rs.getInt("folio_empleado"));
+				permisoChecador.setFolio_usuario(rs.getInt("folio_usuario"));
 				permisoChecador.setFecha(rs.getString("fecha_permiso"));
 				
-				permisoChecador.setP_travajarCorrido(rs.getInt("p_trabajar_corrido")==1?true:false);
-				permisoChecador.setP_salirTemprano(rs.getInt("p_salida_temprano")==1?true:false);
-				permisoChecador.setP_entrarTarde(rs.getInt("p_entrada_tarde")==1?true:false);
-				permisoChecador.setP_noAsistir(rs.getInt("p_no_asistir")==1?true:false);
-				
+				permisoChecador.setTipo_de_permiso(rs.getInt("tipo_de_permiso"));
 				permisoChecador.setMotivo(rs.getString("motivo"));
 				
-//				MsjPersonal.setStatus(rs.getInt("status")==1 ? true : false);
+				permisoChecador.setStatus(rs.getInt("status")==1?true:false);
+				
 			}
 			
 		} catch (Exception e) {
@@ -2797,7 +2783,7 @@ public class BuscarSQL {
 	
 	public int NuevoPermisoChecador() throws SQLException{
 		int folio = 0;
-		String query = "exec sp_nuevo_mensaje";
+		String query = "exec sp_nuevo_permiso_checador";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
