@@ -17,6 +17,7 @@ import ObjetoChecador.ObjHorario;
 import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Mensaje_Personal;
+import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
@@ -2705,6 +2706,53 @@ public class BuscarSQL {
 		return MsjPersonal;
 	}
 	
+	public Obj_Permisos_Checador buscar_permiso(int folio) throws SQLException{
+		Obj_Permisos_Checador permisoChecador = new Obj_Permisos_Checador();
+		String query = "select * from tb_permisos_checador where folio_empleado ="+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				
+				
+				
+//				folio int identity,
+//				folio_empleado int,
+//				fecha_permiso varchar(30),
+//				p_trabajar_corrido int,
+//				p_salida_temprano int,
+//				p_entrada_tarde int,
+//				p_no_asistir int,
+//				motivo varchar(500),
+//				status int
+				
+				permisoChecador.setFolio(rs.getInt("folio"));
+				permisoChecador.setFolio_empleado(rs.getInt("folio_empleado"));
+				permisoChecador.setFecha(rs.getString("fecha_permiso"));
+				
+				permisoChecador.setP_travajarCorrido(rs.getInt("p_trabajar_corrido")==1?true:false);
+				permisoChecador.setP_salirTemprano(rs.getInt("p_salida_temprano")==1?true:false);
+				permisoChecador.setP_entrarTarde(rs.getInt("p_entrada_tarde")==1?true:false);
+				permisoChecador.setP_noAsistir(rs.getInt("p_no_asistir")==1?true:false);
+				
+				permisoChecador.setMotivo(rs.getString("motivo"));
+				
+//				MsjPersonal.setStatus(rs.getInt("status")==1 ? true : false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return permisoChecador;
+	}
+	
 	public int NuevoEmpleadoCuadrante() throws SQLException{
 		int folio = 0;
 		String query = "exec sp_nuevo_empleado_cuadrante";
@@ -2727,6 +2775,27 @@ public class BuscarSQL {
 	}
 	
 	public int NuevoMensajePersonal() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nuevo_mensaje";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				folio =  rs.getInt("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return folio;
+	}
+	
+	public int NuevoPermisoChecador() throws SQLException{
 		int folio = 0;
 		String query = "exec sp_nuevo_mensaje";
 		Statement stmt = null;

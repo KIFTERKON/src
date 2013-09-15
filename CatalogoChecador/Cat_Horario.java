@@ -297,7 +297,19 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		this.setSize(850,460);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-	}		
+	}	
+	
+	   @SuppressWarnings("deprecation")
+	   public void preguntas()
+	   {
+	     if(btnDomingo.isSelected()==true) { Descanso=7;}
+	     if (btnLunes.isSelected()==true){Descanso=1;}
+	     if (btnMartes.isSelected()==true){Descanso=2;}
+	     if (btnMiercoles.isSelected()==true){Descanso=3;}
+	     if (btnJueves.isSelected()==true){Descanso=4;}
+	     if (btnViernes.isSelected()==true){Descanso=5;}
+	     if (btnSabado.isSelected()==true){Descanso=6;}
+	   }
 	
 	@SuppressWarnings("deprecation")
 	public Cat_Horario(int folio)//String nom
@@ -781,6 +793,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 							return;
 						}else{
 //							actualizar
+							preguntas();
 							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
 							
 							//Domingo
@@ -962,6 +975,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 					
 				}else{
 //						guardar
+					preguntas();
 						if(txtNombre.getText().equals(""))
 						{
 								JOptionPane.showMessageDialog(null, "El Nombre es Requerido:", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));

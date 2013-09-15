@@ -11,6 +11,7 @@ import java.util.Vector;
 import ObjetoChecador.ObjHorario;
 import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Mensaje_Personal;
+import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Denominacion;
@@ -1524,38 +1525,18 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-//	update a datos del msj
-//	cambiar procedimiento almacenado
 	public boolean mensajePersonal(Obj_Mensaje_Personal msjPersonal, int folio){
 		 
-//		String queryUpdate ="exec sp_insert_tabla_nivel_jerarquico ?,?,?,?,?,?";
 		String queryDEP = "exec sp_update_mensaje_personal  ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
-//		PreparedStatement pstmtNivelGerarquico = null;
-		
-//		PreparedStatement pstmt = null;
 		PreparedStatement pstmtabla = null;
 		
 		try {
 			con.setAutoCommit(false);
 			
-//			pstmtNivelGerarquico = con.prepareStatement(queryUpdate);
-//			pstmtNivelGerarquico.executeUpdate();
-			
-//			pstmt = con.prepareStatement(queryClear);
-//			pstmt.executeUpdate();
-			
 			pstmtabla = con.prepareStatement(queryDEP);
 			
-			System.out.println(folio);
-			System.out.println(msjPersonal.getFechaInicial());
-			System.out.println(msjPersonal.getFechaFin());
-			System.out.println(msjPersonal.getAsunto());
-			System.out.println(msjPersonal.getMensaje());
-			System.out.println(msjPersonal.getStatus());
-			
-				
 				pstmtabla.setInt (1, folio);
 				pstmtabla.setString (2, msjPersonal.getFechaInicial());
 				pstmtabla.setString (3, msjPersonal.getFechaFin());
@@ -1587,20 +1568,63 @@ public class ActualizarSQL {
 		return true;
 	}
 	
+	public boolean permiso(Obj_Permisos_Checador Permiso, int folio){
+		 
+		String queryDEP = "exec sp_update_mensaje_personal  ?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		PreparedStatement pstmtabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtabla = con.prepareStatement(queryDEP);
+			
+			
+			pstmtabla.setInt (1,folio);
+			pstmtabla.setInt (2, Permiso.getFolio_empleado());
+			pstmtabla.setString(3,Permiso.getFecha());
+			
+			pstmtabla.setBoolean(4, (Permiso.isP_travajarCorrido())?true: false);
+			pstmtabla.setBoolean(5, (Permiso.isP_salirTemprano())?	true: false);
+			pstmtabla.setBoolean(6, (Permiso.isP_entrarTarde())? true: false);
+			pstmtabla.setBoolean(7, (Permiso.isP_noAsistir())? true: false);
+			
+			pstmtabla.setString(8, Permiso.getMotivo().toUpperCase().trim());
+				
+				pstmtabla.executeUpdate();
+
+				con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		return true;
+	}
+	
 	public boolean nivelGerarquico2(Obj_Nivel_Jerarquico niv, String[][]tabla){
-//		String queryClear = "delete from tb_tabla_nivel_jerarquico where nombre ='"+niv.getDescripcion().toUpperCase()+"';";
 		String query = "exec sp_insert_tabla_nivel_jerarquico ?,?,?";
-//		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
 		
 		Connection con = new Connexion().conexion();
-//		PreparedStatement pstmt = null;
 		PreparedStatement pstmtabla = null;
 		
 		try {
 			con.setAutoCommit(false);
 			pstmtabla = con.prepareStatement(query);
-//			pstmt = con.prepareStatement(queryClear);
-//			pstmt.executeUpdate();
 			
 			for (int i = 0; i < tabla.length; i++) {
 
@@ -1634,11 +1658,10 @@ public class ActualizarSQL {
 			}
 		return true;
 	}
-//	cambiar procedimiento almacenado y 				(agregar otro para borrar  antes de guarar) 
+
 	public boolean mensajePersonal2(Obj_Mensaje_Personal msjPersonal, String[] tabla){
-		String queryClear = "delete from tb_empleados_mesaje_personal where folio_mensaje = "+msjPersonal.getFolioMensaje();
+		String queryClear = "delete from tb_tabla_empleado_mensaje_personal where folio_mensaje = "+msjPersonal.getFolioMensaje();
 		String query = "exec sp_insert_tabla_empleado_mensaje ?,?";
-//		String query = "insert into tb_tabla_nivel_jerarquico (nombre,puesto_dependiente,establecimiento)values(?,?,?)";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
