@@ -73,7 +73,7 @@ Connexion con = new Connexion();
 	
 	public Cat_Dias_Inhabiles(){
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dias_Inhabiles.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Días Inhábiles"));
 		
 		this.setTitle("Días Inhábiles");
@@ -123,7 +123,7 @@ Connexion con = new Connexion();
 		this.setSize(910,650);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	
 	}
 	
