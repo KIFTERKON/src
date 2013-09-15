@@ -1,5 +1,6 @@
 package CatalogoChecador;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -46,6 +47,12 @@ public class Cat_Horario extends Cat_Horario_base
 		lblTrabajo.setFont(new Font("Arial Black",Font.BOLD,10));
 		lblComida.setFont(new Font("Arial Black",Font.BOLD,10));
 		
+		lblSintaxis.setFont(new Font("Arial ",Font.BOLD,10));
+		lblSintaxis2.setFont(new Font("Arial ",Font.BOLD,10));
+		lblSintaxis3.setFont(new Font("Arial ",Font.BOLD,10));
+		
+		lblSintaxis2.setForeground(Color.red);
+		
 		int x=40;
 		
 		horario1.add(lblDia).setBounds			(20,90,50,20);
@@ -57,9 +64,9 @@ public class Cat_Horario extends Cat_Horario_base
 		horario1.add(btnViernes).setBounds		(20,270,90,20);
 		horario1.add(btnSabado).setBounds		(20,300,90,20);
 		
-		horario1.add(lblLimi).setBounds(130,60,100,20);
-		horario1.add(lblTrabajo).setBounds(310+x,60,60,20);
-		horario1.add(lblComida).setBounds(490+x,60,90,20);
+		horario1.add(lblLimi).setBounds(130,70,100,20);
+		horario1.add(lblTrabajo).setBounds(310+x,70,60,20);
+		horario1.add(lblComida).setBounds(490+x,70,90,20);
 		
 		horario1.add(lblInicio).setBounds(130,90,50,20);
 		horario1.add(lblFin).setBounds(210,90,50,20);
@@ -158,6 +165,10 @@ public class Cat_Horario extends Cat_Horario_base
 		
 		horario1.add(new JLabel("Nombre:")).setBounds(20,35,50,20);
 		horario1.add(txtNombre).setBounds(70,35,580,20);
+
+		horario1.add(lblSintaxis).setBounds(70,50,140,20);
+		horario1.add(lblSintaxis2).setBounds(205,50,60,20);
+		horario1.add(lblSintaxis3).setBounds(260,50,250,20);
 		
 		horario1.add(btnAceptar).setBounds(20,340,80,20);
 		horario1.add(btnDeshacer).setBounds(110,340,80,20);
@@ -286,9 +297,19 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		this.setSize(850,460);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-	}		
+	}	
+	
+	   @SuppressWarnings("deprecation")
+	   public void preguntas()
+	   {
+	     if(btnDomingo.isSelected()==true) { Descanso=7;}
+	     if (btnLunes.isSelected()==true){Descanso=1;}
+	     if (btnMartes.isSelected()==true){Descanso=2;}
+	     if (btnMiercoles.isSelected()==true){Descanso=3;}
+	     if (btnJueves.isSelected()==true){Descanso=4;}
+	     if (btnViernes.isSelected()==true){Descanso=5;}
+	     if (btnSabado.isSelected()==true){Descanso=6;}
+	   }
 	
 	@SuppressWarnings("deprecation")
 	public Cat_Horario(int folio)//String nom
@@ -298,21 +319,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		
 		
 		if(buscar_horario.getFolio() != 0){
-			
-//			System.out.println(buscar_horario.getFolio());
-//			System.out.println(buscar_horario.getNombre());
-//			System.out.println(buscar_horario.getDiaD()+"    "+buscar_horario.getDomingo1()+" "+buscar_horario.getDomingo2()+" "+buscar_horario.getDomingo3()+" "+buscar_horario.getDomingo4()+" "+buscar_horario.getDomingo5());
-//			System.out.println(buscar_horario.getDiaL()+"      "+buscar_horario.getLunes1()+" "+buscar_horario.getLunes2()+" "+buscar_horario.getLunes3()+" "+buscar_horario.getLunes4()+" "+buscar_horario.getLunes5());
-//			System.out.println(buscar_horario.getDiaM()+"     "+buscar_horario.getMartes1()+" "+buscar_horario.getMartes2()+" "+buscar_horario.getMartes3()+" "+buscar_horario.getMartes4()+" "+buscar_horario.getMartes5());
-//			System.out.println(buscar_horario.getDiaMI()+"  "+buscar_horario.getMiercoles1()+" "+buscar_horario.getMiercoles2()+" "+buscar_horario.getMiercoles3()+" "+buscar_horario.getMiercoles4()+" "+buscar_horario.getMiercoles5());
-//			System.out.println(buscar_horario.getDiaJ()+"     "+buscar_horario.getJueves1()+" "+buscar_horario.getJueves2()+" "+buscar_horario.getJueves3()+" "+buscar_horario.getJueves4()+" "+buscar_horario.getJueves5());
-//			System.out.println(buscar_horario.getDiaV()+"    "+buscar_horario.getViernes1()+" "+buscar_horario.getViernes2()+" "+buscar_horario.getViernes3()+" "+buscar_horario.getViernes4()+" "+buscar_horario.getViernes5());
-//			System.out.println(buscar_horario.getDiaS()+"     "+buscar_horario.getSabado1()+" "+buscar_horario.getSabado2()+" "+buscar_horario.getSabado3()+" "+buscar_horario.getSabado4()+" "+buscar_horario.getSabado5());
-//			System.out.println(buscar_horario.getDescanso());
-//			System.out.println(buscar_horario.getDiaDobla());
-//			System.out.println(buscar_horario.getDiaDobla2());
-//			System.out.println(buscar_horario.getDiaDobla3());
-			
+
 			txtFolio.setText(buscar_horario.getFolio()+"");
 			txtNombre.setText(buscar_horario.getNombre());
 			
@@ -360,32 +367,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 						case 6:	rbSabado3.setSelected(true);	rbNoDobla.setSelected(false);	break;
 						case 7:	rbDomingo3.setSelected(true);	rbNoDobla.setSelected(false);	break;
 				}	
-//						case 12:	rbLunes.setSelected(true);		rbMartes.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 13:	rbLunes.setSelected(true);		rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						case 14:	rbLunes.setSelected(true);		rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 15:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						case 16:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 17:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						
-//						case 23:	rbLunes.setSelected(true);		rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						case 24:	rbLunes.setSelected(true);		rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 25:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						case 26:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 27:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						
-//						case 34:	rbLunes.setSelected(true);		rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 35:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						case 36:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 37:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						
-//						case 45:	rbLunes.setSelected(true);		rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						case 46:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 47:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						
-//						case 56:	rbLunes.setSelected(true);		rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
-//						case 57:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
-//						
-//						case 67:	rbLunes.setSelected(true);		rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
 				
 			}
 			
@@ -737,18 +718,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		}
 	};
 	
-//	ActionListener turno = new ActionListener() {
-//		public void actionPerformed(ActionEvent arg0) 
-//		{
-//			if(btnTurno.isSelected())
-//			{
-//				paneles.addTab("Horario 2",hora.horario2);
-//			}else{
-//				paneles.remove(hora.horario2);
-//				}
-//		}
-//	};
-	
 	public void resetear()
 	{
 		 
@@ -809,74 +778,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		
 
 	}
-	@SuppressWarnings("deprecation")
-	public void preguntas()
-	{
-		if(btnDomingo.isSelected()==true)
-		{
-			spDomingo1.setValue(new Date(00,00,00));
-			spDomingo2.setValue(new Date(00,00,00));
-			spDomingo3.setValue(new Date(00,00,00));
-			spDomingo4.setValue(new Date(00,00,00));
-			spDomingo5.setValue(new Date(00,00,00));
-			Descanso=7;
-		}
-		if (btnLunes.isSelected()==true)
-		{
-			spLunes1.setValue(new Date(00,00,00));
-			spLunes2.setValue(new Date(00,00,00));
-			spLunes3.setValue(new Date(00,00,00));
-			spLunes4.setValue(new Date(00,00,00));
-			spLunes5.setValue(new Date(00,00,00));
-			Descanso=1;
-		}
-		if (btnMartes.isSelected()==true)
-		{
-			spMartes1.setValue(new Date(00,00,00));
-			spMartes2.setValue(new Date(00,00,00));
-			spMartes3.setValue(new Date(00,00,00));
-			spMartes4.setValue(new Date(00,00,00));
-			spMartes5.setValue(new Date(00,00,00));
-			Descanso=2;
-		}
-		if (btnMiercoles.isSelected()==true)
-		{
-			spMiercoles1.setValue(new Date(00,00,00));
-			spMiercoles2.setValue(new Date(00,00,00));
-			spMiercoles3.setValue(new Date(00,00,00));
-			spMiercoles4.setValue(new Date(00,00,00));
-			spMiercoles5.setValue(new Date(00,00,00));
-			Descanso=3;
-		}
-		if (btnJueves.isSelected()==true)
-		{
-			spJueves1.setValue(new Date(00,00,00));
-			spJueves2.setValue(new Date(00,00,00));
-			spJueves3.setValue(new Date(00,00,00));
-			spJueves4.setValue(new Date(00,00,00));
-			spJueves5.setValue(new Date(00,00,00));
-			Descanso=4;
-		}
-		if (btnViernes.isSelected()==true)
-		{
-			spViernes1.setValue(new Date(00,00,00));
-			spViernes2.setValue(new Date(00,00,00));
-			spViernes3.setValue(new Date(00,00,00));
-			spViernes4.setValue(new Date(00,00,00));
-			spViernes5.setValue(new Date(00,00,00));
-			Descanso=5;
-		}
-		if (btnSabado.isSelected()==true)
-		{
-			spSabado1.setValue(new Date(00,00,00));
-			spSabado2.setValue(new Date(00,00,00));
-			spSabado3.setValue(new Date(00,00,00));
-			spSabado4.setValue(new Date(00,00,00));
-			spSabado5.setValue(new Date(00,00,00));
-			Descanso=6;
-		}
-	}
-	
 	ActionListener Guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -893,7 +794,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 						}else{
 //							actualizar
 							preguntas();
-							
 							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
 							
 							//Domingo
@@ -1075,12 +975,12 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 					
 				}else{
 //						guardar
+					preguntas();
 						if(txtNombre.getText().equals(""))
 						{
 								JOptionPane.showMessageDialog(null, "El Nombre es Requerido:", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 								return;
 						}else{
-							preguntas();
 							SimpleDateFormat sdf = new SimpleDateFormat ("H:mm");
 							
 //							SimpleDateFormat sdf1 = new SimpleDateFormat ("E H:mm");

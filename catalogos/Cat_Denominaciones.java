@@ -252,15 +252,11 @@ Connexion con = new Connexion();
 							divisas = divisas.buscar_divisas(cmbMoneda.getSelectedItem()+"");
 
 							int nroFila = tabla.getSelectedRow();
-							
-							System.out.println(cmbMoneda.getSelectedItem()+"");
-							
 							denominaciones.setNombre(txtNombre.getText()+"");
 							denominaciones.setMoneda(cmbMoneda.getSelectedItem()+"");
 							denominaciones.setStatus(chStatus.isSelected());
-							
+							btnNuevo.setEnabled(true);
 							denominaciones.actualizar(Integer.parseInt(txtFolio.getText()+""));
-							
 							modelo.setValueAt(txtFolio.getText(),nroFila,0);
 							modelo.setValueAt(txtNombre.getText(),nroFila,1);
 							modelo.setValueAt(cmbMoneda.getSelectedItem()+"", nroFila, 2);

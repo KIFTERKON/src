@@ -14,7 +14,10 @@ import java.text.DecimalFormat;
 import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
+import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Entosal;
+import ObjetoChecador.Obj_Mensaje_Personal;
+import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
@@ -261,6 +264,29 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return puesto;
+	}
+	
+	public Obj_Dias_Inhabiles diaInA(int folio) throws SQLException{
+		Obj_Dias_Inhabiles diaIA = new Obj_Dias_Inhabiles();
+		String query = "select * from tb_dias_inhabiles where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				diaIA.setFolio(rs.getInt("folio"));
+				diaIA.setFecha(rs.getString("fecha").trim());
+				diaIA.setDescripcion(rs.getString("descripcion").trim());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return diaIA;
 	}
 	
 	public Obj_Atributos Atributos(int folio) throws SQLException{
@@ -573,6 +599,27 @@ public class BuscarSQL {
 		return puesto;
 	}
 	
+	public Obj_Dias_Inhabiles DiaInA_Nuevo() throws SQLException{
+		Obj_Dias_Inhabiles diaIA = new Obj_Dias_Inhabiles();
+		String query = "select max(folio) as 'Maximo' from tb_dias_inhabiles";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				diaIA.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return diaIA;
+	}
+	
 	public Obj_Atributos Atributo_Nuevo() throws SQLException{
 		Obj_Atributos atrib = new Obj_Atributos();
 		String query = "select max(folio) as 'Maximo' from tb_atributo";
@@ -848,7 +895,7 @@ public class BuscarSQL {
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
 				
-				empleado.setTurno2(rs.getInt("horario"));
+				empleado.setTurno(rs.getInt("horario"));
 				empleado.setStatus_2h(rs.getInt("status_2h"));
 				empleado.setTurno2(rs.getInt("horario_2"));
 
@@ -2631,9 +2678,112 @@ public class BuscarSQL {
 		return empleado_cuadrante;
 	}
 	
+	public Obj_Mensaje_Personal buscar_mensaje(int folio) throws SQLException{
+		Obj_Mensaje_Personal MsjPersonal = new Obj_Mensaje_Personal();
+		String query = "select * from tb_mensaje_personal where folio_mensaje ="+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				MsjPersonal.setFolioMensaje(rs.getInt("folio_mensaje"));
+				MsjPersonal.setAsunto(rs.getString("asunto"));
+				MsjPersonal.setFechaInicial(rs.getString("fecha_inicio"));
+				MsjPersonal.setFechaFin(rs.getString("fecha_fin"));
+				MsjPersonal.setMensaje(rs.getString("mensaje"));
+				MsjPersonal.setStatus(rs.getInt("status")==1 ? true : false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return MsjPersonal;
+	}
+	
+	public Obj_Permisos_Checador buscar_permiso(int folio) throws SQLException{
+		Obj_Permisos_Checador permisoChecador = new Obj_Permisos_Checador();
+		String query = "exec sp_select_permiso_checador "+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				
+				permisoChecador.setFolio(rs.getInt("folio"));
+				permisoChecador.setFolio_empleado(rs.getInt("folio_empleado"));
+				permisoChecador.setFolio_usuario(rs.getInt("folio_usuario"));
+				permisoChecador.setFecha(rs.getString("fecha_permiso"));
+				
+				permisoChecador.setTipo_de_permiso(rs.getInt("tipo_de_permiso"));
+				permisoChecador.setMotivo(rs.getString("motivo"));
+				
+				permisoChecador.setStatus(rs.getInt("status")==1?true:false);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return permisoChecador;
+	}
+	
 	public int NuevoEmpleadoCuadrante() throws SQLException{
 		int folio = 0;
 		String query = "exec sp_nuevo_empleado_cuadrante";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				folio =  rs.getInt("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return folio;
+	}
+	
+	public int NuevoMensajePersonal() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nuevo_mensaje";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				folio =  rs.getInt("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return folio;
+	}
+	
+	public int NuevoPermisoChecador() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nuevo_permiso_checador";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

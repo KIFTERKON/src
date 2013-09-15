@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,7 @@ import java.lang.reflect.Method;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.GrayFilter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,6 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -122,12 +125,17 @@ public class Cat_Checador extends JFrame {
 		JLabel lblNota2 = new JLabel("");
 		
 		JLabel lblNombre = new JLabel("Empleado: ");
+		JLabel lblNombreConsulta = new JLabel("");
 		JLabel lblEstablecimiento = new JLabel("Establecimiento: ");
 		JLabel lblPuesto = new JLabel("Puesto: ");
 		JLabel lblHorario = new JLabel("Horario: ");
 		
 		JLabel btnMensaje = new JLabel("");
 		JButton btnExaminar = new JButton("Examinar");
+		
+		JScrollPane barra_mensaje= new JScrollPane();
+		JTextArea txaAvisos = new JTextArea("bnfñ{ng");
+		ImageIcon img = new ImageIcon("imagen/txa.jpg");
 		
 	//	float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
 		int anchoMon = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width);
@@ -147,7 +155,7 @@ public class Cat_Checador extends JFrame {
 		lblClave.setFont(new Font("Arial",0,12));
 		
 		lblFecha.setForeground(Color.BLUE);
-		lblFecha.setFont(new Font("Algerian",0,40));
+		lblFecha.setFont(new Font("Algerian",0,25));
 		
 		lblNota2.setForeground(Color.BLUE);
 		lblNota2.setFont(new Font("Arial",0,28));
@@ -163,9 +171,35 @@ public class Cat_Checador extends JFrame {
 		lblPuesto.setFont(new Font("Monospaced",0,14));
 		lblHorario.setFont(new Font("Monospaced",0,14));
 		
-//		btnFoto.setBorder(null);
+//		txaAvisos = new JTextArea(){Image image = img.getImage();
+//		Image grayImage = GrayFilter.createDisabledImage(image);{
+//			setOpaque(false);
+//		}
+//		
+//		
+//		public void paint(Graphics g){
+//			g.drawImage(grayImage,0,0,this);
+//			super.paint(g);
+//		}
+//	};
+		txaAvisos.setBackground(new java.awt.Color(0,0,205));
+		txaAvisos.setForeground(new java.awt.Color(255,69,0));
 		
-		String fileFondo = "Imagen/calaFondoChecador.jpg";
+		Font font = new Font("Verdana", Font.BOLD, 24);
+		txaAvisos.setFont(font);
+		
+		txaAvisos.setLineWrap(true);
+		barra_mensaje.setOpaque(false);
+		barra_mensaje.setViewportView(txaAvisos);
+		
+//		btnFoto.setBorder(null);
+		String fileFondo="";
+		if(anchoMon < 1300){
+			fileFondo = "Imagen/calaFondoChecador2.jpg";
+		}else{
+			fileFondo = "Imagen/calaFondoChecador.jpg";
+		}
+		
 		ImageIcon tmpIconAuxFondo = new ImageIcon(fileFondo);
 		Icon iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
 		fondo.setIcon(iconoFondo);
@@ -176,7 +210,36 @@ public class Cat_Checador extends JFrame {
 		
 		int x = 15, y=80, ancho=100;
 		
-		if(anchoMon <= 1380){
+		if(anchoMon < 1300){
+			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,90));
+			
+			panel.add(lblFolio).setBounds(10,y-50,ancho+30,20);
+			panel.add(txtFolio).setBounds(10,y-30,ancho-20,20);
+			
+			panel.add(lblClave).setBounds(10,y-10,ancho,20);
+			panel.add(txtClaveReal).setBounds(10,y+10,ancho+40,20);
+			
+			panel.add(trae_hora.lblHora).setBounds(170,10, 550, 120);
+			panel.add(lblNota).setBounds(60,y+=110, 900, 30);
+			panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
+			
+			panel.add(lblFecha).setBounds(820,120, 300, 40);
+			panel.add(lblLogo).setBounds((anchoMon/2)-60,23, 100, 100);
+			panel.add(lblCerrar).setBounds(anchoMon-77,10, 127, 127);
+			panel.add(btnFoto).setBounds(anchoMon-430,24,100,100);
+			
+			panel.add(lblNombre).setBounds(700,25,320,20);
+			panel.add(lblNombreConsulta).setBounds(700,45,280,20);
+			panel.add(lblEstablecimiento).setBounds(700,65,280,20);
+			panel.add(lblPuesto).setBounds(700,85,280,20);
+			panel.add(lblHorario).setBounds(700,105,280,20);
+			
+			panel.add(barra_mensaje).setBounds(ancho+710,y-58,210,560);
+			
+			panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-300);
+			panel.add(fondo).setBounds(0,-80,1660,900);
+		}
+		if(anchoMon >= 1300 && anchoMon <= 1380){
 			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,115));
 			
 			panel.add(lblFolio).setBounds(10,y-10,ancho+30,20);
@@ -202,35 +265,92 @@ public class Cat_Checador extends JFrame {
 			panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-330);
 			panel.add(fondo).setBounds(0,-80,1660,900);
 			
-		}else{
-			
+		}
+		if(anchoMon > 1380){
 			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,130));
 			
-					panel.add(lblFolio).setBounds(x+10,y,ancho+50,20);
-					panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
-					
-					panel.add(lblClave).setBounds(x+10,y+=40,ancho,20);
-					panel.add(txtClaveReal).setBounds(ancho-20+20,y,ancho+70,20);
-					
-					panel.add(trae_hora.lblHora).setBounds(300,45, 550, 120);
-					panel.add(lblNota).setBounds(130,y+=145, 900, 30);
-					panel.add(lblNota2).setBounds(190,y+=30, 900, 30);
-					
-					panel.add(lblFecha).setBounds(835+33+242,190, 300, 40);
-					panel.add(lblLogo).setBounds(935+33-237,34, 147, 147);
-					panel.add(lblCerrar).setBounds(935+33+522,34, 147, 147);
-					panel.add(btnFoto).setBounds(935+33,35, 147, 147);
-					
-					panel.add(lblNombre).setBounds(1130,40,320,20);
-					panel.add(lblEstablecimiento).setBounds(1130,80,320,20);
-					panel.add(lblPuesto).setBounds(1130,120,320,20);
-					panel.add(lblHorario).setBounds(1130,160,320,20);
-					
-					panel.add(btnExaminar).setBounds(1000,200,80,20);
-					panel.add(btnMensaje).setBounds(960,247,608,608);
-					
-					panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
-					panel.add(fondo).setBounds(0,-20,1660,900);
+			panel.add(lblFolio).setBounds(x+10,y,ancho+50,20);
+			panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
+			
+			panel.add(lblClave).setBounds(x+10,y+=40,ancho,20);
+			panel.add(txtClaveReal).setBounds(ancho-20+20,y,ancho+70,20);
+			
+			panel.add(trae_hora.lblHora).setBounds(300,45, 550, 120);
+			panel.add(lblNota).setBounds(130,y+=145, 900, 30);
+			panel.add(lblNota2).setBounds(190,y+=30, 900, 30);
+			
+			panel.add(lblFecha).setBounds(835+33+242,190, 300, 40);
+			panel.add(lblLogo).setBounds(935+33-237,34, 147, 147);
+			panel.add(lblCerrar).setBounds(935+33+522,34, 147, 147);
+			panel.add(btnFoto).setBounds(935+33,35, 147, 147);
+			
+			panel.add(lblNombre).setBounds(1130,40,320,20);
+			panel.add(lblEstablecimiento).setBounds(1130,80,320,20);
+			panel.add(lblPuesto).setBounds(1130,120,320,20);
+			panel.add(lblHorario).setBounds(1130,160,320,20);
+			
+			panel.add(btnExaminar).setBounds(1000,200,80,20);
+			panel.add(btnMensaje).setBounds(960,247,608,608);
+			
+			panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
+			panel.add(fondo).setBounds(0,-20,1660,900);
+		}
+		
+		if(anchoMon <= 1380){
+//			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,115));
+//			
+//			panel.add(lblFolio).setBounds(10,y-10,ancho+30,20);
+//			panel.add(txtFolio).setBounds(ancho+55,y-10,ancho-20,20);
+//			
+//			panel.add(lblClave).setBounds(10,y+=20,ancho,20);
+//			panel.add(txtClaveReal).setBounds(ancho-35,y,ancho+70,20);
+//			
+//			panel.add(trae_hora.lblHora).setBounds(247,35, 550, 120);
+//			panel.add(lblNota).setBounds(60,y+=125, 900, 30);
+//			panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
+//			
+//			panel.add(lblFecha).setBounds(835+33,165, 300, 40);
+//			panel.add(lblLogo).setBounds((anchoMon/2)-55,24, 147, 147);
+//			panel.add(lblCerrar).setBounds(anchoMon-100,34, 127, 127);
+//			panel.add(btnFoto).setBounds(anchoMon-540,34, 127, 127);
+//			
+//			panel.add(lblNombre).setBounds(960,40,320,20);
+//			panel.add(lblEstablecimiento).setBounds(960,70,280,20);
+//			panel.add(lblPuesto).setBounds(960,105,280,20);
+//			panel.add(lblHorario).setBounds(960,140,280,20);
+//			
+//			panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-330);
+//			panel.add(fondo).setBounds(0,-80,1660,900);
+//			
+		}else{
+			
+//			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,130));
+//			
+//					panel.add(lblFolio).setBounds(x+10,y,ancho+50,20);
+//					panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
+//					
+//					panel.add(lblClave).setBounds(x+10,y+=40,ancho,20);
+//					panel.add(txtClaveReal).setBounds(ancho-20+20,y,ancho+70,20);
+//					
+//					panel.add(trae_hora.lblHora).setBounds(300,45, 550, 120);
+//					panel.add(lblNota).setBounds(130,y+=145, 900, 30);
+//					panel.add(lblNota2).setBounds(190,y+=30, 900, 30);
+//					
+//					panel.add(lblFecha).setBounds(835+33+242,190, 300, 40);
+//					panel.add(lblLogo).setBounds(935+33-237,34, 147, 147);
+//					panel.add(lblCerrar).setBounds(935+33+522,34, 147, 147);
+//					panel.add(btnFoto).setBounds(935+33,35, 147, 147);
+//					
+//					panel.add(lblNombre).setBounds(1130,40,320,20);
+//					panel.add(lblEstablecimiento).setBounds(1130,80,320,20);
+//					panel.add(lblPuesto).setBounds(1130,120,320,20);
+//					panel.add(lblHorario).setBounds(1130,160,320,20);
+//					
+//					panel.add(btnExaminar).setBounds(1000,200,80,20);
+//					panel.add(btnMensaje).setBounds(960,247,608,608);
+//					
+//					panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
+//					panel.add(fondo).setBounds(0,-20,1660,900);
 		}
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
@@ -240,12 +360,26 @@ public class Cat_Checador extends JFrame {
 		
 		String fileLogo = System.getProperty("user.dir")+"/Imagen/LogPrincipal3.png";
 		ImageIcon tmpIconLogo = new ImageIcon(fileLogo);
-		Icon iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(127, 127, Image.SCALE_DEFAULT));
+		
+		Icon iconoLogo;
+		if(anchoMon < 1300){
+			iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+		}else{
+			iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(127, 127, Image.SCALE_DEFAULT));
+		}
 		lblLogo.setIcon(iconoLogo);	
+		
+		
 		
 		String fileCerrar = System.getProperty("user.dir")+"/Imagen/cerrar.png";
 		ImageIcon tmpIconCerrar = new ImageIcon(fileCerrar);
-		Icon iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(120, 150, Image.SCALE_DEFAULT));
+		
+		Icon iconoCerrar;
+		if(anchoMon < 1300){
+			iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(80, 100, Image.SCALE_DEFAULT));
+		}else{
+			iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(120, 150, Image.SCALE_DEFAULT));
+		}
 		lblCerrar.setIcon(iconoCerrar);
 		
 		String fileFoto = System.getProperty("user.dir")+"/Iconos/Un.JPG";
@@ -478,75 +612,63 @@ public class Cat_Checador extends JFrame {
 							if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
 								 JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
 							}else{
-								  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
-									      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
-									      
-								   }
-								  
-							    else{
-								  
-								
-						     															
-								Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-								
-								if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
-							
-										ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-										Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-										btnFoto.setIcon(icono);	
-										
-										int i=1;
-										if(i==1){
+									  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
+										      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
+										      
+									   }else{
+							     															
+											Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 											
-										}else
-										{
-											
-										}
-										
-										Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
-										
-										tabla_model.addRow(registro);
-										String tipo=registro[2].toString();
-										String hora=registro[3].toString();
-										
-										String Fecha=registro[9].toString();
-										lblFecha.setText(Fecha);
-										
-										txtFolio.setEditable(true);
-										txtFolio.setText("");
-										txtFolio.requestFocus();
-										txtClaveReal.setText("");
-										txtClaveReal.setEditable(false);
+											if(re.getFolio() != 0 && re.getNo_checador() == Integer.parseInt(CadenaDeClave)){
 								
-												if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-														lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-														lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+											ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+											Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+											btnFoto.setIcon(icono);	
+											
+											Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
+											
+											tabla_model.addRow(registro);
+											String tipo=registro[2].toString();
+											String hora=registro[3].toString();
+											
+											String Fecha=registro[9].toString();
+											lblFecha.setText(Fecha);
+											
+											txtFolio.setEditable(true);
+											txtFolio.setText("");
+											txtFolio.requestFocus();
+											txtClaveReal.setText("");
+											txtClaveReal.setEditable(false);
+									
+													if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+															lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+															lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+						
+													}else{
+															lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+															lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+														}
+									
+											lblNombreConsulta.setText(re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+											
+											Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+											lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
 					
-												}else{
-														lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-														lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-													}
+											Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+											lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+											
+											
+											
+											txtFolio.setEditable(false);
+											txtClaveReal.setEditable(true);
+											txtClaveReal.requestFocus();
 								
-										lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-										
-										Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-										lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-				
-										Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-										lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-										
-										
-										
-										txtFolio.setEditable(false);
-										txtClaveReal.setEditable(true);
-										txtClaveReal.requestFocus();
-							
-								     }else{
-									     	JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
-										    txtFolio.setEditable(true);
-									    	panelLimpiar();
-										    return;
-									}
+									     }else{
+										     	JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
+											    txtFolio.setEditable(true);
+										    	panelLimpiar();
+											    return;
+										}
 							}
 						}
 					}

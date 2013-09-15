@@ -10,9 +10,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 
+import CatalogoChecador.Cat_Checador;
+import CatalogoChecador.Cat_Horario;
+
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
+import reporte.Reporte_General_de_Asistencia_Por_Establecimiento;
 
 import catalogos.Cat_Actividad;
+import catalogos.Cat_Alimentacion_Cortes;
 import catalogos.Cat_Alimentacion_Cuadrante;
 import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
@@ -97,6 +102,12 @@ public class InitMenuBar extends Init{
 				JMenuItem Importar_Consiliacion 		  = new JMenuItem("Importar Conciliación AuxF");
 				JMenuItem Importar_Voucher				  = new JMenuItem("Importar Voucher");
 				
+    /* CORTES */	
+	JMenu Cortes = new JMenu("Cortes");
+		JMenu Cortes_Alimentacion = new JMenu("Alimentacion");
+		        JMenuItem Captura_Cortes 			  = new JMenuItem("Captura de Cortes de Cajeras");  
+		JMenu Cortes_Reportes = new JMenu("Reportes");        
+				
 	/* CUADRANTES */
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
 		/* ALIMENTACION */
@@ -116,7 +127,7 @@ public class InitMenuBar extends Init{
 			JMenuItem Cuadrantes_Catalogo_Respuesta 		= new JMenuItem("Opciones de Respuesta", new ImageIcon("Iconos/page_layout_icon&16.png"));
 			JMenuItem Cuadrantes_Catalogo_Respuesta_Multiple	= new JMenuItem("Opciones Múltiple de Respuesta", new ImageIcon("Iconos/opciones_respuesta_icon&16.png"));
 			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion", new ImageIcon("Iconos/ponderacion_icon&16.png"));
-		/* REPORTE */
+		/* REPORTES */
 		JMenu Cuadrantes_Reportes = new JMenu("Reporte");
 			JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
 			JMenuItem Cuadrantes_Reportes_Jefatura    = new JMenuItem("Reportes Jefatura", new ImageIcon("Iconos/reporte_icon&16.png"));
@@ -142,7 +153,13 @@ public class InitMenuBar extends Init{
 		JMenu Comparaciones = new JMenu("Comparaciones");
 			JMenuItem Comparaciones_Listas_Fuente_Sodas = new JMenuItem("Lista de Comparación FS.");
 			JMenuItem Comparaciones_Listas_Raya = new JMenuItem("Lista de Raya", new ImageIcon("Iconos/list_bullets_icon&16.png"));
-		/* DEPARTAMENTO DE CORTES */
+	    /* CHECADOR */
+		JMenu Checador = new JMenu("Checador");	
+	       	JMenuItem Checador_Menu = new JMenuItem("Checador");
+	       	JMenuItem Horarios = new JMenuItem("Horarios");
+	       	JMenu Reportes_Checador = new JMenu("Reportes");
+	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia");           
+	    /* DEPARTAMENTO DE CORTES */
 		JMenu Departamento_Cortes = new JMenu("Departamento de Cortes");
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
 		/* REPORTES */
@@ -239,6 +256,14 @@ public class InitMenuBar extends Init{
 					Importar_Voucher.addActionListener(Opciones);
 					Importar_Voucher.setEnabled(false);
 					
+	    /* CORTES */
+		Cortes.add(Cortes_Alimentacion); 
+			   Cortes_Alimentacion.add(Captura_Cortes);
+		             Captura_Cortes.addActionListener(Opciones);
+		             Captura_Cortes.setEnabled(false);
+  	    Cortes.add(Cortes_Reportes);
+  	                 Cortes_Reportes.addActionListener(Opciones);
+                        	              	
 		/* CUADRANTES 
 		*		ALIMENTACION */
 		Cuadrantes.add(Cuadrantes_Alimentacion);
@@ -345,6 +370,19 @@ public class InitMenuBar extends Init{
 				Comparaciones_Listas_Raya.addActionListener(Opciones);
 				Comparaciones_Listas_Raya.setEnabled(false);
 		/* LISTA DE RAYA 
+		* 		CHECADOR */
+		Lista_Raya.add(Checador);
+	         Checador.add(Checador_Menu);
+			               Checador_Menu.addActionListener(Opciones);
+					       Checador_Menu.setEnabled(false);
+		     Checador.add(Horarios);
+						Horarios.addActionListener(Opciones);
+						Horarios.setEnabled(false);		
+		     Checador.add(Reportes_Checador);
+		         Reportes_Checador.add(Reportes_Checador_Gral);
+		                 Reportes_Checador_Gral.addActionListener(Opciones);
+		                 Reportes_Checador_Gral.setEnabled(false);	
+		/* LISTA DE RAYA 
 		* 		DEPARTAMENTO DE CORTES */
 		Lista_Raya.add(Departamento_Cortes);
 			Departamento_Cortes.add(Departamento_Cortes_Alimentacion);
@@ -381,6 +419,7 @@ public class InitMenuBar extends Init{
 		Barra.add(Archivo);
 		Barra.add(Catalogo);
 		Barra.add(Configuracion);
+		Barra.add(Cortes);
 		Barra.add(Contabilidad);
 		Barra.add(Cuadrantes);
 		Barra.add(Lista_Raya);
@@ -447,6 +486,10 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Importar Voucher"))
 				System.out.println("Pendiente");
 			
+			/* CORTES */
+			if(e.getActionCommand().equals("Captura de Cortes de Cajeras"))
+				new Cat_Filtro_Cortes().setVisible(true);			
+			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
 			if(e.getActionCommand().equals("Alimentación de Cuadrantes"))
@@ -511,11 +554,19 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Autorizacion Finanzas"))
 				new Cat_Auto_Finanzas().setVisible(true);
 			/* LISTA DE RAYA 
-			 * 		AUTORIZACIONES */
+			 * 		COMPARACIONES */
 			if(e.getActionCommand().equals("Lista de Comparación FS."))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
 			if(e.getActionCommand().equals("Lista de Raya"))
 				new Cat_Revision_Lista_Raya().setVisible(true);
+			/* LISTA DE RAYA 
+			 * 		CHECADOR */
+			if(e.getActionCommand().equals("Checador"))
+				new Cat_Checador().setVisible(true);
+			if(e.getActionCommand().equals("Horarios"))
+				new Cat_Horario().setVisible(true);
+			if(e.getActionCommand().equals("Reporte General de Asistencia"))
+				new Reporte_General_de_Asistencia_Por_Establecimiento().setVisible(true);
 			/* LISTA DE RAYA 
 			 * 		DEPARTAMENTO DE CORTES */
 			if(e.getActionCommand().equalsIgnoreCase("Alimentación de Cortes"))

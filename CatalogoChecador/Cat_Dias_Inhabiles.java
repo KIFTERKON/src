@@ -1,4 +1,4 @@
-package catalogos;
+package CatalogoChecador;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,25 +27,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import objetos.JTextFieldLimit;
+import ObjetoChecador.Obj_Dias_Inhabiles;
 import SQL.Connexion;
 
-
-import objetos.JTextFieldLimit;
-import objetos.Obj_Puesto;
+import com.toedter.calendar.JDateChooser;
 
 @SuppressWarnings("serial")
-public class Cat_Puesto extends JFrame{
+public class Cat_Dias_Inhabiles extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
 Connexion con = new Connexion();
 	
-	DefaultTableModel modelo       = new DefaultTableModel(0,3)	{
+	DefaultTableModel modelo       = new DefaultTableModel(0,4)	{
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -53,8 +57,10 @@ Connexion con = new Connexion();
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtPuesto = new JTextField();
-	JTextField txtAbreviatura = new JTextField();
+	
+	JDateChooser txtFecha = new JDateChooser();
+	
+	JTextField txtDescripcion = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -65,12 +71,12 @@ Connexion con = new Connexion();
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
-	public Cat_Puesto(){
+	public Cat_Dias_Inhabiles(){
 		
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Puestos"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Dias_Inhabiles.png"));
+		panel.setBorder(BorderFactory.createTitledBorder("Días Inhábiles"));
 		
-		this.setTitle("Puesto");
+		this.setTitle("Días Inhábiles");
 		
 		int x = 15, y=30, ancho=100;
 		
@@ -78,28 +84,26 @@ Connexion con = new Connexion();
 		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
 		panel.add(btnBuscar).setBounds(x+ancho+ancho+10,y,32,20);
 		
-		panel.add(chStatus).setBounds(x+43+(ancho*2),y,70,20);
+		panel.add(chStatus).setBounds(x+43+(ancho*2),y,65,20);
+		panel.add(btnGuardar).setBounds(x+310,y,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho+320,y,ancho,20);
 		
-		panel.add(new JLabel("Puesto:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtPuesto).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
+		panel.add(new JLabel("Fecha:")).setBounds(x,y+=30,ancho,20);
+		panel.add(txtFecha).setBounds(ancho-20,y,ancho+20,20);
+		panel.add(btnNuevo).setBounds(x+200,y,ancho,20);
+		panel.add(btnEditar).setBounds(x+310,y,ancho,20);
+		panel.add(btnSalir).setBounds(x+ancho+320,y,ancho,20);
 		
-		panel.add(new JLabel("Abreviatura:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtAbreviatura).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
-		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
+		panel.add(new JLabel("Descripcion:")).setBounds(x,y+=30,ancho,20);
+		panel.add(txtDescripcion).setBounds(ancho-20,y,(ancho*6)+60,20);
 		
-		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
+		panel.add(getPanelTabla()).setBounds(20,y+=30,ancho+760,480);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
-		txtPuesto.setDocument(new JTextFieldLimit(100));
-		txtAbreviatura.setDocument(new JTextFieldLimit(20));
+		txtDescripcion.setDocument(new JTextFieldLimit(100));
 		
 		chStatus.setEnabled(false);
-		txtPuesto.setEditable(false);
-		txtAbreviatura.setEditable(false);
+		txtDescripcion.setEditable(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
@@ -116,10 +120,10 @@ Connexion con = new Connexion();
 		
 		agregar(tabla);
 		
-		this.setSize(760,210);
+		this.setSize(910,650);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	
 	}
 	
@@ -129,12 +133,15 @@ Connexion con = new Connexion();
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
-		tabla.getColumnModel().getColumn(1).setMinWidth(160);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(160);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Abreviatura");
-		tabla.getColumnModel().getColumn(2).setMinWidth(80);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(80);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Fecha");
+		tabla.getColumnModel().getColumn(1).setMinWidth(100);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(100);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Descripcion");
+		tabla.getColumnModel().getColumn(2).setMinWidth(650);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(650);
+		tabla.getColumnModel().getColumn(3).setHeaderValue("Año");
+		tabla.getColumnModel().getColumn(3).setMinWidth(60);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(60);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,6 +149,7 @@ Connexion con = new Connexion();
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
 		tabla.getColumnModel().getColumn(2).setCellRenderer(tcr);
+		tabla.getColumnModel().getColumn(3).setCellRenderer(tcr);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
@@ -159,33 +167,46 @@ Connexion con = new Connexion();
 						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(2).setCellRenderer(render);
+						tabla.getColumnModel().getColumn(3).setCellRenderer(render);
 		
+		 JScrollPane scrol = new JScrollPane(tabla);
+		 
+		 	//////////////////limpia la tabla antes de acer otra busqueda   ////////////////
+			/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+			/**/	   		 getTabla();												/**/
+			////////////////////////////////////////////////////////////////////////////////
+		   
+	    return scrol; 
+	}
+	
+	public void getTabla(){
+		String todos1 = "select tb_dias_inhabiles.folio as [Folio]," +
+				" tb_dias_inhabiles.fecha as [Fecha]," +
+				" tb_dias_inhabiles.descripcion as [Descripcion]" +
+		" from tb_dias_inhabiles" +
+		" order by tb_dias_inhabiles.fecha desc";
+//		Statement stmt = null;
 		Statement s;
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_puesto.folio as [Folio],"+
-					 "  tb_puesto.nombre as [Nombre], "+
-					 "  tb_puesto.abreviatura as [Abreviatura] "+
-					
-					"  from tb_puesto where status=1" +
-					"  order by nombre");
+			rs = s.executeQuery(todos1);
 			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[3];
+			   String [] fila = new String[4];
 			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim();
-			   fila[2] = rs.getString(3).trim(); 
+			   fila[1] = rs.getString(2).trim().toUpperCase();
+			   fila[2] = rs.getString(3).trim().toUpperCase(); 
+			   
+			   int iniciocadena = rs.getString(2).trim().length();
+			   fila[3] =  rs.getString(2).trim().substring(iniciocadena-4,iniciocadena); 
 			   
 			   modelo.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-		   
-	    return scrol; 
 	}
 	
 	@SuppressWarnings("unused")
@@ -196,11 +217,18 @@ Connexion con = new Connexion();
 	        		int fila = tabla.getSelectedRow();
 	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
 	        
-						Obj_Puesto fuente_sodas = new Obj_Puesto().buscar(id);
+						Obj_Dias_Inhabiles diaInA = new Obj_Dias_Inhabiles().buscar(id);
 						
 						txtFolio.setText(id+"");
-						txtPuesto.setText(modelo.getValueAt(fila,1)+"");
-						txtAbreviatura.setText(modelo.getValueAt(fila,2)+"");
+						
+						try {
+							Date date_fecha = new SimpleDateFormat("dd/MM/yyyy").parse(modelo.getValueAt(fila,1)+"");
+							txtFecha.setDate(date_fecha);
+						} catch (ParseException e1) {
+							e1.printStackTrace();
+						}
+						
+						txtDescripcion.setText(modelo.getValueAt(fila,2)+"");
 						btnEditar.setEnabled(true);
 						chStatus.setSelected(true);
 					
@@ -214,9 +242,9 @@ Connexion con = new Connexion();
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_Puesto puesto = new Obj_Puesto().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Dias_Inhabiles diaInA = new Obj_Dias_Inhabiles().buscar(Integer.parseInt(txtFolio.getText()));
 				
-				if(puesto.getFolio() == Integer.parseInt(txtFolio.getText())){
+				if(diaInA.getFolio() == Integer.parseInt(txtFolio.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
 						if(validaCampos()!="") {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -224,16 +252,23 @@ Connexion con = new Connexion();
 						}else{
 							int nroFila = tabla.getSelectedRow();
 							
-							puesto.setPuesto(txtPuesto.getText());
-							puesto.setAbreviatura(txtAbreviatura.getText());
-							puesto.setStatus(chStatus.isSelected());
+							diaInA.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFecha.getDate()));
+							diaInA.setDescripcion(txtDescripcion.getText());
 							
-							puesto.actualizar(Integer.parseInt(txtFolio.getText()));
+							diaInA.actualizar(Integer.parseInt(txtFolio.getText()));
 							
-							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txtPuesto.getText(),nroFila,1);
-							modelo.setValueAt(txtAbreviatura.getText(), nroFila, 2);
+							////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+							/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+							/**/	   		 getTabla();												/**/
+							////////////////////////////////////////////////////////////////////////////////
+//							modelo.setValueAt(txtFolio.getText(),nroFila,0);
+//							modelo.setValueAt(new SimpleDateFormat("dd/MM/yyyy").format(txtFecha.getDate()),nroFila,1);
+//							modelo.setValueAt(txtDescripcion.getText().toUpperCase(), nroFila, 2);
+							 
+							int iniciocadena = txtFecha.getDate().toString().trim().length();
+							modelo.setValueAt(txtFecha.getDate().toString().substring(iniciocadena-4, iniciocadena),nroFila,3);
 							
+							txtFecha.setDate(null);
 							panelLimpiar();
 							panelEnabledFalse();
 							txtFolio.setEditable(true);
@@ -249,18 +284,24 @@ Connexion con = new Connexion();
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						puesto.setPuesto(txtPuesto.getText());
-						puesto.setAbreviatura(txtAbreviatura.getText());
-						puesto.setStatus(chStatus.isSelected());
-						puesto.guardar();
+				    	diaInA.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFecha.getDate()));
+						diaInA.setDescripcion(txtDescripcion.getText());
+						diaInA.guardar();
 						
-						Object[] fila = new Object[tabla.getColumnCount()]; 
+//						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
-						fila[0]=txtFolio.getText();
-						fila[1]=txtPuesto.getText();
-						fila[2]=txtAbreviatura.getText();
-						modelo.addRow(fila); 
+						////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
+						/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
+						/**/	   		 getTabla();												/**/
+						////////////////////////////////////////////////////////////////////////////////
+//						fila[0]=txtFolio.getText();
+//						fila[1]=new SimpleDateFormat("dd/MM/yyyy").format(txtFecha.getDate());
+//						fila[2]=txtDescripcion.getText().toUpperCase();
+//						
+//						fila[3]=new SimpleDateFormat("yyyy").format(txtFecha.getDate());
+//						modelo.addRow(fila); 
 						
+						txtFecha.setDate(null);
 						panelLimpiar();
 						panelEnabledFalse();
 						txtFolio.setEditable(true);
@@ -313,20 +354,27 @@ Connexion con = new Connexion();
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-			Obj_Puesto puesto = new Obj_Puesto();
-			puesto = puesto.buscar(Integer.parseInt(txtFolio.getText()));
+			Obj_Dias_Inhabiles diaInA = new Obj_Dias_Inhabiles();
+			diaInA = diaInA.buscar(Integer.parseInt(txtFolio.getText()));
 			
-			if(puesto.getFolio() != 0){
+			if(diaInA.getFolio() != 0){
 			
-			txtFolio.setText(puesto.getFolio()+"");
-			txtPuesto.setText(puesto.getPuesto()+"");
-			txtAbreviatura.setText(puesto.getAbreviatura()+"");
-			System.out.println(puesto.getStatus());
-			if(puesto.getStatus() == true){chStatus.setSelected(true);}
-			else{chStatus.setSelected(false);}
+			txtFolio.setText(diaInA.getFolio()+"");
+
+			try {
+				Date date_fecha = new SimpleDateFormat("dd/MM/yyyy").parse(diaInA.getFecha());
+				txtFecha.setDate(date_fecha);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			
+			txtDescripcion.setText(diaInA.getDescripcion()+"");
+
+//			if(puesto.getStatus() == true){chStatus.setSelected(true);}
+//			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
+			btnEditar.setEnabled(true);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();
@@ -349,27 +397,27 @@ Connexion con = new Connexion();
 	
 	private String validaCampos(){
 		String error="";
-		if(txtPuesto.getText().equals("")) 			error+= "Bono\n";
-		if(txtAbreviatura.getText().equals(""))		error+= "Abreviatura\n";
+		if(txtFecha.getDate().equals("")) 			error+= "Fecha\n";
+		if(txtDescripcion.getText().equals(""))		error+= "Descripcion\n";
 				
 		return error;
 	}
 	
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			Obj_Puesto puesto = new Obj_Puesto().buscar_nuevo();
-			if(puesto.getFolio() != 0){
+			Obj_Dias_Inhabiles diaInA = new Obj_Dias_Inhabiles().buscar_nuevo();
+			if(diaInA.getFolio() != 0){
 				panelLimpiar();
 				panelEnabledTrue();
-				txtFolio.setText(puesto.getFolio()+1+"");
+				txtFolio.setText(diaInA.getFolio()+1+"");
 				txtFolio.setEditable(false);
-				txtPuesto.requestFocus();
+				txtFecha.requestFocus();
 			}else{
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(1+"");
 				txtFolio.setEditable(false);
-				txtPuesto.requestFocus();
+				txtFecha.requestFocus();
 			}
 		}
 	};
@@ -398,26 +446,30 @@ Connexion con = new Connexion();
 	
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);
-		txtPuesto.setEditable(false);
-		txtAbreviatura.setEditable(false);
+		txtDescripcion.setEditable(false);
 		chStatus.setEnabled(false);
 	}		
 	
 	public void panelEnabledTrue(){	
 		txtFolio.setEditable(true);
-		txtPuesto.setEditable(true);
-		txtAbreviatura.setEditable(true);
+		txtDescripcion.setEditable(true);
 		chStatus.setEnabled(true);	
 	}
 	
 	public void panelLimpiar(){	
 		txtFolio.setText("");
-		txtPuesto.setText("");
-		txtAbreviatura.setText("");
+		txtDescripcion.setText("");
 		chStatus.setSelected(true);
 	}
 	
-	public static void main(String [] arg){
-		new Cat_Puesto().setVisible(true);
+	public static void main(String[]a)
+	{
+		
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Dias_Inhabiles().setVisible(true);
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
 	}
 }

@@ -31,21 +31,20 @@ public class Cat_Agregar_Submenus_Nuevos extends JFrame  {
     JButton btn_guardar =new JButton("Guardar");
 	
     public Cat_Agregar_Submenus_Nuevos () {
-    	this.setTitle("Agregar Submenus Nuevos");
-    	
-    	this.panel.add(new JLabel("Nombre de Submenu:")).setBounds(10,50,200,20);
-        this.panel.add(txtsubmenu).setBounds(150,50,200,20);
-        this.txtsubmenu.setToolTipText("Se debe de Poner el nombre del Submenu que pones entre comillas");
-        this.panel.add(new JLabel("Nombre del Catalogo:")).setBounds(10,100,200,20);
-		this.panel.add(txtcatsubmenu).setBounds(150,100,200,20);
-		this.txtcatsubmenu.setToolTipText("Se Debe de Poner el nombre de la variable del Catalogo nuevo sin punto java");
-		this.cont.add(panel);
-		this.setSize(400,400); 
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		this.panel.add(cmbmenuid).setBounds(150,150,200,20);
-		this.panel.add(btn_guardar).setBounds(150,300,80,20);
-		this.btn_guardar.addActionListener(Guardar);		  
+    	   this.setTitle("Agregar Submenus Nuevos");
+    	    this.panel.add(new JLabel("Nom Submenu <Visible>:")).setBounds(10,50,200,20);
+        	this.panel.add(txtsubmenu).setBounds(150,50,200,20);
+        	this.txtsubmenu.setToolTipText("Se debe de Poner el nombre del Submenu que pones entre comillas");
+        	this.panel.add(new JLabel("Nom Catalogo-Variable:")).setBounds(10,100,200,20);
+		    this.panel.add(txtcatsubmenu).setBounds(150,100,200,20);
+		    this.txtcatsubmenu.setToolTipText("Se Debe de Poner el nombre de la variable del Catalogo nuevo sin punto java");
+		    this.cont.add(panel);
+		    this.setSize(400,400); 
+		    this.setResizable(false);
+		    this.setLocationRelativeTo(null);
+		    this.panel.add(cmbmenuid).setBounds(150,150,200,20);
+		    this.panel.add(btn_guardar).setBounds(150,300,80,20);
+		    this.btn_guardar.addActionListener(Guardar);
     }
 	
     ActionListener Guardar =new ActionListener() {

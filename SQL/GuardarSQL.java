@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
+import ObjetoChecador.Obj_Dias_Inhabiles;
+import ObjetoChecador.Obj_Mensaje_Personal;
+import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Agregar_Submenus_Nuevos;
@@ -58,15 +61,32 @@ import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 public class GuardarSQL {
-
+	String Qbitacora ="exec sp_insert_bitacora ?,?,?,?,?";
+	PreparedStatement pstmtb = null;
+	Obj_Usuario usuario = new Obj_Usuario().LeerSession();
+	
+				
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
 		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
 			
+			// insert bitacora
+			String pc = InetAddress.getLocalHost().getHostName();
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			pstmtb = con.prepareStatement(Qbitacora);
+			pstmtb.setString(1, pc);
+			pstmtb.setString(2, ip);
+			pstmtb.setInt(3, usuario.getFolio());
+			pstmtb.setString(4, "sp_insert_empleado alta "+empleado.getNombre().toUpperCase()+empleado.getAp_paterno().toUpperCase()+empleado.getAp_materno().toUpperCase());
+			pstmtb.setString(5, "Empleados Nuevo");
+			pstmtb.executeUpdate();
+			
+			
+			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, empleado.getNo_checador());
 			pstmt.setString(2, empleado.getNombre().toUpperCase());
 			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
@@ -101,7 +121,6 @@ public class GuardarSQL {
 			pstmt.setString(26, empleado.getFecha_ingreso());
 			pstmt.setString(27, empleado.getTelefono_familiar());
 			pstmt.setInt(28, empleado.isCuadrante_parcial() ? 1 : 0);
-			
 			pstmt.setInt(29, empleado.getTurno());
 			pstmt.setInt(30, empleado.getStatus_2h());
 			pstmt.setInt(31, empleado.getTurno2());
@@ -178,6 +197,38 @@ public class GuardarSQL {
 			pstmt.setString(1, puesto.getPuesto().toUpperCase());
 			pstmt.setString(2, puesto.getAbreviatura().toUpperCase());
 			pstmt.setString(3, (puesto.getStatus())?"1":"0");
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Dia_Inhabil(Obj_Dias_Inhabiles diaInA){
+		String query = "exec sp_insert_diaInHabil ?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, diaInA.getFecha());
+			pstmt.setString(2, diaInA.getDescripcion().toUpperCase());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1559,14 +1610,92 @@ public class GuardarSQL {
 			pstmt.setString (1, pond.getDescripcion());
 			pstmt.setString (2, pond.getPuesto_principal());
 			
-//			for (int i = 0; i < tabla.length; i++) {
-
 				pstmtabla.setInt (1, pond.getFolio());
 				pstmtabla.setString (2, pond.getPuesto_dependiente());
 				pstmtabla.setString (3, pond.getEstablecimiento());
 				pstmtabla.executeUpdate();
 				
-//			}
+			pstmt.executeUpdate();
+		
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Mensaje_Personal(Obj_Mensaje_Personal MsjPersonal){
+		String query = "exec sp_insert_mensaje ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString (1, MsjPersonal.getFechaInicial().trim());
+			pstmt.setString (2, MsjPersonal.getFechaFin().trim());
+			pstmt.setString(3, MsjPersonal.getAsunto().toUpperCase().trim());
+			pstmt.setString(4, MsjPersonal.getMensaje().toUpperCase().trim());
+			pstmt.setBoolean(5, (MsjPersonal.getStatus())? true: false);
+			
+			pstmt.executeUpdate();
+		
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Permiso_Checador(Obj_Permisos_Checador Permiso){
+		String query = "exec sp_insert_permiso_checador ?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt (1, Permiso.getFolio_empleado());
+			pstmt.setInt(2, Permiso.getFolio_usuario());
+			pstmt.setString(3,Permiso.getFecha());
+			
+			
+			pstmt.setInt(4, Permiso.getTipo_de_permiso());
+			pstmt.setString(5, Permiso.getMotivo().toUpperCase().trim());
+			pstmt.setBoolean(6, (Permiso.isStatus())? true: false);
+			
 			pstmt.executeUpdate();
 		
 			con.commit();
@@ -1610,13 +1739,58 @@ public class GuardarSQL {
 			for (int i = 0; i < tabla.length; i++) {
 
 				pstmtabla.setInt (1, pond.getFolio());
-				pstmtabla.setString (2, tabla[i][0].toString());
-				pstmtabla.setString (3, tabla[i][1].toString());
+				pstmtabla.setString (2, tabla[i][0]);
+				pstmtabla.setString (3, tabla[i][1]);
 				
 				pstmtabla.executeUpdate();
 				
 			}
 			pstmt.executeUpdate();
+		
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Empleado_Msj(Obj_Mensaje_Personal Empleado_Msj,String[] tabla){
+//		String query = "exec sp_insert_nivel_jerarquico ?,?";
+		String querytabla="exec sp_insert_tabla_empleado_mensaje ?,?";
+		Connection con = new Connexion().conexion();
+//		PreparedStatement pstmt = null;
+		PreparedStatement pstmtabla =null;
+		try {
+			
+			con.setAutoCommit(false);
+//			pstmt = con.prepareStatement(query);
+			pstmtabla=con.prepareStatement(querytabla);
+			
+			
+			for (int i = 0; i < tabla.length; i++) {
+
+				pstmtabla.setInt (1, Empleado_Msj.getFolioMensaje());
+				pstmtabla.setString (2, tabla[i]);
+				
+				pstmtabla.executeUpdate();
+				
+			}
+//			pstmt.executeUpdate();
 		
 			con.commit();
 		} catch (Exception e) {
@@ -2202,8 +2376,41 @@ public boolean Guardar_Horario(ObjHorario horario){
 			return true;
 		}
 	
-		public boolean buscarBorrarPDependiente(String nombre){
-			String query = "exec sp_folio_puesto_dependiente '"+nombre+"'";
+		public boolean buscarBorrarPDependiente(String nombre, int folio_tabla,String establecimineto){
+			String query = "exec sp_folio_puesto_dependiente '"+nombre+"', "+folio_tabla+",'"+establecimineto+"'";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				
+				pstmt.executeUpdate();
+			
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: "+e.getMessage());
+				if(con != null){
+					try{
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					}catch(SQLException ex){
+						System.out.println(ex.getMessage());
+					}
+				}
+				return false;
+			}finally{
+				try {
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+		
+		public boolean buscarBorrarPermiso(int folio){
+			String query = "exec sp_folio_puesto_dependiente "+folio;
 			Connection con = new Connexion().conexion();
 			PreparedStatement pstmt = null;
 			try {
