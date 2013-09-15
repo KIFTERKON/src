@@ -96,7 +96,7 @@ public class Cat_Msj_Personal extends JFrame {
 	
 	public Cat_Msj_Personal(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Empleados en Cuadrantes"));	
+		panel.setBorder(BorderFactory.createTitledBorder("Empleados en Mensajes"));	
 		
 		this.setTitle("Mensaje Personal");
 		
@@ -380,9 +380,6 @@ public class Cat_Msj_Personal extends JFrame {
 					if(MSJ.getFolioMensaje() == Integer.parseInt(txtFolioMsj.getText())){
 						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
 						{
-//							Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
-//							
-//							Obj_Mensaje_Personal MSJPersonal = new Obj_Mensaje_Personal();
 							
 							MSJ.setFolioMensaje(Integer.parseInt(txtFolioMsj.getText()));
 							MSJ.setFechaInicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicio.getDate()));
@@ -392,48 +389,11 @@ public class Cat_Msj_Personal extends JFrame {
 							
 							MSJ.setStatus(chStatus.isSelected());
 							
-//							String[] arreglo = new String[2];
-							
-//							Obj_Mensaje_Personal MSJ = new Obj_Mensaje_Personal().buscar(Integer.parseInt(txtFolioMsj.getText()));
-
-							
 							if(MSJ.actualizar(Integer.parseInt(txtFolioMsj.getText()))){
-								if(modelo.getRowCount() > 0){
 									MSJ.actualizar2(listadatos());
 										JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 										return;
-									}else{
-										JOptionPane.showMessageDialog(null,"A Guardado Mensaje Sin Asignarselo a Un Empleado!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-										return;
-									}
-										
 							}
-							
-//							if(valor_referencia==0){
-//										gerarquico.actualizar(Integer.parseInt(txtFolio.getText()));
-//										limpiaGuardar();
-//										////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
-//										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
-//										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
-//										////////////////////////////////////////////////////////////////////////////////
-//										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-//										return;
-//							}else{
-//								
-//								if(valor_referencia>0){
-//										gerarquico.actualizar2(listadatos());
-//										limpiaGuardar();
-//										////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
-//										/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
-//										/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
-//										////////////////////////////////////////////////////////////////////////////////
-//										JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-//										return;
-//								}else{
-//										JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
-//										return;
-//									}
-//								}
 						}
 					}else{
 						
@@ -454,26 +414,10 @@ public class Cat_Msj_Personal extends JFrame {
 									JOptionPane.showMessageDialog(null,"A Guardado Mensaje Sin Asignarselo a Un Empleado!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 								}
-									
 						}else{
-							System.out.println("<<<<<<<<<<<<<<<<<<<<           no guardo            >>>>>>>>>>>>>>>>>>>>");
-//							if(valor_referencia>0){
-//									gerarquico.guardar_multiple2(listadatos());
-//									
-//									////////////////  limpia la tabla antes de acer otra busqueda   ////////////////
-//									/**/	    while(modelo.getRowCount() > 0){modelo.removeRow(0);}			/**/
-//									/**/	   		 getTabla(Integer.parseInt(txtFolio.getText()));			/**/
-//									////////////////////////////////////////////////////////////////////////////////
-//									
-//									JOptionPane.showMessageDialog(null,"El registro se guardó exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-//									return;
-//							}else{
-//									JOptionPane.showMessageDialog(null,"Ocurrió un problema al intentar guardar el registro!","Error",JOptionPane.ERROR_MESSAGE);
-//									return;
-//								}
+							JOptionPane.showMessageDialog(null,"El Registro no se a guardado!","Error",JOptionPane.ERROR_MESSAGE);
+							return;
 						}
-							
-
 					}
 				}else{
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+validacampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -481,7 +425,6 @@ public class Cat_Msj_Personal extends JFrame {
 				}
 				
 			}
-			//valor para trabajar con el guardado desde la tabla
 		}
 	};
 	
@@ -546,6 +489,8 @@ public class Cat_Msj_Personal extends JFrame {
 		txtAsunto.setText("");
 		chStatus.setEnabled(false);
 		chStatus.setSelected(false);
+		txtFechaInicio.setDate(null);
+		txtFechaFin.setDate(null);
 		
 		while(modelo.getRowCount() > 0){
 			modelo.removeRow(0);
