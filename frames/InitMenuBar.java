@@ -17,6 +17,7 @@ import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 import reporte.Reporte_General_de_Asistencia_Por_Establecimiento;
 
 import catalogos.Cat_Actividad;
+import catalogos.Cat_Alimentacion_Cortes;
 import catalogos.Cat_Alimentacion_Cuadrante;
 import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
@@ -100,6 +101,12 @@ public class InitMenuBar extends Init{
 				JMenuItem Importar_Cheques 				  = new JMenuItem("Importar Cheques");
 				JMenuItem Importar_Consiliacion 		  = new JMenuItem("Importar Conciliación AuxF");
 				JMenuItem Importar_Voucher				  = new JMenuItem("Importar Voucher");
+				
+    /* CORTES */	
+	JMenu Cortes = new JMenu("Cortes");
+		JMenu Cortes_Alimentacion = new JMenu("Alimentacion");
+		        JMenuItem Captura_Cortes 			  = new JMenuItem("Captura de Cortes de Cajeras");  
+		JMenu Cortes_Reportes = new JMenu("Reportes");        
 				
 	/* CUADRANTES */
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
@@ -249,6 +256,14 @@ public class InitMenuBar extends Init{
 					Importar_Voucher.addActionListener(Opciones);
 					Importar_Voucher.setEnabled(false);
 					
+	    /* CORTES */
+		Cortes.add(Cortes_Alimentacion); 
+			   Cortes_Alimentacion.add(Captura_Cortes);
+		             Captura_Cortes.addActionListener(Opciones);
+		             Captura_Cortes.setEnabled(false);
+  	    Cortes.add(Cortes_Reportes);
+  	                 Cortes_Reportes.addActionListener(Opciones);
+                        	              	
 		/* CUADRANTES 
 		*		ALIMENTACION */
 		Cuadrantes.add(Cuadrantes_Alimentacion);
@@ -404,6 +419,7 @@ public class InitMenuBar extends Init{
 		Barra.add(Archivo);
 		Barra.add(Catalogo);
 		Barra.add(Configuracion);
+		Barra.add(Cortes);
 		Barra.add(Contabilidad);
 		Barra.add(Cuadrantes);
 		Barra.add(Lista_Raya);
@@ -469,6 +485,10 @@ public class InitMenuBar extends Init{
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Importar Voucher"))
 				System.out.println("Pendiente");
+			
+			/* CORTES */
+			if(e.getActionCommand().equals("Captura de Cortes de Cajeras"))
+				new Cat_Filtro_Cortes().setVisible(true);			
 			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */

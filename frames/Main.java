@@ -150,7 +150,11 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Importar Conciliación AuxF"))
 						Importar_Consiliacion.setEnabled(true);
 					if(permisos[i].equals("Importar Voucher"))
-						Importar_Voucher.setEnabled(true);			
+						Importar_Voucher.setEnabled(true);
+					/*CORTES*/
+					
+					
+					
 					
 					/* CUADRANTES 
 					*		ALIMENTACION */
