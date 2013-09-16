@@ -13,6 +13,7 @@ import javax.swing.JTabbedPane;
 import CatalogoChecador.Cat_Checador;
 import CatalogoChecador.Cat_Dias_Inhabiles;
 import CatalogoChecador.Cat_Horario;
+import CatalogoChecador.Cat_Msj_Personal;
 import CatalogoChecador.Cat_Permisos_Checador;
 
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
@@ -162,6 +163,7 @@ public class InitMenuBar extends Init{
 	       	JMenuItem Checador_Menu = new JMenuItem("Checador");
 	       	JMenuItem Dias_Inhabiles = new JMenuItem("Dias Inhabiles");
 	       	JMenuItem Horarios = new JMenuItem("Horarios");
+	       	JMenuItem Mensajes_Personales = new JMenuItem("Mensajes Personales a Empleados");
 	       	JMenuItem Permisos_Empleados = new JMenuItem("Permisos a Empleados");
 	       	JMenu Reportes_Checador = new JMenu("Reportes");
 	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia");           
@@ -386,6 +388,9 @@ public class InitMenuBar extends Init{
 		     Checador.add(Horarios);
 						Horarios.addActionListener(Opciones);
 						Horarios.setEnabled(false);	
+			 Checador.add(Mensajes_Personales);
+							Mensajes_Personales.addActionListener(Opciones);
+							Mensajes_Personales.setEnabled(false);
     		 Checador.add(Permisos_Empleados);
 		                Permisos_Empleados.addActionListener(Opciones);
 		                Permisos_Empleados.setEnabled(false);	
@@ -577,6 +582,8 @@ public class InitMenuBar extends Init{
 			    new Cat_Dias_Inhabiles().setVisible(true);
 			if(e.getActionCommand().equals("Horarios"))
 				new Cat_Horario().setVisible(true);
+			if(e.getActionCommand().equals("Mensajes Personales a Empleados"))
+				new Cat_Msj_Personal().setVisible(true);
 			if(e.getActionCommand().equals("Permisos a Empleados"))
 				new Cat_Permisos_Checador().setVisible(true);
 			if(e.getActionCommand().equals("Reporte General de Asistencia"))

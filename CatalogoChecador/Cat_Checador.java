@@ -62,8 +62,8 @@ public class Cat_Checador extends JFrame {
 	Cat_Reloj trae_hora = new Cat_Reloj();
 	
 	public static DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Traer_Checador().get_tabla_model(),
-			new String[]{"Folio", "Nombre", "Entosal", "H Evento",
-				"T Retardo", "Alerta", "PC", "IP","Tipo de Entrada"}){
+			new String[]{"Folio", "Nombre", "EntoSal", "H Evento",
+				"T Retardo", "Alerta", "PC", "IP","Tipo Entrada"}){
 				
 			@SuppressWarnings("rawtypes")
 			Class[] types = new Class[]{
@@ -397,7 +397,7 @@ public class Cat_Checador extends JFrame {
 		this.setResizable(false);
 		this.setUndecorated(true);
 		this.setLocationRelativeTo(null);
-//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 //		asigna el foco al JTextField deseado al arrancar la ventana
@@ -842,10 +842,10 @@ public class Cat_Checador extends JFrame {
 			this.tabla.getColumnModel().getColumn(4).setMaxWidth(z);
 			this.tabla.getColumnModel().getColumn(4).setMinWidth(z);
 			
-			this.tabla.getColumnModel().getColumn(5).setMaxWidth(z);
-			this.tabla.getColumnModel().getColumn(5).setMinWidth(z);
-			this.tabla.getColumnModel().getColumn(6).setMaxWidth(z);
-			this.tabla.getColumnModel().getColumn(6).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(5).setMaxWidth(z-10);
+			this.tabla.getColumnModel().getColumn(5).setMinWidth(z-10);
+			this.tabla.getColumnModel().getColumn(6).setMaxWidth(z+10);
+			this.tabla.getColumnModel().getColumn(6).setMinWidth(z+10);
 			this.tabla.getColumnModel().getColumn(7).setMaxWidth(z+30);
 			this.tabla.getColumnModel().getColumn(7).setMinWidth(z+30);
 			this.tabla.getColumnModel().getColumn(8).setMaxWidth(z+30);
@@ -868,12 +868,12 @@ public class Cat_Checador extends JFrame {
 			this.tabla.getColumnModel().getColumn(4).setMaxWidth(z);
 			this.tabla.getColumnModel().getColumn(4).setMinWidth(z);
 			
-			this.tabla.getColumnModel().getColumn(5).setMaxWidth(z);
-			this.tabla.getColumnModel().getColumn(5).setMinWidth(z);
-			this.tabla.getColumnModel().getColumn(6).setMaxWidth(z);
-			this.tabla.getColumnModel().getColumn(6).setMinWidth(z);
-			this.tabla.getColumnModel().getColumn(7).setMaxWidth(z);
-			this.tabla.getColumnModel().getColumn(7).setMinWidth(z);
+			this.tabla.getColumnModel().getColumn(5).setMaxWidth(z-40);
+			this.tabla.getColumnModel().getColumn(5).setMinWidth(z-40);
+			this.tabla.getColumnModel().getColumn(6).setMaxWidth(z+30);
+			this.tabla.getColumnModel().getColumn(6).setMinWidth(z+30);
+			this.tabla.getColumnModel().getColumn(7).setMaxWidth(z+10);
+			this.tabla.getColumnModel().getColumn(7).setMinWidth(z+10);
 			this.tabla.getColumnModel().getColumn(8).setMaxWidth(z+10);
 			this.tabla.getColumnModel().getColumn(8).setMinWidth(z+10);
 		}

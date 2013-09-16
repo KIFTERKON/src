@@ -254,6 +254,9 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Horarios")){
 						Horarios.setEnabled(false);
 								}
+					if(permisos[i].equals("Mensajes Personales a Empleados")){
+						Mensajes_Personales.setEnabled(true);
+								}
 					if(permisos[i].equals("Permisos a Empleados")){
 						Permisos_Empleados.setEnabled(true);
 								}
@@ -438,6 +441,9 @@ public class Main extends InitButton {
 					}
 					if(permisos[i].equals("Horarios")){
 						Horarios.setEnabled(true);
+								}
+					if(permisos[i].equals("Mensajes Personales a Empleados")){
+						Mensajes_Personales.setEnabled(true);
 								}
 					if(permisos[i].equals("Permisos a Empleados")){
 						Permisos_Empleados.setEnabled(true);
