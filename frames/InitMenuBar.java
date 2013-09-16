@@ -11,13 +11,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 
 import CatalogoChecador.Cat_Checador;
+import CatalogoChecador.Cat_Dias_Inhabiles;
 import CatalogoChecador.Cat_Horario;
+import CatalogoChecador.Cat_Permisos_Checador;
 
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 import reporte.Reporte_General_de_Asistencia_Por_Establecimiento;
 
 import catalogos.Cat_Actividad;
-import catalogos.Cat_Alimentacion_Cortes;
+
 import catalogos.Cat_Alimentacion_Cuadrante;
 import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
@@ -31,6 +33,8 @@ import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
 import catalogos.Cat_Cuadrante;
 import catalogos.Cat_Deduccion_Inasistencia;
+import catalogos.Cat_Denominaciones;
+import catalogos.Cat_Divisa_Y_TipoDeCambio;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Empleados_Cuadrantes;
 import catalogos.Cat_Equipo_Trabajo;
@@ -106,7 +110,7 @@ public class InitMenuBar extends Init{
 	JMenu Cortes = new JMenu("Cortes");
 		JMenu Cortes_Alimentacion = new JMenu("Alimentacion");
 		        JMenuItem Captura_Cortes 			  = new JMenuItem("Captura de Cortes de Cajeras");  
-		JMenu Cortes_Reportes = new JMenu("Reportes");        
+		JMenu Cortes_Reportes = new JMenu("Reportes de Cortes");        
 				
 	/* CUADRANTES */
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
@@ -156,10 +160,12 @@ public class InitMenuBar extends Init{
 	    /* CHECADOR */
 		JMenu Checador = new JMenu("Checador");	
 	       	JMenuItem Checador_Menu = new JMenuItem("Checador");
+	       	JMenuItem Dias_Inhabiles = new JMenuItem("Dias Inhabiles");
 	       	JMenuItem Horarios = new JMenuItem("Horarios");
+	       	JMenuItem Permisos_Empleados = new JMenuItem("Permisos a Empleados");
 	       	JMenu Reportes_Checador = new JMenu("Reportes");
 	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia");           
-	    /* DEPARTAMENTO DE CORTES */
+	    /* LISTA DE RAYA CORTES */
 		JMenu Departamento_Cortes = new JMenu("Departamento de Cortes");
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
 		/* REPORTES */
@@ -374,16 +380,20 @@ public class InitMenuBar extends Init{
 		Lista_Raya.add(Checador);
 	         Checador.add(Checador_Menu);
 			               Checador_Menu.addActionListener(Opciones);
-					       Checador_Menu.setEnabled(false);
+	         Checador.add(Dias_Inhabiles);
+				           Dias_Inhabiles.addActionListener(Opciones);
+				           Dias_Inhabiles.setEnabled(false);
 		     Checador.add(Horarios);
 						Horarios.addActionListener(Opciones);
-						Horarios.setEnabled(false);		
+						Horarios.setEnabled(false);	
+    		 Checador.add(Permisos_Empleados);
+		                Permisos_Empleados.addActionListener(Opciones);
+		                Permisos_Empleados.setEnabled(false);	
 		     Checador.add(Reportes_Checador);
 		         Reportes_Checador.add(Reportes_Checador_Gral);
 		                 Reportes_Checador_Gral.addActionListener(Opciones);
 		                 Reportes_Checador_Gral.setEnabled(false);	
-		/* LISTA DE RAYA 
-		* 		DEPARTAMENTO DE CORTES */
+		/* LISTA DE RAYA CORTES  */
 		Lista_Raya.add(Departamento_Cortes);
 			Departamento_Cortes.add(Departamento_Cortes_Alimentacion);
 				Departamento_Cortes_Alimentacion.addActionListener(Opciones);
@@ -464,13 +474,11 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Configuración de Bono"))
 				new Cat_Bono_Complemento_Sueldo().setVisible(true);
 			if(e.getActionCommand().equals("Configuración de Denominaciones"))
-				System.out.println("Pendiente");
+				new Cat_Denominaciones().setVisible(true);
 			if(e.getActionCommand().equals("Configuración de Divisas y Tipo de Cambio"))
-				System.out.println("Pendiente");
-			
+				new Cat_Divisa_Y_TipoDeCambio().setVisible(true);
 			if(e.getActionCommand().equals("Configuración Mantenimiento Base de Datos"))
 				new Cat_Mantenimimiento_Base_de_Datos().setVisible(true);
-			
 			if(e.getActionCommand().equals("Configuración de Sistema"))
 				new Cat_Configuracion_Sistema().setVisible(true);
 			if(e.getActionCommand().equals("Configuración de Usuarios"))
@@ -488,7 +496,9 @@ public class InitMenuBar extends Init{
 			
 			/* CORTES */
 			if(e.getActionCommand().equals("Captura de Cortes de Cajeras"))
-				new Cat_Filtro_Cortes().setVisible(true);			
+				new Cat_Filtro_Cortes().setVisible(true);	
+			if(e.getActionCommand().equals("Reportes de Cortes"))
+				System.out.println("Pendiente");
 			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
@@ -563,10 +573,17 @@ public class InitMenuBar extends Init{
 			 * 		CHECADOR */
 			if(e.getActionCommand().equals("Checador"))
 				new Cat_Checador().setVisible(true);
+			if(e.getActionCommand().equals("Dias Inhabiles"))
+			    new Cat_Dias_Inhabiles().setVisible(true);
 			if(e.getActionCommand().equals("Horarios"))
 				new Cat_Horario().setVisible(true);
+			if(e.getActionCommand().equals("Permisos a Empleados"))
+				new Cat_Permisos_Checador().setVisible(true);
 			if(e.getActionCommand().equals("Reporte General de Asistencia"))
 				new Reporte_General_de_Asistencia_Por_Establecimiento().setVisible(true);
+			
+			
+		
 			/* LISTA DE RAYA 
 			 * 		DEPARTAMENTO DE CORTES */
 			if(e.getActionCommand().equalsIgnoreCase("Alimentación de Cortes"))

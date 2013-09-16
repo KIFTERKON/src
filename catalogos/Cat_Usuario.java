@@ -160,6 +160,8 @@ public class Cat_Usuario extends JFrame{
 			new Obj_CheckBoxNode(Sub_Checador[0], false),
 			new Obj_CheckBoxNode(Sub_Checador[1], false),
 			new Obj_CheckBoxNode(Sub_Checador[2], false),
+			new Obj_CheckBoxNode(Sub_Checador[3], false),
+			new Obj_CheckBoxNode(Sub_Checador[4], false),
 		
 		};
 	

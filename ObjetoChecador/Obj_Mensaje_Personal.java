@@ -2,8 +2,6 @@ package ObjetoChecador;
 
 import java.sql.SQLException;
 
-import objetos.Obj_Empleados_Cuadrantes;
-
 import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;

@@ -299,7 +299,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		this.setLocationRelativeTo(null);
 	}	
 	
-	   @SuppressWarnings("deprecation")
+
 	   public void preguntas()
 	   {
 	     if(btnDomingo.isSelected()==true) { Descanso=7;}
