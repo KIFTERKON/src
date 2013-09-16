@@ -59,7 +59,6 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 	JButton btnFiltro = new JButton(new ImageIcon("Iconos/filter_iconBlue&16.png"));
 	JButton btnFiltroPuestos = new JButton("Filt Puestos");
 
-//	JComboBox cmbP_Principal = new JComboBox(lista);
 	JTextField txtPuestoPrincipal = new JTextField();
 	
 	String lista[] = new Obj_Puesto().Combo_Puesto();

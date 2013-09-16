@@ -1062,11 +1062,16 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	ActionListener opGuardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(falta_hora_entosal().equals("")){
-				guardar();
+			if(erroralllenartabla().equals("")){
+				if(falta_hora_entosal().equals("")){
+					guardar();
+				}else{
+					JOptionPane.showMessageDialog(null,"En los siguientes tablas no ha asignado sus respectivas horas:\n" + falta_hora_entosal(), "Advertencia!", JOptionPane.WARNING_MESSAGE);
+				}
 			}else{
-				JOptionPane.showMessageDialog(null,"En los siguientes tablas no ha asignado sus respectivas horas:\n" + falta_hora_entosal(), "Advertencia!", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"En los siguientes tablas no ha asignado ningún registro:\n" + erroralllenartabla(), "Advertencia!", JOptionPane.WARNING_MESSAGE);
 			}
+			
 			
 		}
 	};

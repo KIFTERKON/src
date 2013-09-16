@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -418,6 +419,11 @@ Connexion con = new Connexion();
 	}
 	
 	public static void main(String [] arg){
-		new Cat_Puesto().setVisible(true);
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Puesto().setVisible(true);
+		}catch(Exception e){
+			System.err.print("Error: "+e.getMessage());
+		}
 	}
 }
