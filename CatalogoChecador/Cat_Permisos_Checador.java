@@ -1,10 +1,18 @@
 package CatalogoChecador;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,14 +26,23 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Nivel_Jerarquico;
 
 import ObjetoChecador.Obj_Permisos_Checador;
+import SQL.Connexion;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -134,6 +151,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		btnLimpiar.addActionListener(opLimpiar);
 		btnQuitar.addActionListener(opQuitar);
 		btnFiltro.addActionListener(opFiltro);
+		btnFiltroEmpleado.addActionListener(opFiltroEmpleados);	
 		
 //		txtFolio.setEditable(false);
 		
@@ -286,8 +304,13 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	ActionListener opFiltro = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			dispose();
 			new Filtro_Permisos_Checador().setVisible(true);
+		}
+	};
+	
+	ActionListener opFiltroEmpleados = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			new Filtro_Permiso_Empleado().setVisible(true);
 		}
 	};
 	
@@ -324,7 +347,6 @@ public class Cat_Permisos_Checador extends JFrame {
 	};
 	
 	
-	
 	public static void main (String [] arg){
 		try{
 			UIManager.setLookAndFeel(
@@ -344,4 +366,175 @@ public class Cat_Permisos_Checador extends JFrame {
 			   } catch (Exception e) 
 			   { }	
 	}
+	
+
+@SuppressWarnings({ "serial", "unchecked" })
+public class Filtro_Permiso_Empleado extends JFrame{
+	
+	Container cont = getContentPane();
+	JLayeredPane campo = new JLayeredPane();
+	
+	Connexion con = new Connexion();
+	
+	DefaultTableModel model = new DefaultTableModel(0,3){
+		public boolean isCellEditable(int fila, int columna){
+			if(columna < 0)
+				return true;
+			return false;
+		}
+	};
+	
+	JTable tabla = new JTable(model);
+	
+	@SuppressWarnings("rawtypes")
+	private TableRowSorter trsfiltro;
+	
+	JLabel lblBuscar = new JLabel("BUSCAR : ");
+	JTextField txtBuscar = new JTextField();
+	
+	@SuppressWarnings("rawtypes")
+	public Filtro_Permiso_Empleado()	{
+		this.setTitle("Filtro Nivel Jerarquico");
+		txtBuscar.setDocument(new JTextFieldLimit(10));
+		
+		txtBuscar.addKeyListener(new KeyAdapter() { 
+			public void keyReleased(final KeyEvent e) { 
+                filtro(); 
+            } 
+        });
+	
+		trsfiltro = new TableRowSorter(model); 
+		tabla.setRowSorter(trsfiltro);  
+		
+		campo.add(getPanelTabla()).setBounds(10,70,365,450);
+		
+		agregar(tabla);
+		
+		campo.add(lblBuscar).setBounds(30,30,70,20);
+		campo.add(txtBuscar).setBounds(95,30,215,20);
+		
+		cont.add(campo);
+		
+		this.setSize(390,570);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+	}
+	private void agregar(final JTable tbl) {
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+	        public void mouseClicked(MouseEvent e) {
+	        	if(e.getClickCount() == 2){
+	        		int fila = tabla.getSelectedRow();
+	    			String folio =  tabla.getValueAt(fila, 0).toString().trim();
+	    			String nombre =  tabla.getValueAt(fila, 1).toString().trim();
+	    			dispose();
+	    			
+	    			txtFolioEmpleado.setText(folio);
+	    			lblEmpleado.setText(nombre);
+	        	}
+	        }
+        });
+    }
+	
+	public void filtro() { 
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().toUpperCase().trim(), 1));
+	}  
+	private JScrollPane getPanelTabla()	{		
+		new Connexion();
+		
+		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+		tcr.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+		
+		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
+		tabla.getColumnModel().getColumn(0).setMinWidth(70);
+		tabla.getColumnModel().getColumn(1).setHeaderValue("Empleado");
+		tabla.getColumnModel().getColumn(1).setMaxWidth(185);
+		tabla.getColumnModel().getColumn(1).setMinWidth(185);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
+		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
+		tabla.getColumnModel().getColumn(2).setMinWidth(100);
+		
+		TableCellRenderer render = new TableCellRenderer() 
+		{ 
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+			boolean hasFocus, int row, int column) { 
+				JLabel lbl = new JLabel(value == null? "": value.toString());
+		
+				if(row%2==0){
+						lbl.setOpaque(true); 
+						lbl.setBackground(new java.awt.Color(177,177,177));
+				} 
+			return lbl; 
+			} 
+		}; 
+						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(2).setCellRenderer(render); 
+		
+		Statement s;
+		ResultSet rs;
+		try {
+			s = con.conexion().createStatement();
+			rs = s.executeQuery("sp_select_permiso_checador_filtro_empleados" );
+			
+			while (rs.next())
+			{ 
+			   String [] fila = new String[3];
+			   fila[0] = rs.getString(1).trim();
+			   fila[1] = rs.getString(2).trim();
+			   fila[2] = rs.getString(3).trim();
+			   
+			   model.addRow(fila); 
+			}	
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		 JScrollPane scrol = new JScrollPane(tabla);
+		   
+	    return scrol; 
+	}
+	
+	KeyListener validaCantidad = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e){
+			char caracter = e.getKeyChar();				
+			if(((caracter < '0') ||	
+			    	(caracter > '9')) && 
+			    	(caracter != '.' )){
+			    	e.consume();
+			    	}
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {	
+		}
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+		}	
+	};
+	
+	KeyListener validaNumericoConPunto = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.')){
+		    	e.consume();
+		    	}
+		    		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	
+}
 }
