@@ -425,6 +425,8 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 						chSabado.setSelected(cuadrante.getSabado() == 1 ? true : false);
 						chbStatus.setSelected(cuadrante.getStatus() == 1 ? true : false);
 						
+						Orden_de_Actividades();
+						
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -435,6 +437,72 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			}
 		}
 	};
+	
+	public void Orden_de_Actividades(){
+		// REORDENA DOMINGO
+		for(int domingo = 1; domingo<tablaDomingo.getRowCount(); domingo++){
+			if(domingo == 1){
+				tablaDomingo.setValueAt(tablaDomingo.getRowCount()+"  ", domingo,0);
+			}else{
+				tablaDomingo.setValueAt(domingo+"  ", domingo,0);
+			}
+		}
+		
+		// REORDENA LUNES
+		for(int lunes = 1; lunes<tablaLunes.getRowCount(); lunes++){
+			if(lunes == 1){
+				tablaLunes.setValueAt(tablaLunes.getRowCount()+"  ", lunes, 0);
+			}else{
+				tablaLunes.setValueAt(lunes+"  ", lunes,0);
+			}
+		}
+		
+		// REORDENA MARTES
+		for(int martes = 1; martes<tablaMartes.getRowCount(); martes++){
+			if(martes == 1){
+				tablaMartes.setValueAt(tablaMartes.getRowCount()+"  ", martes, 0);
+			}else{
+				tablaMartes.setValueAt(martes+"  ", martes,0);
+			}
+		}
+		
+		// REORDENA MIERCOLES
+		for(int miercoles = 1; miercoles<tablaMiercoles.getRowCount(); miercoles++){
+			if(miercoles == 1){
+				tablaMiercoles.setValueAt(tablaMiercoles.getRowCount()+"  ", miercoles, 0);
+			}else{
+				tablaMiercoles.setValueAt(miercoles+"  ", miercoles,0);
+			}
+		}
+		
+		// REORDENA JUEVES
+		for(int jueves = 1; jueves<tablaJueves.getRowCount(); jueves++){
+			if(jueves == 1){
+				tablaJueves.setValueAt(tablaJueves.getRowCount()+"  ", jueves, 0);
+			}else{
+				tablaJueves.setValueAt(jueves+"  ", jueves,0);
+			}
+		}
+		
+		// REORDENA VIERNES
+		for(int viernes = 1; viernes<tablaViernes.getRowCount(); viernes++){
+			if(viernes == 1){
+				tablaViernes.setValueAt(tablaViernes.getRowCount()+"  ", viernes, 0);
+			}else{
+				tablaViernes.setValueAt(viernes+"  ", viernes,0);
+			}
+		}
+		
+		// REORDENA SABADO
+		for(int sabado = 1; sabado<tablaSabado.getRowCount(); sabado++){
+			if(sabado == 1){
+				tablaSabado.setValueAt(tablaSabado.getRowCount()+"  ", sabado, 0);
+			}else{
+				tablaSabado.setValueAt(sabado+"  ", sabado,0);
+			}
+		}
+		
+	}
 	
 	ActionListener oprigth = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -994,11 +1062,16 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	ActionListener opGuardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
-			if(falta_hora_entosal().equals("")){
-				guardar();
+			if(erroralllenartabla().equals("")){
+				if(falta_hora_entosal().equals("")){
+					guardar();
+				}else{
+					JOptionPane.showMessageDialog(null,"En los siguientes tablas no ha asignado sus respectivas horas:\n" + falta_hora_entosal(), "Advertencia!", JOptionPane.WARNING_MESSAGE);
+				}
 			}else{
-				JOptionPane.showMessageDialog(null,"En los siguientes tablas no ha asignado sus respectivas horas:\n" + falta_hora_entosal(), "Advertencia!", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"En los siguientes tablas no ha asignado ningún registro:\n" + erroralllenartabla(), "Advertencia!", JOptionPane.WARNING_MESSAGE);
 			}
+			
 			
 		}
 	};

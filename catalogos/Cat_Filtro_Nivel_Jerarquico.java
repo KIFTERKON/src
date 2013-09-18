@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,8 +23,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
-
-import objetos.JTextFieldLimit;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
@@ -58,8 +55,6 @@ public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 	@SuppressWarnings("rawtypes")
 	public Cat_Filtro_Nivel_Jerarquico()	{
 		this.setTitle("Filtro Nivel Jerarquico");
-		txtBuscar.setDocument(new JTextFieldLimit(10));
-		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
 			public void keyReleased(final KeyEvent e) { 
                 filtro(); 
@@ -69,7 +64,7 @@ public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(getPanelTabla()).setBounds(10,100,365,450);
+		campo.add(getPanelTabla()).setBounds(10,100,420,450);
 		
 		agregar(tabla);
 		
@@ -78,7 +73,7 @@ public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 		
 		cont.add(campo);
 		
-		this.setSize(390,600);
+		this.setSize(450,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -115,25 +110,37 @@ public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 		tabla.getColumnModel().getColumn(1).setMaxWidth(185);
 		tabla.getColumnModel().getColumn(1).setMinWidth(185);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Nivel Jerarquico");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
-		tabla.getColumnModel().getColumn(2).setMinWidth(100);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(150);
+		tabla.getColumnModel().getColumn(2).setMinWidth(150);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
 				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
+				
 				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(177,177,177));
 				} 
-			return lbl; 
+			
+				if(table.getSelectedRow() == row){
+					lbl.setOpaque(true); 
+					lbl.setBackground(new java.awt.Color(186,143,73));
+				}
+			
+				switch(column){
+					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+					case 2 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+				}
+				return lbl; 
 			} 
-		}; 
-						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-						tabla.getColumnModel().getColumn(2).setCellRenderer(render); 
+		};
+		
+		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+		tabla.getColumnModel().getColumn(2).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;
@@ -148,9 +155,9 @@ public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 			while (rs.next())
 			{ 
 			   String [] fila = new String[3];
-			   fila[0] = rs.getString(1).trim();
-			   fila[1] = rs.getString(2).trim();
-			   fila[2] = rs.getString(3).trim();
+			   fila[0] = rs.getString(1)+"  ";
+			   fila[1] = "   "+rs.getString(2).trim();
+			   fila[2] = "   "+rs.getString(3).trim();
 			   
 			   model.addRow(fila); 
 			}	
@@ -161,43 +168,5 @@ public class Cat_Filtro_Nivel_Jerarquico extends JFrame{
 		   
 	    return scrol; 
 	}
-	
-	KeyListener validaCantidad = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e){
-			char caracter = e.getKeyChar();				
-			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
-			    	}
-		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-		}	
-	};
-	
-	KeyListener validaNumericoConPunto = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-			
-		    if(((caracter < '0') ||	
-		    	(caracter > '9')) && 
-		    	(caracter != '.')){
-		    	e.consume();
-		    	}
-		    		    		       	
-		}
-		@Override
-		public void keyPressed(KeyEvent e){}
-		@Override
-		public void keyReleased(KeyEvent e){}
-								
-	};
-	
 	
 }

@@ -42,7 +42,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Nivel_Jerarquico;
 
 import ObjetoChecador.Obj_Permisos_Checador;
 import SQL.Connexion;
@@ -318,7 +317,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			
 			
-			if(JOptionPane.showConfirmDialog(null, "¿desea eliminar el puesto dependiente seleccionado?","aviso",JOptionPane.YES_NO_OPTION) == 0){
+			if(JOptionPane.showConfirmDialog(null, "¿desea eliminar el registro selecionado?","aviso",JOptionPane.YES_NO_OPTION) == 0){
 				
 				if(new Obj_Permisos_Checador().buscarYborraPermiso(Integer.parseInt(txtFolio.getText()))){
 					JOptionPane.showMessageDialog(null,"Se eliminó exitosamente","Exito", JOptionPane.INFORMATION_MESSAGE);

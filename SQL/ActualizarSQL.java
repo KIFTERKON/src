@@ -1436,6 +1436,7 @@ public class ActualizarSQL {
 			pstmt.setInt(13, cuadrante.getSabado());
 			pstmt.setInt(14, cuadrante.getStatus());
 			pstmt.setInt(15, cuadrante.getFolio());
+			
 			pstmt.executeUpdate();
 			
 			pstmtDelete.setInt(1, cuadrante.getFolio());
@@ -1458,7 +1459,7 @@ public class ActualizarSQL {
 			System.out.println("SQLException: "+e.getMessage());
 			if(con != null){
 				try{
-					System.out.println("La transacción ha sido abortada");
+					System.out.println("La transacción ha sido abortada Actualizar - Cuadrante");
 					con.rollback();
 				}catch(SQLException ex){
 					System.out.println(ex.getMessage());

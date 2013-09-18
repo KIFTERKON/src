@@ -88,7 +88,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		JLayeredPane pSabado = new JLayeredPane(); 
 	
 	DefaultTableModel modelDomingo = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -135,7 +135,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelLunes = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -182,7 +182,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelMartes = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -229,7 +229,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelMiercoles = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -276,7 +276,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelJueves = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -323,7 +323,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelViernes = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -370,7 +370,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 	};
 	
 	DefaultTableModel modelSabado = new DefaultTableModel(null,
-            new String[]{"Folio", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
+            new String[]{"Orden", "Actividad","Nivel Crítico","","Hora Inicio","Hora Final"}
 			){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
@@ -1579,10 +1579,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 								modelDomingo.setValueAt(primero,tablaDomingo.getSelectedRow()+1,1);
 								modelDomingo.setValueAt(segundo,tablaDomingo.getSelectedRow(),1);	
 								tablaDomingo.setRowSelectionInterval(tablaDomingo.getSelectedRow()+1,tablaDomingo.getSelectedRow()+1);
-							
+								
 							}else{
 								JOptionPane.showMessageDialog(null,"No máss filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
+							}
+						}
+						for(int domingo = 1; domingo<tablaDomingo.getRowCount(); domingo++){
+							if(domingo == 1){
+								tablaDomingo.setValueAt(tablaDomingo.getRowCount()+"  ", domingo,0);
+							}else{
+								tablaDomingo.setValueAt(domingo+"  ", domingo,0);
 							}
 						}
 					}
@@ -1635,6 +1642,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 								return;
 							}
 						}
+						for(int lunes = 1; lunes<tablaLunes.getRowCount(); lunes++){
+							if(lunes == 1){
+								tablaLunes.setValueAt(tablaLunes.getRowCount()+"  ", lunes, 0);
+							}else{
+								tablaLunes.setValueAt(lunes+"  ", lunes,0);
+							}
+						}
 					}
 		
 				}else{
@@ -1683,6 +1697,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 							}else{
 								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
+							}
+						}
+						for(int martes = 1; martes<tablaMartes.getRowCount(); martes++){
+							if(martes == 1){
+								tablaMartes.setValueAt(tablaMartes.getRowCount()+"  ", martes, 0);
+							}else{
+								tablaMartes.setValueAt(martes+"  ", martes,0);
 							}
 						}
 					}
@@ -1735,6 +1756,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 								return;
 							}
 						}
+						for(int miercoles = 1; miercoles<tablaMiercoles.getRowCount(); miercoles++){
+							if(miercoles == 1){
+								tablaMiercoles.setValueAt(tablaMiercoles.getRowCount()+"  ", miercoles, 0);
+							}else{
+								tablaMiercoles.setValueAt(miercoles+"  ", miercoles,0);
+							}
+						}
 					}
 			
 				}else{
@@ -1783,6 +1811,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 							}else{
 								JOptionPane.showMessageDialog(null,"No más filas hacia abajo!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
+							}
+						}
+						for(int jueves = 1; jueves<tablaJueves.getRowCount(); jueves++){
+							if(jueves == 1){
+								tablaJueves.setValueAt(tablaJueves.getRowCount()+"  ", jueves, 0);
+							}else{
+								tablaJueves.setValueAt(jueves+"  ", jueves,0);
 							}
 						}
 					}
@@ -1834,6 +1869,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 								return;
 							}
 						}
+						for(int viernes = 1; viernes<tablaViernes.getRowCount(); viernes++){
+							if(viernes == 1){
+								tablaViernes.setValueAt(tablaViernes.getRowCount()+"  ", viernes, 0);
+							}else{
+								tablaViernes.setValueAt(viernes+"  ", viernes,0);
+							}
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1883,6 +1925,13 @@ public class Cat_Cuadrante_Base extends JFrame{
 								return;
 							}
 						}
+						for(int sabado = 1; sabado<tablaSabado.getRowCount(); sabado++){
+							if(sabado == 1){
+								tablaSabado.setValueAt(tablaSabado.getRowCount()+"  ", sabado, 0);
+							}else{
+								tablaSabado.setValueAt(sabado+"  ", sabado,0);
+							}
+						}
 					}
 				}else{
 					JOptionPane.showMessageDialog(null,"No esta seleccionada ninguna fila!","Aviso",JOptionPane.INFORMATION_MESSAGE);
@@ -1905,8 +1954,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelDomingo.removeRow(tablaDomingo.getSelectedRow());
-						for(int i=0; i<tablaSabado.getRowCount(); i ++){
-							modelDomingo.setValueAt((i+1)+"  ",i,0);
+						for(int domingo = 1; domingo<tablaDomingo.getRowCount(); domingo++){
+							if(domingo == 1){
+								tablaDomingo.setValueAt(tablaDomingo.getRowCount()+"  ", domingo,0);
+							}else{
+								tablaDomingo.setValueAt(domingo+"  ", domingo,0);
+							}
 						}
 					}
 				}else{
@@ -1929,8 +1982,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelLunes.removeRow(tablaLunes.getSelectedRow());
-						for(int i=0; i<tablaLunes.getRowCount(); i ++){
-							modelLunes.setValueAt((i+1)+"  ",i,0);
+						for(int lunes = 1; lunes<tablaLunes.getRowCount(); lunes++){
+							if(lunes == 1){
+								tablaLunes.setValueAt(tablaLunes.getRowCount()+"  ", lunes, 0);
+							}else{
+								tablaLunes.setValueAt(lunes+"  ", lunes,0);
+							}
 						}
 					}
 				}else{
@@ -1953,8 +2010,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelMartes.removeRow(tablaMartes.getSelectedRow());
-						for(int i=0; i<tablaMartes.getRowCount(); i ++){
-							modelMartes.setValueAt((i+1)+"  ",i,0);
+						for(int martes = 1; martes<tablaMartes.getRowCount(); martes++){
+							if(martes == 1){
+								tablaMartes.setValueAt(tablaMartes.getRowCount()+"  ", martes, 0);
+							}else{
+								tablaMartes.setValueAt(martes+"  ", martes,0);
+							}
 						}
 					}
 				}else{
@@ -1977,8 +2038,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelMiercoles.removeRow(tablaMiercoles.getSelectedRow());
-						for(int i=0; i<tablaMiercoles.getRowCount(); i ++){
-							modelMiercoles.setValueAt((i+1)+"  ",i,0);
+						for(int miercoles = 1; miercoles<tablaMiercoles.getRowCount(); miercoles++){
+							if(miercoles == 1){
+								tablaMiercoles.setValueAt(tablaMiercoles.getRowCount()+"  ", miercoles, 0);
+							}else{
+								tablaMiercoles.setValueAt(miercoles+"  ", miercoles,0);
+							}
 						}
 					}
 				}else{
@@ -2001,8 +2066,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelJueves.removeRow(tablaJueves.getSelectedRow());
-						for(int i=0; i<tablaJueves.getRowCount(); i ++){
-							modelJueves.setValueAt((i+1)+"  ",i,0);
+						for(int jueves = 1; jueves<tablaJueves.getRowCount(); jueves++){
+							if(jueves == 1){
+								tablaJueves.setValueAt(tablaJueves.getRowCount()+"  ", jueves, 0);
+							}else{
+								tablaJueves.setValueAt(jueves+"  ", jueves,0);
+							}
 						}
 					}
 				}else{
@@ -2025,8 +2094,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelViernes.removeRow(tablaViernes.getSelectedRow());
-						for(int i=0; i<tablaViernes.getRowCount(); i ++){
-							modelViernes.setValueAt((i+1)+"  ",i,0);
+						for(int viernes = 1; viernes<tablaViernes.getRowCount(); viernes++){
+							if(viernes == 1){
+								tablaViernes.setValueAt(tablaViernes.getRowCount()+"  ", viernes, 0);
+							}else{
+								tablaViernes.setValueAt(viernes+"  ", viernes,0);
+							}
 						}					
 					}
 				}else{
@@ -2049,8 +2122,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 						return;
 					}else{
 						modelSabado.removeRow(tablaSabado.getSelectedRow());
-						for(int i=0; i<tablaSabado.getRowCount(); i ++){
-							modelSabado.setValueAt((i+1)+"  ",i,0);
+						for(int sabado = 1; sabado<tablaSabado.getRowCount(); sabado++){
+							if(sabado == 1){
+								tablaSabado.setValueAt(tablaSabado.getRowCount()+"  ", sabado, 0);
+							}else{
+								tablaSabado.setValueAt(sabado+"  ", sabado,0);
+							}
 						}					
 					}
 				}else{
@@ -4270,9 +4347,76 @@ public class Cat_Cuadrante_Base extends JFrame{
 				 		dispose();
 		            	 break;
 				}
+				Orden_de_Actividades();
 			}
 		};
+		
+		public void Orden_de_Actividades(){
+			// REORDENA DOMINGO
+			for(int domingo = 1; domingo<tablaDomingo.getRowCount(); domingo++){
+				if(domingo == 1){
+					tablaDomingo.setValueAt(tablaDomingo.getRowCount()+"  ", domingo,0);
+				}else{
+					tablaDomingo.setValueAt(domingo+"  ", domingo,0);
+				}
+			}
 			
+			// REORDENA LUNES
+			for(int lunes = 1; lunes<tablaLunes.getRowCount(); lunes++){
+				if(lunes == 1){
+					tablaLunes.setValueAt(tablaLunes.getRowCount()+"  ", lunes, 0);
+				}else{
+					tablaLunes.setValueAt(lunes+"  ", lunes,0);
+				}
+			}
+			
+			// REORDENA MARTES
+			for(int martes = 1; martes<tablaMartes.getRowCount(); martes++){
+				if(martes == 1){
+					tablaMartes.setValueAt(tablaMartes.getRowCount()+"  ", martes, 0);
+				}else{
+					tablaMartes.setValueAt(martes+"  ", martes,0);
+				}
+			}
+			
+			// REORDENA MIERCOLES
+			for(int miercoles = 1; miercoles<tablaMiercoles.getRowCount(); miercoles++){
+				if(miercoles == 1){
+					tablaMiercoles.setValueAt(tablaMiercoles.getRowCount()+"  ", miercoles, 0);
+				}else{
+					tablaMiercoles.setValueAt(miercoles+"  ", miercoles,0);
+				}
+			}
+			
+			// REORDENA JUEVES
+			for(int jueves = 1; jueves<tablaJueves.getRowCount(); jueves++){
+				if(jueves == 1){
+					tablaJueves.setValueAt(tablaJueves.getRowCount()+"  ", jueves, 0);
+				}else{
+					tablaJueves.setValueAt(jueves+"  ", jueves,0);
+				}
+			}
+			
+			// REORDENA VIERNES
+			for(int viernes = 1; viernes<tablaViernes.getRowCount(); viernes++){
+				if(viernes == 1){
+					tablaViernes.setValueAt(tablaViernes.getRowCount()+"  ", viernes, 0);
+				}else{
+					tablaViernes.setValueAt(viernes+"  ", viernes,0);
+				}
+			}
+			
+			// REORDENA SABADO
+			for(int sabado = 1; sabado<tablaSabado.getRowCount(); sabado++){
+				if(sabado == 1){
+					tablaSabado.setValueAt(tablaSabado.getRowCount()+"  ", sabado, 0);
+				}else{
+					tablaSabado.setValueAt(sabado+"  ", sabado,0);
+				}
+			}
+			
+		}
+		
 		KeyListener opFiltroFolio = new KeyListener(){
 			@SuppressWarnings("unchecked")
 			public void keyReleased(KeyEvent arg0) {

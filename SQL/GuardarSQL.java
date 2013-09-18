@@ -474,7 +474,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Cuadrante_Tabla(Obj_Cuadrante cuadrante, String[][] tabla){
-		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?,?";
 				
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmtTabla = null;
@@ -486,11 +486,12 @@ public class GuardarSQL {
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
-				pstmtTabla.setString(3, tabla[i][2].toString().trim());
-				pstmtTabla.setInt(4, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
-				pstmtTabla.setString(5, tabla[i][4]);
-				pstmtTabla.setString(6, tabla[i][5]);
-				pstmtTabla.setString(7, tabla[i][6]);
+				pstmtTabla.setString(3, tabla[i][1].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][2].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				pstmtTabla.setString(6, tabla[i][4]);
+				pstmtTabla.setString(7, tabla[i][5]);
+				pstmtTabla.setString(8, tabla[i][6]);
 				
 				pstmtTabla.executeUpdate();
 			}
@@ -500,7 +501,7 @@ public class GuardarSQL {
 			System.out.println("SQLException: "+e.getMessage());
 			if(con != null){
 				try{
-					System.out.println("La transacción ha sido abortada");
+					System.out.println("La transacción ha sido abortada Guardar_Cuadrante_Tabla");
 					con.rollback();
 				}catch(SQLException ex){
 					System.out.println(ex.getMessage());

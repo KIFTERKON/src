@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.SQLException;
 
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -152,9 +153,8 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Importar Voucher"))
 						Importar_Voucher.setEnabled(true);
 					/*CORTES*/
-					
-					
-					
+					if(permisos[i].equals("Captura de Cortes de Cajeras"))
+						Captura_Cortes .setEnabled(true);
 					
 					/* CUADRANTES 
 					*		ALIMENTACION */
@@ -248,8 +248,17 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Checador")){
 						Checador_Menu.setEnabled(true);
 					   }
+					if(permisos[i].equals("Dias Inhabiles")){
+						Dias_Inhabiles.setEnabled(false);
+								}
 					if(permisos[i].equals("Horarios")){
 						Horarios.setEnabled(false);
+								}
+					if(permisos[i].equals("Mensajes Personales a Empleados")){
+						Mensajes_Personales.setEnabled(true);
+								}
+					if(permisos[i].equals("Permisos a Empleados")){
+						Permisos_Empleados.setEnabled(true);
 								}
 					if(permisos[i].equals("Reporte General de Asistencia")){
 						Reportes_Checador_Gral.setEnabled(true);
@@ -329,7 +338,11 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Importar Conciliación AuxF"))
 						Importar_Consiliacion.setEnabled(true);
 					if(permisos[i].equals("Importar Voucher"))
-						Importar_Voucher.setEnabled(true);			
+						Importar_Voucher.setEnabled(true);
+					
+					/*CORTES*/
+					if(permisos[i].equals("Captura de Cortes de Cajeras"))
+						Captura_Cortes .setEnabled(true);
 					
 					/* CUADRANTES 
 					*		ALIMENTACION */
@@ -423,9 +436,21 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Checador")){
 						Checador_Menu.setEnabled(true);
 					   }
+					if(permisos[i].equals("Dias Inhabiles")){
+						Dias_Inhabiles.setEnabled(true);
+					}
 					if(permisos[i].equals("Horarios")){
 						Horarios.setEnabled(true);
 								}
+					if(permisos[i].equals("Mensajes Personales a Empleados")){
+						Mensajes_Personales.setEnabled(true);
+								}
+					if(permisos[i].equals("Permisos a Empleados")){
+						Permisos_Empleados.setEnabled(true);
+					            }
+					if(permisos[i].equals("Reporte General de Asistencia")){
+						Reportes_Checador_Gral.setEnabled(true);
+				              	}  
 					if(permisos[i].equals("Reporte General de Asistencia")){
 						Reportes_Checador_Gral.setEnabled(true);
 								}
