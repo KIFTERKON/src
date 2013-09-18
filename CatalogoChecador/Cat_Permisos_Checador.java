@@ -9,6 +9,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -57,8 +60,8 @@ public class Cat_Permisos_Checador extends JFrame {
 	JLabel lblFecha = new JLabel("Fecha de Permis");
 	JLabel lblMotivo = new JLabel("Motivo:");
 	
-	JLabel lblUsuario = new JLabel("ASIGNAR EL NOMBRE COMPLETO DEL USUARIO DEL SISTEMA");
-	JLabel lblEmpleado = new JLabel("ASIGNAR EL NOMBRE COMPLETO DEL EMPLEADO AL BUSCAR EN TB_PERMISOS O AL BUSCA EN FILTRO AQUI");
+	JLabel lblUsuario = new JLabel("Usuario: ");
+	JLabel lblEmpleado = new JLabel("Empleado: ");
 	
 	JTextField txtFolio =new JTextField();
 	JTextField txtFolioEmpleado = new JTextField();
@@ -80,13 +83,14 @@ public class Cat_Permisos_Checador extends JFrame {
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnFiltro = new JButton(new ImageIcon("Iconos/filter_iconBlue&16.png"));
 	JButton btnFiltroEmpleado = new JButton(new ImageIcon("Iconos/users_icon&16.png"));
-	JButton btnNuevo = new JButton(new ImageIcon("Iconos/generar_icon&16.png"));
+	JButton btnNuevo = new JButton("Nuevo");//new ImageIcon("Iconos/generar_icon&16.png")
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnQuitar = new JButton("Quitar");
 	JButton btnSalir = new JButton("Salir");
 	
 	int permiso=0;
+	int folio_usuario=0;
 	
 	public void getConstructor(){
 
@@ -129,7 +133,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		
 		panel.add(txaMotivo).setBounds(10,y+=30,500,130);
 		
-		panel.add(btnNuevo).setBounds(110,y+=150,20,20);
+		panel.add(btnNuevo).setBounds(70,y+=150,80,20);
 		panel.add(btnGuardar).setBounds(160,y,80,20);
 		panel.add(btnQuitar).setBounds(250,y,80,20);
 		panel.add(btnLimpiar).setBounds(340,y,80,20);
@@ -153,6 +157,10 @@ public class Cat_Permisos_Checador extends JFrame {
 		btnFiltro.addActionListener(opFiltro);
 		btnFiltroEmpleado.addActionListener(opFiltroEmpleados);	
 		
+		txtFolio.addKeyListener(buscaAction);
+		
+		txtFolioEmpleado.setEditable(false);
+		CargarCajero();
 //		txtFolio.setEditable(false);
 		
 		cont.add(panel);
@@ -170,6 +178,21 @@ public class Cat_Permisos_Checador extends JFrame {
 		 txtFolio.setText(folio);
 		 btnBuscar.doClick();
 	}
+	
+	KeyListener buscaAction = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e){
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {	
+		}
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				btnBuscar.doClick();
+			}
+		}
+	};
 	
 	public String ValidaCampos(){
 		String error ="";
@@ -206,6 +229,7 @@ public class Cat_Permisos_Checador extends JFrame {
 							 
 							Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
 							Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
+							Permiso.setFolio_usuario(folio_usuario);
 							Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
 							
 							Permiso.setTipo_de_permiso(permiso);
@@ -225,6 +249,7 @@ public class Cat_Permisos_Checador extends JFrame {
 						
 						Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
 						Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
+						Permiso.setFolio_usuario(folio_usuario);
 						Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
 						
 						Permiso.setTipo_de_permiso(permiso);
@@ -282,6 +307,8 @@ public class Cat_Permisos_Checador extends JFrame {
 					txaMotivo.setEditable(false);
 					
 					chb_status.setSelected(permisoEmp.isStatus());
+					
+					lblEmpleado.setText("Empleado: "+permisoEmp.getNombre_empleado());
 				}
 			}
 		}
@@ -346,6 +373,34 @@ public class Cat_Permisos_Checador extends JFrame {
 		}
 	};
 	
+	public void CargarCajero()
+	{
+		  File archivo = null;
+ 	      FileReader fr = null;
+ 	      BufferedReader br = null;
+		 try {
+ 	         archivo = new File ("Config/users");
+ 	         fr = new FileReader (archivo);
+ 	         br = new BufferedReader(fr);
+ 	         String linea;
+ 	         
+ 	        folio_usuario=Integer.parseInt(br.readLine());
+ 	         while((linea=br.readLine())!=null){
+ 	        	lblUsuario.setText("Usuario: "+linea);
+ 	         }
+ 	      }
+ 	      catch(Exception e){
+ 	         e.printStackTrace();
+ 	      }finally{
+ 	         try{                   
+ 	            if( null != fr ){  
+ 	               fr.close();    
+ 	            }                 
+ 	         }catch (Exception e2){
+ 	            e2.printStackTrace();
+ 	         }
+ 	      }
+	}
 	
 	public static void main (String [] arg){
 		try{

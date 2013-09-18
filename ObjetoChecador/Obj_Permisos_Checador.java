@@ -9,6 +9,7 @@ import SQL.GuardarSQL;
 public class Obj_Permisos_Checador {
 	int folio;
 	int folio_empleado;
+	String nombre_empleado;
 	int folio_usuario;
 	String fecha;
 	int tipo_de_permiso;
@@ -17,8 +18,8 @@ public class Obj_Permisos_Checador {
 	
 	public Obj_Permisos_Checador(){
 		
-		this.folio=0;	this.folio_empleado=0;	this.folio_usuario=0;	
-		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";		this.status=false;			
+		this.folio=0;	this.folio_empleado=0;	this.nombre_empleado="";	this.folio_usuario=0;	
+		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";				this.status=false;			
 		
 	}
 	
@@ -36,6 +37,14 @@ public class Obj_Permisos_Checador {
 
 	public void setFolio_empleado(int folio_empleado) {
 		this.folio_empleado = folio_empleado;
+	}
+
+	public String getNombre_empleado() {
+		return nombre_empleado;
+	}
+
+	public void setNombre_empleado(String nombre_empleado) {
+		this.nombre_empleado = nombre_empleado;
 	}
 
 	public int getFolio_usuario() {

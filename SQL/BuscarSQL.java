@@ -2719,6 +2719,7 @@ public class BuscarSQL {
 				
 				permisoChecador.setFolio(rs.getInt("folio"));
 				permisoChecador.setFolio_empleado(rs.getInt("folio_empleado"));
+				permisoChecador.setNombre_empleado(rs.getString("nombre_empleado"));
 				permisoChecador.setFolio_usuario(rs.getInt("folio_usuario"));
 				permisoChecador.setFecha(rs.getString("fecha_permiso"));
 				
