@@ -13,7 +13,13 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[select tb_checador.folio_empleado
+		<![CDATA[declare 
+ @fecha_inicial smalldatetime
+,@fecha_final smalldatetime
+set @fecha_inicial='13/09/2013 05:59:00'
+set @fecha_final='19/09/2013 23:59:59'
+
+select tb_checador.folio_empleado
        ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
        ,tb_establecimiento.nombre as establecimiento
        ,tb_checador.fecha_mov as fecha
@@ -33,8 +39,9 @@ from tb_checador
   left outer join tb_acumulado_inpuntualidad on tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado and (CONVERT([varchar](5),tb_acumulado_inpuntualidad.fecha_mov,(108)))= (CONVERT([varchar](5),tb_checador.fecha_mov,(108)))
   inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado 
   inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
---where tb_checador.fecha_mov between @fecha_inicial and @fecha_final
-order by tb_checador.fecha_mov]]>
+where tb_checador.fecha_mov between @fecha_inicial and @fecha_final
+GROUP BY tb_establecimiento.nombre,tb_checador.fecha_mov,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,tb_checador.folio_empleado,tb_checador.entosal,tb_checador.pc_nombre,tb_checador.pc_ip,tb_checador.tipo_entrada,tb_checador.status,tb_checador.status_semana,tb_checador.comida_receso,tb_acumulado_inpuntualidad.dif_minutos,tb_acumulado_inpuntualidad.minutos_a_favor,tb_acumulado_inpuntualidad.status_semana 
+ORDER BY tb_checador.fecha_mov]]>
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
 	<field name="nombre" class="java.lang.String"/>
