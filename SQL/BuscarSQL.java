@@ -2680,7 +2680,7 @@ public class BuscarSQL {
 	
 	public Obj_Mensaje_Personal buscar_mensaje(int folio) throws SQLException{
 		Obj_Mensaje_Personal MsjPersonal = new Obj_Mensaje_Personal();
-		String query = "select * from tb_mensaje_personal where folio_mensaje ="+ folio;
+		String query = "exec sp_select_mensaje "+ folio;
 		
 		Statement stmt = null;
 		try {

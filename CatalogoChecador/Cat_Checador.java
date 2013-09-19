@@ -45,6 +45,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import net.sf.jasperreports.engine.ReturnValue;
+
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Traer_Checador;
 
@@ -294,63 +296,6 @@ public class Cat_Checador extends JFrame {
 			panel.add(fondo).setBounds(0,-20,1660,900);
 		}
 		
-		if(anchoMon <= 1380){
-//			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,115));
-//			
-//			panel.add(lblFolio).setBounds(10,y-10,ancho+30,20);
-//			panel.add(txtFolio).setBounds(ancho+55,y-10,ancho-20,20);
-//			
-//			panel.add(lblClave).setBounds(10,y+=20,ancho,20);
-//			panel.add(txtClaveReal).setBounds(ancho-35,y,ancho+70,20);
-//			
-//			panel.add(trae_hora.lblHora).setBounds(247,35, 550, 120);
-//			panel.add(lblNota).setBounds(60,y+=125, 900, 30);
-//			panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
-//			
-//			panel.add(lblFecha).setBounds(835+33,165, 300, 40);
-//			panel.add(lblLogo).setBounds((anchoMon/2)-55,24, 147, 147);
-//			panel.add(lblCerrar).setBounds(anchoMon-100,34, 127, 127);
-//			panel.add(btnFoto).setBounds(anchoMon-540,34, 127, 127);
-//			
-//			panel.add(lblNombre).setBounds(960,40,320,20);
-//			panel.add(lblEstablecimiento).setBounds(960,70,280,20);
-//			panel.add(lblPuesto).setBounds(960,105,280,20);
-//			panel.add(lblHorario).setBounds(960,140,280,20);
-//			
-//			panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-330);
-//			panel.add(fondo).setBounds(0,-80,1660,900);
-//			
-		}else{
-			
-//			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,130));
-//			
-//					panel.add(lblFolio).setBounds(x+10,y,ancho+50,20);
-//					panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
-//					
-//					panel.add(lblClave).setBounds(x+10,y+=40,ancho,20);
-//					panel.add(txtClaveReal).setBounds(ancho-20+20,y,ancho+70,20);
-//					
-//					panel.add(trae_hora.lblHora).setBounds(300,45, 550, 120);
-//					panel.add(lblNota).setBounds(130,y+=145, 900, 30);
-//					panel.add(lblNota2).setBounds(190,y+=30, 900, 30);
-//					
-//					panel.add(lblFecha).setBounds(835+33+242,190, 300, 40);
-//					panel.add(lblLogo).setBounds(935+33-237,34, 147, 147);
-//					panel.add(lblCerrar).setBounds(935+33+522,34, 147, 147);
-//					panel.add(btnFoto).setBounds(935+33,35, 147, 147);
-//					
-//					panel.add(lblNombre).setBounds(1130,40,320,20);
-//					panel.add(lblEstablecimiento).setBounds(1130,80,320,20);
-//					panel.add(lblPuesto).setBounds(1130,120,320,20);
-//					panel.add(lblHorario).setBounds(1130,160,320,20);
-//					
-//					panel.add(btnExaminar).setBounds(1000,200,80,20);
-//					panel.add(btnMensaje).setBounds(960,247,608,608);
-//					
-//					panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
-//					panel.add(fondo).setBounds(0,-20,1660,900);
-		}
-		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtClaveReal.setDocument(new JTextFieldLimit(30));
 
@@ -366,8 +311,6 @@ public class Cat_Checador extends JFrame {
 			iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(127, 127, Image.SCALE_DEFAULT));
 		}
 		lblLogo.setIcon(iconoLogo);	
-		
-		
 		
 		String fileCerrar = System.getProperty("user.dir")+"/Imagen/cerrar.png";
 		ImageIcon tmpIconCerrar = new ImageIcon(fileCerrar);
@@ -407,14 +350,12 @@ public class Cat_Checador extends JFrame {
 		     }
 		});
 		
-		lblCerrar.addMouseListener ( new  MouseAdapter ()  
-			{  
-				public void mouseReleased (MouseEvent e)  
-				{  
-		    		dispose();
-		    	}  
-			});  
-		}
+		lblCerrar.addMouseListener ( new  MouseAdapter (){
+			public void mouseReleased (MouseEvent e){
+					dispose();
+			}  
+		});  
+	}
 	
 	@SuppressWarnings("rawtypes")
 	public static Object[] fila(int folio,String t_entrada){
@@ -423,17 +364,14 @@ public class Cat_Checador extends JFrame {
 		Object [] vector = new Object[10];
 		
 		if(new Obj_Empleado().insertar(folio,t_entrada)){
-         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio);
-         for(int i=0 ; i<fila_sql.size(); i++ ){
-        	 vector[i]= "   "+ fila_sql.get(i);
-        	 
-         }
-			
-			
+	         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio);
+	         
+		         for(int i=0 ; i<fila_sql.size(); i++ ){
+		        	 vector[i]= "   "+ fila_sql.get(i);
+		         }
 		}else{
 			JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
 		}
-			
 		return vector;
 	}
 	
@@ -455,49 +393,51 @@ public class Cat_Checador extends JFrame {
 				
 			if(e.getKeyCode()==KeyEvent.VK_ENTER){
 				
-				txtFolio.setEditable(false);
-				txtClaveReal.setEditable(true);
-				txtClaveReal.requestFocus();
-				
-				if(txtFolio.getText().equals("")){
+					txtFolio.setEditable(false);
+					txtClaveReal.setEditable(true);
+					txtClaveReal.requestFocus();
 					
-					JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
-					txtFolio.setEditable(true);
-					txtFolio.setText("");
-					txtFolio.requestFocus();
-					txtClaveReal.setText("");
-					txtClaveReal.setEditable(false);
-				}else{
-						Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+					if(txtFolio.getText().equals("")){
 						
-						if(re.getFolio() != 0){	
-								
-							txtFolio.setText(re.getFolio()+"");
-							numero_de_checador = re.getNo_checador();
-							
-							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-							Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-							btnFoto.setIcon(icono);	
-							
-							lblNombre.setText("Empleado: ");
-							lblEstablecimiento.setText("Establecimiento: ");
-							lblPuesto.setText("Puesto: ");
-							lblHorario.setText("Horario: ");
-						    
-							txtFolio.setEditable(false);
-							txtClaveReal.setEditable(true);
-							txtClaveReal.requestFocus();
-							
-						}
-						else{
-							JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 							txtFolio.setEditable(true);
-							txtFolio.requestFocus();
+							txtFolio.setText("");
+							txtClaveReal.setText("");
 							txtClaveReal.setEditable(false);
-							panelLimpiar();
+							txtFolio.requestFocus();
+							JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 							return;
-						}
-				}
+						
+					}else{
+							Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+							
+							if(re.getFolio() != 0){	
+									
+								txtFolio.setText(re.getFolio()+"");
+								numero_de_checador = re.getNo_checador();
+								
+								ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+								Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+								btnFoto.setIcon(icono);	
+								
+								lblNombre.setText("Empleado: ");
+								lblEstablecimiento.setText("Establecimiento: ");
+								lblPuesto.setText("Puesto: ");
+								lblHorario.setText("Horario: ");
+							    
+								txtFolio.setEditable(false);
+								txtClaveReal.setEditable(true);
+								txtClaveReal.requestFocus();
+								
+							}
+							else{
+								JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+								txtFolio.setEditable(true);
+								txtFolio.requestFocus();
+								txtClaveReal.setEditable(false);
+								panelLimpiar();
+								return;
+							}
+					}
 				
 			}
 		}
@@ -572,31 +512,26 @@ public class Cat_Checador extends JFrame {
 									txtClaveReal.setEditable(false);
 									break;
 									};
-									
 							}			
 					}		
 			}
-		
 		@Override
-		public void keyReleased(KeyEvent e){
-			
-		}
-								
+		public void keyReleased(KeyEvent e){}
 	};
 	
 	@SuppressWarnings("deprecation")
 	public void registrarEntrada(){
-		
+//----------------------------------------------------------------------------------------------------------------------	
 //meter split para que extraiga el puro numero
-//		declarar variable que cachara el valor real de la clave
-	       String CadenaDeClave = "";
-//	       recorer la cadena de la clave para eliminar los espacion
-	       for (int x=0; x < txtClaveReal.getText().length(); x++) {
-//	     	condicion(si el caracter en la posicion ubicada es diferente de vacio entra y asigna asta)
-	     	  if (txtClaveReal.getText().charAt(x) != ' ')
-//	       		toma el valor de CadenaDeClave y le asigna el siguiente caracter
-	      	    CadenaDeClave += txtClaveReal.getText().charAt(x);
-		  }
+//			declarar variable que cachara el valor real de la clave
+			String CadenaDeClave = "";
+			for (int x=0; x < txtClaveReal.getText().length(); x++) {
+//	     	condicion(si el caracter en la posicion ubicada es diferente de vacio entra y asigna)
+//		    toma el valor de CadenaDeClave y le asigna el siguiente caracter
+				if (txtClaveReal.getText().charAt(x) != ' ')
+					CadenaDeClave += txtClaveReal.getText().charAt(x);
+			}
+//----------------------------------------------------------------------------------------------------------------------	
         
 		if(Integer.parseInt(CadenaDeClave) == numero_de_checador){
 			 if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){ 	
@@ -612,7 +547,6 @@ public class Cat_Checador extends JFrame {
 							}else{
 									  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
 										      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
-										      
 									   }else{
 							     															
 											Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
@@ -634,9 +568,9 @@ public class Cat_Checador extends JFrame {
 											
 											txtFolio.setEditable(true);
 											txtFolio.setText("");
-											txtFolio.requestFocus();
 											txtClaveReal.setText("");
 											txtClaveReal.setEditable(false);
+											txtFolio.requestFocus();
 									
 													if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
 															lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
@@ -655,8 +589,6 @@ public class Cat_Checador extends JFrame {
 											Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
 											lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
 											
-											
-											
 											txtFolio.setEditable(false);
 											txtClaveReal.setEditable(true);
 											txtClaveReal.requestFocus();
@@ -664,7 +596,9 @@ public class Cat_Checador extends JFrame {
 									     }else{
 										     	JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
 											    txtFolio.setEditable(true);
+											    txtClaveReal.setEditable(false);
 										    	panelLimpiar();
+										    	txtFolio.requestFocus();
 											    return;
 										}
 							}
@@ -677,7 +611,6 @@ public class Cat_Checador extends JFrame {
 				txtFolio.setText("");
 				txtClaveReal.setText("");
 				txtFolio.requestFocus();
-			
 		}else{
 			
 			Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
@@ -687,61 +620,61 @@ public class Cat_Checador extends JFrame {
 					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 					btnFoto.setIcon(icono);	
+					
 					  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
-					      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
+						  	new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
+					   }else{
+							Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
+							
+							tabla_model.addRow(registro);
+							String tipo=registro[2].toString();
+							String hora=registro[3].toString();
+							
+							String Fecha=registro[9].toString();
+							lblFecha.setText(Fecha);
+							
+							txtFolio.setEditable(true);
+							txtFolio.setText("");
+							txtFolio.requestFocus();
+							txtClaveReal.setText("");
+							txtClaveReal.setEditable(false);
+							
+								if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+									lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+									lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+		
+								}else{
+									lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+									lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+								}
+							
+							lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+							
+							Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+							lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
+		
+							Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+							lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+							
+							txtFolio.setEditable(false);
+							txtClaveReal.setEditable(true);
+							txtClaveReal.requestFocus();
+							
 					   }
-					      else{
-					Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
-					
-					tabla_model.addRow(registro);
-					String tipo=registro[2].toString();
-					String hora=registro[3].toString();
-					
-					String Fecha=registro[9].toString();
-					lblFecha.setText(Fecha);
-					
+				}else{
+				 	JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					txtFolio.setEditable(true);
 					txtFolio.setText("");
 					txtFolio.requestFocus();
 					txtClaveReal.setText("");
 					txtClaveReal.setEditable(false);
-					
-						if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-							lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-							lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
-
-						}else{
-							lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-							lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-						}
-					
-					lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-					
-					Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-					lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-
-					Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-					lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-					
-					txtFolio.setEditable(false);
-					txtClaveReal.setEditable(true);
-					txtClaveReal.requestFocus();
-					
-				}}else{
-					 	JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						txtFolio.setEditable(true);
-						txtFolio.setText("");
-						txtFolio.requestFocus();
-						txtClaveReal.setText("");
-						txtClaveReal.setEditable(false);
 					}
-				 }
-			
-			txtFolio.setEditable(true);
-			txtFolio.setText("");
-			txtFolio.requestFocus();
-			txtClaveReal.setText("");
-			txtClaveReal.setEditable(false);
+		}
+		txtFolio.setEditable(true);
+		txtFolio.setText("");
+		txtFolio.requestFocus();
+		txtClaveReal.setText("");
+		txtClaveReal.setEditable(false);
 	}
 	
 	ActionListener opExaminar = new ActionListener(){
@@ -773,28 +706,10 @@ public class Cat_Checador extends JFrame {
 				    in.close();
 				    out.close();
 					
-//					File foto1 = new File(rootPicture);
-//					File destino1 = new File(System.getProperty("user.dir")+"/tmp/tmp_update/mensaje.jpg");
-//			    	
-//			    	InputStream in1 = new FileInputStream(foto1);
-//					OutputStream out1 = new FileOutputStream(destino1);
-//					
-//				    byte[] buf1 = new byte[1024];
-//				    int len1;
-//
-//				    while ((len1 = in1.read(buf1)) > 0) {
-//				    	out1.write(buf1, 0, len1);
-//				    }
-//				    
-//				    in1.close();
-//				    out1.close();
-				    
-
 					String fileFoto = System.getProperty("user.dir")+"/tmp/mensaje.jpg";
 					ImageIcon tmpIconAuxFoto = new ImageIcon(fileFoto);
 					Icon iconoFoto = new ImageIcon(tmpIconAuxFoto.getImage().getScaledInstance(btnMensaje.getWidth(), btnMensaje.getHeight(), Image.SCALE_DEFAULT));
 					btnMensaje.setIcon(iconoFoto);	
-					
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -803,9 +718,7 @@ public class Cat_Checador extends JFrame {
 				JOptionPane.showMessageDialog(null,"No ha seleccionado ninguna imagen","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-						
 		}
-		
 	};
 
 	ActionListener cerrar = new ActionListener(){
@@ -877,10 +790,6 @@ public class Cat_Checador extends JFrame {
 			this.tabla.getColumnModel().getColumn(8).setMaxWidth(z+10);
 			this.tabla.getColumnModel().getColumn(8).setMinWidth(z+10);
 		}
-		
-		
-		
-		
 		
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -993,30 +902,6 @@ public class Cat_Checador extends JFrame {
 				
     }
 	
-//	ActionListener opExplorar = new ActionListener() {
-//		
-//		@Override
-//		public void actionPerformed(ActionEvent arg0) {
-//			
-//			 JFileChooser selector=new JFileChooser();
-//             selector.setFileFilter(new FileFilter());
-//             int estado=selector.showOpenDialog(null);
-//             File archivoelegido=selector.getSelectedFile();
-//String                          ruta=archivoelegido.getPath();
-//             if(archivoelegido.exists())
-//                     System.out.println("bien");
-//             else
-//                             System.out.println("no bien");
-//             if(estado==JFileChooser.APPROVE_OPTION);
-//             {
-//                     ImageIcon imagen = new ImageIcon("ruta");
-//             JLabel etiqueta = new JLabel(imagen);
-//             etiqueta.setBounds(20,30,60,36);
-//                     panel.add(etiqueta);
-//             }
-//		}
-//	};
-	
 	public static void main (String [] arg){
 		try{
 			UIManager.setLookAndFeel(
@@ -1049,17 +934,16 @@ public class Cat_Checador extends JFrame {
 		Object [] vector = new Object[10];
 		
 		if(new Obj_Empleado().insertar_comida(folio_empleado,tipo_entrada,tipo_salida_comer)){
-         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio_empleado);
-         for(int i=0 ; i<fila_sql.size(); i++ ){
-        	 vector[i]= "   "+ fila_sql.get(i);
-        	 
-         }
 			
+	         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio_empleado);
+	         
+	         for(int i=0 ; i<fila_sql.size(); i++ ){
+	        	 vector[i]= "   "+ fila_sql.get(i);
+	         }
 			
 		}else{
 			JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
 		}
-			
 		return vector;
 	}
 }
