@@ -1023,8 +1023,12 @@ public class Cat_Msj_Personal extends JFrame {
 	
 	public String validacampos(){
 		String error="";
-		if (txtFechaInicio.getDateEditor().equals("")){error+="Fecha Inicial\n";}
-		if (txtFechaFin.getDateEditor().equals("")){error+="Fecha Final\n";}
+		String fechaNullInicio = txtFechaInicio.getDate()+"";
+		String fechaNullFin = txtFechaInicio.getDate()+"";
+		
+		if (txtAsunto.getText().equals("")){error+="Asunto\n";}
+		if(fechaNullInicio.equals("null"))error+= "Fecha de Inicio\n";	
+		if(fechaNullFin.equals("null"))error += "Fecha de Fin\n";
 		if (txaMensaje.getText().equals("")){error+="Mensaje\n";}
 		return error;
 	}
