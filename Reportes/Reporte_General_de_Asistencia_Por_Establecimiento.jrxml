@@ -40,8 +40,8 @@ from tb_checador
   inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado 
   inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
 where tb_checador.fecha_mov between @fecha_inicial and @fecha_final
-GROUP BY tb_establecimiento.nombre,tb_checador.fecha_mov,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,tb_checador.folio_empleado,tb_checador.entosal,tb_checador.pc_nombre,tb_checador.pc_ip,tb_checador.tipo_entrada,tb_checador.status,tb_checador.status_semana,tb_checador.comida_receso,tb_acumulado_inpuntualidad.dif_minutos,tb_acumulado_inpuntualidad.minutos_a_favor,tb_acumulado_inpuntualidad.status_semana 
-ORDER BY tb_checador.fecha_mov]]>
+GROUP BY tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,CONVERT([varchar](8),tb_checador.fecha_mov,(108)),tb_checador.fecha_mov,tb_checador.folio_empleado,tb_establecimiento.nombre,tb_checador.entosal,tb_checador.pc_nombre,tb_checador.pc_ip,tb_checador.tipo_entrada,tb_checador.status,tb_checador.status_semana,tb_checador.comida_receso,tb_acumulado_inpuntualidad.dif_minutos,tb_acumulado_inpuntualidad.minutos_a_favor,tb_acumulado_inpuntualidad.status_semana 
+ORDER BY datename(dw, tb_checador.fecha_mov) desc,tb_establecimiento.nombre]]>
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
 	<field name="nombre" class="java.lang.String"/>
@@ -58,58 +58,13 @@ ORDER BY tb_checador.fecha_mov]]>
 	<field name="dia" class="java.lang.String"/>
 	<field name="hora_registro" class="java.lang.String"/>
 	<field name="Movimiento" class="java.lang.String"/>
-	<group name="Group1">
-		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
-		<groupHeader>
-			<band height="32">
-				<frame>
-					<reportElement uuid="2eae881b-7975-40d8-adba-0e4ea67bbc04" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#000080"/>
-					<textField isStretchWithOverflow="true">
-						<reportElement uuid="3683e52f-c9c9-43d0-a3e8-eeed850c797b" style="SubTitle" isPrintRepeatedValues="false" x="2" y="0" width="479" height="24" forecolor="#FFFFFF"/>
-						<textElement>
-							<font isBold="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
-					</textField>
-				</frame>
-			</band>
-			<band height="23">
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="d641318f-3718-4b07-9799-695d2be315d1" style="Detail" positionType="Float" x="0" y="0" width="30" height="18"/>
-					<textElement>
-						<font fontName="Arial Black" size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{folio_empleado}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="06d216df-6ed9-462e-9f22-ffcb49844c32" style="Detail" positionType="Float" x="46" y="0" width="509" height="18"/>
-					<textElement>
-						<font fontName="Arial Black" size="12" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
-				</textField>
-			</band>
-			<band height="20">
-				<textField>
-					<reportElement uuid="bed5f658-a6b6-4b48-ab31-b7faed6c261b" x="0" y="0" width="169" height="20"/>
-					<textElement>
-						<font size="14" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="28"/>
-		</groupFooter>
-	</group>
 	<background>
 		<band height="30" splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="70" splitType="Stretch">
 			<frame>
-				<reportElement uuid="06d73aa7-47b0-4c5c-b7ed-aaae00f1954b" mode="Opaque" x="0" y="0" width="433" height="70" backcolor="#000080"/>
+				<reportElement uuid="06d73aa7-47b0-4c5c-b7ed-aaae00f1954b" mode="Opaque" x="0" y="0" width="555" height="70" backcolor="#000080"/>
 				<staticText>
 					<reportElement uuid="2b917fbf-ded3-43c1-84f3-4552ebd7579d" style="Title" x="0" y="0" width="433" height="50"/>
 					<textElement>
@@ -205,68 +160,73 @@ ORDER BY tb_checador.fecha_mov]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="40" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<frame>
-				<reportElement uuid="2497a56a-ee49-4f91-b968-41e89bcd9d5a" style="Row" mode="Opaque" x="0" y="0" width="555" height="18"/>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="ba5e803a-273c-4053-8791-061f0353c2ab" style="Detail" positionType="Float" x="194" y="0" width="76" height="18"/>
-					<textElement>
-						<font size="10"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{pc_nombre}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="17a2318c-e3b5-4b47-a2de-4a4dfd225deb" style="Detail" positionType="Float" x="270" y="0" width="80" height="18"/>
-					<textElement>
-						<font size="10"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{pc_ip}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="a5434200-9b72-469c-ad9e-f3a51ed860cb" style="Detail" positionType="Float" x="350" y="0" width="60" height="18"/>
-					<textElement>
-						<font size="10"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{tipo_entrada}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="08f27097-b5ce-4049-929c-e7bf252b5a51" style="Detail" positionType="Float" x="414" y="0" width="46" height="18"/>
-					<textElement>
-						<font size="14"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{comida_receso}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="61750ded-579b-4cb1-b92a-54fc66cb7b10" style="Detail" positionType="Float" x="460" y="0" width="46" height="18"/>
-					<textElement>
-						<font size="14"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{dif_minutos}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement uuid="1d1b2459-d6d0-4e14-8685-5215106fa3ad" style="Detail" positionType="Float" x="506" y="0" width="46" height="18"/>
-					<textElement>
-						<font size="14"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{minutos_a_favor}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement uuid="cb41c179-6e5c-4aa9-9d97-0649d1272091" x="1" y="1" width="79" height="16"/>
-					<textElement/>
-					<textFieldExpression><![CDATA[$F{Movimiento}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement uuid="9203cc16-8fdc-4627-9183-3ae8f1b63091" x="79" y="0" width="80" height="18"/>
-					<textElement/>
-					<textFieldExpression><![CDATA[$F{hora_registro}]]></textFieldExpression>
-				</textField>
+				<reportElement uuid="2497a56a-ee49-4f91-b968-41e89bcd9d5a" style="Row" mode="Opaque" x="1" y="25" width="555" height="18"/>
 			</frame>
 			<textField isStretchWithOverflow="true">
-				<reportElement uuid="7cc36b6a-cf30-4aa4-9329-c0cf3dcf424f" style="Detail" positionType="Float" x="2" y="17" width="160" height="23"/>
+				<reportElement uuid="7cc36b6a-cf30-4aa4-9329-c0cf3dcf424f" style="Detail" positionType="Float" x="3" y="42" width="160" height="23"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="ba5e803a-273c-4053-8791-061f0353c2ab" style="Detail" positionType="Float" x="195" y="25" width="76" height="18"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pc_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="1d1b2459-d6d0-4e14-8685-5215106fa3ad" style="Detail" positionType="Float" x="507" y="25" width="46" height="18"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minutos_a_favor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="61750ded-579b-4cb1-b92a-54fc66cb7b10" style="Detail" positionType="Float" x="461" y="25" width="46" height="18"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dif_minutos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="a5434200-9b72-469c-ad9e-f3a51ed860cb" style="Detail" positionType="Float" x="351" y="25" width="60" height="18"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_entrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cb41c179-6e5c-4aa9-9d97-0649d1272091" x="2" y="26" width="79" height="16"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Movimiento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="08f27097-b5ce-4049-929c-e7bf252b5a51" style="Detail" positionType="Float" x="415" y="25" width="46" height="18"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comida_receso}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="17a2318c-e3b5-4b47-a2de-4a4dfd225deb" style="Detail" positionType="Float" x="271" y="25" width="80" height="18"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pc_ip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9203cc16-8fdc-4627-9183-3ae8f1b63091" x="80" y="25" width="80" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{hora_registro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ffe67409-5904-47dc-aa84-423c33752141" x="3" y="0" width="185" height="19"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
