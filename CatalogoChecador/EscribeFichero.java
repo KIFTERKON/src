@@ -3,7 +3,8 @@ import java.io.*;
  
 public class EscribeFichero
 {
-    public static void main(String[] args)
+    @SuppressWarnings("unused")
+	public static void main(String[] args)
     {
         FileWriter fichero = null;
         PrintWriter pw = null;
