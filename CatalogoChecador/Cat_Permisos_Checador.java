@@ -132,8 +132,8 @@ public class Cat_Permisos_Checador extends JFrame {
 		
 		panel.add(chbP_entrarTarde).setBounds(20,y+=30,300,20);
 		
-		
-		panel.add(txaMotivo).setBounds(10,y+=30,500,130);
+		panel.add(lblMotivo).setBounds(10,y+=30,80,20);
+		panel.add(txaMotivo).setBounds(10,y+=20,500,130);
 		
 		panel.add(btnNuevo).setBounds(70,y+=150,80,20);
 		panel.add(btnGuardar).setBounds(160,y,80,20);
@@ -161,7 +161,9 @@ public class Cat_Permisos_Checador extends JFrame {
 		
 		txtFolio.addKeyListener(buscaAction);
 		
+		Campos_False();
 		txtFolioEmpleado.setEditable(false);
+		txtFolio.setEditable(true);
 		CargarCajero();
 		
 		cont.add(panel);
@@ -367,6 +369,7 @@ public class Cat_Permisos_Checador extends JFrame {
 			
 			Campos_False();
 			txtFolio.setEditable(true);
+			txtFolio.requestFocus();
 		}
 	};
 	
