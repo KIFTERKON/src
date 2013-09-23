@@ -45,8 +45,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import net.sf.jasperreports.engine.ReturnValue;
-
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Traer_Checador;
 

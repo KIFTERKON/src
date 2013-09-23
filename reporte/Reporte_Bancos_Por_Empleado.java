@@ -1,10 +1,12 @@
 package reporte;
 
+
 import java.util.HashMap;
 
 import javax.swing.JFrame;
 
 import SQL.Connexion;
+
 
 
 
@@ -27,5 +29,5 @@ public class Reporte_Bancos_Por_Empleado extends JFrame {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
 }
