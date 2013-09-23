@@ -2328,8 +2328,6 @@ public boolean Guardar_Horario(ObjHorario horario){
 		}
 		return true;
 	}
-	
-	
 		
 		//Guardar captura fuente de sodas
 		public boolean Guardar_Fuente_Sodas(Obj_Captura_Fuente_Sodas sodas){
@@ -2409,36 +2407,36 @@ public boolean Guardar_Horario(ObjHorario horario){
 			return true;
 		}
 		
-		public boolean buscarBorrarPermiso(int folio){
-			String query = "exec sp_folio_puesto_dependiente "+folio;
-			Connection con = new Connexion().conexion();
-			PreparedStatement pstmt = null;
-			try {
-				
-				con.setAutoCommit(false);
-				pstmt = con.prepareStatement(query);
-				
-				pstmt.executeUpdate();
-			
-				con.commit();
-			} catch (Exception e) {
-				System.out.println("SQLException: "+e.getMessage());
-				if(con != null){
-					try{
-						System.out.println("La transacción ha sido abortada");
-						con.rollback();
-					}catch(SQLException ex){
-						System.out.println(ex.getMessage());
-					}
-				}
-				return false;
-			}finally{
-				try {
-					con.close();
-				} catch(SQLException e){
-					e.printStackTrace();
-				}
-			}		
-			return true;
-		}
+//		public boolean buscarBorrarPermiso(int folio){
+//			String query = "exec sp_folio_puesto_dependiente "+folio;
+//			Connection con = new Connexion().conexion();
+//			PreparedStatement pstmt = null;
+//			try {
+//				
+//				con.setAutoCommit(false);
+//				pstmt = con.prepareStatement(query);
+//				
+//				pstmt.executeUpdate();
+//			
+//				con.commit();
+//			} catch (Exception e) {
+//				System.out.println("SQLException: "+e.getMessage());
+//				if(con != null){
+//					try{
+//						System.out.println("La transacción ha sido abortada");
+//						con.rollback();
+//					}catch(SQLException ex){
+//						System.out.println(ex.getMessage());
+//					}
+//				}
+//				return false;
+//			}finally{
+//				try {
+//					con.close();
+//				} catch(SQLException e){
+//					e.printStackTrace();
+//				}
+//			}		
+//			return true;
+//		}
 }

@@ -164,6 +164,8 @@ public class Cat_Permisos_Checador extends JFrame {
 		Campos_False();
 		txtFolioEmpleado.setEditable(false);
 		txtFolio.setEditable(true);
+		btnGuardar.setEnabled(false);
+		btnEdiatar.setEnabled(false);
 		CargarCajero();
 		
 		cont.add(panel);
@@ -237,6 +239,9 @@ public class Cat_Permisos_Checador extends JFrame {
 							
 
 							if(Permiso.actualizar(Integer.parseInt(txtFolio.getText()))){
+								btnGuardar.setEnabled(false);
+								btnEdiatar.setEnabled(true);
+								Campos_False();
 									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 							}else{
@@ -256,6 +261,9 @@ public class Cat_Permisos_Checador extends JFrame {
 						Permiso.setMotivo(txaMotivo.getText().toUpperCase());
 						
 						if(Permiso.guardar_permiso()){
+							btnGuardar.setEnabled(false);
+							btnEdiatar.setEnabled(true);
+							Campos_False();
 									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 								}else{
@@ -308,6 +316,9 @@ public class Cat_Permisos_Checador extends JFrame {
 					chb_status.setSelected(permisoEmp.isStatus());
 					
 					lblEmpleado.setText("Empleado: "+permisoEmp.getNombre_empleado());
+					
+					btnEdiatar.setEnabled(true);
+					txaMotivo.requestFocus();
 				}
 			}
 		}
@@ -317,15 +328,9 @@ public class Cat_Permisos_Checador extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			
 			Campos_True();
-			
-//			if(JOptionPane.showConfirmDialog(null, "¿desea eliminar el registro selecionado?","aviso",JOptionPane.YES_NO_OPTION) == 0){
-//				
-//				if(new Obj_Permisos_Checador().buscarYborraPermiso(Integer.parseInt(txtFolio.getText()))){
-//					JOptionPane.showMessageDialog(null,"Se eliminó exitosamente","Exito", JOptionPane.INFORMATION_MESSAGE);
-//				}else{
-//					JOptionPane.showMessageDialog(null,"No se pudo eliminar el registro","Error",JOptionPane.ERROR_MESSAGE);
-//				}
-//			}
+			btnGuardar.setEnabled(true);
+			btnEdiatar.setEnabled(false);
+			txaMotivo.requestFocus();
 		}
 	};
 	
@@ -389,7 +394,6 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	public void Campos_True()
 	{
-//		txtFolio.setEditable(true);
 		btnFiltroEmpleado.setEnabled(true);
 		txtFechaPermiso.setEnabled(true);
 		chb_status.setEnabled(true);
@@ -513,7 +517,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 	    			
 	    			txtFolio.setText(folio+"");
 	    			btnBuscar.doClick();
-//	    			new Cat_Permisos_Checador(folio+"").setVisible(true);
 	        	}
 	        }
         });
@@ -609,7 +612,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 		    	(caracter != '.')){
 		    	e.consume();
 		    	}
-		    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
@@ -617,8 +619,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 		public void keyReleased(KeyEvent e){}
 								
 	};
-	
-	
 }
 	
 //Filtro Empleado
