@@ -484,6 +484,7 @@ public class GuardarSQL {
 			pstmtTabla = con.prepareStatement(querytabla);
 				
 			for(int i=0; i<tabla.length; i++){
+				
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(3, tabla[i][1].toString().trim().toUpperCase());

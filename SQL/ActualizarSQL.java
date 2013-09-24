@@ -1406,7 +1406,7 @@ public class ActualizarSQL {
 	public boolean Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
 		String queryDelete ="delete tb_tabla_cuadrante where folio_cuadrante = ?";
 		String query = "exec sp_update_cuadrante ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
-		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_cuadrante ?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		
@@ -1443,13 +1443,15 @@ public class ActualizarSQL {
 			pstmtDelete.executeUpdate();
 					
 			for(int i=0; i<tabla.length; i++){
+				
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
-				pstmtTabla.setString(3, tabla[i][2].toString().trim());
-				pstmtTabla.setInt(4, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
-				pstmtTabla.setString(5, tabla[i][4]);
-				pstmtTabla.setString(6, tabla[i][5]);
-				pstmtTabla.setString(7, tabla[i][6]);
+				pstmtTabla.setString(3, tabla[i][1].toString().trim());
+				pstmtTabla.setString(4, tabla[i][2].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				pstmtTabla.setString(6, tabla[i][4]);
+				pstmtTabla.setString(7, tabla[i][5]);
+				pstmtTabla.setString(8, tabla[i][6]);
 				
 				pstmtTabla.executeUpdate();
 			}
