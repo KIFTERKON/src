@@ -3,24 +3,18 @@ package frames;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
-
 import CatalogoChecador.Cat_Checador;
 import CatalogoChecador.Cat_Dias_Inhabiles;
 import CatalogoChecador.Cat_Horario;
 import CatalogoChecador.Cat_Msj_Personal;
 import CatalogoChecador.Cat_Permisos_Checador;
-
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
-import reporte.Reporte_General_de_Asistencia_Por_Establecimiento;
-
 import catalogos.Cat_Actividad;
-
 import catalogos.Cat_Alimentacion_Cuadrante;
 import catalogos.Cat_Alimentacion_Totales;
 import catalogos.Cat_Asistencia_Puntualidad;
@@ -57,6 +51,7 @@ import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Ponderacion;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
+import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;
@@ -587,7 +582,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Permisos a Empleados"))
 				new Cat_Permisos_Checador().setVisible(true);
 			if(e.getActionCommand().equals("Reporte General de Asistencia"))
-				new Reporte_General_de_Asistencia_Por_Establecimiento().setVisible(true);
+				new Cat_Reporte_General_Asistencia_Por_Establecimiento().setVisible(true);
 			
 			
 		
