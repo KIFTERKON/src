@@ -109,6 +109,5 @@ public class Obj_Permisos_Checador {
 		return 1;
 	}
 	
-	public boolean buscarYborraPermiso(int folio){ return new GuardarSQL().buscarBorrarPermiso(folio); }
-	
+//	public boolean buscarYborraPermiso(int folio){ return new GuardarSQL().buscarBorrarPermiso(folio); }
 }

@@ -1553,11 +1553,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaDomingo.getRowCount()>1){
 				if(tablaDomingo.isRowSelected(tablaDomingo.getSelectedRow())){
+//		si la las filas seleccioladas son unas de las primeras 2 (no permite moverlas)
 					if(tablaDomingo.getSelectedRow() == 0 || tablaDomingo.getSelectedRow() == 1){
 						JOptionPane.showMessageDialog(null,"Esta fila no se puede desplazar","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{
+//		al presionar el boton subir
 						if(arg0.getSource().equals(btnSubirDomingo)){
+//		si la fila selecciolada es mayor de 2 (permite moverlas)		
 							if(tablaDomingo.getSelectedRow() > 2){
 								Object primero = modelDomingo.getValueAt(tablaDomingo.getSelectedRow(),1);
 								Object segundo = modelDomingo.getValueAt(tablaDomingo.getSelectedRow()-1,1);
@@ -1571,7 +1574,9 @@ public class Cat_Cuadrante_Base extends JFrame{
 							}
 									
 						}
+//		al presionar el boton subir
 						if(arg0.getSource().equals(btnBajarDomingo)){
+//		si la fila selecciolada+1 es menor al tamaño de la tabla(permite moverlas)	
 							if(tablaDomingo.getSelectedRow()+1 < tablaDomingo.getRowCount()){
 								Object primero = modelDomingo.getValueAt(tablaDomingo.getSelectedRow(),1);
 								Object segundo = modelDomingo.getValueAt(tablaDomingo.getSelectedRow()+1,1);
