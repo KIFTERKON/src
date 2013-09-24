@@ -3744,12 +3744,17 @@ public class Cat_Cuadrante_Base extends JFrame{
 	        	 	case 0 : return false; 
 	        	 	case 1 : return false; 
 	        	 	case 2 : return false;
-	        	 	case 3 : return true;
+	        	 	
+	        	 	case 3 : if(fila==0 || fila==1)
+	        	 			  {
+	        	 				  return false;
+	        	 			  }else{
+	        	 				  return true;
+	        	 				   }
 	        	 		
 	        	 } 				
 	 			return false;
 	 		}
-			
 		};
 		
 		JTable tablaFiltro = new JTable(modeloFiltro);

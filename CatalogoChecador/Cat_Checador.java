@@ -169,17 +169,6 @@ public class Cat_Checador extends JFrame {
 		lblPuesto.setFont(new Font("Monospaced",0,14));
 		lblHorario.setFont(new Font("Monospaced",0,14));
 		
-//		txaAvisos = new JTextArea(){Image image = img.getImage();
-//		Image grayImage = GrayFilter.createDisabledImage(image);{
-//			setOpaque(false);
-//		}
-//		
-//		
-//		public void paint(Graphics g){
-//			g.drawImage(grayImage,0,0,this);
-//			super.paint(g);
-//		}
-//	};
 		txaAvisos.setBackground(new java.awt.Color(0,0,205));
 		txaAvisos.setForeground(new java.awt.Color(255,69,0));
 		
