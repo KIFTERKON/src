@@ -1477,56 +1477,6 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean nivelGerarquico(Obj_Nivel_Jerarquico niv, int folio){
-		
-//		String queryUpdate ="update tb_nivel_jerarquico set tb_nivel_jerarquico.descripcion = "+niv.getDescripcion()+"where tb_nivel_jerarquico.folio = "+folio;
-		String queryDEP = "exec sp_insert_tabla_nivel_jerarquico ?,?,?";
-		Connection con = new Connexion().conexion();
-		
-//		PreparedStatement pstmtNivelGerarquico = null;
-		
-//		PreparedStatement pstmt = null;
-		PreparedStatement pstmtabla = null;
-		
-		try {
-			con.setAutoCommit(false);
-			
-//			pstmtNivelGerarquico = con.prepareStatement(queryUpdate);
-//			pstmtNivelGerarquico.executeUpdate();
-			
-//			pstmt = con.prepareStatement(queryClear);
-//			pstmt.executeUpdate();
-			
-			pstmtabla = con.prepareStatement(queryDEP);
-				
-				pstmtabla.setInt (1, folio);
-				pstmtabla.setString (2, niv.getPuesto_dependiente());
-				pstmtabla.setString (3, niv.getEstablecimiento());
-				
-				pstmtabla.executeUpdate();
-
-				con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			}
-		return true;
-	}
-	
 	public boolean mensajePersonal(Obj_Mensaje_Personal msjPersonal, int folio){
 		 
 		String queryDEP = "exec sp_update_mensaje_personal  ?,?,?,?,?,?";

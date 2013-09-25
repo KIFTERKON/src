@@ -2593,6 +2593,31 @@ public class BuscarSQL {
 		}
 		return nivel_gerarquico;
 	}
+
+	public Obj_Nivel_Jerarquico buscarDescripcion(String descripcion) throws SQLException{
+		Obj_Nivel_Jerarquico nivel_gerarquico = new Obj_Nivel_Jerarquico();
+		String query = "select tb_nivel_jerarquico.folio as folio " +
+					   "from tb_nivel_jerarquico " +
+					   "where tb_nivel_jerarquico.descripcion = "+"'"+descripcion+"'";
+				
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				nivel_gerarquico.setFolio(rs.getInt("folio"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return nivel_gerarquico;
+	}
 	
 	public Obj_Nivel_Jerarquico buscarPDependiente(Object nombrePuestoDependiente) throws SQLException{
 		Obj_Nivel_Jerarquico nivel_gerarquico = new Obj_Nivel_Jerarquico();

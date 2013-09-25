@@ -23,7 +23,6 @@ public class Obj_Nivel_Jerarquico
 	{
 		this.folio=0; this.descripcion=""; this.puesto_principal=""; this.puesto_dependiente="";
 		this.puesto=""; this.establecimiento=""; this.status=false;
-		
 	}
 
 	public int getFolio() {
@@ -58,7 +57,6 @@ public class Obj_Nivel_Jerarquico
 		this.status = status;
 	}
 	
-	
 	public String getPuesto_principal() {
 		return puesto_principal;
 	}
@@ -91,8 +89,6 @@ public class Obj_Nivel_Jerarquico
 		}
 		return null;
 	}
-	/*guarda la segunda parte del catalogo*/
-	public boolean guardar_multiple(){ return new GuardarSQL().Guardar_Tabla_Nivel(this); }
 	
 	/*guarda la segunda parte del catalogo*/
 	public boolean guardar_multiple2(String[][] tabla){ return new GuardarSQL().Guardar_Tabla_Nivel2(this,tabla); }
@@ -107,14 +103,15 @@ public class Obj_Nivel_Jerarquico
 		return null; 
 	}
 	
-//	public Obj_Nivel_Jerarquico buscarDependiente(String nombre){
-//		try {
-//			return new BuscarSQL().buscarDependiente(nombre);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
+	public Obj_Nivel_Jerarquico buscar(String descripcion){
+		try {
+			return new BuscarSQL().buscarDescripcion(descripcion);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
 	public boolean buscarYborraPuestoDependiente(String nombre, int folio_tabla,String establecimiento){ return new GuardarSQL().buscarBorrarPDependiente(nombre, folio_tabla,establecimiento); }
 	
 	/*buscamos la segunda parte del catalogo*/
@@ -126,11 +123,6 @@ public class Obj_Nivel_Jerarquico
 		}
 		return null; 
 	}
-	
-	/*Actualizacion de la segunda tabla*/
-//	public boolean actualizar(String[][] tabla){ return new ActualizarSQL().nivelGerarquico(this,tabla); }
-	
-	public boolean actualizar(int folio){ return new ActualizarSQL().nivelGerarquico(this,folio); }
 	
 	public boolean actualizar2(String[][] tabla){ return new ActualizarSQL().nivelGerarquico2(this,tabla); }
 	
