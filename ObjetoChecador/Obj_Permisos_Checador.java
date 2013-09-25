@@ -96,14 +96,14 @@ public class Obj_Permisos_Checador {
 		return null; 
 	}
 	
-//	public Obj_Permisos_Checador ComparacionFecha(String fecha){
-//		try {
-//			return new BuscarSQL().comparacionDeFecha(fecha);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
+	public Obj_Permisos_Checador ComparacionFecha(String fecha){
+		try {
+			return new BuscarSQL().comparacionDeFecha(fecha);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
 	
 	public boolean guardar_permiso(){ return new GuardarSQL().Guardar_Permiso_Checador(this); }
 	

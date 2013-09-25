@@ -221,71 +221,79 @@ public class Cat_Permisos_Checador extends JFrame {
 				return;
 			}else{
 				if(ValidaCampos().equals("")){
-					Obj_Permisos_Checador Permiso = new Obj_Permisos_Checador().buscar(Integer.parseInt(txtFolio.getText()));
-					 permisoChecador();
-					if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
-						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
-						{
-//							Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
-							
-							
-							Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
-							Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
-							Permiso.setFolio_usuario(folio_usuario);
-							Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
-							
-							Permiso.setTipo_de_permiso(permiso);
-							Permiso.setStatus(chb_status.isSelected());
-							
-							Permiso.setMotivo(txaMotivo.getText().toUpperCase());
-							
+					
+					String fecha=new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate());
+					Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(fecha);
 
-							if(Permiso.actualizar(Integer.parseInt(txtFolio.getText()))){
-								btnGuardar.setEnabled(false);
-								btnEditar.setEnabled(true);
-								txtFolio.setText("");
-								txtFolioEmpleado.setText("");
-								txtFechaPermiso.setDate(null);
-								txaMotivo.setText("");
-								
-								Campos_False();
-								txtFolio.setEditable(true);
-								txtFolio.requestFocus();
-									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-									return;
+					if(conpararFecha.getFecha()=="FALSE"){
+						JOptionPane.showMessageDialog(null, "No Puede Asignar Permiso A Una Fecha Que Ya Paso", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+					}else{
+					
+							Obj_Permisos_Checador Permiso = new Obj_Permisos_Checador().buscar(Integer.parseInt(txtFolio.getText()));
+							 permisoChecador();
+							if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
+								if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
+								{
+									
+									Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
+									Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
+									Permiso.setFolio_usuario(folio_usuario);
+									Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+									
+									Permiso.setTipo_de_permiso(permiso);
+									Permiso.setStatus(chb_status.isSelected());
+									
+									Permiso.setMotivo(txaMotivo.getText().toUpperCase());
+									
+		
+									if(Permiso.actualizar(Integer.parseInt(txtFolio.getText()))){
+										btnGuardar.setEnabled(false);
+										btnEditar.setEnabled(true);
+										txtFolio.setText("");
+										txtFolioEmpleado.setText("");
+										txtFechaPermiso.setDate(null);
+										txaMotivo.setText("");
+										
+										Campos_False();
+										txtFolio.setEditable(true);
+										txtFolio.requestFocus();
+											JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+											return;
+									}else{
+										
+									}
+								}
 							}else{
 								
+								Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
+								Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
+								Permiso.setFolio_usuario(folio_usuario);
+								Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+								
+								Permiso.setTipo_de_permiso(permiso);
+								Permiso.setStatus(chb_status.isSelected());
+								
+								Permiso.setMotivo(txaMotivo.getText().toUpperCase());
+								
+								if(Permiso.guardar_permiso()){
+									btnGuardar.setEnabled(false);
+									btnEditar.setEnabled(true);
+									Campos_False();
+									txtFolio.setText("");
+									txtFolioEmpleado.setText("");
+									txtFechaPermiso.setDate(null);
+									txaMotivo.setText("");
+									txtFolio.setEditable(true);
+									txtFolio.requestFocus();
+											JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+											return;
+										}else{
+									JOptionPane.showMessageDialog(null,"El Registro no se a guardado!","Error",JOptionPane.ERROR_MESSAGE);
+									return;
+								}
 							}
 						}
-					}else{
-						
-						Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
-						Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
-						Permiso.setFolio_usuario(folio_usuario);
-						Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
-						
-						Permiso.setTipo_de_permiso(permiso);
-						Permiso.setStatus(chb_status.isSelected());
-						
-						Permiso.setMotivo(txaMotivo.getText().toUpperCase());
-						
-						if(Permiso.guardar_permiso()){
-							btnGuardar.setEnabled(false);
-							btnEditar.setEnabled(true);
-							Campos_False();
-							txtFolio.setText("");
-							txtFolioEmpleado.setText("");
-							txtFechaPermiso.setDate(null);
-							txaMotivo.setText("");
-							txtFolio.setEditable(true);
-							txtFolio.requestFocus();
-									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-									return;
-								}else{
-							JOptionPane.showMessageDialog(null,"El Registro no se a guardado!","Error",JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-					}
 				}else{
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+ValidaCampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;

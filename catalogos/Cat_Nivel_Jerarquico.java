@@ -197,13 +197,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 				return;
 			}else{
 				if(validacampos().equals("")){
-					
-					Obj_Nivel_Jerarquico nivelgerarquicoDescripcion = new Obj_Nivel_Jerarquico().buscar(txtDescripcion.getText());
-					
-					if(nivelgerarquicoDescripcion.getFolio()>0){
-						JOptionPane.showMessageDialog(null, "La Descripcion Ya Existe, Intente Con Otra", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-						return;
-					}else{
+				
 							Obj_Nivel_Jerarquico nivelgerarquico = new Obj_Nivel_Jerarquico().buscar(Integer.parseInt(txtFolio.getText()));
 							
 							if(nivelgerarquico.getFolio() == Integer.parseInt(txtFolio.getText())){
@@ -237,8 +231,14 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 											}
 		//								}
 								}
-							}else{
-								Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico();
+							}else{	
+								Obj_Nivel_Jerarquico nivelgerarquicoDescripcion = new Obj_Nivel_Jerarquico().buscar(txtDescripcion.getText());
+								
+								if(nivelgerarquicoDescripcion.getFolio()>0){
+									JOptionPane.showMessageDialog(null, "La Descripcion Ya Existe, Intente Con Otra", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+									return;
+								}else{
+									Obj_Nivel_Jerarquico gerarquico = new Obj_Nivel_Jerarquico().buscar(Integer.parseInt(txtFolio.getText()));
 								
 								gerarquico.setFolio(Integer.parseInt(txtFolio.getText()));
 								gerarquico.setDescripcion(txtDescripcion.getText().toUpperCase());
@@ -266,7 +266,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 											return;
 										}
 							}
-						}
+					}
 				}else{
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+validacampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
