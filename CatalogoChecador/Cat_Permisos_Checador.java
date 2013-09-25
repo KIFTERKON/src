@@ -56,7 +56,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	JLabel lblFolio = new JLabel("Folio:");
 	JLabel lblFolioEmpleado = new JLabel("Folio de Empleado:");
-	JLabel lblFecha = new JLabel("Fecha de Permis");
+	JLabel lblFecha = new JLabel("Fecha de Permiso");
 	JLabel lblMotivo = new JLabel("Motivo:");
 	
 	JLabel lblUsuario = new JLabel("Usuario: ");
@@ -85,7 +85,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	JButton btnNuevo = new JButton("Nuevo");//new ImageIcon("Iconos/generar_icon&16.png")
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnLimpiar = new JButton("Limpiar");
-	JButton btnEdiatar = new JButton("Editar");
+	JButton btnEditar = new JButton("Editar");
 	JButton btnSalir = new JButton("Salir");
 	
 //	almacena el numero de permisos que se le asignara al empleado
@@ -137,7 +137,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		
 		panel.add(btnNuevo).setBounds(70,y+=150,80,20);
 		panel.add(btnGuardar).setBounds(160,y,80,20);
-		panel.add(btnEdiatar).setBounds(250,y,80,20);
+		panel.add(btnEditar).setBounds(250,y,80,20);
 		panel.add(btnLimpiar).setBounds(340,y,80,20);
 		panel.add(btnSalir).setBounds(430,y,80,20);
 		
@@ -155,7 +155,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		btnNuevo.addActionListener(opNuevo);
 		btnSalir.addActionListener(opSalir);
 		btnLimpiar.addActionListener(opLimpiar);
-		btnEdiatar.addActionListener(opEditar);
+		btnEditar.addActionListener(opEditar);
 		btnFiltro.addActionListener(opFiltro);
 		btnFiltroEmpleado.addActionListener(opFiltroEmpleados);	
 		
@@ -165,7 +165,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		txtFolioEmpleado.setEditable(false);
 		txtFolio.setEditable(true);
 		btnGuardar.setEnabled(false);
-		btnEdiatar.setEnabled(false);
+		btnEditar.setEnabled(false);
 		CargarCajero();
 		
 		cont.add(panel);
@@ -240,8 +240,15 @@ public class Cat_Permisos_Checador extends JFrame {
 
 							if(Permiso.actualizar(Integer.parseInt(txtFolio.getText()))){
 								btnGuardar.setEnabled(false);
-								btnEdiatar.setEnabled(true);
+								btnEditar.setEnabled(true);
+								txtFolio.setText("");
+								txtFolioEmpleado.setText("");
+								txtFechaPermiso.setDate(null);
+								txaMotivo.setText("");
+								
 								Campos_False();
+								txtFolio.setEditable(true);
+								txtFolio.requestFocus();
 									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 							}else{
@@ -262,8 +269,14 @@ public class Cat_Permisos_Checador extends JFrame {
 						
 						if(Permiso.guardar_permiso()){
 							btnGuardar.setEnabled(false);
-							btnEdiatar.setEnabled(true);
+							btnEditar.setEnabled(true);
 							Campos_False();
+							txtFolio.setText("");
+							txtFolioEmpleado.setText("");
+							txtFechaPermiso.setDate(null);
+							txaMotivo.setText("");
+							txtFolio.setEditable(true);
+							txtFolio.requestFocus();
 									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 									return;
 								}else{
@@ -317,7 +330,7 @@ public class Cat_Permisos_Checador extends JFrame {
 					
 					lblEmpleado.setText("Empleado: "+permisoEmp.getNombre_empleado());
 					
-					btnEdiatar.setEnabled(true);
+					btnEditar.setEnabled(true);
 					txaMotivo.requestFocus();
 				}
 			}
@@ -329,7 +342,7 @@ public class Cat_Permisos_Checador extends JFrame {
 			
 			Campos_True();
 			btnGuardar.setEnabled(true);
-			btnEdiatar.setEnabled(false);
+			btnEditar.setEnabled(false);
 			txaMotivo.requestFocus();
 		}
 	};
@@ -352,6 +365,7 @@ public class Cat_Permisos_Checador extends JFrame {
 			txtFolio.setText(new Obj_Permisos_Checador().nuevoPermiso()+"");
 			btnBuscar.setEnabled(false);
 			btnFiltro.setEnabled(false);
+			btnGuardar.setEnabled(true);
 			Campos_True();
 			txtFolio.setEditable(false);
 			txaMotivo.setEditable(true);
@@ -480,7 +494,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Filtro_Permisos_Checador()	{
-		this.setTitle("Filtro Nivel Jerarquico");
+		this.setTitle("Filtro Permisos");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -501,7 +515,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 		
 		cont.add(campo);
 		
-		this.setSize(390,570);
+		this.setSize(400,570);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -535,11 +549,11 @@ public class Filtro_Permisos_Checador extends JFrame{
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(0).setMinWidth(70);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(40);
+		tabla.getColumnModel().getColumn(0).setMinWidth(40);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Empleado");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(185);
-		tabla.getColumnModel().getColumn(1).setMinWidth(185);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(1).setMinWidth(230);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Fecha de Permiso");
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
