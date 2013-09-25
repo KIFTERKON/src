@@ -2740,6 +2740,32 @@ public class BuscarSQL {
 		return permisoChecador;
 	}
 	
+//	public Obj_Permisos_Checador comparacionDeFecha(String fecha) throws SQLException{
+//		Obj_Permisos_Checador permisoChecador = new Obj_Permisos_Checador();
+//		
+//		String query = "exec sp_select_permiso_checador "+ fecha;
+//		
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			
+//			ResultSet rs = stmt.executeQuery(query);
+//				
+//				permisoChecador.setFolio_empleado(rs.getInt("folio_empleado"));
+//				permisoChecador.setStatus(rs.getInt("status")==1?true:false);
+//				
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return permisoChecador;
+//	}
+	
+	
 	public int NuevoEmpleadoCuadrante() throws SQLException{
 		int folio = 0;
 		String query = "exec sp_nuevo_empleado_cuadrante";

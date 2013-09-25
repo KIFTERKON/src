@@ -226,7 +226,9 @@ public class Cat_Permisos_Checador extends JFrame {
 					if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
 						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
 						{
-							 
+//							Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+							
+							
 							Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
 							Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
 							Permiso.setFolio_usuario(folio_usuario);
