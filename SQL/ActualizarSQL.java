@@ -1617,13 +1617,22 @@ public class ActualizarSQL {
 	}
 	
 	public boolean nivelGerarquico2(Obj_Nivel_Jerarquico niv, String[][]tabla){
+		
+		String queryDelete="delete from tb_tabla_nivel_jerarquico where tb_tabla_nivel_jerarquico.folio_tb_nivel_jerarquico = "+niv.getFolio();
 		String query = "exec sp_insert_tabla_nivel_jerarquico ?,?,?";
 		
 		Connection con = new Connexion().conexion();
+		
+		PreparedStatement pstmtDelete = null;
 		PreparedStatement pstmtabla = null;
 		
 		try {
 			con.setAutoCommit(false);
+			
+			pstmtDelete= con.prepareStatement(queryDelete);
+			pstmtDelete.executeUpdate();
+			
+			
 			pstmtabla = con.prepareStatement(query);
 			
 			for (int i = 0; i < tabla.length; i++) {
