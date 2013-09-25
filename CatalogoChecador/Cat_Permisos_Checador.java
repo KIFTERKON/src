@@ -476,7 +476,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 	
 	Connexion con = new Connexion();
 	
-	DefaultTableModel model = new DefaultTableModel(0,3){
+	DefaultTableModel model = new DefaultTableModel(0,4){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -506,7 +506,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(getPanelTabla()).setBounds(10,70,365,450);
+		campo.add(getPanelTabla()).setBounds(10,70,570,450);
 		
 		agregar(tabla);
 		
@@ -515,7 +515,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 		
 		cont.add(campo);
 		
-		this.setSize(400,570);
+		this.setSize(600,570);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -557,6 +557,9 @@ public class Filtro_Permisos_Checador extends JFrame{
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Fecha de Permiso");
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
+		tabla.getColumnModel().getColumn(3).setHeaderValue("Capturo Permiso");
+		tabla.getColumnModel().getColumn(3).setMaxWidth(200);
+		tabla.getColumnModel().getColumn(3).setMinWidth(200);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
@@ -574,6 +577,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(2).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;
@@ -583,10 +587,12 @@ public class Filtro_Permisos_Checador extends JFrame{
 			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[3];
+			   String [] fila = new String[4];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
 			   fila[2] = rs.getString(3).trim();
+			   fila[3] = rs.getString(4).trim();
+			  
 			   
 			   model.addRow(fila); 
 			}	
