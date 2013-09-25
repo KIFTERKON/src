@@ -1113,7 +1113,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							JOptionPane.showMessageDialog(null,"El registro se actualizó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
-							JOptionPane.showMessageDialog(null,"Ha ocurrido un error mientras se intentaba guardar el registro","Error",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Ha ocurrido un error mientras se intentaba Actualizar el registro","Error",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 					}else{
