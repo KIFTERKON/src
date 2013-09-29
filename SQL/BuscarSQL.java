@@ -42,6 +42,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Gen_Code_Bar;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
@@ -3578,4 +3579,40 @@ public class BuscarSQL {
 				}
 				return sodas;
 			}
+
+	public void Gafetes_masivos(String listas) throws SQLException{
+		String query = "select "+
+							"folio as folio, "+
+							"nombre as codigo," +
+							"foto "+
+						"from tb_empleado "+
+						"where folio in("+listas.substring(0, listas.length()-1)+");";
+		System.out.println(query);
+		Statement stmt = null;
+
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+		
+			while(rs.next()){
+				int folio = rs.getInt("Folio");
+				new Obj_Gen_Code_Bar().Generar_Code(rs.getString("codigo"),folio+"".trim());
+				File photo = new File(System.getProperty("user.dir")+"/AssetGafete/Users_Images/"+folio+".png");
+				FileOutputStream fos = new FileOutputStream(photo);
+
+				byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+	}
 }
