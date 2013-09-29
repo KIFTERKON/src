@@ -23,11 +23,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
 
 import SQL.Connexion;
 
@@ -53,6 +55,11 @@ Connexion con = new Connexion();
 	JTable tabla = new JTable(modelo);
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
+	JTextField txtFolioFiltro = new JTextField();
+	JTextField txtPuestoFiltro = new JTextField();
+	@SuppressWarnings("rawtypes")
+	private TableRowSorter trsfiltro;
+	
 	JTextField txtFolio = new JTextField();
 	JTextField txtPuesto = new JTextField();
 	JTextField txtAbreviatura = new JTextField();
@@ -66,12 +73,19 @@ Connexion con = new Connexion();
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Puesto(){
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Puestos"));
 		
 		this.setTitle("Puesto");
+		
+		trsfiltro = new TableRowSorter(modelo); 
+		tabla.setRowSorter(trsfiltro);
+		
+		txtFolioFiltro.setToolTipText("Filtro Por Folio");
+		txtPuestoFiltro.setToolTipText("Filtro Por Nombre");
 		
 		int x = 15, y=30, ancho=100;
 		
@@ -92,7 +106,9 @@ Connexion con = new Connexion();
 		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
 		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
 		
-		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,20,ancho+230,130);
+		panel.add(txtFolioFiltro).setBounds(x+ancho+x+40+ancho+ancho+30,20,71,20);
+		panel.add(txtPuestoFiltro).setBounds(x+ancho+x+40+ancho+ancho+30+71,20,160,20);
+		panel.add(getPanelTabla()).setBounds(x+ancho+x+40+ancho+ancho+30,40,ancho+230,120);
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
 		txtPuesto.setDocument(new JTextFieldLimit(100));
@@ -113,8 +129,11 @@ Connexion con = new Connexion();
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
 		btnEditar.setEnabled(false);
-		cont.add(panel);
 		
+		txtFolioFiltro.addKeyListener(opFiltroFolio);
+		txtPuestoFiltro.addKeyListener(opFiltroNombre);
+		
+		cont.add(panel);
 		agregar(tabla);
 		
 		this.setSize(760,210);
@@ -123,6 +142,31 @@ Connexion con = new Connexion();
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	
 	}
+	
+	KeyListener opFiltroFolio = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolioFiltro.getText(), 0));
+		}
+		public void keyTyped(KeyEvent arg0) {
+			char caracter = arg0.getKeyChar();
+			if(((caracter < '0') ||
+				(caracter > '9')) &&
+			    (caracter != KeyEvent.VK_BACK_SPACE)){
+				arg0.consume(); 
+			}	
+		}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
+	
+	KeyListener opFiltroNombre = new KeyListener(){
+		@SuppressWarnings("unchecked")
+		public void keyReleased(KeyEvent arg0) {
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtPuestoFiltro.getText().toUpperCase().trim(), 1));
+		}
+		public void keyTyped(KeyEvent arg0) {}
+		public void keyPressed(KeyEvent arg0) {}		
+	};
 	
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();

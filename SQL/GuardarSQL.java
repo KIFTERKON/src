@@ -484,6 +484,7 @@ public class GuardarSQL {
 			pstmtTabla = con.prepareStatement(querytabla);
 				
 			for(int i=0; i<tabla.length; i++){
+				
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(3, tabla[i][1].toString().trim().toUpperCase());
@@ -1594,51 +1595,6 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Tabla_Nivel(Obj_Nivel_Jerarquico pond){
-		String query = "exec sp_insert_nivel_jerarquico ?,?";
-		String querytabla="exec sp_insert_tabla_nivel_jerarquico ?,?,?";
-		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmtabla =null;
-		try {
-			
-			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmtabla=con.prepareStatement(querytabla);
-			
-			
-			pstmt.setString (1, pond.getDescripcion());
-			pstmt.setString (2, pond.getPuesto_principal());
-			
-				pstmtabla.setInt (1, pond.getFolio());
-				pstmtabla.setString (2, pond.getPuesto_dependiente());
-				pstmtabla.setString (3, pond.getEstablecimiento());
-				pstmtabla.executeUpdate();
-				
-			pstmt.executeUpdate();
-		
-			con.commit();
-		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
-			if(con != null){
-				try{
-					System.out.println("La transacción ha sido abortada");
-					con.rollback();
-				}catch(SQLException ex){
-					System.out.println(ex.getMessage());
-				}
-			}
-			return false;
-		}finally{
-			try {
-				con.close();
-			} catch(SQLException e){
-				e.printStackTrace();
-			}
-		}		
-		return true;
-	}
-	
 	public boolean Guardar_Mensaje_Personal(Obj_Mensaje_Personal MsjPersonal){
 		String query = "exec sp_insert_mensaje ?,?,?,?,?";
 		Connection con = new Connexion().conexion();
@@ -2328,8 +2284,6 @@ public boolean Guardar_Horario(ObjHorario horario){
 		}
 		return true;
 	}
-	
-	
 		
 		//Guardar captura fuente de sodas
 		public boolean Guardar_Fuente_Sodas(Obj_Captura_Fuente_Sodas sodas){
@@ -2409,36 +2363,36 @@ public boolean Guardar_Horario(ObjHorario horario){
 			return true;
 		}
 		
-		public boolean buscarBorrarPermiso(int folio){
-			String query = "exec sp_folio_puesto_dependiente "+folio;
-			Connection con = new Connexion().conexion();
-			PreparedStatement pstmt = null;
-			try {
-				
-				con.setAutoCommit(false);
-				pstmt = con.prepareStatement(query);
-				
-				pstmt.executeUpdate();
-			
-				con.commit();
-			} catch (Exception e) {
-				System.out.println("SQLException: "+e.getMessage());
-				if(con != null){
-					try{
-						System.out.println("La transacción ha sido abortada");
-						con.rollback();
-					}catch(SQLException ex){
-						System.out.println(ex.getMessage());
-					}
-				}
-				return false;
-			}finally{
-				try {
-					con.close();
-				} catch(SQLException e){
-					e.printStackTrace();
-				}
-			}		
-			return true;
-		}
+//		public boolean buscarBorrarPermiso(int folio){
+//			String query = "exec sp_folio_puesto_dependiente "+folio;
+//			Connection con = new Connexion().conexion();
+//			PreparedStatement pstmt = null;
+//			try {
+//				
+//				con.setAutoCommit(false);
+//				pstmt = con.prepareStatement(query);
+//				
+//				pstmt.executeUpdate();
+//			
+//				con.commit();
+//			} catch (Exception e) {
+//				System.out.println("SQLException: "+e.getMessage());
+//				if(con != null){
+//					try{
+//						System.out.println("La transacción ha sido abortada");
+//						con.rollback();
+//					}catch(SQLException ex){
+//						System.out.println(ex.getMessage());
+//					}
+//				}
+//				return false;
+//			}finally{
+//				try {
+//					con.close();
+//				} catch(SQLException e){
+//					e.printStackTrace();
+//				}
+//			}		
+//			return true;
+//		}
 }

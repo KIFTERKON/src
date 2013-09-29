@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
@@ -57,6 +58,13 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		this.panel.add(btnizquierda).setBounds(875, y-=500, 30,21);
 		this.panel.add(btnderecha).setBounds(910, y, 30, 21);
 		this.panel.add(btnSimilar).setBounds(950, y+1, 75, 20);
+		
+//		asigna el foco al JTextField deseado al arrancar la ventana
+		this.addWindowListener(new WindowAdapter() {
+			public void windowOpened( WindowEvent e ){
+		        txtFolio.requestFocus();
+		     }
+		});
 		
 		this.btnGuardar.addActionListener(opGuardar);
 		this.btnNuevo.addActionListener(opNuevo);
@@ -1105,7 +1113,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							JOptionPane.showMessageDialog(null,"El registro se actualizó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
-							JOptionPane.showMessageDialog(null,"Ha ocurrido un error mientras se intentaba guardar el registro","Error",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null,"Ha ocurrido un error mientras se intentaba Actualizar el registro","Error",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 					}else{

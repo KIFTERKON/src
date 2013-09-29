@@ -56,7 +56,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	JLabel lblFolio = new JLabel("Folio:");
 	JLabel lblFolioEmpleado = new JLabel("Folio de Empleado:");
-	JLabel lblFecha = new JLabel("Fecha de Permis");
+	JLabel lblFecha = new JLabel("Fecha de Permiso");
 	JLabel lblMotivo = new JLabel("Motivo:");
 	
 	JLabel lblUsuario = new JLabel("Usuario: ");
@@ -85,7 +85,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	JButton btnNuevo = new JButton("Nuevo");//new ImageIcon("Iconos/generar_icon&16.png")
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnLimpiar = new JButton("Limpiar");
-	JButton btnEdiatar = new JButton("Editar");
+	JButton btnEditar = new JButton("Editar");
 	JButton btnSalir = new JButton("Salir");
 	
 //	almacena el numero de permisos que se le asignara al empleado
@@ -132,12 +132,12 @@ public class Cat_Permisos_Checador extends JFrame {
 		
 		panel.add(chbP_entrarTarde).setBounds(20,y+=30,300,20);
 		
-		
-		panel.add(txaMotivo).setBounds(10,y+=30,500,130);
+		panel.add(lblMotivo).setBounds(10,y+=30,80,20);
+		panel.add(txaMotivo).setBounds(10,y+=20,500,130);
 		
 		panel.add(btnNuevo).setBounds(70,y+=150,80,20);
 		panel.add(btnGuardar).setBounds(160,y,80,20);
-		panel.add(btnEdiatar).setBounds(250,y,80,20);
+		panel.add(btnEditar).setBounds(250,y,80,20);
 		panel.add(btnLimpiar).setBounds(340,y,80,20);
 		panel.add(btnSalir).setBounds(430,y,80,20);
 		
@@ -155,13 +155,17 @@ public class Cat_Permisos_Checador extends JFrame {
 		btnNuevo.addActionListener(opNuevo);
 		btnSalir.addActionListener(opSalir);
 		btnLimpiar.addActionListener(opLimpiar);
-		btnEdiatar.addActionListener(opEditar);
+		btnEditar.addActionListener(opEditar);
 		btnFiltro.addActionListener(opFiltro);
 		btnFiltroEmpleado.addActionListener(opFiltroEmpleados);	
 		
 		txtFolio.addKeyListener(buscaAction);
 		
+		Campos_False();
 		txtFolioEmpleado.setEditable(false);
+		txtFolio.setEditable(true);
+		btnGuardar.setEnabled(false);
+		btnEditar.setEnabled(false);
 		CargarCajero();
 		
 		cont.add(panel);
@@ -217,50 +221,79 @@ public class Cat_Permisos_Checador extends JFrame {
 				return;
 			}else{
 				if(ValidaCampos().equals("")){
-					Obj_Permisos_Checador Permiso = new Obj_Permisos_Checador().buscar(Integer.parseInt(txtFolio.getText()));
-					 permisoChecador();
-					if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
-						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
-						{
-							 
-							Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
-							Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
-							Permiso.setFolio_usuario(folio_usuario);
-							Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
-							
-							Permiso.setTipo_de_permiso(permiso);
-							Permiso.setStatus(chb_status.isSelected());
-							
-							Permiso.setMotivo(txaMotivo.getText().toUpperCase());
-							
+					
+					String fecha=new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate());
+					Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(fecha);
 
-							if(Permiso.actualizar(Integer.parseInt(txtFolio.getText()))){
-									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-									return;
+					if(conpararFecha.getFecha()=="FALSE"){
+						JOptionPane.showMessageDialog(null, "No Puede Asignar Permiso A Una Fecha Que Ya Paso", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+					}else{
+					
+							Obj_Permisos_Checador Permiso = new Obj_Permisos_Checador().buscar(Integer.parseInt(txtFolio.getText()));
+							 permisoChecador();
+							if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
+								if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
+								{
+									
+									Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
+									Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
+									Permiso.setFolio_usuario(folio_usuario);
+									Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+									
+									Permiso.setTipo_de_permiso(permiso);
+									Permiso.setStatus(chb_status.isSelected());
+									
+									Permiso.setMotivo(txaMotivo.getText().toUpperCase());
+									
+		
+									if(Permiso.actualizar(Integer.parseInt(txtFolio.getText()))){
+										btnGuardar.setEnabled(false);
+										btnEditar.setEnabled(true);
+										txtFolio.setText("");
+										txtFolioEmpleado.setText("");
+										txtFechaPermiso.setDate(null);
+										txaMotivo.setText("");
+										
+										Campos_False();
+										txtFolio.setEditable(true);
+										txtFolio.requestFocus();
+											JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+											return;
+									}else{
+										
+									}
+								}
 							}else{
 								
+								Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
+								Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
+								Permiso.setFolio_usuario(folio_usuario);
+								Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+								
+								Permiso.setTipo_de_permiso(permiso);
+								Permiso.setStatus(chb_status.isSelected());
+								
+								Permiso.setMotivo(txaMotivo.getText().toUpperCase());
+								
+								if(Permiso.guardar_permiso()){
+									btnGuardar.setEnabled(false);
+									btnEditar.setEnabled(true);
+									Campos_False();
+									txtFolio.setText("");
+									txtFolioEmpleado.setText("");
+									txtFechaPermiso.setDate(null);
+									txaMotivo.setText("");
+									txtFolio.setEditable(true);
+									txtFolio.requestFocus();
+											JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+											return;
+										}else{
+									JOptionPane.showMessageDialog(null,"El Registro no se a guardado!","Error",JOptionPane.ERROR_MESSAGE);
+									return;
+								}
 							}
 						}
-					}else{
-						
-						Permiso.setFolio(Integer.parseInt(txtFolio.getText()));
-						Permiso.setFolio_empleado(Integer.parseInt(txtFolioEmpleado.getText()));
-						Permiso.setFolio_usuario(folio_usuario);
-						Permiso.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
-						
-						Permiso.setTipo_de_permiso(permiso);
-						Permiso.setStatus(chb_status.isSelected());
-						
-						Permiso.setMotivo(txaMotivo.getText().toUpperCase());
-						
-						if(Permiso.guardar_permiso()){
-									JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-									return;
-								}else{
-							JOptionPane.showMessageDialog(null,"El Registro no se a guardado!","Error",JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-					}
 				}else{
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+ValidaCampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
@@ -306,6 +339,9 @@ public class Cat_Permisos_Checador extends JFrame {
 					chb_status.setSelected(permisoEmp.isStatus());
 					
 					lblEmpleado.setText("Empleado: "+permisoEmp.getNombre_empleado());
+					
+					btnEditar.setEnabled(true);
+					txaMotivo.requestFocus();
 				}
 			}
 		}
@@ -315,15 +351,9 @@ public class Cat_Permisos_Checador extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			
 			Campos_True();
-			
-//			if(JOptionPane.showConfirmDialog(null, "¿desea eliminar el registro selecionado?","aviso",JOptionPane.YES_NO_OPTION) == 0){
-//				
-//				if(new Obj_Permisos_Checador().buscarYborraPermiso(Integer.parseInt(txtFolio.getText()))){
-//					JOptionPane.showMessageDialog(null,"Se eliminó exitosamente","Exito", JOptionPane.INFORMATION_MESSAGE);
-//				}else{
-//					JOptionPane.showMessageDialog(null,"No se pudo eliminar el registro","Error",JOptionPane.ERROR_MESSAGE);
-//				}
-//			}
+			btnGuardar.setEnabled(true);
+			btnEditar.setEnabled(false);
+			txaMotivo.requestFocus();
 		}
 	};
 	
@@ -345,6 +375,7 @@ public class Cat_Permisos_Checador extends JFrame {
 			txtFolio.setText(new Obj_Permisos_Checador().nuevoPermiso()+"");
 			btnBuscar.setEnabled(false);
 			btnFiltro.setEnabled(false);
+			btnGuardar.setEnabled(true);
 			Campos_True();
 			txtFolio.setEditable(false);
 			txaMotivo.setEditable(true);
@@ -367,6 +398,7 @@ public class Cat_Permisos_Checador extends JFrame {
 			
 			Campos_False();
 			txtFolio.setEditable(true);
+			txtFolio.requestFocus();
 		}
 	};
 	
@@ -386,7 +418,6 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	public void Campos_True()
 	{
-//		txtFolio.setEditable(true);
 		btnFiltroEmpleado.setEnabled(true);
 		txtFechaPermiso.setEnabled(true);
 		chb_status.setEnabled(true);
@@ -455,7 +486,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 	
 	Connexion con = new Connexion();
 	
-	DefaultTableModel model = new DefaultTableModel(0,3){
+	DefaultTableModel model = new DefaultTableModel(0,4){
 		public boolean isCellEditable(int fila, int columna){
 			if(columna < 0)
 				return true;
@@ -473,7 +504,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Filtro_Permisos_Checador()	{
-		this.setTitle("Filtro Nivel Jerarquico");
+		this.setTitle("Filtro Permisos");
 		txtBuscar.setDocument(new JTextFieldLimit(10));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
@@ -485,7 +516,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		campo.add(getPanelTabla()).setBounds(10,70,365,450);
+		campo.add(getPanelTabla()).setBounds(10,70,570,450);
 		
 		agregar(tabla);
 		
@@ -494,7 +525,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 		
 		cont.add(campo);
 		
-		this.setSize(390,570);
+		this.setSize(600,570);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -510,7 +541,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 	    			
 	    			txtFolio.setText(folio+"");
 	    			btnBuscar.doClick();
-//	    			new Cat_Permisos_Checador(folio+"").setVisible(true);
 	        	}
 	        }
         });
@@ -529,14 +559,17 @@ public class Filtro_Permisos_Checador extends JFrame{
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(0).setMinWidth(70);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(40);
+		tabla.getColumnModel().getColumn(0).setMinWidth(40);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Empleado");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(185);
-		tabla.getColumnModel().getColumn(1).setMinWidth(185);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
+		tabla.getColumnModel().getColumn(1).setMinWidth(230);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Fecha de Permiso");
 		tabla.getColumnModel().getColumn(2).setMaxWidth(100);
 		tabla.getColumnModel().getColumn(2).setMinWidth(100);
+		tabla.getColumnModel().getColumn(3).setHeaderValue("Capturo Permiso");
+		tabla.getColumnModel().getColumn(3).setMaxWidth(200);
+		tabla.getColumnModel().getColumn(3).setMinWidth(200);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
@@ -554,6 +587,7 @@ public class Filtro_Permisos_Checador extends JFrame{
 						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 						tabla.getColumnModel().getColumn(2).setCellRenderer(render); 
+						tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
 		
 		Statement s;
 		ResultSet rs;
@@ -563,10 +597,12 @@ public class Filtro_Permisos_Checador extends JFrame{
 			
 			while (rs.next())
 			{ 
-			   String [] fila = new String[3];
+			   String [] fila = new String[4];
 			   fila[0] = rs.getString(1).trim();
 			   fila[1] = rs.getString(2).trim();
 			   fila[2] = rs.getString(3).trim();
+			   fila[3] = rs.getString(4).trim();
+			  
 			   
 			   model.addRow(fila); 
 			}	
@@ -606,7 +642,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 		    	(caracter != '.')){
 		    	e.consume();
 		    	}
-		    		    		       	
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
@@ -614,8 +649,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 		public void keyReleased(KeyEvent e){}
 								
 	};
-	
-	
 }
 	
 //Filtro Empleado

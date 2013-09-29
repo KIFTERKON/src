@@ -96,6 +96,15 @@ public class Obj_Permisos_Checador {
 		return null; 
 	}
 	
+	public Obj_Permisos_Checador ComparacionFecha(String fecha){
+		try {
+			return new BuscarSQL().comparacionDeFecha(fecha);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
 	public boolean guardar_permiso(){ return new GuardarSQL().Guardar_Permiso_Checador(this); }
 	
 	public boolean actualizar(int folio){ return new ActualizarSQL().permiso(this,folio); }
@@ -109,6 +118,5 @@ public class Obj_Permisos_Checador {
 		return 1;
 	}
 	
-	public boolean buscarYborraPermiso(int folio){ return new GuardarSQL().buscarBorrarPermiso(folio); }
-	
+//	public boolean buscarYborraPermiso(int folio){ return new GuardarSQL().buscarBorrarPermiso(folio); }
 }
