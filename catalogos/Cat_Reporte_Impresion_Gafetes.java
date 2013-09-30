@@ -179,7 +179,6 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			campo.add(txtNombre_Completo).setBounds(64,20,259,20);
 			campo.add(btnAgregar).setBounds(324,20, 80, 20);
 			
-			
 			cont.add(campo);
 			
 			tabla1.getColumnModel().getColumn(0).setMaxWidth(40);
@@ -278,9 +277,12 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 				txtFolio.setText("");
 				txtNombre_Completo.setText("");
 				
-				if(valida_select() > 4){
-					JOptionPane.showMessageDialog(null,"Ha seleccionado mas de 4 Empleados", "Aviso", JOptionPane.WARNING_MESSAGE);
+				if(valida_select() < 4 || valida_select() > 4){
+					JOptionPane.showMessageDialog(null,"Debes seleccionar a 4 Empleados", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}else{
+					while(tabla_model.getRowCount() > 0)
+						tabla_model.removeRow(0);
+
 					Object[] vectornull = new Object[tabla.getColumnCount()];
 					for(int i=0; i<tabla1.getRowCount(); i++){
 						if(Boolean.parseBoolean(model1.getValueAt(i, 2).toString()) == true){
