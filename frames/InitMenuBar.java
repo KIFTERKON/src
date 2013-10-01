@@ -14,6 +14,7 @@ import CatalogoChecador.Cat_Horario;
 import CatalogoChecador.Cat_Msj_Personal;
 import CatalogoChecador.Cat_Permisos_Checador;
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
+
 import catalogos.Cat_Actividad;
 import catalogos.Cat_Alimentacion_Cuadrante;
 import catalogos.Cat_Alimentacion_Totales;
@@ -582,11 +583,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Permisos a Empleados"))
 				new Cat_Permisos_Checador().setVisible(true);
 			if(e.getActionCommand().equals("Reporte General de Asistencia"))
-
 				new Cat_Reporte_General_Asistencia_Por_Establecimiento().setVisible(true);
-
-			
-			
 		
 			/* LISTA DE RAYA 
 			 * 		DEPARTAMENTO DE CORTES */

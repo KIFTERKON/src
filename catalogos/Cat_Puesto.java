@@ -57,6 +57,7 @@ Connexion con = new Connexion();
 	
 	JTextField txtFolioFiltro = new JTextField();
 	JTextField txtPuestoFiltro = new JTextField();
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	JTextField txtFolio = new JTextField();

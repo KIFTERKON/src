@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,6 +44,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Gen_Code_Bar;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
@@ -3628,4 +3631,49 @@ public class BuscarSQL {
 				}
 				return sodas;
 			}
+//trae el nobre del empleado para el codigo
+	public void Gafetes_masivos(String listas) throws SQLException{
+		String insertIds = "exec sp_insert_ids "+listas.substring(0, listas.length()-1)+";";
+		String query = "select "+
+							"folio as folio, "+
+							"nombre as codigo," +
+							"foto "+
+						"from tb_empleado "+
+						"where folio in("+listas.substring(0, listas.length()-1)+");";
+		Statement stmt = null;
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(insertIds);
+			pstmt.execute();
+			con.commit();
+			
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			int j = 1;
+			while(rs.next()){
+				new Obj_Gen_Code_Bar().Generar_Code(rs.getString("codigo"),j+"".trim());
+				File photo = new File(System.getProperty("user.dir")+"/AssetGafete/Users_Images/"+j+".png");
+				FileOutputStream fos = new FileOutputStream(photo);
+
+				byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
+		    	j++;
+		           
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+	}
 }
