@@ -648,97 +648,72 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 			
 			String fechaNull = txtCalendario.getDate()+"";
 			
-			if(fechaNull.equals("null")){
+			if(fechaNull.equals("null")){//A
 					JOptionPane.showMessageDialog(null, "Ingrese Fecha!","Aviso",JOptionPane.WARNING_MESSAGE);
 			}else{
 				if(txtTotal.getText()==""){
 					JOptionPane.showMessageDialog(null, "Verifique Total de Alimentacion!","Aviso",JOptionPane.WARNING_MESSAGE);
-			}
-			else{
 				
-				txtFecha1.setText(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-				for(int i=0; i<model.getRowCount(); i++){
-					for(int j=0; j<model.getColumnCount(); j++){
-						model.isCellEditable(i,j);
-						miVector.add(model.getValueAt(i,j).toString());
-					}
-					Obj_Alimentacion_Denominacion Alim_Denom = new Obj_Alimentacion_Denominacion();
-					
-					Alim_Denom.setAsignacion(txtAsignacion.getText().trim());
-					Alim_Denom.setFolio_empleado(Integer.parseInt(lblEmpleadoId.getText()));
-					Alim_Denom.setFolio_denominacion(Integer.parseInt(miVector.get(0).toString().trim()));
-					Alim_Denom.setDenominacion(miVector.get(1).toString().trim());
-					Alim_Denom.setValor(Float.parseFloat(miVector.get(2).toString().trim()));
-					if(valida_tabla() != ""){
-						JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
-						return;
-					}else{
-						if(miVector.get(3).toString().trim().equals("")){
-							miVector.set(3,0);
-//							JOptionPane.showMessageDialog(null, "Existe un campo vacio en la tabla\n","Error",JOptionPane.ERROR_MESSAGE);
-//							return;
-							if(isNumeric(miVector.get(3).toString().trim())){
-								Alim_Denom.setCantidad(Float.parseFloat(miVector.get(3).toString().trim()));		
-								}else{
-								JOptionPane.showMessageDialog(null, "Existe un valor no numerico en la tabla\n","Error",JOptionPane.ERROR_MESSAGE);
-								return;
-							}
-						}else{
-							if(isNumeric(miVector.get(3).toString().trim())){
-								Alim_Denom.setCantidad(Float.parseFloat(miVector.get(3).toString().trim()));		
-								}else{
-								JOptionPane.showMessageDialog(null, "Existe un valor no numerico en la tabla\n","Error",JOptionPane.ERROR_MESSAGE);
-								return;
-							}	
+				}else{
+			
+					txtFecha1.setText(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+					for(int i=0; i<model.getRowCount(); i++){
+						for(int j=0; j<model.getColumnCount(); j++){
+							model.isCellEditable(i,j);
+							miVector.add(model.getValueAt(i,j).toString());
 						}
-						Alim_Denom.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						Alim_Denom.guardar();
-						miVector.clear();
-					}	
-					
+							Obj_Alimentacion_Denominacion Alim_Denom = new Obj_Alimentacion_Denominacion();
+							
+							Alim_Denom.setAsignacion(txtAsignacion.getText().trim());
+							Alim_Denom.setFolio_empleado(Integer.parseInt(lblEmpleadoId.getText()));
+							Alim_Denom.setFolio_denominacion(Integer.parseInt(miVector.get(0).toString().trim()));
+							Alim_Denom.setDenominacion(miVector.get(1).toString().trim());
+							Alim_Denom.setValor(Float.parseFloat(miVector.get(2).toString().trim()));
+							
+									if(valida_tabla() != ""){
+										JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
+										return;
+									}else{
+										if(miVector.get(3).toString().trim().equals("")){
+											miVector.set(3,0);
+//											JOptionPane.showMessageDialog(null, "Existe un campo vacio en la tabla\n","Error",JOptionPane.ERROR_MESSAGE);
+//											return;
+											if(isNumeric(miVector.get(3).toString().trim())){
+												Alim_Denom.setCantidad(Float.parseFloat(miVector.get(3).toString().trim()));		
+												}else{
+												JOptionPane.showMessageDialog(null, "Existe un valor no numerico en la tabla\n","Error",JOptionPane.ERROR_MESSAGE);
+												return;
+											}
+										}else{
+											if(isNumeric(miVector.get(3).toString().trim())){
+												Alim_Denom.setCantidad(Float.parseFloat(miVector.get(3).toString().trim()));		
+												}else{
+												JOptionPane.showMessageDialog(null, "Existe un valor no numerico en la tabla\n","Error",JOptionPane.ERROR_MESSAGE);
+												return;
+											}	
+										}
+										Alim_Denom.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+										Alim_Denom.guardar();
+										miVector.clear();
+									}	
+							
+								
+							
+							
+						}
+						txtEfectivo.setText(suma+"");
 						
-					
-					
-					}
-					txtEfectivo.setText(suma+"");
-					
-					float corte = Float.parseFloat(txtCorteSistema.getText());
-					float deposito = Float.parseFloat(txtDeposito.getText());
-					float efectivo = Float.parseFloat(txtEfectivo.getText());
-					
-					lblDiferenciaCorte.setText(corte-(deposito+efectivo)+"");
-
+						float corte = Float.parseFloat(txtCorteSistema.getText());
+						float deposito = Float.parseFloat(txtDeposito.getText());
+						float efectivo = Float.parseFloat(txtEfectivo.getText());
+						
+						lblDiferenciaCorte.setText(corte-(deposito+efectivo)+"");
+	
 						JOptionPane.showMessageDialog(null, "La lista se guardó exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
 						dispose();
 					}
 				}
-			}
-		
-//		KeyListener validaNumericoConPunto = new KeyListener() {
-//			@Override
-//			public void keyTyped(KeyEvent e) {
-//				char caracter = e.getKeyChar();
-//			    if(((caracter < '0') ||	
-//			    	(caracter > '9')) && 
-//			    	(caracter != '.' )){
-//			    	e.consume();
-//			    	}
-//			    	
-//			   if (caracter==KeyEvent.VK_PERIOD){
-//			    		    	
-//			    	String texto = tabla.getColumnName(3);
-//					if (texto.indexOf(".")>-1) e.consume();
-//					
-//				}
-//			    		    		       	
-//			}
-//			@Override
-//			public void keyPressed(KeyEvent e){}
-//			@Override
-//			public void keyReleased(KeyEvent e){}
-//									
-//		};
-		
+			}//guardar
 		
 		public Object[][] getTabla(){
 			new Progress_Bar_Abrir().setVisible(true);
@@ -769,18 +744,15 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 			public void keyReleased(KeyEvent e) {
 				 suma = 0;
 				for(int i=0; i<tabla.getRowCount(); i++){
-					
 					if(tabla.getValueAt(i,3).toString().equals("")){
 						suma = suma + 0;
 					}else{
-						
 						if(isNumeric(tabla.getValueAt(i,3).toString().trim())){
 							suma = suma + (Float.parseFloat(tabla.getValueAt(i,3).toString().trim())*Float.parseFloat(tabla.getValueAt(i,2).toString().trim()));
 						}else{
 							JOptionPane.showMessageDialog(null, "La nomina en el establecimiento "+tabla.getValueAt(i,0).toString()+"  están mal en su formato:\n","Error",JOptionPane.ERROR_MESSAGE);
 							tabla.setValueAt("", i, 3);
 							return;
-							
 						}
 					}
 				}
@@ -809,9 +781,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 				} catch(Exception e){
 					JOptionPane.showMessageDialog(null, "La tabla tiene una celda con texto en lugar de un valor numérico: \n"+e,"Error",JOptionPane.ERROR_MESSAGE);
 					break;
-					
 				}
-				
 			}
 			return error;
 		}
