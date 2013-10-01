@@ -8,11 +8,14 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
+import objetos.Obj_Establecimiento;
 
 import reporte.Reporte_General_de_Asistencia_Por_Establecimiento;
 
@@ -27,25 +30,25 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 	
 	JDateChooser c_inicio = new JDateChooser();
 	JDateChooser c_final = new JDateChooser();
+	
+	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 
 	JButton btn_generar = new JButton("Generar Reporte");
 	
 	public Cat_Reporte_General_Asistencia_Por_Establecimiento(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/reporte_icon&16.png"));
 		this.setTitle("Reportes General de Asistencia por Establecimiento");
-		
 		this.panel.setBorder(BorderFactory.createTitledBorder("Reporte General de Asistencia por Establecimiento"));
-		
-		this.panel.add(new JLabel("Fecha Inicio:")).setBounds(15,15,80,20);
+		this.panel.add(new JLabel("Fecha Inicio:")).setBounds(15,15,100,20);
 		this.panel.add(c_inicio).setBounds(80,15,100,20);
-		
-		this.panel.add(new JLabel("Fecha Final:")).setBounds(15,40,80,20);
+		this.panel.add(new JLabel("Fecha Final:")).setBounds(15,40,100,20);
 		this.panel.add(c_final).setBounds(80,40,100,20);
-		
-		this.panel.add(btn_generar).setBounds(20,75,120,20);
-		
+		this.panel.add(btn_generar).setBounds(20,150,120,20);
+		this.panel.add(new JLabel("Establecimiento:")).setBounds(15,75,100,20);
+		this.panel.add(cmbEstablecimiento).setBounds(100,75,100,20);
 		this.btn_generar.addActionListener(op_generar);
-		
 		this.cont.add(panel);
 		this.setSize(450,500);
 		this.setResizable(false);
@@ -58,8 +61,9 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 			if(validar_fechas().equals("")){
 				String fecha_inicio = new SimpleDateFormat("dd/MM/yyyy").format(c_inicio.getDate())+" 05:59:00";
 				String fecha_final = new SimpleDateFormat("dd/MM/yyyy").format(c_final.getDate())+" 23:59:59";
+				String Establecimiento = cmbEstablecimiento.getSelectedItem().toString();
 				
-				new Reporte_General_de_Asistencia_Por_Establecimiento(fecha_inicio, fecha_final);
+				new Reporte_General_de_Asistencia_Por_Establecimiento(fecha_inicio, fecha_final,Establecimiento);
 				
 			}else{
 				JOptionPane.showMessageDialog(null,"Los siguientes campos están vacíos: "+validar_fechas(),"Aviso!", JOptionPane.ERROR_MESSAGE);
