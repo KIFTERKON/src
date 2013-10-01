@@ -30,9 +30,9 @@ import objetos.Obj_Deduccion_Inasistencia;
 
 @SuppressWarnings("serial")
 public class Cat_Deduccion_Inasistencia extends Cat_Root{
-	
+
 	private JCheckBox chb_habilitar = new JCheckBox("Habilitar");
-	
+
 	private String lista1[] = {"","1","2","3","4","5","6","7"};
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private JComboBox cmb_tabla_dias = new JComboBox(lista1);
@@ -56,7 +56,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 	    	java.lang.Boolean.class,
 	    	java.lang.Object.class,
 	    	java.lang.Object.class
-	    	
+
          };
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public Class getColumnClass(int columnIndex) {
@@ -117,9 +117,9 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
         	 } 				
  			return false;
  		}
-		
+
 	};
-	
+
 	public JTable tabla = new JTable(tabla_model);
 	public JScrollPane scroll_tabla = new JScrollPane(tabla);
     
@@ -132,35 +132,35 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 	public Cat_Deduccion_Inasistencia(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/hand_contra_icon&16.png"));
 		this.setTitle("Deducción por Inasistencia");
-		
+
 		this.panel.add(cmbEstablecimientos).setBounds(463,35,150,20);
 
 		this.panel.add(chb_habilitar).setBounds(1050,35,65,20);
-		
+
 		this.columna_dia_falta.setCellEditor(new javax.swing.DefaultCellEditor(cmb_tabla_dias));
 		this.columna_dia_gafete.setCellEditor(new javax.swing.DefaultCellEditor(cmb_tabla_gafete));
-		
+
 		this.panel.add(scroll_tabla).setBounds(30,60,1195,615);
-		
+
 		this.cont.add(panel);
-		
+
 		this.init_tabla();
-		
+
 		this.btn_guardar.addActionListener(op_guardar);
 			this.btn_guardar.setToolTipText("Guardar");
 		this.btn_refrescar.setVisible(false);
-		
+
 		this.txtFolio.addKeyListener(op_filtro_folio);
 		this.txtNombre_Completo.addKeyListener(op_filtro_nombre);
 		this.cmbEstablecimientos.addActionListener(op_filtro_establecimiento);
-		
+
 		this.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds()); 
 		this.setLocationRelativeTo(null);
 		this.addWindowListener(op_cerrar);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 	}
-	
+
 	WindowListener op_cerrar = new WindowListener() {
 		public void windowOpened(WindowEvent e) {}
 		public void windowIconified(WindowEvent e) {}
@@ -174,22 +174,22 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		public void windowClosed(WindowEvent e) {}
 		public void windowActivated(WindowEvent e) {}
 	};
-	
+
 	ActionListener op_guardar = new ActionListener() {
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter("", 0));
 			trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
 			trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
-			
+
 			txtFolio.setText("");
 			txtNombre_Completo.setText("");
 			cmbEstablecimientos.setSelectedIndex(0);
-			
+
 			if(tabla.isEditing()){
 				tabla.getCellEditor().stopCellEditing();
 			}
-		
+
 			if(valida_tabla() != ""){
 				JOptionPane.showMessageDialog(null, "Las siguientes celdas están mal en su formato:\n"+valida_tabla(),"Error",JOptionPane.ERROR_MESSAGE);
 				return;
@@ -209,7 +209,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 			}
 		}
 	};
-	
+
 	private Object[][] tabla_guardar(){
 		Object[][] matriz = new Object[tabla.getRowCount()][11];
 		for(int i=0; i<tabla.getRowCount(); i++){
@@ -273,13 +273,13 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 							matriz[i][j] = Float.parseFloat(tabla_model.getValueAt(i,j).toString().trim());
 						}
 						break;
-						
+
 				}
 			}
 		}
 		return matriz;
 	}
-	
+
 	private String valida_tabla(){
 		String error = "";
 		for(int i=0; i<tabla.getRowCount(); i++){
@@ -293,11 +293,11 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		}
 		return error;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void init_tabla(){
 		this.tabla.getTableHeader().setReorderingAllowed(false) ;
-		
+
 		this.tabla.getColumnModel().getColumn(0).setMaxWidth(72);
 		this.tabla.getColumnModel().getColumn(0).setMinWidth(72);
 		this.tabla.getColumnModel().getColumn(1).setMaxWidth(360);
@@ -324,9 +324,9 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
-				
+
 				Component componente = null;
-				
+
 				switch(column){
 					case 0: 
 						componente = new JLabel(value == null? "": value.toString());
@@ -462,11 +462,11 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 						break;
 
 				}
-					
+
 				return componente;
 			} 
 		}; 
-	
+
 
 		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
@@ -479,11 +479,11 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		this.tabla.getColumnModel().getColumn(8).setCellRenderer(render);
 		this.tabla.getColumnModel().getColumn(9).setCellRenderer(render);
 		this.tabla.getColumnModel().getColumn(10).setCellRenderer(render);
-		
+
 		this.tabla.setRowSorter(trsfiltro);  
-		
+
 	}
-	
+
 	 private static boolean isNumeric(String cadena){
 		 try {
 			 if(cadena.equals("")){
@@ -496,7 +496,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 			 return false;
 		 }
 	 }
-	
+
 	KeyListener op_filtro_folio = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
@@ -511,9 +511,9 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 			}	
 		}
 		public void keyPressed(KeyEvent arg0) {}
-		
+
 	};
-	
+
 	KeyListener op_filtro_nombre = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
@@ -522,7 +522,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 		public void keyTyped(KeyEvent arg0) {}
 		public void keyPressed(KeyEvent arg0) {}		
 	};
-	
+
 	ActionListener op_filtro_establecimiento = new ActionListener(){
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0){
@@ -533,7 +533,7 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 			}
 		}
 	};
-		
+
 	public static void main(String[] args) {
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

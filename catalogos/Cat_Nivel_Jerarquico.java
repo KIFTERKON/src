@@ -357,6 +357,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 			paneltrue();
 			panelselectrue();
 			status_botones(true);
+			txtDescripcion.setEnabled(true);
 		}
 	};
 	
@@ -463,7 +464,7 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 		{
 			paneltrue();
 			txtPuestoPrincipal.setEditable(false);
-			txtDescripcion.setEnabled(true);
+			txtDescripcion.setEnabled(false);
 			status_botones(true);
 			btnFiltroPuestos.setEnabled(false);
 		}
