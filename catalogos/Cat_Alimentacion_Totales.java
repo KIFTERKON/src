@@ -92,10 +92,19 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 		public void keyReleased(KeyEvent e) {
 			float suma = 0;
 			for(int i=0; i<tabla.getRowCount(); i++){
-				if(tabla_model.getValueAt(i,1).toString().length() == 0){
+				
+				if(tabla_model.getValueAt(i,1).toString().equals("")){
 					suma = suma + 0;
 				}else{
-					suma += Float.parseFloat(tabla_model.getValueAt(i,1).toString());
+					
+					if(isNumeric(tabla_model.getValueAt(i,1).toString().trim())){
+						suma = suma + Float.parseFloat(tabla_model.getValueAt(i,1).toString().trim());
+					}else{
+						JOptionPane.showMessageDialog(null, "La nomina en el establecimiento "+tabla_model.getValueAt(i,0).toString()+"  están mal en su formato:\n","Error",JOptionPane.ERROR_MESSAGE);
+						tabla_model.setValueAt("", i, 1);
+						return;
+						
+					}
 				}
 			}
 			txtTotal.setText("$  "+suma);
@@ -203,12 +212,12 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
 	
     private static boolean isNumeric(String cadena){
     	try {
-    		if(cadena.equals("")){
-    			return true;
-    		}else{
+//    		if(cadena.equals("")){
+//    			return true;
+//    		}else{
     			Float.parseFloat(cadena);
         		return true;
-    		}
+//    		}
     	} catch (NumberFormatException nfe){
     		return false;
     	}

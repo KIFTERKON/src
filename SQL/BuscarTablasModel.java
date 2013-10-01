@@ -49,14 +49,15 @@ public class BuscarTablasModel {
 				matriz[i][0] = rs.getInt(1)+" ";
 				matriz[i][1] = "   "+rs.getString(2);
 				matriz[i][2] = "   "+rs.getString(3);
-				matriz[i][3] = rs.getString(4).trim().equals("true") ? true : false;
-				matriz[i][4] = rs.getString(5).trim().equals("true") ? true : false;
-				matriz[i][5] = Integer.parseInt(rs.getString(6)) == 0 ? "":Integer.parseInt(rs.getString(6));
-				matriz[i][6] = rs.getString(7).trim().equals("true") ? true : false;
-				matriz[i][7] = rs.getString(8).trim().equals("true") ? true : false;
-				matriz[i][8] = rs.getString(9).trim().equals("true") ? true : false;
-				matriz[i][9] = Integer.parseInt(rs.getString(10)) == 0 ? "":Integer.parseInt(rs.getString(10));
-				matriz[i][10] = Float.parseFloat(rs.getString(11)) == 0 ? "":Float.parseFloat(rs.getString(11));
+				matriz[i][3] = 1;
+//						rs.getString(4).trim().equals("true") ? true : false;
+//				matriz[i][4] = rs.getString(5).trim().equals("true") ? true : false;
+//				matriz[i][5] = Integer.parseInt(rs.getString(6)) == 0 ? "":Integer.parseInt(rs.getString(6));
+//				matriz[i][6] = rs.getString(7).trim().equals("true") ? true : false;
+//				matriz[i][7] = rs.getString(8).trim().equals("true") ? true : false;
+//				matriz[i][8] = rs.getString(9).trim().equals("true") ? true : false;
+//				matriz[i][9] = Integer.parseInt(rs.getString(10)) == 0 ? "":Integer.parseInt(rs.getString(10));
+//				matriz[i][10] = Float.parseFloat(rs.getString(11)) == 0 ? "":Float.parseFloat(rs.getString(11));
 				i++;
 			}
 

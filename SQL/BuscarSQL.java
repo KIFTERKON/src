@@ -2779,7 +2779,6 @@ public class BuscarSQL {
 			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				System.out.println(rs.getString("trae_fecha"));
 				permisoChecador.setFecha(rs.getString("trae_fecha"));
 			}
 			
