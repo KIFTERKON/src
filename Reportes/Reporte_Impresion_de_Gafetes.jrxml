@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Coffee_Landscape" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9cdd1998-3730-4efb-880f-5dd53786ab2f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Dataset1" uuid="07ef7170-b2c7-40e2-aaa4-2ba92ee6fb11">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+		<queryString>
+			<![CDATA[select 
+	tb_empleado.nombre + ' ' + tb_empleado.ap_paterno as nombre
+	,tb_puesto.nombre as puesto
+    ,tb_establecimiento.nombre as establecimiento   
+from tb_empleado
+left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+left join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
+where tb_empleado.folio=(select uno from tb_ids)]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="puesto" class="java.lang.String"/>
+		<field name="establecimiento" class="java.lang.String"/>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="puesto">
+			<groupExpression><![CDATA[$F{puesto}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Dataset2" uuid="ea100abd-ae1e-4ed9-8739-e9fdb000f2bf">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL_BD"/>
+		<queryString>
+			<![CDATA[select 
+	tb_empleado.nombre + ' ' + tb_empleado.ap_paterno as nombre,
+	tb_puesto.nombre as puesto
+from tb_empleado
+left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+where tb_empleado.folio = (select top 1 dos from tb_ids)]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="puesto" class="java.lang.String"/>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="puesto">
+			<groupExpression><![CDATA[$F{puesto}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Dataset3" uuid="2f34cdf2-ce58-4f5c-b9dd-53eaae4526a6">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL_BD"/>
+		<queryString>
+			<![CDATA[select 
+	tb_empleado.nombre + ' ' + tb_empleado.ap_paterno as nombre,
+	tb_puesto.nombre as puesto
+from tb_empleado
+left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+where tb_empleado.folio = (select top 1 tres from tb_ids)]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="puesto" class="java.lang.String"/>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="puesto">
+			<groupExpression><![CDATA[$F{puesto}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Dataset4" uuid="5269e8c5-2ce3-40de-8a94-5edfe0f84b3e">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL_BD"/>
+		<queryString>
+			<![CDATA[select 
+	tb_empleado.nombre + ' ' + tb_empleado.ap_paterno as nombre,
+	tb_puesto.nombre as puesto
+from tb_empleado
+left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+where tb_empleado.folio = (select top 1 cuatro from tb_ids)]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="puesto" class="java.lang.String"/>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="puesto">
+			<groupExpression><![CDATA[$F{puesto}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Dataset5" uuid="84bcdfa9-80c9-4c6f-9932-c35d5b4f74dc">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SQL_BD"/>
+		<queryString>
+			<![CDATA[select 
+	tb_empleado.nombre + ' ' + tb_empleado.ap_paterno as nombre,
+	tb_puesto.nombre as puesto
+from tb_empleado
+left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+where tb_empleado.folio =100]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="puesto" class="java.lang.String"/>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+		<group name="puesto">
+			<groupExpression><![CDATA[$F{puesto}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[select 
+	tb_empleado.nombre + ' ' + tb_empleado.ap_paterno as nombre,
+	tb_puesto.nombre as puesto
+from tb_empleado
+left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+where tb_empleado.folio=(select uno from tb_ids)]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="puesto" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{puesto}]]></groupExpression>
+	</group>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<summary>
+		<band height="530" splitType="Stretch">
+			<image>
+				<reportElement uuid="c4c4db3a-9b50-48e0-86ce-00517d1b4371" mode="Transparent" x="0" y="0" width="169" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="e2481b57-7e5f-4d0b-b2ee-f7f0e37d2a89" x="60" y="20" width="80" height="20" forecolor="#004080"/>
+				<textElement/>
+				<text><![CDATA[Le Atiende:]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="aa55dc7e-56d0-408b-967c-c1b95be2b05a" x="10" y="50" width="70" height="80"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Users_Images/1.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="1260fba5-56d0-478a-a1f0-941e0abafd13" x="170" y="0" width="170" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement uuid="7db0d33f-bf38-42ac-b38b-70ed5d7dfbe7" positionType="Float" x="-10" y="180" width="160" height="40"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Codigos_Barras/1.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="6ecd6139-f8ff-42f5-af8e-ee462ddcc0cc" mode="Transparent" x="-1" y="270" width="169" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="b99dd53d-b109-47bf-8686-fbf8d0ab7525" mode="Transparent" x="461" y="0" width="169" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="8b7baaa3-e98c-4bb4-8dff-0f1f576803a4" x="170" y="270" width="170" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="32193721-5eaf-43c6-bf48-cdc7dd2ef1a0" x="630" y="0" width="170" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="831533cf-291e-42a5-9552-dc8ea6210922" mode="Transparent" x="461" y="270" width="169" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="d2d4bf6c-f24a-41e4-906a-2370e4e43644" x="632" y="270" width="170" height="260"/>
+				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="35e16ae0-2320-43e0-a75d-c4b4f3b087fb" x="470" y="320" width="70" height="80"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Users_Images/4.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement uuid="c74659d1-8bd1-442d-8605-91b21781baf9" positionType="Float" x="465" y="180" width="160" height="40"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Codigos_Barras/2.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement uuid="f0aea59c-9550-4751-b08d-84459fdc0955" positionType="Float" x="461" y="450" width="160" height="40"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Codigos_Barras/4.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="b70d7295-46b7-4b76-a6d9-06c707ece63d" x="470" y="50" width="70" height="80"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Users_Images/2.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="f04fa1ff-3002-41db-b09a-0dd945ff8473" x="10" y="320" width="70" height="80"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Users_Images/3.png"]]></imageExpression>
+			</image>
+			<image hAlign="Center">
+				<reportElement uuid="c60f2f07-4bad-4741-a965-0c3e570e424a" positionType="Float" x="3" y="450" width="160" height="40"/>
+				<imageExpression><![CDATA["M:/Proyecto Lista/Proyecto Grupo Izagar/Grupo Izagar/AssetGafete/Codigos_Barras/3.png"]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement uuid="da455d4d-56bf-4b35-af82-ee60c6339d25" x="80" y="50" width="78" height="110"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="Dataset1" uuid="b237e169-4076-40a8-8eb2-d1c78816cb54">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="110" width="78">
+						<textField>
+							<reportElement uuid="727e4bde-6149-4c9d-a97f-5b7aed672846" x="5" y="10" width="70" height="40"/>
+							<textElement/>
+							<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement uuid="a2e8f5c2-1aa7-4362-a6b2-47adf45b4599" x="3" y="70" width="75" height="40" forecolor="#FFFFFF" backcolor="#0080FF"/>
+							<textElement>
+								<font size="8" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{puesto}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>
