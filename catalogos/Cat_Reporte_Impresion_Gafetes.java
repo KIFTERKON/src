@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,6 +33,7 @@ import javax.swing.table.TableRowSorter;
 
 import objetos.Obj_Gen_Code_Bar;
 import objetos.Obj_Reporte_Impresion_Gafetes;
+import reporte.Reporte_Impresion_de_Gafetes;
 
 import SQL.Connexion;
 
@@ -77,17 +79,18 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		this.panel.setBorder(BorderFactory.createTitledBorder("Impresión de Gafetes"));
 		
 		this.panel.add(btn_Empleados).setBounds(25,25,100,20);
-		this.panel.add(btn_Limpiar).setBounds(25,60,100,20);
-		this.panel.add(btn_Generar).setBounds(130,60,120,20);
 		
-		this.panel.add(scroll_tabla).setBounds(25,90,440,180);
+		this.panel.add(btn_Generar).setBounds(25,50,120,20);
+		
+		this.panel.add(scroll_tabla).setBounds(25,90,440,92);
 		
 		this.btn_Empleados.addActionListener(op_filtro);
 		this.btn_Generar.addActionListener(op_generar);
+		this.btn_Generar.setEnabled(false);
 		
 		this.cont.add(panel);
 		
-		this.setSize(500,550);
+		this.setSize(500,250);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
@@ -97,9 +100,10 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			new Obj_Gen_Code_Bar().Reset_Code();
 			new Obj_Gen_Code_Bar().Reset_Users();
 			new Obj_Reporte_Impresion_Gafetes().buscar_masivo(list_folios().trim());
+			new Reporte_Impresion_de_Gafetes();
 		}
 	};
-	
+
 	public String list_folios(){
 		String lista = "";
 		
@@ -292,6 +296,7 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 							}
 						}
 					}
+					btn_Generar.setEnabled(true);
 					dispose();
 				}
 			}

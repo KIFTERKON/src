@@ -438,18 +438,18 @@ public class Cat_Checador extends JFrame {
 		@SuppressWarnings("deprecation")
 		@Override
 		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-
-		   if(((caracter < '0') ||
-		        (caracter > '9'))||
-		        (caracter == KeyEvent.VK_BACK_QUOTE)&&
-		        (caracter != KeyEvent.VK_BACK_SPACE)){
-			   
-		    	e.consume(); 
-		    	
-		    }else{
-		    	txtClaveReal.setText(txtClaveReal.getText()+"  ");
-		    }			
+//			char caracter = e.getKeyChar();
+//
+//		   if(((caracter < '0') ||
+//		        (caracter > '9'))||
+//		        (caracter == KeyEvent.VK_BACK_QUOTE)&&
+//		        (caracter != KeyEvent.VK_BACK_SPACE)){
+//			   
+//		    	e.consume(); 
+//		    	
+//		    }else{
+//		    	txtClaveReal.setText(txtClaveReal.getText()+"  ");
+//		    }			
 		}
 		
 		@SuppressWarnings("deprecation")

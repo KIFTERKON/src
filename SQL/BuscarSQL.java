@@ -3634,12 +3634,9 @@ public class BuscarSQL {
 //trae el nobre del empleado para el codigo
 	public void Gafetes_masivos(String listas) throws SQLException{
 		String insertIds = "exec sp_insert_ids "+listas.substring(0, listas.length()-1)+";";
-		String query = "select "+
-							"folio as folio, "+
-							"nombre as codigo," +
-							"foto "+
-						"from tb_empleado "+
-						"where folio in("+listas.substring(0, listas.length()-1)+");";
+		System.out.println(listas.substring(0, listas.length()-1));
+		String query =  "exec sp_genera_clave_checador "+listas.substring(0, listas.length()-1)+";";
+
 		Statement stmt = null;
 		
 		Connection con = new Connexion().conexion();
