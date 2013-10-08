@@ -76,7 +76,7 @@ public class ActualizarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 		
-			pstmt.setInt(1, empleado.getNo_checador());
+			pstmt.setString(1, empleado.getNo_checador());
 			pstmt.setString(2, empleado.getNombre().toUpperCase());
 			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
 			pstmt.setString(4, empleado.getAp_materno().toUpperCase());

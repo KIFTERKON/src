@@ -190,7 +190,7 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement uuid="b99dd53d-b109-47bf-8686-fbf8d0ab7525" mode="Transparent" x="461" y="0" width="169" height="260"/>
+				<reportElement uuid="b99dd53d-b109-47bf-8686-fbf8d0ab7525" mode="Transparent" x="360" y="0" width="169" height="260"/>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
 			</image>
 			<image>
@@ -198,34 +198,34 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement uuid="32193721-5eaf-43c6-bf48-cdc7dd2ef1a0" x="632" y="0" width="170" height="260"/>
+				<reportElement uuid="32193721-5eaf-43c6-bf48-cdc7dd2ef1a0" x="531" y="0" width="170" height="260"/>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement uuid="831533cf-291e-42a5-9552-dc8ea6210922" mode="Transparent" x="461" y="270" width="169" height="260"/>
+				<reportElement uuid="831533cf-291e-42a5-9552-dc8ea6210922" mode="Transparent" x="360" y="270" width="169" height="260"/>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafete.png"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement uuid="d2d4bf6c-f24a-41e4-906a-2370e4e43644" x="632" y="270" width="170" height="260"/>
+				<reportElement uuid="d2d4bf6c-f24a-41e4-906a-2370e4e43644" x="531" y="270" width="170" height="260"/>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" isUsingCache="true">
-				<reportElement uuid="35e16ae0-2320-43e0-a75d-c4b4f3b087fb" x="515" y="320" width="70" height="80" forecolor="#000000"/>
+				<reportElement uuid="35e16ae0-2320-43e0-a75d-c4b4f3b087fb" x="414" y="320" width="70" height="80" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</box>
 				<imageExpression><![CDATA["C:/SCOI/AssetGafete/Users_Images/4.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" hAlign="Center" isUsingCache="true">
-				<reportElement uuid="c74659d1-8bd1-442d-8605-91b21781baf9" positionType="Float" x="465" y="183" width="160" height="40"/>
+				<reportElement uuid="c74659d1-8bd1-442d-8605-91b21781baf9" positionType="Float" x="364" y="183" width="160" height="40"/>
 				<imageExpression><![CDATA["C:/SCOI/AssetGafete/Codigos_Barras/2.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" hAlign="Center" isUsingCache="true">
-				<reportElement uuid="f0aea59c-9550-4751-b08d-84459fdc0955" positionType="Float" x="465" y="453" width="160" height="40"/>
+				<reportElement uuid="f0aea59c-9550-4751-b08d-84459fdc0955" positionType="Float" x="364" y="453" width="160" height="40"/>
 				<imageExpression><![CDATA["C:/SCOI/AssetGafete/Codigos_Barras/4.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" isUsingCache="true">
-				<reportElement uuid="b70d7295-46b7-4b76-a6d9-06c707ece63d" x="510" y="50" width="70" height="80" forecolor="#000000"/>
+				<reportElement uuid="b70d7295-46b7-4b76-a6d9-06c707ece63d" x="409" y="50" width="70" height="80" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</box>
@@ -278,14 +278,14 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="588b82d6-8dc2-4a85-9118-446e2605a59d" x="510" y="30" width="80" height="20" forecolor="#000000"/>
+				<reportElement uuid="588b82d6-8dc2-4a85-9118-446e2605a59d" x="409" y="30" width="80" height="20" forecolor="#000000"/>
 				<textElement>
 					<font fontName="Arial Black" isBold="false"/>
 				</textElement>
 				<text><![CDATA[LE ATIENDE:]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement uuid="1164e6cd-83cb-46f9-9412-21e8c5941656" x="462" y="130" width="167" height="50"/>
+				<reportElement uuid="1164e6cd-83cb-46f9-9412-21e8c5941656" x="361" y="130" width="167" height="50"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="Dataset2" uuid="72a89a27-e800-479c-b637-d2e751b33d07">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
@@ -316,7 +316,7 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<text><![CDATA[LE ATIENDE:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0c2f26c5-a76f-4ee0-b45a-b913d63d67a9" x="510" y="300" width="80" height="20" forecolor="#000000"/>
+				<reportElement uuid="0c2f26c5-a76f-4ee0-b45a-b913d63d67a9" x="409" y="300" width="80" height="20" forecolor="#000000"/>
 				<textElement>
 					<font fontName="Arial Black" isBold="false"/>
 				</textElement>
@@ -350,16 +350,16 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<reportElement uuid="62a2843b-1f2a-4e60-a38b-e51328d7bd05" x="0" y="217" width="169" height="5" forecolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="720b8541-1db7-443b-829c-28a81f8c6fa8" x="461" y="217" width="169" height="5" forecolor="#FFFFFF"/>
+				<reportElement uuid="720b8541-1db7-443b-829c-28a81f8c6fa8" x="360" y="217" width="169" height="5" forecolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="8fd52aae-a57c-46f0-920c-1d68ac749a70" x="461" y="488" width="169" height="5" forecolor="#FFFFFF"/>
+				<reportElement uuid="8fd52aae-a57c-46f0-920c-1d68ac749a70" x="360" y="488" width="169" height="5" forecolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle>
 				<reportElement uuid="11f5e822-52eb-437f-9cd0-ad404dee39e1" x="0" y="488" width="169" height="5" forecolor="#FFFFFF"/>
 			</rectangle>
 			<componentElement>
-				<reportElement uuid="e9077474-b016-49af-9bd1-e57edd80a61e" x="462" y="400" width="167" height="50"/>
+				<reportElement uuid="e9077474-b016-49af-9bd1-e57edd80a61e" x="361" y="400" width="167" height="50"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="Dataset4" uuid="c5a4f0da-d01e-4a51-872b-7fd50adb4a04">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>

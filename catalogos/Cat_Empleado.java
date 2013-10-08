@@ -655,7 +655,7 @@ public class Cat_Empleado extends JFrame{
 							return;
 						}else{
 							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-							empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
+							empleado.setNo_checador(txtChecador.getText());
 							empleado.setNombre(procesa_texto(txtNombre.getText()));
 							empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 							if(txtApMaterno.getText().length() != 0){
@@ -758,7 +758,7 @@ public class Cat_Empleado extends JFrame{
 						return;
 					}else{
 						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-						empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
+						empleado.setNo_checador(txtChecador.getText());
 						empleado.setNombre(procesa_texto(txtNombre.getText()));
 						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 						
