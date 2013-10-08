@@ -146,13 +146,13 @@ public class ActualizarSQL {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 		
-			pstmt.setString(1, denom.getAsignacion().toUpperCase());
-			pstmt.setInt(2,denom.getFolio_empleado());
-			pstmt.setInt(3, denom.getFolio_denominacion());
-			pstmt.setString(4,denom.getDenominacion().toUpperCase());
-			pstmt.setFloat(5, denom.getValor());
-			pstmt.setFloat(6, denom.getCantidad());
-			pstmt.setString(7, denom.getFecha());
+//			pstmt.setString(1, denom.getAsignacion().toUpperCase());
+//			pstmt.setInt(2,denom.getFolio_empleado());
+//			pstmt.setInt(3, denom.getFolio_denominacion());
+//			pstmt.setString(4,denom.getDenominacion().toUpperCase());
+//			pstmt.setFloat(5, denom.getValor());
+//			pstmt.setFloat(6, denom.getCantidad());
+//			pstmt.setString(7, denom.getFecha());
 			
 			pstmt.executeUpdate();
 			con.commit();

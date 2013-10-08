@@ -109,6 +109,7 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		
 		return lista;
 	}
+
 	public static void main(String args[]){
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -117,6 +118,7 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			System.err.println("Error: "+e.getMessage());
 		}
 	}
+	
 	ActionListener op_filtro = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			new Cat_Filtro_Empleado().setVisible(true);

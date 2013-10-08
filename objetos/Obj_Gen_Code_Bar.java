@@ -7,18 +7,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 public class Obj_Gen_Code_Bar {
 	public void Generar_Code(String code, String name){
-		Code39Bean bean = new Code39Bean();
+		Code128Bean bean = new Code128Bean();
 		final int dpi = 150;
 		
 		bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
 		
-		bean.setWideFactor(3);
+//		bean.setWideFactor(3);
 		bean.doQuietZone(false);
 
 		File outputFile = new File(System.getProperty("user.dir")+"/AssetGafete/Codigos_Barras/"+name+".png");

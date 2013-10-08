@@ -929,13 +929,13 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				denom.setAsignacion(rs.getString("asignacion").trim());
-				denom.setFolio_empleado(rs.getInt("folio_empleado"));
-				denom.setFolio_denominacion(rs.getInt("folio_denominacion"));
-				denom.setDenominacion(rs.getString("denominacion").trim());
-				denom.setValor(rs.getFloat("valor"));
-				denom.setCantidad(rs.getFloat("cantidad"));
-				denom.setFecha(rs.getString("fecha").trim());
+//				denom.setAsignacion(rs.getString("asignacion").trim());
+//				denom.setFolio_empleado(rs.getInt("folio_empleado"));
+//				denom.setFolio_denominacion(rs.getInt("folio_denominacion"));
+//				denom.setDenominacion(rs.getString("denominacion").trim());
+//				denom.setValor(rs.getFloat("valor"));
+//				denom.setCantidad(rs.getFloat("cantidad"));
+//				denom.setFecha(rs.getString("fecha").trim());
 			}
 			
 		} catch (Exception e) {

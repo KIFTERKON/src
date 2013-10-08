@@ -284,7 +284,7 @@ public class Cat_Checador extends JFrame {
 		}
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
-		txtClaveReal.setDocument(new JTextFieldLimit(30));
+		txtClaveReal.setDocument(new JTextFieldLimit(100));
 
 		txtClaveReal.setEditable(false);
 		
@@ -432,24 +432,22 @@ public class Cat_Checador extends JFrame {
 		public void keyReleased(KeyEvent e){}
 	};
 	
-	
 //FUNCION PARA CONFIRMAR  EL No_Checador(clave) Y REGISTRAR MOVIMIENTO DE ENTRADA O SALIDA A TRAVES DE UN ENTER 
 	KeyListener action_entosal_clave = new KeyListener() {
-		@SuppressWarnings("deprecation")
 		@Override
 		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-
-		   if(((caracter < '0') ||
-		        (caracter > '9'))||
-		        (caracter == KeyEvent.VK_BACK_QUOTE)&&
-		        (caracter != KeyEvent.VK_BACK_SPACE)){
-			   
-		    	e.consume(); 
-		    	
-		    }else{
-		    	txtClaveReal.setText(txtClaveReal.getText()+"  ");
-		    }			
+//			char caracter = e.getKeyChar();
+//
+//		   if(((caracter < '0') ||
+//		        (caracter > '9'))||
+//		        (caracter == KeyEvent.VK_BACK_QUOTE)&&
+//		        (caracter != KeyEvent.VK_BACK_SPACE)){
+//			   
+//		    	e.consume(); 
+//		    	
+//		    }else{
+//		    	txtClaveReal.setText(txtClaveReal.getText()+"  ");
+//		    }			
 		}
 		
 		@SuppressWarnings("deprecation")
@@ -723,7 +721,7 @@ public class Cat_Checador extends JFrame {
 	
 	@SuppressWarnings({ "unchecked", "static-access" })
 	public void init_tabla(){
-		
+		this.tabla.getTableHeader().setReorderingAllowed(false) ;
 		
 		if(anchoMon <= 1380){
 			x=45;
