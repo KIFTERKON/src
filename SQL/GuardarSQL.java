@@ -621,15 +621,16 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Denominaciones(Obj_Denominaciones denominaciones){
-		String query = "insert into tb_denominaciones(nombre,moneda,status) values(?,?,?)";
+		String query = "exec sp_insert_alta_denominacion ?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, denominaciones.getNombre().toUpperCase());
-			pstmt.setString(2, denominaciones.getMoneda());
-			pstmt.setString(3, (denominaciones.getStatus())?"1":"0");
+			pstmt.setString(1, denominaciones.getDenominacion().toUpperCase());
+			pstmt.setFloat(2, denominaciones.getValor_denominacion());
+			pstmt.setString(3, denominaciones.getMoneda());
+			pstmt.setInt(4, (denominaciones.isStatus())?1:0);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1050,25 +1051,38 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Alimentacion_denominacio(Obj_Alimentacion_Denominacion alim_denom){
+	public boolean Guardar_Alimentacion_denominacio(Obj_Alimentacion_Denominacion alim_denom,Object[][] tabla){
 		
-		String query = "insert into tb_alimentacion_denominaciones(asignacion," +
-				"folio_empleado,folio_denominacion,denominacion,valor,cantidad,fecha)" +
-				" values(?,?,?,?,?,?,?)";
+//		String query_delete = "exec sp_delete_alimentacion_multiple ?";
+//		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
 		
+		String query ="exec sp_insert_denominaciones ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
-		PreparedStatement pstmt = null;
+		
 		try {
+//			PreparedStatement pstmtDelete = con.prepareStatement(query_delete);
+			PreparedStatement pstmt = con.prepareStatement(query);
+
 			con.setAutoCommit(false);
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, alim_denom.getAsignacion().toUpperCase());
-			pstmt.setInt(2, alim_denom.getFolio_empleado());
-			pstmt.setInt(3, alim_denom.getFolio_denominacion());
-			pstmt.setString(4, alim_denom.getDenominacion().toUpperCase());
-			pstmt.setFloat(5, alim_denom.getValor());
-			pstmt.setFloat(6, alim_denom.getCantidad());
-			pstmt.setString(7, alim_denom.getFecha());
-			pstmt.executeUpdate();
+			
+//			pstmtDelete.setString(1, alimentacion.getNombre());
+//			pstmtDelete.executeUpdate();
+			
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmt.setString(1, alim_denom.getAsignacion().toUpperCase());
+				pstmt.setString(2, alim_denom.getEmpleado().toUpperCase().trim());
+				pstmt.setString(3, alim_denom.getFecha());
+				pstmt.setString(4, alim_denom.getEstablecimiento().toUpperCase());
+				
+				pstmt.setInt(5, Integer.parseInt(tabla[i][0].toString().trim()));
+//				pstmt.setString(6, tabla[i][1].toString().trim());
+				pstmt.setFloat(6, Float.parseFloat(tabla[i][2].toString().trim()));
+				pstmt.setFloat(7,Float.parseFloat(tabla[i][3].toString().trim()));
+				
+				pstmt.executeUpdate();
+			}
+					
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());
