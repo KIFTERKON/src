@@ -54,7 +54,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 		<groupHeader>
 			<band height="37">
 				<frame>
-					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#000000"/>
+					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#000080" backcolor="#000080"/>
 					<textField isStretchWithOverflow="true">
 						<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="228" height="24" forecolor="#FFFFFF"/>
 						<textElement>
@@ -87,33 +87,16 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="132" splitType="Stretch">
+		<band height="45" splitType="Stretch">
 			<frame>
-				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="451" height="95" backcolor="#000000"/>
+				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="553" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
-					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="370" height="66"/>
-					<textElement>
-						<font isBold="false"/>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="553" height="40"/>
+					<textElement textAlignment="Center">
+						<font size="32" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Cherry Title]]></text>
+					<text><![CDATA[Reporte General de Asistencia]]></text>
 				</staticText>
-				<staticText>
-					<reportElement uuid="98d6cdb0-47c3-497c-b694-3e1276ff4ba0" style="SubTitle" x="157" y="66" width="249" height="29"/>
-					<textElement>
-						<font size="22" isBold="false"/>
-					</textElement>
-					<text><![CDATA[Cherry SubTitle]]></text>
-				</staticText>
-			</frame>
-			<frame>
-				<reportElement uuid="cd7c375a-0dbc-49bc-b8e1-b4bbe2c3e5c5" mode="Opaque" x="0" y="100" width="451" height="32" forecolor="#000000" backcolor="#CC0000"/>
-				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement uuid="fd5dd175-6ab8-4cb3-bcf8-0324c013b3d4" x="307" y="12" width="144" height="20" forecolor="#FFFFFF"/>
-					<textElement textAlignment="Right">
-						<font size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-				</textField>
 			</frame>
 		</band>
 	</title>
@@ -121,64 +104,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="26" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="1d62bade-27ba-467a-a6f2-3e9833607282" style="Column header" x="0" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[folio_empleado]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="b7484f59-aeba-4c9c-9086-18244f0051c3" style="Column header" x="69" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[dia]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="13407e84-d635-408d-9012-ba6d4ef4eb8a" style="Column header" x="138" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[fecha_corta]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="c36f3b24-4cb8-4c64-8f7d-76c1a7ca2987" style="Column header" x="207" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[hora_registro]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="a29083a3-9b33-4cff-a450-ac863fd9bc7a" style="Column header" x="276" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[Movimiento]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ee365a98-81e9-4ebb-9086-6e7e9f78e3c9" style="Column header" x="345" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[comida_receso]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="472a6ba5-6eb5-417d-bd4b-ec0f5faa683c" style="Column header" x="414" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[fecha_inicial]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="8078c8fe-5628-4d32-befb-af3e3ce8fea7" style="Column header" x="483" y="7" width="69" height="18" forecolor="#000000"/>
-				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[fecha_final]]></text>
-			</staticText>
-		</band>
+		<band height="4" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
 		<band height="18" splitType="Stretch">
@@ -228,7 +154,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement uuid="3779e6f8-81f6-4e28-b25e-c27f5724c713" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000"/>
+				<reportElement uuid="3779e6f8-81f6-4e28-b25e-c27f5724c713" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#000080" backcolor="#000080"/>
 				<textField evaluationTime="Report">
 					<reportElement uuid="0ab7e32f-5093-48e8-9280-55e1963fb350" style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
