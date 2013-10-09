@@ -87,7 +87,7 @@ public class GuardarSQL {
 			
 			
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, empleado.getNo_checador());
+			pstmt.setString(1, empleado.getNo_checador());
 			pstmt.setString(2, empleado.getNombre().toUpperCase());
 			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
 			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
@@ -621,15 +621,16 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Denominaciones(Obj_Denominaciones denominaciones){
-		String query = "insert into tb_denominaciones(nombre,moneda,status) values(?,?,?)";
+		String query = "exec sp_insert_alta_denominacion ?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, denominaciones.getNombre().toUpperCase());
-			pstmt.setString(2, denominaciones.getMoneda());
-			pstmt.setString(3, (denominaciones.getStatus())?"1":"0");
+			pstmt.setString(1, denominaciones.getDenominacion().toUpperCase());
+			pstmt.setFloat(2, denominaciones.getValor_denominacion());
+			pstmt.setString(3, denominaciones.getMoneda());
+			pstmt.setInt(4, (denominaciones.isStatus())?1:0);
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1055,7 +1056,7 @@ public class GuardarSQL {
 //		String query_delete = "exec sp_delete_alimentacion_multiple ?";
 //		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
 		
-		String query ="exec sp_insert_denominaciones ?,?,?,?,?,?";
+		String query ="exec sp_insert_denominaciones ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {
@@ -1072,11 +1073,12 @@ public class GuardarSQL {
 				pstmt.setString(1, alim_denom.getAsignacion().toUpperCase());
 				pstmt.setString(2, alim_denom.getEmpleado().toUpperCase().trim());
 				pstmt.setString(3, alim_denom.getFecha());
+				pstmt.setString(4, alim_denom.getEstablecimiento().toUpperCase());
 				
-				pstmt.setInt(4, Integer.parseInt(tabla[i][0].toString().trim()));
-//				pstmt.setString(5, tabla[i][1].toString().trim());
-				pstmt.setFloat(5, Float.parseFloat(tabla[i][2].toString().trim()));
-				pstmt.setFloat(6,Float.parseFloat(tabla[i][3].toString().trim()));
+				pstmt.setInt(5, Integer.parseInt(tabla[i][0].toString().trim()));
+//				pstmt.setString(6, tabla[i][1].toString().trim());
+				pstmt.setFloat(6, Float.parseFloat(tabla[i][2].toString().trim()));
+				pstmt.setFloat(7,Float.parseFloat(tabla[i][3].toString().trim()));
 				
 				pstmt.executeUpdate();
 			}

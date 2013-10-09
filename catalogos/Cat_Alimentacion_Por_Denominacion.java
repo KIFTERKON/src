@@ -48,9 +48,10 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 	JDateChooser txtFecha = new JDateChooser();
 	JTextField txtTotal = new JTextField();
 	
-	DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Alimentacion_Por_Denominacion().get_tabla_model(), new String[]{"Folio", "Denominacion", "Valor", "$ Cantidad"}) {
+	DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Alimentacion_Por_Denominacion().get_tabla_model(), new String[]{"Folio", "Denominacion","# Denominacion", "Valor", "$ Cantidad"}) {
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
+	    	java.lang.Object.class,
 	    	java.lang.Object.class,
 	    	java.lang.Object.class,
 	    	java.lang.Object.class,

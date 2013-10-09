@@ -217,8 +217,11 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnIncontratables).setBounds(x*2+ancho*3-20+ancho+330,y+450,130,20);
 		
 		panel.add(btnTrueFoto).setBounds(x*2+ancho*3-20, y+205,235,25);
-		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+235,80,25);
+		
+		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+235,80,25);		
+		panel.add(new JLabel("320 x 240")).setBounds(x*2+ancho*3+73, y+235,60,25);
 		panel.add(btnCamara).setBounds(x*2+ancho*3+135, y+235,80,25);
+		
 		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+265,ancho+95,205);
 	
 		panel.add(new JLabel("Clave Checador")).setBounds(x,y+=25,ancho,20);
@@ -349,7 +352,6 @@ public class Cat_Empleado extends JFrame{
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
-		txtChecador.addKeyListener(numerico_action);
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		txtPensionAli.addKeyListener(validaNumericoPension);
 		
@@ -656,7 +658,7 @@ public class Cat_Empleado extends JFrame{
 							return;
 						}else{
 							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-							empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
+							empleado.setNo_checador(txtChecador.getText());
 							empleado.setNombre(procesa_texto(txtNombre.getText()));
 							empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 							if(txtApMaterno.getText().length() != 0){
@@ -760,7 +762,7 @@ public class Cat_Empleado extends JFrame{
 					}else{
 						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 						
-						empleado.setNo_checador(Integer.parseInt(txtFolio.getText()));
+						empleado.setNo_checador(txtFolio.getText());
 						empleado.setNombre(procesa_texto(txtNombre.getText()));
 						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 						

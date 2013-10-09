@@ -87,9 +87,9 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	JLabel lblEstablecimineto = new JLabel();
 	JTextField txtFechaCorte = new JTextField();
 	
-	JTextField txtAsignacionCorte = new JTextField("dsafsf");
-	JTextField txtDeposito = new JTextField("10345");
-	JTextField txtCorteSistema = new JTextField("12345");
+	JTextField txtAsignacionCorte = new JTextField("dftytsf");
+	JTextField txtDeposito = new JTextField("105");
+	JTextField txtCorteSistema = new JTextField("135");
 	JTextField txtEfectivo = new JTextField();
 	
 	JCheckBox chStatus = new JCheckBox("Status");
@@ -464,8 +464,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		JLayeredPane panel = new JLayeredPane();
 		
 		JTextField txtAsignacion = new JTextField();
-//		JTextField txtNombre_Completo = new JTextField();
-//		JButton btn_refrescar= new JButton("Refrescar");
 		
 		public JToolBar menu_toolbar = new JToolBar();
 		JButton btn_guardar= new JButton(new ImageIcon("Iconos/save_icon&16.png"));
@@ -607,6 +605,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 							Alim_Denom.setAsignacion(txtAsignacion.getText().trim());
 							Alim_Denom.setEmpleado(lblEmpleado.getText());
 							Alim_Denom.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFecha.getDate()));
+							Alim_Denom.setEstablecimiento(lblEstablecimineto.getText());
 							
 							if(Alim_Denom.guardar(tabla_guardar())){
 								txtEfectivo.setText(suma+"");
@@ -720,15 +719,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	    		return false;
 	    	}
 	    }
-
-//		public static void main(String[] args) {
-//			try{
-//				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//				new Cat_Alimentacion_Por_Denominacion().setVisible(true);
-//			}catch(Exception e){
-//				
-//			}
-//		}
 	}
 	
 	
@@ -802,7 +792,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	        	 } 				
 	 			return false;
 	 		}
-			
 		};
 		
 		JTable tabla = new JTable(model);
@@ -836,7 +825,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 			panel.add(menu);
 			cont.add(panel);
 
-//			 setUpIntegerEditor(tabla);
 			tabla.addKeyListener(validaNumericoConPunto);
 			
 			tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
@@ -871,11 +859,11 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 				denom=denom.buscar(asignacion);
 				
 				try {
-				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(denom.getFecha());
-				txtCalendario.setDate(date);
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
+					Date date = new SimpleDateFormat("dd/MM/yyyy").parse(denom.getFecha());
+					txtCalendario.setDate(date);
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 				
 				lblEmpleadoId.setText(folio_emp+"");
 				
@@ -953,48 +941,43 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 			}else{
 				if(txtTotal.getText()==""){
 					JOptionPane.showMessageDialog(null, "Verifique Total de Alimentacion!","Aviso",JOptionPane.WARNING_MESSAGE);
-				} else{
+				}else{
 					
 					Obj_Alimentacion_Denominacion denom = new Obj_Alimentacion_Denominacion().buscar(txtAsignacion.getText());
 					
 						if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 							if(validaCampos()!="") {
-								JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-								return;
+									JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+									return;
 							}else{
 							
-							
-							
-							for(int i=0; i<model.getRowCount(); i++){
-								for(int j=0; j<model.getColumnCount(); j++){
-									model.isCellEditable(i,j);
-									miVector.add(model.getValueAt(i,j).toString());
-								}
-
-//								txtFecha1.setText(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-//								denom.setAsignacion(txtAsignacion.getText().trim());
-//								denom.setFolio_empleado(Integer.parseInt(lblEmpleadoId.getText()));
-//								denom.setFolio_denominacion(Integer.parseInt(miVector.get(0).toString().trim()));
-//								denom.setDenominacion(miVector.get(1).toString().trim());
-//								denom.setValor(Float.parseFloat(miVector.get(2).toString().trim()));
-//								if(miVector.get(3) != ""){
-//									denom.setCantidad(Float.parseFloat(miVector.get(3).toString().trim()));
-//								}else{
-//									miVector.set(3,0);
-//									denom.setCantidad(Integer.parseInt(miVector.get(3).toString().trim()));
-//								}
-								denom.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-//								denom.actualizar(txtAsignacion.getText(),Integer.parseInt(miVector.get(0).toString().trim()));
-							miVector.clear();
-								}
-							
-								txtEfectivo.setText(suma+"");
+									for(int i=0; i<model.getRowCount(); i++){
+										for(int j=0; j<model.getColumnCount(); j++){
+											model.isCellEditable(i,j);
+											miVector.add(model.getValueAt(i,j).toString());
+										}
+		
+//										txtFecha1.setText(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+//										denom.setAsignacion(txtAsignacion.getText().trim());
+//										denom.setFolio_empleado(Integer.parseInt(lblEmpleadoId.getText()));
+//										denom.setFolio_denominacion(Integer.parseInt(miVector.get(0).toString().trim()));
+//										denom.setDenominacion(miVector.get(1).toString().trim());
+//										denom.setValor(Float.parseFloat(miVector.get(2).toString().trim()));
+//										if(miVector.get(3) != ""){
+//											denom.setCantidad(Float.parseFloat(miVector.get(3).toString().trim()));
+//										}else{
+//											miVector.set(3,0);
+//											denom.setCantidad(Integer.parseInt(miVector.get(3).toString().trim()));
+//										}
+										denom.setFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+//										denom.actualizar(txtAsignacion.getText(),Integer.parseInt(miVector.get(0).toString().trim()));
+										miVector.clear();
+									}
+									
+										txtEfectivo.setText(suma+"");
 							}
 							JOptionPane.showMessageDialog(null, "La lista se actualizo exitosamente!","Aviso",JOptionPane.WARNING_MESSAGE);
 							dispose();
-							
-							
-							
 						}else{
 							return;
 						}
@@ -1006,19 +989,14 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char caracter = e.getKeyChar();
-			    if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
+			    if(((caracter < '0') || (caracter > '9')) && (caracter != '.' )){
+			    		e.consume();
 			    	}
 			    	
 			   if (caracter==KeyEvent.VK_PERIOD){
-			    		    	
 			    	String texto = tabla.getColumnName(3);
 					if (texto.indexOf(".")>-1) e.consume();
-					
 				}
-			    		    		       	
 			}
 			@Override
 			public void keyPressed(KeyEvent e){}
@@ -1147,8 +1125,4 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 			   } catch (Exception e) 
 			   { }	
 	}
-//	public static void main (String [] arg){
-////		new Cat_Alimentacion_Cortes(1,"CEDIS").setVisible(true);
-//		new Cat_Filtro_Cortes().setVisible(true);
-//	}
 }

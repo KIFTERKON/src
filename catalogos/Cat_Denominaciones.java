@@ -31,9 +31,7 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
-
 import objetos.Obj_Denominaciones;
-import objetos.Obj_Divisa_Y_TipoDeCambio;
 
 @SuppressWarnings("serial")
 public class Cat_Denominaciones extends JFrame{
@@ -54,7 +52,8 @@ Connexion con = new Connexion();
 	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	JTextField txtFolio = new JTextField();
-	JTextField txtNombre = new JTextField();
+	JTextField txtDenominacion = new JTextField();
+	JTextField txtValorD = new JTextField();
 	
 	String divisa[] = new Obj_Denominaciones().Combo_Denominaciones();
 
@@ -79,30 +78,34 @@ Connexion con = new Connexion();
 		int x = 15, y=30, ancho=100;
 		
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
-		panel.add(txtFolio).setBounds(ancho-20,y,ancho,20);
+		panel.add(txtFolio).setBounds(ancho,y,ancho,20);
 		
-		panel.add(chStatus).setBounds(x+(ancho*2),y,70,20);
+		panel.add(chStatus).setBounds(x+(ancho*2)+20,y,70,20);
 		
-		panel.add(new JLabel("Nombre:")).setBounds(x,y+=30,ancho,20);
-		panel.add(txtNombre).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnNuevo).setBounds(x+270,y,ancho,20);
+		panel.add(new JLabel("Denominacion:")).setBounds(x,y+=30,ancho,20);
+		panel.add(txtDenominacion).setBounds(ancho,y,ancho+ancho,20);
+		panel.add(btnNuevo).setBounds(x+290,y,ancho,20);
+		
+		panel.add(new JLabel("Valor denominacion:")).setBounds(x,y+=30,ancho+20,20);
+		panel.add(txtValorD).setBounds(ancho+40,y,ancho+ancho-40,20);
 		
 		panel.add(new JLabel("Moneda:")).setBounds(x,y+=30,ancho,20);
-		panel.add(cmbMoneda).setBounds(ancho-20,y,ancho+ancho,20);
-		panel.add(btnEditar).setBounds(x+270,y,ancho,20);
-		panel.add(btnDeshacer).setBounds(x+ancho+60,y+=30,ancho,20);
-		panel.add(btnSalir).setBounds(x-10+60,y,ancho,20);
-		panel.add(btnGuardar).setBounds(x+270,y,ancho,20);
+		panel.add(cmbMoneda).setBounds(ancho,y,ancho+ancho,20);
+		panel.add(btnEditar).setBounds(x+290,y,ancho,20);
+		panel.add(btnDeshacer).setBounds(x+ancho+85,y+=30,ancho,20);
+		panel.add(btnSalir).setBounds(x+80,y,ancho,20);
+		panel.add(btnGuardar).setBounds(x+290,y,ancho,20);
 		
-		panel.add(getPanelTabla()).setBounds(x+ancho*4,20,380,130);
+		panel.add(getPanelTabla()).setBounds(x+ancho*4,20,380,150);
 		
 		chStatus.setSelected(true);
 		chStatus.setEnabled(false);
 		txtFolio.setEditable(false);
-		txtNombre.setEditable(false);
+		txtDenominacion.setEditable(false);
+		txtValorD.setEditable(false);
 		cmbMoneda.setEditable(false);
 		
-		txtNombre.requestFocus();
+		txtDenominacion.requestFocus();
 		txtFolio.addKeyListener(numerico_action);
 		cmbMoneda.addKeyListener(guardar_action);
 		
@@ -126,20 +129,20 @@ Connexion con = new Connexion();
 		new Connexion();
 
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
-		tabla.getColumnModel().getColumn(0).setMinWidth(50);
+		tabla.getColumnModel().getColumn(0).setMinWidth(45);
+		tabla.getColumnModel().getColumn(0).setMinWidth(45);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Denominacion");
-		tabla.getColumnModel().getColumn(1).setMinWidth(150);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(150);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Moneda");
-		tabla.getColumnModel().getColumn(2).setMinWidth(90);
-		tabla.getColumnModel().getColumn(2).setMaxWidth(90);
+		tabla.getColumnModel().getColumn(1).setMinWidth(130);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(130);
+		tabla.getColumnModel().getColumn(2).setHeaderValue("# Denominacion");
+		tabla.getColumnModel().getColumn(2).setMinWidth(120);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(120);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Valor");
-		tabla.getColumnModel().getColumn(3).setMinWidth(45);
-		tabla.getColumnModel().getColumn(3).setMaxWidth(45);
+		tabla.getColumnModel().getColumn(3).setMinWidth(40);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(40);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("Status");
-		tabla.getColumnModel().getColumn(4).setMinWidth(45);
-		tabla.getColumnModel().getColumn(4).setMaxWidth(45);
+		tabla.getColumnModel().getColumn(4).setMinWidth(40);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(40);
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -174,14 +177,12 @@ Connexion con = new Connexion();
 		try {
 			s = con.conexion().createStatement();
 			rs = s.executeQuery("select tb_denominaciones.folio as [Folio],"+
-					 "  tb_denominaciones.nombre as [Nombre], "+
+					 "  tb_denominaciones.denominacion as [Nombre], "+
+					 "  tb_denominaciones.valor_denominacion as [Valor_Denominacion], "+
 					 "  tb_denominaciones.moneda as [Moneda], " +
-					 "  tb_divisas_tipo_de_cambio.valor as [Valor]," +
 					 "	 tb_denominaciones.status as [Status] "+
 					
-		"  from tb_denominaciones,tb_divisas_tipo_de_cambio" +
-		" where " +
-				"tb_divisas_tipo_de_cambio.nombre_divisas=tb_denominaciones.moneda");
+		"  from tb_denominaciones");
 			
 			while (rs.next())
 			{ 
@@ -213,11 +214,13 @@ Connexion con = new Connexion();
 						Obj_Denominaciones denominaciones = new Obj_Denominaciones().buscar(id);
 						
 						txtFolio.setText(id+"");
-						txtNombre.setText(modelo.getValueAt(fila,1)+"");
-						cmbMoneda.setSelectedItem(modelo.getValueAt(fila,2)+"");
+						txtDenominacion.setText(modelo.getValueAt(fila,1)+"");
+						txtValorD.setText(modelo.getValueAt(fila,2)+"");
+						cmbMoneda.setSelectedItem(modelo.getValueAt(fila,3)+"");
 						btnEditar.setEnabled(true);
 						btnNuevo.setEnabled(false);
-						txtNombre.setEditable(false);
+						txtDenominacion.setEditable(false);
+						txtValorD.setEditable(false);
 						
 						if(Integer.parseInt(modelo.getValueAt(fila,4)+"")!=0){
 							chStatus.setSelected(true);
@@ -235,7 +238,7 @@ Connexion con = new Connexion();
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El Folio Es Requerido", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}
-			if(txtNombre.getText().equals("")){
+			if(txtDenominacion.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El Nombre De La Denominacion Es Requerido", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
 				Obj_Denominaciones denominaciones = new Obj_Denominaciones().buscar(Integer.parseInt(txtFolio.getText()));
@@ -248,21 +251,20 @@ Connexion con = new Connexion();
 					}
 					if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
 
-							Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
-							divisas = divisas.buscar_divisas(cmbMoneda.getSelectedItem()+"");
-
 							int nroFila = tabla.getSelectedRow();
-							denominaciones.setNombre(txtNombre.getText()+"");
+							denominaciones.setDenominacion(txtDenominacion.getText()+"");
+							denominaciones.setValor_denominacion(Float.parseFloat(txtValorD.getText()+""));							
 							denominaciones.setMoneda(cmbMoneda.getSelectedItem()+"");
 							denominaciones.setStatus(chStatus.isSelected());
 							btnNuevo.setEnabled(true);
 							denominaciones.actualizar(Integer.parseInt(txtFolio.getText()+""));
-							modelo.setValueAt(txtFolio.getText(),nroFila,0);
-							modelo.setValueAt(txtNombre.getText(),nroFila,1);
-							modelo.setValueAt(cmbMoneda.getSelectedItem()+"", nroFila, 2);
-							modelo.setValueAt(divisas.getValor(),nroFila,3);
 							
-							if(denominaciones.getStatus()==true){
+							modelo.setValueAt(txtFolio.getText(),nroFila,0);
+							modelo.setValueAt(txtDenominacion.getText(),nroFila,1);
+							modelo.setValueAt(txtValorD, nroFila, 2);
+							modelo.setValueAt(cmbMoneda.getSelectedItem()+"", nroFila, 3);
+							
+							if(denominaciones.isStatus()==true){
 								modelo.setValueAt(1, nroFila, 4);
 							}else{
 								modelo.setValueAt(0, nroFila, 4);
@@ -273,7 +275,7 @@ Connexion con = new Connexion();
 						return;
 					}
 				}else{
-					if(txtNombre.getText().equals("")){
+					if(txtDenominacion.getText().equals("")){
 						JOptionPane.showMessageDialog(null, "El Nombre De La Denominacion Es Requerido", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					}
 					if(cmbMoneda.getSelectedIndex()==0){
@@ -282,11 +284,8 @@ Connexion con = new Connexion();
 					}else{
 						denominaciones = denominaciones.buscar(Integer.parseInt(txtFolio.getText()));
 						
-						Obj_Divisa_Y_TipoDeCambio divisas = new Obj_Divisa_Y_TipoDeCambio();
-						divisas = divisas.buscar_divisas(cmbMoneda.getSelectedItem()+"");						
-
-						
-						denominaciones.setNombre(txtNombre.getText());
+						denominaciones.setDenominacion(txtDenominacion.getText());
+						denominaciones.setValor_denominacion(Float.parseFloat(txtValorD.getText()+""));
 						denominaciones.setMoneda(cmbMoneda.getSelectedItem()+"");
 						denominaciones.setStatus(chStatus.isSelected());
 						denominaciones.guardar();
@@ -294,14 +293,11 @@ Connexion con = new Connexion();
 						Object[] fila = new Object[tabla.getColumnCount()]; 
 							
 						fila[0]=txtFolio.getText();
-						fila[1]=txtNombre.getText();
-						fila[2]=cmbMoneda.getSelectedItem()+"";
+						fila[1]=txtDenominacion.getText();
+						fila[2]=txtValorD.getText();
+						fila[3]=cmbMoneda.getSelectedItem()+"";
 						
-						System.out.println("nombre cmbMoneda: "+ cmbMoneda.getSelectedItem()+"");
-						System.out.println("nombre divisa: "+ divisas.getNombre());
-						fila[3]=divisas.getValor();
-
-						if(denominaciones.getStatus()==true){
+						if(denominaciones.isStatus()==true){
 							fila[4]=1;
 						}else{
 							fila[4]=0;
@@ -312,7 +308,7 @@ Connexion con = new Connexion();
 					}
 				}
 			}
-			txtNombre.requestFocus();
+			txtDenominacion.requestFocus();
 			panelLimpiar();
 			panelEnabledFalse();
 		}
@@ -385,7 +381,7 @@ Connexion con = new Connexion();
 	@SuppressWarnings("unused")
 	private String validaCampos(){
 		String error="";
-		if(txtNombre.getText().equals("")) 			error+= "Nombre\n";
+		if(txtDenominacion.getText().equals("")) 			error+= "Nombre\n";
 				
 		return error;
 	}
@@ -397,12 +393,12 @@ Connexion con = new Connexion();
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(denominaciones.getFolio()+1+"");
-				txtNombre.requestFocus();
+				txtDenominacion.requestFocus();
 			}else{
 				panelLimpiar();
 				panelEnabledTrue();
 				txtFolio.setText(1+"");
-				txtNombre.requestFocus();
+				txtDenominacion.requestFocus();
 			}
 		}
 	};
@@ -414,7 +410,7 @@ Connexion con = new Connexion();
 			panelEnabledFalse();
 			
 			txtFolio.setText("");
-			txtNombre.requestFocus();
+			txtDenominacion.requestFocus();
 			btnNuevo.setEnabled(true);
 			btnEditar.setEnabled(false);
 			chStatus.setSelected(true);
@@ -430,16 +426,17 @@ Connexion con = new Connexion();
 	};
 	
 	public void panelEnabledFalse(){	
-		txtNombre.setEditable(false);
+		txtDenominacion.setEditable(false);
 	}		
 	
 	public void panelEnabledTrue(){	
-		txtNombre.setEditable(true);
+		txtDenominacion.setEditable(true);
+		txtValorD.setEditable(true);
 	}
 	
 	public void panelLimpiar(){
 		txtFolio.setText("");
-		txtNombre.setText("");
+		txtDenominacion.setText("");
 		cmbMoneda.setSelectedIndex(0);
 	}
 	public static void main (String [] arg){

@@ -2,12 +2,8 @@ package objetos;
 
 import java.sql.SQLException;
 
-import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
-import SQL.GuardarTablasModel;
-
-
 
 public class Obj_Alimentacion_Denominacion {
 	String asignacion;
@@ -16,12 +12,13 @@ public class Obj_Alimentacion_Denominacion {
 //	float valor;
 //	float cantidad;
 	String fecha;
+	String establecimiento;
 	
 	public Obj_Alimentacion_Denominacion(){
 		this.asignacion=""; this.empleado=""; 
 //		this.folio_denominacion=0;
 //		this.valor=0; this.cantidad=0;
-		this.fecha="";
+		this.fecha=""; this.establecimiento="";
 	}
 
 	public String getAsignacion() {
@@ -72,8 +69,17 @@ public class Obj_Alimentacion_Denominacion {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-//	public boolean guardar(Object[][] tabla){ return new GuardarSQL().Guardar_Alimentacion_denominacio(tabla, this); }
 	
+	public String getEstablecimiento() {
+		return establecimiento;
+	}
+
+	public void setEstablecimiento(String establecimiento) {
+		this.establecimiento = establecimiento;
+	}
+	
+//	public boolean guardar(Object[][] tabla){ return new GuardarSQL().Guardar_Alimentacion_denominacio(tabla, this); }
+
 	public boolean guardar(Object[][] tabla){ 
 //		boolean registro = new GuardarSQL().Guardar_Cuadrante(this); 
 		return new GuardarSQL().Guardar_Alimentacion_denominacio(this, tabla);

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -32,6 +33,7 @@ import javax.swing.table.TableRowSorter;
 
 import objetos.Obj_Gen_Code_Bar;
 import objetos.Obj_Reporte_Impresion_Gafetes;
+import reporte.Reporte_Impresion_de_Gafetes;
 
 import SQL.Connexion;
 
@@ -40,17 +42,16 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
-	
 	JButton btn_Empleados = new  JButton("Empleados");
-	
-	JButton btn_Limpiar = new JButton("Limpiar");
 	JButton btn_Generar = new JButton("Generar Gafetes");
 	
 	private DefaultTableModel tabla_model = new DefaultTableModel(null,
-            new String[]{"Folio", "Nombre Completo"}
+            new String[]{"Folio", "Nombre Completo","Establecimiento","Puesto"}
 			){
 		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
+	    	java.lang.Object.class,
+	    	java.lang.Object.class,
 	    	java.lang.Object.class,
 	    	java.lang.Object.class
          };
@@ -63,6 +64,9 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
         	switch(columna){
         		case 0 : return false; 
         	 	case 1 : return false; 
+        		case 2 : return false;
+        		case 3 : return false;
+        
         	 } 				
  			return false;
  		}
@@ -77,19 +81,29 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		this.panel.setBorder(BorderFactory.createTitledBorder("Impresión de Gafetes"));
 		
 		this.panel.add(btn_Empleados).setBounds(25,25,100,20);
-		this.panel.add(btn_Limpiar).setBounds(25,60,100,20);
-		this.panel.add(btn_Generar).setBounds(130,60,120,20);
 		
-		this.panel.add(scroll_tabla).setBounds(25,90,440,180);
+		this.panel.add(btn_Generar).setBounds(25,50,120,20);
+		
+		this.panel.add(scroll_tabla).setBounds(25,90,750,92);
 		
 		this.btn_Empleados.addActionListener(op_filtro);
 		this.btn_Generar.addActionListener(op_generar);
+		this.btn_Generar.setEnabled(false);
 		
 		this.cont.add(panel);
 		
-		this.setSize(500,550);
+		this.setSize(800,250);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		tabla.getColumnModel().getColumn(0).setMaxWidth(45);
+		tabla.getColumnModel().getColumn(0).setMinWidth(45);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(335);
+		tabla.getColumnModel().getColumn(1).setMinWidth(335);
+		tabla.getColumnModel().getColumn(2).setMaxWidth(140);
+		tabla.getColumnModel().getColumn(2).setMinWidth(140);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(240);
+		tabla.getColumnModel().getColumn(3).setMinWidth(240);
+
 	}
 	
 	ActionListener op_generar = new ActionListener() {
@@ -97,9 +111,10 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			new Obj_Gen_Code_Bar().Reset_Code();
 			new Obj_Gen_Code_Bar().Reset_Users();
 			new Obj_Reporte_Impresion_Gafetes().buscar_masivo(list_folios().trim());
+			new Reporte_Impresion_de_Gafetes();
 		}
 	};
-	
+
 	public String list_folios(){
 		String lista = "";
 		
@@ -133,12 +148,14 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		
 		Object[][] Tabla = getTabla();
 		DefaultTableModel model1 = new DefaultTableModel(Tabla,
-	            new String[]{"Folio", "Nombre Completo", "Selección"}
+	            new String[]{"Folio", "Nombre Completo","Establecimiento","Puesto", "S"}
 				){
 		     @SuppressWarnings("rawtypes")
 			Class[] types = new Class[]{
 		    	java.lang.Integer.class,
-		    	java.lang.String.class, 
+		    	java.lang.String.class,
+		    	java.lang.String.class,
+		    	java.lang.String.class,
 		    	java.lang.Boolean.class	    	
 	         };
 		     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -149,7 +166,9 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 	        	 switch(columna){
 	        	 	case 0 : return false; 
 	        	 	case 1 : return false; 
-	        	 	case 2 : return true; 
+	        	 	case 2 : return false; 
+	        	 	case 3 : return false; 
+	        	 	case 4 : return true; 
 	        	 } 				
 	 			return false;
 	 		}
@@ -175,7 +194,7 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			trsfiltro = new TableRowSorter(model1); 
 			tabla1.setRowSorter(trsfiltro);  
 			
-			campo.add(scroll).setBounds(15,42,390,360);
+			campo.add(scroll).setBounds(15,42,810,500);
 			
 			campo.add(txtFolio).setBounds(15,20,48,20);
 			campo.add(txtNombre_Completo).setBounds(64,20,259,20);
@@ -183,13 +202,17 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			
 			cont.add(campo);
 			
-			tabla1.getColumnModel().getColumn(0).setMaxWidth(40);
-			tabla1.getColumnModel().getColumn(0).setMinWidth(40);
-			tabla1.getColumnModel().getColumn(1).setMaxWidth(250);
-			tabla1.getColumnModel().getColumn(1).setMinWidth(250);
-			tabla1.getColumnModel().getColumn(2).setMaxWidth(85);
-			tabla1.getColumnModel().getColumn(2).setMinWidth(85);
-			
+			tabla1.getColumnModel().getColumn(0).setMaxWidth(45);
+			tabla1.getColumnModel().getColumn(0).setMinWidth(45);
+			tabla1.getColumnModel().getColumn(1).setMaxWidth(335);
+			tabla1.getColumnModel().getColumn(1).setMinWidth(335);
+			tabla1.getColumnModel().getColumn(2).setMaxWidth(140);
+			tabla1.getColumnModel().getColumn(2).setMinWidth(140);
+			tabla1.getColumnModel().getColumn(3).setMaxWidth(240);
+			tabla1.getColumnModel().getColumn(3).setMinWidth(240);
+			tabla1.getColumnModel().getColumn(4).setMaxWidth(25);
+			tabla1.getColumnModel().getColumn(4).setMinWidth(25);
+					
 			TableCellRenderer render = new TableCellRenderer() { 
 				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 				boolean hasFocus, int row, int column) { 
@@ -230,6 +253,38 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 							break;
 						case 2: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(model1.getValueAt(row,2).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 3: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(Boolean.parseBoolean(model1.getValueAt(row,2).toString())){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 4: 
 							componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 							if(row %2 == 0){
 								((JComponent) componente).setOpaque(true); 
@@ -260,8 +315,8 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 			txtNombre_Completo.addKeyListener(opFiltroNombre);
 			
 			btnAgregar.addActionListener(Agregar);
-			
-			setSize(425,450);
+			setSize(850,600);
+//			setSize(425,450);
 			setResizable(false);
 			setLocationRelativeTo(null);
 			
@@ -287,13 +342,14 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 
 					Object[] vectornull = new Object[tabla.getColumnCount()];
 					for(int i=0; i<tabla1.getRowCount(); i++){
-						if(Boolean.parseBoolean(model1.getValueAt(i, 2).toString()) == true){
+						if(Boolean.parseBoolean(model1.getValueAt(i, 4).toString()) == true){
 							tabla_model.addRow(vectornull);
 							for(int j=0; j<tabla.getColumnCount(); j++){
 								tabla_model.setValueAt(model1.getValueAt(i,j), tabla.getRowCount()-1, j);
 							}
 						}
 					}
+					btn_Generar.setEnabled(true);
 					dispose();
 				}
 			}
@@ -302,7 +358,7 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		public int valida_select(){
 			int contador = 0;
 			for(int i=0; i<tabla1.getRowCount(); i++){
-				if(Boolean.parseBoolean(model1.getValueAt(i, 2).toString()) == true){
+				if(Boolean.parseBoolean(model1.getValueAt(i, 4).toString()) == true){
 					contador++;
 				}
 			}
@@ -346,7 +402,9 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 				while(rs.next()){
 					Matriz[i][0] = rs.getString(1)+"  ";
 					Matriz[i][1] = "   "+rs.getString(2);
-					Matriz[i][2] = false;
+					Matriz[i][2] = "   "+rs.getString(3);
+					Matriz[i][3] = "   "+rs.getString(4);
+					Matriz[i][4] = false;
 					i++;
 				}
 			} catch (SQLException e1) {

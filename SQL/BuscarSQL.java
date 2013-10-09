@@ -566,7 +566,7 @@ public class BuscarSQL {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				denominaciones.setFolio(rs.getInt("folio"));
-				denominaciones.setNombre(rs.getString("nombre").trim());
+				denominaciones.setDenominacion(rs.getString("nombre").trim());
 				denominaciones.setMoneda(rs.getString("moneda"));
 				denominaciones.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
@@ -866,7 +866,7 @@ public class BuscarSQL {
 		
 			while(rs.next()){
 				empleado.setFolio(rs.getInt("folio"));
-				empleado.setNo_checador(rs.getInt("no_checador"));
+				empleado.setNo_checador(rs.getString("no_checador"));
 				empleado.setNombre(rs.getString("nombre").trim());
 				empleado.setAp_paterno(rs.getString("ap_paterno").trim());
 				empleado.setAp_materno(rs.getString("ap_materno").trim());
@@ -3324,7 +3324,7 @@ public class BuscarSQL {
 		return fila;
 	}
 	
-	public Obj_Entosal Entosal(int clave) throws SQLException{
+	public Obj_Entosal Entosal(String clave) throws SQLException{
 		Obj_Entosal entosal = new Obj_Entosal();
 		String query = "select * from tb_key_check_master where keyCheckMaster ="+ clave;
 		Statement stmt = null;
@@ -3332,7 +3332,7 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				entosal.setClave(rs.getInt("keyCheckMaster"));
+				entosal.setClave(rs.getString("keyCheckMaster"));
 				
 			}
 			
@@ -3634,12 +3634,9 @@ public class BuscarSQL {
 //trae el nobre del empleado para el codigo
 	public void Gafetes_masivos(String listas) throws SQLException{
 		String insertIds = "exec sp_insert_ids "+listas.substring(0, listas.length()-1)+";";
-		String query = "select "+
-							"folio as folio, "+
-							"nombre as codigo," +
-							"foto "+
-						"from tb_empleado "+
-						"where folio in("+listas.substring(0, listas.length()-1)+");";
+		System.out.println(listas.substring(0, listas.length()-1));
+		String query =  "exec sp_genera_clave_checador "+listas.substring(0, listas.length()-1)+";";
+
 		Statement stmt = null;
 		
 		Connection con = new Connexion().conexion();
