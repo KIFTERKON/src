@@ -41,16 +41,16 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/reporte_icon&16.png"));
 		this.setTitle("Reportes General de Asistencia por Establecimiento");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Reporte General de Asistencia por Establecimiento"));
-		this.panel.add(new JLabel("Fecha Inicio:")).setBounds(15,15,100,20);
-		this.panel.add(c_inicio).setBounds(80,15,100,20);
-		this.panel.add(new JLabel("Fecha Final:")).setBounds(15,40,100,20);
-		this.panel.add(c_final).setBounds(80,40,100,20);
-		this.panel.add(btn_generar).setBounds(20,150,120,20);
-		this.panel.add(new JLabel("Establecimiento:")).setBounds(15,75,100,20);
-		this.panel.add(cmbEstablecimiento).setBounds(100,75,100,20);
+		this.panel.add(new JLabel("Fecha Inicio:")).setBounds(15,25,100,20);
+		this.panel.add(c_inicio).setBounds(80,25,100,20);
+		this.panel.add(new JLabel("Fecha Final:")).setBounds(15,55,100,20);
+		this.panel.add(c_final).setBounds(80,55,100,20);
+	    this.panel.add(new JLabel("Establecimiento:")).setBounds(200,25,100,20);
+		this.panel.add(cmbEstablecimiento).setBounds(280,25,150,20);
 		this.btn_generar.addActionListener(op_generar);
+		this.panel.add(btn_generar).setBounds(160,120,120,20);
 		this.cont.add(panel);
-		this.setSize(450,500);
+		this.setSize(450,200);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
@@ -59,7 +59,7 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 	ActionListener op_generar = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if(validar_fechas().equals("")){
-				String fecha_inicio = new SimpleDateFormat("dd/MM/yyyy").format(c_inicio.getDate())+" 05:59:00";
+				String fecha_inicio = new SimpleDateFormat("dd/MM/yyyy").format(c_inicio.getDate())+" 00:00:01";
 				String fecha_final = new SimpleDateFormat("dd/MM/yyyy").format(c_final.getDate())+" 23:59:59";
 				String Establecimiento = cmbEstablecimiento.getSelectedItem().toString();
 				
