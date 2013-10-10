@@ -31,6 +31,7 @@ import SQL.Connexion;
 
 
 import objetos.JTextFieldLimit;
+import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Establecimiento;
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Filtro_Cortes extends JFrame{
@@ -101,9 +102,13 @@ public class Cat_Filtro_Cortes extends JFrame{
 	        		}else{
 	        			int fila = tabla.getSelectedRow();
 	        			String estab = cmbEstablecimiento.getSelectedItem()+"";
+	        			
+	        			Obj_Alimentacion_Cortes buscarFolio = new Obj_Alimentacion_Cortes().buscar(estab);
+	        			String folio_corte = buscarFolio.getFolio_corte();
+	        			
 	        			Object folio =  tabla.getValueAt(fila, 0);
 	        			dispose();
-	        			new Cat_Alimentacion_Cortes(Integer.parseInt(folio+""),estab).setVisible(true);
+	        			new Cat_Alimentacion_Cortes(Integer.parseInt(folio+""),folio_corte).setVisible(true);
 	        		}
 	        	}
 	        }

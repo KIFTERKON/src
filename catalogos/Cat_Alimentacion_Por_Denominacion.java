@@ -67,13 +67,14 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
         	 	case 0 : return false; 
         	 	case 1 : return false; 
         	 	case 2 : return false; 
-        	 	case 3 :
+        	 	case 3 : return false; 
+        	 	case 4 :
         	 		float suma = 0;
 	    			for(int i=0; i<tabla.getRowCount(); i++){
-	    				if(tabla_model.getValueAt(i,3).toString().length() == 0){
+	    				if(tabla_model.getValueAt(i,4).toString().length() == 0){
 	    					suma = suma + 0;
 	    				}else{
-	    					suma += Float.parseFloat(tabla_model.getValueAt(i,3).toString())*Float.parseFloat(tabla_model.getValueAt(i,2).toString());
+	    					suma += (Float.parseFloat(tabla_model.getValueAt(i,4).toString()))*(Float.parseFloat(tabla_model.getValueAt(i,2).toString())*Float.parseFloat(tabla_model.getValueAt(i,3).toString()));
 	    				}
 	    			}
 	    			txtTotal.setText("$  "+suma);
@@ -104,7 +105,7 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 		this.panel.add(txtFecha).setBounds(460,35,90,20);
 		this.panel.add(txtAsignacion).setBounds(560,35,110,20);
 		
-		this.panel.add(scroll_tabla).setBounds(20,60,650,420);
+		this.panel.add(scroll_tabla).setBounds(20,60,730,420);
 		
 		this.panel.add(new JLabel("Total de Cantidades:")).setBounds(470,485,100,20);
 		this.panel.add(txtTotal).setBounds(580,485,90,20);
@@ -121,7 +122,7 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 		
 		this.tabla.addKeyListener(op_key);
 		
-		this.setSize(700,550);
+		this.setSize(780,550);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -134,15 +135,15 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 			float suma = 0;
 			for(int i=0; i<tabla.getRowCount(); i++){
 				
-				if(tabla_model.getValueAt(i,3).toString().equals("")){
+				if(tabla_model.getValueAt(i,4).toString().equals("")){
 					suma = suma + 0;
 				}else{
 					
-					if(isNumeric(tabla_model.getValueAt(i,3).toString().trim())){
-						suma = suma + (Float.parseFloat(tabla_model.getValueAt(i,3).toString().trim())*Float.parseFloat(tabla_model.getValueAt(i,2).toString().trim()));
+					if(isNumeric(tabla_model.getValueAt(i,4).toString().trim())){
+    					suma += Float.parseFloat(tabla_model.getValueAt(i,4).toString())*(Float.parseFloat(tabla_model.getValueAt(i,2).toString())*Float.parseFloat(tabla_model.getValueAt(i,3).toString()));
 					}else{
 						JOptionPane.showMessageDialog(null, "La nomina en el establecimiento "+tabla_model.getValueAt(i,0).toString()+"  están mal en su formato:\n","Error",JOptionPane.ERROR_MESSAGE);
-						tabla_model.setValueAt("", i, 3);
+						tabla_model.setValueAt("", i, 4);
 						return;
 					}
 				}
@@ -195,17 +196,18 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 	};
 	
 	private Object[][] tabla_guardar(){
-		Object[][] matriz = new Object[tabla.getRowCount()][4];
+		Object[][] matriz = new Object[tabla.getRowCount()][5];
 		for(int i=0; i<tabla.getRowCount(); i++){
 			
 			matriz[i][0] = tabla_model.getValueAt(i,0).toString().trim();
 			matriz[i][1] = tabla_model.getValueAt(i, 1).toString().trim();
 			matriz[i][2] = tabla_model.getValueAt(i, 2).toString().trim();
+			matriz[i][3] = tabla_model.getValueAt(i, 3).toString().trim();
 			
-			if(tabla_model.getValueAt(i,3).toString().trim().length() == 0){
-				matriz[i][3] = Float.parseFloat("0"); 
+			if(tabla_model.getValueAt(i,4).toString().trim().length() == 0){
+				matriz[i][4] = Float.parseFloat("0"); 
 			}else{
-				matriz[i][3] = Float.parseFloat(tabla_model.getValueAt(i,3).toString().trim());
+				matriz[i][4] = Float.parseFloat(tabla_model.getValueAt(i,4).toString().trim());
 			}
 		}
 		return matriz;
@@ -215,9 +217,9 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 		String error = "";
 		for(int i=0; i<tabla.getRowCount(); i++){
 			try{
-				if(!isNumeric(tabla_model.getValueAt(i,3).toString())){
+				if(!isNumeric(tabla_model.getValueAt(i,4).toString())){
 					error += "   La celda de la columna Cantidad no es un número en el [Folio: "+tabla_model.getValueAt(i,0)+"]\t\n";
-					tabla_model.setValueAt("",i, 3);
+					tabla_model.setValueAt("",i, 4);
 				}
 			} catch(Exception e){
 				JOptionPane.showMessageDialog(null, "La tabla tiene una celda con texto en lugar de un valor numérico: \n"+e,"Error",JOptionPane.ERROR_MESSAGE);
@@ -237,6 +239,8 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
     	this.tabla.getColumnModel().getColumn(2).setMinWidth(120);		
     	this.tabla.getColumnModel().getColumn(3).setMaxWidth(120);
     	this.tabla.getColumnModel().getColumn(3).setMinWidth(120);
+    	this.tabla.getColumnModel().getColumn(4).setMaxWidth(100);
+    	this.tabla.getColumnModel().getColumn(4).setMinWidth(100);
     	
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -255,6 +259,7 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
 					case 2 : lbl.setHorizontalAlignment(SwingConstants.CENTER); break;
 					case 3 : lbl.setHorizontalAlignment(SwingConstants.CENTER); break;
+					case 4 : lbl.setHorizontalAlignment(SwingConstants.CENTER); break;
 				}
 			return lbl; 
 			} 
@@ -264,13 +269,14 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
 		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(2).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
+		this.tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
 		
 		float suma = 0;
 		for(int i=0; i<tabla.getRowCount(); i++){
-			if(tabla_model.getValueAt(i,3).toString().length() == 0){
+			if(tabla_model.getValueAt(i,4).toString().length() == 0){
 				suma = suma + 0;
 			}else{
-				suma += (Float.parseFloat(tabla_model.getValueAt(i,3).toString())*Float.parseFloat(tabla_model.getValueAt(i,2).toString()));
+				suma += Float.parseFloat(tabla_model.getValueAt(i,4).toString())*(Float.parseFloat(tabla_model.getValueAt(i,2).toString())*Float.parseFloat(tabla_model.getValueAt(i,3).toString()));
 			}
 		}
 		txtTotal.setText("$  "+suma);

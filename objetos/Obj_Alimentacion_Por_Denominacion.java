@@ -23,6 +23,10 @@ public class Obj_Alimentacion_Por_Denominacion {
 		return new BuscarTablasModel().tabla_model_alimentacion_denominaciones();
 	}
 	
+	public Object[][] get_tabla_model_modificar(){
+		return new BuscarTablasModel().tabla_model_alimentacion_denominaciones_modificar();
+	}
+	
 	public boolean guardar(Object[][] tabla){
 		return new GuardarTablasModel().tabla_model_alimentacion_totales(tabla);
 	}

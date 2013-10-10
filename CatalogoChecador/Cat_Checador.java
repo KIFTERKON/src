@@ -132,7 +132,7 @@ public class Cat_Checador extends JFrame {
 		JButton btnExaminar = new JButton("Examinar");
 		
 		JScrollPane barra_mensaje= new JScrollPane();
-		JTextArea txaAvisos = new JTextArea("bnfñ{ng");
+		JTextArea txaAvisos = new JTextArea("");
 		ImageIcon img = new ImageIcon("imagen/txa.jpg");
 		
 	//	float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
@@ -467,35 +467,47 @@ public class Cat_Checador extends JFrame {
 							
 							Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 								switch (re.getStatus()){
-								 case 1:registrarEntrada(); break;
-								 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-								    txtFolio.setEditable(true);
-									txtFolio.setText("");
-									txtFolio.requestFocus();
-									txtClaveReal.setText("");
-									txtClaveReal.setEditable(false);
-								    break;
-								 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-							        txtFolio.setEditable(true);
-									txtFolio.setText("");
-									txtFolio.requestFocus();
-									txtClaveReal.setText("");
-									txtClaveReal.setEditable(false);
-						     		 break;
-								 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-								    txtFolio.setEditable(true);
-									txtFolio.setText("");
-									txtFolio.requestFocus();
-									txtClaveReal.setText("");
-									txtClaveReal.setEditable(false);
-									break;
-								 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-								    txtFolio.setEditable(true);
-									txtFolio.setText("");
-									txtFolio.requestFocus();
-									txtClaveReal.setText("");
-									txtClaveReal.setEditable(false);
-									break;
+								
+										case 1: if(re.getNo_checador().equals(txtClaveReal.getText())){
+											 			registrarEntrada();
+										 		}else{
+										 				JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
+										 				txtFolio.setEditable(true);
+														txtFolio.setText("");
+														txtFolio.requestFocus();
+														txtClaveReal.setText("");
+														txtClaveReal.setEditable(false);
+										 		}
+										 			break;
+										 			
+										 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+												    txtFolio.setEditable(true);
+													txtFolio.setText("");
+													txtFolio.requestFocus();
+													txtClaveReal.setText("");
+													txtClaveReal.setEditable(false);
+													break;
+										 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+											        txtFolio.setEditable(true);
+													txtFolio.setText("");
+													txtFolio.requestFocus();
+													txtClaveReal.setText("");
+													txtClaveReal.setEditable(false);
+										     		break;
+										 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+												    txtFolio.setEditable(true);
+													txtFolio.setText("");
+													txtFolio.requestFocus();
+													txtClaveReal.setText("");
+													txtClaveReal.setEditable(false);
+													break;
+										 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+												    txtFolio.setEditable(true);
+													txtFolio.setText("");
+													txtFolio.requestFocus();
+													txtClaveReal.setText("");
+													txtClaveReal.setEditable(false);
+													break;
 									};
 							}			
 					}		
@@ -507,17 +519,17 @@ public class Cat_Checador extends JFrame {
 	@SuppressWarnings("deprecation")
 	public void registrarEntrada(){
 //----------------------------------------------------------------------------------------------------------------------	
-//meter split para que extraiga el puro numero
-//			declarar variable que cachara el valor real de la clave
-			String CadenaDeClave = "";
-			for (int x=0; x < txtClaveReal.getText().length(); x++) {
-//	     	condicion(si el caracter en la posicion ubicada es diferente de vacio entra y asigna)
-//		    toma el valor de CadenaDeClave y le asigna el siguiente caracter
-				if (txtClaveReal.getText().charAt(x) != ' ')
-					CadenaDeClave += txtClaveReal.getText().charAt(x);
-			}
+////meter split para que extraiga el puro numero
+////			declarar variable que cachara el valor real de la clave
+//			String CadenaDeClave = "";
+//			for (int x=0; x < txtClaveReal.getText().length(); x++) {
+////	     	condicion(si el caracter en la posicion ubicada es diferente de vacio entra y asigna)
+////		    toma el valor de CadenaDeClave y le asigna el siguiente caracter
+//				if (txtClaveReal.getText().charAt(x) != ' ')
+//					CadenaDeClave += txtClaveReal.getText().charAt(x);
+//			}
 //----------------------------------------------------------------------------------------------------------------------	
-		if(CadenaDeClave.equals(numero_de_checador)){
+		if(txtClaveReal.getText().equals(numero_de_checador)){
 
 			if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){ 	
 					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
@@ -536,7 +548,7 @@ public class Cat_Checador extends JFrame {
 							     															
 											Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 											
-											if(re.getFolio() != 0 && re.getNo_checador().equals(CadenaDeClave)){
+											if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText())){
 								
 											ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 											Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
@@ -599,9 +611,9 @@ public class Cat_Checador extends JFrame {
 		}else{
 
 			Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-			Obj_Entosal entosalClave = new Obj_Entosal().buscar(CadenaDeClave);
+			Obj_Entosal entosalClave = new Obj_Entosal().buscar(txtClaveReal.getText());
 			
-				if(re.getFolio()!= 0 && entosalClave.getClave().equals(CadenaDeClave)){
+				if(re.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText())){
 					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 					btnFoto.setIcon(icono);	
