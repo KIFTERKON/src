@@ -1056,7 +1056,7 @@ public class GuardarSQL {
 //		String query_delete = "exec sp_delete_alimentacion_multiple ?";
 //		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
 		
-		String query ="exec sp_insert_denominaciones ?,?,?,?,?,?,?";
+		String query ="exec sp_insert_denominaciones ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {
@@ -1079,6 +1079,7 @@ public class GuardarSQL {
 //				pstmt.setString(6, tabla[i][1].toString().trim());
 				pstmt.setFloat(6, Float.parseFloat(tabla[i][2].toString().trim()));
 				pstmt.setFloat(7,Float.parseFloat(tabla[i][3].toString().trim()));
+				pstmt.setFloat(8,Float.parseFloat(tabla[i][4].toString().trim()));
 				
 				pstmt.executeUpdate();
 			}

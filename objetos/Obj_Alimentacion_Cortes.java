@@ -9,7 +9,7 @@ import SQL.GuardarSQL;
 
 public class Obj_Alimentacion_Cortes {
 	
-	private int folio_corte;
+	private String folio_corte;
 	private int folio_empleado;
 	private String nombre;
 	private String puesto;
@@ -24,17 +24,17 @@ public class Obj_Alimentacion_Cortes {
 	private boolean status;
 
 	public Obj_Alimentacion_Cortes(){
-		this.folio_corte=0; this.folio_empleado=0; this.nombre=""; this.puesto=""; 
+		this.folio_corte=""; this.folio_empleado=0; this.nombre=""; this.puesto=""; 
 		this.establecimiento=""; this.asignacion=""; this.corte_sistema=0;
 		this.deposito=0; this.efectivo=0; this.diferencia_corte=0; this.comentario=""; this.fecha=""; this.status=false;
 	}
 
-	public int getFolio_corte() {
+	public String getFolio_corte() {
 		return folio_corte;
 	}
 
-	public void setFolio_corte(int folioCorte) {
-		folio_corte = folioCorte;
+	public void setFolio_corte(String folio_corte) {
+		this.folio_corte = folio_corte;
 	}
 
 	public int getFolio_empleado() {
@@ -144,14 +144,18 @@ public class Obj_Alimentacion_Cortes {
 //		}
 //		return corte;
 //	}
+	public Obj_Alimentacion_Cortes buscar(String establecimiento){ return new BuscarSQL().Folio_Nuevo(establecimiento); }
+
+	public Obj_Alimentacion_Cortes buscar_folio_corte(String folio_corte){ return new BuscarSQL().Folio_Corte(folio_corte); }
+	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
 	
-	public Obj_Alimentacion_Cortes buscar_nuevo() { 
-		try {
-			return new BuscarSQL().Corte_Nuevo();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null; 
-	}
+//	public Obj_Alimentacion_Cortes buscar_nuevo() { 
+//		try {
+//			return new BuscarSQL().Corte_Nuevo();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null; 
+//	}
 }

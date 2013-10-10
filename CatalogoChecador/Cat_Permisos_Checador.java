@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -88,6 +90,8 @@ public class Cat_Permisos_Checador extends JFrame {
 	JButton btnEditar = new JButton("Editar");
 	JButton btnSalir = new JButton("Salir");
 	
+	Border border = LineBorder.createGrayLineBorder();
+	
 //	almacena el numero de permisos que se le asignara al empleado
 	int permiso=0;
 	
@@ -99,6 +103,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Permisos Checador"));
 		this.setTitle("Permisos Checador");
+		txaMotivo.setBorder(border);
 		
 		this.txtFechaPermiso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		

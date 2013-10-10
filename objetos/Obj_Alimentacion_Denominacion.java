@@ -93,12 +93,12 @@ public class Obj_Alimentacion_Denominacion {
 	}
 //	public boolean actualizar(String asignacion, int folioDenom){ return new ActualizarSQL().Denom(this,asignacion,folioDenom); }
 	
-	public Obj_Alimentacion_Denominacion buscar(String asignacion){ 
-		try {
-			return new BuscarSQL().Denom(asignacion);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	return null; 
-	}
+//	public Obj_Alimentacion_Denominacion buscar(String asignacion){ 
+//		try {
+//			return new BuscarSQL().Denom(asignacion);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	return null; 
+//	}
 }
