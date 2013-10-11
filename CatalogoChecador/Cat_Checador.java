@@ -454,7 +454,9 @@ public class Cat_Checador extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e){
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
-						if(txtClaveReal.getText().equals("")){
+					System.out.println(txtClaveReal.getText());
+					System.out.println(txtClaveReal.getText().toUpperCase());
+						if(txtClaveReal.getText().toUpperCase().equals("")){
 							
 								JOptionPane.showMessageDialog(null, "la clave es requerida \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 								txtFolio.setEditable(true);
@@ -468,7 +470,7 @@ public class Cat_Checador extends JFrame {
 							Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 								switch (re.getStatus()){
 								
-										case 1: if(re.getNo_checador().equals(txtClaveReal.getText())){
+										case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
 											 			registrarEntrada();
 										 		}else{
 										 				JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
@@ -529,7 +531,7 @@ public class Cat_Checador extends JFrame {
 //					CadenaDeClave += txtClaveReal.getText().charAt(x);
 //			}
 //----------------------------------------------------------------------------------------------------------------------	
-		if(txtClaveReal.getText().equals(numero_de_checador)){
+		if(txtClaveReal.getText().toUpperCase().equals(numero_de_checador)){
 
 			if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){ 	
 					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
@@ -548,7 +550,7 @@ public class Cat_Checador extends JFrame {
 							     															
 											Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 											
-											if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText())){
+											if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
 								
 											ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 											Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
@@ -611,9 +613,9 @@ public class Cat_Checador extends JFrame {
 		}else{
 
 			Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-			Obj_Entosal entosalClave = new Obj_Entosal().buscar(txtClaveReal.getText());
+			Obj_Entosal entosalClave = new Obj_Entosal().buscar(txtClaveReal.getText().toUpperCase());
 			
-				if(re.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText())){
+				if(re.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
 					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 					btnFoto.setIcon(icono);	
