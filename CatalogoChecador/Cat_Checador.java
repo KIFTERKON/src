@@ -397,7 +397,7 @@ public class Cat_Checador extends JFrame {
 					}else{
 							Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 							
-							if(re.getFolio() != 0){	
+							if(re.getFolio() != 0 && re.getTurno() !=0){	
 									
 								txtFolio.setText(re.getFolio()+"");
 								numero_de_checador = re.getNo_checador();
@@ -417,7 +417,7 @@ public class Cat_Checador extends JFrame {
 								
 							}
 							else{
-								JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "El Numero de Empleado no existe o no tiene Horario Asignado","Error",JOptionPane.WARNING_MESSAGE);
 								txtFolio.setEditable(true);
 								txtFolio.requestFocus();
 								txtClaveReal.setEditable(false);
