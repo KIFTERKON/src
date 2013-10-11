@@ -26,7 +26,6 @@ public class Reporte_General_de_Asistencia_Por_Establecimiento extends JFrame {
 	public Reporte_General_de_Asistencia_Por_Establecimiento(String fecha_inicio, String fecha_final, String Establecimiento) {
 		String query = "exec sp_Reporte_General_de_Asistencia_Por_Establecimiento '"+fecha_inicio+"','"+fecha_final+"','"+Establecimiento+"';";
 		Statement stmt = null;
-		System.out.println(query);
 		try {
 			stmt =  new Connexion().conexion().createStatement();
 		    ResultSet rs = stmt.executeQuery(query);
