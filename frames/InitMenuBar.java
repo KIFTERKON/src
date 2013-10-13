@@ -7,7 +7,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+
+import objetos.Obj_Alimentacion_Cuadrante;
+import objetos.Obj_Usuario;
 import CatalogoChecador.Cat_Checador;
 import CatalogoChecador.Cat_Dias_Inhabiles;
 import CatalogoChecador.Cat_Horario;
@@ -503,8 +507,18 @@ public class InitMenuBar extends Init{
 			
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
-			if(e.getActionCommand().equals("Alimentación de Cuadrantes"))
-				new Cat_Alimentacion_Cuadrante().setVisible(true);
+			if(e.getActionCommand().equals("Alimentación de Cuadrantes")){
+				Obj_Usuario usuario = new Obj_Usuario().LeerSession();
+				Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(usuario.getNombre_completo());
+
+				if(!datos_cuadrante.getEquipo_trabajo().equals("")){
+					new Cat_Alimentacion_Cuadrante(usuario.getNombre_completo()).setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "El usuario no tiene cuadrante", "Aviso!", JOptionPane.OK_CANCEL_OPTION);
+				}
+				
+			}
+				
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Empleados en Cuadrantes"))

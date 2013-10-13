@@ -2945,12 +2945,12 @@ public class BuscarSQL {
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp_cuadrante/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
 
-		            byte[] buffer = new byte[1];
-		            InputStream is = rs.getBinaryStream("Foto");
-		            while (is.read(buffer) > 0) {
-		                fos.write(buffer);
-		            }
-		            fos.close();
+		        byte[] buffer = new byte[1];
+		        InputStream is = rs.getBinaryStream("Foto");
+		        while (is.read(buffer) > 0) {
+		        	fos.write(buffer);
+		        }
+		        fos.close();
 
 			}
 			
@@ -2989,11 +2989,11 @@ public class BuscarSQL {
 		return Matriz;
 	}
 	
-	public String[][] tabla_alimentacion_cuadrante_multiple(String nomgbre, String dia){
+	public String[][] tabla_alimentacion_cuadrante_multiple(String nomgbre){
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"';";
-				
+				System.out.println(datosif);
 		Matriz = new String[getFilas(datosif)][4];
 		Statement s;
 		ResultSet rs;
@@ -3017,9 +3017,8 @@ public class BuscarSQL {
 	
 	public String[][] tabla_alimentacion_cuadrante_primera_parte(String nombre){
 		String[][] Matriz = null;
-		
 		String datosif = "exec sp_pre_captura_cuadrante '"+nombre+"';";
-		
+		System.out.println(datosif);
 		Matriz = new String[getFilas(datosif)][5];
 		Statement s;
 		ResultSet rs;
