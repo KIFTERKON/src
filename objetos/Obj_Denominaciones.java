@@ -11,12 +11,13 @@ import SQL.GuardarSQL;
 
 public class Obj_Denominaciones {
 	private int folio;
-	private String nombre;
+	private String denominacion;
+	private float valor_denominacion;
 	private String moneda;
 	private boolean status;
 
 	public Obj_Denominaciones(){
-		this.folio=0; this.nombre=""; this.moneda=""; this.status=false;
+		this.folio=0; this.denominacion=""; this.valor_denominacion=0; this.moneda=""; this.status=false;
 	}
 
 	public int getFolio() {
@@ -27,12 +28,20 @@ public class Obj_Denominaciones {
 		this.folio = folio;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getDenominacion() {
+		return denominacion;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setDenominacion(String denominacion) {
+		this.denominacion = denominacion;
+	}
+
+	public float getValor_denominacion() {
+		return valor_denominacion;
+	}
+
+	public void setValor_denominacion(float valor_denominacion) {
+		this.valor_denominacion = valor_denominacion;
 	}
 
 	public String getMoneda() {
@@ -43,14 +52,14 @@ public class Obj_Denominaciones {
 		this.moneda = moneda;
 	}
 
-	public boolean getStatus() {
+	public boolean isStatus() {
 		return status;
 	}
 
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
+
 	public String[] Combo_Denominaciones(){ 
 		try {
 			return new Cargar_Combo().Denominaciones("tb_divisas_tipo_de_cambio");

@@ -10,22 +10,21 @@ import SQL.GuardarSQL;
 
 @SuppressWarnings("unused")
 public class Obj_Entosal {
-	private int clave;
+	private String clave;
 	
-	public Obj_Entosal(){
-		this.clave=0;
-	}
 	
-	public int getClave() {
+	public String getClave() {
 		return clave;
 	}
 
 
-	public void setClave(int clave) {
+
+	public void setClave(String clave) {
 		this.clave = clave;
 	}
 
-	
+
+
 	@SuppressWarnings("rawtypes")
 	public Vector buscar_hora_entosal(int folio){
 		try {
@@ -39,7 +38,7 @@ public class Obj_Entosal {
 
 	
 	
-	public Obj_Entosal buscar(int clave){ 
+	public Obj_Entosal buscar(String clave){ 
 		try {
 			return new BuscarSQL().Entosal(clave);
 		} catch (SQLException e) {

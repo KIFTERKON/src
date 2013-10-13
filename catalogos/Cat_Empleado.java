@@ -217,8 +217,11 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnIncontratables).setBounds(x*2+ancho*3-20+ancho+330,y+450,130,20);
 		
 		panel.add(btnTrueFoto).setBounds(x*2+ancho*3-20, y+205,235,25);
-		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+235,80,25);
+		
+		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+235,80,25);		
+		panel.add(new JLabel("320 x 240")).setBounds(x*2+ancho*3+73, y+235,60,25);
 		panel.add(btnCamara).setBounds(x*2+ancho*3+135, y+235,80,25);
+		
 		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+265,ancho+95,205);
 	
 		panel.add(new JLabel("Clave Checador")).setBounds(x,y+=25,ancho,20);
@@ -316,7 +319,7 @@ public class Cat_Empleado extends JFrame{
 		txaObservaciones.setDocument(new JTextFieldLimit(980));
 		
 		txtFolio.setDocument(new JTextFieldLimit(9));
-		txtChecador.setDocument(new JTextFieldLimit(9));
+		txtChecador.setDocument(new JTextFieldLimit(100));
 		txtNombre.setDocument(new JTextFieldLimit(20));
 		txtApPaterno.setDocument(new JTextFieldLimit(20));
 		txtApMaterno.setDocument(new JTextFieldLimit(20));
@@ -349,13 +352,13 @@ public class Cat_Empleado extends JFrame{
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
 		txtFolio.addKeyListener(numerico_action);
-		txtChecador.addKeyListener(numerico_action);
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		txtPensionAli.addKeyListener(validaNumericoPension);
 		
 		cmbTurno.setRenderer(new MyComboBoxRenderer());
 		
 		cont.add(panel);
+		txtChecador.setEditable(false);
 		cmbTurno.setEnabled(false);
 		cmbTurno2.setEnabled(false);
 		txtFecha.setEditable(false);
@@ -473,7 +476,7 @@ public class Cat_Empleado extends JFrame{
 				if(new Obj_Empleado().nombre_disponible(nombre)){
 					btnVerificar.setBackground(Color.red);
 					
-					txtChecador.setEditable(true);
+//					txtChecador.setEditable(true);
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
@@ -655,7 +658,7 @@ public class Cat_Empleado extends JFrame{
 							return;
 						}else{
 							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-							empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
+							empleado.setNo_checador(txtChecador.getText());
 							empleado.setNombre(procesa_texto(txtNombre.getText()));
 							empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 							if(txtApMaterno.getText().length() != 0){
@@ -758,7 +761,8 @@ public class Cat_Empleado extends JFrame{
 						return;
 					}else{
 						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-						empleado.setNo_checador(Integer.parseInt(txtChecador.getText()));
+						
+						empleado.setNo_checador(txtFolio.getText());
 						empleado.setNombre(procesa_texto(txtNombre.getText()));
 						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 						
@@ -892,7 +896,7 @@ public class Cat_Empleado extends JFrame{
 	
 	public void panelEnabledTrue(){	
 		txtFolio.setEditable(true);
-		txtChecador.setEditable(true);
+//		txtChecador.setEditable(true);
 		txtNombre.setEditable(true);
 		txtApPaterno.setEditable(true);
 		txtApMaterno.setEditable(true);
@@ -922,7 +926,7 @@ public class Cat_Empleado extends JFrame{
 	
 	public void panelEnabledFalse(){	
 		txtFolio.setEditable(false);
-		txtChecador.setEditable(false);
+//		txtChecador.setEditable(false);
 		txtNombre.setEditable(false);
 		txtApPaterno.setEditable(false);
 		txtApMaterno.setEditable(false);
@@ -994,13 +998,14 @@ public class Cat_Empleado extends JFrame{
 				Obj_Empleado empleado = new Obj_Empleado().buscar_nuevo();
 				if(empleado.getFolio() != 0){
 					panelLimpiar();
-					txtChecador.setEditable(true);
+//					txtChecador.setEditable(true);
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
 					txtFolio.setText(empleado.getFolio()+1+"");
 					txtFolio.setEditable(false);
-					txtChecador.requestFocus();
+//					txtChecador.requestFocus();
+					txtNombre.requestFocus();
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
@@ -1013,7 +1018,8 @@ public class Cat_Empleado extends JFrame{
 					panelEnabledTrue();
 					txtFolio.setText(1+"");
 					txtFolio.setEditable(false);
-					txtChecador.requestFocus();
+//					txtChecador.requestFocus();
+					txtNombre.requestFocus();
 					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
@@ -1158,14 +1164,13 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
-	@SuppressWarnings("deprecation")
 	private String validaCampos(){
 		String error="";
 		String fechaNull = txtCalendario.getDate()+"";
 		String fechaIngresoNull = txtIngreso.getDate()+"";
 		
 		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
-		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
+//		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
 		if(cmbEstablecimiento.getSelectedItem().equals("Selecciona un Establecimiento")) error += "Establecimiento\n";

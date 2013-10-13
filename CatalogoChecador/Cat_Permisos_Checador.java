@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -88,6 +90,8 @@ public class Cat_Permisos_Checador extends JFrame {
 	JButton btnEditar = new JButton("Editar");
 	JButton btnSalir = new JButton("Salir");
 	
+	Border border = LineBorder.createGrayLineBorder();
+	
 //	almacena el numero de permisos que se le asignara al empleado
 	int permiso=0;
 	
@@ -99,6 +103,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Permisos Checador"));
 		this.setTitle("Permisos Checador");
+		txaMotivo.setBorder(border);
 		
 		this.txtFechaPermiso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
@@ -196,11 +201,22 @@ public class Cat_Permisos_Checador extends JFrame {
 		String error ="";
 		String fechaNull= txtFechaPermiso.getDate()+"";
 		
-		if(txtFolio.getText().equals("")) error+= "Folio\n";
-		if(txtFolioEmpleado.getText().equals("")) error+= "Empleado\n";
-		if(fechaNull.equals("null"))error+= "Fecha de Permiso\n";	
-		if(chbP_trabajarCorrido.isSelected()==false && chbP_salirTemprano.isSelected()==false && chbP_entrarTarde.isSelected()==false && chbP_noAsistir.isSelected()==false) error+="Seleccione un Permiso\n";
-		if(txaMotivo.getText().equals("")) error+= "Motivo\n";
+		if(txtFolio.getText().equals("")) 
+			error+= "Folio\n";
+		
+		if(txtFolioEmpleado.getText().equals("")) 
+			error+= "Empleado\n";
+		
+		if(fechaNull.equals("null"))
+			error+= "Fecha de Permiso\n";	
+		
+		if(chbP_trabajarCorrido.isSelected()==false && chbP_salirTemprano.isSelected()==false 
+				&& chbP_entrarTarde.isSelected()==false && chbP_noAsistir.isSelected()==false 
+				&& chbP_noAsistir2.isSelected()==false) 
+			error+="Seleccione un Permiso\n";
+		
+		if(txaMotivo.getText().equals("")) 
+			error+= "Motivo\n";
 
 		return error;
 	}
@@ -222,14 +238,12 @@ public class Cat_Permisos_Checador extends JFrame {
 			}else{
 				if(ValidaCampos().equals("")){
 					
-					String fecha=new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate());
-					Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(fecha);
-
-					if(conpararFecha.getFecha()=="FALSE"){
+					Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+					
+					if(conpararFecha.getFecha().trim().equals("FECHA_PASADA")){
 						JOptionPane.showMessageDialog(null, "No Puede Asignar Permiso A Una Fecha Que Ya Paso", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-					
 							Obj_Permisos_Checador Permiso = new Obj_Permisos_Checador().buscar(Integer.parseInt(txtFolio.getText()));
 							 permisoChecador();
 							if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
@@ -298,8 +312,7 @@ public class Cat_Permisos_Checador extends JFrame {
 					JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos: \n"+ValidaCampos(),"Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
 				}
-				
-			}
+ 			}
 		}
 	};
 	
@@ -396,6 +409,8 @@ public class Cat_Permisos_Checador extends JFrame {
 			txtFechaPermiso.setDate(null);
 			txaMotivo.setText("");
 			
+			btnBuscar.setEnabled(true);
+			btnFiltro.setEnabled(true);
 			Campos_False();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();

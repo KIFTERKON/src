@@ -30,7 +30,7 @@ import objetos.Obj_Usuario;
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    offline+ López Arballo Oscar Manuel        ***
-***	    online + Rodríguez Sánchez José Mario      ***
+***	    offline + Rodríguez Sánchez José Mario      ***
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/
@@ -251,8 +251,11 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Dias Inhabiles")){
 						Dias_Inhabiles.setEnabled(false);
 								}
+					if(permisos[i].equals("Generacion de Gafetes de Empleados")){
+						Generacion_Gafetes_Empleados.setEnabled(true);
+								}
 					if(permisos[i].equals("Horarios")){
-						Horarios.setEnabled(false);
+						Horarios.setEnabled(true);
 								}
 					if(permisos[i].equals("Mensajes Personales a Empleados")){
 						Mensajes_Personales.setEnabled(true);
@@ -263,6 +266,7 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Reporte General de Asistencia")){
 						Reportes_Checador_Gral.setEnabled(true);
 								}
+
 					/* LISTA DE RAYA 
 					*		DEPARTAMENTO DE CORTES */
 					if(permisos[i].equals("Alimentación de Cortes"))
@@ -439,6 +443,9 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Dias Inhabiles")){
 						Dias_Inhabiles.setEnabled(true);
 					}
+					if(permisos[i].equals("Generacion de Gafetes de Empleados")){
+						Generacion_Gafetes_Empleados.setEnabled(true);
+								}
 					if(permisos[i].equals("Horarios")){
 						Horarios.setEnabled(true);
 								}

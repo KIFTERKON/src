@@ -13,7 +13,7 @@ import SQL.GuardarSQL;
 public class Obj_Empleado {
 	
 	private int folio;
-	private int no_checador;
+	private String no_checador;
 	private String nombre;
 	private String ap_paterno;
 	private String ap_materno;
@@ -49,7 +49,7 @@ public class Obj_Empleado {
 	
 	
 	public Obj_Empleado(){
-		folio=0; no_checador=0; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto = null;
+		folio=0; no_checador=""; nombre=""; ap_paterno=""; ap_materno=""; establecimiento=0; prestamo=0; foto = null;
 		puesto=0; turno=0; descanso=0; dobla=0; pension_alimenticia=0; sueldo=0; bono=0; status=0; fecha=""; fuente_sodas=false; 
 		infonavit=0; targeta_nomina=""; tipo_banco=0; observasiones=""; imss=""; status_imss=0; fecha_ingreso=""; foto_status = false; telefono_familiar = ""; telefono_propio = "";
 		cuadrante_parcial = false; status_2h=0; turno2=0;
@@ -95,12 +95,12 @@ public class Obj_Empleado {
 		this.folio = folio;
 	}
 
-	public int getNo_checador() {
+	public String getNo_checador() {
 		return no_checador;
 	}
 
-	public void setNo_checador(int noChecador) {
-		no_checador = noChecador;
+	public void setNo_checador(String no_checador) {
+		this.no_checador = no_checador;
 	}
 
 	public String getNombre() {

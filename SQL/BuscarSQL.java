@@ -110,6 +110,42 @@ public class BuscarSQL {
 		return disponible;
 	}
 	
+	public Obj_Alimentacion_Cortes Folio_Nuevo(String establecimiento){
+		Obj_Alimentacion_Cortes folio = new Obj_Alimentacion_Cortes();
+		String query = "exec sp_existe_empleado '" + establecimiento + "';";
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				folio.setFolio_corte(rs.getString("folio_corte"));
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return folio;
+	}
+	
+	public Obj_Alimentacion_Cortes Folio_Corte(String folio_corte){
+		Obj_Alimentacion_Cortes folio = new Obj_Alimentacion_Cortes();
+		String query = "exec sp_select_comprovar_folio_corte '" + folio_corte + "';";
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				folio.setFolio_corte(rs.getString("folio_corte"));
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return folio;
+	}
+	
 	public Obj_Establecimiento Establecimiento_Nuevo() throws SQLException{
 		Obj_Establecimiento establecimiento = new Obj_Establecimiento();
 		String query = "select max(folio) as 'Maximo' from tb_establecimiento";
@@ -477,8 +513,8 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				corte.setFolio_corte(rs.getInt("folio_corte"));
-				corte.setFolio_corte(rs.getInt("folio_empleado"));
+				corte.setFolio_corte(rs.getString("folio_corte"));
+				corte.setFolio_empleado(rs.getInt("folio_empleado"));
 				corte.setPuesto(rs.getString("nombre_empleado").trim());
 				corte.setPuesto(rs.getString("puesto").trim());
 				corte.setEstablecimiento(rs.getString("establecimiento").trim());
@@ -509,8 +545,8 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				corte.setFolio_corte(rs.getInt("folio_corte"));
-				corte.setFolio_corte(rs.getInt("folio_empleado"));
+				corte.setFolio_corte(rs.getString("folio_corte"));
+				corte.setFolio_empleado(rs.getInt("folio_empleado"));
 				corte.setPuesto(rs.getString("nombre_empleado").trim());
 				corte.setPuesto(rs.getString("puesto").trim());
 				corte.setEstablecimiento(rs.getString("establecimiento").trim());
@@ -566,7 +602,7 @@ public class BuscarSQL {
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				denominaciones.setFolio(rs.getInt("folio"));
-				denominaciones.setNombre(rs.getString("nombre").trim());
+				denominaciones.setDenominacion(rs.getString("nombre").trim());
 				denominaciones.setMoneda(rs.getString("moneda"));
 				denominaciones.setStatus((rs.getString("status").equals("1"))?true:false);
 			}
@@ -866,7 +902,7 @@ public class BuscarSQL {
 		
 			while(rs.next()){
 				empleado.setFolio(rs.getInt("folio"));
-				empleado.setNo_checador(rs.getInt("no_checador"));
+				empleado.setNo_checador(rs.getString("no_checador"));
 				empleado.setNombre(rs.getString("nombre").trim());
 				empleado.setAp_paterno(rs.getString("ap_paterno").trim());
 				empleado.setAp_materno(rs.getString("ap_materno").trim());
@@ -921,32 +957,32 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
-	public Obj_Alimentacion_Denominacion Denom(String asignacion) throws SQLException{
-		Obj_Alimentacion_Denominacion denom = new Obj_Alimentacion_Denominacion();
-		String query = "select * from tb_alimentacion_denominaciones where asignacion ='"+ asignacion+"'";
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				denom.setAsignacion(rs.getString("asignacion").trim());
-				denom.setFolio_empleado(rs.getInt("folio_empleado"));
-				denom.setFolio_denominacion(rs.getInt("folio_denominacion"));
-				denom.setDenominacion(rs.getString("denominacion").trim());
-				denom.setValor(rs.getFloat("valor"));
-				denom.setCantidad(rs.getFloat("cantidad"));
-				denom.setFecha(rs.getString("fecha").trim());
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return denom;
-	}
+//	public Obj_Alimentacion_Denominacion Denom(String asignacion) throws SQLException{
+//		Obj_Alimentacion_Denominacion denom = new Obj_Alimentacion_Denominacion();
+//		String query = "select * from tb_alimentacion_denominaciones where asignacion ='"+ asignacion+"'";
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+////				denom.setAsignacion(rs.getString("asignacion").trim());
+////				denom.setFolio_empleado(rs.getInt("folio_empleado"));
+////				denom.setFolio_denominacion(rs.getInt("folio_denominacion"));
+////				denom.setDenominacion(rs.getString("denominacion").trim());
+////				denom.setValor(rs.getFloat("valor"));
+////				denom.setCantidad(rs.getFloat("cantidad"));
+////				denom.setFecha(rs.getString("fecha").trim());
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return denom;
+//	}
 	
 //	public Obj_Revision_Lista_Raya ListaR(int numero_lista) throws SQLException{
 //		Obj_Revision_Lista_Raya LR = new Obj_Revision_Lista_Raya();
@@ -1022,26 +1058,26 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
-	public Obj_Alimentacion_Cortes Corte_Nuevo() throws SQLException{
-		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
-		String query = "select max(folio_corte) as 'Maximo' from tb_alimentacion_cortes";
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				corte.setFolio_corte(rs.getInt("Maximo"));
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		finally{
-			if(stmt!=null){stmt.close();}
-		}
-		return corte;
-	}
+//	public Obj_Alimentacion_Cortes Corte_Nuevo() throws SQLException{
+//		Obj_Alimentacion_Cortes corte = new Obj_Alimentacion_Cortes();
+//		String query = "select max(folio_corte) as 'Maximo' from tb_alimentacion_cortes";
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			while(rs.next()){
+//				corte.setFolio_corte(rs.getInt("Maximo"));
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		return corte;
+//	}
 	
 	public Obj_Usuario Usuario(int folio) throws SQLException{
 		Obj_Usuario usuario = new Obj_Usuario();
@@ -2779,7 +2815,6 @@ public class BuscarSQL {
 			
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				System.out.println(rs.getString("trae_fecha"));
 				permisoChecador.setFecha(rs.getString("trae_fecha"));
 			}
 			
@@ -3324,7 +3359,7 @@ public class BuscarSQL {
 		return fila;
 	}
 	
-	public Obj_Entosal Entosal(int clave) throws SQLException{
+	public Obj_Entosal Entosal(String clave) throws SQLException{
 		Obj_Entosal entosal = new Obj_Entosal();
 		String query = "select * from tb_key_check_master where keyCheckMaster ="+ clave;
 		Statement stmt = null;
@@ -3332,7 +3367,7 @@ public class BuscarSQL {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				entosal.setClave(rs.getInt("keyCheckMaster"));
+				entosal.setClave(rs.getString("keyCheckMaster"));
 				
 			}
 			
@@ -3634,12 +3669,9 @@ public class BuscarSQL {
 //trae el nobre del empleado para el codigo
 	public void Gafetes_masivos(String listas) throws SQLException{
 		String insertIds = "exec sp_insert_ids "+listas.substring(0, listas.length()-1)+";";
-		String query = "select "+
-							"folio as folio, "+
-							"nombre as codigo," +
-							"foto "+
-						"from tb_empleado "+
-						"where folio in("+listas.substring(0, listas.length()-1)+");";
+		System.out.println(listas.substring(0, listas.length()-1));
+		String query =  "exec sp_genera_clave_checador "+listas.substring(0, listas.length()-1)+";";
+
 		Statement stmt = null;
 		
 		Connection con = new Connexion().conexion();
