@@ -1,11 +1,7 @@
 package objetos;
 
-import java.sql.SQLException;
-
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
-
-
 
 public class Obj_Alimentacion_Cortes {
 	

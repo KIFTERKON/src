@@ -130,10 +130,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
          public boolean isCellEditable(int fila, int columna){
         	 switch(columna){
         	 	case 0 : return false; 
-        	 	case 1 : return false; 
-        	 	case 2 : return true; 
-        	 	case 3 : return true;
-
+     	 		case 1 : return false; 
+     	 		case 2 : return true; 
+     	 		case 3 : return true;
         	 } 				
  			return false;
          }
@@ -156,8 +155,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	JComboBox cmbMultiple = new JComboBox();
 	
 	JButton btnSalir = new JButton("Salir");
-	JButton btnEditar = new JButton("Editar");
-	JButton btnGuardar = new JButton("Guardar");
+	JButton btnTerminarCaptura = new JButton("Terminar Captura");
 	JButton btnFoto = new JButton();
 	
 	JLayeredPane panelMultiple = new JLayeredPane();
@@ -176,9 +174,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.panel.add(new JLabel("Nombre:")).setBounds(40,30,50,20);
 		this.panel.add(txtNombre_Completo).setBounds(150,30,250,20);
 		
-		this.panel.add(btnGuardar).setBounds(750,30,100,20);
-		this.panel.add(btnEditar).setBounds(750,60,100,20);
-		this.panel.add(btnSalir).setBounds(750,90,100,20);
+		this.panel.add(btnTerminarCaptura).setBounds(750,30,100,20);
+		this.panel.add(btnSalir).setBounds(750,60,100,20);
 		
 		this.panel.add(new JLabel("Puesto:")).setBounds(40,60,50,20);
 		this.panel.add(txtPuesto).setBounds(150,60,250,20);
@@ -220,6 +217,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		
 		this.btnSalir.addActionListener(salir);
 		this.btnGuardarMultiple.addActionListener(op_guardar_multiple);
+		this.btnGuardarMultipleConts.addActionListener(op_guardar_multiple_conts);
+		this.btnEditarMultipleConts.addActionListener(op_editar_multiple_conts);
+		this.btnTerminarCaptura.addActionListener(op_terminar_captura);
 
 		this.tablaMultiple.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		this.tablaLibre.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -239,6 +239,12 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
+	
+	ActionListener op_terminar_captura = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			// Cambiar los estatus a 0 de el empleado eso es lo que falta
+		}
+	};
 	
 	public void init_tabla_libre(){
 		this.tablaLibre.getTableHeader().setReorderingAllowed(false);
@@ -363,7 +369,17 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.tablaMultipleConts.getColumnModel().getColumn(2).setCellRenderer(render);
 		this.tablaMultipleConts.getColumnModel().getColumn(3).setCellRenderer(render); 
 		
+		this.tablaMultipleConts.setEnabled(false);
+		this.btnGuardarMultipleConts.setEnabled(false);
+		
 	}
+	
+	ActionListener op_editar_multiple_conts = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			tablaMultipleConts.setEnabled(true);
+			btnGuardarMultipleConts.setEnabled(true);
+		}
+	};
 	
 	public void init(String Nombre_Usuario){
 		Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(Nombre_Usuario);
@@ -382,33 +398,49 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		    
 		    /** El if ES PARA SABER SI YA EXISTE EL CUADRANTE, SI EXISTE RETORNARÁ LA MATRIZ LLENA CON LO QUE YA ESTA CAPTURADO DE LO CONTRARIO
 		     * 	MUESTRA LAS ACTIVIDADES QUE NO SE HAN CAPTURADO **/
-		    if(new Obj_Alimentacion_Cuadrante().Existe(Nombre_Usuario)){
-		    	
-		    }else{
-		    	String[][] info_tabla_multiple = new Obj_Alimentacion_Cuadrante().buscarTablaMultiple(Nombre_Usuario);
-		    	
-				String [] fila_multiple = new String[4];
+		    
+	     	String[][] info_tabla_multiple = new Obj_Alimentacion_Cuadrante().buscarTablaMultiple(Nombre_Usuario);
+	    	
+			String [] fila_multiple = new String[4];
+			
+			List<String[]> lista = new ArrayList<String[]>();
+			
+			for(int i=0; i<info_tabla_multiple.length; i++){
+		    
+	            lista.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple[i][0].toString())));
+	            	            
+	            TableColumn col = tablaMultiple.getColumnModel().getColumn(2);
+	            
+	            col.setCellEditor(new MyComboEditor(lista));
+	            
+				fila_multiple[0]= info_tabla_multiple[i][1]+"  ";
+				fila_multiple[1]= "   "+info_tabla_multiple[i][2];
+				fila_multiple[2]= "   Respuestas";
+				fila_multiple[3]= "   ";
 				
-				List<String[]> lista = new ArrayList<String[]>();
-				
-				for(int i=0; i<info_tabla_multiple.length; i++){
+				modelMultiple.addRow(fila_multiple);
+			}
+			
+			String[][] info_tabla_multiple_capturada = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleCapturada(Nombre_Usuario);
+			String [] fila_multiple_capturada = new String[6];
+			List<String[]> listaCapturada = new ArrayList<String[]>();			
+			
+			for(int i=0; i<info_tabla_multiple_capturada.length; i++){
 			    
-		            lista.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple[i][0].toString())));
-		            	            
-		            TableColumn col = tablaMultiple.getColumnModel().getColumn(2);
-		            
-		            col.setCellEditor(new MyComboEditor(lista));
-		            
-					fila_multiple[0]= info_tabla_multiple[i][1]+"  ";
-					fila_multiple[1]= "   "+info_tabla_multiple[i][2];
-					fila_multiple[2]= "   Respuestas";
-					fila_multiple[3]= "   ";
-					
-					modelMultiple.addRow(fila_multiple);
-				}
+				listaCapturada.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple_capturada[i][0].toString())));
+	            	            
+	            TableColumn col = tablaMultipleConts.getColumnModel().getColumn(2);
+	            
+	            col.setCellEditor(new MyComboEditor(listaCapturada));
+	            
+	            fila_multiple_capturada[0]= info_tabla_multiple_capturada[i][1]+"  ";
+	            fila_multiple_capturada[1]= "   "+info_tabla_multiple_capturada[i][2];
+	            fila_multiple_capturada[2]= "   "+info_tabla_multiple_capturada[i][3];
+	            fila_multiple_capturada[3]= "   "+info_tabla_multiple_capturada[i][4];
 				
+				modelMultipleConts.addRow(fila_multiple_capturada);
+			}
 				
-		    }
 //			
 //		    if(new Obj_Alimentacion_Cuadrante().Existe(usuario.getNombre_completo())){
 //		    	String[][] primera_parte = new Obj_Alimentacion_Cuadrante().buscarTablaPrimeraParte(usuario.getNombre_completo());
@@ -532,6 +564,29 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 	};
 	
+	ActionListener op_guardar_multiple_conts = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if(tablaMultipleConts.isEditing())
+				tablaMultipleConts.getCellEditor().stopCellEditing();
+			
+			if(celdasVaciasMultipleConts().equals("")){
+				if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple_conts())){
+					tablaMultipleConts.setEnabled(false);
+					btnGuardarMultipleConts.setEnabled(false);
+					JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}else{
+					JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+			}else{
+				JOptionPane.showMessageDialog(null, "Los siguientes campos son requeridos\n"+celdasVaciasLibre() +celdasVaciasMultiple() , "Aviso", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		}
+	};
+	
 	public Object[][] tabla_multiple(){
 		Object[][] multiple = new Object[tablaMultiple.getRowCount()][11];
 		try {
@@ -548,6 +603,30 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				multiple[i][7] = modelMultiple.getValueAt(i,1).toString().trim();
 				multiple[i][8] = modelMultiple.getValueAt(i,2).toString().trim();
 				multiple[i][9] = modelMultiple.getValueAt(i,3).toString().trim();
+				
+			}
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return multiple;
+	}
+	
+	public Object[][] tabla_multiple_conts(){
+		Object[][] multiple = new Object[tablaMultipleConts.getRowCount()][11];
+		try {
+			String HOST  = InetAddress.getLocalHost().getHostName();
+			String IP = InetAddress.getLocalHost().getHostAddress();
+			for(int i = 0; i<tablaMultipleConts.getRowCount(); i++){
+				multiple[i][0] = txtCuadrante.getText().toString().trim();
+				multiple[i][1] = txtNombre_Completo.getText().toString().trim();
+				multiple[i][2] = txtEstablecimiento.getText().toString().trim();
+				multiple[i][3] = txtPuesto.getText().toString().trim();
+				multiple[i][4] = HOST; 
+				multiple[i][5] = IP;
+				multiple[i][6] = modelMultipleConts.getValueAt(i,0).toString().trim();
+				multiple[i][7] = modelMultipleConts.getValueAt(i,1).toString().trim();
+				multiple[i][8] = modelMultipleConts.getValueAt(i,2).toString().trim();
+				multiple[i][9] = modelMultipleConts.getValueAt(i,3).toString().trim();
 				
 			}
 		} catch (UnknownHostException e) {
@@ -574,8 +653,18 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			if(modelMultiple.getValueAt(i, 2).toString().trim().equals("Respuestas")){
 				error += "   La actividad con el folio: [ "+modelMultiple.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
 			}
-		}
+		}		
+		return error;
+	}
+	
+	public String celdasVaciasMultipleConts(){
+		String error = "";
 		
+		for(int i=0; i<tablaMultipleConts.getRowCount(); i++){
+			if(modelMultipleConts.getValueAt(i, 2).toString().trim().equals("Respuestas")){
+				error += "   La actividad con el folio: [ "+modelMultipleConts.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
+			}
+		}		
 		return error;
 	}
 	

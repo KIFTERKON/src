@@ -257,6 +257,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	}
 	
 	ActionListener opAlimentarDenominacion = new ActionListener(){
+		@SuppressWarnings("unused")
 		public void actionPerformed(ActionEvent e){
 			
 			btnFiltro.setEnabled(false);

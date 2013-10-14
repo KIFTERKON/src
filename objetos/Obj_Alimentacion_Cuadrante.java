@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
-import SQL.GuardarSQL;
 import SQL.GuardarTablasModel;
 
 
@@ -122,6 +121,10 @@ public class Obj_Alimentacion_Cuadrante {
 	
 	public String[][] buscarTablaMultiple(String nombre){
 		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre);
+	}
+	
+	public String[][] buscarTablaMultipleCapturada(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple_capturada(nombre);
 	}
 	
 	public String[][] buscarTablaPrimeraParte(String nombre){
