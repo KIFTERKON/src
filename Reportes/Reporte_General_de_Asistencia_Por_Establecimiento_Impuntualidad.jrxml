@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="2.3579476910000063"/>
+	<property name="ireport.zoom" value="3.452271214393109"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="96"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -98,7 +98,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="248" y="0" width="324" height="23"/>
+					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="248" y="0" width="305" height="23"/>
 					<textElement>
 						<font fontName="Times New Roman" size="10"/>
 					</textElement>
@@ -108,36 +108,36 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 		</groupHeader>
 		<groupFooter>
 			<band height="16">
+				<textField>
+					<reportElement uuid="4062c1ad-d02c-4735-b0cd-ec8167f9cd0b" x="115" y="1" width="163" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Acumulado Impuntualidad: "+$V{Group2_Retardo}+"min"]]></textFieldExpression>
+				</textField>
 				<line>
 					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="2" y="15" width="551" height="1"/>
 				</line>
 				<textField>
-					<reportElement uuid="fbff5475-bf5b-4a49-9781-23a0063a886b" x="389" y="0" width="75" height="12"/>
+					<reportElement uuid="fbff5475-bf5b-4a49-9781-23a0063a886b" x="355" y="1" width="99" height="12"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Descansa: "+$F{descanso}]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Group" evaluationGroup="Group2" isBlankWhenNull="false">
-					<reportElement uuid="72a0ca88-2538-41f9-9aa2-d80babe290a0" x="264" y="0" width="50" height="12"/>
-					<textElement>
-						<font fontName="Times New Roman" size="9"/>
-					</textElement>
-					<textFieldExpression><![CDATA["TF: "+$V{Group2_Tiempo_a_Favor}+"min"]]></textFieldExpression>
-				</textField>
 				<textField>
-					<reportElement uuid="4062c1ad-d02c-4735-b0cd-ec8167f9cd0b" x="151" y="0" width="113" height="12"/>
-					<textElement>
-						<font fontName="Times New Roman" size="9"/>
-					</textElement>
-					<textFieldExpression><![CDATA["T. Impuntualidad: "+$V{Group2_Retardo}+"min"]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement uuid="d1388acd-20e9-4541-a315-e37d32ee40ab" x="466" y="0" width="89" height="11"/>
+					<reportElement uuid="d1388acd-20e9-4541-a315-e37d32ee40ab" x="454" y="1" width="99" height="11"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Dobla: "+$F{dobla}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group2">
+					<reportElement uuid="72a0ca88-2538-41f9-9aa2-d80babe290a0" x="278" y="0" width="48" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Group2_Tiempo_a_Favor}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -148,7 +148,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 	<title>
 		<band height="48" splitType="Stretch">
 			<frame>
-				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
+				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="553" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
 					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="351" height="40"/>
 					<textElement textAlignment="Center">
@@ -234,7 +234,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 					<textFieldExpression><![CDATA["imp:"+$F{inpuntualidad}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="7e9f4396-f925-4b70-bbe8-a2ae4b70e928" x="278" y="0" width="45" height="10"/>
+					<reportElement uuid="7e9f4396-f925-4b70-bbe8-a2ae4b70e928" x="278" y="0" width="46" height="10"/>
 					<textElement>
 						<font fontName="Times New Roman" size="8"/>
 					</textElement>
@@ -251,27 +251,27 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="16" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement uuid="3779e6f8-81f6-4e28-b25e-c27f5724c713" mode="Opaque" x="0" y="1" width="572" height="12" forecolor="#000080" backcolor="#000080"/>
+				<reportElement uuid="3779e6f8-81f6-4e28-b25e-c27f5724c713" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#000080" backcolor="#000080"/>
 				<textField evaluationTime="Report">
-					<reportElement uuid="0ab7e32f-5093-48e8-9280-55e1963fb350" style="Column header" x="509" y="0" width="40" height="11" forecolor="#FFFFFF"/>
+					<reportElement uuid="0ab7e32f-5093-48e8-9280-55e1963fb350" style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
-						<font size="9" isBold="false"/>
+						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="27854e05-12e3-4e25-87d2-78f26b2ca50e" style="Column header" x="450" y="0" width="59" height="11" forecolor="#FFFFFF"/>
+					<reportElement uuid="27854e05-12e3-4e25-87d2-78f26b2ca50e" style="Column header" x="454" y="0" width="59" height="20" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="9" isBold="false"/>
+						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Pagina"+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement uuid="2b5b27fe-5005-4724-9d76-f4ce3ac95546" style="Column header" x="0" y="0" width="197" height="11" forecolor="#FFFFFF"/>
+					<reportElement uuid="2b5b27fe-5005-4724-9d76-f4ce3ac95546" style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
-						<font size="9" isBold="false"/>
+						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
