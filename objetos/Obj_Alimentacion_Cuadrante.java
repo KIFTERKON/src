@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 import SQL.BuscarSQL;
 import SQL.Cargar_Combo;
-import SQL.GuardarSQL;
 import SQL.GuardarTablasModel;
 
 
@@ -120,8 +119,12 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_alimentacion_cuadrante_libre(nombre, dia);
 	}
 	
-	public String[][] buscarTablaMultiple(String nombre, String dia){
-		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre, dia);
+	public String[][] buscarTablaMultiple(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre);
+	}
+	
+	public String[][] buscarTablaMultipleCapturada(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple_capturada(nombre);
 	}
 	
 	public String[][] buscarTablaPrimeraParte(String nombre){
@@ -142,13 +145,13 @@ public class Obj_Alimentacion_Cuadrante {
 	}
 	
 	public boolean guardar(Object[][] multiple){
-		if(new GuardarSQL().guardarAlimentacionCuadrante(this)){
-			new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple,this);
-//			new GuardarTablasModel().Alimentacion_cuadrante_libre(libre,this);
-			return true;
-		}else{
-			return false;
-		}
+		return new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple);
+//		if(new GuardarSQL().guardarAlimentacionCuadrante(this)){
+//			new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple,this);
+//			return true;
+//		}else{
+//			return false;
+//		}
 	}
 
 }
