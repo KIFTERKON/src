@@ -354,30 +354,30 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
-	public boolean Alimentacion_cuadrante_multiple(Object[][] tabla, Obj_Alimentacion_Cuadrante alimentacion){
-		String query_delete = "exec sp_delete_alimentacion_multiple ?";
-		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
-		Connection con = new Connexion().conexion();
+	public boolean Alimentacion_cuadrante_multiple(Object[][] tabla){
+//		String query_delete = "exec sp_delete_alimentacion_multiple ?";
+//		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
 		
+		String query = "exec sp_insert_multiple_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?;";
+		Connection con = new Connexion().conexion();
 		try {
-			PreparedStatement pstmtDelete = con.prepareStatement(query_delete);
 			PreparedStatement pstmt = con.prepareStatement(query);
-
 			con.setAutoCommit(false);
-			
-			pstmtDelete.setString(1, alimentacion.getNombre());
-			
-			pstmtDelete.executeUpdate();
-			
+			System.out.println(tabla.length);
 			for(int i=0; i<tabla.length; i++){
-				pstmt.setString(1, alimentacion.getNombre().toString().trim());
-				pstmt.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
-				pstmt.setString(3, tabla[i][1].toString().trim());
-				pstmt.setString(4, tabla[i][2].toString().trim());
-				pstmt.setString(5, alimentacion.getFecha());
-				pstmt.executeUpdate();
+				pstmt.setString(1, tabla[i][0].toString().trim());
+				pstmt.setString(2, tabla[i][1].toString().trim());
+				pstmt.setString(3, tabla[i][2].toString().trim());
+				pstmt.setString(4, tabla[i][3].toString().trim());
+				pstmt.setString(5, tabla[i][4].toString().trim());
+				pstmt.setString(6, tabla[i][5].toString().trim());
+				pstmt.setInt(7, Integer.parseInt(tabla[i][6].toString().trim()));
+				pstmt.setString(8, tabla[i][7].toString().trim());
+				pstmt.setString(9, tabla[i][8].toString().trim());
+				pstmt.setString(10, tabla[i][9].toString().trim());
+				pstmt.execute();
+			
 			}
-					
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());
