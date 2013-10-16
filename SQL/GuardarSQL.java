@@ -655,16 +655,15 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Corte(Obj_Alimentacion_Cortes corte){
-		String query = "insert into tb_alimentacion_cortes(folio_empleado,nombre_empleado," +
-						"puesto,establecimiento,asignacion,corte_del_sistema,deposito," +
-						"efectivo,diferencia_corte,fecha,status,comentario) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "exec sp_insert_corte_caja ?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+				
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, corte.getFolio_empleado());
-			pstmt.setString(2, corte.getNombre().toUpperCase());
+			pstmt.setString(1, corte.getFolio_corte().trim());
+			pstmt.setInt(2, corte.getFolio_empleado());
 			pstmt.setString(3,corte.getPuesto().toUpperCase());
 			pstmt.setString(4, corte.getEstablecimiento().toUpperCase());
 			pstmt.setString(5, corte.getAsignacion().toUpperCase());
@@ -673,8 +672,10 @@ public class GuardarSQL {
 			pstmt.setFloat(8, corte.getEfectivo());
 			pstmt.setFloat(9, corte.getDiferencia_corte());
 			pstmt.setString(10, corte.getFecha().toUpperCase());
-			pstmt.setString(11, (corte.isStatus())?"1":"0");
+			pstmt.setInt(11, (corte.isStatus())?1:0);
 			pstmt.setString(12, corte.getComentario().toUpperCase());
+			pstmt.setFloat(13, corte.getTiempo_aire());
+			pstmt.setFloat(14, corte.getRecibo_luz());
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1053,20 +1054,13 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Alimentacion_denominacio(Obj_Alimentacion_Denominacion alim_denom,Object[][] tabla){
 		
-//		String query_delete = "exec sp_delete_alimentacion_multiple ?";
-//		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
-		
 		String query ="exec sp_insert_denominaciones ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {
-//			PreparedStatement pstmtDelete = con.prepareStatement(query_delete);
 			PreparedStatement pstmt = con.prepareStatement(query);
 
 			con.setAutoCommit(false);
-			
-//			pstmtDelete.setString(1, alimentacion.getNombre());
-//			pstmtDelete.executeUpdate();
 			
 			for(int i=0; i<tabla.length; i++){
 				
@@ -1076,12 +1070,54 @@ public class GuardarSQL {
 				pstmt.setString(4, alim_denom.getEstablecimiento().toUpperCase());
 				
 				pstmt.setInt(5, Integer.parseInt(tabla[i][0].toString().trim()));
-//				pstmt.setString(6, tabla[i][1].toString().trim());
 				pstmt.setFloat(6, Float.parseFloat(tabla[i][2].toString().trim()));
 				pstmt.setFloat(7,Float.parseFloat(tabla[i][3].toString().trim()));
 				pstmt.setFloat(8,Float.parseFloat(tabla[i][4].toString().trim()));
 				
 				pstmt.executeUpdate();
+			}
+					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Alimentacion_deposito(Obj_Alimentacion_Denominacion alim_denom,Object[][] tabla){
+		
+		String query ="exec sp_insert_deposito ?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+			
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmt.setString(1, alim_denom.getEstablecimiento().toUpperCase().trim());
+				pstmt.setString(2, alim_denom.getEmpleado().toUpperCase().trim());
+				
+				pstmt.setString(3, tabla[i][0].toString().trim());
+				pstmt.setFloat (4, Float.parseFloat(tabla[i][1].toString().trim()));
+				
+				pstmt.execute();
 			}
 					
 			con.commit();
@@ -2378,36 +2414,37 @@ public boolean Guardar_Horario(ObjHorario horario){
 			return true;
 		}
 		
-//		public boolean buscarBorrarPermiso(int folio){
-//			String query = "exec sp_folio_puesto_dependiente "+folio;
-//			Connection con = new Connexion().conexion();
-//			PreparedStatement pstmt = null;
-//			try {
-//				
-//				con.setAutoCommit(false);
-//				pstmt = con.prepareStatement(query);
-//				
-//				pstmt.executeUpdate();
-//			
-//				con.commit();
-//			} catch (Exception e) {
-//				System.out.println("SQLException: "+e.getMessage());
-//				if(con != null){
-//					try{
-//						System.out.println("La transacción ha sido abortada");
-//						con.rollback();
-//					}catch(SQLException ex){
-//						System.out.println(ex.getMessage());
-//					}
-//				}
-//				return false;
-//			}finally{
-//				try {
-//					con.close();
-//				} catch(SQLException e){
-//					e.printStackTrace();
-//				}
-//			}		
-//			return true;
-//		}
+//		borrar alimentacion por denominaciones
+		public boolean Borrar_Alimentacion_Denominaciones(String folio_corte){
+			String query = "exec sp_delete_folio_corte '"+folio_corte+"';";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			
+			try {
+
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				pstmt.executeUpdate();
+				con.commit();
+				
+			} catch (Exception e) {
+				System.out.println("SQLException: "+e.getMessage());
+				if(con != null){
+					try{
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					}catch(SQLException ex){
+						System.out.println(ex.getMessage());
+						}
+				}
+				return false;
+			}finally{
+				try {
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+					}
+			}		
+			return true;
+		}
 }

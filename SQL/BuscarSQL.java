@@ -24,7 +24,7 @@ import ObjetoChecador.Obj_Permisos_Checador;
 import objetos.Obj_Actividad;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
-import objetos.Obj_Alimentacion_Denominacion;
+import objetos.Obj_Alimentacion_Por_Denominacion;
 import objetos.Obj_Arduino;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -112,7 +112,7 @@ public class BuscarSQL {
 	
 	public Obj_Alimentacion_Cortes Folio_Nuevo(String establecimiento){
 		Obj_Alimentacion_Cortes folio = new Obj_Alimentacion_Cortes();
-		String query = "exec sp_existe_empleado '" + establecimiento + "';";
+		String query = "exec sp_select_folio_corte '" + establecimiento + "';";
 		try {				
 			Statement s = con.conexion().createStatement();
 			ResultSet rs = s.executeQuery(query);
@@ -144,6 +144,46 @@ public class BuscarSQL {
 		}
 			
 		return folio;
+	}
+	
+	public Obj_Alimentacion_Cortes Folio_Corte_Deposito(String folio_corte){
+		Obj_Alimentacion_Cortes folio = new Obj_Alimentacion_Cortes();
+		String query = "exec sp_select_comprovar_folio_corte_deposito '" + folio_corte + "';";
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				folio.setFolio_corte(rs.getString("folio_corte"));
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return folio;
+	}
+	
+	public Obj_Alimentacion_Por_Denominacion Datos_Denominacion(String folio_corte){
+		Obj_Alimentacion_Por_Denominacion alimentacion = new Obj_Alimentacion_Por_Denominacion();
+		String query = "exec sp_select_datos_alimentacion_denominaciones "+folio_corte;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+				alimentacion.setFolio_corte(rs.getString("folio_corte"));
+				alimentacion.setAsignacion(rs.getString("asignacion"));
+				alimentacion.setEmpleado(rs.getString("empleado"));
+				alimentacion.setFecha(rs.getString("fecha"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return alimentacion;
 	}
 	
 	public Obj_Establecimiento Establecimiento_Nuevo() throws SQLException{
@@ -2730,6 +2770,30 @@ public class BuscarSQL {
 				empleado_cuadrante.setFolio(rs.getInt("folio"));
 				empleado_cuadrante.setCuadrante(rs.getString("cuadrante"));
 				empleado_cuadrante.setStatus(rs.getInt("status")==1 ? true : false);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return empleado_cuadrante;
+	}
+	
+	public Obj_Empleados_Cuadrantes buscar_cuadrante_con_empleado(int folio) throws SQLException{
+		Obj_Empleados_Cuadrantes empleado_cuadrante = new Obj_Empleados_Cuadrantes();
+		String query = "exec sp_select_empleado_con_cuadrante "+ folio;
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				empleado_cuadrante.setFolio(rs.getInt("folio"));
+				empleado_cuadrante.setCuadrante(rs.getString("cuadrante"));
 			}
 			
 		} catch (Exception e) {

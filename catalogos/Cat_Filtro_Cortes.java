@@ -108,7 +108,7 @@ public class Cat_Filtro_Cortes extends JFrame{
 	        			
 	        			Object folio =  tabla.getValueAt(fila, 0);
 	        			dispose();
-	        			new Cat_Alimentacion_Cortes(Integer.parseInt(folio+""),folio_corte).setVisible(true);
+	        			new Cat_Alimentacion_Cortes(Integer.parseInt(folio+""),estab,folio_corte).setVisible(true);
 	        		}
 	        	}
 	        }
@@ -153,7 +153,9 @@ public class Cat_Filtro_Cortes extends JFrame{
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("exec sp_lista_diferencia_cortes" );
+			rs = s.executeQuery("select tb_empleado.folio as Folio," +
+					"			tb_empleado.nombre + ' ' +	tb_empleado.ap_paterno + ' ' +  tb_empleado.ap_materno as NombreCompleto" +
+					" from tb_empleado where tb_empleado.status=1" );
 			
 			while (rs.next())
 			{ 

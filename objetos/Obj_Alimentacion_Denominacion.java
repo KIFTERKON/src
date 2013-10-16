@@ -2,6 +2,7 @@ package objetos;
 
 import java.sql.SQLException;
 
+import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
@@ -78,19 +79,24 @@ public class Obj_Alimentacion_Denominacion {
 		this.establecimiento = establecimiento;
 	}
 	
-//	public boolean guardar(Object[][] tabla){ return new GuardarSQL().Guardar_Alimentacion_denominacio(tabla, this); }
-
+//	denominacion
 	public boolean guardar(Object[][] tabla){ 
-//		boolean registro = new GuardarSQL().Guardar_Cuadrante(this); 
 		return new GuardarSQL().Guardar_Alimentacion_denominacio(this, tabla);
-		
-//		if(registro == true && tabla1 == true){
-//			return true;
-//		}else{
-//			return false;
-//		}
-	
 	}
+//	denominacion	
+	public boolean actualizar(Object[][] tabla){ 
+		return new ActualizarSQL().Actualizar_Alimentacion_denominacio(this, tabla);
+	}
+	
+//	deposito
+	public boolean guardar_deposito(Object[][] tabla){ 
+		return new GuardarSQL().Guardar_Alimentacion_deposito(this, tabla);
+	}
+//	deposito	
+	public boolean actualizar_deposito(Object[][] tabla){ 
+		return new ActualizarSQL().Actualizar_Alimentacion_deposito(this, tabla);
+	}
+	
 //	public boolean actualizar(String asignacion, int folioDenom){ return new ActualizarSQL().Denom(this,asignacion,folioDenom); }
 	
 //	public Obj_Alimentacion_Denominacion buscar(String asignacion){ 

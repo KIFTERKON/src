@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import objetos.Obj_Alimentacion_Por_Denominacion;
+import objetos.Obj_Establecimiento;
 import objetos.Obj_Usuario;
 
 public class BuscarTablasModel {
@@ -225,20 +227,88 @@ public class BuscarTablasModel {
 	    return matriz; 
 	}
 	
-	public Object[][] tabla_model_alimentacion_denominaciones_modificar(){
-		String query_lista = "exec sp_select_denominaciones";
+	public Object[][] tabla_model_alimentacion_denominaciones_modificar(String folio_corte){
+		String query_lista = "exec sp_select_tabla_alimentacion_denominaciones "+folio_corte;
+		
 		Object[][] matriz = new Object[get_filas(query_lista)][10];
 		try {
-			Statement stmt = new Connexion().conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query_lista);
+			Statement stmtl = new Connexion().conexion().createStatement();
 			
+			ResultSet rs = stmtl.executeQuery(query_lista);
+
 			int i = 0;
 			while(rs.next()){
 				matriz[i][0] = "   "+rs.getString(1);
 				matriz[i][1] = "   "+rs.getString(2);
 				matriz[i][2] = "   "+rs.getString(3);
 				matriz[i][3] = "   "+rs.getString(4);
-				matriz[i][4] = rs.getString(5).trim().equals("0.0") ? "" : Float.parseFloat(rs.getString(5).trim());
+				matriz[i][4] = rs.getString(5).toString().trim().equals("0.00") ? "" : Float.parseFloat(rs.getString(5).trim());
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
+	public Object[][] tabla_model_alimentacion_deposito_modificar(String folio_corte){
+		String query_lista = "exec sp_select_tabla_alimentacion_deposito "+folio_corte;
+		
+		Object[][] matriz = new Object[get_filas(query_lista)][2];
+		try {
+			Statement stmtl = new Connexion().conexion().createStatement();
+			
+			ResultSet rs = stmtl.executeQuery(query_lista);
+
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getString(1).toString().trim();
+				matriz[i][1] = rs.getString(2).toString().trim().equals("0.00") ? "" : rs.getString(2).toString().trim();
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
+	public Object[][] tabla_model_filtro_cuadrante(){
+		String query_lista = "select folio, cuadrante from tb_empleado_cuadrante";
+		
+		Object[][] matriz = new Object[get_filas(query_lista)][2];
+		try {
+			Statement stmtl = new Connexion().conexion().createStatement();
+			
+			ResultSet rs = stmtl.executeQuery(query_lista);
+
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getString(1).toString().trim()+"  ";
+				matriz[i][1] = "  "+rs.getString(2).toString().trim();
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
+	public Object[][] tabla_filtro_empleados_en_cuadrantes(){
+		String query_lista = "exec sp_select_filtro_empleados_en_cuadreantes";
+		
+		Object[][] matriz = new Object[get_filas(query_lista)][2];
+		try {
+			Statement stmtl = new Connexion().conexion().createStatement();
+			
+			ResultSet rs = stmtl.executeQuery(query_lista);
+
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = rs.getString(1).toString().trim()+"  ";
+				matriz[i][1] = "  "+rs.getString(2).toString().trim();
 				i++;
 			}
 

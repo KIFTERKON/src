@@ -52,6 +52,15 @@ public class Obj_Empleados_Cuadrantes
 		return null; 
 	}
 	
+	public Obj_Empleados_Cuadrantes buscar_cuadrante(int folio){
+		try {
+			return new BuscarSQL().buscar_cuadrante_con_empleado(folio);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null; 
+	}
+	
 	public int nuevoEmpleadoCuadrante(){
 		try {
 			return new BuscarSQL().NuevoEmpleadoCuadrante();

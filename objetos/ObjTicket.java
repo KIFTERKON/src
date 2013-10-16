@@ -18,6 +18,8 @@ public class ObjTicket
 	private String deposito;
 	private String efectivo;
 	private String diferencia;
+	private String tiempo_aire;
+	private String resivo_luz;
 	
 
 	public ObjTicket()
@@ -137,6 +139,22 @@ public class ObjTicket
 
 	public void setDiferencia(String diferencia) {
 		this.diferencia = diferencia;
+	}
+
+	public String getTiempo_aire() {
+		return tiempo_aire;
+	}
+
+	public void setTiempo_aire(String tiempo_aire) {
+		this.tiempo_aire = tiempo_aire;
+	}
+
+	public String getResivo_luz() {
+		return resivo_luz;
+	}
+
+	public void setResivo_luz(String resivo_luz) {
+		this.resivo_luz = resivo_luz;
 	}
 
 	public boolean guardar(){ 

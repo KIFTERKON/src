@@ -1924,7 +1924,106 @@ public class ActualizarSQL {
 				}		
 				return true;
 			}
-	
+			
+			public boolean Actualizar_Alimentacion_denominacio(Obj_Alimentacion_Denominacion alim_denom,Object[][] tabla){
+				
+				String query_delete = "delete from tb_alimentacion_denominaciones where folio_corte ='"+alim_denom.getEstablecimiento()+"'";
+				String query ="exec sp_insert_denominaciones ?,?,?,?,?,?,?,?";
+				Connection con = new Connexion().conexion();
+				
+				try {
+					PreparedStatement pstmtDelete = con.prepareStatement(query_delete);
+					PreparedStatement pstmt = con.prepareStatement(query);
+
+					con.setAutoCommit(false);
+					
+//					pstmtDelete.setString(1, alimentacion.getNombre());
+					pstmtDelete.executeUpdate();
+					
+					for(int i=0; i<tabla.length; i++){
+						
+						pstmt.setString(1, alim_denom.getAsignacion().toUpperCase());
+						pstmt.setString(2, alim_denom.getEmpleado().toUpperCase().trim());
+						pstmt.setString(3, alim_denom.getFecha());
+						pstmt.setString(4, alim_denom.getEstablecimiento().toUpperCase());
+						
+						pstmt.setInt(5, Integer.parseInt(tabla[i][0].toString().trim()));
+//						pstmt.setString(6, tabla[i][1].toString().trim());
+						pstmt.setFloat(6, Float.parseFloat(tabla[i][2].toString().trim()));
+						pstmt.setFloat(7,Float.parseFloat(tabla[i][3].toString().trim()));
+						pstmt.setFloat(8,Float.parseFloat(tabla[i][4].toString().trim()));
+						
+						pstmt.executeUpdate();
+					}
+							
+					con.commit();
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch(SQLException e){
+						e.printStackTrace();
+					}
+				}		
+				return true;
+			}
+			
+			public boolean Actualizar_Alimentacion_deposito(Obj_Alimentacion_Denominacion alim_denom,Object[][] tabla){
+				
+				String query_delete = "delete from tb_alimentacion_deposito where folio_corte ='"+alim_denom.getEstablecimiento()+"'";
+				String query ="exec sp_insert_deposito ?,?,?,?";
+				Connection con = new Connexion().conexion();
+				
+				try {
+					PreparedStatement pstmtDelete = con.prepareStatement(query_delete);
+					PreparedStatement pstmt = con.prepareStatement(query);
+
+					con.setAutoCommit(false);
+					
+					pstmtDelete.executeUpdate();
+					
+					for(int i=0; i<tabla.length; i++){
+						
+						pstmt.setString(1, alim_denom.getEstablecimiento().toUpperCase().trim());
+						pstmt.setString(2, alim_denom.getEmpleado().toUpperCase().trim());
+						
+						pstmt.setString(3, tabla[i][0].toString().trim());
+						pstmt.setFloat (4, Float.parseFloat(tabla[i][1].toString().trim()));
+						
+						pstmt.executeUpdate();
+					}
+							
+					con.commit();
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch(SQLException e){
+						e.printStackTrace();
+					}
+				}		
+				return true;
+			}
 	
 	
 }

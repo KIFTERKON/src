@@ -27,7 +27,6 @@ public class Imprime extends JFrame
 	@SuppressWarnings("resource")
 	public Imprime()
 	{
-
 		jLabel1 = new JLabel();
 		
 //		Declarar Txa y Asignarle imagen
@@ -54,11 +53,9 @@ public class Imprime extends JFrame
 		jButImprime.setVerticalAlignment(SwingConstants.TOP);
 		jButImprime.setVerticalTextPosition(SwingConstants.BOTTOM);
 		jButImprime.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e){
 				jButImprime_actionPerformed(e);
 			}
-
 		});
 
 		contentPane.setLayout(null);
@@ -87,14 +84,11 @@ public class Imprime extends JFrame
 	          int filesize   = (int)f.length();
 	          data 			 = new char[filesize];
 	          fin.read (data, 0, filesize);
-	        } 
-	        catch (FileNotFoundException exc) 
-	        {
+	        }catch (FileNotFoundException exc){
 	          String errorString = "No se Encontro Archivo: "+ System.getProperty("user.dir") + "\\DbTicket\\Ticket.txt";
 	          data = errorString.toCharArray ();
 	        } 
-	        catch (IOException exc) 
-	        {
+	        catch (IOException exc){
 	          String errorString = "Tipo de Error: " + System.getProperty("user.dir") + "\\DbTiket\\Ticket.txt";
 	          data = errorString.toCharArray ();
 	        }
@@ -102,29 +96,26 @@ public class Imprime extends JFrame
 	        jTextArea1.setText (new String (data));
 	        setCursor (Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
+	        jTextArea1.setEditable(false);
 		this.setVisible(true);
 	}
 	
 	private void jButImprime_actionPerformed(ActionEvent e)
 	{
 		try{
-			
 	 		Properties defaultProps = new Properties();
 	 		
 			PrintJob print=Toolkit.getDefaultToolkit().getPrintJob(this,"Imprimir",defaultProps);
 			Graphics g=print.getGraphics();
-			if(g!=null)
-			{
+			if(g!=null){
 				jTextArea1.printAll(g);
-				
 			}
 			g.dispose();
 			print.end();
 			dispose();
 			new Cat_Filtro_Cortes().setVisible(true);
 			
-		}catch(Exception ee)
-		{
+		}catch(Exception ee){
 			JOptionPane.showMessageDialog(null,"      Ha ocurrido un error\nNo se encontro La Impresora.");
 			return;
 		}

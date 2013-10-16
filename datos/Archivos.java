@@ -34,6 +34,8 @@ public class Archivos {
 			bw.write(ex.getDeposito()+"                 ");
 			bw.write(ex.getEfectivo()+"\n\n");
 			bw.write(ex.getDiferencia() + "\n\n\n");
+			bw.write(ex.getTiempo_aire()+"\n\n");
+			bw.write(ex.getResivo_luz()+"\n\n\n");
 			bw.write(".");
 			
 		}catch(Exception ee)

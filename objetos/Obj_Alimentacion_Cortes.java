@@ -1,11 +1,7 @@
 package objetos;
 
-import java.sql.SQLException;
-
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
-
-
 
 public class Obj_Alimentacion_Cortes {
 	
@@ -22,11 +18,14 @@ public class Obj_Alimentacion_Cortes {
 	private String comentario;
 	private String fecha;
 	private boolean status;
+	private float tiempo_aire;
+	private float recibo_luz;
 
 	public Obj_Alimentacion_Cortes(){
 		this.folio_corte=""; this.folio_empleado=0; this.nombre=""; this.puesto=""; 
 		this.establecimiento=""; this.asignacion=""; this.corte_sistema=0;
 		this.deposito=0; this.efectivo=0; this.diferencia_corte=0; this.comentario=""; this.fecha=""; this.status=false;
+		this.tiempo_aire=0; this.recibo_luz=0;
 	}
 
 	public String getFolio_corte() {
@@ -144,18 +143,31 @@ public class Obj_Alimentacion_Cortes {
 //		}
 //		return corte;
 //	}
+	
 	public Obj_Alimentacion_Cortes buscar(String establecimiento){ return new BuscarSQL().Folio_Nuevo(establecimiento); }
+
+	public float getTiempo_aire() {
+		return tiempo_aire;
+	}
+
+	public void setTiempo_aire(float tiempo_aire) {
+		this.tiempo_aire = tiempo_aire;
+	}
+
+	public float getRecibo_luz() {
+		return recibo_luz;
+	}
+
+	public void setRecibo_luz(float recibo_luz) {
+		this.recibo_luz = recibo_luz;
+	}
 
 	public Obj_Alimentacion_Cortes buscar_folio_corte(String folio_corte){ return new BuscarSQL().Folio_Corte(folio_corte); }
 	
 	public boolean guardar(){ return new GuardarSQL().Guardar_Corte(this); }
 	
-//	public Obj_Alimentacion_Cortes buscar_nuevo() { 
-//		try {
-//			return new BuscarSQL().Corte_Nuevo();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
+	public boolean eliminar(String folio_corte){ return new GuardarSQL().Borrar_Alimentacion_Denominaciones(folio_corte); }
+
+	public Obj_Alimentacion_Cortes buscar_folio_corte_deposito(String folio_corte) {return new BuscarSQL().Folio_Corte_Deposito(folio_corte);}
+	
 }

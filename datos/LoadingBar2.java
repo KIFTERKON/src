@@ -78,7 +78,7 @@ public class LoadingBar2 extends JDialog
 				
 				
 				try {
-					Thread.sleep(30);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

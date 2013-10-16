@@ -98,23 +98,28 @@ public class Cat_Filtro_Cuadrante extends JFrame {
     }
     
    	private JScrollPane getPanelTabla()	{		
+   		
+   		this.tabla.getTableHeader().setReorderingAllowed(false) ;
+		this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
    		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(50);
 		tabla.getColumnModel().getColumn(0).setMinWidth(50);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre de Cuadrante");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(230);
-		tabla.getColumnModel().getColumn(1).setMinWidth(230);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(320);
+		tabla.getColumnModel().getColumn(1).setMinWidth(210);
 		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
 		tabla.getColumnModel().getColumn(2).setMaxWidth(150);
 		tabla.getColumnModel().getColumn(2).setMinWidth(150);
 		tabla.getColumnModel().getColumn(3).setHeaderValue("Jefatura de Cuadrante");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(150);
+		tabla.getColumnModel().getColumn(3).setMaxWidth(380);
 		tabla.getColumnModel().getColumn(3).setMinWidth(150);
 		tabla.getColumnModel().getColumn(4).setHeaderValue("Nivel Jerarquico de Cuadrante");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(190);
+		tabla.getColumnModel().getColumn(4).setMaxWidth(280);
 		tabla.getColumnModel().getColumn(4).setMinWidth(190);
 		tabla.getColumnModel().getColumn(5).setHeaderValue("Equipo de Trabajo de Cuadrante");
+		tabla.getColumnModel().getColumn(5).setMaxWidth(320);
+		tabla.getColumnModel().getColumn(5).setMinWidth(190);
 
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 

@@ -80,6 +80,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	JCheckBox chbP_noAsistir2 = new JCheckBox("5.- Permiso Para No Asistir (sin goce de sueldo)");
 	
 	JTextArea txaMotivo = new JTextArea();
+	JScrollPane Observasiones = new JScrollPane(txaMotivo);
 	
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnFiltro = new JButton(new ImageIcon("Iconos/filter_iconBlue&16.png"));
@@ -138,7 +139,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		panel.add(chbP_entrarTarde).setBounds(20,y+=30,300,20);
 		
 		panel.add(lblMotivo).setBounds(10,y+=30,80,20);
-		panel.add(txaMotivo).setBounds(10,y+=20,500,130);
+		panel.add(Observasiones).setBounds(10,y+=20,500,130);
 		
 		panel.add(btnNuevo).setBounds(70,y+=150,80,20);
 		panel.add(btnGuardar).setBounds(160,y,80,20);
