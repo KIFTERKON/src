@@ -3,6 +3,8 @@ package frames;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.StringTokenizer;
+
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -448,6 +450,17 @@ public class InitMenuBar extends Init{
 		return Barra;
 	}
 	
+	public String procesa_texto(String texto) {
+		StringTokenizer tokens = new StringTokenizer(texto);
+	    texto = "";
+	    while(tokens.hasMoreTokens()){
+	    	texto += " "+tokens.nextToken();
+	    }
+	    texto = texto.toString();
+	    texto = texto.trim().toUpperCase();
+	     return texto;
+	}
+	
 	ActionListener Opciones = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 
@@ -514,10 +527,10 @@ public class InitMenuBar extends Init{
 			 * 		ALIMENTACION */
 			if(e.getActionCommand().equals("Alimentación de Cuadrantes")){
 				Obj_Usuario usuario = new Obj_Usuario().LeerSession();
-				Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(usuario.getNombre_completo());
-
+				Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(procesa_texto(usuario.getNombre_completo()));
+				
 				if(!datos_cuadrante.getEquipo_trabajo().equals("")){
-					new Cat_Alimentacion_Cuadrante(usuario.getNombre_completo()).setVisible(true);
+					new Cat_Alimentacion_Cuadrante(procesa_texto(usuario.getNombre_completo())).setVisible(true);
 				}else{
 					JOptionPane.showMessageDialog(null, "El usuario no tiene cuadrante", "Aviso!", JOptionPane.OK_CANCEL_OPTION);
 				}

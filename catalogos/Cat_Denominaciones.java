@@ -176,13 +176,7 @@ Connexion con = new Connexion();
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("select tb_denominaciones.folio as [Folio],"+
-					 "  tb_denominaciones.denominacion as [Nombre], "+
-					 "  tb_denominaciones.valor_denominacion as [Valor_Denominacion], "+
-					 "  tb_denominaciones.moneda as [Moneda], " +
-					 "	 tb_denominaciones.status as [Status] "+
-					
-		"  from tb_denominaciones");
+			rs = s.executeQuery("exec sp_select_alta_denominaciones");
 			
 			while (rs.next())
 			{ 
@@ -437,6 +431,7 @@ Connexion con = new Connexion();
 	public void panelLimpiar(){
 		txtFolio.setText("");
 		txtDenominacion.setText("");
+		txtValorD.setText("");
 		cmbMoneda.setSelectedIndex(0);
 	}
 	public static void main (String [] arg){

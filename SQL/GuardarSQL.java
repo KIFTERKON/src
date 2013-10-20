@@ -1869,7 +1869,7 @@ public class GuardarSQL {
 			for(int i=0; i<lista.length; i++){
 				pstmtTabla.setString(1, empleado_cuadrante.getCuadrante().toUpperCase().trim());
 				pstmtTabla.setInt(2, Integer.parseInt(lista[i]));
-				pstmtTabla.executeUpdate();
+				pstmtTabla.execute();
 			}
 						
 			con.commit();
