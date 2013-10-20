@@ -82,10 +82,10 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 
 		this.panel.add(new JLabel("Folio:")).setBounds(30,30,50,20);
 		this.panel.add(txtFolio_Cuadrante).setBounds(90,30,90,20);
-		this.panel.add(chStatus).setBounds(190,30,60,20);
-		this.panel.add(btnBuscar).setBounds(250,30,30,20);
+		this.panel.add(btnBuscar).setBounds(190,30,30,20);
+		this.panel.add(btnFiltorEmpleado).setBounds(230,30,30,20);
 		this.panel.add(btnNuevo).setBounds(290,30,80,20);
-		this.panel.add(btnFiltorEmpleado).setBounds(380,30,30,20);
+		this.panel.add(chStatus).setBounds(380,30,60,20);
 		
 		this.panel.add(new JLabel("Cuadrante:")).setBounds(30,55,70,20);
 		this.panel.add(txtCuadrantes).setBounds(90,55,280,20);
@@ -779,9 +779,7 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		
 		
 	   	public Object[][] getTabla(){
-			String todos = "select tb_cuadrante.folio as [Folio], "+
-						         " tb_cuadrante.cuadrante as [Cuadrante] "+ 
-						   "from tb_cuadrante";
+			String todos = "exec sp_comparar_cuadrante_asignados";
 			Statement s;
 			ResultSet rs;
 			try {

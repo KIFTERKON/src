@@ -1665,7 +1665,7 @@ public class ActualizarSQL {
 	
 	public boolean EmpleadoCuadrante(Obj_Empleados_Cuadrantes empleado_cuadrante, String[] tabla){
 		String queryClear = "delete from tb_tabla_empleado_cuadrante where folio_cuadrante ="+empleado_cuadrante.getFolio();
-		String queryUpdate = "update tb_empleado_cuadrante set cuadrante=?,	status=? where folio = ?";
+		String queryUpdate = "exec sp_update_tb_empleado_cuadrante ?,?,?";
 		String querytabla = "exec sp_insert_tabla_empleado_cuadrante ?,?";
 		
 		Connection con = new Connexion().conexion();

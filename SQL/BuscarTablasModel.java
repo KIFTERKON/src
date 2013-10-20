@@ -275,7 +275,7 @@ public class BuscarTablasModel {
 	}
 	
 	public Object[][] tabla_model_filtro_cuadrante(){
-		String query_lista = "select folio, cuadrante from tb_empleado_cuadrante";
+		String query_lista = "exec sp_select_filtro_relacion_empleados_en_cuadrantes";
 		
 		Object[][] matriz = new Object[get_filas(query_lista)][2];
 		try {
