@@ -91,7 +91,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	JLabel lblDiferenciaCorte = new JLabel("");
 	
 	JTextField txtTiempoAire = new JTextField("");
-	JTextField txtReciboLuz = new JTextField("S");
+	JTextField txtReciboLuz = new JTextField("");
 	
 	JCheckBox chStatus = new JCheckBox("Status");
 	
@@ -377,15 +377,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 							t.setResivo_luz				("  Recibo de Luz:      "+txtReciboLuz.getText());
 							t.guardar();
 
-//							txtFechaCorte.setText("");
-//							txtAsignacionCorte.setText("");
-//							txtEfectivo.setText("");
-//							txtCorteSistema.setText("");
-//							txtDeposito.setText("");
-//							lblDiferenciaCorte.setText("");
-//							txtReciboLuz.setText("");
-//							txtTiempoAire.setText("");
-//							btnFiltro.setEnabled(true);
 							dispose();
 							new LoadingBar2().setVisible(true);
 						}else{
@@ -405,9 +396,10 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	
 	ActionListener cancelar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-					Obj_Alimentacion_Cortes folio_corte = new Obj_Alimentacion_Cortes().buscar_folio_corte(lblFolio_Corte.getText());
+			
+					Obj_Alimentacion_Cortes folio_corte_denominacion = new Obj_Alimentacion_Cortes().buscar_folio_corte(lblFolio_Corte.getText());
 					
-					if(folio_corte.getFolio_corte().equals("")){
+					if(folio_corte_denominacion.getFolio_corte().equals("")){
 						txtFechaCorte.setText("");
 						txtEfectivo.setText("");
 						lblDiferenciaCorte.setText("");
@@ -416,7 +408,8 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 						JOptionPane.showMessageDialog(null, "El registro no existe","Error",JOptionPane.ERROR_MESSAGE);
 						return;
 					}else{
-						if(folio_corte.eliminar(lblFolio_Corte.getText())){
+						
+						if(folio_corte_denominacion.eliminar(lblFolio_Corte.getText())){
 							txtFechaCorte.setText("");
 							txtEfectivo.setText("");
 							lblDiferenciaCorte.setText("");
@@ -429,7 +422,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 							JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar eliminar el registro","Error",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-//						eliminar
 					}
 				}
 			};
@@ -695,6 +687,8 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 				}
 				txtTotal.setText(suma+"");
 				txtEfectivo.setText(suma+"");
+				lblDiferenciaCorte.setText((Float.parseFloat(txtCorteSistema.getText())-(suma+Float.parseFloat(txtDeposito.getText())))+"");
+
 			}
 			public void keyPressed(KeyEvent e) {
 			}
@@ -733,7 +727,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 									lblDiferenciaCorte.setText((Float.parseFloat(txtCorteSistema.getText())-(Float.parseFloat(txtEfectivo.getText())+Float.parseFloat(txtDeposito.getText())))+"");
 								}else{
 									txtEfectivo.setText("0.0");
-									lblDiferenciaCorte.setText(0-(Float.parseFloat(txtEfectivo.getText())+Float.parseFloat(txtDeposito.getText()))+"");
+									lblDiferenciaCorte.setText(Float.parseFloat(txtCorteSistema.getText())-(Float.parseFloat(txtDeposito.getText()))+"");
 								}
 								btnCancelar.setEnabled(true);
 								btnSalir.setEnabled(false);
@@ -987,6 +981,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 				}
 				txtTotal.setText(suma+"");
 				txtEfectivo.setText(suma+"");
+				lblDiferenciaCorte.setText((Float.parseFloat(txtCorteSistema.getText())-(suma+Float.parseFloat(txtDeposito.getText())))+"");
 			}
 			public void keyPressed(KeyEvent e) {
 			}
@@ -1022,10 +1017,10 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 								txtFechaCorte.setText(new SimpleDateFormat("dd/MM/yyyy").format(txtFecha.getDate()));
 								
 								if(!txtEfectivo.getText().equals("")){
-									lblDiferenciaCorte.setText((Float.parseFloat(txtEfectivo.getText())-(Float.parseFloat(txtCorteSistema.getText())+Float.parseFloat(txtDeposito.getText())))+"");
+									lblDiferenciaCorte.setText((Float.parseFloat(txtCorteSistema.getText())-(Float.parseFloat(txtEfectivo.getText())+Float.parseFloat(txtDeposito.getText())))+"");
 								}else{
 									txtEfectivo.setText("0.0");
-									lblDiferenciaCorte.setText(0-(Float.parseFloat(txtCorteSistema.getText())+Float.parseFloat(txtDeposito.getText()))+"");
+									lblDiferenciaCorte.setText(Float.parseFloat(txtDeposito.getText())-(Float.parseFloat(txtDeposito.getText()))+"");
 								}
 								btnCancelar.setEnabled(true);
 								btnSalir.setEnabled(false);
@@ -1446,16 +1441,6 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		
 		String columnNames[] = { "Moneda", "Cantidad"};
 		
-//		String dataValues[][] ={{ "0.10", ""},
-//								{ "0.20", ""},
-//								{ "0.50", ""},
-//								{ "1.00", ""},
-//								{ "2.00", ""},
-//								{ "5.00", ""},
-//								{ "10.00", ""},
-//								{ "20.00", ""},
-//								{ "EFECTIVO EN CAJA", ""}
-//							};
 		public Object[][] get_tabla_modificar(String folio_corte){
 			return new BuscarTablasModel().tabla_model_alimentacion_deposito_modificar(folio_corte);
 		}

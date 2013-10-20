@@ -2759,7 +2759,7 @@ public class BuscarSQL {
 	
 	public Obj_Empleados_Cuadrantes buscar_empleado_cuadrante(int folio) throws SQLException{
 		Obj_Empleados_Cuadrantes empleado_cuadrante = new Obj_Empleados_Cuadrantes();
-		String query = "select * from tb_empleado_cuadrante where folio ="+ folio;
+		String query = "exec sp_select_buscar_empleado_cuadrante "+ folio;
 		
 		Statement stmt = null;
 		try {
