@@ -448,66 +448,38 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 	
 	public void Orden_de_Actividades(){
 		// REORDENA DOMINGO
-		for(int domingo = 1; domingo<tablaDomingo.getRowCount(); domingo++){
-			if(domingo == 1){
-				tablaDomingo.setValueAt(tablaDomingo.getRowCount()+"  ", domingo,0);
-			}else{
-				tablaDomingo.setValueAt(domingo+"  ", domingo,0);
-			}
+		for(int domingo = 0; domingo<tablaDomingo.getRowCount(); domingo++){
+			tablaDomingo.setValueAt(domingo+1+"  ", domingo,0);
 		}
 		
 		// REORDENA LUNES
-		for(int lunes = 1; lunes<tablaLunes.getRowCount(); lunes++){
-			if(lunes == 1){
-				tablaLunes.setValueAt(tablaLunes.getRowCount()+"  ", lunes, 0);
-			}else{
-				tablaLunes.setValueAt(lunes+"  ", lunes,0);
-			}
+		for(int lunes = 0; lunes<tablaLunes.getRowCount(); lunes++){
+			tablaLunes.setValueAt(lunes+1+"  ", lunes, 0);
 		}
 		
 		// REORDENA MARTES
-		for(int martes = 1; martes<tablaMartes.getRowCount(); martes++){
-			if(martes == 1){
-				tablaMartes.setValueAt(tablaMartes.getRowCount()+"  ", martes, 0);
-			}else{
-				tablaMartes.setValueAt(martes+"  ", martes,0);
-			}
+		for(int martes = 0; martes<tablaMartes.getRowCount(); martes++){
+			tablaMartes.setValueAt(martes+1+"  ", martes, 0);
 		}
 		
 		// REORDENA MIERCOLES
-		for(int miercoles = 1; miercoles<tablaMiercoles.getRowCount(); miercoles++){
-			if(miercoles == 1){
-				tablaMiercoles.setValueAt(tablaMiercoles.getRowCount()+"  ", miercoles, 0);
-			}else{
-				tablaMiercoles.setValueAt(miercoles+"  ", miercoles,0);
-			}
+		for(int miercoles = 0; miercoles<tablaMiercoles.getRowCount(); miercoles++){
+			tablaMiercoles.setValueAt(miercoles+1+"  ", miercoles, 0);
 		}
 		
 		// REORDENA JUEVES
-		for(int jueves = 1; jueves<tablaJueves.getRowCount(); jueves++){
-			if(jueves == 1){
-				tablaJueves.setValueAt(tablaJueves.getRowCount()+"  ", jueves, 0);
-			}else{
-				tablaJueves.setValueAt(jueves+"  ", jueves,0);
-			}
+		for(int jueves = 0; jueves<tablaJueves.getRowCount(); jueves++){
+			tablaJueves.setValueAt(jueves+1+"  ", jueves, 0);
 		}
 		
 		// REORDENA VIERNES
-		for(int viernes = 1; viernes<tablaViernes.getRowCount(); viernes++){
-			if(viernes == 1){
-				tablaViernes.setValueAt(tablaViernes.getRowCount()+"  ", viernes, 0);
-			}else{
-				tablaViernes.setValueAt(viernes+"  ", viernes,0);
-			}
+		for(int viernes = 0; viernes<tablaViernes.getRowCount(); viernes++){
+			tablaViernes.setValueAt(viernes+1+"  ", viernes, 0);
 		}
 		
 		// REORDENA SABADO
-		for(int sabado = 1; sabado<tablaSabado.getRowCount(); sabado++){
-			if(sabado == 1){
-				tablaSabado.setValueAt(tablaSabado.getRowCount()+"  ", sabado, 0);
-			}else{
-				tablaSabado.setValueAt(sabado+"  ", sabado,0);
-			}
+		for(int sabado = 0; sabado<tablaSabado.getRowCount(); sabado++){
+			tablaSabado.setValueAt(sabado+1+"  ", sabado, 0);
 		}
 		
 	}
@@ -956,11 +928,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelDomingo.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Domingo fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelDomingo.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Domingo fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelDomingo.getValueAt(tablaDomingo.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Domingo fila:[ "+(tablaDomingo.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelDomingo.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Domingo fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelDomingo.getValueAt(tablaDomingo.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Domingo fila:[ "+(tablaDomingo.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		if(chLunes.isSelected()== true){
@@ -970,11 +942,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelLunes.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Lunes fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelLunes.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Lunes fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelLunes.getValueAt(tablaLunes.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Lunes fila:[ "+(tablaLunes.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelLunes.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Lunes fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelLunes.getValueAt(tablaLunes.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Lunes fila:[ "+(tablaLunes.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		if(chMartes.isSelected()== true){
@@ -984,11 +956,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelMartes.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Martes fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelMartes.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Martes fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelMartes.getValueAt(tablaMartes.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Martes fila:[ "+(tablaMartes.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelMartes.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Martes fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelMartes.getValueAt(tablaMartes.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Martes fila:[ "+(tablaMartes.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		if(chMiercoles.isSelected()== true){
@@ -998,11 +970,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelMiercoles.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Miércoles fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelMiercoles.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Miércoles fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelMiercoles.getValueAt(tablaMiercoles.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Miércoles fila:[ "+(tablaMiercoles.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelMiercoles.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Miércoles fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelMiercoles.getValueAt(tablaMiercoles.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Miércoles fila:[ "+(tablaMiercoles.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		if(chJueves.isSelected()== true){
@@ -1012,11 +984,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelJueves.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Jueves fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelJueves.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Jueves fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelJueves.getValueAt(tablaJueves.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Jueves fila:[ "+(tablaJueves.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelJueves.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Jueves fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelJueves.getValueAt(tablaJueves.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Jueves fila:[ "+(tablaJueves.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		if(chViernes.isSelected()== true){
@@ -1026,11 +998,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelViernes.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Viernes fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelViernes.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Viernes fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelViernes.getValueAt(tablaViernes.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Viernes fila:[ "+(tablaViernes.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelViernes.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Viernes fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelViernes.getValueAt(tablaViernes.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Viernes fila:[ "+(tablaViernes.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		if(chSabado.isSelected()== true){
@@ -1040,11 +1012,11 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			if(modelSabado.getValueAt(0,5).toString().trim().equals("00:00")){
 				error+="   En la tabla Sábado fila:[ 1 ] no ha asignado hora final.\n";
 			}
-			if(modelSabado.getValueAt(1,4).toString().trim().equals("00:00")){
-				error+="   En la tabla Sábado fila:[ 2 ] no ha asignado hora inicio.\n";
+			if(modelSabado.getValueAt(tablaSabado.getRowCount()-1,4).toString().trim().equals("00:00")){
+				error+="   En la tabla Sábado fila:[ "+(tablaSabado.getRowCount())+" ] no ha asignado hora inicio.\n";
 			}
-			if(modelSabado.getValueAt(1,5).toString().trim().equals("00:00")){
-				error+="   En la tabla Sábado fila:[ 2 ] no ha asignado hora final.\n";
+			if(modelSabado.getValueAt(tablaSabado.getRowCount()-1,5).toString().trim().equals("00:00")){
+				error+="   En la tabla Sábado fila:[ "+(tablaSabado.getRowCount())+" ] no ha asignado hora final.\n";
 			}
 		}
 		
