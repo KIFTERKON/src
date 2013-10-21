@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import objetos.Obj_Alimentacion_Por_Denominacion;
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Usuario;
 
 public class BuscarTablasModel {
@@ -561,6 +559,21 @@ public boolean Guardar_Folio_de_Empleado_Imprimir_Cuadrante(int Folio) {
 	    return matriz; 
 	}
 	
+	public boolean tablas_status(String nombre){
+		boolean varlor = false;
+		try {
+			Connexion con = new Connexion();
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery("exec sp_status_tabla_cuadrantes '" + nombre + "';");
+			while(rs.next()){
+				varlor = rs.getString(1).trim().equals("true") ? true : false;			
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return varlor;
+	}
 
 }
 

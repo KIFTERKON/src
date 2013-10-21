@@ -3092,7 +3092,7 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"';";
-				System.out.println(datosif);
+
 		Matriz = new String[getFilas(datosif)][4];
 		Statement s;
 		ResultSet rs;
@@ -3117,7 +3117,7 @@ public class BuscarSQL {
 	public String[][] tabla_alimentacion_cuadrante_multiple_capturada(String nombre){
 		String[][] Matriz = null;
 		String datosif = "exec sp_select_tabla_alimentacion_multiple_capturada '"+nombre+"';";
-		
+
 		Matriz = new String[getFilas(datosif)][6];
 		Statement s;
 		ResultSet rs;
