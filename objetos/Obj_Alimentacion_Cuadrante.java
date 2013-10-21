@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.StringTokenizer;
 
 import SQL.BuscarSQL;
+import SQL.BuscarTablasModel;
 import SQL.Cargar_Combo;
 import SQL.GuardarTablasModel;
 
@@ -152,6 +153,14 @@ public class Obj_Alimentacion_Cuadrante {
 //		}else{
 //			return false;
 //		}
+	}
+	
+	public boolean terminar_captura(String nombre){
+		return new GuardarTablasModel().terminar_cuadrante_multiple(nombre);
+	}
+	
+	public boolean status_llanado_tabla(String nombre){
+		return new BuscarTablasModel().tablas_status(nombre);
 	}
 
 }

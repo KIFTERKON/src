@@ -400,6 +400,38 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
+	public boolean terminar_cuadrante_multiple(String nombre){
+		String query = "exec sp_termina_captura_cuadrante ?;";
+		
+		Connection con = new Connexion().conexion();
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+			con.setAutoCommit(false);
+			pstmt.setString(1, nombre);
+			pstmt.execute();
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	public boolean Alimentacion_cuadrante_libre(Object[][] tabla, Obj_Alimentacion_Cuadrante alimentacion){
 		String query_delete = "exec sp_borrado_alimentacion_libre";
 		String query = "exec sp_insert_bancos ?,?,?,?,?,?";
