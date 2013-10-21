@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import objetos.Obj_Alimentacion_Por_Denominacion;
-import objetos.Obj_Establecimiento;
 import objetos.Obj_Usuario;
 
 public class BuscarTablasModel {

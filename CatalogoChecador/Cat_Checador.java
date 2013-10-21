@@ -320,6 +320,33 @@ public class Cat_Checador extends JFrame {
 		txtFolio.addKeyListener(action_buscar);
 		txtClaveReal.addKeyListener(action_entosal_clave);
 		
+		
+//		pone el foco en el txtFolio al presionar la tecla scape
+		getRootPane().getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+	            javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ESCAPE, 0), "foco");
+	        
+	        getRootPane().getActionMap().put("foco", new javax.swing.AbstractAction(){
+	            @Override
+	            public void actionPerformed(java.awt.event.ActionEvent e)
+	            {
+	            	java.awt.Toolkit.getDefaultToolkit().beep();
+	            	txtFolio.setEditable(true);
+					txtFolio.setText("");
+					txtClaveReal.setText("");
+					txtClaveReal.setEditable(false);
+					txtFolio.requestFocus();
+	            }
+	        });
+	        
+	        
+	        
+//		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+//        addWindowListener(new java.awt.event.WindowAdapter() {
+//            @Override
+//            public void windowClosing(java.awt.event.WindowEvent evt) {
+//                close();
+//            }
+//        });
 //	----------------------------------------------------------------------------------------------------------------	
 		cont.add(panel);
 		
@@ -351,11 +378,30 @@ public class Cat_Checador extends JFrame {
 		Object [] vector = new Object[10];
 		
 		if(new Obj_Empleado().insertar(folio,t_entrada)){
+			
 	         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio);
-	         
-		         for(int i=0 ; i<fila_sql.size(); i++ ){
+	         		         for(int i=0 ; i<fila_sql.size(); i++ ){
 		        	 vector[i]= "   "+ fila_sql.get(i);
 		         }
+		         
+	         while(tabla.getRowCount()>0){
+					tabla_model.removeRow(0);
+				}
+	         
+	        Object [][] lista_tabla = new Obj_Traer_Checador().get_tabla_model();
+			String[] fila = new String[9];
+					for(int i=0; i<lista_tabla.length; i++){
+						fila[0] = lista_tabla[i][0]+"";
+						fila[1] = lista_tabla[i][1]+"";
+						fila[2] = lista_tabla[i][2]+"";
+						fila[3] = lista_tabla[i][3]+"";
+						fila[4] = lista_tabla[i][4]+"";
+						fila[5] = lista_tabla[i][5]+"";
+						fila[6] = lista_tabla[i][6]+"";
+						fila[7] = lista_tabla[i][7]+"";
+						fila[8] = lista_tabla[i][8]+"";
+						tabla_model.addRow(fila);
+					}
 		}else{
 			JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
 		}
@@ -379,19 +425,15 @@ public class Cat_Checador extends JFrame {
 		public void keyPressed(KeyEvent e){
 				
 			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-				
-					txtFolio.setEditable(false);
-					txtClaveReal.setEditable(true);
-					txtClaveReal.requestFocus();
 					
 					if(txtFolio.getText().equals("")){
 						
+							JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 							txtFolio.setEditable(true);
 							txtFolio.setText("");
 							txtClaveReal.setText("");
 							txtClaveReal.setEditable(false);
 							txtFolio.requestFocus();
-							JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 							return;
 						
 					}else{
@@ -406,10 +448,10 @@ public class Cat_Checador extends JFrame {
 								Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
 								btnFoto.setIcon(icono);	
 								
-								lblNombre.setText("Empleado: ");
-								lblEstablecimiento.setText("Establecimiento: ");
-								lblPuesto.setText("Puesto: ");
-								lblHorario.setText("Horario: ");
+//								lblNombre.setText("Empleado: ");
+//								lblEstablecimiento.setText("Establecimiento: ");
+//								lblPuesto.setText("Puesto: ");
+//								lblHorario.setText("Horario: ");
 							    
 								txtFolio.setEditable(false);
 								txtClaveReal.setEditable(true);
@@ -419,13 +461,12 @@ public class Cat_Checador extends JFrame {
 							else{
 								JOptionPane.showMessageDialog(null, "El Numero de Empleado no existe o no tiene Horario Asignado","Error",JOptionPane.WARNING_MESSAGE);
 								txtFolio.setEditable(true);
-								txtFolio.requestFocus();
 								txtClaveReal.setEditable(false);
 								panelLimpiar();
+								txtFolio.requestFocus();
 								return;
 							}
 					}
-				
 			}
 		}
 		@Override
@@ -454,16 +495,16 @@ public class Cat_Checador extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e){
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
-					System.out.println(txtClaveReal.getText());
-					System.out.println(txtClaveReal.getText().toUpperCase());
-						if(txtClaveReal.getText().toUpperCase().equals("")){
+
+					if(txtClaveReal.getText().toUpperCase().equals("")){
 							
 								JOptionPane.showMessageDialog(null, "la clave es requerida \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 								txtFolio.setEditable(true);
 								txtFolio.setText("");
-								txtFolio.requestFocus();
 								txtClaveReal.setText("");
 								txtClaveReal.setEditable(false);
+								txtFolio.requestFocus();
+								return;
 							
 						}else{	
 							
@@ -476,39 +517,38 @@ public class Cat_Checador extends JFrame {
 										 				JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
 										 				txtFolio.setEditable(true);
 														txtFolio.setText("");
-														txtFolio.requestFocus();
 														txtClaveReal.setText("");
 														txtClaveReal.setEditable(false);
+														txtFolio.requestFocus();
 										 		}
 										 			break;
-										 			
 										 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-												    txtFolio.setEditable(true);
-													txtFolio.setText("");
-													txtFolio.requestFocus();
-													txtClaveReal.setText("");
-													txtClaveReal.setEditable(false);
+										 				txtFolio.setEditable(true);
+														txtFolio.setText("");
+														txtClaveReal.setText("");
+														txtClaveReal.setEditable(false);
+														txtFolio.requestFocus();
 													break;
 										 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-											        txtFolio.setEditable(true);
-													txtFolio.setText("");
-													txtFolio.requestFocus();
-													txtClaveReal.setText("");
-													txtClaveReal.setEditable(false);
+													 	txtFolio.setEditable(true);
+														txtFolio.setText("");
+														txtClaveReal.setText("");
+														txtClaveReal.setEditable(false);
+														txtFolio.requestFocus();
 										     		break;
 										 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-												    txtFolio.setEditable(true);
-													txtFolio.setText("");
-													txtFolio.requestFocus();
-													txtClaveReal.setText("");
-													txtClaveReal.setEditable(false);
+													 	txtFolio.setEditable(true);
+														txtFolio.setText("");
+														txtClaveReal.setText("");
+														txtClaveReal.setEditable(false);
+														txtFolio.requestFocus();
 													break;
 										 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-												    txtFolio.setEditable(true);
-													txtFolio.setText("");
-													txtFolio.requestFocus();
-													txtClaveReal.setText("");
-													txtClaveReal.setEditable(false);
+													 	txtFolio.setEditable(true);
+														txtFolio.setText("");
+														txtClaveReal.setText("");
+														txtClaveReal.setEditable(false);
+														txtFolio.requestFocus();
 													break;
 									};
 							}			
@@ -535,14 +575,40 @@ public class Cat_Checador extends JFrame {
 
 			if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){ 	
 					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
-					 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE); 
+					 	JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+					 	
+							 	txtFolio.setEditable(true);
+								txtFolio.setText("");
+								txtClaveReal.setText("");
+								txtClaveReal.setEditable(false);
+								txtFolio.requestFocus();
+						
+					 return;
 			 }else{
 				
 					if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
-								JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
+								
+						JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
+							
+								txtFolio.setEditable(true);
+								txtFolio.setText("");
+								txtClaveReal.setText("");
+								txtClaveReal.setEditable(false);
+								txtFolio.requestFocus();
+								
+						return;
 					}else{
 							if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
-								 JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+								
+								JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+								 
+								 	txtFolio.setEditable(true);
+									txtFolio.setText("");
+									txtClaveReal.setText("");
+									txtClaveReal.setEditable(false);
+									txtFolio.requestFocus();
+									
+								return;
 							}else{
 									  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
 										      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
@@ -551,14 +617,14 @@ public class Cat_Checador extends JFrame {
 											Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 											
 											if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
-								
-											ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-											Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-											btnFoto.setIcon(icono);	
+//								
+//											ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+//											Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+//											btnFoto.setIcon(icono);	
 											
 											Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
 											
-											tabla_model.addRow(registro);
+//											tabla_model.addRow(registro);
 											String tipo=registro[2].toString();
 											String hora=registro[3].toString();
 											
@@ -579,8 +645,12 @@ public class Cat_Checador extends JFrame {
 															lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
 															lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
 														}
-									
-											lblNombreConsulta.setText(re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+													lblNombre.setText("Empleado: ");
+													lblEstablecimiento.setText("Establecimiento: ");
+													lblPuesto.setText("Puesto: ");
+													lblHorario.setText("Horario: ");
+													
+											lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
 											
 											Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
 											lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
@@ -616,16 +686,16 @@ public class Cat_Checador extends JFrame {
 			Obj_Entosal entosalClave = new Obj_Entosal().buscar(txtClaveReal.getText().toUpperCase());
 			
 				if(re.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
-					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-					btnFoto.setIcon(icono);	
+//					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+//					Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+//					btnFoto.setIcon(icono);	
 					
 					  if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
 						  	new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
 					   }else{
 							Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
 							
-							tabla_model.addRow(registro);
+//							tabla_model.addRow(registro);
 							String tipo=registro[2].toString();
 							String hora=registro[3].toString();
 							
@@ -662,18 +732,19 @@ public class Cat_Checador extends JFrame {
 					   }
 				}else{
 				 	JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-					txtFolio.setEditable(true);
-					txtFolio.setText("");
-					txtFolio.requestFocus();
-					txtClaveReal.setText("");
-					txtClaveReal.setEditable(false);
+						 	txtFolio.setEditable(true);
+							txtFolio.setText("");
+							txtClaveReal.setText("");
+							txtClaveReal.setEditable(false);
+							txtFolio.requestFocus();
+					return;
 					}
 		}
 		txtFolio.setEditable(true);
 		txtFolio.setText("");
-		txtFolio.requestFocus();
 		txtClaveReal.setText("");
 		txtClaveReal.setEditable(false);
+		txtFolio.requestFocus();
 	}
 	
 	ActionListener opExaminar = new ActionListener(){
@@ -935,10 +1006,28 @@ public class Cat_Checador extends JFrame {
 		if(new Obj_Empleado().insertar_comida(folio_empleado,tipo_entrada,tipo_salida_comer)){
 			
 	         Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio_empleado);
-	         
 	         for(int i=0 ; i<fila_sql.size(); i++ ){
 	        	 vector[i]= "   "+ fila_sql.get(i);
 	         }
+	         
+			while(tabla.getRowCount()>0){
+				tabla_model.removeRow(0);
+			}
+			
+			Object [][] lista_tabla = new Obj_Traer_Checador().get_tabla_model();
+			String[] fila = new String[9];
+				for(int i=0; i<lista_tabla.length; i++){
+					fila[0] = lista_tabla[i][0]+"";
+					fila[1] = lista_tabla[i][1]+"";
+					fila[2] = lista_tabla[i][2]+"";
+					fila[3] = lista_tabla[i][3]+"";
+					fila[4] = lista_tabla[i][4]+"";
+					fila[5] = lista_tabla[i][5]+"";
+					fila[6] = lista_tabla[i][6]+"";
+					fila[7] = lista_tabla[i][7]+"";
+					fila[8] = lista_tabla[i][8]+"";
+					tabla_model.addRow(fila);
+				}
 			
 		}else{
 			JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);

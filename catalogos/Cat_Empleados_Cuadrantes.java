@@ -148,6 +148,10 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		this.tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
 		this.tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
 		
+		btnCuadrante.setEnabled(false);
+		btnEmpleado.setEnabled(false);
+		btnRemover.setEnabled(false);
+		
 		btnCuadrante.addActionListener(opBuscarCuadrante);
 		btnSalir.addActionListener(opSalir);
 		btnLimpiar.addActionListener(opLimpiar);
@@ -155,7 +159,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		btnEmpleado.addActionListener(opBuscarEmpleado);
 		btnBuscar.addActionListener(opBuscar);
 		btnFiltorEmpleado.addActionListener(opFiltro);
-		
 			
 		btnRemover.addActionListener(opQuitar);
 		
@@ -219,6 +222,10 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 						fila[0] = lista_tabla[i][0]+"  ";
 						fila[1] = "   "+lista_tabla[i][1];
 						modelo.addRow(fila);
+						
+						btnCuadrante.setEnabled(true);
+						btnEmpleado.setEnabled(true);
+						btnRemover.setEnabled(true);
 					}
 				}
 			}
@@ -235,6 +242,9 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			
 			limpia();
+			btnCuadrante.setEnabled(true);
+			btnEmpleado.setEnabled(true);
+			btnRemover.setEnabled(true);
 			txtFolio_Cuadrante.setText(new Obj_Empleados_Cuadrantes().nuevoEmpleadoCuadrante()+"");
 			txtFolio_Cuadrante.setEditable(false);
 			chStatus.setEnabled(true);
@@ -254,6 +264,11 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 	
 	ActionListener guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
+			
+			btnCuadrante.setEnabled(false);
+			btnEmpleado.setEnabled(false);
+			btnRemover.setEnabled(false);
+			
 			if(ValidaCampos().equals("")){
 				if(new Obj_Empleados_Cuadrantes().existe(Integer.parseInt(txtFolio_Cuadrante.getText()))){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
@@ -330,7 +345,9 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			limpia();
-			
+			btnCuadrante.setEnabled(false);
+			btnEmpleado.setEnabled(false);
+			btnRemover.setEnabled(false);
 		}
 	};
 	
