@@ -1679,8 +1679,7 @@ public class ActualizarSQL {
 			pstmtDelete.executeUpdate();
 			
 			pstmtUpdate = con.prepareStatement(queryUpdate);
-			
-			pstmtUpdate.setString(1, empleado_cuadrante.getCuadrante());
+	    	pstmtUpdate.setString(1, empleado_cuadrante.getCuadrante());
 			pstmtUpdate.setInt(2, empleado_cuadrante.isStatus() ? 1 : 0);
 			pstmtUpdate.setInt(3, empleado_cuadrante.getFolio());
 			
@@ -1689,6 +1688,10 @@ public class ActualizarSQL {
 			pstmtTabla = con.prepareStatement(querytabla);
 
 			for(int i=0; i<tabla.length; i++){
+				System.out.println(empleado_cuadrante.getCuadrante().toUpperCase().trim());
+				System.out.println(Integer.parseInt(tabla[i]));
+				System.out.println(empleado_cuadrante.getFolio());
+				
 				pstmtTabla.setString(1, empleado_cuadrante.getCuadrante().toUpperCase().trim());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i]));
 				pstmtTabla.executeUpdate();
