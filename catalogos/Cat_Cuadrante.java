@@ -613,7 +613,7 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 					Obj_Cuadrante cuadrante = new Obj_Cuadrante().buscarCuadrante(Integer.parseInt(txtFolio.getText())-1);
 					
 					if(cuadrante.getCuadrante().equals("")){
-						JOptionPane.showMessageDialog(null,"No existe el registro: "+txtFolio.getText(),"Aviso",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"No existe el registro: "+(Integer.parseInt(txtFolio.getText())-1),"Aviso",JOptionPane.ERROR_MESSAGE);
 						return;
 					}else{
 						try {
