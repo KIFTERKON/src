@@ -4001,7 +4001,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 								      ,modelLunes.getValueAt(tablaLunes.getRowCount()-1,4)
 								      ,modelLunes.getValueAt(tablaLunes.getRowCount()-1,5)};
 		 			
-				 			modelDomingo.removeRow(tablaLunes.getRowCount()-1);
+				 			modelLunes.removeRow(tablaLunes.getRowCount()-1);
 				 			
 				 			for(int i=0; i<modeloFiltro.getRowCount(); i++){
 				 				int repetido = 0;
