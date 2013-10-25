@@ -57,9 +57,9 @@ public class Filtro_Horario extends JFrame
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
 		panel.setBorder(BorderFactory.createTitledBorder("Filtro Horario"));	
 		
-		panel.add(getPanelTabla()).setBounds(20,50,540,400);
-		panel.add(txtFolio).setBounds(20,20,115,20);
-		panel.add(txtNombre).setBounds(140,20,300,20);
+		panel.add(getPanelTabla()).setBounds(20,50,800,400);
+		panel.add(txtFolio).setBounds(20,20,80,20);
+		panel.add(txtNombre).setBounds(100,20,720,20);
 		
 		cont.add(panel);
 		txtNombre.setToolTipText("Filtro");
@@ -76,7 +76,7 @@ public class Filtro_Horario extends JFrame
 		agregar(tabla);
 		
 		this.setTitle("Filtro Horario");
-		this.setSize(730,500);
+		this.setSize(845,500);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 	}
@@ -87,9 +87,8 @@ public class Filtro_Horario extends JFrame
 	        	if(e.getClickCount() == 2){
 	        		
 	    			int fila = tabla.getSelectedRow();
-	    			int folio = Integer.parseInt(modelo.getValueAt(fila,0)+"");
-	    			dispose();
-	    			new Cat_Horario(folio).setVisible(true);
+	    			Object folio =  tabla.getValueAt(fila, 0);
+	    			new Cat_Horario(Integer.parseInt(folio+"")).setVisible(true);
 	    			dispose();
 	        	}
 	        }
@@ -133,11 +132,11 @@ public class Filtro_Horario extends JFrame
 		
 		// Creamos las columnas.
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMinWidth(120);
-		tabla.getColumnModel().getColumn(0).setMinWidth(120);
+		tabla.getColumnModel().getColumn(0).setMinWidth(80);
+		tabla.getColumnModel().getColumn(0).setMinWidth(80);
 		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
-		tabla.getColumnModel().getColumn(1).setMinWidth(420);
-		tabla.getColumnModel().getColumn(1).setMaxWidth(420);
+		tabla.getColumnModel().getColumn(1).setMinWidth(720);
+		tabla.getColumnModel().getColumn(1).setMaxWidth(720);
 		
 		TableCellRenderer render = new TableCellRenderer() 
 		{ 
