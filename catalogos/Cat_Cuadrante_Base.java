@@ -4386,11 +4386,11 @@ public class Cat_Cuadrante_Base extends JFrame{
  									filaSab[3] = posicion == 1 || posicion == 2 ? Boolean.parseBoolean("true") : Boolean.parseBoolean("false");
  									filaSab[4] = "00:00";
  									filaSab[5] = "00:00";
-				 					for(int j=0; j<modelViernes.getRowCount();){
-				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelViernes.getValueAt(j,0).toString().trim())){
+				 					for(int j=0; j<modelSabado.getRowCount();){
+				 						if(Integer.parseInt(modeloFiltro.getValueAt(i,0).toString().trim()) == Integer.parseInt(modelSabado.getValueAt(j,0).toString().trim())){
 				 							j++;
 				 							repetido++;
-				 							if(j==modelViernes.getRowCount() && repetido > 0){
+				 							if(j==modelSabado.getRowCount() && repetido > 0){
 				 								if(JOptionPane.showConfirmDialog(null, "La actividad: \n \t" + modeloFiltro.getValueAt(i, 1) + " \n ya existe ¿Desea volver a agregar?" ) == 0){
 				 									modelSabado.addRow(filaSab);
 							 						j++;

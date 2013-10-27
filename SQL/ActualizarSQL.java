@@ -1417,10 +1417,15 @@ public class ActualizarSQL {
 		try {
 			con.setAutoCommit(false);
 			
+			// Elimina primero la lista de cuadrante
 			pstmtDelete = con.prepareStatement(queryDelete);
+			
+			pstmtDelete.setInt(1, cuadrante.getFolio());
+			pstmtDelete.execute();
+			
+			// Actualiza el Cuadrante
 			pstmt = con.prepareStatement(query);
-			pstmtTabla = con.prepareStatement(querytabla);
-		
+			
 			pstmt.setString(1, cuadrante.getCuadrante().toUpperCase());
 			pstmt.setString(2, cuadrante.getPerfil().toUpperCase());
 			pstmt.setString(3, cuadrante.getJefatura());
@@ -1437,11 +1442,11 @@ public class ActualizarSQL {
 			pstmt.setInt(14, cuadrante.getStatus());
 			pstmt.setInt(15, cuadrante.getFolio());
 			
-			pstmt.executeUpdate();
+			pstmt.execute();
 			
-			pstmtDelete.setInt(1, cuadrante.getFolio());
-			pstmtDelete.executeUpdate();
-					
+			// Inserta valores a la tabla
+			pstmtTabla = con.prepareStatement(querytabla);
+			
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
@@ -1452,7 +1457,7 @@ public class ActualizarSQL {
 				pstmtTabla.setString(7, tabla[i][5]);
 				pstmtTabla.setString(8, tabla[i][6]);
 				
-				pstmtTabla.executeUpdate();
+				pstmtTabla.execute();
 			}
 
 			con.commit();
