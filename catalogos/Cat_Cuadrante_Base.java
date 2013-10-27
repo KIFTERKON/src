@@ -109,7 +109,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelDomingo.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelDomingo.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelDomingo.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelDomingo.getValueAt(fila,0).toString().trim()) == tablaDomingo.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelDomingo.getValueAt(fila,3).toString()) == true){
@@ -156,7 +156,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelLunes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelLunes.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelLunes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelLunes.getValueAt(fila,0).toString().trim()) == tablaLunes.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelLunes.getValueAt(fila,3).toString()) == true){
@@ -203,7 +203,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelMartes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelMartes.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelMartes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelMartes.getValueAt(fila,0).toString().trim()) == tablaMartes.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelMartes.getValueAt(fila,3).toString()) == true){
@@ -250,7 +250,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelMiercoles.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelMiercoles.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelMiercoles.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelMiercoles.getValueAt(fila,0).toString().trim()) == tablaMiercoles.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelMiercoles.getValueAt(fila,3).toString()) == true){
@@ -297,7 +297,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelJueves.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelJueves.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelJueves.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelJueves.getValueAt(fila,0).toString().trim()) == tablaJueves.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelJueves.getValueAt(fila,3).toString()) == true){
@@ -344,7 +344,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelViernes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelViernes.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelViernes.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelViernes.getValueAt(fila,0).toString().trim()) == tablaViernes.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelViernes.getValueAt(fila,3).toString()) == true){
@@ -391,7 +391,7 @@ public class Cat_Cuadrante_Base extends JFrame{
         	 	case 1 : return false; 
         	 	case 2 : return false;
         	 	case 3 : 
-        	 		if(Integer.parseInt(modelSabado.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelSabado.getValueAt(fila,0).toString().trim()) == 2){
+        	 		if(Integer.parseInt(modelSabado.getValueAt(fila,0).toString().trim()) == 1 || Integer.parseInt(modelSabado.getValueAt(fila,0).toString().trim()) == tablaSabado.getRowCount()){
         	 			return false;
         	 		}else{
         	 			if(Boolean.parseBoolean(modelSabado.getValueAt(fila,3).toString()) == true){

@@ -21,6 +21,7 @@ import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
+import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
@@ -1606,6 +1607,48 @@ public class GuardarSQL {
 	
 	public boolean Guardar_Actividad(Obj_Actividad actividad){
 		String query = "exec sp_insert_actividad ?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+					
+			pstmt.setString(1, actividad.getActividad().toUpperCase());
+			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
+			pstmt.setString(3, actividad.getRespuesta());
+			pstmt.setString(4, actividad.getAtributos());
+			pstmt.setString(5, actividad.getNivel_critico());
+			pstmt.setString(6, actividad.getTemporada());
+			pstmt.setInt(7, actividad.isCarga() ? 1 : 0);
+			pstmt.setInt(8, actividad.getRepetir());
+			
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: " + e.getMessage());
+			if (con != null){
+				try {
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				} catch(SQLException ex) {
+					System.out.println(ex.getMessage());
+				}
+			} 
+			return false;
+		}finally{
+			try {
+				pstmt.close();
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad){
+		String query = "exec sp_insert_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
