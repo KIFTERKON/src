@@ -14,6 +14,7 @@ import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
+import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -1345,6 +1346,51 @@ public class ActualizarSQL {
 		}		
 		return true;
 	}
+	
+	public boolean Actualizar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad, int folio){
+		
+		String query = "exec sp_update_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?,?";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, actividad.getActividad().toUpperCase());
+			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
+			pstmt.setString(3, actividad.getRespuesta());
+			pstmt.setString(4, actividad.getAtributos());
+			pstmt.setString(5, actividad.getNivel_critico());
+			pstmt.setString(6, actividad.getTemporada());
+			pstmt.setInt(7, actividad.isCarga()? 1 : 0);
+			pstmt.setInt(8, actividad.getRepetir());
+			pstmt.setInt(9, folio);
+			
+			
+			
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 		
 	
 //	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
@@ -1417,10 +1463,15 @@ public class ActualizarSQL {
 		try {
 			con.setAutoCommit(false);
 			
+			// Elimina primero la lista de cuadrante
 			pstmtDelete = con.prepareStatement(queryDelete);
+			
+			pstmtDelete.setInt(1, cuadrante.getFolio());
+			pstmtDelete.execute();
+			
+			// Actualiza el Cuadrante
 			pstmt = con.prepareStatement(query);
-			pstmtTabla = con.prepareStatement(querytabla);
-		
+			
 			pstmt.setString(1, cuadrante.getCuadrante().toUpperCase());
 			pstmt.setString(2, cuadrante.getPerfil().toUpperCase());
 			pstmt.setString(3, cuadrante.getJefatura());
@@ -1437,11 +1488,11 @@ public class ActualizarSQL {
 			pstmt.setInt(14, cuadrante.getStatus());
 			pstmt.setInt(15, cuadrante.getFolio());
 			
-			pstmt.executeUpdate();
+			pstmt.execute();
 			
-			pstmtDelete.setInt(1, cuadrante.getFolio());
-			pstmtDelete.executeUpdate();
-					
+			// Inserta valores a la tabla
+			pstmtTabla = con.prepareStatement(querytabla);
+			
 			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
@@ -1452,7 +1503,7 @@ public class ActualizarSQL {
 				pstmtTabla.setString(7, tabla[i][5]);
 				pstmtTabla.setString(8, tabla[i][6]);
 				
-				pstmtTabla.executeUpdate();
+				pstmtTabla.execute();
 			}
 
 			con.commit();

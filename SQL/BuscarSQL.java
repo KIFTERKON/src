@@ -22,6 +22,7 @@ import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
+import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Por_Denominacion;
@@ -2340,6 +2341,25 @@ public class BuscarSQL {
 		return resultado; 
 	}
 	
+	public int Nueva_Actividad_Jerarquico(){
+		String sp_total_cheques = "exec [sp_nueva_actividad_jerarquico]";
+		int resultado = 0;
+		Statement s;
+		ResultSet rs;
+		try {		
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(sp_total_cheques);
+			
+			while(rs.next()){
+				resultado = rs.getInt(1);
+				
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return resultado; 
+	}
+	
 	public Object[] Permisos(String nombre_completo){
 		String query = "exec sp_select_usuario_permisos_false '"+nombre_completo+"'";
 		String[] permisos = new String[getFilas(query)];
@@ -2363,6 +2383,28 @@ public class BuscarSQL {
 	
 	public boolean ActividadExiste(int actividad){
 		String query = "exec sp_folio_actividad "+actividad;
+		
+		boolean existe = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = Boolean.parseBoolean(rs.getString("Existe").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return existe;
+	}
+	
+	public boolean ActividadExisteJerarquico(int actividad){
+		String query = "exec [sp_folio_actividad_jerarquico] "+actividad;
 		
 		boolean existe = false;
 		Statement s;
@@ -2484,6 +2526,36 @@ public class BuscarSQL {
 	public Obj_Actividad Buscar_Actividad(int folio) throws SQLException{
 		Obj_Actividad actividad = new Obj_Actividad();
 		String query = "exec sp_select_actividad "+folio+";";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				actividad.setActividad(rs.getString("actividad"));
+				actividad.setDescripcion(rs.getString("descripcion"));
+				actividad.setRespuesta(rs.getString("respuesta"));
+				actividad.setAtributos(rs.getString("atributo"));
+				actividad.setNivel_critico(rs.getString("critico"));
+				actividad.setTemporada(rs.getString("temporada"));
+				actividad.setCarga(rs.getInt("carga") == 1 ? true : false);
+				actividad.setRepetir(rs.getInt("repetir"));
+				actividad.setStatus(rs.getString("status").equals("1") ? true : false);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return actividad;
+	}
+	
+	public Obj_Actividad_Asignadas_Nivel_Jerarquico Buscar_Actividad_Nivel_Jerarquico(int folio) throws SQLException{
+		Obj_Actividad_Asignadas_Nivel_Jerarquico actividad = new Obj_Actividad_Asignadas_Nivel_Jerarquico();
+		String query = "exec sp_select_actividad_nivel_jerarquico "+folio+";";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();

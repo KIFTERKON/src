@@ -32,7 +32,7 @@ public class Cat_Filtro_Actividades extends JFrame {
 	public JTextField txtFolio = new JTextField();
 	public JTextField txtActividad = new JTextField();
 	
-	private DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Actividad().filtro(),
+	public DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Actividad().filtro(),
             new String[]{"Folio", "Nombre de Actividad", "Descripción"}
 			){
 		@SuppressWarnings("rawtypes")

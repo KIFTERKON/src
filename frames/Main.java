@@ -30,7 +30,7 @@ import objetos.Obj_Usuario;
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    offline+ López Arballo Oscar Manuel        ***
-***	    offline + Rodríguez Sánchez José Mario      ***
+***	    offline+ Rodríguez Sánchez José Mario      ***
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/
@@ -513,7 +513,6 @@ public class Main extends InitButton {
 		}catch(Exception e){
 			e.printStackTrace();
 		}	
-		
 	}
 
 }
