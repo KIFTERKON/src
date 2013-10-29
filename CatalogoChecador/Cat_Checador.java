@@ -321,9 +321,15 @@ public class Cat_Checador extends JFrame {
                 
                 txtFolio.addKeyListener(action_buscar);
                 txtClaveReal.addKeyListener(action_entosal_clave);
+             
+//           asigna el foco al JTextField deseado al arrancar la ventana
+              this.addWindowListener(new WindowAdapter() {
+                      public void windowOpened( WindowEvent e ){
+                      txtFolio.requestFocus();
+                   }
+              });
                 
-                
-//                pone el foco en el txtFolio al presionar la tecla scape
+//           pone el foco en el txtFolio al presionar la tecla scape
                 getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                    KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "foco");
                 
@@ -359,16 +365,9 @@ public class Cat_Checador extends JFrame {
                 this.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-//                asigna el foco al JTextField deseado al arrancar la ventana
-                this.addWindowListener(new WindowAdapter() {
-                        public void windowOpened( WindowEvent e ){
-                        txtFolio.requestFocus();
-                     }
-                });
-                
                 lblCerrar.addMouseListener ( new  MouseAdapter (){
                         public void mouseReleased (MouseEvent e){
-                                        dispose();
+                             dispose();
                         }  
                 });  
         }
