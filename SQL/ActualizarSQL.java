@@ -25,6 +25,7 @@ import objetos.Obj_Bono_Complemento_Sueldo;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Departamento;
 import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
@@ -45,7 +46,6 @@ import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
-import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -56,13 +56,13 @@ public class ActualizarSQL {
 	Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "update tb_empleado set no_checador=?, nombre=?, ap_paterno=?, ap_materno=?, establecimiento_id=?, puesto_id=?, turno_id=?, descanso=?, dia_dobla=?, sueldo_id=?, bono_id=?, rango_prestamo_id=?," +
-				" pension_alimenticia=?, infonavit=?, fuente_sodas=?, gafete=?, status=?, observaciones=?, foto=?, targeta_nomina =?, tipo_banco_id=?, fecha_nacimiento=?, imss=?, status_imss=?, fecha_ingreso=?, telefono_familiar=?, cuadrante_parcial=?," +
-				" horario=?, status_2h=?, horario_2=?  where folio=" + folio;
+		String query = "exec sp_update_alta_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
+			con.setAutoCommit(false);
+			
 			// insert bitacora
 			String pc = InetAddress.getLocalHost().getHostName();
 			String ip = InetAddress.getLocalHost().getHostAddress();
@@ -70,50 +70,67 @@ public class ActualizarSQL {
 			pstmtb.setString(1, pc);
 			pstmtb.setString(2, ip);
 			pstmtb.setInt(3, usuario.getFolio());
-			pstmtb.setString(4, "sp_insert_empleado modificar Num:"+folio +empleado.getNombre().toUpperCase()+" "+empleado.getAp_paterno().toUpperCase()+" sueldo:"+ empleado.getSueldo()+" Bono:"+empleado.getBono()+ " hor:"+empleado.getTurno()+"Estab:"+ empleado.getEstablecimiento()+"Puesto:"+empleado.getPuesto()+ "INF:"+empleado.getInfonavit()+" FNAC"+empleado.getFecha_nacimiento() );
-			pstmtb.setString(5, "Empleados Actualiza");
+			pstmtb.setString(4, "sp_insert_empleado alta "+empleado.getNombre().toUpperCase()+empleado.getAp_paterno().toUpperCase()+empleado.getAp_materno().toUpperCase());
+			pstmtb.setString(5, "Empleados Nuevo");
 			pstmtb.executeUpdate();
 			
-			con.setAutoCommit(false);
+//			private String telefono_cuadrante;
+			int i=1;
 			pstmt = con.prepareStatement(query);
-		
-			pstmt.setString(1, empleado.getNo_checador());
-			pstmt.setString(2, empleado.getNombre().toUpperCase());
-			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
-			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
-			pstmt.setInt(5, empleado.getEstablecimiento());
-			pstmt.setInt(6, empleado.getPuesto());
-			pstmt.setInt(7, empleado.getTurno());
-			pstmt.setInt(8, empleado.getDescanso());
-			pstmt.setInt(9, empleado.getDobla());
-			pstmt.setInt(10, empleado.getSueldo());
-			pstmt.setInt(11, empleado.getBono());
-			pstmt.setInt(12, empleado.getPrestamo());
-			pstmt.setFloat(13, empleado.getPension_alimenticia());
-			pstmt.setFloat(14, empleado.getInfonavit());
-			pstmt.setInt(15, (empleado.getFuente_sodas())?1:0);
-			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
-			pstmt.setInt(17, empleado.getStatus());
-			pstmt.setString(18,empleado.getObservasiones());
+			pstmt.setInt   (i,		folio);
+			pstmt.setString(i+=1,	empleado.getNo_checador());
+			pstmt.setString(i+=1, 	empleado.getNombre().toUpperCase());
+			pstmt.setString(i+=1,	empleado.getAp_paterno().toUpperCase());
+			pstmt.setString(i+=1,	empleado.getAp_materno().toUpperCase());
+			pstmt.setString(i+=1,	empleado.getFecha_nacimiento());
+			pstmt.setString(i+=1,	empleado.getCalle().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getColionia().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getPoblacion().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getTelefono_familiar().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getTelefono_propio().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getRfc().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getCurp().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getSexo());
 			
 			FileInputStream stream_foto = new FileInputStream(empleado.getFoto());
-			pstmt.setBinaryStream(19, stream_foto, empleado.getFoto().length());
+			pstmt.setBinaryStream(i+=1, stream_foto, empleado.getFoto().length());
 			
-			pstmt.setString(20, empleado.getTargeta_nomina());
-			pstmt.setInt(21, empleado.getTipo_banco());
-			pstmt.setString(22, empleado.getFecha_nacimiento());
-			pstmt.setString(23,empleado.getImss()+"");
-			pstmt.setInt(24, empleado.getStatus_imss());
-			pstmt.setString(25, empleado.getFecha_ingreso());
-			pstmt.setString(26, empleado.getTelefono_familiar());
-			pstmt.setInt(27, empleado.isCuadrante_parcial() ? 1 : 0);
+//			laboral
+			pstmt.setInt(i+=1, 		empleado.getHorario());
+			pstmt.setInt(i+=1, 		empleado.getHorario2());
+			pstmt.setInt(i+=1, 		empleado.getStatus_h1());
+			pstmt.setInt(i+=1, 		empleado.getStatus_h2());
+			pstmt.setInt(i+=1, 		empleado.getStatus_rotativo());
+			pstmt.setString(i+=1, 	empleado.getFecha_ingreso().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getStatus());	
+			pstmt.setInt(i+=1, 		empleado.isCuadrante_parcial() ? 1 : 0);
+			pstmt.setInt(i+=1, 		empleado.getDepartameto());	
+			pstmt.setString(i+=1, 	empleado.getImss().toUpperCase().trim());
+			pstmt.setInt(i+=1, 		empleado.getStatus_imss());
+			pstmt.setString(i+=1, 	empleado.getNumero_infonavit().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getEstablecimiento());
+			pstmt.setInt(i+=1, 		empleado.getPuesto());
 			
-			pstmt.setInt(28, empleado.getTurno());
-			pstmt.setInt(29, empleado.getStatus_2h());
-			pstmt.setInt(30, empleado.getTurno2());
+//			percepciones y deducciones
+			pstmt.setFloat(i+=1, 	empleado.getSalario_diario());
+			pstmt.setFloat(i+=1, 	empleado.getSalario_diario_integrado());
+			pstmt.setString(i+=1,	empleado.getForma_pago().toUpperCase());
+			pstmt.setInt(i+=1,		empleado.getSueldo());
+			pstmt.setInt(i+=1, 		empleado.getBono());
+			pstmt.setInt(i+=1, 		empleado.getPrestamo());
+			pstmt.setFloat(i+=1, 	empleado.getPension_alimenticia());
+			pstmt.setFloat(i+=1,	empleado.getInfonavit());
+			pstmt.setString(i+=1, 	empleado.getTargeta_nomina().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getTipo_banco());
+			pstmt.setBoolean(i+=1, (empleado.isGafete())? true: false);
+			pstmt.setBoolean(i+=1, (empleado.isFuente_sodas())? true: false);
+			pstmt.setString(i+=1, 	empleado.getObservasiones().toUpperCase());
+			
+			pstmt.setString(i+=1, 	empleado.getFecha_actualizacion().toUpperCase());
 			
 			pstmt.executeUpdate();
 			con.commit();
+			
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());
 			if(con != null){
@@ -980,16 +997,16 @@ public class ActualizarSQL {
 		return true;
 	}	
 	
-	public boolean Turno(Obj_Turno turno, int folio){
-		String query = "update tb_turno set nombre=?, horario=?, status=? where folio=" + folio;
+	public boolean Departamento(Obj_Departamento departamento, int folio){
+		String query = "update tb_departamento set departamento=?, abreviatura=?, status=? where folio=" + folio;
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, turno.getNombre().toUpperCase());
-			pstmt.setString(2, turno.getHorario().toUpperCase());
-			pstmt.setString(3, (turno.isStatus())?"1":"0");
+			pstmt.setString(1, departamento.getDepartamento().toUpperCase());
+			pstmt.setString(2, departamento.getAbreviatura().toUpperCase());
+			pstmt.setString(3, (departamento.isStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {

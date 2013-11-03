@@ -64,7 +64,7 @@ import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;
 import catalogos.Cat_Tipo_Banco;
-import catalogos.Cat_Turno;
+import catalogos.Cat_Departamento;
 import catalogos.Cat_Usuario;
 
 @SuppressWarnings("serial")
@@ -487,7 +487,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Nuevo Tipos de Bancos"))
 				new Cat_Tipo_Banco().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Turno"))
-				new Cat_Turno().setVisible(true);
+				new Cat_Departamento().setVisible(true);
 			
 			/* CONFIGURACION */
 			if(e.getActionCommand().equals("Configuración de Asistencia y Puntualidad"))

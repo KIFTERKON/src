@@ -45,7 +45,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableRowSorter;
 
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Traer_Checador;
@@ -88,7 +87,8 @@ public class Cat_Checador extends JFrame {
                     public boolean isCellEditable(int fila, int columna){
                                 switch(columna){
                                         case 0  : return false; 
-                                       case 1  : return false; 
+                                        case 1  : return false; 
+                                        case 2  : return false; 
                                         case 3  : return false; 
                                         case 4  : return false; 
                                         
@@ -105,9 +105,6 @@ public class Cat_Checador extends JFrame {
                 static JTable tabla = new JTable(tabla_model);
                 JScrollPane panelScroll = new JScrollPane(tabla);
                 
-                @SuppressWarnings({ "unchecked", "rawtypes" })
-                public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
-        
                 JLabel lblFolio = new JLabel("Numero de Empleado:");
                 JTextField txtFolio = new JTextField();
                 
@@ -440,7 +437,7 @@ public class Cat_Checador extends JFrame {
                                         }else{
                                                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
                                                         
-                                                        if(re.getFolio() != 0 && re.getTurno() !=0){        
+                                                        if(re.getFolio() != 0 && re.getHorario() !=0){        
                                                                         
                                                                 txtFolio.setText(re.getFolio()+"");
                                                                 numero_de_checador = re.getNo_checador();
@@ -510,9 +507,11 @@ public class Cat_Checador extends JFrame {
                                                 }else{        
                                                         
                                                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+                                                        Obj_Entosal entosalClave = new Obj_Entosal().buscar();
+                                                        
                                                                 switch (re.getStatus()){
                                                                 
-                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
+                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
                                                                                                                  registrarEntrada();
                                                                                                  }else{
                                                                                                                  JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
@@ -680,7 +679,7 @@ public class Cat_Checador extends JFrame {
                 }else{
 
                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                        Obj_Entosal entosalClave = new Obj_Entosal().buscar(txtClaveReal.getText().toUpperCase());
+                        Obj_Entosal entosalClave = new Obj_Entosal().buscar();
                         
                                 if(re.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
                                           
@@ -798,8 +797,8 @@ public class Cat_Checador extends JFrame {
         
         int x;                        int y;                        int z;
         
-        @SuppressWarnings({ "unchecked", "static-access" })
-        public void init_tabla(){
+        @SuppressWarnings("static-access")
+		public void init_tabla(){
                 this.tabla.getTableHeader().setReorderingAllowed(false) ;
                 
                 if(anchoMon <= 1380){
@@ -961,9 +960,6 @@ public class Cat_Checador extends JFrame {
                 for(int i=0; i<tabla.getColumnCount(); i++){
                         this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
                 }
-                
-                this.tabla.setRowSorter(trsfiltro);  
-                                
     }
         
         public static void main (String [] arg){
