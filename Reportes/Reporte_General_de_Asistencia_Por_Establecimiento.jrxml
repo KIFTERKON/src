@@ -15,14 +15,18 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[declare
- @fecha_inicial smalldatetime
-,@fecha_final smalldatetime
+		<![CDATA[declare  @fecha_inicial smalldatetime, @fecha_final smalldatetime
+,@establecimiento varchar(200)
+,@fecha_i VARCHAR(50)
+,@fecha_f VARCHAR(50)
+set @establecimiento='Todos'
+set @fecha_i='25/10/2013 05:59:59'
+set @fecha_f= '30/10/2013 23:59:59'
 
-set @fecha_inicial='01/10/2013 05:59:59'
-set @fecha_final= '20/10/2013 23:59:59'
+SET @fecha_inicial=convert(smalldatetime,@fecha_i);
+SET @fecha_final= convert(smalldatetime,@fecha_f);
 
-select tb_establecimiento.nombre as establecimiento
+   select tb_establecimiento.nombre as establecimiento
        ,tb_checador.folio_empleado
        ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
        ,datename(dw, tb_checador.fecha_mov) as  dia
@@ -37,14 +41,12 @@ select tb_establecimiento.nombre as establecimiento
        ,tb_horarios.nombre as horario
        ,datename(dw,tb_horarios.descanso-1) as descanso
        ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
-
-
      from tb_checador
   inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado
   inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
   left outer join tb_acumulado_inpuntualidad  on tb_acumulado_inpuntualidad.fecha_mov=tb_checador.fecha_mov and tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado
   left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
-where tb_checador.fecha_mov between @fecha_inicial and @fecha_final
+where tb_checador.fecha_mov>@fecha_inicial and tb_checador.fecha_mov<@fecha_final
 GROUP BY datename(dw, tb_checador.fecha_mov),tb_establecimiento.nombre,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,tb_checador.folio_empleado,CONVERT([varchar](10),tb_checador.fecha_mov,(103)),CONVERT([varchar](8),tb_checador.fecha_mov,(108)),tb_checador.entosal,tb_checador.comida_receso,tb_checador.fecha_mov,tb_acumulado_inpuntualidad.dif_minutos,tb_acumulado_inpuntualidad.minutos_a_favor,tb_horarios.nombre,tb_horarios.descanso,tb_horarios.dobla
 ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,tb_checador.fecha_mov asc]]>
 	</queryString>
@@ -69,12 +71,15 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 	<variable name="Group2_Tiempo_a_Favor" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
 		<variableExpression><![CDATA[$F{minutos_a_favor}]]></variableExpression>
 	</variable>
+	<variable name="Dias_Trabajo" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{fecha_corta}]]></variableExpression>
+	</variable>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
 		<groupHeader>
 			<band height="22">
 				<frame>
-					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="228" height="20" forecolor="#CC6600" backcolor="#FF6600"/>
+					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="228" height="20" forecolor="#CC6600" backcolor="#0000CC"/>
 				</frame>
 				<textField isStretchWithOverflow="true">
 					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="228" height="20" forecolor="#FFFFFF"/>
@@ -91,18 +96,25 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 		<groupHeader>
 			<band height="23">
 				<textField>
-					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="0" y="0" width="248" height="23" forecolor="#000000"/>
+					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="23" forecolor="#000000"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="248" y="0" width="324" height="23"/>
+					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="280" y="0" width="292" height="23"/>
 					<textElement>
 						<font fontName="Times New Roman" size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{horario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1cdae7b1-5144-42b4-a149-adf15fd3e3e3" x="0" y="0" width="31" height="23"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio_empleado}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -138,6 +150,13 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Dobla: "+$F{dobla}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="caca9a39-184a-4742-bbf3-5d8efa1281ca" x="45" y="0" width="82" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dias Laborados:" +$V{Dias_Trabajo}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>

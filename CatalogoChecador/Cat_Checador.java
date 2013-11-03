@@ -88,7 +88,8 @@ public class Cat_Checador extends JFrame {
                     public boolean isCellEditable(int fila, int columna){
                                 switch(columna){
                                         case 0  : return false; 
-                                       case 1  : return false; 
+                                        case 1  : return false; 
+                                        case 2  : return false; 
                                         case 3  : return false; 
                                         case 4  : return false; 
                                         
@@ -510,9 +511,11 @@ public class Cat_Checador extends JFrame {
                                                 }else{        
                                                         
                                                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+                                                         Obj_Entosal Entosalclave= new Obj_Entosal().buscar(txtClaveReal.getText().toUpperCase());
                                                                 switch (re.getStatus()){
                                                                 
-                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
+                                                                
+                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || Entosalclave.getClave().equals(txtClaveReal.getText().toUpperCase())){
                                                                                                                  registrarEntrada();
                                                                                                  }else{
                                                                                                                  JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);

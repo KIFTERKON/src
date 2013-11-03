@@ -35,7 +35,8 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 
-	JButton btn_generar = new JButton("Generar Reporte");
+	JButton btn_generar_Asistencia = new JButton("Reporte de Asistencia");
+	JButton btn_generar_Completo = new JButton("Reporte de Asistencia + Faltan Registros");
 	
 	public Cat_Reporte_General_Asistencia_Por_Establecimiento(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/reporte_icon&16.png"));
@@ -47,8 +48,11 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 		this.panel.add(c_final).setBounds(80,55,100,20);
 	    this.panel.add(new JLabel("Establecimiento:")).setBounds(200,25,100,20);
 		this.panel.add(cmbEstablecimiento).setBounds(280,25,150,20);
-		this.btn_generar.addActionListener(op_generar);
-		this.panel.add(btn_generar).setBounds(160,120,120,20);
+		this.btn_generar_Asistencia.addActionListener(op_generar);
+		this.panel.add(btn_generar_Asistencia).setBounds(135,100,180,20);
+		
+		this.btn_generar_Completo.addActionListener(op_generar_cregistros);
+		this.panel.add(btn_generar_Completo).setBounds(100,130,250,20);
 		this.cont.add(panel);
 		this.setSize(450,200);
 		this.setResizable(false);
@@ -71,6 +75,22 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 
 		}
 	};
+	ActionListener op_generar_cregistros = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(validar_fechas().equals("")){
+				String fecha_inicio = new SimpleDateFormat("dd/MM/yyyy").format(c_inicio.getDate())+" 00:00:01";
+				String fecha_final = new SimpleDateFormat("dd/MM/yyyy").format(c_final.getDate())+" 23:59:59";
+				String Establecimiento = cmbEstablecimiento.getSelectedItem().toString();
+				
+				new Reporte_General_de_Asistencia_Por_Establecimiento(fecha_inicio, fecha_final,Establecimiento);
+				
+			}else{
+				JOptionPane.showMessageDialog(null,"Los siguientes campos están vacíos: "+validar_fechas(),"Aviso!", JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
+	};
+	
 	
 	public String validar_fechas(){
 		String error = "";
