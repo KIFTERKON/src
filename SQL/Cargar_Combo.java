@@ -79,6 +79,40 @@ public class Cargar_Combo {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public String[] Departamento(String tabla) throws SQLException{
+		String query = "select departamento from " + tabla + " where status = 1 order by departamento asc";
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			int j=0;
+			while(rs.next()){
+				if(j == 0){
+					miVector.add("Selecciona un Departamento");
+				}
+				miVector.add(rs.getString("departamento"));
+				j++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(stmt!=null){stmt.close();}
+		}
+		int i=0;
+		String[] pila= new String[miVector.size()];
+		
+		while(i < miVector.size()){
+			pila[i]= miVector.get(i).toString();
+			i++;
+		}
+		return pila;
+			
+	}
+	
+	@SuppressWarnings("unchecked")
 	public String[] Establecimiento_Caja() throws SQLException{
 		String query = "select " + 
 					           "distinct tb_establecimiento.nombre as establecimiento " +
@@ -554,73 +588,73 @@ public class Cargar_Combo {
 			
 	}
 	
-	@SuppressWarnings("unchecked")
-	public String[] Turno(String tabla) throws SQLException{
-		String query = "select nombre from " + tabla;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			int j=0;
-			while(rs.next()){
-				if(j == 0){
-					miVector.add("Selecciona un Turno");
-				}
-				miVector.add(rs.getString("nombre"));
-				j++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}finally{
-			if(stmt!=null){stmt.close();}
-		}
-		
-		int i=0;
-		String[] pila= new String[miVector.size()];
-		
-		while(i < miVector.size()){
-			
-			pila[i]= miVector.get(i).toString();
-			i++;
-		}
-		return pila;
-			
-	}
-	
-	@SuppressWarnings("unchecked")
-	public String[] Turno2(String tabla) throws SQLException{
-		String query = "select nombre from " + tabla;
-		Statement stmt = null;
-		try {
-			stmt = con.conexion().createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			int j=0;
-			while(rs.next()){
-				if(j == 0){
-					miVector.add("Selecciona un Turno");
-				}
-				miVector.add(rs.getString("nombre"));
-				j++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}finally{
-			if(stmt!=null){stmt.close();}
-		}
-		
-		int i=0;
-		String[] pila= new String[miVector.size()];
-		
-		while(i < miVector.size()){
-			
-			pila[i]= miVector.get(i).toString();
-			i++;
-		}
-		return pila;
-			
-	}
+//	@SuppressWarnings("unchecked")
+//	public String[] Turno(String tabla) throws SQLException{
+//		String query = "select nombre from " + tabla;
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			int j=0;
+//			while(rs.next()){
+//				if(j == 0){
+//					miVector.add("Selecciona un Turno");
+//				}
+//				miVector.add(rs.getString("nombre"));
+//				j++;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		
+//		int i=0;
+//		String[] pila= new String[miVector.size()];
+//		
+//		while(i < miVector.size()){
+//			
+//			pila[i]= miVector.get(i).toString();
+//			i++;
+//		}
+//		return pila;
+//			
+//	}
+//	
+//	@SuppressWarnings("unchecked")
+//	public String[] Turno2(String tabla) throws SQLException{
+//		String query = "select nombre from " + tabla;
+//		Statement stmt = null;
+//		try {
+//			stmt = con.conexion().createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			int j=0;
+//			while(rs.next()){
+//				if(j == 0){
+//					miVector.add("Selecciona un Turno");
+//				}
+//				miVector.add(rs.getString("nombre"));
+//				j++;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}finally{
+//			if(stmt!=null){stmt.close();}
+//		}
+//		
+//		int i=0;
+//		String[] pila= new String[miVector.size()];
+//		
+//		while(i < miVector.size()){
+//			
+//			pila[i]= miVector.get(i).toString();
+//			i++;
+//		}
+//		return pila;
+//			
+//	}
 	
 	@SuppressWarnings("unchecked")
 	public String[] Tipo_Banco(String tabla) throws SQLException{

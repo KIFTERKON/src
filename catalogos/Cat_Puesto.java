@@ -246,7 +246,6 @@ Connexion con = new Connexion();
 						txtAbreviatura.setText(tabla.getValueAt(fila,2)+"");
 						btnEditar.setEnabled(true);
 						chStatus.setSelected(true);
-					
 	        	}
 	        }
         });
@@ -369,7 +368,7 @@ Connexion con = new Connexion();
 			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
+			btnEditar.setEnabled(true);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();

@@ -580,6 +580,27 @@ public boolean Guardar_Folio_de_Empleado_Imprimir_Cuadrante(int Folio) {
 	    return matriz; 
 	}
 	
+	public Object[][] tabla_model_departamento(){
+		String query_lista = "exec sp_select_tabla_departamento";
+		Object[][] matriz = new Object[get_filas(query_lista)][9];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = "   "+rs.getString(1);
+				matriz[i][1] = "   "+rs.getString(2);
+				matriz[i][2] = "   "+rs.getString(3);
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
 	public boolean tablas_status(String nombre){
 		boolean varlor = false;
 		try {

@@ -89,14 +89,15 @@ import com.toedter.calendar.JDateChooser;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Departamento;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Horario_Empleado;
+import objetos.Obj_Horario_Empleado2;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
-import objetos.Obj_Turno;
-import objetos.Obj_Turno2;
 import reporte.Reporte_de_Empleados_No_Contratables;
 
 @SuppressWarnings({ "serial", "unchecked" })
@@ -116,7 +117,7 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtNombre = new JTextField();
 	JTextField txtApPaterno = new JTextField();
 	JTextField txtApMaterno = new JTextField();
-	JTextField txtFecha = new JTextField(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+	JTextField txtFechaActualizacion = new JTextField(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 	JTextField txtPensionAli = new JTextField();
 	
 	JTextField txtHorario = new JTextField();
@@ -132,7 +133,13 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtBaja = new JTextField();
 	JTextField txtColonia = new JTextField();  
 	JTextField txtCalle = new JTextField();
-	JTextField txtDepartamento = new JTextField();  
+	JTextField txtDescanso = new JTextField();
+	JTextField txtDobla = new JTextField();
+	
+	String Departamentos[] = new Obj_Departamento().Combo_Departamento();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbDepartamento = new JComboBox(Departamentos);  
+	
 	JTextField txtNumeroInfonavit = new JTextField();
 	
 	JTextField txtSalarioDiario = new JTextField();
@@ -160,14 +167,6 @@ public class Cat_Empleado extends JFrame{
 //	String turno2[] = new Obj_Turno2().Combo_Turno2();
 //	@SuppressWarnings("rawtypes")
 //	JComboBox cmbTurno2 = new JComboBox(turno2);
-	
-	String dias1[] = {"Selecciona un Día","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbDescanso = new JComboBox(dias1);
-	
-	String dias[] = {"Selecciona un Día","Ninguno","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbDobla = new JComboBox(dias);
 	
 	String sueldo[] = new Obj_Sueldo().Combo_Sueldo();
 	@SuppressWarnings("rawtypes")
@@ -232,6 +231,8 @@ public class Cat_Empleado extends JFrame{
 	 private ButtonGroup bgHorarios = new ButtonGroup();
 	 private JRadioButton rbHorario = new JRadioButton("",true);
 	 private JRadioButton rbHorario2 = new JRadioButton("",false);
+	 
+	 private JCheckBox chbHorarioRotativo = new JCheckBox("Asignar Horario Rotativo");
 	
 	//declaracion de Bordes
 	Border blackline, etched, raisedbevel, loweredbevel, empty;
@@ -363,7 +364,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnStatus).setBounds(x+ancho*5+20,y-5,ancho+60,180);
 		
 		panel.add(new JLabel("Descanso:")).setBounds(x+500,y,ancho,20);
-		panel.add(cmbDescanso).setBounds(x+ancho+420,y,ancho,20);
+		panel.add(txtDescanso).setBounds(x+ancho+420,y,ancho+10,20);
 		
 		panel.add(btnHorario2).setBounds(x+ancho-58,y+28,15,15);
 		panel.add(new JLabel("Horario 2:")).setBounds(x,y+=25,ancho,20);
@@ -371,7 +372,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(rbHorario2).setBounds(x+460,y,20,20);
 		
 		panel.add(new JLabel("Día Dobla:")).setBounds(x+500,y,ancho,20);
-		panel.add(cmbDobla).setBounds(x+ancho+420,y,ancho,20);
+		panel.add(txtDobla).setBounds(x+ancho+420,y,ancho+10,20);
+		
+		panel.add(chbHorarioRotativo).setBounds(x+ancho-40,y+=25, ancho+50, 20);
 		
 		panel.add(new JLabel("Fecha Ingreso:")).setBounds(x,y+=25, ancho, 20);
 		panel.add(txtIngreso).setBounds(x+ancho-40,y,130,20);
@@ -384,25 +387,25 @@ public class Cat_Empleado extends JFrame{
 		
 		panel.add(chb_cuadrante_parcial).setBounds(x+ancho+175,y,150,20);
 
-		panel.add(new JLabel("Departamento:")).setBounds(x+480,y,ancho,20);
-		panel.add(txtDepartamento).setBounds(x+(ancho*3)+140,y,ancho,20);
+		panel.add(new JLabel("Departamento:")).setBounds(x+470,y,ancho,20);
+		panel.add(cmbDepartamento).setBounds(x+(ancho*3)+130,y,ancho+20,20);
 		
 		panel.add(new JLabel("N° Seguro Social:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtImss).setBounds(x+ancho-40,y,ancho+35,20);
 		panel.add(cmbActivo_Inactivo).setBounds(x+ancho+135,y,180,20);
 		
-		panel.add(new JLabel("N° Infonavit:")).setBounds(x+480,y,ancho,20);
-		panel.add(txtNumeroInfonavit).setBounds(x+(ancho*3)+140,y,ancho,20);
+		panel.add(new JLabel("N° Infonavit:")).setBounds(x+470,y,ancho,20);
+		panel.add(txtNumeroInfonavit).setBounds(x+(ancho*3)+130,y,ancho+20,20);
 		
 		panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbEstablecimiento).setBounds(x+ancho-40,y,ancho+30,20);
 		
 		panel.add(new JLabel("Puesto:")).setBounds(x+290,y,ancho,20);
-		panel.add(cmbPuesto).setBounds(x+330,y,ancho*2+90,20);
+		panel.add(cmbPuesto).setBounds(x+330,y,ancho*2+100,20);
 
 //Percepciones y Deducciones ------------------------------------------------------------------------------------------------------------------------------------------		
 
-		panel.add(lblPercepciones).setBounds(10,y+=55,ancho*4-40,170);
+		panel.add(lblPercepciones).setBounds(10,y+=30,ancho*4-40,170);
 		panel.add(new JLabel("Salario Diario:")).setBounds(x,y+=15,ancho,20);
 		panel.add(txtSalarioDiario).setBounds(x+ancho-40,y,ancho,20);
 		
@@ -437,7 +440,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(chbFuente_Sodas).setBounds((x*7),y,90,20);
 		
 		panel.add(new JLabel("Ultima actualización:")).setBounds(x+250,y,ancho,20);
-		panel.add(txtFecha).setBounds(x+ancho+220,y,ancho,20);
+		panel.add(txtFechaActualizacion).setBounds(x+ancho+220,y,ancho,20);
 		
 		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
@@ -457,9 +460,22 @@ public class Cat_Empleado extends JFrame{
 		txtTarjetaNomina.setDocument(new JTextFieldLimit(19));
 		txtImss.setDocument(new JTextFieldLimit(11));
 		txtTelefono_Familiar.setDocument(new JTextFieldLimit(10));
+		txtTelefono_Propio.setDocument(new JTextFieldLimit(10));
+		txtCalle.setDocument(new JTextFieldLimit(30));
+		txtColonia.setDocument(new JTextFieldLimit(20));
+		txtPoblacion.setDocument(new JTextFieldLimit(20));
+		txtNumeroInfonavit.setDocument(new JTextFieldLimit(15));
 		
-		rbHorario2.addActionListener(opRButton);
-		rbHorario2.setEnabled(false);
+		txtRFC.setDocument(new JTextFieldLimit(25));
+		txtCurp.setDocument(new JTextFieldLimit(25));
+		
+		txtSalarioDiario.setDocument(new JTextFieldLimit(15));
+		txtSalarioDiarioIntegrado.setDocument(new JTextFieldLimit(15));
+		
+		txtFormaDePago.setDocument(new JTextFieldLimit(15));
+		
+		txtPensionAli.setDocument(new JTextFieldLimit(15));
+		txtInfonavit.setDocument(new JTextFieldLimit(15));
 		
 //		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
@@ -481,8 +497,12 @@ public class Cat_Empleado extends JFrame{
 		txtTarjetaNomina.addKeyListener(txtlogns);
 		btnExaminar.setEnabled(false);
 		btnCamara.setEnabled(false);
-		btnHorario.setEnabled(false);
-		btnHorario2.setEnabled(false);
+		
+		rbHorario.addActionListener(opRButton);
+		rbHorario2.addActionListener(opRButton);
+		
+		txtDescanso.setEnabled(false);
+		txtDobla.setEnabled(false);
 		
 		txtFolio.requestFocus();
 		txtFolio.addKeyListener(buscar_action);
@@ -490,35 +510,20 @@ public class Cat_Empleado extends JFrame{
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		txtPensionAli.addKeyListener(validaNumericoPension);
 		
+		txtSalarioDiario.addKeyListener(validaNumericoSD);
+		txtSalarioDiarioIntegrado.addKeyListener(validaNumericoSDI);
 //		cmbTurno.setRenderer(new MyComboBoxRenderer());
 		
 		cont.add(panel);
 		txtChecador.setEditable(false);
+		
 		txtHorario.setEnabled(false);
 		txtHorario2.setEnabled(false);
-		txtFecha.setEditable(false);
+		
+		txtFechaActualizacion.setEditable(false);
 		panelEnabledFalse();
 		txtFolio.setEditable(true);
 		txtTelefono_Cuadrante.setEditable(false);
-		
-		txtCalle.setEnabled(false);
-		txtColonia.setEnabled(false);
-		txtPoblacion.setEnabled(false);
-		txtTelefono_Propio.setEnabled(false);	
-		txtRFC.setEnabled(false);
-		txtCurp.setEnabled(false);
-		rbMasculino.setEnabled(false);
-		rbFemenino.setEnabled(false);
-		
-		txtBaja.setEnabled(false);
-		txtDepartamento.setEnabled(false);
-		txtInfonavit.setEnabled(false);
-		rbHorario.setEnabled(false);
-		rbHorario2.setEnabled(false);
-		
-		txtSalarioDiario.setEnabled(false);
-		txtSalarioDiarioIntegrado.setEnabled(false);
-		txtFormaDePago.setEnabled(false);
 		
 		 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
          Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
@@ -556,11 +561,21 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opRButton = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
-//			if(rbHorario2.isSelected()==true){
-//				btnHorario2.setEnabled(true);
-//			}else{
-//				txtHorario2.setEnabled(false);
-//			}
+			
+			
+			
+			
+			if(rbHorario.isSelected()==true){
+//				buscar horario 1 y asignar dia de descanso y dobla
+				Obj_Horario_Empleado descanso = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+				txtDescanso.setText(descanso.getDescanso());
+				txtDobla.setText(descanso.getDobla());
+			}else{
+//				buscar horario 2 y asignar dia de descanso y dobla
+				Obj_Horario_Empleado2 descanso2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+				txtDescanso.setText(descanso2.getDescanso());
+				txtDobla.setText(descanso2.getDobla());
+			}
 	
 		}
 	};
@@ -642,14 +657,16 @@ public class Cat_Empleado extends JFrame{
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
 					
-					rbHorario2.setEnabled(false);
+					rbHorario.setEnabled(true);
+					rbHorario2.setEnabled(true);
 					btnHorario.setEnabled(true);
 					btnHorario2.setEnabled(true);
 					
 				}else{
 					btnVerificar.setBackground(Color.blue);
 					
-					rbHorario2.setEnabled(true);
+					btnHorario.setEnabled(true);
+					btnHorario2.setEnabled(true);
 					panelEnabledTrue();
 				}
 			}
@@ -691,7 +708,6 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	ActionListener buscar = new ActionListener() {
-		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e){
 			if(txtFolio.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
@@ -703,50 +719,8 @@ public class Cat_Empleado extends JFrame{
 					txtChecador.setText(re.getNo_checador()+"");
 					txtNombre.setText(re.getNombre()+"");
 					txtApPaterno.setText(re.getAp_paterno()+"");
-					txtApMaterno.setText(re.getAp_materno()+"");	
-					txtPensionAli.setText(re.getPension_alimenticia()+"");
+					txtApMaterno.setText(re.getAp_materno()+"");
 					
-					Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-					cmbEstablecimiento.setSelectedItem(comboNombreEsta.getNombre());
-					
-					Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-					cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
-					
-					Obj_Turno comboNombreTurn = new Obj_Turno().buscar_tur(re.getTurno());
-					txtHorario.setText(comboNombreTurn.getNombre());
-					
-					Obj_Turno2 comboNombreTurn2 = new Obj_Turno2().buscar_tur2(re.getTurno2());
-					txtHorario2.setText(comboNombreTurn2.getNombre());
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------
-					if(re.getStatus_2h()==1){
-						rbHorario2.setSelected(true);
-					}else{
-						rbHorario2.setSelected(false);
-					}
-					
-					txtHorario.setToolTipText(comboNombreTurn.getNombre());
-					
-					cmbDescanso.setSelectedIndex(re.getDescanso());
-					cmbDobla.setSelectedIndex(re.getDobla());
-					cmbSueldo.setSelectedIndex(re.getSueldo());
-					
-					Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
-					cmbBono.setSelectedItem(bono.getBono()+"");
-
-					cmbPrestamos.setSelectedIndex(re.getPrestamo());
-					txtInfonavit.setText(re.getInfonavit()+"");	
-					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
-					Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
-					cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
-					
-					txtImss.setText(re.getImss()+"");
-					
-					if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
-					else{chbFuente_Sodas.setSelected(false);}
-					if(re.getGafete() == true){chbGafete.setSelected(true);}
-					else{chbGafete.setSelected(false);}
-					cmbStatus.setSelectedIndex(re.getStatus()-1);
-
 					try {
 						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
 						Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
@@ -756,7 +730,99 @@ public class Cat_Empleado extends JFrame{
 						e1.printStackTrace();
 					}
 					
+					txtCalle.setText(re.getCalle()+"");
+					txtColonia.setText(re.getColionia()+"");
+					txtPoblacion.setText(re.getPoblacion()+"");
+					txtTelefono_Familiar.setText(re.getTelefono_familiar()+"");
+					txtTelefono_Propio.setText(re.getTelefono_propio()+"");
+					
+					if(re.getTelefono_cuadrante()==null){
+						txtTelefono_Cuadrante.setText("");
+					}else{
+						txtTelefono_Cuadrante.setText(re.getTelefono_cuadrante()+"");
+					}
+					
+					txtRFC.setText(re.getRfc()+"");
+					txtCurp.setText(re.getCurp()+"");
+					
+					if(re.getSexo()==0){
+						rbMasculino.setSelected(true);
+					}else{
+						rbFemenino.setSelected(true);
+					}
+					
+					ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+			         btnFoto.setIcon(iconoDefault);
+			         
+					
+					Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(re.getHorario());
+					txtHorario.setText(comboFolioHorario.getNombre());
+	
+					Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(re.getHorario2());
+					txtHorario2.setText(comboFolioHorario2.getNombre());
+
+					if(re.getStatus_h1()==1){
+						rbHorario.setSelected(true);
+					}else{
+						rbHorario2.setSelected(true);
+					}
+					
+					txtHorario.setToolTipText(comboFolioHorario.getNombre());
+					txtHorario2.setToolTipText(comboFolioHorario2.getNombre());
+					
+					
+					if(re.getStatus_rotativo()==1){
+						chbHorarioRotativo.setSelected(true);
+					}else{
+						chbHorarioRotativo.setSelected(false);
+					}
+					
+					cmbStatus.setSelectedIndex(re.getStatus()-1);
+					txtBaja.setText(re.getFecha_baja()+"");
 					chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
+					
+					Obj_Departamento depart = new Obj_Departamento().buscar(re.getDepartameto());
+					cmbDepartamento.setSelectedItem(depart.getDepartamento());
+					
+					txtImss.setText(re.getImss()+"");
+					cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
+					txtNumeroInfonavit.setText(re.getNumero_infonavit()+"");
+					
+					Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+					cmbEstablecimiento.setSelectedItem(comboNombreEsta.getNombre());
+					
+					Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+					cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
+					
+					txtSalarioDiario.setText(re.getSalario_diario()+"");
+					txtSalarioDiarioIntegrado.setText(re.getSalario_diario_integrado()+"");
+					txtFormaDePago.setText(re.getForma_pago()+"");
+					cmbSueldo.setSelectedIndex(re.getSueldo());
+					
+					Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
+					cmbBono.setSelectedItem(bono.getBono()+"");
+
+					cmbPrestamos.setSelectedIndex(re.getPrestamo());
+					txtPensionAli.setText(re.getPension_alimenticia()+"");
+					txtInfonavit.setText(re.getInfonavit()+"");	
+					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
+					
+					Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
+					cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
+					
+					if(re.isGafete() == true){chbGafete.setSelected(true);}
+					else{chbGafete.setSelected(false);}
+					
+					if(re.isFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
+					else{chbFuente_Sodas.setSelected(false);}
+					
+//					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha_actualizacion()))));
+					txtFechaActualizacion.setText(re.getFecha_actualizacion());
+					txaObservaciones.setText(re.getObservasiones());
+					
+//					cmbDescanso.setSelectedIndex(re.getDescanso());
+//					cmbDobla.setSelectedIndex(re.getDobla());
 					
 					switch(cmbStatus.getSelectedIndex()+1){
 						case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
@@ -777,22 +843,12 @@ public class Cat_Empleado extends JFrame{
 							   
 					}
 						
-					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
-					txaObservaciones.setText(re.getObservasiones());
-					txtTelefono_Familiar.setText(re.getTelefono_familiar());
-					txtTelefono_Cuadrante.setText(re.getTelefono_propio());
-					
-				    ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-			         btnFoto.setIcon(iconoDefault);
-				    
-				    cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
-			    
 				    btnNuevo.setVisible(false);
 					panelEnabledFalse();
 					txtFolio.setEditable(true);
 					txtFolio.requestFocus();
 					btnHorario.setEnabled(false);
+					btnEditar.setVisible(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
@@ -821,44 +877,87 @@ public class Cat_Empleado extends JFrame{
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
-							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+
+//							datos personales	
+							//private String telefono_propio;
+							//private String telefono_cuadrante;
+							
+							txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 							empleado.setNo_checador(txtChecador.getText());
 							empleado.setNombre(procesa_texto(txtNombre.getText()));
 							empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
+							
 							if(txtApMaterno.getText().length() != 0){
 								empleado.setAp_materno(procesa_texto(txtApMaterno.getText()));
 							}else{
 								empleado.setAp_materno("");
 							}
+							
+							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							empleado.setCalle(txtCalle.getText());
+							empleado.setColionia(txtColonia.getText());
+							empleado.setPoblacion(txtPoblacion.getText());
+							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+							empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
+							empleado.setRfc(txtRFC.getText());
+							empleado.setCurp(txtCurp.getText());
+							
+							if(btnTrueFoto.isSelected()){
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
+							}else{
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
+							}
 
+//						laboral
+							Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+							empleado.setHorario(comboFolioHorario.getFolio());
+							
+							Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+							empleado.setHorario2(comboFolioHorario2.getFolio());
+							
+							if(rbHorario.isSelected()==true){
+								empleado.setStatus_h1(1);
+								empleado.setStatus_h2(0);
+							}else{
+								empleado.setStatus_h1(0);
+								empleado.setStatus_h2(1);
+							}
+							
+							if(chbHorarioRotativo.isSelected()==true){
+								empleado.setStatus_rotativo(1);
+							}else{
+								empleado.setStatus_rotativo(0);
+							}
+							
+							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
+							empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
+							
+							Obj_Departamento depart = new Obj_Departamento().buscar_departamento(cmbDepartamento.getSelectedItem()+"");
+							empleado.setDepartameto(depart.getFolio());
+							
+							empleado.setImss(txtImss.getText());
+							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+							empleado.setNumero_infonavit(txtNumeroInfonavit.getText()+"");
+							
 							Obj_Establecimiento comboFolioEsta = new Obj_Establecimiento().buscar_estab(cmbEstablecimiento.getSelectedItem()+"");
 							empleado.setEstablecimiento(comboFolioEsta.getFolio());
 							
 							Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 							empleado.setPuesto(comboFolioPues.getFolio());
 							
-							Obj_Turno comboFolioTurno = new Obj_Turno().buscar_tur(txtHorario.getText());
-							empleado.setTurno(comboFolioTurno.getFolio());
-							
-//							segundo turno(horario2)
-							Obj_Turno2 comboFolioTurno2 = new Obj_Turno2().buscar_tur2(txtHorario2.getText());
-//							empleado.setTurno2(comboFolioTurno2.getFolio());
-							if(rbHorario2.isSelected()==true){
-								empleado.setTurno2(comboFolioTurno2.getFolio());
-								empleado.setStatus_2h(1);
-							}else{
-								empleado.setTurno2(comboFolioTurno2.getFolio());
-								empleado.setStatus_2h(0);
-							}
-							
-							empleado.setDescanso(cmbDescanso.getSelectedIndex());
-							empleado.setDobla(cmbDobla.getSelectedIndex());
+//						percepciones y deducciones
+					
+							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText()));
+							empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+							empleado.setForma_pago(txtFormaDePago.getText()+"");
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
 							
 							Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));
 							empleado.setBono(bono.getFolio());
 							
 							empleado.setPrestamo(cmbPrestamos.getSelectedIndex());
+							
 							if(txtPensionAli.getText().length() != 0){
 								empleado.setPension_alimenticia(Float.parseFloat(txtPensionAli.getText()));
 							}else{
@@ -870,35 +969,24 @@ public class Cat_Empleado extends JFrame{
 								empleado.setInfonavit(Float.parseFloat(0.0+""));
 							}
 							
-							if(txtTarjetaNomina.getText().length() != 0){
-								empleado.setTargeta_nomina(txtTarjetaNomina.getText());
-							}else{
-								empleado.setTargeta_nomina("");
-							}
+							empleado.setTargeta_nomina(txtTarjetaNomina.getText()+"");
+//							if(txtTarjetaNomina.getText().length() != 0){
+//								empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+//							}else{
+//								empleado.setTargeta_nomina("");
+//							}
+							
 							empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
-							empleado.setImss(txtImss.getText());
-							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
-							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
-							empleado.setFecha(txtFecha.getText());
-							empleado.setObservasiones(txaObservaciones.getText());
-							if(txaObservaciones.getText().length() != 0){
-								empleado.setObservasiones(txaObservaciones.getText());
-							}else{
-								empleado.setObservasiones("");
-							}
+							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
+							empleado.setObservasiones(txaObservaciones.getText()+"");
 							
-							if(btnTrueFoto.isSelected()){
-								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
-							}else{
-								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
-							}
-							
-							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
-							empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
-							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
-							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+							empleado.setFecha_actualizacion(txtFechaActualizacion.getText());
+//							if(txaObservaciones.getText().length() != 0){
+//								empleado.setObservasiones(txaObservaciones.getText());
+//							}else{
+//								empleado.setObservasiones("");
+//							}
 							
 							if(empleado.actualizar(Integer.parseInt(txtFolio.getText()))){
 								panelLimpiar();
@@ -924,8 +1012,9 @@ public class Cat_Empleado extends JFrame{
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+//						datos personales	
 						
+						txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 						empleado.setNo_checador(txtFolio.getText());
 						empleado.setNombre(procesa_texto(txtNombre.getText()));
 						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
@@ -936,31 +1025,75 @@ public class Cat_Empleado extends JFrame{
 							empleado.setAp_materno("");
 						}
 						
+						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+						empleado.setCalle(txtCalle.getText());
+						empleado.setColionia(txtColonia.getText());
+						empleado.setPoblacion(txtPoblacion.getText());
+						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+						empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
+						empleado.setRfc(txtRFC.getText());
+						empleado.setCurp(txtCurp.getText());
+						
+						if(rbMasculino.isSelected()==true){
+							empleado.setSexo(0);
+						}else{
+							empleado.setSexo(1);
+						}
+						
+						if(btnTrueFoto.isSelected()){
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
+						}else{
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
+						}
+
+//					laboral
+						Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+						empleado.setHorario(comboFolioHorario.getFolio());
+						
+						Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+						empleado.setHorario2(comboFolioHorario2.getFolio());
+						
+						if(rbHorario.isSelected()==true){
+							empleado.setStatus_h1(1);
+							empleado.setStatus_h2(0);
+						}else{
+							empleado.setStatus_h1(0);
+							empleado.setStatus_h2(1);
+						}
+						
+						if(chbHorarioRotativo.isSelected()==true){
+							empleado.setStatus_rotativo(1);
+						}else{
+							empleado.setStatus_rotativo(0);
+						}
+						
+						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
+						empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
+
+						Obj_Departamento depart = new Obj_Departamento().buscar_departamento(cmbDepartamento.getSelectedItem()+"");
+						empleado.setDepartameto(depart.getFolio());
+						
+						empleado.setImss(txtImss.getText());
+						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+						empleado.setNumero_infonavit(txtNumeroInfonavit.getText()+"");
+						
 						Obj_Establecimiento comboFolioEsta = new Obj_Establecimiento().buscar_estab(cmbEstablecimiento.getSelectedItem()+"");
 						empleado.setEstablecimiento(comboFolioEsta.getFolio());
 						
 						Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 						empleado.setPuesto(comboFolioPues.getFolio());
 						
-						Obj_Turno comboFolioTurno = new Obj_Turno().buscar_tur(txtHorario.getText());
-						empleado.setTurno(comboFolioTurno.getFolio());
-						
-//						segundo turno(horario2)
-						Obj_Turno2 comboFolioTurno2 = new Obj_Turno2().buscar_tur2(txtHorario2.getText());
-//						empleado.setTurno2(comboFolioTurno2.getFolio());
-						if(rbHorario2.isSelected()==true){
-							empleado.setTurno2(comboFolioTurno2.getFolio());
-							empleado.setStatus_2h(1);
-						}else{
-							empleado.setTurno2(comboFolioTurno2.getFolio());
-							empleado.setStatus_2h(0);
-						}
-						
-						empleado.setTurno2(comboFolioTurno2.getFolio());
-						empleado.setDescanso(cmbDescanso.getSelectedIndex());
-						empleado.setDobla(cmbDobla.getSelectedIndex());
+//					percepciones y deducciones
+				
+						empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText()));
+						empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+						empleado.setForma_pago(txtFormaDePago.getText()+"");
 						empleado.setSueldo(cmbSueldo.getSelectedIndex());
-						empleado.setBono(cmbBono.getSelectedIndex());
+						
+						Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));
+						empleado.setBono(bono.getFolio());
+						
 						empleado.setPrestamo(cmbPrestamos.getSelectedIndex());
 						
 						if(txtPensionAli.getText().length() != 0){
@@ -968,43 +1101,31 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setPension_alimenticia(Float.parseFloat(0.0+""));
 						}
-						
 						if(txtInfonavit.getText().length() != 0){
 							empleado.setInfonavit(Float.parseFloat(txtInfonavit.getText()));
 						}else{
 							empleado.setInfonavit(Float.parseFloat(0.0+""));
 						}
-
-						if(txtTarjetaNomina.getText().length() != 0){
-							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
-						}else{
-							empleado.setTargeta_nomina("");
-						}
+						
+						empleado.setTargeta_nomina(txtTarjetaNomina.getText()+"");
+//						if(txtTarjetaNomina.getText().length() != 0){
+//							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+//						}else{
+//							empleado.setTargeta_nomina("");
+//						}
 						
 						empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
-						empleado.setImss(txtImss.getText());
-						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
-						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
-						empleado.setFecha(txtFecha.getText());
+						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
+						empleado.setObservasiones(txaObservaciones.getText()+"");
 						
-						if(txaObservaciones.getText().length() != 0){
-							empleado.setObservasiones(txaObservaciones.getText());
-						}else{
-							empleado.setObservasiones("");
-						}
-						 
-						if(btnTrueFoto.isSelected()){
-							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
-						}else{
-							empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
-						}
+						empleado.setFecha_actualizacion(txtFechaActualizacion.getText());
 						
-						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
-						empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
-						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
-						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+//						if(txaObservaciones.getText().length() != 0){
+//							empleado.setObservasiones(txaObservaciones.getText());
+//						}else{
+//							empleado.setObservasiones("");
+//						}
 						
 						if(empleado.guardar()){
 							panelLimpiar();
@@ -1040,18 +1161,9 @@ public class Cat_Empleado extends JFrame{
 			if(empleado.getFolio() != 0){
 				
 				panelEnabledTrue();
-				if(rbHorario.isSelected()==true){
-					btnHorario.setEnabled(true);
-					btnHorario2.setEnabled(false);
-				}
-				if(rbHorario2.isSelected()==true){
-					btnHorario.setEnabled(false);
-					btnHorario2.setEnabled(true);
-				}
 				txtFolio.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
-//				rbHorario2.setEnabled(true);
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;
@@ -1068,8 +1180,6 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setEditable(true);
 		cmbEstablecimiento.setEnabled(true);
 		cmbPuesto.setEnabled(true);
-		cmbDescanso.setEnabled(true);
-		cmbDobla.setEnabled(true);
 		cmbSueldo.setEnabled(true);
 		cmbBono.setEnabled(true);
 		cmbPrestamos.setEnabled(true);
@@ -1087,6 +1197,30 @@ public class Cat_Empleado extends JFrame{
 		txtTelefono_Familiar.setEditable(true);
 		chb_cuadrante_parcial.setEnabled(true);
 		
+		txtCalle.setEnabled(true);
+		txtColonia.setEnabled(true);
+		txtPoblacion.setEnabled(true);
+		txtTelefono_Propio.setEnabled(true);
+		txtRFC.setEnabled(true);
+		txtCurp.setEnabled(true);
+		
+		rbMasculino.setEnabled(true);
+		rbFemenino.setEnabled(true);
+		
+		btnHorario.setEnabled(true);
+		btnHorario2.setEnabled(true);
+		
+		rbHorario.setEnabled(true);
+		rbHorario2.setEnabled(true);
+		chbHorarioRotativo.setEnabled(true);
+		txtBaja.setEnabled(true);
+		cmbDepartamento.setEnabled(true);
+		txtNumeroInfonavit.setEnabled(true);
+		
+		txtSalarioDiario.setEnabled(true);
+		txtSalarioDiarioIntegrado.setEnabled(true);
+		txtFormaDePago.setEnabled(true);
+		
 	}
 	
 	public void panelEnabledFalse(){	
@@ -1098,8 +1232,6 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setEditable(false);
 		cmbEstablecimiento.setEnabled(false);
 		cmbPuesto.setEnabled(false);
-		cmbDescanso.setEnabled(false);
-		cmbDobla.setEnabled(false);
 		cmbSueldo.setEnabled(false);
 		cmbBono.setEnabled(false);
 		cmbPrestamos.setEnabled(false);
@@ -1116,6 +1248,31 @@ public class Cat_Empleado extends JFrame{
 		txtIngreso.setEnabled(false);
 		txtTelefono_Familiar.setEditable(false);
 		chb_cuadrante_parcial.setEnabled(false);
+		chbHorarioRotativo.setEnabled(false);
+		
+		txtCalle.setEnabled(false);
+		txtColonia.setEnabled(false);
+		txtPoblacion.setEnabled(false);
+		txtTelefono_Propio.setEnabled(false);
+		txtRFC.setEnabled(false);
+		txtCurp.setEnabled(false);
+		
+		rbMasculino.setEnabled(false);
+		rbFemenino.setEnabled(false);
+		
+		btnHorario.setEnabled(false);
+		btnHorario2.setEnabled(false);
+		
+		rbHorario.setEnabled(false);
+		rbHorario2.setEnabled(false);
+		
+		txtBaja.setEnabled(false);
+		cmbDepartamento.setEnabled(false);
+		txtNumeroInfonavit.setEnabled(false);
+		
+		txtSalarioDiario.setEnabled(false);
+		txtSalarioDiarioIntegrado.setEnabled(false);
+		txtFormaDePago.setEnabled(false);
 		
 	}
 	///boton deshacer
@@ -1130,8 +1287,6 @@ public class Cat_Empleado extends JFrame{
 		cmbPuesto.setSelectedIndex(0);
 		txtHorario.setText("");
 		txtHorario2.setText("");
-		cmbDescanso.setSelectedIndex(0);
-		cmbDobla.setSelectedIndex(0);
 		cmbSueldo.setSelectedIndex(0);
 		cmbBono.setSelectedIndex(0);
 		cmbPrestamos.setSelectedIndex(0);
@@ -1149,6 +1304,24 @@ public class Cat_Empleado extends JFrame{
 	    txtTelefono_Familiar.setText("");
 	    txtTelefono_Cuadrante.setText("");
 	    chb_cuadrante_parcial.setSelected(false);
+	    txtCalendario.setDate(null);
+	    
+		txtCalle.setText("");
+		txtColonia.setText("");
+		txtPoblacion.setText("");
+		txtTelefono_Propio.setText("");
+		txtRFC.setText("");
+		txtCurp.setText("");
+		 txtIngreso.setDate(null);
+		
+		txtBaja.setText("");
+		cmbDepartamento.setSelectedIndex(0);
+		txtNumeroInfonavit.setText("");
+		
+		txtSalarioDiario.setText("");
+		txtSalarioDiarioIntegrado.setText("");
+		txtFormaDePago.setText("");
+		txtFechaActualizacion.setText("");
 	    
 		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
@@ -1163,16 +1336,13 @@ public class Cat_Empleado extends JFrame{
 				Obj_Empleado empleado = new Obj_Empleado().buscar_nuevo();
 				if(empleado.getFolio() != 0){
 					panelLimpiar();
-//					txtChecador.setEditable(true);
+					panelEnabledFalse();
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
 					txtFolio.setText(empleado.getFolio()+1+"");
-					txtFolio.setEditable(false);
-					txtHorario.setEnabled(false);
-//					txtChecador.requestFocus();
 					txtNombre.requestFocus();
-					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -1186,7 +1356,7 @@ public class Cat_Empleado extends JFrame{
 					txtFolio.setEditable(false);
 //					txtChecador.requestFocus();
 					txtNombre.requestFocus();
-					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -1218,7 +1388,6 @@ public class Cat_Empleado extends JFrame{
 	ActionListener Reporte_de_Empleados_No_Contratables = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 				new Reporte_de_Empleados_No_Contratables();
-			
 		}
 	};
 	ActionListener salir = new ActionListener(){
@@ -1297,7 +1466,7 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
-	KeyListener validaNumericoConPunto = new KeyListener() {
+	KeyListener validaNumericoSD = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
@@ -1309,7 +1478,30 @@ public class Cat_Empleado extends JFrame{
 		    	}
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){
-		    	String texto = txtInfonavit.getText().toString();
+		    	String texto = txtSalarioDiario.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	KeyListener validaNumericoSDI = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    	String texto = txtSalarioDiarioIntegrado.getText().toString();
 				if (texto.indexOf(".")>-1) e.consume();
 			}
 		}
@@ -1343,6 +1535,29 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
+	KeyListener validaNumericoConPunto = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    	String texto = txtInfonavit.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
 	private String validaCampos(){
 		String error="";
 		String fechaNull = txtCalendario.getDate()+"";
@@ -1352,11 +1567,18 @@ public class Cat_Empleado extends JFrame{
 //		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
+		if(txtCalle.getText().equals(""))	error+= "Calle\n";
+		if(txtColonia.getText().equals(""))	error+= "Colonia\n";
+		if(txtPoblacion.getText().equals(""))	error+= "Poblacion\n";
+		if(txtTelefono_Familiar.getText().equals(""))	error+= "Telefono Familiar\n";
+		if(txtTelefono_Propio.getText().equals(""))	error+= "txtTelefonob Propio\n";
+		if(cmbDepartamento.getSelectedItem().equals("Selecciona un Departamento"))	error+= "Departamento\n";
+		
 		if(cmbEstablecimiento.getSelectedItem().equals("Selecciona un Establecimiento")) error += "Establecimiento\n";
 		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto")) error += "Puesto\n";
 		if(txtHorario.getText().equals("")) 		error+= "Turno\n";
-		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
-		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
+//		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
+//		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
 		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
@@ -1367,10 +1589,10 @@ public class Cat_Empleado extends JFrame{
 		return error;
 	}
 	
-	@SuppressWarnings("deprecation")
 	
 	//constructor del filtro
 	
+	@SuppressWarnings("deprecation")
 	public Cat_Empleado(String algo) {
 		
 		getContenedor();
@@ -1395,14 +1617,15 @@ public class Cat_Empleado extends JFrame{
 			Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
 			cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
 			
-			Obj_Turno comboNombreTurn = new Obj_Turno().buscar_tur(re.getTurno());
-			txtHorario.setText(comboNombreTurn.getNombre());
+			Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+			txtHorario.setText(comboFolioHorario.getNombre());;
 			
-			Obj_Turno2 comboNombreTurn2 = new Obj_Turno2().buscar_tur2(re.getTurno());
-			txtHorario2.setText(comboNombreTurn2.getNombre());
+			Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+			txtHorario2.setText(comboFolioHorario2.getNombre());
 			
-			cmbDescanso.setSelectedIndex(re.getDescanso());
-			cmbDobla.setSelectedIndex(re.getDobla());
+			txtDescanso.setText(re.getDescanso()+"");
+			txtDobla.setText(re.getDobla()+"");
+			
 			cmbSueldo.setSelectedIndex(re.getSueldo());
 			
 			Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
@@ -1418,9 +1641,9 @@ public class Cat_Empleado extends JFrame{
 			
 			txtImss.setText(re.getImss()+"");
 			
-			if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
+			if(re.isFuente_sodas()== true){chbFuente_Sodas.setSelected(true);}
 			else{chbFuente_Sodas.setSelected(false);}
-			if(re.getGafete() == true){chbGafete.setSelected(true);}
+			if(re.isGafete() == true){chbGafete.setSelected(true);}
 			else{chbGafete.setSelected(false);}
 			cmbStatus.setSelectedIndex(re.getStatus()-1);
 			txtTelefono_Familiar.setText(re.getTelefono_familiar());
@@ -1458,7 +1681,7 @@ public class Cat_Empleado extends JFrame{
 			
 			chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
 			
-			txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
+			txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha_actualizacion()))));
 			txaObservaciones.setText(re.getObservasiones());
 			
 			cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());

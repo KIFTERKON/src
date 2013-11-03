@@ -38,6 +38,7 @@ import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Departamento;
 import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
@@ -58,8 +59,8 @@ import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
-import objetos.Obj_Turno;
-import objetos.Obj_Turno2;
+import objetos.Obj_Horario_Empleado;
+import objetos.Obj_Horario_Empleado2;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -940,18 +941,48 @@ public class BuscarSQL {
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-		
+
 			while(rs.next()){
+//				datos personales	
 				empleado.setFolio(rs.getInt("folio"));
-				empleado.setNo_checador(rs.getString("no_checador"));
+				empleado.setNo_checador(rs.getString("no_checador").trim());
 				empleado.setNombre(rs.getString("nombre").trim());
 				empleado.setAp_paterno(rs.getString("ap_paterno").trim());
 				empleado.setAp_materno(rs.getString("ap_materno").trim());
+				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento").trim());
+				empleado.setCalle(rs.getString("calle").trim());
+				empleado.setColionia(rs.getString("colonia").trim());
+				empleado.setPoblacion(rs.getString("poblacion").trim());
+				empleado.setTelefono_familiar(rs.getString("telefono_familiar").trim());
+				empleado.setTelefono_propio(rs.getString("telefono_propio").trim());
+				empleado.setTelefono_cuadrante(rs.getString("telefono_cuadrante"));
+				empleado.setRfc(rs.getString("rfc").trim());
+				empleado.setCurp(rs.getString("curp").trim());
+				empleado.setSexo(rs.getInt("sexo"));
+				
+//				laboral
+				empleado.setHorario(rs.getInt("horario"));
+				empleado.setHorario2(rs.getInt("horario2"));
+				empleado.setStatus_h1(rs.getInt("status_h1"));
+				empleado.setStatus_h2(rs.getInt("status_h2"));
+				empleado.setStatus_rotativo(rs.getInt("status_rotativo"));
+				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
+				empleado.setStatus(rs.getInt("status"));
+				empleado.setFecha_baja(rs.getString("fecha_baja"));
+				empleado.setCuadrante_parcial(rs.getInt("cuadrante_parcial") == 1 ? true : false);
+				empleado.setDepartameto(rs.getInt("departamento"));
+				empleado.setImss(rs.getString("imss"));
+				empleado.setStatus_imss(rs.getInt("status_imss"));
+				empleado.setNumero_infonavit(rs.getString("numero_infonavit"));
 				empleado.setEstablecimiento(rs.getInt("establecimiento_id"));
 				empleado.setPuesto(rs.getInt("puesto_id"));
-				empleado.setTurno(rs.getInt("turno_id"));
-				empleado.setDescanso(rs.getInt("descanso"));
-				empleado.setDobla(rs.getInt("dia_dobla"));
+//				empleado.setDescanso(rs.getInt("descanso"));
+//				empleado.setDobla(rs.getInt("dia_dobla"));
+				
+//				percepciones y deducciones
+				empleado.setSalario_diario(rs.getFloat("salario_diario"));
+				empleado.setSalario_diario_integrado(rs.getFloat("salario_diario_integrado"));
+				empleado.setForma_pago(rs.getString("forma_pago"));
 				empleado.setSueldo(rs.getInt("sueldo_id"));				
 				empleado.setBono(rs.getInt("bono_id"));
 				empleado.setPrestamo(rs.getInt("rango_prestamo_id"));
@@ -959,26 +990,14 @@ public class BuscarSQL {
 				empleado.setInfonavit(rs.getFloat("infonavit"));
 				empleado.setTargeta_nomina(rs.getString("targeta_nomina"));
 				empleado.setTipo_banco(rs.getInt("tipo_banco_id"));
-				empleado.setFuente_sodas(rs.getBoolean("fuente_sodas") ? true : false);
 				empleado.setGafete(rs.getBoolean("gafete") ? true : false);
-				empleado.setStatus(rs.getInt("status"));
-				empleado.setFecha(rs.getString("fecha"));
+				empleado.setFuente_sodas(rs.getBoolean("fuente_sodas") ? true : false);
 				empleado.setObservasiones(rs.getString("observaciones"));
-				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
-				empleado.setImss(rs.getString("imss"));
-				empleado.setStatus_imss(rs.getInt("status_imss"));
-				empleado.setFecha_ingreso(rs.getString("fecha_ingreso"));
-				empleado.setTelefono_familiar(rs.getString("telefono_familiar"));
-				empleado.setTelefono_propio(rs.getString("numero"));
-				empleado.setCuadrante_parcial(rs.getInt("cuadrante_parcial") == 1 ? true : false);
+				empleado.setFecha_actualizacion(rs.getString("fecha_actualizacion"));
 				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
 				
-				empleado.setTurno(rs.getInt("horario"));
-				empleado.setStatus_2h(rs.getInt("status_2h"));
-				empleado.setTurno2(rs.getInt("horario_2"));
-
 		            byte[] buffer = new byte[1];
 		            InputStream is = rs.getBinaryStream("foto");
 		            while (is.read(buffer) > 0) {
@@ -1446,18 +1465,18 @@ public class BuscarSQL {
 		return bono;
 	}
 	
-	public Obj_Turno Turno(int folio) throws SQLException{
-		Obj_Turno turno = new Obj_Turno();
-		String query = "select * from tb_turno where folio ="+ folio;
+	public Obj_Departamento Departamento(int folio) throws SQLException{
+		Obj_Departamento departamento = new Obj_Departamento();
+		String query = "select * from tb_departamento where folio ="+ folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				turno.setFolio(rs.getInt("folio"));
-				turno.setNombre(rs.getString("nombre").trim());
-				turno.setHorario(rs.getString("horario").trim());
-				turno.setStatus(rs.getBoolean("status"));
+				departamento.setFolio(rs.getInt("folio"));
+				departamento.setDepartamento(rs.getString("departamento").trim());
+				departamento.setAbreviatura(rs.getString("abreviatura").trim());
+				departamento.setStatus(rs.getBoolean("status"));
 			}
 			
 		} catch (Exception e) {
@@ -1467,18 +1486,18 @@ public class BuscarSQL {
 		finally{
 			if(stmt != null){stmt.close();}
 		}
-		return turno;
+		return departamento;
 	}
 	
-	public Obj_Turno Turno_Nuevo() throws SQLException{
-		Obj_Turno turno = new Obj_Turno();
-		String query = "select max(folio) as 'Maximo' from tb_turno";
+	public Obj_Departamento Departamento_Nuevo() throws SQLException{
+		Obj_Departamento departamento = new Obj_Departamento();
+		String query = "select max(folio) as 'Maximo' from tb_departamento";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				turno.setFolio(rs.getInt("Maximo"));
+				departamento.setFolio(rs.getInt("Maximo"));
 			}
 			
 		} catch (Exception e) {
@@ -1488,7 +1507,7 @@ public class BuscarSQL {
 		finally{
 			if(stmt!=null){stmt.close();}
 		}
-		return turno;
+		return departamento;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "resource", "unchecked" })
@@ -1535,6 +1554,28 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return estab;
+	}
+	
+	public ObjHorario Horario_buscar(String nombre) throws SQLException{
+		ObjHorario horario = new ObjHorario();
+		String query = "select folio from tb_horarios where nombre='"+nombre+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+				horario.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return horario;
 	}
 	
 	public Obj_Puesto Pues_buscar(String nombre) throws SQLException{
@@ -1623,15 +1664,18 @@ public class BuscarSQL {
 //		return denominaciones;
 //	}
 	
-	public Obj_Turno Turn_buscar(String nombre) throws SQLException{
-		Obj_Turno turno = new Obj_Turno();
-		String query = "select folio from tb_horarios where nombre='"+nombre+"'";
+	public Obj_Horario_Empleado Turn_buscar(String nombre) throws SQLException{
+		Obj_Horario_Empleado turno = new Obj_Horario_Empleado();
+		String query = "exec sp_select_horario_desc_dobla '"+nombre+"'";
+		
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				turno.setFolio(rs.getInt("folio"));
+				turno.setDescanso(rs.getString("descanso"));
+				turno.setDobla(rs.getString("dobla"));
 			}
 			
 		} catch (Exception e) {
@@ -1644,15 +1688,18 @@ public class BuscarSQL {
 		return turno;
 	}
 	
-	public Obj_Turno2 Turn_buscar2(String nombre) throws SQLException{
-		Obj_Turno2 turno2 = new Obj_Turno2();
-		String query = "select folio from tb_horarios where nombre='"+nombre+"'";
+	public Obj_Horario_Empleado2 Turn_buscar2(String nombre) throws SQLException{
+		Obj_Horario_Empleado2 turno2 = new Obj_Horario_Empleado2();
+		String query = "exec sp_select_horario_desc_dobla '"+nombre+"'";
+		
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
 				turno2.setFolio(rs.getInt("folio"));
+				turno2.setDescanso(rs.getString("descanso"));
+				turno2.setDobla(rs.getString("dobla"));
 			}
 			
 		} catch (Exception e) {
@@ -1749,8 +1796,8 @@ public class BuscarSQL {
 		return denominaciones;
 	}
 	
-	public Obj_Turno Turn_buscar(int folio) throws SQLException{
-		Obj_Turno turno = new Obj_Turno();
+	public Obj_Horario_Empleado Turn_buscar(int folio) throws SQLException{
+		Obj_Horario_Empleado turno = new Obj_Horario_Empleado();
 		String query = "select nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
@@ -1770,8 +1817,8 @@ public class BuscarSQL {
 		return turno;
 	}
 	
-	public Obj_Turno2 Turn_buscar2(int folio) throws SQLException{
-		Obj_Turno2 turno2 = new Obj_Turno2();
+	public Obj_Horario_Empleado2 Turn_buscar2(int folio) throws SQLException{
+		Obj_Horario_Empleado2 turno2 = new Obj_Horario_Empleado2();
 		String query = "select nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
@@ -1860,15 +1907,15 @@ public class BuscarSQL {
 		return configs;
 	}
 	
-	public Obj_Turno Horario_buscar(int folio) throws SQLException{
-		Obj_Turno horario = new Obj_Turno();
-		String query = "select horario from tb_turno where folio="+folio;
+	public Obj_Departamento Departamento_buscar(int folio) throws SQLException{
+		Obj_Departamento departamento = new Obj_Departamento();
+		String query = "select horario from tb_departamento where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
-				horario.setHorario(rs.getString("horario"));
+				departamento.setDepartamento(rs.getString("departamento"));
 			}
 			
 		} catch (Exception e) {
@@ -1878,8 +1925,30 @@ public class BuscarSQL {
 		finally{
 			if(stmt!=null){stmt.close();}
 		}
-		return horario;
+		return departamento;
 	}
+	
+	public Obj_Departamento Departamento_buscar_nombre(String dep) throws SQLException{
+		Obj_Departamento departamento = new Obj_Departamento();
+		String query = "select folio from tb_departamento where departamento='"+dep+"'";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				departamento.setFolio(rs.getInt("folio"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return departamento;
+	}
+	
 	public Obj_Auto_Auditoria Autorizar_Audi() throws SQLException{
 		Obj_Auto_Auditoria auditoria = new Obj_Auto_Auditoria();
 		String query = "select autorizar_auditoria from tb_autorizaciones";
@@ -3521,9 +3590,9 @@ public class BuscarSQL {
 		return fila;
 	}
 	
-	public Obj_Entosal Entosal(String clave) throws SQLException{
+	public Obj_Entosal Entosal() throws SQLException{
 		Obj_Entosal entosal = new Obj_Entosal();
-		String query = "select * from tb_key_check_master where keyCheckMaster ="+ clave;
+		String query = "select * from tb_key_check_master";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
