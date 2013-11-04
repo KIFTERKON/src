@@ -56,7 +56,7 @@ public class Cargar_Combo {
 			int j=0;
 			while(rs.next()){
 				if(j == 0){
-					miVector.add("Todos");
+					miVector.add("Selecciona un Establecimiento");
 				}
 				miVector.add(rs.getString("nombre"));
 				j++;

@@ -512,6 +512,7 @@ public class Cat_Checador extends JFrame {
                                                                 switch (re.getStatus()){
                                                                 
                                                                                 case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+
                                                                                                                  registrarEntrada();
                                                                                                  }else{
                                                                                                                  JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);

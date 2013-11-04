@@ -82,6 +82,7 @@ public class InitMenuBar extends Init{
 	
 	/* CATALOGO */
 	JMenu Catalogo = new JMenu("Catalogo");
+	    JMenuItem Catalogo_Departamento    = new JMenuItem("Nuevo Departamento");
 		JMenuItem Catalogo_Empleado	       = new JMenuItem("Nuevo Empleado", new ImageIcon("Iconos/user_icon&16.png"));
 		JMenuItem Catalogo_Establecimiento = new JMenuItem("Nuevo Establecimiento");
 		JMenuItem Catalogo_Puesto 		   = new JMenuItem("Nuevo Puesto");
@@ -202,6 +203,10 @@ public class InitMenuBar extends Init{
 
 		/* CATALOGO */
 		Catalogo.setMnemonic(KeyEvent.VK_C);
+    	Catalogo.add(Catalogo_Departamento);
+    	    Catalogo_Departamento.addActionListener(Opciones);
+    	    Catalogo_Departamento.setEnabled(false);
+	    
 		Catalogo.add(Catalogo_Empleado);
 			Catalogo_Empleado.addActionListener(Opciones);
 			Catalogo_Empleado.setEnabled(false);
@@ -474,6 +479,8 @@ public class InitMenuBar extends Init{
 			}
 			
 			/* CATALOGO */
+			if(e.getActionCommand().equals("Nuevo Departamento"))
+				new Cat_Departamento().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Empleado"))
 				new Cat_Empleado().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Establecimiento"))

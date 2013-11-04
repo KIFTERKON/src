@@ -1093,9 +1093,17 @@ public class Cat_Empleado extends JFrame{
 						empleado.setPuesto(comboFolioPues.getFolio());
 						
 //					percepciones y deducciones
-				
-						empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText()));
-						empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+						
+						if(txtSalarioDiario.getText().length() != 0){
+							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
+						}else{
+							empleado.setSalario_diario(Float.parseFloat(0.0+"")); }
+					
+						if(txtSalarioDiarioIntegrado.getText().length() != 0){
+							empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+						}else{
+							empleado.setSalario_diario_integrado(Float.parseFloat(0.0+""));
+						}
 						empleado.setForma_pago(txtFormaDePago.getText()+"");
 						empleado.setSueldo(cmbSueldo.getSelectedIndex());
 						
@@ -1606,7 +1614,6 @@ public class Cat_Empleado extends JFrame{
 	
 	
 	//constructor del filtro
-	
 	public Cat_Empleado(String algo) {
 		
 		getContenedor();
