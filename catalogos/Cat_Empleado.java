@@ -771,6 +771,8 @@ public class Cat_Empleado extends JFrame{
 					txtHorario.setToolTipText(comboFolioHorario.getNombre());
 					txtHorario2.setToolTipText(comboFolioHorario2.getNombre());
 					
+					txtDescanso.setText(re.getDescanso()+"");
+					txtDobla.setText(re.getDobla()+"");
 					
 					if(re.getStatus_rotativo()==1){
 						chbHorarioRotativo.setSelected(true);
@@ -901,6 +903,12 @@ public class Cat_Empleado extends JFrame{
 							empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
 							empleado.setRfc(txtRFC.getText());
 							empleado.setCurp(txtCurp.getText());
+							
+							if(rbMasculino.isSelected()==true){
+								empleado.setSexo(0);
+							}else{
+								empleado.setSexo(1);
+							}
 							
 							if(btnTrueFoto.isSelected()){
 								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
@@ -1159,8 +1167,14 @@ public class Cat_Empleado extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
 			if(empleado.getFolio() != 0){
+				if(txtHorario2.getText().equals("")){
+					panelEnabledTrue();
+					rbHorario2.setEnabled(false);
+				}else{
+					panelEnabledTrue();
+					rbHorario2.setEnabled(true);
+				}
 				
-				panelEnabledTrue();
 				txtFolio.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
@@ -1212,8 +1226,6 @@ public class Cat_Empleado extends JFrame{
 		
 		rbHorario.setEnabled(true);
 		rbHorario2.setEnabled(true);
-		chbHorarioRotativo.setEnabled(true);
-		txtBaja.setEnabled(true);
 		cmbDepartamento.setEnabled(true);
 		txtNumeroInfonavit.setEnabled(true);
 		
@@ -1312,7 +1324,10 @@ public class Cat_Empleado extends JFrame{
 		txtTelefono_Propio.setText("");
 		txtRFC.setText("");
 		txtCurp.setText("");
-		 txtIngreso.setDate(null);
+		txtIngreso.setDate(null);
+		
+		txtDescanso.setText("");
+		txtDobla.setText("");
 		
 		txtBaja.setText("");
 		cmbDepartamento.setSelectedIndex(0);
@@ -1592,7 +1607,6 @@ public class Cat_Empleado extends JFrame{
 	
 	//constructor del filtro
 	
-	@SuppressWarnings("deprecation")
 	public Cat_Empleado(String algo) {
 		
 		getContenedor();
@@ -1681,7 +1695,7 @@ public class Cat_Empleado extends JFrame{
 			
 			chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
 			
-			txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha_actualizacion()))));
+			txtFechaActualizacion.setText(re.getFecha_actualizacion());
 			txaObservaciones.setText(re.getObservasiones());
 			
 			cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
@@ -2050,6 +2064,9 @@ public class Cat_Empleado extends JFrame{
 		    			}else{
 		    				txtHorario2.setText(folio+"");
 			    			txtHorario2.setToolTipText(folio+"");
+			    			
+			    			rbHorario2.setEnabled(true);
+			    			chbHorarioRotativo.setEnabled(true);
 		    			}
 		    			dispose();
 		        	}

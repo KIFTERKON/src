@@ -976,8 +976,8 @@ public class BuscarSQL {
 				empleado.setNumero_infonavit(rs.getString("numero_infonavit"));
 				empleado.setEstablecimiento(rs.getInt("establecimiento_id"));
 				empleado.setPuesto(rs.getInt("puesto_id"));
-//				empleado.setDescanso(rs.getInt("descanso"));
-//				empleado.setDobla(rs.getInt("dia_dobla"));
+				empleado.setDescanso(rs.getString("descanso"));
+				empleado.setDobla(rs.getString("dobla"));
 				
 //				percepciones y deducciones
 				empleado.setSalario_diario(rs.getFloat("salario_diario"));

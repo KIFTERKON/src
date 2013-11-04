@@ -37,8 +37,8 @@ public class Obj_Empleado {
 	private int status_h2;
 	private int status_rotativo;
 //	dependen del horario activo
-	private int descanso;
-	private int dobla;
+	private String descanso;
+	private String dobla;
 	private String fecha_ingreso;
 	private int status;
 	private String fecha_baja;
@@ -71,7 +71,7 @@ public class Obj_Empleado {
 		folio=0; no_checador=""; nombre=""; ap_paterno=""; ap_materno=""; fecha_nacimiento=""; calle=""; colonia=""; poblacion=""; telefono_familiar="";
 		telefono_propio=""; telefono_cuadrante=""; rfc=""; curp=""; sexo=0; foto=null;
 		
-		horario=0; horario2=0; status_h1=0; status_h2=0; status_rotativo=0; descanso=0; dobla=0; fecha_ingreso=""; status=0; fecha_baja=""; cuadrante_parcial=false;
+		horario=0; horario2=0; status_h1=0; status_h2=0; status_rotativo=0; descanso=""; dobla=""; fecha_ingreso=""; status=0; fecha_baja=""; cuadrante_parcial=false;
 		departameto=0; imss=""; status_imss=0; numero_infonavit=""; establecimiento=0; puesto=0;
 		
 		salario_diario=0; salario_diario_integrado=0; forma_pago=""; sueldo=0; bono=0; prestamo=0; pension_alimenticia=0; infonavit=0; targeta_nomina="";
@@ -247,19 +247,19 @@ public class Obj_Empleado {
 		this.status_rotativo = status_rotativo;
 	}
 
-	public int getDescanso() {
+	public String getDescanso() {
 		return descanso;
 	}
 
-	public void setDescanso(int descanso) {
+	public void setDescanso(String descanso) {
 		this.descanso = descanso;
 	}
 
-	public int getDobla() {
+	public String getDobla() {
 		return dobla;
 	}
 
-	public void setDobla(int dobla) {
+	public void setDobla(String dobla) {
 		this.dobla = dobla;
 	}
 
