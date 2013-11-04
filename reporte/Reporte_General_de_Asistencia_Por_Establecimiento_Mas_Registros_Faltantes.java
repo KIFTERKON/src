@@ -29,7 +29,7 @@ public class Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Fal
 				stmt =  new Connexion().conexion().createStatement();
 			    ResultSet rs = stmt.executeQuery(query);
 			    
-				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_General_de_Asistencia_Por_Establecimiento.jrxml");
+				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_General_de_Asistencia_Por_Establecimiento_Faltantes.jrxml");
 				JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
 				JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), resultSetDataSource);
 				JasperViewer.viewReport(print, false);

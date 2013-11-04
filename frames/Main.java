@@ -104,6 +104,9 @@ public class Main extends InitButton {
 				for(int i=0; i<permisos.length; i++){
 					
 					/* CATALOGO */
+					if(permisos[i].equals("Nuevo Departamento")){
+						Catalogo_Departamento.setEnabled(false);
+					}
 					if(permisos[i].equals("Nuevo Empleado")){
 						Catalogo_Empleado.setEnabled(false);
 						btnAltaEmp.setEnabled(false);
@@ -295,6 +298,9 @@ public class Main extends InitButton {
 				for(int i=0; i<permisos.length; i++){
 					
 					/* CATALOGO */
+					if(permisos[i].equals("Nuevo Departamento")){
+						Catalogo_Departamento.setEnabled(true);
+					}
 					if(permisos[i].equals("Nuevo Empleado")){
 						Catalogo_Empleado.setEnabled(true);
 						btnAltaEmp.setEnabled(true);
