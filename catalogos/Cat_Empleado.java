@@ -956,9 +956,17 @@ public class Cat_Empleado extends JFrame{
 							
 //						percepciones y deducciones
 					
-							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText()));
-							empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
-							empleado.setForma_pago(txtFormaDePago.getText()+"");
+							if(!txtSalarioDiario.getText().equals("")){
+								empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText()));
+							}else{
+								empleado.setSalario_diario(Float.parseFloat(0.0+""));
+								}
+							if(!txtSalarioDiarioIntegrado.getText().equals("")){
+									empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+								}else{
+									empleado.setSalario_diario_integrado(Float.parseFloat(0.0+""));
+									}
+					    	empleado.setForma_pago(txtFormaDePago.getText()+"");
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
 							
 							Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));
@@ -1587,7 +1595,6 @@ public class Cat_Empleado extends JFrame{
 		String fechaIngresoNull = txtIngreso.getDate()+"";
 		
 		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
-//		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
 		if(txtCalle.getText().equals(""))	error+= "Calle\n";
@@ -1600,8 +1607,6 @@ public class Cat_Empleado extends JFrame{
 		if(cmbEstablecimiento.getSelectedItem().equals("Selecciona un Establecimiento")) error += "Establecimiento\n";
 		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto")) error += "Puesto\n";
 		if(txtHorario.getText().equals("")) 		error+= "Turno\n";
-//		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
-//		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
 		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";

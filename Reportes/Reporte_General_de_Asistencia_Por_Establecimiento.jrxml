@@ -20,8 +20,8 @@
 ,@fecha_i VARCHAR(50)
 ,@fecha_f VARCHAR(50)
 set @establecimiento='Todos'
-set @fecha_i='25/10/2013 05:59:59'
-set @fecha_f= '30/10/2013 23:59:59'
+set @fecha_i='01/11/2013 05:59:59'
+set @fecha_f= '04/11/2013 23:59:59'
 
 SET @fecha_inicial=convert(smalldatetime,@fecha_i);
 SET @fecha_final= convert(smalldatetime,@fecha_f);
