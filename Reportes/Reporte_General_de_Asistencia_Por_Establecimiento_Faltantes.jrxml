@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+	<property name="ireport.zoom" value="3.1384283767210097"/>
+	<property name="ireport.x" value="16"/>
+	<property name="ireport.y" value="164"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[declare  @fecha_inicial smalldatetime, @fecha_final smalldatetime
+,@establecimiento varchar(200)
+,@fecha_i VARCHAR(50)
+,@fecha_f VARCHAR(50)
+set @establecimiento='Todos'
+set @fecha_i='01/11/2013 05:59:59'
+set @fecha_f= '04/11/2013 23:59:59'
+
+SET @fecha_inicial=convert(smalldatetime,@fecha_i);
+SET @fecha_final= convert(smalldatetime,@fecha_f);
+
+IF(@establecimiento='Todos')
+BEGIN
+       select
+		       tb_establecimiento.nombre as establecimiento
+	    	  ,tb_checador.folio_empleado
+		      ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+              ,datename(dw, tb_checador.fecha_mov) as  dia
+              ,CONVERT([varchar](10),tb_checador.fecha_mov,(103)) as  fecha_corta
+              ,CONVERT([varchar](8),tb_checador.fecha_mov,(108)) as  hora_registro
+              ,0 as conteo_registros_faltan
+              ,0 as falta
+              ,tb_checador.entosal as Movimiento
+              ,tb_checador.comida_receso
+              ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+              ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
+              ,0 as registos_faltan
+              ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+              ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+              ,tb_horarios.nombre as horario
+              ,datename(dw,tb_horarios.descanso-1) as descanso
+              ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+        from tb_checador
+             inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado
+             inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+             left outer join tb_acumulado_inpuntualidad  on tb_acumulado_inpuntualidad.fecha_mov=tb_checador.fecha_mov and tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado
+             left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+        where tb_checador.fecha_mov between @fecha_inicial and @fecha_final
+   UNION
+     select
+             tb_establecimiento.nombre as establecimiento
+            ,tb_acumulado_inpuntualidad.folio_empleado
+            ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+            ,datename(dw, tb_acumulado_inpuntualidad.fecha_mov) as  dia
+            ,CONVERT([varchar](10),tb_acumulado_inpuntualidad.fecha_mov,(103)) as  fecha_corta
+            ,CONVERT([varchar](8),tb_acumulado_inpuntualidad.fecha_mov,(108)) as  hora_registro
+            ,1 as conteo_registros_faltan
+            ,tb_acumulado_inpuntualidad.falta as falta
+            ,'Faltan R.' as Movimiento
+            ,'0' as comida_receso
+            ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+            ,0 as minutos_a_favor
+            ,isnull(tb_acumulado_inpuntualidad.registros_faltan,0) as registos_faltan
+            ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+            ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+            ,tb_horarios.nombre as horario
+            ,datename(dw,tb_horarios.descanso-1) as descanso
+            ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+       from tb_acumulado_inpuntualidad
+            inner join tb_empleado on tb_empleado.folio =tb_acumulado_inpuntualidad.folio_empleado
+            inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+            left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+      where tb_acumulado_inpuntualidad.fecha_mov>@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0
+   ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,fecha_corta asc
+END;
+ELSE
+BEGIN
+SET @establecimiento=(SELECT convert(varchar(50),folio) FROM tb_establecimiento WHERE nombre=@establecimiento);
+     select
+		       tb_establecimiento.nombre as establecimiento
+	    	  ,tb_checador.folio_empleado
+		      ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+              ,datename(dw, tb_checador.fecha_mov) as  dia
+              ,CONVERT([varchar](10),tb_checador.fecha_mov,(103)) as  fecha_corta
+              ,CONVERT([varchar](8),tb_checador.fecha_mov,(108)) as  hora_registro
+              ,0 as conteo_registros_faltan
+              ,0 as falta
+              ,tb_checador.entosal as Movimiento
+              ,tb_checador.comida_receso
+              ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+              ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
+              ,0 as registos_faltan
+              ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+              ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+              ,tb_horarios.nombre as horario
+              ,datename(dw,tb_horarios.descanso-1) as descanso
+              ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+        from tb_checador
+             inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado
+             inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+             left outer join tb_acumulado_inpuntualidad  on tb_acumulado_inpuntualidad.fecha_mov=tb_checador.fecha_mov and tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado
+             left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+         where tb_checador.fecha_mov between @fecha_inicial and @fecha_final and tb_establecimiento.folio in(@establecimiento)
+UNION
+     select
+             tb_establecimiento.nombre as establecimiento
+            ,tb_acumulado_inpuntualidad.folio_empleado
+            ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+            ,datename(dw, tb_acumulado_inpuntualidad.fecha_mov) as  dia
+            ,CONVERT([varchar](10),tb_acumulado_inpuntualidad.fecha_mov,(103)) as  fecha_corta
+            ,CONVERT([varchar](8),tb_acumulado_inpuntualidad.fecha_mov,(108)) as  hora_registro
+            ,1 as conteo_registros_faltan
+            ,tb_acumulado_inpuntualidad.falta as falta
+            ,'Faltan R.' as Movimiento
+            ,'0' as comida_receso
+            ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+            ,0 as minutos_a_favor
+            ,isnull(tb_acumulado_inpuntualidad.registros_faltan,0) as registos_faltan
+            ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+            ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+            ,tb_horarios.nombre as horario
+            ,datename(dw,tb_horarios.descanso-1) as descanso
+            ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+       from tb_acumulado_inpuntualidad
+           inner join tb_empleado on tb_empleado.folio =tb_acumulado_inpuntualidad.folio_empleado
+           inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+          left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+       where tb_acumulado_inpuntualidad.fecha_mov>@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0 and tb_establecimiento.folio in(@establecimiento)
+    ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,fecha_corta asc
+END;]]>
+	</queryString>
+	<field name="establecimiento" class="java.lang.String"/>
+	<field name="folio_empleado" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="dia" class="java.lang.String"/>
+	<field name="fecha_corta" class="java.lang.String"/>
+	<field name="hora_registro" class="java.lang.String"/>
+	<field name="conteo_registros_faltan" class="java.lang.Integer"/>
+	<field name="falta" class="java.lang.Integer"/>
+	<field name="Movimiento" class="java.lang.String"/>
+	<field name="comida_receso" class="java.lang.Integer"/>
+	<field name="inpuntualidad" class="java.lang.Integer"/>
+	<field name="minutos_a_favor" class="java.lang.Integer"/>
+	<field name="registos_faltan" class="java.lang.Integer"/>
+	<field name="fecha_inicial" class="java.lang.String"/>
+	<field name="fecha_final" class="java.lang.String"/>
+	<field name="horario" class="java.lang.String"/>
+	<field name="descanso" class="java.lang.String"/>
+	<field name="dobla" class="java.lang.String"/>
+	<variable name="Group2_Retardo" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{inpuntualidad}]]></variableExpression>
+	</variable>
+	<variable name="Group2_Tiempo_a_Favor" class="java.math.BigDecimal" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{minutos_a_favor}]]></variableExpression>
+	</variable>
+	<variable name="Dias_Trabajo" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{fecha_corta}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="Conteo_de_Registros_Faltantes" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{conteo_registros_faltan}]]></variableExpression>
+	</variable>
+	<variable name="Faltas" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{falta}]]></variableExpression>
+	</variable>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<frame>
+					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="228" height="20" forecolor="#CC6600" backcolor="#0000CC"/>
+				</frame>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="228" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font size="15" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<textField>
+					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="23" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="280" y="0" width="292" height="23"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{horario}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1cdae7b1-5144-42b4-a149-adf15fd3e3e3" x="0" y="0" width="31" height="23"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio_empleado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<line>
+					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="4" y="24" width="568" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="fbff5475-bf5b-4a49-9781-23a0063a886b" x="335" y="0" width="129" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dia Descanso: "+$F{descanso}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group2" isBlankWhenNull="false">
+					<reportElement uuid="72a0ca88-2538-41f9-9aa2-d80babe290a0" x="264" y="0" width="50" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["TF: "+$V{Group2_Tiempo_a_Favor}+"min"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4062c1ad-d02c-4735-b0cd-ec8167f9cd0b" x="151" y="0" width="113" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["T. Impuntualidad: "+$V{Group2_Retardo}+"min"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d1388acd-20e9-4541-a315-e37d32ee40ab" x="466" y="0" width="89" height="11"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dia Dobla: "+$F{dobla}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="caca9a39-184a-4742-bbf3-5d8efa1281ca" x="4" y="0" width="123" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dias Laborados:" +($V{Dias_Trabajo}-$V{Faltas})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="9af150f8-ae69-4910-ac06-6dd23822d068" x="151" y="11" width="137" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dias Con Registros Faltantes:"+$V{Conteo_de_Registros_Faltantes}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="2affd710-a671-489a-bf73-3df6f4bc8473" x="4" y="11" width="123" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dias que Falto:"+$V{Faltas}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="752" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="46" splitType="Stretch">
+			<frame>
+				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
+				<staticText>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="351" height="40"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial Black" size="20" isBold="false"/>
+					</textElement>
+					<text><![CDATA[*Reporte General de Asistencia]]></text>
+				</staticText>
+				<image>
+					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="509" y="0" width="44" height="40"/>
+					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreport.jpg"]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement uuid="0effe956-b4d4-46c4-9a9b-d938ff80514f" x="404" y="0" width="85" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_inicial}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="60a8af72-0164-42c3-a544-47da3a2d88eb" x="404" y="20" width="85" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_final}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="362" y="0" width="42" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DEL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="362" y="20" width="42" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[AL:]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<frame>
+				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="553" height="11"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="9aa90e6a-e43d-4f2d-984b-d0c17808cf82" style="Detail" positionType="Float" x="61" y="0" width="54" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dia}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="cd937961-f086-46b8-a965-f6c97b77cd2c" style="Detail" positionType="Float" x="169" y="0" width="47" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{hora_registro}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="26b49553-1620-4d59-957b-5d8401287bcf" style="Detail" positionType="Float" x="115" y="0" width="53" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Movimiento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="05f3afba-a4b7-4a75-8206-25915d6c801a" x="2" y="0" width="59" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_corta}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="3c833ed6-eed8-4add-a755-87d144746392" x="216" y="0" width="62" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["imp:"+$F{inpuntualidad}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7e9f4396-f925-4b70-bbe8-a2ae4b70e928" x="278" y="0" width="45" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["fav:"+$F{minutos_a_favor}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1039a279-72ea-478d-8476-2aebd01f4975" x="333" y="0" width="37" height="10"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{comida_receso}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement uuid="3779e6f8-81f6-4e28-b25e-c27f5724c713" mode="Opaque" x="0" y="1" width="572" height="12" forecolor="#000080" backcolor="#000080"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="0ab7e32f-5093-48e8-9280-55e1963fb350" style="Column header" x="509" y="0" width="40" height="11" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="27854e05-12e3-4e25-87d2-78f26b2ca50e" style="Column header" x="450" y="0" width="59" height="11" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Pagina"+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="2b5b27fe-5005-4724-9d76-f4ce3ac95546" style="Column header" x="0" y="0" width="197" height="11" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>
