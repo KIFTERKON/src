@@ -626,10 +626,11 @@ public class Cat_Empleado extends JFrame{
 				    in1.close();
 				    out1.close();
 				    
-							    
-				    ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 					
+				    ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+			         btnFoto.setIcon(iconoDefault);
+			         
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -1255,7 +1256,6 @@ public class Cat_Empleado extends JFrame{
 	
 	public void panelEnabledFalse(){	
 		txtFolioEmpleado.setEditable(false);
-//		txtChecador.setEditable(false);
 		txtNombre.setEditable(false);
 		txtApPaterno.setEditable(false);
 		txtApMaterno.setEditable(false);
@@ -1303,6 +1303,10 @@ public class Cat_Empleado extends JFrame{
 		txtSalarioDiario.setEnabled(false);
 		txtSalarioDiarioIntegrado.setEnabled(false);
 		txtFormaDePago.setEnabled(false);
+		
+		btnTrueFoto.setSelected(false);
+		btnExaminar.setEnabled(false);
+		btnCamara.setEnabled(false);
 	}
 
 	///boton deshacer
