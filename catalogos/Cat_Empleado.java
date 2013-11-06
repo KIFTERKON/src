@@ -915,7 +915,7 @@ public class Cat_Empleado extends JFrame{
 							if(btnTrueFoto.isSelected()){
 								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
 							}else{
-								empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
 							}
 
 //						laboral
@@ -1063,7 +1063,7 @@ public class Cat_Empleado extends JFrame{
 						if(btnTrueFoto.isSelected()){
 							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
 						}else{
-							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
 						}
 
 //					laboral
@@ -1356,9 +1356,13 @@ public class Cat_Empleado extends JFrame{
 		txtFormaDePago.setText("");
 		txtFechaActualizacion.setText("");
 	    
-		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-		ImageIcon tmpIconAux = new ImageIcon(file);
-		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+		 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
+         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+         btnFoto.setIcon(iconoDefault);
+         
+		 ImageIcon file_status = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Vigente.png");
+         Icon iconoStatus = new ImageIcon(file_status.getImage().getScaledInstance(btnStatus.getWidth(), btnStatus.getHeight(), Image.SCALE_DEFAULT));
+         btnStatus.setIcon(iconoStatus);
 	}
 	
 	ActionListener nuevo = new ActionListener(){
@@ -1374,23 +1378,26 @@ public class Cat_Empleado extends JFrame{
 					txtFolioEmpleado.setText(empleado.getFolio()+1+"");
 					txtNombre.requestFocus();
 					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-					ImageIcon tmpIconAux = new ImageIcon(file);
-					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-					String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
-					ImageIcon tmpIconAux_status = new ImageIcon(file_status);
-					btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-							
+					
+					 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
+			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+			         btnFoto.setIcon(iconoDefault);
+			         
+					 ImageIcon file_status = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Vigente.png");
+			         Icon iconoStatus = new ImageIcon(file_status.getImage().getScaledInstance(btnStatus.getWidth(), btnStatus.getHeight(), Image.SCALE_DEFAULT));
+			         btnStatus.setIcon(iconoStatus);
+			         
 				}else{
 					panelEnabledTrue();
 					txtFolioEmpleado.setText(1+"");
 					txtFolioEmpleado.setEditable(false);
-//					txtChecador.requestFocus();
 					txtNombre.requestFocus();
 					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+					
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+					
 					String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
 					ImageIcon tmpIconAux_status = new ImageIcon(file_status);
 					btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
