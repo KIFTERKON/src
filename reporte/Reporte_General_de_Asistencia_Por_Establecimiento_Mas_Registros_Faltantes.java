@@ -23,7 +23,7 @@ public class Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Fal
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Faltantes(String fecha_inicio, String fecha_final, String Establecimiento) {
-			String query = "exec sp_Reporte_General_de_Asistencia_Por_Establecimiento_con_Registros_F '"+fecha_inicio+"','"+fecha_final+"','"+Establecimiento+"';";
+			String query = "exec sp_Reporte_General_de_Asistencia_Por_Establecimiento_Faltantes '"+fecha_inicio+"','"+fecha_final+"','"+Establecimiento+"';";
 			Statement stmt = null;
 			try {
 				stmt =  new Connexion().conexion().createStatement();
@@ -40,7 +40,7 @@ public class Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Fal
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	
 
 	}
 

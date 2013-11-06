@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 import objetos.Obj_Establecimiento;
 
 import reporte.Reporte_General_de_Asistencia_Por_Establecimiento;
+import reporte.Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Faltantes;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -36,7 +37,7 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
 
 	JButton btn_generar_Asistencia = new JButton("Reporte de Asistencia");
-	JButton btn_generar_Completo = new JButton("Reporte de Asistencia + Faltan Registros");
+	JButton btn_generar_Completo = new JButton("Reporte de Asistencia + Faltas");
 	
 	public Cat_Reporte_General_Asistencia_Por_Establecimiento(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/reporte_icon&16.png"));
@@ -82,7 +83,7 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 				String fecha_final = new SimpleDateFormat("dd/MM/yyyy").format(c_final.getDate())+" 23:59:59";
 				String Establecimiento = cmbEstablecimiento.getSelectedItem().toString();
 				
-				new Reporte_General_de_Asistencia_Por_Establecimiento(fecha_inicio, fecha_final,Establecimiento);
+				new Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Faltantes(fecha_inicio, fecha_final,Establecimiento);
 				
 			}else{
 				JOptionPane.showMessageDialog(null,"Los siguientes campos están vacíos: "+validar_fechas(),"Aviso!", JOptionPane.ERROR_MESSAGE);

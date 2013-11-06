@@ -970,6 +970,7 @@ public class Cat_Empleado extends JFrame{
 							}
 							
 							empleado.setForma_pago(txtFormaDePago.getText()+"");
+
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
 							
 							Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));

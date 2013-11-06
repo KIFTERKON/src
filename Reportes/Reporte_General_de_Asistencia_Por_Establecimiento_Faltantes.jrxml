@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="2.3579476910000063"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="3.1384283767210097"/>
+	<property name="ireport.x" value="16"/>
+	<property name="ireport.y" value="164"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -26,29 +26,115 @@ set @fecha_f= '04/11/2013 23:59:59'
 SET @fecha_inicial=convert(smalldatetime,@fecha_i);
 SET @fecha_final= convert(smalldatetime,@fecha_f);
 
-   select tb_establecimiento.nombre as establecimiento
-       ,tb_checador.folio_empleado
-       ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
-       ,datename(dw, tb_checador.fecha_mov) as  dia
-       ,CONVERT([varchar](10),tb_checador.fecha_mov,(103)) as  fecha_corta
-       ,CONVERT([varchar](8),tb_checador.fecha_mov,(108)) as  hora_registro
-       ,tb_checador.entosal as Movimiento
-       ,tb_checador.comida_receso
-       ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
-       ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
-       ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
-       ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
-       ,tb_horarios.nombre as horario
-       ,datename(dw,tb_horarios.descanso-1) as descanso
-       ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
-     from tb_checador
-  inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado
-  inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
-  left outer join tb_acumulado_inpuntualidad  on tb_acumulado_inpuntualidad.fecha_mov=tb_checador.fecha_mov and tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado
-  left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
-where tb_checador.fecha_mov>@fecha_inicial and tb_checador.fecha_mov<@fecha_final
-GROUP BY datename(dw, tb_checador.fecha_mov),tb_establecimiento.nombre,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,tb_checador.folio_empleado,CONVERT([varchar](10),tb_checador.fecha_mov,(103)),CONVERT([varchar](8),tb_checador.fecha_mov,(108)),tb_checador.entosal,tb_checador.comida_receso,tb_checador.fecha_mov,tb_acumulado_inpuntualidad.dif_minutos,tb_acumulado_inpuntualidad.minutos_a_favor,tb_horarios.nombre,tb_horarios.descanso,tb_horarios.dobla
-ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,tb_checador.fecha_mov asc]]>
+IF(@establecimiento='Todos')
+BEGIN
+       select
+		       tb_establecimiento.nombre as establecimiento
+	    	  ,tb_checador.folio_empleado
+		      ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+              ,datename(dw, tb_checador.fecha_mov) as  dia
+              ,CONVERT([varchar](10),tb_checador.fecha_mov,(103)) as  fecha_corta
+              ,CONVERT([varchar](8),tb_checador.fecha_mov,(108)) as  hora_registro
+              ,0 as conteo_registros_faltan
+              ,0 as falta
+              ,tb_checador.entosal as Movimiento
+              ,tb_checador.comida_receso
+              ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+              ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
+              ,0 as registos_faltan
+              ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+              ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+              ,tb_horarios.nombre as horario
+              ,datename(dw,tb_horarios.descanso-1) as descanso
+              ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+        from tb_checador
+             inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado
+             inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+             left outer join tb_acumulado_inpuntualidad  on tb_acumulado_inpuntualidad.fecha_mov=tb_checador.fecha_mov and tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado
+             left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+        where tb_checador.fecha_mov between @fecha_inicial and @fecha_final
+   UNION
+     select
+             tb_establecimiento.nombre as establecimiento
+            ,tb_acumulado_inpuntualidad.folio_empleado
+            ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+            ,datename(dw, tb_acumulado_inpuntualidad.fecha_mov) as  dia
+            ,CONVERT([varchar](10),tb_acumulado_inpuntualidad.fecha_mov,(103)) as  fecha_corta
+            ,CONVERT([varchar](8),tb_acumulado_inpuntualidad.fecha_mov,(108)) as  hora_registro
+            ,1 as conteo_registros_faltan
+            ,tb_acumulado_inpuntualidad.falta as falta
+            ,'Faltan R.' as Movimiento
+            ,'0' as comida_receso
+            ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+            ,0 as minutos_a_favor
+            ,isnull(tb_acumulado_inpuntualidad.registros_faltan,0) as registos_faltan
+            ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+            ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+            ,tb_horarios.nombre as horario
+            ,datename(dw,tb_horarios.descanso-1) as descanso
+            ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+       from tb_acumulado_inpuntualidad
+            inner join tb_empleado on tb_empleado.folio =tb_acumulado_inpuntualidad.folio_empleado
+            inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+            left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+      where tb_acumulado_inpuntualidad.fecha_mov>@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0
+   ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,fecha_corta asc
+END;
+ELSE
+BEGIN
+SET @establecimiento=(SELECT convert(varchar(50),folio) FROM tb_establecimiento WHERE nombre=@establecimiento);
+     select
+		       tb_establecimiento.nombre as establecimiento
+	    	  ,tb_checador.folio_empleado
+		      ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+              ,datename(dw, tb_checador.fecha_mov) as  dia
+              ,CONVERT([varchar](10),tb_checador.fecha_mov,(103)) as  fecha_corta
+              ,CONVERT([varchar](8),tb_checador.fecha_mov,(108)) as  hora_registro
+              ,0 as conteo_registros_faltan
+              ,0 as falta
+              ,tb_checador.entosal as Movimiento
+              ,tb_checador.comida_receso
+              ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+              ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
+              ,0 as registos_faltan
+              ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+              ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+              ,tb_horarios.nombre as horario
+              ,datename(dw,tb_horarios.descanso-1) as descanso
+              ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+        from tb_checador
+             inner join tb_empleado on tb_empleado.folio =tb_checador.folio_empleado
+             inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+             left outer join tb_acumulado_inpuntualidad  on tb_acumulado_inpuntualidad.fecha_mov=tb_checador.fecha_mov and tb_acumulado_inpuntualidad.folio_empleado=tb_checador.folio_empleado
+             left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+         where tb_checador.fecha_mov between @fecha_inicial and @fecha_final and tb_establecimiento.folio in(@establecimiento)
+UNION
+     select
+             tb_establecimiento.nombre as establecimiento
+            ,tb_acumulado_inpuntualidad.folio_empleado
+            ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+            ,datename(dw, tb_acumulado_inpuntualidad.fecha_mov) as  dia
+            ,CONVERT([varchar](10),tb_acumulado_inpuntualidad.fecha_mov,(103)) as  fecha_corta
+            ,CONVERT([varchar](8),tb_acumulado_inpuntualidad.fecha_mov,(108)) as  hora_registro
+            ,1 as conteo_registros_faltan
+            ,tb_acumulado_inpuntualidad.falta as falta
+            ,'Faltan R.' as Movimiento
+            ,'0' as comida_receso
+            ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
+            ,0 as minutos_a_favor
+            ,isnull(tb_acumulado_inpuntualidad.registros_faltan,0) as registos_faltan
+            ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
+            ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final
+            ,tb_horarios.nombre as horario
+            ,datename(dw,tb_horarios.descanso-1) as descanso
+            ,case when(tb_horarios.dobla=0)then 'No'when(tb_horarios.dobla<>0)then datename(dw,tb_horarios.dobla-1) end as dobla
+       from tb_acumulado_inpuntualidad
+           inner join tb_empleado on tb_empleado.folio =tb_acumulado_inpuntualidad.folio_empleado
+           inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
+          left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
+       where tb_acumulado_inpuntualidad.fecha_mov>@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0 and tb_establecimiento.folio in(@establecimiento)
+    ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,fecha_corta asc
+END;]]>
 	</queryString>
 	<field name="establecimiento" class="java.lang.String"/>
 	<field name="folio_empleado" class="java.lang.Integer"/>
@@ -56,10 +142,13 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 	<field name="dia" class="java.lang.String"/>
 	<field name="fecha_corta" class="java.lang.String"/>
 	<field name="hora_registro" class="java.lang.String"/>
+	<field name="conteo_registros_faltan" class="java.lang.Integer"/>
+	<field name="falta" class="java.lang.Integer"/>
 	<field name="Movimiento" class="java.lang.String"/>
 	<field name="comida_receso" class="java.lang.Integer"/>
 	<field name="inpuntualidad" class="java.lang.Integer"/>
 	<field name="minutos_a_favor" class="java.lang.Integer"/>
+	<field name="registos_faltan" class="java.lang.Integer"/>
 	<field name="fecha_inicial" class="java.lang.String"/>
 	<field name="fecha_final" class="java.lang.String"/>
 	<field name="horario" class="java.lang.String"/>
@@ -73,6 +162,13 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 	</variable>
 	<variable name="Dias_Trabajo" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="DistinctCount">
 		<variableExpression><![CDATA[$F{fecha_corta}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="Conteo_de_Registros_Faltantes" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{conteo_registros_faltan}]]></variableExpression>
+	</variable>
+	<variable name="Faltas" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{falta}]]></variableExpression>
 	</variable>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
@@ -119,16 +215,16 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="16">
+			<band height="25">
 				<line>
-					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="2" y="15" width="551" height="1"/>
+					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="4" y="24" width="568" height="1"/>
 				</line>
 				<textField>
-					<reportElement uuid="fbff5475-bf5b-4a49-9781-23a0063a886b" x="389" y="0" width="75" height="12"/>
+					<reportElement uuid="fbff5475-bf5b-4a49-9781-23a0063a886b" x="335" y="0" width="129" height="12"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Descansa: "+$F{descanso}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Dia Descanso: "+$F{descanso}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Group2" isBlankWhenNull="false">
 					<reportElement uuid="72a0ca88-2538-41f9-9aa2-d80babe290a0" x="264" y="0" width="50" height="12"/>
@@ -149,23 +245,37 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Dobla: "+$F{dobla}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Dia Dobla: "+$F{dobla}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement uuid="caca9a39-184a-4742-bbf3-5d8efa1281ca" x="45" y="0" width="82" height="12"/>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="caca9a39-184a-4742-bbf3-5d8efa1281ca" x="4" y="0" width="123" height="12"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Dias Laborados:" +$V{Dias_Trabajo}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Dias Laborados:" +($V{Dias_Trabajo}-$V{Faltas})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="9af150f8-ae69-4910-ac06-6dd23822d068" x="151" y="11" width="137" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dias Con Registros Faltantes:"+$V{Conteo_de_Registros_Faltantes}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="2affd710-a671-489a-bf73-3df6f4bc8473" x="4" y="11" width="123" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Dias que Falto:"+$V{Faltas}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
 	</group>
 	<background>
-		<band splitType="Stretch"/>
+		<band height="752" splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="48" splitType="Stretch">
+		<band height="46" splitType="Stretch">
 			<frame>
 				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
@@ -260,7 +370,7 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 					<textFieldExpression><![CDATA["fav:"+$F{minutos_a_favor}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="1039a279-72ea-478d-8476-2aebd01f4975" x="362" y="0" width="100" height="10"/>
+					<reportElement uuid="1039a279-72ea-478d-8476-2aebd01f4975" x="333" y="0" width="37" height="10"/>
 					<textElement>
 						<font fontName="Times New Roman" size="8"/>
 					</textElement>
