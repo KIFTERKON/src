@@ -56,6 +56,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -113,7 +114,7 @@ public class Cat_Empleado extends JFrame{
 	
 	JPasswordField txtChecador = new JPasswordField();
 	
-	JTextField txtFolio = new JTextField();
+	JTextField txtFolioEmpleado = new JTextField();
 	JTextField txtNombre = new JTextField();
 	JTextField txtApPaterno = new JTextField();
 	JTextField txtApMaterno = new JTextField();
@@ -291,7 +292,7 @@ public class Cat_Empleado extends JFrame{
 //Datos personales ----------------------------------------------------------------------------------------------------------------------------		
 		panel.add(lblDatosPersonales).setBounds(10,y-15,ancho*7-30,230);
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
-		panel.add(txtFolio).setBounds(x+ancho-40,y,ancho-15,20);
+		panel.add(txtFolioEmpleado).setBounds(x+ancho-40,y,ancho-15,20);
 		
 		panel.add(btnBuscar).setBounds(x+ancho+ancho-12,y,32,20);
 		panel.add(btnFiltro).setBounds(x+ancho+ancho+20,y,32,20);
@@ -452,7 +453,7 @@ public class Cat_Empleado extends JFrame{
 		txaObservaciones.setWrapStyleWord(true);
 		txaObservaciones.setDocument(new JTextFieldLimit(980));
 		
-		txtFolio.setDocument(new JTextFieldLimit(9));
+		txtFolioEmpleado.setDocument(new JTextFieldLimit(9));
 		txtChecador.setDocument(new JTextFieldLimit(100));
 		txtNombre.setDocument(new JTextFieldLimit(20));
 		txtApPaterno.setDocument(new JTextFieldLimit(20));
@@ -504,9 +505,9 @@ public class Cat_Empleado extends JFrame{
 		txtDescanso.setEnabled(false);
 		txtDobla.setEnabled(false);
 		
-		txtFolio.requestFocus();
-		txtFolio.addKeyListener(buscar_action);
-		txtFolio.addKeyListener(numerico_action);
+		txtFolioEmpleado.requestFocus();
+		txtFolioEmpleado.addKeyListener(buscar_action);
+		txtFolioEmpleado.addKeyListener(numerico_action);
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		txtPensionAli.addKeyListener(validaNumericoPension);
 		
@@ -522,7 +523,7 @@ public class Cat_Empleado extends JFrame{
 		
 		txtFechaActualizacion.setEditable(false);
 		panelEnabledFalse();
-		txtFolio.setEditable(true);
+		txtFolioEmpleado.setEditable(true);
 		txtTelefono_Cuadrante.setEditable(false);
 		
 		 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
@@ -536,7 +537,7 @@ public class Cat_Empleado extends JFrame{
 //       asigna el foco al JTextField deseado al arrancar la ventana
          this.addWindowListener(new WindowAdapter() {
                  public void windowOpened( WindowEvent e ){
-                 txtFolio.requestFocus();
+                	 txtFolioEmpleado.requestFocus();
               }
          });
          
@@ -668,6 +669,7 @@ public class Cat_Empleado extends JFrame{
 					btnHorario.setEnabled(true);
 					btnHorario2.setEnabled(true);
 					panelEnabledTrue();
+					rbHorario2.setEnabled(false);
 				}
 			}
 		}
@@ -694,7 +696,7 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().length() == 0){
+			if(txtFolioEmpleado.getText().length() == 0){
 				JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.","Aviso", JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
@@ -709,13 +711,13 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener buscar = new ActionListener() {
 		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().equals("")){
+			if(txtFolioEmpleado.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-				Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolioEmpleado.getText()));
 				if(re.getFolio() != 0){			
-					txtFolio.setText(re.getFolio()+"");
+					txtFolioEmpleado.setText(re.getFolio()+"");
 					txtChecador.setText(re.getNo_checador()+"");
 					txtNombre.setText(re.getNombre()+"");
 					txtApPaterno.setText(re.getAp_paterno()+"");
@@ -847,16 +849,16 @@ public class Cat_Empleado extends JFrame{
 						
 				    btnNuevo.setVisible(false);
 					panelEnabledFalse();
-					txtFolio.setEditable(true);
-					txtFolio.requestFocus();
+					txtFolioEmpleado.setEditable(true);
+					txtFolioEmpleado.requestFocus();
 					btnHorario.setEnabled(false);
 					btnEditar.setVisible(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 					panelEnabledFalse();
-					txtFolio.setEditable(true);
-					txtFolio.requestFocus();
+					txtFolioEmpleado.setEditable(true);
+					txtFolioEmpleado.requestFocus();
 					btnHorario.setEnabled(false);
 					panelLimpiar();
 					return;
@@ -868,12 +870,12 @@ public class Cat_Empleado extends JFrame{
 	ActionListener guardar = new ActionListener(){
 		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().equals("")){
+			if(txtFolioEmpleado.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolioEmpleado.getText()));
 				
-				if(empleado.getFolio() == Integer.parseInt(txtFolio.getText())){
+				if(empleado.getFolio() == Integer.parseInt(txtFolioEmpleado.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 						if(validaCampos()!="") {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -913,7 +915,7 @@ public class Cat_Empleado extends JFrame{
 							if(btnTrueFoto.isSelected()){
 								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
 							}else{
-								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
 							}
 
 //						laboral
@@ -956,8 +958,17 @@ public class Cat_Empleado extends JFrame{
 							
 //						percepciones y deducciones
 					
-							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText()));
-							empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+							if(!txtSalarioDiario.getText().equals("")){
+								empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
+							}else{
+								empleado.setSalario_diario(Float.parseFloat(0.0+"")); }
+						
+							if(!txtSalarioDiarioIntegrado.getText().equals("")){
+								empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+							}else{
+								empleado.setSalario_diario_integrado(Float.parseFloat(0.0+""));
+							}
+							
 							empleado.setForma_pago(txtFormaDePago.getText()+"");
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
 							
@@ -996,12 +1007,12 @@ public class Cat_Empleado extends JFrame{
 //								empleado.setObservasiones("");
 //							}
 							
-							if(empleado.actualizar(Integer.parseInt(txtFolio.getText()))){
+							if(empleado.actualizar(Integer.parseInt(txtFolioEmpleado.getText()))){
 								panelLimpiar();
 								panelEnabledFalse();
 								rbHorario2.setEnabled(false);
-								txtFolio.setEditable(true);
-								txtFolio.requestFocus();
+								txtFolioEmpleado.setEditable(true);
+								txtFolioEmpleado.requestFocus();
 								btnTrueFoto.setSelected(false);
 								btnExaminar.setEnabled(false);
 								btnCamara.setEnabled(false);
@@ -1023,7 +1034,7 @@ public class Cat_Empleado extends JFrame{
 //						datos personales	
 						
 						txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-						empleado.setNo_checador(txtFolio.getText());
+						empleado.setNo_checador(txtFolioEmpleado.getText());
 						empleado.setNombre(procesa_texto(txtNombre.getText()));
 						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 						
@@ -1094,16 +1105,17 @@ public class Cat_Empleado extends JFrame{
 						
 //					percepciones y deducciones
 						
-						if(txtSalarioDiario.getText().length() != 0){
+						if(!txtSalarioDiario.getText().equals("")){
 							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
 						}else{
 							empleado.setSalario_diario(Float.parseFloat(0.0+"")); }
 					
-						if(txtSalarioDiarioIntegrado.getText().length() != 0){
+						if(!txtSalarioDiarioIntegrado.getText().equals("")){
 							empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
 						}else{
 							empleado.setSalario_diario_integrado(Float.parseFloat(0.0+""));
 						}
+						
 						empleado.setForma_pago(txtFormaDePago.getText()+"");
 						empleado.setSueldo(cmbSueldo.getSelectedIndex());
 						
@@ -1147,8 +1159,8 @@ public class Cat_Empleado extends JFrame{
 							panelLimpiar();
 							rbHorario2.setEnabled(false);
 							panelEnabledFalse();
-							txtFolio.setEditable(true);
-							txtFolio.requestFocus();
+							txtFolioEmpleado.setEditable(true);
+							txtFolioEmpleado.requestFocus();
 							btnTrueFoto.setSelected(false);
 							btnExaminar.setEnabled(false);
 							btnCamara.setEnabled(false);
@@ -1165,15 +1177,14 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener filtro = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			dispose();
-			new Cat_Filtro_Empleado().setVisible(true);
 			
+			new Cat_Filtro_Empleado().setVisible(true);
 		}
 	};
 	
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolioEmpleado.getText()));
 			if(empleado.getFolio() != 0){
 				if(txtHorario2.getText().equals("")){
 					panelEnabledTrue();
@@ -1182,8 +1193,7 @@ public class Cat_Empleado extends JFrame{
 					panelEnabledTrue();
 					rbHorario2.setEnabled(true);
 				}
-				
-				txtFolio.setEditable(false);
+				txtFolioEmpleado.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
 			}else{
@@ -1194,7 +1204,7 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEditable(true);
+		txtFolioEmpleado.setEditable(true);
 //		txtChecador.setEditable(true);
 		txtNombre.setEditable(true);
 		txtApPaterno.setEditable(true);
@@ -1240,11 +1250,10 @@ public class Cat_Empleado extends JFrame{
 		txtSalarioDiario.setEnabled(true);
 		txtSalarioDiarioIntegrado.setEnabled(true);
 		txtFormaDePago.setEnabled(true);
-		
 	}
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEditable(false);
+		txtFolioEmpleado.setEditable(false);
 //		txtChecador.setEditable(false);
 		txtNombre.setEditable(false);
 		txtApPaterno.setEditable(false);
@@ -1293,11 +1302,11 @@ public class Cat_Empleado extends JFrame{
 		txtSalarioDiario.setEnabled(false);
 		txtSalarioDiarioIntegrado.setEnabled(false);
 		txtFormaDePago.setEnabled(false);
-		
 	}
+
 	///boton deshacer
 	public void panelLimpiar(){	
-		txtFolio.setText("");
+		txtFolioEmpleado.setText("");
 		txtChecador.setText("");
 		txtNombre.setText("");
 		txtApPaterno.setText("");
@@ -1349,8 +1358,6 @@ public class Cat_Empleado extends JFrame{
 		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 		ImageIcon tmpIconAux = new ImageIcon(file);
 		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-		
-	    
 	}
 	
 	ActionListener nuevo = new ActionListener(){
@@ -1363,7 +1370,7 @@ public class Cat_Empleado extends JFrame{
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
-					txtFolio.setText(empleado.getFolio()+1+"");
+					txtFolioEmpleado.setText(empleado.getFolio()+1+"");
 					txtNombre.requestFocus();
 					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
@@ -1375,8 +1382,8 @@ public class Cat_Empleado extends JFrame{
 							
 				}else{
 					panelEnabledTrue();
-					txtFolio.setText(1+"");
-					txtFolio.setEditable(false);
+					txtFolioEmpleado.setText(1+"");
+					txtFolioEmpleado.setEditable(false);
 //					txtChecador.requestFocus();
 					txtNombre.requestFocus();
 					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
@@ -1390,7 +1397,6 @@ public class Cat_Empleado extends JFrame{
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		
 		}
 	};
 	
@@ -1399,8 +1405,8 @@ public class Cat_Empleado extends JFrame{
 			panelLimpiar();
 			rbHorario2.setEnabled(false);
 			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
+			txtFolioEmpleado.setEditable(true);
+			txtFolioEmpleado.requestFocus();
 			btnEditar.setVisible(false);
 			btnNuevo.setVisible(true);
 			txtHorario.setEnabled(false);
@@ -1480,7 +1486,6 @@ public class Cat_Empleado extends JFrame{
 						e.consume(); 
 				}				
 			}
-				   
 		}
 		@Override
 		public void keyPressed(KeyEvent arg0) {}
@@ -1586,8 +1591,7 @@ public class Cat_Empleado extends JFrame{
 		String fechaNull = txtCalendario.getDate()+"";
 		String fechaIngresoNull = txtIngreso.getDate()+"";
 		
-		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
-//		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
+		if(txtFolioEmpleado.getText().equals("")) 		error+= "Folio\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
 		if(txtCalle.getText().equals(""))	error+= "Calle\n";
@@ -1600,8 +1604,6 @@ public class Cat_Empleado extends JFrame{
 		if(cmbEstablecimiento.getSelectedItem().equals("Selecciona un Establecimiento")) error += "Establecimiento\n";
 		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto")) error += "Puesto\n";
 		if(txtHorario.getText().equals("")) 		error+= "Turno\n";
-//		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
-//		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
 		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
@@ -1610,125 +1612,6 @@ public class Cat_Empleado extends JFrame{
 		if(fechaIngresoNull.equals("null"))error += "Fecha de ingreso\n";
 		
 		return error;
-	}
-	
-	
-	//constructor del filtro
-	public Cat_Empleado(String algo) {
-		
-		getContenedor();
-		
-		
-		btnNuevo.setVisible(false);
-		btnEditar.setVisible(true);
-		
-		Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(algo));
-		
-		if(re.getFolio() != 0){		
-			txtFolio.setText(re.getFolio()+"");
-			txtChecador.setText(re.getNo_checador()+"");
-			txtNombre.setText(re.getNombre());
-			txtApPaterno.setText(re.getAp_paterno());
-			txtApMaterno.setText(re.getAp_materno());	
-			txtPensionAli.setText(re.getPension_alimenticia()+"");
-			
-			Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-			cmbEstablecimiento.setSelectedItem(comboNombreEsta.getNombre());
-			
-			Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-			cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
-			
-			Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
-			txtHorario.setText(comboFolioHorario.getNombre());;
-			
-			Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
-			txtHorario2.setText(comboFolioHorario2.getNombre());
-			
-			txtDescanso.setText(re.getDescanso()+"");
-			txtDobla.setText(re.getDobla()+"");
-			
-			cmbSueldo.setSelectedIndex(re.getSueldo());
-			
-			Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
-			cmbBono.setSelectedItem(bono.getBono()+"");
-			
-			cmbPrestamos.setSelectedIndex(re.getPrestamo());
-
-			txtInfonavit.setText(re.getInfonavit()+"");				
-			
-			txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
-			Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
-			cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
-			
-			txtImss.setText(re.getImss()+"");
-			
-			if(re.isFuente_sodas()== true){chbFuente_Sodas.setSelected(true);}
-			else{chbFuente_Sodas.setSelected(false);}
-			if(re.isGafete() == true){chbGafete.setSelected(true);}
-			else{chbGafete.setSelected(false);}
-			cmbStatus.setSelectedIndex(re.getStatus()-1);
-			txtTelefono_Familiar.setText(re.getTelefono_familiar());
-			txtTelefono_Cuadrante.setText(re.getTelefono_propio());
-			
-			switch(cmbStatus.getSelectedIndex()+1){
-				case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
-					   btnEditar.setVisible(true);
-					   break;
-				case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));
-					   btnEditar.setVisible(true);
-					   break;
-				case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));
-					   btnEditar.setVisible(true);
-					   break;
-				case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
-					   btnEditar.setVisible(true);
-					   break;
-				case 5:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
-					   btnEditar.setVisible(false); 
-					   break;
-			}
-			
-			if(re.getFecha_nacimiento() != null){
-				try {
-					Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
-					Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
-					
-					txtCalendario.setDate(date);
-					txtIngreso.setDate(date_ingreso);
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-			}
-			
-			chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
-			
-			txtFechaActualizacion.setText(re.getFecha_actualizacion());
-			txaObservaciones.setText(re.getObservasiones());
-			
-			cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
-			
-			ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-		    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-			
-		    
-		    btnNuevo.setVisible(false);
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
-			
-		}
-		else{
-			panelLimpiar();
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-			ImageIcon tmpIconAux = new ImageIcon(file);
-			btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-		}
-		
-		panelEnabledFalse();
-		txtFolio.setEnabled(true);
-		
 	}
 	
 	public static void main(String args[]){
@@ -1993,7 +1876,6 @@ public class Cat_Empleado extends JFrame{
 					}catch(IOException ioe){
 						JOptionPane.showMessageDialog(null,"Error al guardar la imagen", "Error!",JOptionPane.ERROR_MESSAGE);
 					}
-	             
 	            }
 	        }
 	        else
@@ -2011,7 +1893,7 @@ public class Cat_Empleado extends JFrame{
 		JLayeredPane panel = new JLayeredPane();
 		
 		JTextField txtNombre = new JTextField();
-		JTextField txtFolio = new JTextField();
+		JTextField txtFolioHorario = new JTextField();
 
 		DefaultTableModel modelo = new DefaultTableModel(0,2)	{
 			public boolean isCellEditable(int fila, int columna){
@@ -2034,20 +1916,19 @@ public class Cat_Empleado extends JFrame{
 			panel.setBorder(BorderFactory.createTitledBorder("Filtro Horario"));	
 			
 			panel.add(getPanelTabla()).setBounds(20,50,800,400);
-			panel.add(txtFolio).setBounds(20,20,80,20);
+			panel.add(txtFolioHorario).setBounds(20,20,80,20);
 			panel.add(txtNombre).setBounds(100,20,720,20);
 			
 			cont.add(panel);
 			txtNombre.setToolTipText("Filtro");
 			
-			txtFolio.setDocument(new JTextFieldLimit(9));
-			
+			txtFolioHorario.setDocument(new JTextFieldLimit(9));
 			
 			trsfiltro = new TableRowSorter(modelo); 
 			tabla.setRowSorter(trsfiltro);
 			
 			txtNombre.addKeyListener(opFiltroNombre);
-			txtFolio.addKeyListener(opFiltroFolio);
+			txtFolioHorario.addKeyListener(opFiltroFolio);
 			
 			agregar(tabla);
 			
@@ -2068,6 +1949,7 @@ public class Cat_Empleado extends JFrame{
 		    			if(seleccion_de_asignacion_de_Horario1Horario2==1){
 		    				txtHorario.setText(folio+"");
 			    			txtHorario.setToolTipText(folio+"");
+			    				rbHorario.doClick();
 		    			}else{
 		    				txtHorario2.setText(folio+"");
 			    			txtHorario2.setToolTipText(folio+"");
@@ -2083,7 +1965,7 @@ public class Cat_Empleado extends JFrame{
 		
 		KeyListener opFiltroFolio = new KeyListener(){
 			public void keyReleased(KeyEvent arg0) {
-				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolioHorario.getText(), 0));
 			}
 			public void keyTyped(KeyEvent arg0) {
 				char caracter = arg0.getKeyChar();
@@ -2145,9 +2027,6 @@ public class Cat_Empleado extends JFrame{
 				rs = s.executeQuery( "  select * from tb_horarios");
 				int folio;
 				String nombre;
-//				String entrada;
-//				String salida;
-//				String receso;
 				
 				while (rs.next())
 				{ 
@@ -2157,7 +2036,6 @@ public class Cat_Empleado extends JFrame{
 				   String [] fila = new String[2];
 				   fila[0] = folio+"";
 				   fila[1] = nombre;
-//				   fila[2] = salida.substring(11,19);
 				   
 				   modelo.addRow(fila); 
 				}	
@@ -2190,6 +2068,352 @@ public class Cat_Empleado extends JFrame{
 //	      return this;
 //	    }
 //	  }
+	
+	public class Cat_Filtro_Empleado extends JDialog {
+		
+		Container cont = getContentPane();
+		JLayeredPane campo = new JLayeredPane();
+		
+		DefaultTableModel model = new DefaultTableModel(0,9){
+			public boolean isCellEditable(int fila, int columna){
+				if(columna < 0)
+					return true;
+				return false;
+			}
+		};
+		
+		JTable tabla = new JTable(model);
+		
+		@SuppressWarnings("rawtypes")
+		private TableRowSorter trsfiltro;
+		
+		JTextField txtFolioFiltroEmpleado = new JTextField();
+		JTextField txtNombre_Completo = new JTextField();
+		
+		String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+		@SuppressWarnings("rawtypes")
+		JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+
+		@SuppressWarnings("rawtypes")
+		public Cat_Filtro_Empleado(){
+			
+			this.setModal(true);
+			
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
+			this.setTitle("Filtro de Empleados");
+			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
+			trsfiltro = new TableRowSorter(model); 
+			tabla.setRowSorter(trsfiltro);  
+			
+			campo.add(getPanelTabla()).setBounds(15,42,1000,565);
+			
+			campo.add(txtFolioFiltroEmpleado).setBounds(15,20,48,20);
+			campo.add(txtNombre_Completo).setBounds(64,20,229,20);
+			campo.add(cmbEstablecimientos).setBounds(295,20, 148, 20);
+			
+			agregar(tabla);
+			
+			cont.add(campo);
+			
+			txtFolioFiltroEmpleado.addKeyListener(opFiltroFolio);
+			txtNombre_Completo.addKeyListener(opFiltroNombre);
+			cmbEstablecimientos.addActionListener(opFiltro);
+			
+			this.setSize(1040,650);
+			this.setResizable(false);
+			this.setLocationRelativeTo(null);
+			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			
+		}
+		private void agregar(final JTable tbl) {
+	        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+		        public void mouseClicked(MouseEvent e) {
+		        	if(e.getClickCount() == 2){
+		    			int fila = tabla.getSelectedRow();
+		    			Object folio =  tabla.getValueAt(fila, 0).toString().trim();
+		    			dispose();
+		    			txtFolioEmpleado.setText(folio+"");
+		    			btnBuscar.doClick();
+		        	}
+		        }
+	        });
+	    }
+		
+		KeyListener opFiltroFolio = new KeyListener(){
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolioFiltroEmpleado.getText(), 0));
+			}
+			public void keyTyped(KeyEvent arg0) {
+				char caracter = arg0.getKeyChar();
+				if(((caracter < '0') ||
+					(caracter > '9')) &&
+				    (caracter != KeyEvent.VK_BACK_SPACE)){
+					arg0.consume(); 
+				}	
+			}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		KeyListener opFiltroNombre = new KeyListener(){
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+			}
+			public void keyTyped(KeyEvent arg0) {}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		ActionListener opFiltro = new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(cmbEstablecimientos.getSelectedIndex() != 0){
+					trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+				}else{
+					trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+				}
+			}
+		};
+		
+	   	private JScrollPane getPanelTabla()	{		
+			new Connexion();
+			
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+			tcr.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			int a=2;
+			tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			
+			// Creamos las columnas.
+			tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+			tabla.getColumnModel().getColumn(0).setMaxWidth(50);
+			tabla.getColumnModel().getColumn(0).setMinWidth(50);
+			tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
+			tabla.getColumnModel().getColumn(1).setMaxWidth(230);
+			tabla.getColumnModel().getColumn(1).setMinWidth(230);
+			tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
+			tabla.getColumnModel().getColumn(2).setMaxWidth(150);
+			tabla.getColumnModel().getColumn(2).setMinWidth(150);
+			tabla.getColumnModel().getColumn(3).setHeaderValue("Puesto");
+			tabla.getColumnModel().getColumn(3).setMaxWidth(180);
+			tabla.getColumnModel().getColumn(3).setMinWidth(180);
+			tabla.getColumnModel().getColumn(4).setHeaderValue("Sueldo");
+			tabla.getColumnModel().getColumn(4).setMaxWidth(70);
+			tabla.getColumnModel().getColumn(4).setMinWidth(70);
+			tabla.getColumnModel().getColumn(5).setHeaderValue("Bono");
+			tabla.getColumnModel().getColumn(5).setMaxWidth(70);
+			tabla.getColumnModel().getColumn(5).setMinWidth(70);
+			tabla.getColumnModel().getColumn(6).setHeaderValue("Status");
+			tabla.getColumnModel().getColumn(6).setMaxWidth(120);
+			tabla.getColumnModel().getColumn(6).setMinWidth(120);
+			tabla.getColumnModel().getColumn(7).setHeaderValue("F Sodas");
+			tabla.getColumnModel().getColumn(7).setMaxWidth(50);
+			tabla.getColumnModel().getColumn(7).setMinWidth(50);
+			tabla.getColumnModel().getColumn(8).setHeaderValue("Gafete");
+			tabla.getColumnModel().getColumn(8).setMaxWidth(50);
+			tabla.getColumnModel().getColumn(8).setMinWidth(50);
+			
+			TableCellRenderer render = new TableCellRenderer() { 
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column) { 
+					
+					Component componente = null;
+					
+					switch(column){
+						case 0: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}				
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 1: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 2:
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 3: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 4: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 5: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 6: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 7: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+							break;
+						case 8: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+							break;
+					}
+					return componente;
+				} 
+			}; 
+			
+			tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			
+			Statement s;
+			ResultSet rs;
+			try {
+				s = new Connexion().conexion().createStatement();
+				rs = s.executeQuery("exec sp_filtro_empleado");
+				
+				while (rs.next())
+				{ 
+				   String [] fila = new String[9];
+				   fila[0] = rs.getString(1)+"  ";
+				   fila[1] = "   "+rs.getString(2);
+				   fila[2] = "   "+rs.getString(3).trim();
+				   fila[3] = "   "+rs.getString(4).trim();
+				   fila[4] = rs.getString(5).trim();
+				   fila[5] = rs.getString(6).trim();
+				   fila[6] = "   "+rs.getString(7).trim();
+				   fila[7] = rs.getString(8).trim();
+				   fila[8] = rs.getString(9).trim();
+				
+				   model.addRow(fila); 
+				}	
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			 JScrollPane scrol = new JScrollPane(tabla);
+			   
+		    return scrol; 
+		}
+		
+		KeyListener validaCantidad = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e){
+				char caracter = e.getKeyChar();				
+				if(((caracter < '0') ||	
+				    	(caracter > '9')) && 
+				    	(caracter != '.' )){
+				    	e.consume();
+				    	}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {	
+			}
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}	
+		};
+		
+		KeyListener validaNumericoConPunto = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();
+				
+			    if(((caracter < '0') ||	
+			    	(caracter > '9')) && 
+			    	(caracter != '.')){
+			    	e.consume();
+			    	}
+			}
+			@Override
+			public void keyPressed(KeyEvent e){}
+			@Override
+			public void keyReleased(KeyEvent e){}
+									
+		};
+		
+	}
+
 	
 	public class JMenuFormato extends JMenuItem implements ActionListener{
 

@@ -2,6 +2,7 @@ package catalogos;
 
 import java.awt.Container;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -13,18 +14,29 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Establecimiento;
+import objetos.Obj_Nivel_Critico;
 
+@SuppressWarnings("serial")
 public class Cat_Actividades_Por_Proyecto extends JFrame{
 	Container con = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	JButton btnFiltorActividad = new JButton("Actividad");
+	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
+	JButton btnNuevo = new JButton("Nuevo");
+	
+	JButton btnderecha = new JButton(new ImageIcon("Iconos/right_icon&16.png"));
+	JButton btnizquierda = new JButton(new ImageIcon("Iconos/left_icon&16.png"));
+	
+	JButton btnSalir = new JButton("Salir");
+	JButton btnDeshacer = new JButton("Deshacer");
+	JButton btnEditar = new JButton("Editar");
+	JButton btnGuardar = new JButton("Guardar");
+	
+	JButton btnAgregar = new JButton("Agregar");
+	JButton btnQuitar = new JButton("Quitar");
 	
 	JTextField txtFolioProyecto = new JTextField();
 	JTextField txtProyecto = new JTextField();
@@ -34,12 +46,10 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 
 	JCheckBox  chbStatus = new JCheckBox("Status",true);
 
-//	cambiar a nivel critico
-	String jefatura[] = new Obj_Establecimiento().Combo_Jefatura();
+	String nivel_critico[] = new Obj_Nivel_Critico().Combo_Nivel_Critico();
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	JComboBox cmbJefatura = new JComboBox(jefatura);
+	JComboBox cmbJefatura = new JComboBox(nivel_critico);
 	
-	@SuppressWarnings("serial")
 	DefaultTableModel tabla_model = new DefaultTableModel(null,
             new String[]{"Folio", "Descripcion","Porcentaje"}
 			){
