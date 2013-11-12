@@ -639,7 +639,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaDomingo.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaDomingo.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tablaDomingo.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaDomingo.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaDomingo.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaDomingo.getColumnModel().getColumn(1).setMaxWidth(620);
@@ -769,7 +768,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaLunes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaLunes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tablaLunes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaLunes.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaLunes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaLunes.getColumnModel().getColumn(1).setMaxWidth(620);
@@ -899,7 +897,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaMartes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMartes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tablaMartes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMartes.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaMartes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaMartes.getColumnModel().getColumn(1).setMaxWidth(620);
@@ -1029,7 +1026,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaMiercoles.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMiercoles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tablaMiercoles.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMiercoles.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaMiercoles.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaMiercoles.getColumnModel().getColumn(1).setMaxWidth(620);
@@ -1159,7 +1155,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaJueves.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaJueves.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tablaJueves.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaJueves.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaJueves.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaJueves.getColumnModel().getColumn(1).setMaxWidth(620);
@@ -1418,7 +1413,6 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaSabado.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaSabado.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		this.tablaSabado.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaSabado.getColumnModel().getColumn(0).setMaxWidth(60);
 		this.tablaSabado.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaSabado.getColumnModel().getColumn(1).setMaxWidth(620);

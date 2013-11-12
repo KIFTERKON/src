@@ -1198,6 +1198,7 @@ public class Cat_Empleado extends JFrame{
 				txtFolioEmpleado.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
+				chbHorarioRotativo.setEnabled(true);
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;

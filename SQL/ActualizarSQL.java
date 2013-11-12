@@ -15,6 +15,7 @@ import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
+import objetos.Obj_Actividades_Por_Proyecto;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -1410,61 +1411,72 @@ public class ActualizarSQL {
 	}
 		
 	
-//	public boolean Actualizar_Actividad(Obj_Actividad actividad, int folio){
-//		String query = "update tb_actividad "+
-//							"set actividad=?, descripcion=?, respuesta=?, atributo=?, nivel_critico=?, domingo=?, "+
-//							"lunes=?, martes=?, miercoles=?, jueves=?, viernes=?, sabado=?, hora_inicio=?, "+
-//							"hora_final=?, temporada=?, carga=?, repetir=?, status=? "+ 
-//					    "where folio ="+folio;
-//		
-//		Connection con = new Connexion().conexion();
-//		PreparedStatement pstmt = null;
-//		try {
-//			con.setAutoCommit(false);
-//			pstmt = con.prepareStatement(query);
-//			
-//			pstmt.setString(1, actividad.getActividad().toUpperCase());
-//			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
-//			pstmt.setString(3, actividad.getRespuesta());
-//			pstmt.setString(4, actividad.getAtributos());
-//			pstmt.setString(5, actividad.getNivel_critico());
-//			pstmt.setInt(6, actividad.getDomingo());
-//			pstmt.setInt(7, actividad.getLunes());
-//			pstmt.setInt(8, actividad.getMartes());
-//			pstmt.setInt(9, actividad.getMiercoles());
-//			pstmt.setInt(10, actividad.getJueves());
-//			pstmt.setInt(11, actividad.getViernes());
-//			pstmt.setInt(12, actividad.getSabado());
-//			pstmt.setString(13, actividad.getHora_inicio());
-//			pstmt.setString(14, actividad.getHora_final());
-//			pstmt.setString(15, actividad.getTemporada());
-//			pstmt.setBoolean(16, actividad.isCarga());
-//			pstmt.setInt(17, actividad.getRepetir());
-//			pstmt.setInt(18, actividad.isStatus()? 1 : 0);
-//			
-//			pstmt.executeUpdate();
-//			con.commit();
-//		} catch (Exception e) {
-//			System.out.println("SQLException: "+e.getMessage());
-//			if(con != null){
-//				try{
-//					System.out.println("La transacción ha sido abortada");
-//					con.rollback();
-//				}catch(SQLException ex){
-//					System.out.println(ex.getMessage());
-//				}
-//			}
-//			return false;
-//		}finally{
-//			try {
-//				con.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}		
-//		return true;
-//	}
-	
+	public boolean Proyecto(Obj_Actividades_Por_Proyecto proyect, String[][] tabla){
+		String queryDelete ="delete tb_tabla_proyecto_cuadrante where folio_proyecto = ?";
+		String query = "exec sp_update_proyecto ?,?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_proyecto ?,?,?,?,?";
+		
+		Connection con = new Connexion().conexion();
+		
+		PreparedStatement pstmtDelete = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtTabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			
+			// Elimina primero la lista de cuadrante
+			pstmtDelete = con.prepareStatement(queryDelete);
+			
+			pstmtDelete.setInt(1, proyect.getFolio());
+			pstmtDelete.execute();
+			
+			// Actualiza el Cuadrante
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, proyect.getFolio());
+			pstmt.setString(2, proyect.getProyecto().toUpperCase().trim());
+			pstmt.setString(3, proyect.getDescripcion().toUpperCase().trim());
+			pstmt.setString(4, proyect.getNivel_critico().trim());
+			pstmt.setInt(5, proyect.getStatus());
+			
+			pstmt.execute();
+			
+			// Inserta valores a la tabla
+			pstmtTabla = con.prepareStatement(querytabla);
+			
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, proyect.getFolio());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][3].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][4].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][2]) ? 1 : 0);
+				
+				pstmtTabla.executeUpdate();
+			}
+
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Actualizar - Proyecto");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 	public boolean Cuadrante(Obj_Cuadrante cuadrante, String[][] tabla){
 		String queryDelete ="delete tb_tabla_cuadrante where folio_cuadrante = ?";
@@ -1905,7 +1917,7 @@ public class ActualizarSQL {
 													"	?,?,?,?,?,?,?,?,?,?," +
 													"	?,?,?,?,?,?,?,?,?,?," +
 													"	?,?,?,?,?,?,?,?,?,?," +
-													"	? ";
+													"	?,?,?";
 
 				Connection con = new Connexion().conexion();
 				PreparedStatement pstmt = null;
@@ -1972,6 +1984,9 @@ public class ActualizarSQL {
 					pstmt.setString(i+=1, horario_emp.getSabado3());
 					pstmt.setString(i+=1, horario_emp.getSabado4());
 					pstmt.setString(i+=1, horario_emp.getSabado5());
+					
+					pstmt.setInt(i+=1, horario_emp.getRecesoDiarioExtra());
+					pstmt.setInt(i+=1, horario_emp.getHorarioDeposito());
 					
 					pstmt.executeUpdate();
 					con.commit();
