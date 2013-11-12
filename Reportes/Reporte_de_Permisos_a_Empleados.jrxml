@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="3.138428376721011"/>
+	<property name="ireport.zoom" value="2.593742460100009"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="19"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -30,10 +30,9 @@ IF @establecimiento='Seleciona un Establecimiento'
    SELECT tb_permisos_checador.folio as folio_permiso
           ,tb_permisos_checador.folio_empleado
 	      ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado
-          ,tb_permisos_checador.fecha_permiso as fecha_permiso
-          ,convert(varchar(20),tb_permisos_checador.fecha_permiso,103) as fecha_aplica_permiso
-          ,tb_permisos_checador.fecha as fecha_creacion_permiso
-          ,convert(varchar(20),tb_permisos_checador.fecha_permiso,108) AS hora_permiso
+          ,convert(varchar(20),tb_permisos_checador.fecha_permiso,113) as fecha_aplica_permiso
+          ,CONVERT(VARCHAR(20),tb_permisos_checador.fecha,113) as fecha_creacion_permiso
+          ,convert(varchar(20),tb_permisos_checador.fecha,108) AS hora_permiso
           ,tb_usuario.nombre_completo as capturo_permiso
           ,tb_establecimiento.nombre as establecimiento
           ,case when tb_permisos_checador.tipo_de_permiso=1 then 'Permiso Para Trabajar Corrido'
@@ -58,10 +57,9 @@ SET @establecimiento=(SELECT convert(varchar(50),folio) FROM tb_establecimiento 
     SELECT tb_permisos_checador.folio as folio_permiso
           ,tb_permisos_checador.folio_empleado
 	      ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado
-          ,tb_permisos_checador.fecha_permiso as fecha_permiso
-          ,convert(varchar(20),tb_permisos_checador.fecha_permiso,103) as fecha_aplica_permiso
-          ,tb_permisos_checador.fecha as fecha_creacion_permiso
-          ,convert(varchar(20),tb_permisos_checador.fecha_permiso,108) AS hora_permiso
+          ,convert(varchar(20),tb_permisos_checador.fecha_permiso,113) as fecha_aplica_permiso
+          ,CONVERT(VARCHAR(20),tb_permisos_checador.fecha,113) as fecha_creacion_permiso
+          ,convert(varchar(20),tb_permisos_checador.fecha,108) AS hora_permiso
           ,tb_usuario.nombre_completo as capturo_permiso
           ,tb_establecimiento.nombre as establecimiento
           ,case when tb_permisos_checador.tipo_de_permiso=1 then 'Permiso Para Trabajar Corrido'
@@ -84,9 +82,8 @@ END;]]>
 	<field name="folio_permiso" class="java.lang.Integer"/>
 	<field name="folio_empleado" class="java.lang.Integer"/>
 	<field name="empleado" class="java.lang.String"/>
-	<field name="fecha_permiso" class="java.sql.Timestamp"/>
 	<field name="fecha_aplica_permiso" class="java.lang.String"/>
-	<field name="fecha_creacion_permiso" class="java.sql.Timestamp"/>
+	<field name="fecha_creacion_permiso" class="java.lang.String"/>
 	<field name="hora_permiso" class="java.lang.String"/>
 	<field name="capturo_permiso" class="java.lang.String"/>
 	<field name="establecimiento" class="java.lang.String"/>
@@ -97,14 +94,14 @@ END;]]>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
 		<groupHeader>
-			<band height="22">
+			<band height="18">
 				<frame>
-					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="228" height="20" forecolor="#CC6600" backcolor="#0000CC"/>
+					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="160" height="16" forecolor="#CC6600" backcolor="#0000CC"/>
 				</frame>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="228" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="160" height="14" forecolor="#FFFFFF"/>
 					<textElement>
-						<font size="15" isBold="true"/>
+						<font size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
 				</textField>
@@ -114,7 +111,7 @@ END;]]>
 	<group name="Group2">
 		<groupExpression><![CDATA[$F{empleado}]]></groupExpression>
 		<groupHeader>
-			<band height="16">
+			<band height="15">
 				<textField>
 					<reportElement uuid="a4c08700-c9da-4f89-b3c7-a37aebc468ec" x="0" y="0" width="34" height="15"/>
 					<textElement>
@@ -129,19 +126,12 @@ END;]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement uuid="c7339775-0cf9-426d-894d-29bf8a90c5e0" x="328" y="15" width="244" height="40"/>
-					<textElement>
-						<font fontName="Times New Roman" size="9"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{motivo}]]></textFieldExpression>
-				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="25">
+			<band height="5">
 				<line>
-					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="4" y="24" width="568" height="1"/>
+					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="4" y="0" width="568" height="1"/>
 				</line>
 			</band>
 		</groupFooter>
@@ -150,7 +140,7 @@ END;]]>
 		<band height="752" splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="46" splitType="Stretch">
+		<band height="44" splitType="Stretch">
 			<frame>
 				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
@@ -199,24 +189,45 @@ END;]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<detail>
-		<band height="40" splitType="Stretch">
+		<band height="37" splitType="Stretch">
 			<frame>
-				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="553" height="11"/>
+				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="0" y="0" width="572" height="35"/>
+				<textField>
+					<reportElement uuid="7949f34a-e397-485b-9aca-d700ccd26458" x="276" y="0" width="296" height="31"/>
+					<textElement>
+						<font fontName="Times New Roman" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["MOTIVO: "+$F{motivo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="ced1ec8d-06ee-4448-b02c-77a26e5dd923" x="0" y="12" width="131" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Fecha de Creacion: "+$F{fecha_creacion_permiso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="3675163a-9459-4d2f-9b28-9e9743834761" x="0" y="0" width="109" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Fecha Aplica:"+$F{fecha_aplica_permiso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="22b7ec89-551f-4f88-88b0-b97ac02dec52" x="131" y="0" width="145" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo_de_Permiso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="2bb7b8c6-997e-4843-9df4-77d25a83e6d0" x="131" y="12" width="120" height="12"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Hora:" +$F{hora_permiso}]]></textFieldExpression>
+				</textField>
 			</frame>
-			<textField>
-				<reportElement uuid="3675163a-9459-4d2f-9b28-9e9743834761" x="0" y="0" width="92" height="20"/>
-				<textElement>
-					<font fontName="Times New Roman" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Fecha:"+$F{fecha_permiso}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="22b7ec89-551f-4f88-88b0-b97ac02dec52" x="92" y="0" width="236" height="20"/>
-				<textElement>
-					<font fontName="Times New Roman" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tipo_de_Permiso}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
