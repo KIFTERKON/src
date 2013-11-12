@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="3.1384283767210097"/>
-	<property name="ireport.x" value="16"/>
-	<property name="ireport.y" value="164"/>
+	<property name="ireport.zoom" value="2.357947691000007"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="18"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -19,14 +19,14 @@
 ,@establecimiento varchar(200)
 ,@fecha_i VARCHAR(50)
 ,@fecha_f VARCHAR(50)
-set @establecimiento='Todos'
-set @fecha_i='01/11/2013 05:59:59'
-set @fecha_f= '04/11/2013 23:59:59'
+set @establecimiento='Selecciona un Establecimiento'
+set @fecha_i='04/11/2013 00:00:00'
+set @fecha_f= '10/11/2013 23:59:59'
 
 SET @fecha_inicial=convert(smalldatetime,@fecha_i);
 SET @fecha_final= convert(smalldatetime,@fecha_f);
 
-IF(@establecimiento='Todos')
+IF(@establecimiento='Selecciona un Establecimiento')
 BEGIN
        select
 		       tb_establecimiento.nombre as establecimiento
@@ -39,6 +39,7 @@ BEGIN
               ,0 as falta
               ,tb_checador.entosal as Movimiento
               ,tb_checador.comida_receso
+              ,tb_checador.tipo_entrada as tipo_entrada
               ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
               ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
               ,0 as registos_faltan
@@ -65,6 +66,7 @@ BEGIN
             ,tb_acumulado_inpuntualidad.falta as falta
             ,'Faltan R.' as Movimiento
             ,'0' as comida_receso
+            ,'-' as tipo_entrada
             ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
             ,0 as minutos_a_favor
             ,isnull(tb_acumulado_inpuntualidad.registros_faltan,0) as registos_faltan
@@ -77,7 +79,7 @@ BEGIN
             inner join tb_empleado on tb_empleado.folio =tb_acumulado_inpuntualidad.folio_empleado
             inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
             left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
-      where tb_acumulado_inpuntualidad.fecha_mov>@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0
+      where tb_acumulado_inpuntualidad.fecha_mov>=@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<=@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0
    ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,fecha_corta asc
 END;
 ELSE
@@ -94,6 +96,7 @@ SET @establecimiento=(SELECT convert(varchar(50),folio) FROM tb_establecimiento 
               ,0 as falta
               ,tb_checador.entosal as Movimiento
               ,tb_checador.comida_receso
+              ,tb_checador.tipo_entrada as tipo_entrada
               ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
               ,isnull(tb_acumulado_inpuntualidad.minutos_a_favor,0) as minutos_a_favor
               ,0 as registos_faltan
@@ -120,6 +123,7 @@ UNION
             ,tb_acumulado_inpuntualidad.falta as falta
             ,'Faltan R.' as Movimiento
             ,'0' as comida_receso
+            ,'-' as tipo_entrada
             ,isnull(tb_acumulado_inpuntualidad.dif_minutos,0) as inpuntualidad
             ,0 as minutos_a_favor
             ,isnull(tb_acumulado_inpuntualidad.registros_faltan,0) as registos_faltan
@@ -132,7 +136,7 @@ UNION
            inner join tb_empleado on tb_empleado.folio =tb_acumulado_inpuntualidad.folio_empleado
            inner join tb_establecimiento on tb_empleado.establecimiento_id=tb_establecimiento.folio
           left outer join tb_horarios on tb_horarios.folio=tb_empleado.horario
-       where tb_acumulado_inpuntualidad.fecha_mov>@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0 and tb_establecimiento.folio in(@establecimiento)
+       where tb_acumulado_inpuntualidad.fecha_mov>=@fecha_inicial and tb_acumulado_inpuntualidad.fecha_mov<=@fecha_final AND tb_acumulado_inpuntualidad.dif_minutos>0 and registros_faltan>0 and tb_establecimiento.folio in(@establecimiento)
     ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno asc,fecha_corta asc
 END;]]>
 	</queryString>
@@ -146,6 +150,7 @@ END;]]>
 	<field name="falta" class="java.lang.Integer"/>
 	<field name="Movimiento" class="java.lang.String"/>
 	<field name="comida_receso" class="java.lang.Integer"/>
+	<field name="tipo_entrada" class="java.lang.String"/>
 	<field name="inpuntualidad" class="java.lang.Integer"/>
 	<field name="minutos_a_favor" class="java.lang.Integer"/>
 	<field name="registos_faltan" class="java.lang.Integer"/>
@@ -170,45 +175,45 @@ END;]]>
 	<variable name="Faltas" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="Sum">
 		<variableExpression><![CDATA[$F{falta}]]></variableExpression>
 	</variable>
-	<group name="Group1">
+	<group name="Group1" footerPosition="StackAtBottom">
 		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
 		<groupHeader>
-			<band height="22">
+			<band height="16">
 				<frame>
-					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="228" height="20" forecolor="#CC6600" backcolor="#0000CC"/>
+					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="197" height="15" forecolor="#CC6600" backcolor="#0000CC"/>
 				</frame>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="228" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="197" height="15" forecolor="#FFFFFF"/>
 					<textElement>
-						<font size="15" isBold="true"/>
+						<font size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
 	</group>
-	<group name="Group2">
+	<group name="Group2" keepTogether="true">
 		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
 		<groupHeader>
-			<band height="23">
+			<band height="17">
 				<textField>
-					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="23" forecolor="#000000"/>
+					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="15" forecolor="#000000"/>
 					<textElement>
-						<font fontName="Times New Roman" size="14" isBold="false"/>
+						<font fontName="Times New Roman" size="13" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="280" y="0" width="292" height="23"/>
+					<reportElement uuid="33fbd528-f955-46ff-9e33-e67c7d871e61" x="280" y="0" width="292" height="17"/>
 					<textElement>
-						<font fontName="Times New Roman" size="10"/>
+						<font fontName="Times New Roman" size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{horario}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Horario: "+$F{horario}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="1cdae7b1-5144-42b4-a149-adf15fd3e3e3" x="0" y="0" width="31" height="23"/>
+					<reportElement uuid="1cdae7b1-5144-42b4-a149-adf15fd3e3e3" x="0" y="0" width="31" height="15"/>
 					<textElement>
-						<font fontName="Times New Roman" size="14"/>
+						<font fontName="Times New Roman" size="13"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{folio_empleado}]]></textFieldExpression>
 				</textField>
@@ -217,7 +222,7 @@ END;]]>
 		<groupFooter>
 			<band height="25">
 				<line>
-					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="4" y="24" width="568" height="1"/>
+					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="0" y="24" width="572" height="1"/>
 				</line>
 				<textField>
 					<reportElement uuid="fbff5475-bf5b-4a49-9781-23a0063a886b" x="335" y="0" width="129" height="12"/>
@@ -227,18 +232,18 @@ END;]]>
 					<textFieldExpression><![CDATA["Dia Descanso: "+$F{descanso}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="Group2" isBlankWhenNull="false">
-					<reportElement uuid="72a0ca88-2538-41f9-9aa2-d80babe290a0" x="264" y="0" width="50" height="12"/>
+					<reportElement uuid="72a0ca88-2538-41f9-9aa2-d80babe290a0" x="264" y="0" width="61" height="12"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA["TF: "+$V{Group2_Tiempo_a_Favor}+"min"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["T.Favor: "+$V{Group2_Tiempo_a_Favor}+"min"]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="4062c1ad-d02c-4735-b0cd-ec8167f9cd0b" x="151" y="0" width="113" height="12"/>
+					<reportElement uuid="4062c1ad-d02c-4735-b0cd-ec8167f9cd0b" x="141" y="0" width="123" height="12"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA["T. Impuntualidad: "+$V{Group2_Retardo}+"min"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Total Impuntualidad: "+$V{Group2_Retardo}+"min"]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="d1388acd-20e9-4541-a315-e37d32ee40ab" x="466" y="0" width="89" height="11"/>
@@ -255,7 +260,7 @@ END;]]>
 					<textFieldExpression><![CDATA["Dias Laborados:" +($V{Dias_Trabajo}-$V{Faltas})]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="9af150f8-ae69-4910-ac06-6dd23822d068" x="151" y="11" width="137" height="12"/>
+					<reportElement uuid="9af150f8-ae69-4910-ac06-6dd23822d068" x="141" y="12" width="137" height="12"/>
 					<textElement>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
@@ -275,43 +280,43 @@ END;]]>
 		<band height="752" splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="46" splitType="Stretch">
+		<band height="44" splitType="Stretch">
 			<frame>
 				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
-					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="351" height="40"/>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="372" height="40"/>
 					<textElement textAlignment="Center">
 						<font fontName="Arial Black" size="20" isBold="false"/>
 					</textElement>
 					<text><![CDATA[*Reporte General de Asistencia]]></text>
 				</staticText>
-				<image>
-					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="509" y="0" width="44" height="40"/>
+				<image scaleImage="FillFrame">
+					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="528" y="0" width="44" height="40"/>
 					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreport.jpg"]]></imageExpression>
 				</image>
 				<textField>
-					<reportElement uuid="0effe956-b4d4-46c4-9a9b-d938ff80514f" x="404" y="0" width="85" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="0effe956-b4d4-46c4-9a9b-d938ff80514f" x="443" y="0" width="85" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{fecha_inicial}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="60a8af72-0164-42c3-a544-47da3a2d88eb" x="404" y="20" width="85" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="60a8af72-0164-42c3-a544-47da3a2d88eb" x="443" y="20" width="85" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{fecha_final}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="362" y="0" width="42" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="401" y="0" width="42" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[DEL:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="362" y="20" width="42" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="401" y="20" width="42" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
@@ -326,7 +331,7 @@ END;]]>
 	<detail>
 		<band height="11" splitType="Stretch">
 			<frame>
-				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="553" height="11"/>
+				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="570" height="11"/>
 				<textField isStretchWithOverflow="true">
 					<reportElement uuid="9aa90e6a-e43d-4f2d-984b-d0c17808cf82" style="Detail" positionType="Float" x="61" y="0" width="54" height="10"/>
 					<textElement>
@@ -369,12 +374,19 @@ END;]]>
 					</textElement>
 					<textFieldExpression><![CDATA["fav:"+$F{minutos_a_favor}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement uuid="1039a279-72ea-478d-8476-2aebd01f4975" x="333" y="0" width="37" height="10"/>
 					<textElement>
 						<font fontName="Times New Roman" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{comida_receso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e609e3de-1955-43e4-901b-e7b783b0a883" x="407" y="0" width="100" height="11"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["T.R:"+$F{tipo_entrada}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

@@ -3,7 +3,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
 	<property name="ireport.zoom" value="2.593742460100009"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="48"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -19,13 +19,14 @@
 ,@establecimiento varchar(200)
 ,@fecha_i VARCHAR(50)
 ,@fecha_f VARCHAR(50)
-set @establecimiento='Seleciona un Establecimiento'
-set @fecha_i='01/11/2013 05:59:59'
-set @fecha_f= '04/11/2013 23:59:59'
+SET @establecimiento='Selecciona un Establecimiento'
+SET @fecha_i='01/11/2013 05:59:59'
+SET @fecha_f= '04/11/2013 23:59:59'
+
 SET @fecha_inicial=convert(smalldatetime,@fecha_i);
 SET @fecha_final= convert(smalldatetime,@fecha_f);
 
-IF @establecimiento='Seleciona un Establecimiento'
+IF @establecimiento='Selecciona un Establecimiento'
  BEGIN
    SELECT tb_permisos_checador.folio as folio_permiso
           ,tb_permisos_checador.folio_empleado
@@ -49,7 +50,7 @@ IF @establecimiento='Seleciona un Establecimiento'
       left outer join tb_usuario on tb_usuario.folio=tb_permisos_checador.folio_usuario
       inner join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
    WHERE tb_permisos_checador.fecha_permiso>@fecha_inicial and tb_permisos_checador.fecha_permiso<@fecha_final
-      order by convert(varchar(20),tb_permisos_checador.fecha_permiso,103) desc
+      order by tb_establecimiento.nombre,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,convert(varchar(20),tb_permisos_checador.fecha_permiso,103) desc
   END;
 ELSE
 BEGIN
@@ -76,7 +77,7 @@ SET @establecimiento=(SELECT convert(varchar(50),folio) FROM tb_establecimiento 
       left outer join tb_usuario on tb_usuario.folio=tb_permisos_checador.folio_usuario
       inner join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
    WHERE tb_permisos_checador.fecha_permiso>@fecha_inicial and tb_permisos_checador.fecha_permiso<@fecha_final AND tb_establecimiento.folio in(@establecimiento)
-      order by convert(varchar(20),tb_permisos_checador.fecha_permiso,103) desc
+      order by tb_establecimiento.nombre,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,convert(varchar(20),tb_permisos_checador.fecha_permiso,103) desc
 END;]]>
 	</queryString>
 	<field name="folio_permiso" class="java.lang.Integer"/>
@@ -144,16 +145,12 @@ END;]]>
 			<frame>
 				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
-					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="351" height="40"/>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="251" height="40"/>
 					<textElement textAlignment="Center">
 						<font fontName="Arial Black" size="20" isBold="false"/>
 					</textElement>
-					<text><![CDATA[*Reporte General de Asistencia]]></text>
+					<text><![CDATA[*Reporte de Permisos]]></text>
 				</staticText>
-				<image>
-					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="509" y="0" width="44" height="40"/>
-					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreport.jpg"]]></imageExpression>
-				</image>
 				<textField>
 					<reportElement uuid="0effe956-b4d4-46c4-9a9b-d938ff80514f" x="404" y="0" width="85" height="20" forecolor="#FFFFFF"/>
 					<textElement>
@@ -182,6 +179,10 @@ END;]]>
 					</textElement>
 					<text><![CDATA[AL:]]></text>
 				</staticText>
+				<image scaleImage="FillFrame">
+					<reportElement uuid="7d30bdae-099a-47b0-91cc-3d2ddb690feb" stretchType="RelativeToTallestObject" x="521" y="0" width="51" height="40"/>
+					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreportpermisos.jpg"]]></imageExpression>
+				</image>
 			</frame>
 		</band>
 	</title>
@@ -226,6 +227,13 @@ END;]]>
 						<font fontName="Times New Roman" size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Hora:" +$F{hora_permiso}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="79b755bb-b6ed-48f0-a1af-ff3fc996630a" x="0" y="24" width="226" height="11"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Capturo Permiso: "+$F{capturo_permiso}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

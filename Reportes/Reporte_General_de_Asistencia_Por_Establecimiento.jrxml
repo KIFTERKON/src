@@ -169,39 +169,39 @@ ORDER BY tb_establecimiento.nombre desc,tb_empleado.nombre+' '+tb_empleado.ap_pa
 			<frame>
 				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
-					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="351" height="40"/>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="364" height="40"/>
 					<textElement textAlignment="Center">
-						<font fontName="Arial Black" size="20" isBold="false"/>
+						<font fontName="Arial Black" size="15" isBold="false"/>
 					</textElement>
-					<text><![CDATA[*Reporte General de Asistencia]]></text>
+					<text><![CDATA[*Reporte General de Asistencia Sin Faltas]]></text>
 				</staticText>
-				<image>
-					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="509" y="0" width="44" height="40"/>
+				<image scaleImage="FillFrame">
+					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="528" y="0" width="44" height="40"/>
 					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreport.jpg"]]></imageExpression>
 				</image>
 				<textField>
-					<reportElement uuid="0effe956-b4d4-46c4-9a9b-d938ff80514f" x="404" y="0" width="85" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="0effe956-b4d4-46c4-9a9b-d938ff80514f" x="419" y="0" width="85" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{fecha_inicial}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="60a8af72-0164-42c3-a544-47da3a2d88eb" x="404" y="20" width="85" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="60a8af72-0164-42c3-a544-47da3a2d88eb" x="419" y="20" width="85" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{fecha_final}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="362" y="0" width="42" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="377" y="0" width="42" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[DEL:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="362" y="20" width="42" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="377" y="20" width="42" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>

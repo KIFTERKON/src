@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Coffee_Landscape" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9cdd1998-3730-4efb-880f-5dd53786ab2f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.771561000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="211"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -28,7 +27,7 @@ IF(@posicion_espacio)<>0
 SELECT
     	@nombre + ' ' + tb_empleado.ap_paterno AS nombre
 	   ,tb_puesto.nombre AS puesto
-       ,tb_establecimiento.nombre AS establecimiento   
+       ,tb_establecimiento.nombre AS establecimiento
        FROM tb_empleado
 left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
 left join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
@@ -58,7 +57,7 @@ IF(@posicion_espacio)<>0
 SELECT
     	@nombre + ' ' + tb_empleado.ap_paterno AS nombre
 	   ,tb_puesto.nombre AS puesto
-       ,tb_establecimiento.nombre AS establecimiento   
+       ,tb_establecimiento.nombre AS establecimiento
        FROM tb_empleado
 left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
 left join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
@@ -87,7 +86,7 @@ IF(@posicion_espacio)<>0
 SELECT
     	@nombre + ' ' + tb_empleado.ap_paterno AS nombre
 	   ,tb_puesto.nombre AS puesto
-       ,tb_establecimiento.nombre AS establecimiento   
+       ,tb_establecimiento.nombre AS establecimiento
        FROM tb_empleado
 left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
 left join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
@@ -116,7 +115,7 @@ IF(@posicion_espacio)<>0
 SELECT
     	@nombre + ' ' + tb_empleado.ap_paterno AS nombre
 	   ,tb_puesto.nombre AS puesto
-       ,tb_establecimiento.nombre AS establecimiento   
+       ,tb_establecimiento.nombre AS establecimiento
        FROM tb_empleado
 left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
 left join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
@@ -143,7 +142,7 @@ IF(@posicion_espacio)<>0
 SELECT
     	@nombre + ' ' + tb_empleado.ap_paterno AS nombre
 	   ,tb_puesto.nombre AS puesto
-       ,tb_establecimiento.nombre AS establecimiento   
+       ,tb_establecimiento.nombre AS establecimiento
        FROM tb_empleado
 left join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
 left join tb_establecimiento on tb_establecimiento.folio=tb_empleado.establecimiento_id
@@ -175,7 +174,7 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<text><![CDATA[LE ATIENDE:]]></text>
 			</staticText>
 			<image scaleImage="FillFrame" isUsingCache="true">
-				<reportElement uuid="aa55dc7e-56d0-408b-967c-c1b95be2b05a" x="50" y="50" width="70" height="75" forecolor="#000000"/>
+				<reportElement uuid="aa55dc7e-56d0-408b-967c-c1b95be2b05a" x="48" y="50" width="80" height="80" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</box>
@@ -210,7 +209,7 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<imageExpression><![CDATA["C:/SCOI/imagen/gafeteMisionConFondo.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" isUsingCache="true">
-				<reportElement uuid="35e16ae0-2320-43e0-a75d-c4b4f3b087fb" x="414" y="320" width="70" height="80" forecolor="#000000"/>
+				<reportElement uuid="35e16ae0-2320-43e0-a75d-c4b4f3b087fb" x="414" y="320" width="80" height="80" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</box>
@@ -225,14 +224,14 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<imageExpression><![CDATA["C:/SCOI/AssetGafete/Codigos_Barras/4.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" isUsingCache="true">
-				<reportElement uuid="b70d7295-46b7-4b76-a6d9-06c707ece63d" x="409" y="50" width="70" height="80" forecolor="#000000"/>
+				<reportElement uuid="b70d7295-46b7-4b76-a6d9-06c707ece63d" x="409" y="50" width="80" height="80" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</box>
 				<imageExpression><![CDATA["C:/SCOI/AssetGafete/Users_Images/2.png"]]></imageExpression>
 			</image>
 			<image scaleImage="FillFrame" isUsingCache="true">
-				<reportElement uuid="f04fa1ff-3002-41db-b09a-0dd945ff8473" x="48" y="320" width="70" height="80" forecolor="#000000"/>
+				<reportElement uuid="f04fa1ff-3002-41db-b09a-0dd945ff8473" x="48" y="320" width="80" height="80" forecolor="#000000"/>
 				<box>
 					<pen lineWidth="2.0" lineStyle="Solid"/>
 				</box>
@@ -250,7 +249,7 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				<imageExpression><![CDATA["C:/SCOI/AssetGafete/Codigos_Barras/3.png"]]></imageExpression>
 			</image>
 			<componentElement>
-				<reportElement uuid="da455d4d-56bf-4b35-af82-ee60c6339d25" x="2" y="125" width="167" height="50"/>
+				<reportElement uuid="da455d4d-56bf-4b35-af82-ee60c6339d25" x="2" y="130" width="167" height="50"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="Dataset1" uuid="b237e169-4076-40a8-8eb2-d1c78816cb54">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
@@ -347,16 +346,16 @@ WHERE tb_empleado.folio=(SELECT tres FROM tb_ids)]]>
 				</jr:list>
 			</componentElement>
 			<rectangle>
-				<reportElement uuid="62a2843b-1f2a-4e60-a38b-e51328d7bd05" x="0" y="217" width="169" height="5" forecolor="#FFFFFF"/>
+				<reportElement uuid="62a2843b-1f2a-4e60-a38b-e51328d7bd05" x="0" y="215" width="169" height="7" forecolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="720b8541-1db7-443b-829c-28a81f8c6fa8" x="360" y="217" width="169" height="5" forecolor="#FFFFFF"/>
+				<reportElement uuid="720b8541-1db7-443b-829c-28a81f8c6fa8" x="360" y="215" width="169" height="7" forecolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="8fd52aae-a57c-46f0-920c-1d68ac749a70" x="360" y="488" width="169" height="5" forecolor="#FFFFFF"/>
+				<reportElement uuid="8fd52aae-a57c-46f0-920c-1d68ac749a70" x="360" y="485" width="169" height="7" forecolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle>
-				<reportElement uuid="11f5e822-52eb-437f-9cd0-ad404dee39e1" x="0" y="488" width="169" height="5" forecolor="#FFFFFF"/>
+				<reportElement uuid="11f5e822-52eb-437f-9cd0-ad404dee39e1" x="0" y="485" width="169" height="7" forecolor="#FFFFFF"/>
 			</rectangle>
 			<componentElement>
 				<reportElement uuid="e9077474-b016-49af-9bd1-e57edd80a61e" x="361" y="400" width="167" height="50"/>

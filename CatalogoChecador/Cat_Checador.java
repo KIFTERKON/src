@@ -601,7 +601,7 @@ public class Cat_Checador extends JFrame {
                                         }else{
                                                         if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
                                                                 
-                                                                JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
                                                                  
                                                                          txtFolio.setEditable(true);
                                                                         txtFolio.setText("");
