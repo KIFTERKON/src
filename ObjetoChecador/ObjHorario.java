@@ -23,6 +23,8 @@ public class ObjHorario
 	int diaDobla2;
 	int diaDobla3;
 	
+	int horarioDeposito;
+	int recesoDiarioExtra;
 	
 	public ObjHorario()
 	{
@@ -83,6 +85,9 @@ public class ObjHorario
 		this.diaDobla=0;
 		this.diaDobla2=0;
 		this.diaDobla3=0;
+		
+		this.horarioDeposito=0;
+		this.recesoDiarioExtra=0;
 	}
 	
 
@@ -457,41 +462,49 @@ public class ObjHorario
 		return descanso;
 	}
 
-
 	public void setDescanso(int descanso) {
 		this.descanso = descanso;
 	}
-
 
 	public int getDiaDobla() {
 		return diaDobla;
 	}
 
-
 	public void setDiaDobla(int diaDobla) {
 		this.diaDobla = diaDobla;
 	}
-	
 	
 	public int getDiaDobla2() {
 		return diaDobla2;
 	}
 
-
 	public void setDiaDobla2(int diaDobla2) {
 		this.diaDobla2 = diaDobla2;
 	}
-
 
 	public int getDiaDobla3() {
 		return diaDobla3;
 	}
 
-
 	public void setDiaDobla3(int diaDobla3) {
 		this.diaDobla3 = diaDobla3;
 	}
 
+	public int getHorarioDeposito() {
+		return horarioDeposito;
+	}
+
+	public void setHorarioDeposito(int horarioDeposito) {
+		this.horarioDeposito = horarioDeposito;
+	}
+
+	public int getRecesoDiarioExtra() {
+		return recesoDiarioExtra;
+	}
+
+	public void setRecesoDiarioExtra(int recesoDiarioExtra) {
+		this.recesoDiarioExtra = recesoDiarioExtra;
+	}
 
 	public ObjHorario buscar(int folio){
 		try {

@@ -22,6 +22,7 @@ import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
+import objetos.Obj_Actividades_Por_Proyecto;
 import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
@@ -425,6 +426,87 @@ public class GuardarSQL {
 			if(con != null){
 				try{
 					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Proyecto(Obj_Actividades_Por_Proyecto proyec){
+		String query = "exec sp_insert_proyecto ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt	(1, proyec.getFolio());
+			pstmt.setString	(2, proyec.getProyecto().toUpperCase().trim());
+			pstmt.setString	(3, proyec.getDescripcion().toUpperCase().trim());
+			pstmt.setString	(4, proyec.getNivel_critico().trim());
+			pstmt.setInt	(5, proyec.getStatus());
+				
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Proyecto_Tabla(Obj_Actividades_Por_Proyecto proyect, String[][] tabla){
+		String querytabla = "exec sp_insert_tabla_proyecto ?,?,?,?,?";
+				
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtTabla = con.prepareStatement(querytabla);
+				
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, proyect.getFolio());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][3].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][4].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][2]) ? 1 : 0);
+				
+				pstmtTabla.executeUpdate();
+			}
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Guardar_Proyecto_Tabla");
 					con.rollback();
 				}catch(SQLException ex){
 					System.out.println(ex.getMessage());
@@ -1761,7 +1843,7 @@ public class GuardarSQL {
 			pstmt.setString(5, Permiso.getMotivo().toUpperCase().trim());
 			pstmt.setBoolean(6, (Permiso.isStatus())? true: false);
 			
-			pstmt.executeUpdate();
+//			pstmt.executeUpdate();
 		
 			con.commit();
 		} catch (Exception e) {
@@ -2267,7 +2349,7 @@ public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 
 //Guardamos el horario
 public boolean Guardar_Horario(ObjHorario horario){
-	String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+	String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 	Connection con = new Connexion().conexion();
 	PreparedStatement pstmt = null;
 	try {
@@ -2329,6 +2411,9 @@ public boolean Guardar_Horario(ObjHorario horario){
 		pstmt.setInt(i+=1, horario.getDiaDobla());
 		pstmt.setInt(i+=1, horario.getDiaDobla2());
 		pstmt.setInt(i+=1, horario.getDiaDobla3());
+		pstmt.setInt(i+=1, horario.getRecesoDiarioExtra());
+		pstmt.setInt(i+=1, horario.getHorarioDeposito());
+		
 		
 		pstmt.executeUpdate();
 		con.commit();
