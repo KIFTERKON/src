@@ -695,7 +695,6 @@ public class Cat_Checador extends JFrame {
                                                         
                                                         String Fecha=registro[9].toString();
                                                         lblFecha.setText(Fecha);
-                                                        
                                                         txtFolio.setEditable(true);
                                                         txtFolio.setText("");
                                                         txtFolio.requestFocus();
@@ -985,8 +984,8 @@ public class Cat_Checador extends JFrame {
 
         
         public static void refresh(int folio_empleado,String tipo_entrada,int tipo_salida_comer) {
-                Object[] registro = fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
-                tabla_model.addRow(registro);
+            fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
+//                tabla_model.addRow(registro);
         }
         @SuppressWarnings("rawtypes")
         public static Object[] fila2(int folio_empleado,String tipo_entrada,int tipo_salida_comer){
