@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Prestamos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="72b28e85-6b85-405a-a19e-a90c0b1b291a">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+	<property name="ireport.zoom" value="2.593742460100005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -13,19 +15,19 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[SELECT 
+		<![CDATA[SELECT
 	   tb_empleado.folio as Folio,
        tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno AS NombreCompleto,
        tb_establecimiento.nombre AS Establecimiento,
-       tb_Prestamo.Cantidad as Prestamo, 
+       tb_Prestamo.Cantidad as Prestamo,
        CASE WHEN sum(tb_abono.descuento) IS NULL
 				THEN tb_prestamo.cantidad
 			WHEN sum(tb_abono.descuento) >= 0
 				THEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
-			ELSE 0 
+			ELSE 0
 	   END as Saldo,
-	   CASE 
-			WHEN sum(tb_abono.descuento) IS NULL   
+	   CASE
+			WHEN sum(tb_abono.descuento) IS NULL
 				THEN tb_prestamo.descuento
 			WHEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1) <  tb_prestamo.descuento
 				THEN tb_prestamo.cantidad - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
@@ -37,92 +39,128 @@
 				THEN tb_prestamo.cantidad - tb_prestamo.descuento
 			WHEN tb_prestamo.cantidad - tb_prestamo.descuento - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1) > 0
 				THEN tb_prestamo.cantidad - tb_prestamo.descuento - (select sum(tb_abono.descuento) from tb_abono where tb_abono.folio_empleado = tb_empleado.folio and tb_abono.status=1)
-			ELSE 0		
+			ELSE 0
 	   END as Saldo_Nuevo,
        Case when tb_empleado.status_imss=0
            then 'Contable'
            else 'No Contable'
-           end as Status,  
-       tb_empleado.imss  
-	  
+           end as Status,
+       tb_empleado.imss
 
-   
- FROM tb_empleado 
 
-inner join tb_establecimiento 
+
+ FROM tb_empleado
+
+inner join tb_establecimiento
           ON tb_establecimiento.folio=tb_empleado.establecimiento_id
 
 inner join tb_prestamo
           ON tb_prestamo.folio_empleado=tb_empleado.folio
           and tb_prestamo.status=1
-left outer join tb_abono 
-		  ON tb_abono.folio_empleado = tb_prestamo.folio_empleado 
+left outer join tb_abono
+		  ON tb_abono.folio_empleado = tb_prestamo.folio_empleado
 		  and  tb_abono.status=1
 
 
 
-where tb_empleado.status = 1  
+where tb_empleado.status = 1
 
-GROUP BY tb_empleado.folio ,
+GROUP BY tb_empleado.folio ,tb_establecimiento.nombre ,
        tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno ,
-       tb_establecimiento.nombre ,
+
        tb_prestamo.cantidad,
-       tb_prestamo.descuento, 
+       tb_prestamo.descuento,
 	   tb_prestamo.cantidad,
        tb_empleado.status_imss,
-       tb_empleado.imss 
-	 
-    
-       
-Order By 	tb_empleado.status_imss, tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno]]>
+       tb_empleado.imss
+
+
+
+Order By 	tb_empleado.status_imss, tb_establecimiento.nombre,tb_empleado.nombre + ' '+ tb_empleado.ap_paterno+' '+ tb_empleado.ap_materno]]>
 	</queryString>
-	<field name="Establecimiento" class="java.lang.String"/>
 	<field name="Folio" class="java.lang.Integer"/>
 	<field name="NombreCompleto" class="java.lang.String"/>
+	<field name="Establecimiento" class="java.lang.String"/>
 	<field name="Prestamo" class="java.math.BigDecimal"/>
 	<field name="Saldo" class="java.math.BigDecimal"/>
 	<field name="Descuento_a_Aplicar" class="java.math.BigDecimal"/>
 	<field name="Saldo_Nuevo" class="java.math.BigDecimal"/>
-	<field name="imss" class="java.lang.String"/>
 	<field name="Status" class="java.lang.String"/>
+	<field name="imss" class="java.lang.String"/>
+	<variable name="Sum_Prestamo" class="java.lang.Float" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Prestamo}]]></variableExpression>
+	</variable>
+	<variable name="Sum_Saldo" class="java.lang.Float" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Saldo}]]></variableExpression>
+	</variable>
+	<variable name="Sum_Descuento" class="java.lang.Float" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Descuento_a_Aplicar}]]></variableExpression>
+	</variable>
+	<variable name="Sum_Saldo_Nuevo" class="java.lang.Float" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{Saldo_Nuevo}]]></variableExpression>
+	</variable>
+	<variable name="Total_Prestamo" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Prestamo}]]></variableExpression>
+	</variable>
+	<variable name="Total_Saldo" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Saldo}]]></variableExpression>
+	</variable>
+	<variable name="Total_Descuento" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Descuento_a_Aplicar}]]></variableExpression>
+	</variable>
+	<variable name="Total_Saldo_Nuevo" class="java.lang.Float" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Saldo_Nuevo}]]></variableExpression>
+	</variable>
+	<variable name="Total_Global_Prestamo" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Prestamo}]]></variableExpression>
+	</variable>
+	<variable name="Total_Global_Saldo" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Saldo}]]></variableExpression>
+	</variable>
+	<variable name="Total_Global_Descuento" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Descuento_a_Aplicar}]]></variableExpression>
+	</variable>
+	<variable name="Total_Global_Saldo_Nuevo" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Saldo_Nuevo}]]></variableExpression>
+	</variable>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{Status}]]></groupExpression>
 		<groupHeader>
-			<band height="37">
+			<band height="15">
 				<frame>
-					<reportElement uuid="9da96497-8519-4d25-858d-de3d9f2646ec" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#FF8000"/>
+					<reportElement uuid="9da96497-8519-4d25-858d-de3d9f2646ec" mode="Opaque" x="0" y="0" width="555" height="15" forecolor="#B89F7D" backcolor="#FF6600"/>
 					<textField>
-						<reportElement uuid="f6158405-ed54-4845-a652-9760bc6477a8" x="0" y="0" width="260" height="20" forecolor="#FFFFFF"/>
+						<reportElement uuid="f6158405-ed54-4845-a652-9760bc6477a8" x="2" y="0" width="260" height="14" forecolor="#FFFFFF"/>
 						<textElement>
-							<font size="14"/>
+							<font fontName="Times New Roman" size="9" isBold="true"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{Status}]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement uuid="a9b41f8c-ccb5-470a-92b5-5c0d3b913ad6" style="Column header" x="499" y="2" width="51" height="20" forecolor="#FFFFFF"/>
+						<reportElement uuid="a9b41f8c-ccb5-470a-92b5-5c0d3b913ad6" style="Column header" x="501" y="0" width="51" height="12" forecolor="#FFFFFF"/>
 						<textElement>
-							<font isBold="false"/>
+							<font fontName="Times New Roman" size="9" isBold="true"/>
 						</textElement>
-						<text><![CDATA[Saldo N]]></text>
+						<text><![CDATA[Saldo Nuevo]]></text>
 					</staticText>
 					<staticText>
-						<reportElement uuid="41cae9ad-3e6d-4047-9416-7c6df1363999" style="Column header" x="438" y="2" width="52" height="18" forecolor="#FFFFFF"/>
+						<reportElement uuid="41cae9ad-3e6d-4047-9416-7c6df1363999" style="Column header" x="440" y="0" width="52" height="12" forecolor="#FFFFFF"/>
 						<textElement textAlignment="Left">
-							<font isBold="false"/>
+							<font fontName="Times New Roman" size="9" isBold="true"/>
 						</textElement>
-						<text><![CDATA[Desc.]]></text>
+						<text><![CDATA[Descuento]]></text>
 					</staticText>
 					<staticText>
-						<reportElement uuid="9171bfd9-313d-4eaa-ab9b-13201d5119a1" style="Column header" x="360" y="3" width="40" height="18" forecolor="#FFFFFF"/>
+						<reportElement uuid="9171bfd9-313d-4eaa-ab9b-13201d5119a1" style="Column header" x="362" y="0" width="40" height="12" forecolor="#FFFFFF"/>
 						<textElement>
-							<font size="14" isBold="false"/>
+							<font fontName="Times New Roman" size="9" isBold="true"/>
 						</textElement>
 						<text><![CDATA[Saldo]]></text>
 					</staticText>
 					<staticText>
-						<reportElement uuid="65233827-0aa2-413e-80c7-2ce1583a2911" style="Column header" x="279" y="3" width="71" height="18" forecolor="#FFFFFF"/>
+						<reportElement uuid="65233827-0aa2-413e-80c7-2ce1583a2911" style="Column header" x="281" y="0" width="71" height="12" forecolor="#FFFFFF"/>
 						<textElement>
-							<font isBold="false"/>
+							<font fontName="Times New Roman" size="9" isBold="true"/>
 						</textElement>
 						<text><![CDATA[Prestamo]]></text>
 					</staticText>
@@ -130,17 +168,106 @@ Order By 	tb_empleado.status_imss, tb_empleado.nombre + ' '+ tb_empleado.ap_pate
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="6"/>
+			<band height="14">
+				<line>
+					<reportElement uuid="505c9b3f-35af-4ce3-90da-a488a3575797" x="0" y="0" width="555" height="1"/>
+				</line>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="e9797758-6ae9-4681-9590-3058dacedb1c" mode="Transparent" x="281" y="1" width="59" height="12" forecolor="#000000" backcolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_Prestamo}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="f9813636-2371-48b6-b9e5-f78653081ec1" mode="Transparent" x="350" y="1" width="60" height="12" forecolor="#000000" backcolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_Saldo}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="62590a30-27dd-4a03-beed-d5b92417ee5e" mode="Transparent" x="420" y="0" width="57" height="12" forecolor="#000000" backcolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_Descuento}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="e5d43a30-3739-444d-af23-8020d27a50e9" mode="Transparent" x="490" y="0" width="60" height="12" forecolor="#000000" backcolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_Saldo_Nuevo}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="9e4ed993-5945-4234-b765-1327db4ca417" x="0" y="13" width="555" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="8439ab68-d9a8-4678-8786-e06ed6726032" x="195" y="1" width="94" height="13"/>
+					<textElement/>
+					<text><![CDATA[Totales Por Status:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Group2" keepTogether="true">
+		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField>
+					<reportElement uuid="19c3b467-e9a6-42a1-9c4c-79774c504046" x="2" y="0" width="184" height="16"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="14">
+				<line>
+					<reportElement uuid="65bc79b0-0f7a-4d03-9140-554189329500" positionType="FixRelativeToBottom" x="-2" y="0" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="ca8d5106-cd84-4e3d-87bf-bb09c23e8850" x="280" y="0" width="60" height="14"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_Prestamo}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="8504160d-a0cb-4575-ac1a-35023e4c4fcf" x="350" y="0" width="60" height="14"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_Saldo}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="ce5ec710-3941-4978-9a45-3cb6174f5f86" x="420" y="0" width="57" height="14"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_Descuento}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="e55c19a9-5aa0-4dd6-9725-11d3d16926cf" x="490" y="0" width="60" height="14"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Sum_Saldo_Nuevo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="222e842e-38da-4600-a516-4a7ff2d58694" x="243" y="0" width="37" height="14"/>
+					<textElement/>
+					<text><![CDATA[Totales:]]></text>
+				</staticText>
+			</band>
 		</groupFooter>
 	</group>
 	<background>
-		<band height="30" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="321e2ca1-10cb-4415-95c8-9ab2f1cbebf6" x="0" y="0" width="50" height="30"/>
-				<textElement/>
-				<text><![CDATA[Saldo_Nuevo]]></text>
-			</staticText>
-		</band>
+		<band height="30" splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="57" splitType="Stretch">
@@ -171,64 +298,54 @@ Order By 	tb_empleado.status_imss, tb_empleado.nombre + ' '+ tb_empleado.ap_pate
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="18" splitType="Stretch">
+		<band height="14" splitType="Stretch">
 			<frame>
-				<reportElement uuid="677d8f5a-892c-41a4-a81d-5648e093edbe" style="Row" mode="Opaque" x="0" y="0" width="555" height="18"/>
+				<reportElement uuid="677d8f5a-892c-41a4-a81d-5648e093edbe" style="Row" mode="Opaque" x="0" y="0" width="555" height="14"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="376df1cf-51cd-43e5-93e5-17afe2ac8e23" style="Detail" positionType="Float" x="0" y="0" width="30" height="18"/>
+					<reportElement uuid="376df1cf-51cd-43e5-93e5-17afe2ac8e23" style="Detail" positionType="Float" x="2" y="0" width="30" height="12"/>
 					<textElement>
-						<font size="11"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Folio}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-					<reportElement uuid="02786b11-bc43-472e-82a4-2c20a7f9fd53" style="Detail" positionType="Float" x="40" y="0" width="230" height="18"/>
+					<reportElement uuid="02786b11-bc43-472e-82a4-2c20a7f9fd53" style="Detail" positionType="Float" x="40" y="0" width="230" height="12"/>
 					<textElement>
-						<font size="11"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{NombreCompleto}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-					<reportElement uuid="4d686371-99ec-4d30-91ef-e2c79ba21569" style="Detail" positionType="Float" x="280" y="0" width="60" height="18"/>
+					<reportElement uuid="4d686371-99ec-4d30-91ef-e2c79ba21569" style="Detail" positionType="Float" x="280" y="0" width="60" height="12"/>
 					<textElement textAlignment="Right">
-						<font size="11"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Prestamo}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-					<reportElement uuid="fb7226d5-a3fb-45ed-a21d-56b848da901b" style="Detail" positionType="Float" x="350" y="0" width="60" height="18"/>
+					<reportElement uuid="fb7226d5-a3fb-45ed-a21d-56b848da901b" style="Detail" positionType="Float" x="350" y="0" width="60" height="12"/>
 					<textElement textAlignment="Right">
-						<font size="12"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Saldo}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-					<reportElement uuid="15ab8529-4e96-46aa-8e35-41efed75dca0" style="Detail" positionType="Float" x="420" y="0" width="57" height="18"/>
+					<reportElement uuid="15ab8529-4e96-46aa-8e35-41efed75dca0" style="Detail" positionType="Float" x="420" y="0" width="57" height="12"/>
 					<textElement textAlignment="Right">
-						<font size="12"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Descuento_a_Aplicar}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-					<reportElement uuid="f58f18ec-d0a7-4b92-a9aa-c88c09fa1b67" style="Detail" positionType="Float" x="490" y="0" width="60" height="18"/>
+					<reportElement uuid="f58f18ec-d0a7-4b92-a9aa-c88c09fa1b67" style="Detail" positionType="Float" x="490" y="0" width="60" height="12"/>
 					<textElement textAlignment="Right">
-						<font size="12"/>
+						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{Saldo_Nuevo}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="21" splitType="Stretch">
-			<line>
-				<reportElement uuid="65bc79b0-0f7a-4d03-9140-554189329500" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
-	</columnFooter>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
@@ -258,6 +375,42 @@ Order By 	tb_empleado.status_imss, tb_empleado.nombre + ' '+ tb_empleado.ap_pate
 		</band>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="19">
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="fd9e0e41-0b07-4101-a579-0ce38487e880" x="350" y="6" width="60" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="9" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_Global_Saldo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2f832f49-6b47-4db3-bb4a-92e5aa314177" x="199" y="6" width="82" height="13"/>
+				<textElement>
+					<font isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Totales Globales:]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="5d707441-8d83-4689-9573-c9926ef01a8c" x="281" y="6" width="59" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="9" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_Global_Prestamo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="02dd490e-bb4c-4557-8c3e-5afa305e47bf" x="420" y="6" width="57" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="9" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_Global_Descuento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement uuid="be8d2fed-b147-4bcc-858c-2c45637188a8" x="490" y="6" width="58" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="9" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_Global_Saldo_Nuevo}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>

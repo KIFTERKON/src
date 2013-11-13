@@ -2,6 +2,7 @@ package catalogos;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractButton;
@@ -27,7 +28,7 @@ import objetos.Obj_Gafete;
 
 @SuppressWarnings("serial")
 public class Cat_Gafetes extends JFrame {
-		
+	
 		Container cont = getContentPane();
 		JLayeredPane campo = new JLayeredPane();
 		
@@ -228,12 +229,18 @@ public class Cat_Gafetes extends JFrame {
 						System.out.println(prueba[j]);
 					}
 				}
-				else{JOptionPane.showMessageDialog(null,"Solo Se Pueden Seleccionar Seis Empleados","Aviso",JOptionPane.NO_OPTION);
+				else{
+					Toolkit.getDefaultToolkit().beep();
+					
+					JOptionPane.showMessageDialog(null,"Solo Se Pueden Seleccionar Seis Empleados","Aviso",JOptionPane.NO_OPTION);
 					
 				}				
 			}
 			
 		};
+		
+		 
+		
 		
 	public int valida_cantidad_seleccion (){
 		int i=0;
