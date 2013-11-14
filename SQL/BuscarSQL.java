@@ -24,6 +24,7 @@ import ObjetoChecador.Obj_Permisos_Checador;
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Actividades_Por_Proyecto;
+import objetos.Obj_Actividades_Relacionadas;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Alimentacion_Por_Denominacion;
@@ -810,6 +811,27 @@ public class BuscarSQL {
 	public int Cuadrante_Nuevo() throws SQLException{
 		int folio = 0;
 		String query = "exec sp_nuevo_cuadrante";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				folio =  rs.getInt("Maximo");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return folio;
+	}
+	
+	public int Relacion_Actividad_Nueva() throws SQLException{
+		int folio = 0;
+		String query = "exec sp_nueva_relacion_actividad";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2674,6 +2696,50 @@ public class BuscarSQL {
 		return actividad;
 	}
 	
+	public boolean existeActividadRelacionada(int relacion) throws SQLException{
+		boolean resultado = false;
+		String query = "exec sp_existe_relacion_actividad "+relacion+";";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				resultado = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return false;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return resultado;
+	}
+	
+	public boolean existeActividadRelacionada(String relacion) throws SQLException{
+		boolean resultado = false;
+		String query = "exec sp_existe_relacion_actividad_nombre '"+relacion+"';";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				resultado = rs.getBoolean(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return false;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return resultado;
+	}
+	
 	public boolean existeProyecto(int proyecto) throws SQLException{
 		boolean resultado = false;
 		String query = "exec sp_existe_proyecto "+proyecto+";";
@@ -2762,6 +2828,32 @@ public class BuscarSQL {
 		return resultado;
 	}
 	
+	public Obj_Actividades_Relacionadas Actividades_Relacionadas(int folio) throws SQLException{
+		Obj_Actividades_Relacionadas relacion = new Obj_Actividades_Relacionadas();
+		String query = "exec sp_select_relacion_actividad_folio "+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				relacion.setProyecto(rs.getString(1));
+				relacion.setDescripcion(rs.getString(2));
+				relacion.setNivel_critico(rs.getString(3));
+				relacion.setStatus(rs.getInt(4));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error");
+			return null;
+		}
+		finally{
+			 if (stmt != null) { stmt.close(); }
+		}
+		return relacion;
+	}
+
 	public Obj_Actividades_Por_Proyecto ProyectoCuadrante(int folio) throws SQLException{
 		Obj_Actividades_Por_Proyecto proyect = new Obj_Actividades_Por_Proyecto();
 		String query = "exec sp_select_proyecto_cuadrante_folio "+ folio;
@@ -2786,6 +2878,34 @@ public class BuscarSQL {
 			 if (stmt != null) { stmt.close(); }
 		}
 		return proyect;
+	}
+	
+	public String[][] getTablaActividadesRelacionadas(int folio_proyecto){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_select_tabla_relacion_actividad " + folio_proyecto;
+		
+		Matriz = new String[getFilas(datosif)][5];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				Matriz[i][3] = rs.getString(4);
+				Matriz[i][4] = rs.getString(5);
+				
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return Matriz;
 	}
 	
 	public String[][] getTabla(int folio_proyecto){

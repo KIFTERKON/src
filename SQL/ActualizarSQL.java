@@ -16,6 +16,7 @@ import ObjetoChecador.Obj_Permisos_Checador;
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Actividades_Por_Proyecto;
+import objetos.Obj_Actividades_Relacionadas;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -1410,6 +1411,72 @@ public class ActualizarSQL {
 		return true;
 	}
 		
+	public boolean Relacion_Actividad(Obj_Actividades_Relacionadas relacion, String[][] tabla){
+		String queryDelete ="delete tb_tabla_relacion_actividad where folio_proyecto = ?";
+		String query = "exec sp_update_relacion_actividad ?,?,?,?,?";
+		String querytabla = "exec sp_insert_tabla_relacion_actividad ?,?,?,?,?";
+		
+		Connection con = new Connexion().conexion();
+		
+		PreparedStatement pstmtDelete = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmtTabla = null;
+		
+		try {
+			con.setAutoCommit(false);
+			
+			// Elimina primero la lista de cuadrante
+			pstmtDelete = con.prepareStatement(queryDelete);
+			
+			pstmtDelete.setInt(1, relacion.getFolio());
+			pstmtDelete.execute();
+			
+			// Actualiza el Cuadrante
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, relacion.getFolio());
+			pstmt.setString(2, relacion.getProyecto().toUpperCase().trim());
+			pstmt.setString(3, relacion.getDescripcion().toUpperCase().trim());
+			pstmt.setString(4, relacion.getNivel_critico().trim());
+			pstmt.setInt(5, relacion.getStatus());
+			
+			pstmt.execute();
+			
+			// Inserta valores a la tabla
+			pstmtTabla = con.prepareStatement(querytabla);
+			
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, relacion.getFolio());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][3].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][4].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][2]) ? 1 : 0);
+				
+				pstmtTabla.executeUpdate();
+			}
+
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Actualizar - Actividad relacionada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
 	
 	public boolean Proyecto(Obj_Actividades_Por_Proyecto proyect, String[][] tabla){
 		String queryDelete ="delete tb_tabla_proyecto_cuadrante where folio_proyecto = ?";

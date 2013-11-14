@@ -178,7 +178,8 @@ public class Cat_Horario extends Cat_Horario_base
 		
 		horario1.add(btnAceptar).setBounds(20,340,80,20);
 		horario1.add(btnDeshacer).setBounds(110,340,80,20);
-		horario1.add(btnCancelar).setBounds(200,340,80,20);
+		horario1.add(btnEditar).setBounds(200,340,80,20);
+		horario1.add(btnCancelar).setBounds(290,340,80,20);
 		horario1.add(lblNoDobla).setBounds(580,340,70,20);
 		
 		panel.add(paneles).setBounds(10,20,825,400);
@@ -243,6 +244,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnAceptar.addActionListener(Guardar);
 		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
+		
+		btnEditar.addActionListener(editar);
 		
 		chbHorarioDeposito.addActionListener(pintarchbHorarioDep);
 		chbRecesoExtraDiario.addActionListener(pintarchbRecesoEx);
@@ -323,6 +326,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	public Cat_Horario(int folio)//String nom
 	{
 		getContenedor();
+		btnAceptar.setEnabled(false);
+		btnEditar.setEnabled(true);
 		ObjHorario buscar_horario = new ObjHorario().buscar(folio);
 		
 		
@@ -519,6 +524,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		pintarChb();
 		getContenedor();
 		
+		btnAceptar.setEnabled(false);
+		btnEditar.setEnabled(false);
 	}
 	
 	ActionListener pintarchbRecesoEx = new ActionListener() {
@@ -833,6 +840,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		JuevesVisible();
 		ViernesVisible();
 		SabadoVisible();
+		
+		txtFolio.setText("");
 		txtNombre.setText("");
 		
 		rbNoDobla.setSelected(true);
@@ -841,7 +850,11 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		
 		chbRecesoExtraDiario.setSelected(false);
 		chbHorarioDeposito.setSelected(false);
+		
+		btnAceptar.setEnabled(false);
+		btnEditar.setEnabled(false);
 	}
+	
 	ActionListener Guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -1030,7 +1043,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 										return;
 									}else{
 											if(horario_emp.Actualizar(Integer.parseInt(txtFolio.getText()))){
-												
+												btnEditar.setEnabled(true);
+												btnAceptar.setEnabled(false);
 												JOptionPane.showMessageDialog(null, "El registro se Actualizo exitosamente!" , "Exito al Actualizar!", JOptionPane.INFORMATION_MESSAGE);
 												return;
 											}else{
@@ -1223,6 +1237,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 								}else{
 								
 									if(horario.Guardar()){
+										btnEditar.setEnabled(true);
+										btnAceptar.setEnabled(false);
 										JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
 										return;
 									}else{
@@ -1250,6 +1266,12 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 						rbNoDobla.setSelected(true);
 						rbNoDobla2.setSelected(true);
 						rbNoDobla3.setSelected(true);
+						
+						chbHorarioDeposito.setSelected(false);
+						chbRecesoExtraDiario.setSelected(false);
+						
+						btnAceptar.setEnabled(true);
+						btnEditar.setEnabled(false);
 					}
 				}catch (SQLException e1) {
 					e1.printStackTrace();
@@ -1372,6 +1394,14 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			}else{
 				SabadoVisible();
 				}
+		}
+	};
+	
+	ActionListener editar = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			btnAceptar.setEnabled(true);
+			btnEditar.setEnabled(false);
 		}
 	};
 	
