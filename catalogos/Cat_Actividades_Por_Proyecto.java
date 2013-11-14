@@ -340,8 +340,7 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 						}
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, "Ingrese Un Folio", "Aviso", JOptionPane.WARNING_MESSAGE);
-					return;
+					new Cat_Filtro_Proyecto().setVisible(true);
 				}
 			}
 		};
@@ -1335,5 +1334,171 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     				}
     			}
     		};
+    	}
+    	
+//    	filtro de proyectos
+    	public class Cat_Filtro_Proyecto extends JDialog {
+    		Container cont = getContentPane();
+    		JLayeredPane campo = new JLayeredPane();
+    		
+    		DefaultTableModel model = new DefaultTableModel(0,5){
+    			public boolean isCellEditable(int fila, int columna){
+    				if(columna < 0)
+    					return true;
+    				return false;
+    			}
+    		};
+    		
+    		JTable tabla = new JTable(model);
+    		
+    		@SuppressWarnings("rawtypes")
+    		private TableRowSorter trsfiltro;
+    		
+    		JTextField txtFolio = new JTextField();
+    		JTextField txtNombre_Cuadrante = new JTextField();
+    		
+    	    @SuppressWarnings({ "unchecked", "rawtypes" })
+    		public Cat_Filtro_Proyecto(){
+    	    	this.setModal(true);
+    	    	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
+    	    	this.setTitle("Filtro De Proyectos");
+    			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Proyectos"));
+    			trsfiltro = new TableRowSorter(model); 
+    			tabla.setRowSorter(trsfiltro);  
+    			
+    			campo.add(getPanelTabla()).setBounds(15,42,960,550);
+    			
+    			campo.add(txtFolio).setBounds(15,20,48,20);
+    			campo.add(txtNombre_Cuadrante).setBounds(64,20,229,20);
+    			
+    			agregar(tabla);
+    			
+    			cont.add(campo);
+    			
+    			txtFolio.addKeyListener(opFiltroFolio);
+    			txtNombre_Cuadrante.addKeyListener(opFiltroNombre);
+    			
+    			this.setSize(1000,650);
+    			this.setResizable(false);
+    			this.setLocationRelativeTo(null);
+    			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    	    }
+    	    
+    	    private void agregar(final JTable tbl) {
+    	        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+    		        public void mouseClicked(MouseEvent e) {
+    		        	if(e.getClickCount() == 2){
+    		    			int fila = tabla.getSelectedRow();
+    		    			int folio =  Integer.parseInt(tabla.getValueAt(fila, 0).toString().trim());
+    		    			dispose();
+    		    			
+    		    			txtFolioProyecto.setText(folio+"");
+    		    			btnBuscar.doClick();
+    		        	}
+    		        }
+    	        });
+    	    }
+    	    
+    	   	private JScrollPane getPanelTabla()	{		
+    	   		
+    	   		this.tabla.getTableHeader().setReorderingAllowed(false) ;
+    			this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+    	   		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+    			tabla.getColumnModel().getColumn(0).setMaxWidth(50);
+    			tabla.getColumnModel().getColumn(0).setMinWidth(50);
+    			tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre del Proyecto");
+    			tabla.getColumnModel().getColumn(1).setMaxWidth(400);
+    			tabla.getColumnModel().getColumn(1).setMinWidth(310);
+    			tabla.getColumnModel().getColumn(2).setHeaderValue("Descripcion");
+    			tabla.getColumnModel().getColumn(2).setMaxWidth(600);
+    			tabla.getColumnModel().getColumn(2).setMinWidth(300);
+    			tabla.getColumnModel().getColumn(3).setHeaderValue("Nivel Jerarquico");
+    			tabla.getColumnModel().getColumn(3).setMaxWidth(140);
+    			tabla.getColumnModel().getColumn(3).setMinWidth(140);
+    			tabla.getColumnModel().getColumn(4).setHeaderValue("Fecha de Actualizacion");
+    			tabla.getColumnModel().getColumn(4).setMaxWidth(150);
+    			tabla.getColumnModel().getColumn(4).setMinWidth(150);
+
+
+    			TableCellRenderer render = new TableCellRenderer() { 
+    				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+    				boolean hasFocus, int row, int column) { 
+    					JLabel lbl = new JLabel(value == null? "": value.toString());
+    					if(row%2==0){
+    							lbl.setOpaque(true); 
+    							lbl.setBackground(new java.awt.Color(177,177,177));
+    					} 
+    					
+    					if(table.getSelectedRow() == row){
+    						lbl.setOpaque(true); 
+    						lbl.setBackground(new java.awt.Color(186,143,73));
+    					}
+    					
+    					switch(column){
+    						case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
+    						case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+    						case 2 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+    						case 3 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+    						case 4 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
+    					}
+    				return lbl; 
+    				} 
+    			}; 
+    			
+    			for(int i= 0; i<tabla.getColumnCount(); i++){
+    				tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
+    			}
+    			
+    			Statement s;
+    			ResultSet rs;
+    			try {
+    				s = new Connexion().conexion().createStatement();
+    				rs = s.executeQuery("exec sp_select_filtro_proyecto_cuadrante");
+    				
+    				while (rs.next()) { 
+    				   String [] fila = new String[6];
+    				   fila[0] = rs.getString(1)+"  ";
+    				   fila[1] = "   "+rs.getString(2);
+    				   fila[2] = "   "+rs.getString(3);
+    				   fila[3] = "   "+rs.getString(4);
+    				   fila[4] = "   "+rs.getString(5);
+
+    				   model.addRow(fila); 
+    				}	
+    				
+    			} catch (SQLException e1) {
+    				e1.printStackTrace();
+    			}
+    			JScrollPane scrol = new JScrollPane(tabla);
+    			   
+    		    return scrol; 
+    		}
+    	   	
+    	   	KeyListener opFiltroFolio = new KeyListener(){
+    			@SuppressWarnings("unchecked")
+    			public void keyReleased(KeyEvent arg0) {
+    				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+    			}
+    			public void keyTyped(KeyEvent arg0) {
+    				char caracter = arg0.getKeyChar();
+    				if(((caracter < '0') ||
+    					(caracter > '9')) &&
+    				    (caracter != KeyEvent.VK_BACK_SPACE)){
+    					arg0.consume(); 
+    				}	
+    			}
+    			public void keyPressed(KeyEvent arg0) {}		
+    		};
+    		
+    		KeyListener opFiltroNombre = new KeyListener(){
+    			@SuppressWarnings("unchecked")
+    			public void keyReleased(KeyEvent arg0) {
+    				trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Cuadrante.getText().toUpperCase().trim(), 1));
+    			}
+    			public void keyTyped(KeyEvent arg0) {}
+    			public void keyPressed(KeyEvent arg0) {}		
+    		};
+    		
     	}
 }
