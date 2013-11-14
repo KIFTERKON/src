@@ -707,7 +707,7 @@ public class Cat_Checador extends JFrame {
                        }else{
                                        if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
                                                
-                                               JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                               JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
                                                 
                                                        txtFolio.setEditable(true);
                                                        txtFolio.setText("");
@@ -771,6 +771,7 @@ public class Cat_Checador extends JFrame {
                                                                            txtFolio.requestFocus();
                                                                            return;
                                                                }
+
                                            }
                                    }
                            }
@@ -1028,8 +1029,8 @@ public class Cat_Checador extends JFrame {
 
         
         public static void refresh(int folio_empleado,String tipo_entrada,int tipo_salida_comer) {
-                Object[] registro = fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
-                tabla_model.addRow(registro);
+            fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
+//                tabla_model.addRow(registro);
         }
         @SuppressWarnings("rawtypes")
         public static Object[] fila2(int folio_empleado,String tipo_entrada,int tipo_salida_comer){
