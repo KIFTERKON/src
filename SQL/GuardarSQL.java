@@ -1647,8 +1647,8 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad){
-		String query = "exec sp_insert_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?";
+	public boolean Guardar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad, String nombre){
+		String query = "exec sp_insert_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1663,6 +1663,7 @@ public class GuardarSQL {
 			pstmt.setString(6, actividad.getTemporada());
 			pstmt.setInt(7, actividad.isCarga() ? 1 : 0);
 			pstmt.setInt(8, actividad.getRepetir());
+			pstmt.setString(9, nombre);
 			
 			
 			pstmt.executeUpdate();

@@ -136,8 +136,6 @@ public class Cat_Filtro_Empleado extends JFrame {
 	};
 	
    	private JScrollPane getPanelTabla()	{		
-		new Connexion();
-		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
 		tcr.setHorizontalAlignment(SwingConstants.CENTER);
 		
