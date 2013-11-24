@@ -25,10 +25,10 @@ import ObjetoChecador.ObjHorario;
 @SuppressWarnings("serial")
 public class Cat_Horario extends Cat_Horario_base
 {
-//	Cat_Horario2 hora = new Cat_Horario2();                                            
 	public void getContenedor(){
+		
 			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/reloj.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Horario"));	
+		panel.setBorder(BorderFactory.createTitledBorder("Horario"));
 		this.setTitle("Horario");
 		
 		lblInicio.setFont(new Font("arial", Font.BOLD, 10));
@@ -52,6 +52,9 @@ public class Cat_Horario extends Cat_Horario_base
 		lblSintaxis3.setFont(new Font("Arial ",Font.BOLD,10));
 		
 		lblSintaxis2.setForeground(Color.red);
+		
+		chbHorarioDeposito.setFont(new Font("Arial",Font.BOLD,10));
+		chbRecesoExtraDiario.setFont(new Font("Arial",Font.BOLD,10));
 		
 		int x=40;
 		
@@ -165,6 +168,9 @@ public class Cat_Horario extends Cat_Horario_base
 		
 		horario1.add(new JLabel("Nombre:")).setBounds(20,35,50,20);
 		horario1.add(txtNombre).setBounds(70,35,580,20);
+		
+		horario1.add(chbHorarioDeposito).setBounds(655,35,165,20);
+		horario1.add(chbRecesoExtraDiario).setBounds(655,60,165,20);
 
 		horario1.add(lblSintaxis).setBounds(70,50,140,20);
 		horario1.add(lblSintaxis2).setBounds(205,50,60,20);
@@ -172,14 +178,14 @@ public class Cat_Horario extends Cat_Horario_base
 		
 		horario1.add(btnAceptar).setBounds(20,340,80,20);
 		horario1.add(btnDeshacer).setBounds(110,340,80,20);
-		horario1.add(btnCancelar).setBounds(200,340,80,20);
+		horario1.add(btnEditar).setBounds(200,340,80,20);
+		horario1.add(btnCancelar).setBounds(290,340,80,20);
 		horario1.add(lblNoDobla).setBounds(580,340,70,20);
 		
 		panel.add(paneles).setBounds(10,20,825,400);
 		paneles.addTab("Horario 1", horario1);
 		
-		ButtonGroup botonesAgrupados = new ButtonGroup();
-		
+ButtonGroup botonesAgrupados = new ButtonGroup();
 		botonesAgrupados.add(btnDomingo);
 		botonesAgrupados.add(btnLunes);
 		botonesAgrupados.add(btnMartes);
@@ -238,6 +244,11 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnAceptar.addActionListener(Guardar);
 		btnDeshacer.addActionListener(deshacer);
 		btnFiltro.addActionListener(filtro);
+		
+		btnEditar.addActionListener(editar);
+		
+		chbHorarioDeposito.addActionListener(pintarchbHorarioDep);
+		chbRecesoExtraDiario.addActionListener(pintarchbRecesoEx);
 		
 		btnNuevo.addActionListener(nuevo);
 		txtNombre.addKeyListener(valida);
@@ -315,6 +326,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	public Cat_Horario(int folio)//String nom
 	{
 		getContenedor();
+		btnAceptar.setEnabled(false);
+		btnEditar.setEnabled(true);
 		ObjHorario buscar_horario = new ObjHorario().buscar(folio);
 		
 		
@@ -369,6 +382,27 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 				}	
 				
 			}
+			
+			if(buscar_horario.getRecesoDiarioExtra()==1){
+				chbRecesoExtraDiario.setSelected(true);
+				chbRecesoExtraDiario.setBackground(Color.ORANGE);
+				chbRecesoExtraDiario.setForeground(Color.BLUE);
+			
+				}else{
+					chbRecesoExtraDiario.setSelected(false);
+					chbRecesoExtraDiario.setBackground(Color.GREEN);
+					chbRecesoExtraDiario.setForeground(Color.BLACK);
+					}
+			
+			if(buscar_horario.getHorarioDeposito()==1){
+				chbHorarioDeposito.setSelected(true);
+				chbHorarioDeposito.setBackground(Color.ORANGE);
+				chbHorarioDeposito.setForeground(Color.BLUE);
+				}else{
+					chbHorarioDeposito.setSelected(false);
+					chbHorarioDeposito.setBackground(Color.GREEN);
+					chbHorarioDeposito.setForeground(Color.BLACK);
+					}
 			
 //			DOMINGO
 			String[] domingoIn = buscar_horario.getDomingo1().split(":");
@@ -487,8 +521,43 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	
 	public Cat_Horario()
 	{
+		pintarChb();
 		getContenedor();
 		
+		btnAceptar.setEnabled(false);
+		btnEditar.setEnabled(false);
+	}
+	
+	ActionListener pintarchbRecesoEx = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			pintarChb();
+		}
+	};
+	
+	ActionListener pintarchbHorarioDep = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			pintarChb();
+		}
+	};
+	
+	public void pintarChb(){
+		if(chbRecesoExtraDiario.isSelected()){
+			chbRecesoExtraDiario.setBackground(Color.ORANGE);
+			chbRecesoExtraDiario.setForeground(Color.BLUE);
+		}else{
+			chbRecesoExtraDiario.setBackground(Color.GREEN);
+			chbRecesoExtraDiario.setForeground(Color.BLACK);
+		}
+		
+		if(chbHorarioDeposito.isSelected()){
+			chbHorarioDeposito.setBackground(Color.ORANGE);
+			chbHorarioDeposito.setForeground(Color.BLUE);
+		}else{
+			chbHorarioDeposito.setBackground(Color.GREEN);
+			chbHorarioDeposito.setForeground(Color.BLACK);
+		}
 	}
 	
 	ActionListener filtro = new ActionListener() {
@@ -498,6 +567,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			new Filtro_Horario().setVisible(true);
 		}
 	};
+	
 	public void DomingoOculto()
 	{
 		spDomingo1.setVisible(false);
@@ -770,14 +840,21 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		JuevesVisible();
 		ViernesVisible();
 		SabadoVisible();
+		
+		txtFolio.setText("");
 		txtNombre.setText("");
 		
 		rbNoDobla.setSelected(true);
 		rbNoDobla2.setSelected(true);
 		rbNoDobla3.setSelected(true);
 		
-
+		chbRecesoExtraDiario.setSelected(false);
+		chbHorarioDeposito.setSelected(false);
+		
+		btnAceptar.setEnabled(false);
+		btnEditar.setEnabled(false);
 	}
+	
 	ActionListener Guardar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -926,6 +1003,10 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 									if(rbSabado3.isSelected()==true){	horario_emp.setDiaDobla3(6);		}
 									if(rbDomingo3.isSelected()==true){	horario_emp.setDiaDobla3(7);		}
 									
+//								status extras
+									if(chbHorarioDeposito.isSelected()==true){ horario_emp.setHorarioDeposito(1);}else{horario_emp.setHorarioDeposito(0);}
+									if(chbRecesoExtraDiario.isSelected()==true){ horario_emp.setRecesoDiarioExtra(1);}else{horario_emp.setRecesoDiarioExtra(0);}
+									
 									if(rbDomingo.isSelected() && rbDomingo2.isSelected() || rbDomingo2.isSelected() && rbDomingo3.isSelected() || rbDomingo.isSelected() && rbDomingo3.isSelected()){
 										JOptionPane.showMessageDialog(null, "El dia Domingo Tiene mas de un Dia Dobla seleccionado\n                        (selecciones solo uno)" ,
 												                "Aviso!", JOptionPane.INFORMATION_MESSAGE);
@@ -962,7 +1043,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 										return;
 									}else{
 											if(horario_emp.Actualizar(Integer.parseInt(txtFolio.getText()))){
-												
+												btnEditar.setEnabled(true);
+												btnAceptar.setEnabled(false);
 												JOptionPane.showMessageDialog(null, "El registro se Actualizo exitosamente!" , "Exito al Actualizar!", JOptionPane.INFORMATION_MESSAGE);
 												return;
 											}else{
@@ -1113,6 +1195,10 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 								if(rbViernes3.isSelected()==true){	horario.setDiaDobla3(5);		}
 								if(rbSabado3.isSelected()==true){	horario.setDiaDobla3(6);		}
 								if(rbDomingo3.isSelected()==true){	horario.setDiaDobla3(7);		}
+							
+//							status extras
+								if(chbHorarioDeposito.isSelected()==true){ horario.setHorarioDeposito(1);}else{horario.setHorarioDeposito(0);}
+								if(chbRecesoExtraDiario.isSelected()==true){ horario.setRecesoDiarioExtra(1);}else{horario.setRecesoDiarioExtra(0);}
 								
 								if(rbDomingo.isSelected() && rbDomingo2.isSelected() || rbDomingo2.isSelected() && rbDomingo3.isSelected() || rbDomingo.isSelected() && rbDomingo3.isSelected()){
 									JOptionPane.showMessageDialog(null, "El dia Domingo Tiene mas de un Dia Dobla seleccionado\n                        (selecciones solo uno)" ,
@@ -1151,6 +1237,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 								}else{
 								
 									if(horario.Guardar()){
+										btnEditar.setEnabled(true);
+										btnAceptar.setEnabled(false);
 										JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
 										return;
 									}else{
@@ -1178,6 +1266,12 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 						rbNoDobla.setSelected(true);
 						rbNoDobla2.setSelected(true);
 						rbNoDobla3.setSelected(true);
+						
+						chbHorarioDeposito.setSelected(false);
+						chbRecesoExtraDiario.setSelected(false);
+						
+						btnAceptar.setEnabled(true);
+						btnEditar.setEnabled(false);
 					}
 				}catch (SQLException e1) {
 					e1.printStackTrace();
@@ -1300,6 +1394,14 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			}else{
 				SabadoVisible();
 				}
+		}
+	};
+	
+	ActionListener editar = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			btnAceptar.setEnabled(true);
+			btnEditar.setEnabled(false);
 		}
 	};
 	

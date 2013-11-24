@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.FileDialog;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +23,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,16 +49,19 @@ import javax.media.format.VideoFormat;
 import javax.media.format.YUVFormat;
 import javax.media.util.BufferToImage;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -60,25 +69,36 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableRowSorter;
+
+import SQL.Connexion;
 
 import com.toedter.calendar.JDateChooser;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Bono_Complemento_Sueldo;
+import objetos.Obj_Departamento;
 import objetos.Obj_Empleado;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Horario_Empleado;
+import objetos.Obj_Horario_Empleado2;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
-import objetos.Obj_Turno;
-import objetos.Obj_Turno2;
 import reporte.Reporte_de_Empleados_No_Contratables;
 
 @SuppressWarnings({ "serial", "unchecked" })
@@ -87,20 +107,45 @@ public class Cat_Empleado extends JFrame{
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	JTextField txtFolio = new JTextField();
+	JLabel lblDatosPersonales = new JLabel();
+	JLabel lblSexo = new JLabel();
+	JLabel lblLaboral = new JLabel();
+	JLabel lblPercepciones = new JLabel();
+	
 	JPasswordField txtChecador = new JPasswordField();
+	
+	JTextField txtFolioEmpleado = new JTextField();
 	JTextField txtNombre = new JTextField();
 	JTextField txtApPaterno = new JTextField();
 	JTextField txtApMaterno = new JTextField();
-	JTextField txtFecha = new JTextField(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+	JTextField txtFechaActualizacion = new JTextField(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 	JTextField txtPensionAli = new JTextField();
+	
 	JTextField txtHorario = new JTextField();
+	JTextField txtHorario2 = new JTextField();
+	
 	JTextField txtImss = new JTextField();
 	JTextField txtTelefono_Familiar = new JTextField();
-	JTextField txtTelefono_Propio = new JTextField();  
+	JTextField txtTelefono_Propio = new JTextField(); 
+	JTextField txtTelefono_Cuadrante = new JTextField();  
+	JTextField txtPoblacion = new JTextField();
+	JTextField txtRFC = new JTextField();
+	JTextField txtCurp = new JTextField();  
+	JTextField txtBaja = new JTextField();
+	JTextField txtColonia = new JTextField();  
+	JTextField txtCalle = new JTextField();
+	JTextField txtDescanso = new JTextField();
+	JTextField txtDobla = new JTextField();
 	
-	 private JRadioButton rbHorario2 = new JRadioButton("",false);
-//	 private ButtonGroup agruparRB = new ButtonGroup();
+	String Departamentos[] = new Obj_Departamento().Combo_Departamento();
+	@SuppressWarnings("rawtypes")
+	JComboBox cmbDepartamento = new JComboBox(Departamentos);  
+	
+	JTextField txtNumeroInfonavit = new JTextField();
+	
+	JTextField txtSalarioDiario = new JTextField();
+	JTextField txtSalarioDiarioIntegrado = new JTextField();  
+	JTextField txtFormaDePago = new JTextField();
 	
 	JToggleButton btnTrueFoto = new JToggleButton("Para actualizar la foto Presiona aquí !!!");
 	
@@ -113,22 +158,16 @@ public class Cat_Empleado extends JFrame{
 	JComboBox cmbPuesto = new JComboBox(puesto);
 	
 //	 String[] tooltips = { "Javanese ", "Japanese ", "Latin " };
-	 String[] tooltips = new Obj_Turno().Combo_Turno();
-	String turno[] = new Obj_Turno().Combo_Turno();
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbTurno = new JComboBox(turno);
+//	 String[] tooltips = new Obj_Turno().Combo_Turno();
+//	String turno[] = new Obj_Turno().Combo_Turno();
+//	@SuppressWarnings("rawtypes")
+//	JComboBox cmbTurno = new JComboBox(turno);
 	
-	String turno2[] = new Obj_Turno2().Combo_Turno2();
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbTurno2 = new JComboBox(turno2);
+//	JTextField txtHorario = new JTextField();
 	
-	String dias1[] = {"Selecciona un Día","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbDescanso = new JComboBox(dias1);
-	
-	String dias[] = {"Selecciona un Día","Ninguno","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado","Domingo"};
-	@SuppressWarnings("rawtypes")
-	JComboBox cmbDobla = new JComboBox(dias);
+//	String turno2[] = new Obj_Turno2().Combo_Turno2();
+//	@SuppressWarnings("rawtypes")
+//	JComboBox cmbTurno2 = new JComboBox(turno2);
 	
 	String sueldo[] = new Obj_Sueldo().Combo_Sueldo();
 	@SuppressWarnings("rawtypes")
@@ -156,7 +195,7 @@ public class Cat_Empleado extends JFrame{
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
-	String activo_inactivo[] = {"Activo","Inactivo"};
+	String activo_inactivo[] = {"Activo (IMSS)","Inactivo (IMSS)"};
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbActivo_Inactivo = new JComboBox(activo_inactivo);
 	
@@ -170,6 +209,8 @@ public class Cat_Empleado extends JFrame{
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnDeshacer = new JButton("Deshacer");
 	JButton btnVerificar = new JButton("Verificar Nombre");
+	JButton btnHorario = new JButton(".");
+	JButton btnHorario2 = new JButton(".");
 		
 	JButton btnFoto = new JButton();
 	JButton btnStatus = new JButton();
@@ -184,23 +225,74 @@ public class Cat_Empleado extends JFrame{
 	JDateChooser txtCalendario = new JDateChooser();
 	JDateChooser txtIngreso = new JDateChooser();
 	
+	 private ButtonGroup bgSexo = new ButtonGroup();
+	 private JRadioButton rbMasculino = new JRadioButton("Masculino",true);
+	 private JRadioButton rbFemenino = new JRadioButton("Femenino",false);
+	
+	 private ButtonGroup bgHorarios = new ButtonGroup();
+	 private JRadioButton rbHorario = new JRadioButton("",true);
+	 private JRadioButton rbHorario2 = new JRadioButton("",false);
+	 
+	 private JCheckBox chbHorarioRotativo = new JCheckBox("Asignar Horario Rotativo");
+	
+	//declaracion de Bordes
+	Border blackline, etched, raisedbevel, loweredbevel, empty;
+	TitledBorder title4;
+	
+	int seleccion_de_asignacion_de_Horario1Horario2;
+	
 	public Cat_Empleado() {
 		getContenedor();
 	}
 	
 	public void getContenedor(){
+		
+//		efectos de bordes
+		blackline = BorderFactory.createLineBorder(new java.awt.Color(105,105,105));
+//		etched = BorderFactory.createEtchedBorder();
+//		raisedbevel = BorderFactory.createRaisedBevelBorder();
+//		loweredbevel = BorderFactory.createLoweredBevelBorder();
+//		empty = BorderFactory.createEmptyBorder();
+		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/user_icon&16.png"));
 		this.setTitle("Alta de Empleados");
 		
-		int x = 40, y=30, ancho=140;
+		this.btnVerificar.setToolTipText("Verificar Nombre");
+		
+		this.panel.setBorder(BorderFactory.createTitledBorder(blackline, "Alta de Empleados"));
+		
+//		asignacion de bordes
+		this.lblDatosPersonales.setBorder(BorderFactory.createTitledBorder(blackline,"Datos Personales"));
+		this.btnFoto.setBorder(blackline);
+		this.lblSexo.setBorder(BorderFactory.createTitledBorder(blackline, "Sexo"));
+		this.lblLaboral.setBorder(BorderFactory.createTitledBorder(blackline, "Laboral"));
+		this.lblPercepciones.setBorder(BorderFactory.createTitledBorder(blackline,"Percepciones y Deducciones"));
+		
+		this.btnHorario.setToolTipText("Asignar Horario");
+		this.btnHorario2.setToolTipText("Asignar Segundo Horario");
+		this.txtHorario.setToolTipText("Horario");
+		this.txtHorario2.setToolTipText("Segundo Horario");
+		this.txaObservaciones.setBorder(BorderFactory.createTitledBorder(blackline));
+		
+//		agregando radio_button a grupo
+		this.bgSexo.add(rbMasculino);
+		this.bgSexo.add(rbFemenino);
+		
+		this.bgHorarios.add(rbHorario);
+		this.bgHorarios.add(rbHorario2);
+
+		int x = 20, y=35, ancho=140;
 		
 		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		this.txtIngreso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
-		panel.setBorder(BorderFactory.createTitledBorder("Alta de Empleados"));
-		
+		txtHorario.setFont(new Font("ARIAL", Font.ITALIC, 9));
+		txtHorario2.setFont(new Font("ARIAL", Font.ITALIC, 9));
+
+//Datos personales ----------------------------------------------------------------------------------------------------------------------------		
+		panel.add(lblDatosPersonales).setBounds(10,y-15,ancho*7-30,230);
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
-		panel.add(txtFolio).setBounds(x+ancho,y,ancho-15,20);
+		panel.add(txtFolioEmpleado).setBounds(x+ancho-40,y,ancho-15,20);
 		
 		panel.add(btnBuscar).setBounds(x+ancho+ancho-12,y,32,20);
 		panel.add(btnFiltro).setBounds(x+ancho+ancho+20,y,32,20);
@@ -210,115 +302,158 @@ public class Cat_Empleado extends JFrame{
 		
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
-		panel.add(btnFoto).setBounds(x*2+ancho*3-20,y,ancho+95,200);
-		panel.add(Observasiones).setBounds(x*2+ancho*3-20+ancho+110,y,ancho+90+120,445);
+		panel.add(btnFoto).setBounds(x*2+ancho*5,y,ancho+55,160);
 		
-		panel.add(btnCumpleaños_del_Mes).setBounds(x*2+ancho*3-20+ancho+110,y+450,130,20);
-		panel.add(btnIncontratables).setBounds(x*2+ancho*3-20+ancho+330,y+450,130,20);
+		panel.add(btnCumpleaños_del_Mes).setBounds(x+ancho*4+120,8,130,18);
+		panel.add(btnIncontratables).setBounds(x*2+ancho*3+ancho+230,8,130,18);
 		
-		panel.add(btnTrueFoto).setBounds(x*2+ancho*3-20, y+205,235,25);
+		panel.add(btnTrueFoto).setBounds(x*2+ancho*5-10, y+165,220,20);
 		
-		panel.add(btnExaminar).setBounds(x*2+ancho*3-20, y+235,80,25);		
-		panel.add(new JLabel("320 x 240")).setBounds(x*2+ancho*3+73, y+235,60,25);
-		panel.add(btnCamara).setBounds(x*2+ancho*3+135, y+235,80,25);
+		panel.add(btnExaminar).setBounds(x*2+ancho*5-10, y+185,80,20);		
+		panel.add(new JLabel("320 x 240")).setBounds(x*2+ancho*5+76, y+185,60,20);
+		panel.add(btnCamara).setBounds(x*2+ancho*5+130, y+185,80,20);
 		
-		panel.add(btnStatus).setBounds(x*2+ancho*3-20,y+265,ancho+95,205);
-	
 		panel.add(new JLabel("Clave Checador")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtChecador).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(txtChecador).setBounds(x+ancho-40,y,ancho-15,20);
 		
 		panel.add(new JLabel("Nombre:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtNombre).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(txtNombre).setBounds(x+ancho-40,y,ancho-15,20);
+			panel.add(new JLabel("Ap. Paterno:")).setBounds(x+240,y,ancho,20);
+			panel.add(txtApPaterno).setBounds(x+(ancho*2)+30,y,ancho-15,20);
+				panel.add(new JLabel("Ap. Materno:")).setBounds(x+450,y,ancho,20);
+				panel.add(txtApMaterno).setBounds(x+(ancho*3)+110,y,ancho-15,20);
 		
-		panel.add(new JLabel("Apellido Paterno:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtApPaterno).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(btnVerificar).setBounds(x+(ancho*4)+100, y,25,20);
 		
-		panel.add(new JLabel("Apellido Materno:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtApMaterno).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(btnVerificar).setBounds(x+ancho, y+=25,150,20);
-		
-		panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbEstablecimiento).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(new JLabel("Puesto:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbPuesto).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(new JLabel("Turno:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbTurno).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(new JLabel("Horario:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbTurno2).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(rbHorario2).setBounds(x+120,y,20,20);
-		
-		panel.add(new JLabel("Descanso:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbDescanso).setBounds(x+ancho,y,ancho*2,20);
-		
-		panel.add(new JLabel("Día Dobla:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbDobla).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(new JLabel("F. de Nacimiento:")).setBounds(x,y+=25, ancho, 20);
+		panel.add(txtCalendario).setBounds(x+ancho-40,y,125,20);
 
-		panel.add(new JLabel("Sueldo:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbSueldo).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(new JLabel("Calle y N°:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtCalle).setBounds(x+ancho-40,y,ancho-15,20);
 		
-		panel.add(new JLabel("Bono:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbBono).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(new JLabel("Colonia:")).setBounds(x+240,y,ancho,20);
+		panel.add(txtColonia).setBounds(x+(ancho*2)+30,y,ancho-15,20);
 		
-		panel.add(new JLabel("Prestamo:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbPrestamos).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(new JLabel("Poblacion:")).setBounds(x+450,y,ancho,20);
+		panel.add(txtPoblacion).setBounds(x+(ancho*3)+110,y,ancho-15,20);
+
+		panel.add(lblSexo).setBounds(330,y+45,125,55);
+			panel.add(rbMasculino).setBounds(355,y+55,85,20);
+			panel.add(rbFemenino).setBounds(355,y+75,85,20);
 		
-		panel.add(new JLabel("Pensión Alimenticia:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtPensionAli).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(new JLabel("Tel. Familiar:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtTelefono_Familiar).setBounds(x+ancho-40,y,ancho-15,20);
+			panel.add(new JLabel("Tel. Propio:")).setBounds(x+240,y,ancho,20);
+			panel.add(txtTelefono_Propio).setBounds(x+(ancho*2)+30,y,ancho-15,20);
+				panel.add(new JLabel("Tel. Cuadrante:")).setBounds(x+450,y,ancho,20);
+				panel.add(txtTelefono_Cuadrante).setBounds(x+(ancho*3)+110,y,ancho-15,20);
+				
+		panel.add(new JLabel("RFC:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtRFC).setBounds(x+ancho-40,y,ancho-15,20);
 		
-		panel.add(new JLabel("Infonavit:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtInfonavit).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(new JLabel("Curp:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtCurp).setBounds(x+ancho-40,y,ancho-15,20);
 		
-		panel.add(new JLabel("Tarjeta de Nomina:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtTarjetaNomina).setBounds(x+ancho,y,ancho*2,20);
+//Laboral ------------------------------------------------------------------------------------------------------------------------------------------		
 		
-		panel.add(new JLabel("Tipo de Bancos:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbTipoBancos).setBounds(x+ancho,y,ancho*2,20);
+		panel.add(lblLaboral).setBounds(10,y+=40,ancho*7-30,195);
+		panel.add(new JLabel("Horario:")).setBounds(x,y+=15,ancho,20);
+		panel.add(btnHorario).setBounds(x+ancho-58,y+3,15,15);
+		panel.add(txtHorario).setBounds(x+ancho-40,y,ancho*2+80,20);
+		panel.add(rbHorario).setBounds(x+460,y,20,20);
+		
+		panel.add(btnStatus).setBounds(x+ancho*5+20,y-5,ancho+60,180);
+		
+		panel.add(new JLabel("Descanso:")).setBounds(x+500,y,ancho,20);
+		panel.add(txtDescanso).setBounds(x+ancho+420,y,ancho+10,20);
+		
+		panel.add(btnHorario2).setBounds(x+ancho-58,y+28,15,15);
+		panel.add(new JLabel("Horario 2:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtHorario2).setBounds(x+ancho-40,y,ancho*2+80,20);
+		panel.add(rbHorario2).setBounds(x+460,y,20,20);
+		
+		panel.add(new JLabel("Día Dobla:")).setBounds(x+500,y,ancho,20);
+		panel.add(txtDobla).setBounds(x+ancho+420,y,ancho+10,20);
+		
+		panel.add(chbHorarioRotativo).setBounds(x+ancho-40,y+=25, ancho+50, 20);
+		
+		panel.add(new JLabel("Fecha Ingreso:")).setBounds(x,y+=25, ancho, 20);
+		panel.add(txtIngreso).setBounds(x+ancho-40,y,130,20);
+		
+		panel.add(new JLabel("Fecha Baja:")).setBounds(x+270,y, ancho, 20);
+		panel.add(txtBaja).setBounds(x+(ancho*2)+50,y,130,20);
+		
+		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
+		panel.add(cmbStatus).setBounds(x+ancho-40,y,ancho-15,20);
+		
+		panel.add(chb_cuadrante_parcial).setBounds(x+ancho+175,y,150,20);
+
+		panel.add(new JLabel("Departamento:")).setBounds(x+470,y,ancho,20);
+		panel.add(cmbDepartamento).setBounds(x+(ancho*3)+130,y,ancho+20,20);
 		
 		panel.add(new JLabel("N° Seguro Social:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtImss).setBounds(x+ancho,y,125,20);
+		panel.add(txtImss).setBounds(x+ancho-40,y,ancho+35,20);
+		panel.add(cmbActivo_Inactivo).setBounds(x+ancho+135,y,180,20);
 		
-		panel.add(cmbActivo_Inactivo).setBounds(x+ancho+135,y,145,20);
+		panel.add(new JLabel("N° Infonavit:")).setBounds(x+470,y,ancho,20);
+		panel.add(txtNumeroInfonavit).setBounds(x+(ancho*3)+130,y,ancho+20,20);
 		
-		panel.add(new JLabel("Telefono Familiar:")).setBounds(480,y,90,20);
-		panel.add(txtTelefono_Familiar).setBounds(570,y,145,20);
+		panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,ancho,20);
+		panel.add(cmbEstablecimiento).setBounds(x+ancho-40,y,ancho+30,20);
 		
-		panel.add(new JLabel("Telefono Propio")).setBounds(480,y+=25,90,20);
-		panel.add(txtTelefono_Propio).setBounds(570,y,145,20);
+		panel.add(new JLabel("Puesto:")).setBounds(x+290,y,ancho,20);
+		panel.add(cmbPuesto).setBounds(x+330,y,ancho*2+100,20);
+
+//Percepciones y Deducciones ------------------------------------------------------------------------------------------------------------------------------------------		
+
+		panel.add(lblPercepciones).setBounds(10,y+=30,ancho*4-40,170);
+		panel.add(new JLabel("Salario Diario:")).setBounds(x,y+=15,ancho,20);
+		panel.add(txtSalarioDiario).setBounds(x+ancho-40,y,ancho,20);
 		
-		panel.add(new JLabel("Status:")).setBounds(x,y,ancho,20);
-		panel.add(cmbStatus).setBounds(x+ancho,y,ancho-15,20);
+		panel.add(new JLabel("S. Diario Integrado:")).setBounds(x+260,y,ancho,20);
+		panel.add(txtSalarioDiarioIntegrado).setBounds(x+ancho+220,y,ancho,20);
 		
-		panel.add(chbFuente_Sodas).setBounds(x+ancho+130,y,90,20);
-		panel.add(chbGafete).setBounds((x*3)+(ancho*2)+5,y,60,20);
+		panel.add(new JLabel("Forma de Pago:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtFormaDePago).setBounds(x+ancho-40,y,ancho,20);
 		
-		panel.add(new JLabel("Fecha de Nacimiento:")).setBounds(x,y+=25, ancho, 20);
-		panel.add(txtCalendario).setBounds(x+ancho,y,125,20);
+		panel.add(new JLabel("Sueldo:")).setBounds(x+260,y,ancho,20);
+		panel.add(cmbSueldo).setBounds(x+ancho+220,y,ancho,20);
 		
-		panel.add(new JLabel("Ingreso:")).setBounds(x+ancho+130,y, ancho, 20);
-		panel.add(txtIngreso).setBounds(x+ancho+180,y,100,20);
+		panel.add(new JLabel("Bono:")).setBounds(x,y+=25,ancho,20);
+		panel.add(cmbBono).setBounds(x+ancho-40,y,ancho,20);
 		
-		panel.add(chb_cuadrante_parcial).setBounds(x+ancho+130,y+=25,150,20);
+		panel.add(new JLabel("Rango de Prestamo:")).setBounds(x+260,y,ancho,20);
+		panel.add(cmbPrestamos).setBounds(x+ancho+220,y,ancho,20);
 		
-		panel.add(new JLabel("Ultima actualización:")).setBounds(x,y,ancho,20);
-		panel.add(txtFecha).setBounds(x+ancho,y,125,20);
+		panel.add(new JLabel("Pensión Alimenticia:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtPensionAli).setBounds(x+ancho-40,y,ancho,20);
 		
-		panel.add(btnDeshacer).setBounds(x,y+=25,ancho-20,20);
+		panel.add(new JLabel("Infonavit:")).setBounds(x+260,y,ancho,20);
+		panel.add(txtInfonavit).setBounds(x+ancho+220,y,ancho,20);
+		
+		panel.add(new JLabel("Tarjeta de Nomina:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtTarjetaNomina).setBounds(x+ancho-40,y,ancho,20);
+		
+		panel.add(new JLabel("Tipo de Bancos:")).setBounds(x+260,y,ancho,20);
+		panel.add(cmbTipoBancos).setBounds(x+ancho+220,y,ancho,20);
+		
+		panel.add(chbGafete).setBounds(x,y+=25,60,20);
+		panel.add(chbFuente_Sodas).setBounds((x*7),y,90,20);
+		
+		panel.add(new JLabel("Ultima actualización:")).setBounds(x+250,y,ancho,20);
+		panel.add(txtFechaActualizacion).setBounds(x+ancho+220,y,ancho,20);
+		
+		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
 		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,y,ancho-20,20);
 		
-//		agrupar radiobuton
-//		agruparRB.add(rbHorario2);
+		panel.add(Observasiones).setBounds(x+ancho*3+98,y-169,ancho+280,190);
 		
 		txaObservaciones.setLineWrap(true); 
 		txaObservaciones.setWrapStyleWord(true);
 		txaObservaciones.setDocument(new JTextFieldLimit(980));
 		
-		txtFolio.setDocument(new JTextFieldLimit(9));
+		txtFolioEmpleado.setDocument(new JTextFieldLimit(9));
 		txtChecador.setDocument(new JTextFieldLimit(100));
 		txtNombre.setDocument(new JTextFieldLimit(20));
 		txtApPaterno.setDocument(new JTextFieldLimit(20));
@@ -326,9 +461,22 @@ public class Cat_Empleado extends JFrame{
 		txtTarjetaNomina.setDocument(new JTextFieldLimit(19));
 		txtImss.setDocument(new JTextFieldLimit(11));
 		txtTelefono_Familiar.setDocument(new JTextFieldLimit(10));
+		txtTelefono_Propio.setDocument(new JTextFieldLimit(10));
+		txtCalle.setDocument(new JTextFieldLimit(30));
+		txtColonia.setDocument(new JTextFieldLimit(20));
+		txtPoblacion.setDocument(new JTextFieldLimit(20));
+		txtNumeroInfonavit.setDocument(new JTextFieldLimit(15));
 		
-		rbHorario2.addActionListener(opRButton);
-		rbHorario2.setEnabled(false);
+		txtRFC.setDocument(new JTextFieldLimit(25));
+		txtCurp.setDocument(new JTextFieldLimit(25));
+		
+		txtSalarioDiario.setDocument(new JTextFieldLimit(15));
+		txtSalarioDiarioIntegrado.setDocument(new JTextFieldLimit(15));
+		
+		txtFormaDePago.setDocument(new JTextFieldLimit(15));
+		
+		txtPensionAli.setDocument(new JTextFieldLimit(15));
+		txtInfonavit.setDocument(new JTextFieldLimit(15));
 		
 //		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
@@ -343,38 +491,57 @@ public class Cat_Empleado extends JFrame{
 		btnTrueFoto.addActionListener(opPresionFoto);
 		btnIncontratables.addActionListener(Reporte_de_Empleados_No_Contratables);
 		btnExaminar.addActionListener(opExaminar);
+		btnHorario.addActionListener(opFiltroHorairo);
+		btnHorario2.addActionListener(opFiltroHorairo2);
 
 		
 		txtTarjetaNomina.addKeyListener(txtlogns);
 		btnExaminar.setEnabled(false);
 		btnCamara.setEnabled(false);
 		
-		txtFolio.requestFocus();
-		txtFolio.addKeyListener(buscar_action);
-		txtFolio.addKeyListener(numerico_action);
+		rbHorario.addActionListener(opRButton);
+		rbHorario2.addActionListener(opRButton);
+		
+		txtDescanso.setEnabled(false);
+		txtDobla.setEnabled(false);
+		
+		txtFolioEmpleado.requestFocus();
+		txtFolioEmpleado.addKeyListener(buscar_action);
+		txtFolioEmpleado.addKeyListener(numerico_action);
 		txtInfonavit.addKeyListener(validaNumericoConPunto);
 		txtPensionAli.addKeyListener(validaNumericoPension);
 		
-		cmbTurno.setRenderer(new MyComboBoxRenderer());
+		txtSalarioDiario.addKeyListener(validaNumericoSD);
+		txtSalarioDiarioIntegrado.addKeyListener(validaNumericoSDI);
+//		cmbTurno.setRenderer(new MyComboBoxRenderer());
 		
 		cont.add(panel);
 		txtChecador.setEditable(false);
-		cmbTurno.setEnabled(false);
-		cmbTurno2.setEnabled(false);
-		txtFecha.setEditable(false);
+		
+		txtHorario.setEnabled(false);
+		txtHorario2.setEnabled(false);
+		
+		txtFechaActualizacion.setEditable(false);
 		panelEnabledFalse();
-		txtFolio.setEditable(true);
-		txtTelefono_Propio.setEditable(false);
+		txtFolioEmpleado.setEditable(true);
+		txtTelefono_Cuadrante.setEditable(false);
 		
-		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-		ImageIcon tmpIconAux = new ImageIcon(file);
-		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-		
-		String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
-		ImageIcon tmpIconAux_status = new ImageIcon(file_status);
-		btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-		
-		this.setSize(1100,670);
+		 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
+         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+         btnFoto.setIcon(iconoDefault);
+         
+		 ImageIcon file_status = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Vigente.png");
+         Icon iconoStatus = new ImageIcon(file_status.getImage().getScaledInstance(btnStatus.getWidth(), btnStatus.getHeight(), Image.SCALE_DEFAULT));
+         btnStatus.setIcon(iconoStatus);
+        
+//       asigna el foco al JTextField deseado al arrancar la ventana
+         this.addWindowListener(new WindowAdapter() {
+                 public void windowOpened( WindowEvent e ){
+                	 txtFolioEmpleado.requestFocus();
+              }
+         });
+         
+		this.setSize(975,680);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -395,10 +562,20 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opRButton = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
-			if(rbHorario2.isSelected()==true){
-				cmbTurno2.setEnabled(true);
+			
+			
+			
+			
+			if(rbHorario.isSelected()==true){
+//				buscar horario 1 y asignar dia de descanso y dobla
+				Obj_Horario_Empleado descanso = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+				txtDescanso.setText(descanso.getDescanso());
+				txtDobla.setText(descanso.getDobla());
 			}else{
-				cmbTurno2.setEnabled(false);
+//				buscar horario 2 y asignar dia de descanso y dobla
+				Obj_Horario_Empleado2 descanso2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+				txtDescanso.setText(descanso2.getDescanso());
+				txtDobla.setText(descanso2.getDobla());
 			}
 	
 		}
@@ -449,10 +626,11 @@ public class Cat_Empleado extends JFrame{
 				    in1.close();
 				    out1.close();
 				    
-							    
-				    ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
 					
+				    ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+			         btnFoto.setIcon(iconoDefault);
+			         
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -481,17 +659,18 @@ public class Cat_Empleado extends JFrame{
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
 					
-					cmbTurno.setEnabled(false);
-					rbHorario2.setEnabled(false);
-					cmbTurno2.setEnabled(false);
+					rbHorario.setEnabled(true);
+					rbHorario2.setEnabled(true);
+					btnHorario.setEnabled(true);
+					btnHorario2.setEnabled(true);
 					
 				}else{
 					btnVerificar.setBackground(Color.blue);
 					
-					cmbTurno.setEnabled(true);
-					rbHorario2.setEnabled(true);
-					cmbTurno2.setEnabled(false);
+					btnHorario.setEnabled(true);
+					btnHorario2.setEnabled(true);
 					panelEnabledTrue();
+					rbHorario2.setEnabled(false);
 				}
 			}
 		}
@@ -518,7 +697,7 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().length() == 0){
+			if(txtFolioEmpleado.getText().length() == 0){
 				JOptionPane.showMessageDialog(null, "Cree un nuevo empleado, que contenga un folio.","Aviso", JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
@@ -532,60 +711,19 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	ActionListener buscar = new ActionListener() {
-		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().equals("")){
+			if(txtFolioEmpleado.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
 				return;
 			}else{
-				Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolioEmpleado.getText()));
 				if(re.getFolio() != 0){			
-					txtFolio.setText(re.getFolio()+"");
+					txtFolioEmpleado.setText(re.getFolio()+"");
 					txtChecador.setText(re.getNo_checador()+"");
 					txtNombre.setText(re.getNombre()+"");
 					txtApPaterno.setText(re.getAp_paterno()+"");
-					txtApMaterno.setText(re.getAp_materno()+"");	
-					txtPensionAli.setText(re.getPension_alimenticia()+"");
+					txtApMaterno.setText(re.getAp_materno()+"");
 					
-					Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-					cmbEstablecimiento.setSelectedItem(comboNombreEsta.getNombre());
-					
-					Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-					cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
-					
-					Obj_Turno comboNombreTurn = new Obj_Turno().buscar_tur(re.getTurno());
-					cmbTurno.setSelectedItem(comboNombreTurn.getNombre());
-					
-					Obj_Turno2 comboNombreTurn2 = new Obj_Turno2().buscar_tur2(re.getTurno2());
-					cmbTurno2.setSelectedItem(comboNombreTurn2.getNombre());
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------
-					if(re.getStatus_2h()==1){
-						rbHorario2.setSelected(true);
-					}else{
-						rbHorario2.setSelected(false);
-					}
-					
-					cmbDescanso.setSelectedIndex(re.getDescanso());
-					cmbDobla.setSelectedIndex(re.getDobla());
-					cmbSueldo.setSelectedIndex(re.getSueldo());
-					
-					Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
-					cmbBono.setSelectedItem(bono.getBono()+"");
-
-					cmbPrestamos.setSelectedIndex(re.getPrestamo());
-					txtInfonavit.setText(re.getInfonavit()+"");	
-					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
-					Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
-					cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
-					
-					txtImss.setText(re.getImss()+"");
-					
-					if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
-					else{chbFuente_Sodas.setSelected(false);}
-					if(re.getGafete() == true){chbGafete.setSelected(true);}
-					else{chbGafete.setSelected(false);}
-					cmbStatus.setSelectedIndex(re.getStatus()-1);
-
 					try {
 						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
 						Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
@@ -595,7 +733,101 @@ public class Cat_Empleado extends JFrame{
 						e1.printStackTrace();
 					}
 					
+					txtCalle.setText(re.getCalle()+"");
+					txtColonia.setText(re.getColionia()+"");
+					txtPoblacion.setText(re.getPoblacion()+"");
+					txtTelefono_Familiar.setText(re.getTelefono_familiar()+"");
+					txtTelefono_Propio.setText(re.getTelefono_propio()+"");
+					
+					if(re.getTelefono_cuadrante()==null){
+						txtTelefono_Cuadrante.setText("");
+					}else{
+						txtTelefono_Cuadrante.setText(re.getTelefono_cuadrante()+"");
+					}
+					
+					txtRFC.setText(re.getRfc()+"");
+					txtCurp.setText(re.getCurp()+"");
+					
+					if(re.getSexo()==0){
+						rbMasculino.setSelected(true);
+					}else{
+						rbFemenino.setSelected(true);
+					}
+					
+					ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+			         btnFoto.setIcon(iconoDefault);
+			         
+					
+					Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(re.getHorario());
+					txtHorario.setText(comboFolioHorario.getNombre());
+	
+					Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(re.getHorario2());
+					txtHorario2.setText(comboFolioHorario2.getNombre());
+
+					if(re.getStatus_h1()==1){
+						rbHorario.setSelected(true);
+					}else{
+						rbHorario2.setSelected(true);
+					}
+					
+					txtHorario.setToolTipText(comboFolioHorario.getNombre());
+					txtHorario2.setToolTipText(comboFolioHorario2.getNombre());
+					
+					txtDescanso.setText(re.getDescanso()+"");
+					txtDobla.setText(re.getDobla()+"");
+					
+					if(re.getStatus_rotativo()==1){
+						chbHorarioRotativo.setSelected(true);
+					}else{
+						chbHorarioRotativo.setSelected(false);
+					}
+					
+					cmbStatus.setSelectedIndex(re.getStatus()-1);
+					txtBaja.setText(re.getFecha_baja()+"");
 					chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
+					
+					Obj_Departamento depart = new Obj_Departamento().buscar(re.getDepartameto());
+					cmbDepartamento.setSelectedItem(depart.getDepartamento());
+					
+					txtImss.setText(re.getImss()+"");
+					cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
+					txtNumeroInfonavit.setText(re.getNumero_infonavit()+"");
+					
+					Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+					cmbEstablecimiento.setSelectedItem(comboNombreEsta.getNombre());
+					
+					Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+					cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
+					
+					txtSalarioDiario.setText(re.getSalario_diario()+"");
+					txtSalarioDiarioIntegrado.setText(re.getSalario_diario_integrado()+"");
+					txtFormaDePago.setText(re.getForma_pago()+"");
+					cmbSueldo.setSelectedIndex(re.getSueldo());
+					
+					Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
+					cmbBono.setSelectedItem(bono.getBono()+"");
+
+					cmbPrestamos.setSelectedIndex(re.getPrestamo());
+					txtPensionAli.setText(re.getPension_alimenticia()+"");
+					txtInfonavit.setText(re.getInfonavit()+"");	
+					txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
+					
+					Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
+					cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
+					
+					if(re.isGafete() == true){chbGafete.setSelected(true);}
+					else{chbGafete.setSelected(false);}
+					
+					if(re.isFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
+					else{chbFuente_Sodas.setSelected(false);}
+					
+//					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha_actualizacion()))));
+					txtFechaActualizacion.setText(re.getFecha_actualizacion());
+					txaObservaciones.setText(re.getObservasiones());
+					
+//					cmbDescanso.setSelectedIndex(re.getDescanso());
+//					cmbDobla.setSelectedIndex(re.getDobla());
 					
 					switch(cmbStatus.getSelectedIndex()+1){
 						case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
@@ -616,26 +848,19 @@ public class Cat_Empleado extends JFrame{
 							   
 					}
 						
-					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
-					txaObservaciones.setText(re.getObservasiones());
-					txtTelefono_Familiar.setText(re.getTelefono_familiar());
-					txtTelefono_Propio.setText(re.getTelefono_propio());
-					
-					ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-				    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-				    
-				    cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
-			    
 				    btnNuevo.setVisible(false);
 					panelEnabledFalse();
-					txtFolio.setEditable(true);
-					txtFolio.requestFocus();
-					
+					txtFolioEmpleado.setEditable(true);
+					txtFolioEmpleado.requestFocus();
+					btnHorario.setEnabled(false);
+					btnEditar.setVisible(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 					panelEnabledFalse();
-					txtFolio.setEditable(true);
+					txtFolioEmpleado.setEditable(true);
+					txtFolioEmpleado.requestFocus();
+					btnHorario.setEnabled(false);
 					panelLimpiar();
 					return;
 				}
@@ -646,55 +871,114 @@ public class Cat_Empleado extends JFrame{
 	ActionListener guardar = new ActionListener(){
 		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e){
-			if(txtFolio.getText().equals("")){
+			if(txtFolioEmpleado.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			}else{			
-				Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+				Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolioEmpleado.getText()));
 				
-				if(empleado.getFolio() == Integer.parseInt(txtFolio.getText())){
+				if(empleado.getFolio() == Integer.parseInt(txtFolioEmpleado.getText())){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 						if(validaCampos()!="") {
 							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}else{
-							txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+
+//							datos personales	
+							//private String telefono_propio;
+							//private String telefono_cuadrante;
+							
+							txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
 							empleado.setNo_checador(txtChecador.getText());
 							empleado.setNombre(procesa_texto(txtNombre.getText()));
 							empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
+							
 							if(txtApMaterno.getText().length() != 0){
 								empleado.setAp_materno(procesa_texto(txtApMaterno.getText()));
 							}else{
 								empleado.setAp_materno("");
 							}
+							
+							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+							empleado.setCalle(txtCalle.getText());
+							empleado.setColionia(txtColonia.getText());
+							empleado.setPoblacion(txtPoblacion.getText());
+							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+							empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
+							empleado.setRfc(txtRFC.getText());
+							empleado.setCurp(txtCurp.getText());
+							
+							if(rbMasculino.isSelected()==true){
+								empleado.setSexo(0);
+							}else{
+								empleado.setSexo(1);
+							}
+							
+							if(btnTrueFoto.isSelected()){
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
+							}else{
+								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
+							}
 
+//						laboral
+							Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+							empleado.setHorario(comboFolioHorario.getFolio());
+							
+							Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+							empleado.setHorario2(comboFolioHorario2.getFolio());
+							
+							if(rbHorario.isSelected()==true){
+								empleado.setStatus_h1(1);
+								empleado.setStatus_h2(0);
+							}else{
+								empleado.setStatus_h1(0);
+								empleado.setStatus_h2(1);
+							}
+							
+							if(chbHorarioRotativo.isSelected()==true){
+								empleado.setStatus_rotativo(1);
+							}else{
+								empleado.setStatus_rotativo(0);
+							}
+							
+							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
+							empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
+							
+							Obj_Departamento depart = new Obj_Departamento().buscar_departamento(cmbDepartamento.getSelectedItem()+"");
+							empleado.setDepartameto(depart.getFolio());
+							
+							empleado.setImss(txtImss.getText());
+							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+							empleado.setNumero_infonavit(txtNumeroInfonavit.getText()+"");
+							
 							Obj_Establecimiento comboFolioEsta = new Obj_Establecimiento().buscar_estab(cmbEstablecimiento.getSelectedItem()+"");
 							empleado.setEstablecimiento(comboFolioEsta.getFolio());
 							
 							Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 							empleado.setPuesto(comboFolioPues.getFolio());
 							
-							Obj_Turno comboFolioTurno = new Obj_Turno().buscar_tur(cmbTurno.getSelectedItem()+"");
-							empleado.setTurno(comboFolioTurno.getFolio());
-							
-//							segundo turno(horario2)
-							Obj_Turno2 comboFolioTurno2 = new Obj_Turno2().buscar_tur2(cmbTurno2.getSelectedItem()+"");
-//							empleado.setTurno2(comboFolioTurno2.getFolio());
-							if(rbHorario2.isSelected()==true){
-								empleado.setTurno2(comboFolioTurno2.getFolio());
-								empleado.setStatus_2h(1);
+//						percepciones y deducciones
+					
+							if(!txtSalarioDiario.getText().equals("")){
+								empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
 							}else{
-								empleado.setTurno2(comboFolioTurno2.getFolio());
-								empleado.setStatus_2h(0);
+								empleado.setSalario_diario(Float.parseFloat(0.0+"")); }
+						
+							if(!txtSalarioDiarioIntegrado.getText().equals("")){
+								empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+							}else{
+								empleado.setSalario_diario_integrado(Float.parseFloat(0.0+""));
 							}
 							
-							empleado.setDescanso(cmbDescanso.getSelectedIndex());
-							empleado.setDobla(cmbDobla.getSelectedIndex());
+							empleado.setForma_pago(txtFormaDePago.getText()+"");
+
 							empleado.setSueldo(cmbSueldo.getSelectedIndex());
 							
 							Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));
 							empleado.setBono(bono.getFolio());
 							
 							empleado.setPrestamo(cmbPrestamos.getSelectedIndex());
+							
 							if(txtPensionAli.getText().length() != 0){
 								empleado.setPension_alimenticia(Float.parseFloat(txtPensionAli.getText()));
 							}else{
@@ -706,47 +990,36 @@ public class Cat_Empleado extends JFrame{
 								empleado.setInfonavit(Float.parseFloat(0.0+""));
 							}
 							
-							if(txtTarjetaNomina.getText().length() != 0){
-								empleado.setTargeta_nomina(txtTarjetaNomina.getText());
-							}else{
-								empleado.setTargeta_nomina("");
-							}
+							empleado.setTargeta_nomina(txtTarjetaNomina.getText()+"");
+//							if(txtTarjetaNomina.getText().length() != 0){
+//								empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+//							}else{
+//								empleado.setTargeta_nomina("");
+//							}
+							
 							empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
-							empleado.setImss(txtImss.getText());
-							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 							empleado.setGafete(chbGafete.isSelected());
-							empleado.setStatus(cmbStatus.getSelectedIndex()+1);
-							empleado.setFecha(txtFecha.getText());
-							empleado.setObservasiones(txaObservaciones.getText());
-							if(txaObservaciones.getText().length() != 0){
-								empleado.setObservasiones(txaObservaciones.getText());
-							}else{
-								empleado.setObservasiones("");
-							}
+							empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
+							empleado.setObservasiones(txaObservaciones.getText()+"");
 							
-							if(btnTrueFoto.isSelected()){
-								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
-							}else{
-								empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp.jpg"));
-							}
+							empleado.setFecha_actualizacion(txtFechaActualizacion.getText());
+//							if(txaObservaciones.getText().length() != 0){
+//								empleado.setObservasiones(txaObservaciones.getText());
+//							}else{
+//								empleado.setObservasiones("");
+//							}
 							
-							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-							empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
-							empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
-							empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
-							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
-							
-							if(empleado.actualizar(Integer.parseInt(txtFolio.getText()))){
+							if(empleado.actualizar(Integer.parseInt(txtFolioEmpleado.getText()))){
 								panelLimpiar();
 								panelEnabledFalse();
-								cmbTurno.setEnabled(false);
 								rbHorario2.setEnabled(false);
-								cmbTurno2.setEnabled(false);
-								txtFolio.setEditable(true);
-								txtFolio.requestFocus();
+								txtFolioEmpleado.setEditable(true);
+								txtFolioEmpleado.requestFocus();
 								btnTrueFoto.setSelected(false);
 								btnExaminar.setEnabled(false);
 								btnCamara.setEnabled(false);
+								txtHorario.setEnabled(false);
+								btnHorario.setEnabled(false);
 								JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							}else{
 								JOptionPane.showMessageDialog(null,"Error al intentar actualizar los datos","Aviso",JOptionPane.ERROR_MESSAGE);
@@ -760,9 +1033,10 @@ public class Cat_Empleado extends JFrame{
 						JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}else{
-						txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+//						datos personales	
 						
-						empleado.setNo_checador(txtFolio.getText());
+						txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+						empleado.setNo_checador(txtFolioEmpleado.getText());
 						empleado.setNombre(procesa_texto(txtNombre.getText()));
 						empleado.setAp_paterno(procesa_texto(txtApPaterno.getText()));
 						
@@ -772,31 +1046,84 @@ public class Cat_Empleado extends JFrame{
 							empleado.setAp_materno("");
 						}
 						
+						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
+						empleado.setCalle(txtCalle.getText());
+						empleado.setColionia(txtColonia.getText());
+						empleado.setPoblacion(txtPoblacion.getText());
+						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+						empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
+						empleado.setRfc(txtRFC.getText());
+						empleado.setCurp(txtCurp.getText());
+						
+						if(rbMasculino.isSelected()==true){
+							empleado.setSexo(0);
+						}else{
+							empleado.setSexo(1);
+						}
+						
+						if(btnTrueFoto.isSelected()){
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
+						}else{
+							empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
+						}
+
+//					laboral
+						Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+						empleado.setHorario(comboFolioHorario.getFolio());
+						
+						Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+						empleado.setHorario2(comboFolioHorario2.getFolio());
+						
+						if(rbHorario.isSelected()==true){
+							empleado.setStatus_h1(1);
+							empleado.setStatus_h2(0);
+						}else{
+							empleado.setStatus_h1(0);
+							empleado.setStatus_h2(1);
+						}
+						
+						if(chbHorarioRotativo.isSelected()==true){
+							empleado.setStatus_rotativo(1);
+						}else{
+							empleado.setStatus_rotativo(0);
+						}
+						
+						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
+						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
+						empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
+
+						Obj_Departamento depart = new Obj_Departamento().buscar_departamento(cmbDepartamento.getSelectedItem()+"");
+						empleado.setDepartameto(depart.getFolio());
+						
+						empleado.setImss(txtImss.getText());
+						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
+						empleado.setNumero_infonavit(txtNumeroInfonavit.getText()+"");
+						
 						Obj_Establecimiento comboFolioEsta = new Obj_Establecimiento().buscar_estab(cmbEstablecimiento.getSelectedItem()+"");
 						empleado.setEstablecimiento(comboFolioEsta.getFolio());
 						
 						Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 						empleado.setPuesto(comboFolioPues.getFolio());
 						
-						Obj_Turno comboFolioTurno = new Obj_Turno().buscar_tur(cmbTurno.getSelectedItem()+"");
-						empleado.setTurno(comboFolioTurno.getFolio());
+//					percepciones y deducciones
 						
-//						segundo turno(horario2)
-						Obj_Turno2 comboFolioTurno2 = new Obj_Turno2().buscar_tur2(cmbTurno2.getSelectedItem()+"");
-//						empleado.setTurno2(comboFolioTurno2.getFolio());
-						if(rbHorario2.isSelected()==true){
-							empleado.setTurno2(comboFolioTurno2.getFolio());
-							empleado.setStatus_2h(1);
+						if(!txtSalarioDiario.getText().equals("")){
+							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
 						}else{
-							empleado.setTurno2(comboFolioTurno2.getFolio());
-							empleado.setStatus_2h(0);
+							empleado.setSalario_diario(Float.parseFloat(0.0+"")); }
+					
+						if(!txtSalarioDiarioIntegrado.getText().equals("")){
+							empleado.setSalario_diario_integrado(Float.parseFloat(txtSalarioDiarioIntegrado.getText()));
+						}else{
+							empleado.setSalario_diario_integrado(Float.parseFloat(0.0+""));
 						}
 						
-						empleado.setTurno2(comboFolioTurno2.getFolio());
-						empleado.setDescanso(cmbDescanso.getSelectedIndex());
-						empleado.setDobla(cmbDobla.getSelectedIndex());
+						empleado.setForma_pago(txtFormaDePago.getText()+"");
 						empleado.setSueldo(cmbSueldo.getSelectedIndex());
-						empleado.setBono(cmbBono.getSelectedIndex());
+						
+						Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscarValor(Float.parseFloat(cmbBono.getSelectedItem()+""));
+						empleado.setBono(bono.getFolio());
+						
 						empleado.setPrestamo(cmbPrestamos.getSelectedIndex());
 						
 						if(txtPensionAli.getText().length() != 0){
@@ -804,55 +1131,42 @@ public class Cat_Empleado extends JFrame{
 						}else{
 							empleado.setPension_alimenticia(Float.parseFloat(0.0+""));
 						}
-						
 						if(txtInfonavit.getText().length() != 0){
 							empleado.setInfonavit(Float.parseFloat(txtInfonavit.getText()));
 						}else{
 							empleado.setInfonavit(Float.parseFloat(0.0+""));
 						}
-
-						if(txtTarjetaNomina.getText().length() != 0){
-							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
-						}else{
-							empleado.setTargeta_nomina("");
-						}
+						
+						empleado.setTargeta_nomina(txtTarjetaNomina.getText()+"");
+//						if(txtTarjetaNomina.getText().length() != 0){
+//							empleado.setTargeta_nomina(txtTarjetaNomina.getText());
+//						}else{
+//							empleado.setTargeta_nomina("");
+//						}
 						
 						empleado.setTipo_banco(cmbTipoBancos.getSelectedIndex());
-						empleado.setImss(txtImss.getText());
-						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
 						empleado.setGafete(chbGafete.isSelected());
-						empleado.setStatus(cmbStatus.getSelectedIndex()+1);
-						empleado.setFecha(txtFecha.getText());
+						empleado.setFuente_sodas(chbFuente_Sodas.isSelected());
+						empleado.setObservasiones(txaObservaciones.getText()+"");
 						
-						if(txaObservaciones.getText().length() != 0){
-							empleado.setObservasiones(txaObservaciones.getText());
-						}else{
-							empleado.setObservasiones("");
-						}
-						 
-						if(btnTrueFoto.isSelected()){
-							empleado.setFoto(new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg"));
-						}else{
-							empleado.setFoto(new File(System.getProperty("user.dir")+"/Iconos/Un.jpg"));
-						}
+						empleado.setFecha_actualizacion(txtFechaActualizacion.getText());
 						
-						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
-						empleado.setFecha_ingreso(new SimpleDateFormat("dd/MM/yyyy").format(txtIngreso.getDate()));
-						empleado.setCuadrante_parcial(chb_cuadrante_parcial.isSelected());
-						empleado.setStatus_imss(cmbActivo_Inactivo.getSelectedIndex());
-						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
+//						if(txaObservaciones.getText().length() != 0){
+//							empleado.setObservasiones(txaObservaciones.getText());
+//						}else{
+//							empleado.setObservasiones("");
+//						}
 						
 						if(empleado.guardar()){
 							panelLimpiar();
-							cmbTurno.setEnabled(false);
 							rbHorario2.setEnabled(false);
-							cmbTurno2.setEnabled(false);
 							panelEnabledFalse();
-							txtFolio.setEditable(true);
-							txtFolio.requestFocus();
+							txtFolioEmpleado.setEditable(true);
+							txtFolioEmpleado.requestFocus();
 							btnTrueFoto.setSelected(false);
 							btnExaminar.setEnabled(false);
 							btnCamara.setEnabled(false);
+							btnHorario.setEnabled(false);
 							JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						}else{
 							JOptionPane.showMessageDialog(null, "Ocurrió un problema al almacenar el empleado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -865,28 +1179,26 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener filtro = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			dispose();
-			new Cat_Filtro_Empleado().setVisible(true);
 			
+			new Cat_Filtro_Empleado().setVisible(true);
 		}
 	};
 	
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+			Obj_Empleado empleado = new Obj_Empleado().buscar(Integer.parseInt(txtFolioEmpleado.getText()));
 			if(empleado.getFolio() != 0){
-				
-				cmbTurno.setEnabled(true);
-				panelEnabledTrue();
-				if(rbHorario2.isSelected()==true){
-					cmbTurno2.setEnabled(true);
+				if(txtHorario2.getText().equals("")){
+					panelEnabledTrue();
+					rbHorario2.setEnabled(false);
 				}else{
-					cmbTurno2.setEnabled(false);
+					panelEnabledTrue();
+					rbHorario2.setEnabled(true);
 				}
-				txtFolio.setEditable(false);
+				txtFolioEmpleado.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
-				rbHorario2.setEnabled(true);
+				chbHorarioRotativo.setEnabled(true);
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;
@@ -895,7 +1207,7 @@ public class Cat_Empleado extends JFrame{
 	};
 	
 	public void panelEnabledTrue(){	
-		txtFolio.setEditable(true);
+		txtFolioEmpleado.setEditable(true);
 //		txtChecador.setEditable(true);
 		txtNombre.setEditable(true);
 		txtApPaterno.setEditable(true);
@@ -903,8 +1215,6 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setEditable(true);
 		cmbEstablecimiento.setEnabled(true);
 		cmbPuesto.setEnabled(true);
-		cmbDescanso.setEnabled(true);
-		cmbDobla.setEnabled(true);
 		cmbSueldo.setEnabled(true);
 		cmbBono.setEnabled(true);
 		cmbPrestamos.setEnabled(true);
@@ -922,19 +1232,37 @@ public class Cat_Empleado extends JFrame{
 		txtTelefono_Familiar.setEditable(true);
 		chb_cuadrante_parcial.setEnabled(true);
 		
+		txtCalle.setEnabled(true);
+		txtColonia.setEnabled(true);
+		txtPoblacion.setEnabled(true);
+		txtTelefono_Propio.setEnabled(true);
+		txtRFC.setEnabled(true);
+		txtCurp.setEnabled(true);
+		
+		rbMasculino.setEnabled(true);
+		rbFemenino.setEnabled(true);
+		
+		btnHorario.setEnabled(true);
+		btnHorario2.setEnabled(true);
+		
+		rbHorario.setEnabled(true);
+		rbHorario2.setEnabled(true);
+		cmbDepartamento.setEnabled(true);
+		txtNumeroInfonavit.setEnabled(true);
+		
+		txtSalarioDiario.setEnabled(true);
+		txtSalarioDiarioIntegrado.setEnabled(true);
+		txtFormaDePago.setEnabled(true);
 	}
 	
 	public void panelEnabledFalse(){	
-		txtFolio.setEditable(false);
-//		txtChecador.setEditable(false);
+		txtFolioEmpleado.setEditable(false);
 		txtNombre.setEditable(false);
 		txtApPaterno.setEditable(false);
 		txtApMaterno.setEditable(false);
 		txtPensionAli.setEditable(false);
 		cmbEstablecimiento.setEnabled(false);
 		cmbPuesto.setEnabled(false);
-		cmbDescanso.setEnabled(false);
-		cmbDobla.setEnabled(false);
 		cmbSueldo.setEnabled(false);
 		cmbBono.setEnabled(false);
 		cmbPrestamos.setEnabled(false);
@@ -951,11 +1279,40 @@ public class Cat_Empleado extends JFrame{
 		txtIngreso.setEnabled(false);
 		txtTelefono_Familiar.setEditable(false);
 		chb_cuadrante_parcial.setEnabled(false);
+		chbHorarioRotativo.setEnabled(false);
 		
+		txtCalle.setEnabled(false);
+		txtColonia.setEnabled(false);
+		txtPoblacion.setEnabled(false);
+		txtTelefono_Propio.setEnabled(false);
+		txtRFC.setEnabled(false);
+		txtCurp.setEnabled(false);
+		
+		rbMasculino.setEnabled(false);
+		rbFemenino.setEnabled(false);
+		
+		btnHorario.setEnabled(false);
+		btnHorario2.setEnabled(false);
+		
+		rbHorario.setEnabled(false);
+		rbHorario2.setEnabled(false);
+		
+		txtBaja.setEnabled(false);
+		cmbDepartamento.setEnabled(false);
+		txtNumeroInfonavit.setEnabled(false);
+		
+		txtSalarioDiario.setEnabled(false);
+		txtSalarioDiarioIntegrado.setEnabled(false);
+		txtFormaDePago.setEnabled(false);
+		
+		btnTrueFoto.setSelected(false);
+		btnExaminar.setEnabled(false);
+		btnCamara.setEnabled(false);
 	}
+
 	///boton deshacer
 	public void panelLimpiar(){	
-		txtFolio.setText("");
+		txtFolioEmpleado.setText("");
 		txtChecador.setText("");
 		txtNombre.setText("");
 		txtApPaterno.setText("");
@@ -963,10 +1320,8 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setText("");
 		cmbEstablecimiento.setSelectedIndex(0);
 		cmbPuesto.setSelectedIndex(0);
-		cmbTurno.setSelectedIndex(0);
-		cmbTurno2.setSelectedIndex(0);
-		cmbDescanso.setSelectedIndex(0);
-		cmbDobla.setSelectedIndex(0);
+		txtHorario.setText("");
+		txtHorario2.setText("");
 		cmbSueldo.setSelectedIndex(0);
 		cmbBono.setSelectedIndex(0);
 		cmbPrestamos.setSelectedIndex(0);
@@ -982,14 +1337,37 @@ public class Cat_Empleado extends JFrame{
 	    btnStatus.setIcon(new ImageIcon(""));
 	    cmbActivo_Inactivo.setSelectedIndex(0);
 	    txtTelefono_Familiar.setText("");
-	    txtTelefono_Propio.setText("");
+	    txtTelefono_Cuadrante.setText("");
 	    chb_cuadrante_parcial.setSelected(false);
+	    txtCalendario.setDate(null);
 	    
-		String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-		ImageIcon tmpIconAux = new ImageIcon(file);
-		btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+		txtCalle.setText("");
+		txtColonia.setText("");
+		txtPoblacion.setText("");
+		txtTelefono_Propio.setText("");
+		txtRFC.setText("");
+		txtCurp.setText("");
+		txtIngreso.setDate(null);
 		
+		txtDescanso.setText("");
+		txtDobla.setText("");
+		
+		txtBaja.setText("");
+		cmbDepartamento.setSelectedIndex(0);
+		txtNumeroInfonavit.setText("");
+		
+		txtSalarioDiario.setText("");
+		txtSalarioDiarioIntegrado.setText("");
+		txtFormaDePago.setText("");
+		txtFechaActualizacion.setText("");
 	    
+		 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
+         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+         btnFoto.setIcon(iconoDefault);
+         
+		 ImageIcon file_status = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Vigente.png");
+         Icon iconoStatus = new ImageIcon(file_status.getImage().getScaledInstance(btnStatus.getWidth(), btnStatus.getHeight(), Image.SCALE_DEFAULT));
+         btnStatus.setIcon(iconoStatus);
 	}
 	
 	ActionListener nuevo = new ActionListener(){
@@ -998,32 +1376,33 @@ public class Cat_Empleado extends JFrame{
 				Obj_Empleado empleado = new Obj_Empleado().buscar_nuevo();
 				if(empleado.getFolio() != 0){
 					panelLimpiar();
-//					txtChecador.setEditable(true);
+					panelEnabledFalse();
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
-					txtFolio.setText(empleado.getFolio()+1+"");
-					txtFolio.setEditable(false);
-//					txtChecador.requestFocus();
+					txtFolioEmpleado.setText(empleado.getFolio()+1+"");
 					txtNombre.requestFocus();
-					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
-					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-					ImageIcon tmpIconAux = new ImageIcon(file);
-					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-					String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
-					ImageIcon tmpIconAux_status = new ImageIcon(file_status);
-					btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-							
+					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+					
+					 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
+			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+			         btnFoto.setIcon(iconoDefault);
+			         
+					 ImageIcon file_status = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Vigente.png");
+			         Icon iconoStatus = new ImageIcon(file_status.getImage().getScaledInstance(btnStatus.getWidth(), btnStatus.getHeight(), Image.SCALE_DEFAULT));
+			         btnStatus.setIcon(iconoStatus);
+			         
 				}else{
 					panelEnabledTrue();
-					txtFolio.setText(1+"");
-					txtFolio.setEditable(false);
-//					txtChecador.requestFocus();
+					txtFolioEmpleado.setText(1+"");
+					txtFolioEmpleado.setEditable(false);
 					txtNombre.requestFocus();
-					txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+					txtFechaActualizacion.setText(new SimpleDateFormat("dd/MM/yyyy").format((new Date())));
+					
 					String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
 					ImageIcon tmpIconAux = new ImageIcon(file);
 					btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
+					
 					String file_status = System.getProperty("user.dir")+"/Iconos/Vigente.png";
 					ImageIcon tmpIconAux_status = new ImageIcon(file_status);
 					btnStatus.setIcon(new ImageIcon(tmpIconAux_status.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
@@ -1031,33 +1410,44 @@ public class Cat_Empleado extends JFrame{
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		
 		}
 	};
 	
 	ActionListener deshacer = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelLimpiar();
-			cmbTurno.setEnabled(false);
 			rbHorario2.setEnabled(false);
-			cmbTurno2.setEnabled(false);
 			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
+			txtFolioEmpleado.setEditable(true);
+			txtFolioEmpleado.requestFocus();
 			btnEditar.setVisible(false);
 			btnNuevo.setVisible(true);
+			txtHorario.setEnabled(false);
+			btnHorario.setEnabled(false);
 		}
 	};
 	
 	ActionListener Reporte_de_Empleados_No_Contratables = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 				new Reporte_de_Empleados_No_Contratables();
-			
 		}
 	};
 	ActionListener salir = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
+		}
+	};
+	
+	ActionListener opFiltroHorairo = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			seleccion_de_asignacion_de_Horario1Horario2=1;
+			new Filtro_Horario_Empleado().setVisible(true);
+		}
+	};
+	ActionListener opFiltroHorairo2 = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			seleccion_de_asignacion_de_Horario1Horario2=2;
+			new Filtro_Horario_Empleado().setVisible(true);
 		}
 	};
 	
@@ -1109,7 +1499,6 @@ public class Cat_Empleado extends JFrame{
 						e.consume(); 
 				}				
 			}
-				   
 		}
 		@Override
 		public void keyPressed(KeyEvent arg0) {}
@@ -1118,7 +1507,7 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
-	KeyListener validaNumericoConPunto = new KeyListener() {
+	KeyListener validaNumericoSD = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
@@ -1130,7 +1519,30 @@ public class Cat_Empleado extends JFrame{
 		    	}
 		    	
 		   if (caracter==KeyEvent.VK_PERIOD){
-		    	String texto = txtInfonavit.getText().toString();
+		    	String texto = txtSalarioDiario.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	KeyListener validaNumericoSDI = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    	String texto = txtSalarioDiarioIntegrado.getText().toString();
 				if (texto.indexOf(".")>-1) e.consume();
 			}
 		}
@@ -1164,20 +1576,47 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
+	KeyListener validaNumericoConPunto = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if(((caracter < '0') ||	
+		    	(caracter > '9')) && 
+		    	(caracter != '.' )){
+		    	e.consume();
+		    	}
+		    	
+		   if (caracter==KeyEvent.VK_PERIOD){
+		    	String texto = txtInfonavit.getText().toString();
+				if (texto.indexOf(".")>-1) e.consume();
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
 	private String validaCampos(){
 		String error="";
 		String fechaNull = txtCalendario.getDate()+"";
 		String fechaIngresoNull = txtIngreso.getDate()+"";
 		
-		if(txtFolio.getText().equals("")) 		error+= "Folio\n";
-//		if(txtChecador.getText().equals("")) 	error+= "Numero Checador\n";
+		if(txtFolioEmpleado.getText().equals("")) 		error+= "Folio\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
 		if(txtApPaterno.getText().equals(""))	error+= "Ap Paterno\n";
+		if(txtCalle.getText().equals(""))	error+= "Calle\n";
+		if(txtColonia.getText().equals(""))	error+= "Colonia\n";
+		if(txtPoblacion.getText().equals(""))	error+= "Poblacion\n";
+		if(txtTelefono_Familiar.getText().equals(""))	error+= "Telefono Familiar\n";
+		if(txtTelefono_Propio.getText().equals(""))	error+= "txtTelefonob Propio\n";
+		if(cmbDepartamento.getSelectedItem().equals("Selecciona un Departamento"))	error+= "Departamento\n";
+		
 		if(cmbEstablecimiento.getSelectedItem().equals("Selecciona un Establecimiento")) error += "Establecimiento\n";
 		if(cmbPuesto.getSelectedItem().equals("Selecciona un Puesto")) error += "Puesto\n";
-		if(cmbTurno.getSelectedItem().equals("Selecciona un Turno")) error += "Turno\n";
-		if(cmbDescanso.getSelectedItem().equals("Selecciona un Día")) error += "Descanso\n";
-		if(cmbDobla.getSelectedItem().equals("Selecciona un Día")) error += "Día Dobla\n";
+		if(txtHorario.getText().equals("")) 		error+= "Turno\n";
 		if(cmbSueldo.getSelectedItem().equals("Selecciona un Sueldo")) error += "Sueldo\n";
 		if(cmbTipoBancos.getSelectedItem().equals("Selecciona un Banco")) error += "Tipo de Banco\n";
 		if(cmbBono.getSelectedItem().equals("Selecciona un Bono")) error += "Bono\n";
@@ -1186,126 +1625,6 @@ public class Cat_Empleado extends JFrame{
 		if(fechaIngresoNull.equals("null"))error += "Fecha de ingreso\n";
 		
 		return error;
-	}
-	
-	@SuppressWarnings("deprecation")
-	
-	//constructor del filtro
-	
-	public Cat_Empleado(String algo) {
-		
-		getContenedor();
-		
-		
-		btnNuevo.setVisible(false);
-		btnEditar.setVisible(true);
-		
-		Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(algo));
-		
-		if(re.getFolio() != 0){		
-			txtFolio.setText(re.getFolio()+"");
-			txtChecador.setText(re.getNo_checador()+"");
-			txtNombre.setText(re.getNombre());
-			txtApPaterno.setText(re.getAp_paterno());
-			txtApMaterno.setText(re.getAp_materno());	
-			txtPensionAli.setText(re.getPension_alimenticia()+"");
-			
-			Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-			cmbEstablecimiento.setSelectedItem(comboNombreEsta.getNombre());
-			
-			Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-			cmbPuesto.setSelectedItem(comboNombrePues.getPuesto());
-			
-			Obj_Turno comboNombreTurn = new Obj_Turno().buscar_tur(re.getTurno());
-			cmbTurno.setSelectedItem(comboNombreTurn.getNombre());
-			
-			Obj_Turno2 comboNombreTurn2 = new Obj_Turno2().buscar_tur2(re.getTurno());
-			cmbTurno2.setSelectedItem(comboNombreTurn2.getNombre());
-			
-			cmbDescanso.setSelectedIndex(re.getDescanso());
-			cmbDobla.setSelectedIndex(re.getDobla());
-			cmbSueldo.setSelectedIndex(re.getSueldo());
-			
-			Obj_Bono_Complemento_Sueldo bono = new Obj_Bono_Complemento_Sueldo().buscar(re.getBono());
-			cmbBono.setSelectedItem(bono.getBono()+"");
-			
-			cmbPrestamos.setSelectedIndex(re.getPrestamo());
-
-			txtInfonavit.setText(re.getInfonavit()+"");				
-			
-			txtTarjetaNomina.setText(re.getTargeta_nomina()+"");
-			Obj_Tipo_Banco comboNombreBanco = new Obj_Tipo_Banco().buscar_pues(re.getTipo_banco());
-			cmbTipoBancos.setSelectedItem(comboNombreBanco.getBanco());
-			
-			txtImss.setText(re.getImss()+"");
-			
-			if(re.getFuente_sodas() == true){chbFuente_Sodas.setSelected(true);}
-			else{chbFuente_Sodas.setSelected(false);}
-			if(re.getGafete() == true){chbGafete.setSelected(true);}
-			else{chbGafete.setSelected(false);}
-			cmbStatus.setSelectedIndex(re.getStatus()-1);
-			txtTelefono_Familiar.setText(re.getTelefono_familiar());
-			txtTelefono_Propio.setText(re.getTelefono_propio());
-			
-			switch(cmbStatus.getSelectedIndex()+1){
-				case 1:btnStatus.setIcon(new ImageIcon("Iconos/vigente.png")); 
-					   btnEditar.setVisible(true);
-					   break;
-				case 2:btnStatus.setIcon(new ImageIcon("Iconos/vacaciones.png"));
-					   btnEditar.setVisible(true);
-					   break;
-				case 3:btnStatus.setIcon(new ImageIcon("Iconos/incapacidad.png"));
-					   btnEditar.setVisible(true);
-					   break;
-				case 4:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
-					   btnEditar.setVisible(true);
-					   break;
-				case 5:btnStatus.setIcon(new ImageIcon("Iconos/baja.png")); 
-					   btnEditar.setVisible(false); 
-					   break;
-			}
-			
-			if(re.getFecha_nacimiento() != null){
-				try {
-					Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
-					Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
-					
-					txtCalendario.setDate(date);
-					txtIngreso.setDate(date_ingreso);
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-			}
-			
-			chb_cuadrante_parcial.setSelected(re.isCuadrante_parcial());
-			
-			txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format((Date.parse(re.getFecha()))));
-			txaObservaciones.setText(re.getObservasiones());
-			
-			cmbActivo_Inactivo.setSelectedIndex(re.getStatus_imss());
-			
-			ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-		    btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-			
-		    
-		    btnNuevo.setVisible(false);
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			txtFolio.requestFocus();
-			
-		}
-		else{
-			panelLimpiar();
-			panelEnabledFalse();
-			txtFolio.setEditable(true);
-			String file = System.getProperty("user.dir")+"/Iconos/Un.JPG";
-			ImageIcon tmpIconAux = new ImageIcon(file);
-			btnFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(230, 195, Image.SCALE_DEFAULT)));	
-		}
-		
-		panelEnabledFalse();
-		txtFolio.setEnabled(true);
-		
 	}
 	
 	public static void main(String args[]){
@@ -1570,7 +1889,6 @@ public class Cat_Empleado extends JFrame{
 					}catch(IOException ioe){
 						JOptionPane.showMessageDialog(null,"Error al guardar la imagen", "Error!",JOptionPane.ERROR_MESSAGE);
 					}
-	             
 	            }
 	        }
 	        else
@@ -1580,27 +1898,535 @@ public class Cat_Empleado extends JFrame{
 	        img=null;
 	    }
 	}
-	
-//		setToolTipText en comboBox			---------------------------------------------------------------
-	  class MyComboBoxRenderer extends BasicComboBoxRenderer {
-	    @SuppressWarnings("rawtypes")
-		public Component getListCellRendererComponent(JList list, Object value,
-	        int index, boolean isSelected, boolean cellHasFocus) {
-	      if (isSelected) {
-	        setBackground(list.getSelectionBackground());
-	        setForeground(list.getSelectionForeground());
-	        if (-1 < index) {
-	          list.setToolTipText(tooltips[index]);
-	        }
-	      } else {
-	        setBackground(list.getBackground());
-	        setForeground(list.getForeground());
-	      }
-	      setFont(list.getFont());
-	      setText((value == null) ? "" : value.toString());
-	      return this;
+
+//	filtro de horario para asignarcelo al un empleado
+	public class Filtro_Horario_Empleado extends JDialog
+	{
+		Container cont = getContentPane();
+		JLayeredPane panel = new JLayeredPane();
+		
+		JTextField txtNombre = new JTextField();
+		JTextField txtFolioHorario = new JTextField();
+
+		DefaultTableModel modelo = new DefaultTableModel(0,2)	{
+			public boolean isCellEditable(int fila, int columna){
+				if(columna < 0)
+					return true;
+				return false;
+			}
+		};
+		
+		JTable tabla = new JTable(modelo);
+		
+		@SuppressWarnings("rawtypes")
+		private TableRowSorter trsfiltro;
+		
+		@SuppressWarnings({ "rawtypes" })
+		public Filtro_Horario_Empleado()
+		{
+			
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/nivG.png"));
+			panel.setBorder(BorderFactory.createTitledBorder("Filtro Horario"));	
+			
+			panel.add(getPanelTabla()).setBounds(20,50,800,400);
+			panel.add(txtFolioHorario).setBounds(20,20,80,20);
+			panel.add(txtNombre).setBounds(100,20,720,20);
+			
+			cont.add(panel);
+			txtNombre.setToolTipText("Filtro");
+			
+			txtFolioHorario.setDocument(new JTextFieldLimit(9));
+			
+			trsfiltro = new TableRowSorter(modelo); 
+			tabla.setRowSorter(trsfiltro);
+			
+			txtNombre.addKeyListener(opFiltroNombre);
+			txtFolioHorario.addKeyListener(opFiltroFolio);
+			
+			agregar(tabla);
+			
+			this.setTitle("Filtro Horario");
+			this.setSize(845,500);
+			this.setLocationRelativeTo(null);
+			this.setResizable(false);
+		}
+		int x=2;
+		private void agregar(final JTable tbl) {
+	        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+		        public void mouseClicked(MouseEvent e) {
+		        	if(e.getClickCount() == 2){
+		        		
+		    			int fila = tabla.getSelectedRow();
+		    			Object folio =  tabla.getValueAt(fila, 1);
+		    			
+		    			if(seleccion_de_asignacion_de_Horario1Horario2==1){
+		    				txtHorario.setText(folio+"");
+			    			txtHorario.setToolTipText(folio+"");
+			    				rbHorario.doClick();
+		    			}else{
+		    				txtHorario2.setText(folio+"");
+			    			txtHorario2.setToolTipText(folio+"");
+			    			
+			    			rbHorario2.setEnabled(true);
+			    			chbHorarioRotativo.setEnabled(true);
+		    			}
+		    			dispose();
+		        	}
+		        }
+	        });
 	    }
-	  }
+		
+		KeyListener opFiltroFolio = new KeyListener(){
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolioHorario.getText(), 0));
+			}
+			public void keyTyped(KeyEvent arg0) {
+				char caracter = arg0.getKeyChar();
+				if(((caracter < '0') ||
+					(caracter > '9')) &&
+				    (caracter != KeyEvent.VK_BACK_SPACE)){
+					arg0.consume(); 
+				}	
+			}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		KeyListener opFiltroNombre = new KeyListener(){
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre.getText().toUpperCase().trim(), 1));
+			}
+			public void keyTyped(KeyEvent arg0) {}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+	   	private JScrollPane getPanelTabla()	{		
+			new Connexion();
+			
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+			tcr.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(1).setCellRenderer(tcr);
+
+			
+			// Creamos las columnas.
+			tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+			tabla.getColumnModel().getColumn(0).setMinWidth(80);
+			tabla.getColumnModel().getColumn(0).setMinWidth(80);
+			tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre");
+			tabla.getColumnModel().getColumn(1).setMinWidth(720);
+			tabla.getColumnModel().getColumn(1).setMaxWidth(720);
+			
+			TableCellRenderer render = new TableCellRenderer() 
+			{ 
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column) { 
+					JLabel lbl = new JLabel(value == null? "": value.toString());
+			
+					if(row%2==0){
+							lbl.setOpaque(true); 
+							lbl.setBackground(new java.awt.Color(177,177,177));
+					} 
+				return lbl; 
+				} 
+			}; 
+			tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
+
+			Statement s;
+			ResultSet rs;
+			try {
+				s = new Connexion().conexion().createStatement();
+				rs = s.executeQuery( "  select * from tb_horarios");
+				int folio;
+				String nombre;
+				
+				while (rs.next())
+				{ 
+					folio= rs.getInt(1);
+					nombre= rs.getString(2).trim();
+					
+				   String [] fila = new String[2];
+				   fila[0] = folio+"";
+				   fila[1] = nombre;
+				   
+				   modelo.addRow(fila); 
+				}	
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			 JScrollPane scrol = new JScrollPane(tabla);
+			   
+		    return scrol; 
+		}
+	}
+
+//		setToolTipText en comboBox			---------------------------------------------------------------
+//	  class MyComboBoxRenderer extends BasicComboBoxRenderer {
+//	    @SuppressWarnings("rawtypes")
+//		public Component getListCellRendererComponent(JList list, Object value,
+//	        int index, boolean isSelected, boolean cellHasFocus) {
+//	      if (isSelected) {
+//	        setBackground(list.getSelectionBackground());
+//	        setForeground(list.getSelectionForeground());
+//	        if (-1 < index) {
+//	          list.setToolTipText(tooltips[index]);
+//	        }
+//	      } else {
+//	        setBackground(list.getBackground());
+//	        setForeground(list.getForeground());
+//	      }
+//	      setFont(list.getFont());
+//	      setText((value == null) ? "" : value.toString());
+//	      return this;
+//	    }
+//	  }
+	
+	public class Cat_Filtro_Empleado extends JDialog {
+		
+		Container cont = getContentPane();
+		JLayeredPane campo = new JLayeredPane();
+		
+		DefaultTableModel model = new DefaultTableModel(0,9){
+			public boolean isCellEditable(int fila, int columna){
+				if(columna < 0)
+					return true;
+				return false;
+			}
+		};
+		
+		JTable tabla = new JTable(model);
+		
+		@SuppressWarnings("rawtypes")
+		private TableRowSorter trsfiltro;
+		
+		JTextField txtFolioFiltroEmpleado = new JTextField();
+		JTextField txtNombre_Completo = new JTextField();
+		
+		String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
+		@SuppressWarnings("rawtypes")
+		JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
+
+		@SuppressWarnings("rawtypes")
+		public Cat_Filtro_Empleado(){
+			
+			this.setModal(true);
+			
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
+			this.setTitle("Filtro de Empleados");
+			campo.setBorder(BorderFactory.createTitledBorder("Filtro De Empleado"));
+			trsfiltro = new TableRowSorter(model); 
+			tabla.setRowSorter(trsfiltro);  
+			
+			campo.add(getPanelTabla()).setBounds(15,42,1000,565);
+			
+			campo.add(txtFolioFiltroEmpleado).setBounds(15,20,48,20);
+			campo.add(txtNombre_Completo).setBounds(64,20,229,20);
+			campo.add(cmbEstablecimientos).setBounds(295,20, 148, 20);
+			
+			agregar(tabla);
+			
+			cont.add(campo);
+			
+			txtFolioFiltroEmpleado.addKeyListener(opFiltroFolio);
+			txtNombre_Completo.addKeyListener(opFiltroNombre);
+			cmbEstablecimientos.addActionListener(opFiltro);
+			
+			this.setSize(1040,650);
+			this.setResizable(false);
+			this.setLocationRelativeTo(null);
+			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			
+		}
+		private void agregar(final JTable tbl) {
+	        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+		        public void mouseClicked(MouseEvent e) {
+		        	if(e.getClickCount() == 2){
+		    			int fila = tabla.getSelectedRow();
+		    			Object folio =  tabla.getValueAt(fila, 0).toString().trim();
+		    			dispose();
+		    			txtFolioEmpleado.setText(folio+"");
+		    			btnBuscar.doClick();
+		        	}
+		        }
+	        });
+	    }
+		
+		KeyListener opFiltroFolio = new KeyListener(){
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolioFiltroEmpleado.getText(), 0));
+			}
+			public void keyTyped(KeyEvent arg0) {
+				char caracter = arg0.getKeyChar();
+				if(((caracter < '0') ||
+					(caracter > '9')) &&
+				    (caracter != KeyEvent.VK_BACK_SPACE)){
+					arg0.consume(); 
+				}	
+			}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		KeyListener opFiltroNombre = new KeyListener(){
+			public void keyReleased(KeyEvent arg0) {
+				trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+			}
+			public void keyTyped(KeyEvent arg0) {}
+			public void keyPressed(KeyEvent arg0) {}		
+		};
+		
+		ActionListener opFiltro = new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(cmbEstablecimientos.getSelectedIndex() != 0){
+					trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
+				}else{
+					trsfiltro.setRowFilter(RowFilter.regexFilter("", 2));
+				}
+			}
+		};
+		
+	   	private JScrollPane getPanelTabla()	{		
+			new Connexion();
+			
+			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
+			tcr.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			int a=2;
+			tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
+			
+			// Creamos las columnas.
+			tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
+			tabla.getColumnModel().getColumn(0).setMaxWidth(50);
+			tabla.getColumnModel().getColumn(0).setMinWidth(50);
+			tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
+			tabla.getColumnModel().getColumn(1).setMaxWidth(230);
+			tabla.getColumnModel().getColumn(1).setMinWidth(230);
+			tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
+			tabla.getColumnModel().getColumn(2).setMaxWidth(150);
+			tabla.getColumnModel().getColumn(2).setMinWidth(150);
+			tabla.getColumnModel().getColumn(3).setHeaderValue("Puesto");
+			tabla.getColumnModel().getColumn(3).setMaxWidth(180);
+			tabla.getColumnModel().getColumn(3).setMinWidth(180);
+			tabla.getColumnModel().getColumn(4).setHeaderValue("Sueldo");
+			tabla.getColumnModel().getColumn(4).setMaxWidth(70);
+			tabla.getColumnModel().getColumn(4).setMinWidth(70);
+			tabla.getColumnModel().getColumn(5).setHeaderValue("Bono");
+			tabla.getColumnModel().getColumn(5).setMaxWidth(70);
+			tabla.getColumnModel().getColumn(5).setMinWidth(70);
+			tabla.getColumnModel().getColumn(6).setHeaderValue("Status");
+			tabla.getColumnModel().getColumn(6).setMaxWidth(120);
+			tabla.getColumnModel().getColumn(6).setMinWidth(120);
+			tabla.getColumnModel().getColumn(7).setHeaderValue("F Sodas");
+			tabla.getColumnModel().getColumn(7).setMaxWidth(50);
+			tabla.getColumnModel().getColumn(7).setMinWidth(50);
+			tabla.getColumnModel().getColumn(8).setHeaderValue("Gafete");
+			tabla.getColumnModel().getColumn(8).setMaxWidth(50);
+			tabla.getColumnModel().getColumn(8).setMinWidth(50);
+			
+			TableCellRenderer render = new TableCellRenderer() { 
+				public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+				boolean hasFocus, int row, int column) { 
+					
+					Component componente = null;
+					
+					switch(column){
+						case 0: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}				
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 1: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 2:
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 3: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 4: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 5: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row %2 == 0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+							break;
+						case 6: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+							break;
+						case 7: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+							break;
+						case 8: 
+							componente = new JLabel(value == null? "": value.toString());
+							if(row%2==0){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(177,177,177));	
+							}
+							if(table.getSelectedRow() == row){
+								((JComponent) componente).setOpaque(true); 
+								componente.setBackground(new java.awt.Color(186,143,73));
+							}
+							((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+							break;
+					}
+					return componente;
+				} 
+			}; 
+			
+			tabla.getColumnModel().getColumn(a=0).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render);
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			tabla.getColumnModel().getColumn(a+=1).setCellRenderer(render); 
+			
+			Statement s;
+			ResultSet rs;
+			try {
+				s = new Connexion().conexion().createStatement();
+				rs = s.executeQuery("exec sp_filtro_empleado");
+				
+				while (rs.next())
+				{ 
+				   String [] fila = new String[9];
+				   fila[0] = rs.getString(1)+"  ";
+				   fila[1] = "   "+rs.getString(2);
+				   fila[2] = "   "+rs.getString(3).trim();
+				   fila[3] = "   "+rs.getString(4).trim();
+				   fila[4] = rs.getString(5).trim();
+				   fila[5] = rs.getString(6).trim();
+				   fila[6] = "   "+rs.getString(7).trim();
+				   fila[7] = rs.getString(8).trim();
+				   fila[8] = rs.getString(9).trim();
+				
+				   model.addRow(fila); 
+				}	
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			 JScrollPane scrol = new JScrollPane(tabla);
+			   
+		    return scrol; 
+		}
+		
+		KeyListener validaCantidad = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e){
+				char caracter = e.getKeyChar();				
+				if(((caracter < '0') ||	
+				    	(caracter > '9')) && 
+				    	(caracter != '.' )){
+				    	e.consume();
+				    	}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {	
+			}
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+			}	
+		};
+		
+		KeyListener validaNumericoConPunto = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();
+				
+			    if(((caracter < '0') ||	
+			    	(caracter > '9')) && 
+			    	(caracter != '.')){
+			    	e.consume();
+			    	}
+			}
+			@Override
+			public void keyPressed(KeyEvent e){}
+			@Override
+			public void keyReleased(KeyEvent e){}
+									
+		};
+		
+	}
+
 	
 	public class JMenuFormato extends JMenuItem implements ActionListener{
 

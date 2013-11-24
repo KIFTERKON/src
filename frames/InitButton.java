@@ -786,6 +786,7 @@ public class InitButton extends InitMenuBar{
 			btnListaComparacion.setEnabled(false);
 			
 			/* CATALOGO */
+			    Catalogo_Departamento.setEnabled(false);
 				Catalogo_Empleado.setEnabled(false);
 				Catalogo_Establecimiento.setEnabled(false);
 				Catalogo_Puesto.setEnabled(false);
@@ -823,8 +824,10 @@ public class InitButton extends InitMenuBar{
 				Cuadrantes_Catalogo_Equipo_Trabajo.setEnabled(false);
 				Cuadrantes_Catalogo_Jefatura.setEnabled(false);
 				Cuadrantes_Catalogo_Nivel_Critico.setEnabled(false);
-				Cuadrantes_Catalogo_Respuesta.setEnabled(false);
+				Cuadrantes_Catalogo_Nivel_Jerarquico.setEnabled(false);
+				Cuadrantes_Catalogo_Respuesta_Multiple.setEnabled(false);
 				Cuadrantes_Catalogo_Ponderacion.setEnabled(false);
+				Cuadrantes_Catalogo_Respuesta.setEnabled(false);
 			/* CUADRANTES 
 			*		REPORTE */
 				Cuadrantes_Reportes_Directivo.setEnabled(false);
@@ -845,6 +848,17 @@ public class InitButton extends InitMenuBar{
 			* 		AUTORIZACIONES */
 				Autorizacion_Auditoria.setEnabled(false);
 				Autorizacion_Finanzas.setEnabled(false);
+			/* LISTA DE RAYA 
+			* 		CHECADORES */
+				Checador_Menu.setEnabled(true);
+				Dias_Inhabiles.setEnabled(false);
+				Generacion_Gafetes_Empleados.setEnabled(false);
+				Horarios.setEnabled(false);
+				Mensajes_Personales.setEnabled(false);
+				Permisos_Empleados.setEnabled(false);
+				Reportes_Checador_Gral.setEnabled(false);
+				
+				
 			/* LISTA DE RAYA 
 			* 		COMPARACIONES */
 				Comparaciones_Listas_Fuente_Sodas.setEnabled(false);

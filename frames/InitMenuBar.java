@@ -65,7 +65,7 @@ import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;
 import catalogos.Cat_Tipo_Banco;
-import catalogos.Cat_Turno;
+import catalogos.Cat_Departamento;
 import catalogos.Cat_Usuario;
 
 @SuppressWarnings("serial")
@@ -83,6 +83,7 @@ public class InitMenuBar extends Init{
 	
 	/* CATALOGO */
 	JMenu Catalogo = new JMenu("Catalogo");
+	    JMenuItem Catalogo_Departamento    = new JMenuItem("Nuevo Departamento");
 		JMenuItem Catalogo_Empleado	       = new JMenuItem("Nuevo Empleado", new ImageIcon("Iconos/user_icon&16.png"));
 		JMenuItem Catalogo_Establecimiento = new JMenuItem("Nuevo Establecimiento");
 		JMenuItem Catalogo_Puesto 		   = new JMenuItem("Nuevo Puesto");
@@ -205,6 +206,10 @@ public class InitMenuBar extends Init{
 
 		/* CATALOGO */
 		Catalogo.setMnemonic(KeyEvent.VK_C);
+    	Catalogo.add(Catalogo_Departamento);
+    	    Catalogo_Departamento.addActionListener(Opciones);
+    	    Catalogo_Departamento.setEnabled(false);
+	    
 		Catalogo.add(Catalogo_Empleado);
 			Catalogo_Empleado.addActionListener(Opciones);
 			Catalogo_Empleado.setEnabled(false);
@@ -480,6 +485,8 @@ public class InitMenuBar extends Init{
 			}
 			
 			/* CATALOGO */
+			if(e.getActionCommand().equals("Nuevo Departamento"))
+				new Cat_Departamento().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Empleado"))
 				new Cat_Empleado().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Establecimiento"))
@@ -493,7 +500,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Nuevo Tipos de Bancos"))
 				new Cat_Tipo_Banco().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Turno"))
-				new Cat_Turno().setVisible(true);
+				new Cat_Departamento().setVisible(true);
 			
 			/* CONFIGURACION */
 			if(e.getActionCommand().equals("Configuración de Asistencia y Puntualidad"))

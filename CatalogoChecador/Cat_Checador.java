@@ -45,7 +45,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableRowSorter;
 
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Traer_Checador;
@@ -88,7 +87,8 @@ public class Cat_Checador extends JFrame {
                     public boolean isCellEditable(int fila, int columna){
                                 switch(columna){
                                         case 0  : return false; 
-                                       case 1  : return false; 
+                                        case 1  : return false; 
+                                        case 2  : return false; 
                                         case 3  : return false; 
                                         case 4  : return false; 
                                         
@@ -105,9 +105,6 @@ public class Cat_Checador extends JFrame {
                 static JTable tabla = new JTable(tabla_model);
                 JScrollPane panelScroll = new JScrollPane(tabla);
                 
-                @SuppressWarnings({ "unchecked", "rawtypes" })
-                public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
-        
                 JLabel lblFolio = new JLabel("Numero de Empleado:");
                 JTextField txtFolio = new JTextField();
                 
@@ -321,9 +318,15 @@ public class Cat_Checador extends JFrame {
                 
                 txtFolio.addKeyListener(action_buscar);
                 txtClaveReal.addKeyListener(action_entosal_clave);
+             
+//           asigna el foco al JTextField deseado al arrancar la ventana
+              this.addWindowListener(new WindowAdapter() {
+                      public void windowOpened( WindowEvent e ){
+                      txtFolio.requestFocus();
+                   }
+              });
                 
-                
-//                pone el foco en el txtFolio al presionar la tecla scape
+//           pone el foco en el txtFolio al presionar la tecla scape
                 getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                    KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "foco");
                 
@@ -359,16 +362,9 @@ public class Cat_Checador extends JFrame {
                 this.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-//                asigna el foco al JTextField deseado al arrancar la ventana
-                this.addWindowListener(new WindowAdapter() {
-                        public void windowOpened( WindowEvent e ){
-                        txtFolio.requestFocus();
-                     }
-                });
-                
                 lblCerrar.addMouseListener ( new  MouseAdapter (){
                         public void mouseReleased (MouseEvent e){
-                                        dispose();
+                             dispose();
                         }  
                 });  
         }
@@ -441,7 +437,7 @@ public class Cat_Checador extends JFrame {
                                         }else{
                                                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
                                                         
-                                                        if(re.getFolio() != 0 && re.getTurno() !=0){        
+                                                        if(re.getFolio() != 0 && re.getHorario() !=0){        
                                                                         
                                                                 txtFolio.setText(re.getFolio()+"");
                                                                 numero_de_checador = re.getNo_checador();
@@ -511,9 +507,12 @@ public class Cat_Checador extends JFrame {
                                                 }else{        
                                                         
                                                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+                                                        Obj_Entosal entosalClave = new Obj_Entosal().buscar();
+                                                        
                                                                 switch (re.getStatus()){
                                                                 
-                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
+                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+
                                                                                                                  registrarEntrada();
                                                                                                  }else{
                                                                                                                  JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
@@ -574,7 +573,7 @@ public class Cat_Checador extends JFrame {
 //                        }
 //----------------------------------------------------------------------------------------------------------------------        
                 if(txtClaveReal.getText().toUpperCase().equals(numero_de_checador)){
-
+//-----------------------------------------
                         if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){         
                                          JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
                                                  JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE);
@@ -602,7 +601,7 @@ public class Cat_Checador extends JFrame {
                                         }else{
                                                         if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
                                                                 
-                                                                JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Doblan ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                                                JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
                                                                  
                                                                          txtFolio.setEditable(true);
                                                                         txtFolio.setText("");
@@ -661,7 +660,7 @@ public class Cat_Checador extends JFrame {
                                                                                         txtClaveReal.requestFocus();
                                                                 
                                                                              }else{
-                                                                                             JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.ERROR_MESSAGE);
+                                                                                             JOptionPane.showMessageDialog(null, "LA CLAVE NO CORRESPONDE","Error",JOptionPane.WARNING_MESSAGE);
                                                                                             txtFolio.setEditable(true);
                                                                                             txtClaveReal.setEditable(false);
                                                                                             panelLimpiar();
@@ -680,66 +679,110 @@ public class Cat_Checador extends JFrame {
                                 txtFolio.requestFocus();
                 }else{
 
-                        Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                        Obj_Entosal entosalClave = new Obj_Entosal().buscar(txtClaveReal.getText().toUpperCase());
-                        
-                                if(re.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
-                                          
-                                	if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
-                                                          new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
-                                           }else{
-                                                        Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
-                                                        
-//                                                        tabla_model.addRow(registro);
-                                                        String tipo=registro[2].toString();
-                                                        String hora=registro[3].toString();
-                                                        
-                                                        String Fecha=registro[9].toString();
-                                                        lblFecha.setText(Fecha);
-                                                        
-                                                        txtFolio.setEditable(true);
-                                                        txtFolio.setText("");
-                                                        txtFolio.requestFocus();
-                                                        txtClaveReal.setText("");
-                                                        txtClaveReal.setEditable(false);
-                                                        
-                                                                if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-                                                                        lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-                                                                        lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
-                
-                                                                }else{
-                                                                        lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-                                                                        lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-                                                                }
-                                                        
-                                                        lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-                                                        
-                                                        Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-                                                        lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-                
-                                                        Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-                                                        lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-                                                        
-                                                        txtFolio.setEditable(false);
-                                                        txtClaveReal.setEditable(true);
-                                                        txtClaveReal.requestFocus();
-                                                        
+                    Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+                    Obj_Entosal entosalClave = new Obj_Entosal().buscar();
+                    
+                    if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){         
+                        JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                
+                                                txtFolio.setEditable(true);
+                                               txtFolio.setText("");
+                                               txtClaveReal.setText("");
+                                               txtClaveReal.setEditable(false);
+                                               txtFolio.requestFocus();
+                        return;
+        }else{
+               
+                       if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
+                                               
+                               JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
+                                       
+                                               txtFolio.setEditable(true);
+                                               txtFolio.setText("");
+                                               txtClaveReal.setText("");
+                                               txtClaveReal.setEditable(false);
+                                               txtFolio.requestFocus();
+                               return;
+                       }else{
+                                       if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
+                                               
+                                               JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                                
+                                                       txtFolio.setEditable(true);
+                                                       txtFolio.setText("");
+                                                       txtClaveReal.setText("");
+                                                       txtClaveReal.setEditable(false);
+                                                       txtFolio.requestFocus();
+                                               return;
+                                       }else{
+                                                         if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
+                                                                     new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
+                                                          }else{
+                                                                       Obj_Empleado emplead = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
+                                                                       
+                                                                       if(emplead.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+//                                                   
+                                                                       Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
+                                                                       
+//                                                                           tabla_model.addRow(registro);
+                                                                       String tipo=registro[2].toString();
+                                                                       String hora=registro[3].toString();
+                                                                       
+                                                                       String Fecha=registro[9].toString();
+                                                                       lblFecha.setText(Fecha);
+                                                                       
+                                                                       txtFolio.setEditable(true);
+                                                                       txtFolio.setText("");
+                                                                       txtClaveReal.setText("");
+                                                                       txtClaveReal.setEditable(false);
+                                                                       txtFolio.requestFocus();
+                                                       
+                                                                                       if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+                                                                                                       lblNota.setText("EL EMPLEADO "+emplead.getNombre()+" "+emplead.getAp_paterno()+" "+emplead.getAp_materno());
+                                                                                                       lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+                               
+                                                                                       }else{
+                                                                                                       lblNota.setText("EL EMPLEADO "+emplead.getNombre()+" "+emplead.getAp_paterno()+" "+emplead.getAp_materno());
+                                                                                                       lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+                                                                                               }
+                                                                                       lblNombre.setText("Empleado: ");
+                                                                                       lblEstablecimiento.setText("Establecimiento: ");
+                                                                                       lblPuesto.setText("Puesto: ");
+                                                                                       lblHorario.setText("Horario: ");
+                                                                                       
+                                                                       lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+                                                                       
+                                                                       Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(emplead.getEstablecimiento());
+                                                                       lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
+                       
+                                                                       Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(emplead.getPuesto());
+                                                                       lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+                                                                       
+                                                                       txtFolio.setEditable(false);
+                                                                       txtClaveReal.setEditable(true);
+                                                                       txtClaveReal.requestFocus();
+                                               
+                                                            }else{
+                                                                            JOptionPane.showMessageDialog(null, "LA CLAVE NO CORRESPONDE","Error",JOptionPane.WARNING_MESSAGE);
+                                                                           txtFolio.setEditable(true);
+                                                                           txtClaveReal.setEditable(false);
+                                                                           panelLimpiar();
+                                                                           txtFolio.requestFocus();
+                                                                           return;
+                                                               }
+
                                            }
-                                }else{
-                                         JOptionPane.showMessageDialog(null, "la clave es Incorrecta \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-                                                         txtFolio.setEditable(true);
-                                                        txtFolio.setText("");
-                                                        txtClaveReal.setText("");
-                                                        txtClaveReal.setEditable(false);
-                                                        txtFolio.requestFocus();
-                                        return;
-                                        }
+                                   }
+                           }
+                   }
+
+                   txtFolio.setEditable(true);
+                   txtClaveReal.setEditable(false);
+                   txtFolio.setText("");
+                   txtClaveReal.setText("");
+                   txtFolio.requestFocus();
                 }
-                txtFolio.setEditable(true);
-                txtFolio.setText("");
-                txtClaveReal.setText("");
-                txtClaveReal.setEditable(false);
-                txtFolio.requestFocus();
         }
         
         ActionListener opExaminar = new ActionListener(){
@@ -799,8 +842,8 @@ public class Cat_Checador extends JFrame {
         
         int x;                        int y;                        int z;
         
-        @SuppressWarnings({ "unchecked", "static-access" })
-        public void init_tabla(){
+        @SuppressWarnings("static-access")
+		public void init_tabla(){
                 this.tabla.getTableHeader().setReorderingAllowed(false) ;
                 
                 if(anchoMon <= 1380){
@@ -962,9 +1005,6 @@ public class Cat_Checador extends JFrame {
                 for(int i=0; i<tabla.getColumnCount(); i++){
                         this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
                 }
-                
-                this.tabla.setRowSorter(trsfiltro);  
-                                
     }
         
         public static void main (String [] arg){
@@ -989,8 +1029,8 @@ public class Cat_Checador extends JFrame {
 
         
         public static void refresh(int folio_empleado,String tipo_entrada,int tipo_salida_comer) {
-                Object[] registro = fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
-                tabla_model.addRow(registro);
+            fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
+//                tabla_model.addRow(registro);
         }
         @SuppressWarnings("rawtypes")
         public static Object[] fila2(int folio_empleado,String tipo_entrada,int tipo_salida_comer){

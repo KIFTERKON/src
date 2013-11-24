@@ -38,9 +38,9 @@ public class Obj_Entosal {
 
 	
 	
-	public Obj_Entosal buscar(String clave){ 
+	public Obj_Entosal buscar(){ 
 		try {
-			return new BuscarSQL().Entosal(clave);
+			return new BuscarSQL().Entosal();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

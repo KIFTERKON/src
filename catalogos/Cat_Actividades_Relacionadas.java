@@ -41,12 +41,11 @@ import javax.swing.table.TableRowSorter;
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Actividades_Por_Proyecto;
+import objetos.Obj_Actividades_Relacionadas;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Nivel_Critico;
-
 @SuppressWarnings("serial")
-public class Cat_Actividades_Por_Proyecto extends JFrame{
+public class Cat_Actividades_Relacionadas extends JFrame{
         Container con = getContentPane();
         JLayeredPane panel = new JLayeredPane();
         
@@ -121,10 +120,10 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
         int filaseleccionada = 0;
 		int folioseleccionado = 0;
         
-        public Cat_Actividades_Por_Proyecto(){
+        public Cat_Actividades_Relacionadas(){
         	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
-        	this.setTitle("Actividades Por Proyecto");
-        	panel.setBorder(BorderFactory.createTitledBorder("Proyecto"));
+        	this.setTitle("Actividades Relacionadas");
+        	panel.setBorder(BorderFactory.createTitledBorder("Relacion De Actividades"));
         	
 //        	txtFechaPermiso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
         	componentes();
@@ -183,11 +182,8 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
         ActionListener opFiltroEntable = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				 filaseleccionada = table.getSelectedRow();
+				filaseleccionada = table.getSelectedRow();
     			folioseleccionado =  Integer.parseInt(table.getValueAt(filaseleccionada, 0).toString());
-    			
-    			System.out.println(filaseleccionada);
-    			System.out.println(folioseleccionado);
     			
     			new Cat_Filtro_Cuadrante_Actividad().setVisible(true);
 			}
@@ -203,7 +199,7 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				limpiar();
 				enablesTodos(true);
-				txtFolioProyecto.setText(new Obj_Actividades_Por_Proyecto().nuevo()+"");
+				txtFolioProyecto.setText(new Obj_Actividades_Relacionadas().nuevo()+"");
 				txtFolioProyecto.setEditable(false);
 				txtProyecto.requestFocus();
 				
@@ -251,17 +247,17 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 		
 		public void guardar(){
 			if(ValidaError().equals("")){
-				if(new Obj_Actividades_Por_Proyecto().existe(Integer.parseInt(txtFolioProyecto.getText()))){
+				if(new Obj_Actividades_Relacionadas().existe(Integer.parseInt(txtFolioProyecto.getText()))){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-						Obj_Actividades_Por_Proyecto proyect = new Obj_Actividades_Por_Proyecto();
+						Obj_Actividades_Relacionadas relacion = new Obj_Actividades_Relacionadas();
 						
-						proyect.setFolio(Integer.parseInt(txtFolioProyecto.getText()));
-						proyect.setProyecto(txtProyecto.getText());
-						proyect.setDescripcion(txaDescripcion.getText());
-						proyect.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
-						proyect.setStatus(chbStatus.isSelected() ? 1 : 0);
+						relacion.setFolio(Integer.parseInt(txtFolioProyecto.getText()));
+						relacion.setProyecto(txtProyecto.getText());
+						relacion.setDescripcion(txaDescripcion.getText());
+						relacion.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+						relacion.setStatus(chbStatus.isSelected() ? 1 : 0);
 						
-						if(proyect.actualizar(Integer.parseInt(txtFolioProyecto.getText()),Tabla())){
+						if(relacion.actualizar(Integer.parseInt(txtFolioProyecto.getText()),Tabla())){
 							limpiar();
 							JOptionPane.showMessageDialog(null,"El registro se actualizó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
@@ -273,19 +269,19 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 						return;
 					}
 				}else{
-					if(new Obj_Actividades_Por_Proyecto().existe(txtProyecto.getText().toUpperCase().trim())){
+					if(new Obj_Actividades_Relacionadas().existe(txtProyecto.getText().toUpperCase().trim())){
 						JOptionPane.showMessageDialog(null,"EL cuadrante con el nombre ya existe debe cambiar el nombre", "Aviso!", JOptionPane.ERROR_MESSAGE);
 						return;
 					}else{
-						Obj_Actividades_Por_Proyecto proyect = new Obj_Actividades_Por_Proyecto();
+						Obj_Actividades_Relacionadas ralacion = new Obj_Actividades_Relacionadas();
 						
-						proyect.setFolio(Integer.parseInt(txtFolioProyecto.getText()));
-						proyect.setProyecto(txtProyecto.getText());
-						proyect.setDescripcion(txaDescripcion.getText());
-						proyect.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
-						proyect.setStatus(chbStatus.isSelected() ? 1 : 0);
+						ralacion.setFolio(Integer.parseInt(txtFolioProyecto.getText()));
+						ralacion.setProyecto(txtProyecto.getText());
+						ralacion.setDescripcion(txaDescripcion.getText());
+						ralacion.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+						ralacion.setStatus(chbStatus.isSelected() ? 1 : 0);
 															
-						if(proyect.guardar(Tabla())){
+						if(ralacion.guardar(Tabla())){
 							limpiar();
 							JOptionPane.showMessageDialog(null,"El registro se guardó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
@@ -305,14 +301,14 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				tabla_limpiar();
 				if(!txtFolioProyecto.getText().equals("")){
-					Obj_Actividades_Por_Proyecto proyecto = new Obj_Actividades_Por_Proyecto().buscarProyectoCuadrante(Integer.parseInt(txtFolioProyecto.getText()));
+					Obj_Actividades_Relacionadas relacion = new Obj_Actividades_Relacionadas().buscarActividadRelacionada(Integer.parseInt(txtFolioProyecto.getText()));
 									
-					if(proyecto.getProyecto().equals("")){
+					if(relacion.getProyecto().equals("")){
 						JOptionPane.showMessageDialog(null,"No existe el registro: "+txtFolioProyecto.getText(),"Aviso",JOptionPane.ERROR_MESSAGE);
 						return;
 					}else{
 						try {
-							String[][] tabla = new Obj_Actividades_Por_Proyecto().tabla(Integer.parseInt(txtFolioProyecto.getText()));
+							String[][] tabla = new Obj_Actividades_Relacionadas().tabla(Integer.parseInt(txtFolioProyecto.getText()));
 												
 							for(int i=0; i<tabla.length; i++){
 								 		Object[] dom = new Object[5];
@@ -326,10 +322,10 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 								 		tabla_model.addRow(dom);
 							}
 							
-							txtProyecto.setText(proyecto.getProyecto());
-							txaDescripcion.setText(proyecto.getDescripcion());
-							cmbNivelCritico.setSelectedItem(proyecto.getNivel_critico());
-							chbStatus.setSelected(proyecto.getStatus() == 1 ? true : false);
+							txtProyecto.setText(relacion.getProyecto());
+							txaDescripcion.setText(relacion.getDescripcion());
+							cmbNivelCritico.setSelectedItem(relacion.getNivel_critico());
+							chbStatus.setSelected(relacion.getStatus() == 1 ? true : false);
 							
 							enablesTodos(false);
 							btnEditar.setEnabled(true);
@@ -340,7 +336,7 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 						}
 					}
 				}else{
-					new Cat_Filtro_Proyecto().setVisible(true);
+					new Cat_Filtro_Actividades_Relacionadas().setVisible(true);
 				}
 			}
 		};
@@ -350,14 +346,14 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 				
 				if(!txtFolioProyecto.getText().equals("")){
 					tabla_limpiar();
-					Obj_Actividades_Por_Proyecto proyecto = new Obj_Actividades_Por_Proyecto().buscarProyectoCuadrante(Integer.parseInt(txtFolioProyecto.getText())-1);
+					Obj_Actividades_Relacionadas proyecto = new Obj_Actividades_Relacionadas().buscarActividadRelacionada(Integer.parseInt(txtFolioProyecto.getText())-1);
 					
 					if(proyecto.getProyecto().equals("")){
 						JOptionPane.showMessageDialog(null,"No existe el registro: "+(Integer.parseInt(txtFolioProyecto.getText())-1)+"","Aviso",JOptionPane.WARNING_MESSAGE);
 						return;
 					}else{
 						try {
-							String[][] tabla = new Obj_Actividades_Por_Proyecto().tabla(Integer.parseInt(txtFolioProyecto.getText())-1);
+							String[][] tabla = new Obj_Actividades_Relacionadas().tabla(Integer.parseInt(txtFolioProyecto.getText())-1);
 												
 							for(int i=0; i<tabla.length; i++){
 								 		Object[] dom = new Object[5];
@@ -396,14 +392,14 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 				
 				if(!txtFolioProyecto.getText().equals("")){
 					tabla_limpiar();
-					Obj_Actividades_Por_Proyecto proyecto = new Obj_Actividades_Por_Proyecto().buscarProyectoCuadrante(Integer.parseInt(txtFolioProyecto.getText())+1);
+					Obj_Actividades_Relacionadas relacion = new Obj_Actividades_Relacionadas().buscarActividadRelacionada(Integer.parseInt(txtFolioProyecto.getText())+1);
 					
-					if(proyecto.getProyecto().equals("")){
+					if(relacion.getProyecto().equals("")){
 						JOptionPane.showMessageDialog(null,"No existe el registro: "+(Integer.parseInt(txtFolioProyecto.getText())+1)+"","Aviso",JOptionPane.WARNING_MESSAGE);
 						return;
 					}else{
 						try {
-							String[][] tabla = new Obj_Actividades_Por_Proyecto().tabla(Integer.parseInt(txtFolioProyecto.getText())+1);
+							String[][] tabla = new Obj_Actividades_Relacionadas().tabla(Integer.parseInt(txtFolioProyecto.getText())+1);
 												
 							for(int i=0; i<tabla.length; i++){
 								 		Object[] dom = new Object[5];
@@ -417,10 +413,10 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 								 		tabla_model.addRow(dom);
 							}
 							txtFolioProyecto.setText(Integer.parseInt(txtFolioProyecto.getText())+1+"");
-							txtProyecto.setText(proyecto.getProyecto());
-							txaDescripcion.setText(proyecto.getDescripcion());
-							cmbNivelCritico.setSelectedItem(proyecto.getNivel_critico());
-							chbStatus.setSelected(proyecto.getStatus() == 1 ? true : false);
+							txtProyecto.setText(relacion.getProyecto());
+							txaDescripcion.setText(relacion.getDescripcion());
+							cmbNivelCritico.setSelectedItem(relacion.getNivel_critico());
+							chbStatus.setSelected(relacion.getStatus() == 1 ? true : false);
 							
 							enablesTodos(false);
 							btnEditar.setEnabled(true);
@@ -693,7 +689,7 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
         public static void main (String [] arg){
                 try {
                         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                        new Cat_Actividades_Por_Proyecto().setVisible(true);
+                        new Cat_Actividades_Relacionadas().setVisible(true);
                 } catch(Exception e){
                         e.printStackTrace();
                 }
@@ -1336,8 +1332,8 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     		};
     	}
     	
-//    	filtro de proyectos
-    	public class Cat_Filtro_Proyecto extends JDialog {
+//    	filtro de actividades relacionadas
+    	public class Cat_Filtro_Actividades_Relacionadas extends JDialog {
     		Container cont = getContentPane();
     		JLayeredPane campo = new JLayeredPane();
     		
@@ -1358,7 +1354,7 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     		JTextField txtNombre_Cuadrante = new JTextField();
     		
     	    @SuppressWarnings({ "unchecked", "rawtypes" })
-    		public Cat_Filtro_Proyecto(){
+    		public Cat_Filtro_Actividades_Relacionadas(){
     	    	this.setModal(true);
     	    	this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
     	    	this.setTitle("Filtro De Proyectos");
@@ -1454,7 +1450,7 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     			ResultSet rs;
     			try {
     				s = new Connexion().conexion().createStatement();
-    				rs = s.executeQuery("exec sp_select_filtro_proyecto_cuadrante");
+    				rs = s.executeQuery("exec sp_select_filtro_actividades_relacionadas");
     				
     				while (rs.next()) { 
     				   String [] fila = new String[6];

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -80,13 +81,16 @@ public class Cat_Horario_base  extends JFrame
 	JButton btnCancelar = new JButton("Cancelar");                                     
 	JButton btnDeshacer = new JButton("Deshacer");  
 	JButton btnFiltro = new JButton("Filtro");
+	JButton btnEditar = new JButton("Editar");
+
+	JCheckBox chbHorarioDeposito = new JCheckBox("Horario Deposito");
+	JCheckBox chbRecesoExtraDiario = new JCheckBox("Receso extra diario (15 min)");
 	
 	int Descanso=0;
 	
 	JTextField txtNombre = new JTextField();                                           
 	                               
 	Date date = new Date();	
-
 	
     //Domingo//                 
 	SpinnerDateModel sm1 =  new SpinnerDateModel();

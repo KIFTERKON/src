@@ -317,7 +317,6 @@ public class Cat_Permisos_Checador extends JFrame {
 		}
 	};
 	
-	
 	ActionListener opBuscar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			
@@ -364,10 +363,17 @@ public class Cat_Permisos_Checador extends JFrame {
 	ActionListener opEditar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			
-			Campos_True();
-			btnGuardar.setEnabled(true);
-			btnEditar.setEnabled(false);
-			txaMotivo.requestFocus();
+			Obj_Permisos_Checador conpararFecha = new Obj_Permisos_Checador().ComparacionFecha(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaPermiso.getDate()));
+
+			if(conpararFecha.getFecha().trim().equals("FECHA_PASADA")){
+				JOptionPane.showMessageDialog(null, "           Solo Puede Editar Un Permiso \n             Con Fecha Actual o Futura", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				Campos_True();
+				btnGuardar.setEnabled(true);
+				btnEditar.setEnabled(false);
+				txaMotivo.requestFocus();
+			}
 		}
 	};
 	

@@ -22,6 +22,8 @@ import ObjetoChecador.Obj_Permisos_Checador;
 
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
+import objetos.Obj_Actividades_Por_Proyecto;
+import objetos.Obj_Actividades_Relacionadas;
 import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
@@ -35,6 +37,7 @@ import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
 import objetos.Obj_Denominaciones;
+import objetos.Obj_Departamento;
 import objetos.Obj_Directorios;
 import objetos.Obj_Divisa_Y_TipoDeCambio;
 import objetos.Obj_Diferencia_Cortes;
@@ -56,7 +59,6 @@ import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
-import objetos.Obj_Turno;
 import objetos.Obj_Usuario;
 import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
@@ -68,7 +70,7 @@ public class GuardarSQL {
 	
 				
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -86,48 +88,62 @@ public class GuardarSQL {
 			pstmtb.setString(5, "Empleados Nuevo");
 			pstmtb.executeUpdate();
 			
-			
+//			private String telefono_cuadrante;
+			int i=1;
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, empleado.getNo_checador());
-			pstmt.setString(2, empleado.getNombre().toUpperCase());
-			pstmt.setString(3, empleado.getAp_paterno().toUpperCase());
-			pstmt.setString(4, empleado.getAp_materno().toUpperCase());
-			pstmt.setInt(5, empleado.getEstablecimiento());
-			
-			pstmt.setInt(6, empleado.getPuesto());
-			pstmt.setInt(7, empleado.getTurno());
-			pstmt.setInt(8, empleado.getDescanso());
-			pstmt.setInt(9, empleado.getDobla());
-			pstmt.setInt(10,empleado.getSueldo());
-			
-			pstmt.setInt(11, empleado.getBono());
-			pstmt.setInt(12, empleado.getPrestamo());
-			pstmt.setFloat(13, empleado.getPension_alimenticia());
-			pstmt.setFloat(14,empleado.getInfonavit());
-			pstmt.setBoolean(15, (empleado.getFuente_sodas())? true: false);
-			
-			pstmt.setBoolean(16, (empleado.getGafete())? true: false);
-			pstmt.setInt(17, empleado.getStatus());				
-			pstmt.setString(18, empleado.getFecha());
-			pstmt.setString(19, empleado.getObservasiones());
+			pstmt.setString(i,		empleado.getNo_checador());
+			pstmt.setString(i+=1, 	empleado.getNombre().toUpperCase());
+			pstmt.setString(i+=1,	empleado.getAp_paterno().toUpperCase());
+			pstmt.setString(i+=1,	empleado.getAp_materno().toUpperCase());
+			pstmt.setString(i+=1,	empleado.getFecha_nacimiento());
+			pstmt.setString(i+=1,	empleado.getCalle().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getColionia().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getPoblacion().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getTelefono_familiar().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getTelefono_propio().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getRfc().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getCurp().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getSexo());
 			
 			FileInputStream stream_foto = new FileInputStream(empleado.getFoto());
-			pstmt.setBinaryStream(20, stream_foto, empleado.getFoto().length());
-
-			pstmt.setInt(21, empleado.getTipo_banco());
-			pstmt.setString(22, empleado.getTargeta_nomina());
-			pstmt.setString(23, empleado.getFecha_nacimiento());
-			pstmt.setString(24, empleado.getImss().toUpperCase().trim());
-			pstmt.setInt(25, empleado.getStatus_imss());
-			pstmt.setString(26, empleado.getFecha_ingreso());
-			pstmt.setString(27, empleado.getTelefono_familiar());
-			pstmt.setInt(28, empleado.isCuadrante_parcial() ? 1 : 0);
-			pstmt.setInt(29, empleado.getTurno());
-			pstmt.setInt(30, empleado.getStatus_2h());
-			pstmt.setInt(31, empleado.getTurno2());
+			pstmt.setBinaryStream(i+=1, stream_foto, empleado.getFoto().length());
+			
+//			laboral
+			pstmt.setInt(i+=1, 		empleado.getHorario());
+			pstmt.setInt(i+=1, 		empleado.getHorario2());
+			pstmt.setInt(i+=1, 		empleado.getStatus_h1());
+			pstmt.setInt(i+=1, 		empleado.getStatus_h2());
+			pstmt.setInt(i+=1, 		empleado.getStatus_rotativo());
+			pstmt.setString(i+=1, 	empleado.getFecha_ingreso().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getStatus());	
+			pstmt.setInt(i+=1, 		empleado.isCuadrante_parcial() ? 1 : 0);
+			pstmt.setInt(i+=1, 		empleado.getDepartameto());	
+			pstmt.setString(i+=1, 	empleado.getImss().toUpperCase().trim().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getStatus_imss());
+			pstmt.setString(i+=1, 	empleado.getNumero_infonavit().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getEstablecimiento());
+			pstmt.setInt(i+=1, 		empleado.getPuesto());
+			
+//			percepciones y deducciones
+			pstmt.setFloat(i+=1, 	empleado.getSalario_diario());
+			pstmt.setFloat(i+=1, 	empleado.getSalario_diario_integrado());
+			pstmt.setString(i+=1,	empleado.getForma_pago().toUpperCase());
+			pstmt.setInt(i+=1,		empleado.getSueldo());
+			pstmt.setInt(i+=1, 		empleado.getBono());
+			pstmt.setInt(i+=1, 		empleado.getPrestamo());
+			pstmt.setFloat(i+=1, 	empleado.getPension_alimenticia());
+			pstmt.setFloat(i+=1,	empleado.getInfonavit());
+			pstmt.setString(i+=1, 	empleado.getTargeta_nomina().toUpperCase());
+			pstmt.setInt(i+=1, 		empleado.getTipo_banco());
+			pstmt.setBoolean(i+=1, (empleado.isGafete())? true: false);
+			pstmt.setBoolean(i+=1, (empleado.isFuente_sodas())? true: false);
+			pstmt.setString(i+=1, 	empleado.getObservasiones().toUpperCase());
+			
+			pstmt.setString(i+=1, 	empleado.getFecha_actualizacion().toUpperCase());
 			
 			pstmt.executeUpdate();
 			con.commit();
+			
 		} catch (Exception e) {
 			System.out.println("SQLException: " + e.getMessage());
 			if (con != null){
@@ -411,6 +427,168 @@ public class GuardarSQL {
 			if(con != null){
 				try{
 					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Relacion_Actividades(Obj_Actividades_Relacionadas relacion){
+		String query = "exec sp_insert_relacion_actividad ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt	(1, relacion.getFolio());
+			pstmt.setString	(2, relacion.getProyecto().toUpperCase().trim());
+			pstmt.setString	(3, relacion.getDescripcion().toUpperCase().trim());
+			pstmt.setString	(4, relacion.getNivel_critico().trim());
+			pstmt.setInt	(5, relacion.getStatus());
+				
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Relacion_Tabla(Obj_Actividades_Relacionadas relacion, String[][] tabla){
+		String querytabla = "exec sp_insert_tabla_relacion_actividad ?,?,?,?,?";
+				
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtTabla = con.prepareStatement(querytabla);
+				
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, relacion.getFolio());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][3].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][4].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][2]) ? 1 : 0);
+				
+				pstmtTabla.executeUpdate();
+			}
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Guardar_Proyecto_Tabla");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Proyecto(Obj_Actividades_Por_Proyecto proyec){
+		String query = "exec sp_insert_proyecto ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt	(1, proyec.getFolio());
+			pstmt.setString	(2, proyec.getProyecto().toUpperCase().trim());
+			pstmt.setString	(3, proyec.getDescripcion().toUpperCase().trim());
+			pstmt.setString	(4, proyec.getNivel_critico().trim());
+			pstmt.setInt	(5, proyec.getStatus());
+				
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Proyecto_Tabla(Obj_Actividades_Por_Proyecto proyect, String[][] tabla){
+		String querytabla = "exec sp_insert_tabla_proyecto ?,?,?,?,?";
+				
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtTabla = con.prepareStatement(querytabla);
+				
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, proyect.getFolio());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][3].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][4].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][2]) ? 1 : 0);
+				
+				pstmtTabla.executeUpdate();
+			}
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Guardar_Proyecto_Tabla");
 					con.rollback();
 				}catch(SQLException ex){
 					System.out.println(ex.getMessage());
@@ -1182,16 +1360,17 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Turno(Obj_Turno turno){
-		String query = "exec sp_insert_turno ?,?,?";
+	public boolean Guardar_Departamento(Obj_Departamento departamento){
+		String query = "exec sp_insert_departamento ?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, turno.getNombre().toUpperCase());
-			pstmt.setString(2, turno.getHorario().toUpperCase());
-			pstmt.setString(3, (turno.isStatus())?"1":"0");
+			pstmt.setInt(1, departamento.getFolio());
+			pstmt.setString(2, departamento.getDepartamento().toUpperCase());
+			pstmt.setString(3, departamento.getAbreviatura().toUpperCase());
+			pstmt.setString(4, (departamento.isStatus())?"1":"0");
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -1745,7 +1924,7 @@ public class GuardarSQL {
 			
 			pstmt.setInt(4, Permiso.getTipo_de_permiso());
 			pstmt.setString(5, Permiso.getMotivo().toUpperCase().trim());
-			pstmt.setBoolean(6, (Permiso.isStatus())? true: false);
+			pstmt.setInt(6, (Permiso.isStatus())? 1: 0);
 			
 			pstmt.executeUpdate();
 		
@@ -2253,7 +2432,7 @@ public boolean Guardar_Asignacion_mensajes(Obj_Asignacion_Mensajes mensj){
 
 //Guardamos el horario
 public boolean Guardar_Horario(ObjHorario horario){
-	String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+	String query = "exec sp_insert_horarios ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 	Connection con = new Connexion().conexion();
 	PreparedStatement pstmt = null;
 	try {
@@ -2315,6 +2494,9 @@ public boolean Guardar_Horario(ObjHorario horario){
 		pstmt.setInt(i+=1, horario.getDiaDobla());
 		pstmt.setInt(i+=1, horario.getDiaDobla2());
 		pstmt.setInt(i+=1, horario.getDiaDobla3());
+		pstmt.setInt(i+=1, horario.getRecesoDiarioExtra());
+		pstmt.setInt(i+=1, horario.getHorarioDeposito());
+		
 		
 		pstmt.executeUpdate();
 		con.commit();

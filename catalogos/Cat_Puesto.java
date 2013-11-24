@@ -233,22 +233,19 @@ Connexion con = new Connexion();
 	    return scrol; 
 	}
 	
-	@SuppressWarnings("unused")
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 	        	if(e.getClickCount()==1){
+	        		
 	        		int fila = tabla.getSelectedRow();
-	        		int id = Integer.parseInt(modelo.getValueAt(fila,0)+"");
+	        		Object id = tabla.getValueAt(fila,0);
 	        
-						Obj_Puesto fuente_sodas = new Obj_Puesto().buscar(id);
-						
 						txtFolio.setText(id+"");
-						txtPuesto.setText(modelo.getValueAt(fila,1)+"");
-						txtAbreviatura.setText(modelo.getValueAt(fila,2)+"");
+						txtPuesto.setText(tabla.getValueAt(fila,1)+"");
+						txtAbreviatura.setText(tabla.getValueAt(fila,2)+"");
 						btnEditar.setEnabled(true);
 						chStatus.setSelected(true);
-					
 	        	}
 	        }
         });
@@ -371,7 +368,7 @@ Connexion con = new Connexion();
 			else{chStatus.setSelected(false);}
 			
 			btnNuevo.setEnabled(false);
-			btnEditar.setEnabled(false);
+			btnEditar.setEnabled(true);
 			panelEnabledFalse();
 			txtFolio.setEditable(true);
 			txtFolio.requestFocus();

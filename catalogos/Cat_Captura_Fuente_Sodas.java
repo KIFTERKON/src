@@ -391,7 +391,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		public void actionPerformed(ActionEvent arg0) 
 		{
 //			dispose();
-			new Cat_Filtro_Empleado().setVisible(true);
+//			new Cat_Filtro_Empleado().setVisible(true);
 			
 		}
 	};
