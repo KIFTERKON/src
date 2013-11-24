@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
@@ -2537,6 +2538,45 @@ public class BuscarSQL {
 			
 		return existe;
 	}
+	
+	public String puestosDependientes(){
+		Obj_Usuario user = new Obj_Usuario().LeerSession();
+		String query = "exec sp_puestos_dependientes '"+ procesa_texto(user.getNombre_completo()) +"';";
+		
+		String existe = "";
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = rs.getString("puesto_dependiente") + ", ";
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		if(existe.length() > 0){
+			existe = existe.substring(0, existe.length()-2);
+		}else{
+			existe = "";
+		}
+		return existe;
+	}
+	
+	public String procesa_texto(String texto) {
+        StringTokenizer tokens = new StringTokenizer(texto);
+        texto = "";
+        while(tokens.hasMoreTokens()){
+            texto += " "+tokens.nextToken();
+        }
+        texto = texto.toString();
+        texto = texto.trim().toUpperCase();
+        return texto;
+    }
 
 	public Obj_Directorios BucarDirectorios(int folio) throws SQLException{
 		Obj_Directorios directorio = new Obj_Directorios();
@@ -2976,6 +3016,35 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_cuadrante " + cuadrante;
+		
+		Matriz = new String[getFilas(datosif)][7];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2)+"  ";
+				Matriz[i][2] = "   "+rs.getString(3);
+				Matriz[i][3] = "   "+rs.getString(4);
+				Matriz[i][4] = rs.getString(5);
+				Matriz[i][5] = rs.getString(6);
+				Matriz[i][6] = rs.getString(7);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return Matriz;
+	}
+	
+	public String[][] getTablaActividadesCuadrante(int folio){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_select_tabla_cuadrante_actividad " + folio;
 		
 		Matriz = new String[getFilas(datosif)][7];
 		Statement s;

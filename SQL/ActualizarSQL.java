@@ -1366,9 +1366,9 @@ public class ActualizarSQL {
 		return true;
 	}
 	
-	public boolean Actualizar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad, int folio){
+	public boolean Actualizar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad, int folio, String nombre){
 		
-		String query = "exec sp_update_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_update_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -1385,8 +1385,8 @@ public class ActualizarSQL {
 			pstmt.setInt(7, actividad.isCarga()? 1 : 0);
 			pstmt.setInt(8, actividad.getRepetir());
 			pstmt.setInt(9, folio);
-			
-			
+			pstmt.setString(10, nombre);
+			pstmt.setInt(11, actividad.isStatus()? 1:0);
 			
 			pstmt.executeUpdate();
 			con.commit();
