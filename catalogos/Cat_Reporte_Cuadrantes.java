@@ -45,8 +45,6 @@ import SQL.Connexion;
 
 import com.toedter.calendar.JDateChooser;
 
-
-
 						//INDICE
 								//Cat_Reporte_Cuadrantes
 									
@@ -256,7 +254,8 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 																			operadorPuesto,cadenaPuesto,
 																			operadorDepartamento,cadenaDepartamento,
 																			operadorNivelCritico,cadenaNivelCritico,
-																			operadorRespuesta,cadenaRespuesta);
+																			operadorRespuesta,cadenaRespuesta
+																			);
 					}else{
 						JOptionPane.showMessageDialog(null,"El Rango de Fechas Esta Invertido","Aviso!", JOptionPane.WARNING_MESSAGE);
 						return;

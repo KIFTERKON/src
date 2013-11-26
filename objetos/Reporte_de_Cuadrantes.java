@@ -23,7 +23,8 @@ public class Reporte_de_Cuadrantes extends JFrame {
 									 int operadorPuesto, String cadenaPuesto,
 									 int operadorDepartamento, String cadenaDepartamento,
 									 int operadorNivelCritico, String cadenaNivelCritico,
-									 int operadorRespuesta, String cadenaRespuesta) {
+									 int operadorRespuesta, String cadenaRespuesta
+									 ) {
 		
 //		generar procedimiento almacenado--------------------------------------------------------------
 		String query = "exec sp_reporte_dinamico_de_cuadrantes '"+fecha_inicio+"','"+fecha_final+"','"+
@@ -32,7 +33,8 @@ public class Reporte_de_Cuadrantes extends JFrame {
 																operadorPuesto+"','"+cadenaPuesto+"','"+
 																operadorDepartamento+"','"+cadenaDepartamento+"','"+
 																operadorNivelCritico+"','"+cadenaNivelCritico+"','"+
-																operadorRespuesta+"','"+cadenaRespuesta+"';";
+																operadorRespuesta+"','"+cadenaRespuesta
+																+"';";
 			
 			Statement stmt = null;
 			try {
@@ -41,10 +43,10 @@ public class Reporte_de_Cuadrantes extends JFrame {
 			    
 			    System.out.println(query);
 ////		crear plantilla cambiar ruta------------------------------------------------------------
-//				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_de_Permisos_a_Empleados.jrxml");
-//				JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
-//				JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), resultSetDataSource);
-//				JasperViewer.viewReport(print, false);
+				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Dinamico_de_Cuadrantes.jrxml");
+				JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
+				JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), resultSetDataSource);
+				JasperViewer.viewReport(print, false);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
