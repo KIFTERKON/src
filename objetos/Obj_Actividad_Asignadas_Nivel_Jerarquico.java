@@ -112,12 +112,12 @@ public class Obj_Actividad_Asignadas_Nivel_Jerarquico {
 		return new BuscarSQL().ActividadExisteJerarquico(folio);
 	}
 	
-	public boolean Guardar(){
-		return new GuardarSQL().Guardar_Actividad_Nivel_Jerarquico(this);
+	public boolean Guardar(String nombre){
+		return new GuardarSQL().Guardar_Actividad_Nivel_Jerarquico(this, nombre);
 	}
 	
-	public boolean Actualizar(int folio){
-		return new ActualizarSQL().Actualizar_Actividad_Nivel_Jerarquico(this, folio);
+	public boolean Actualizar(int folio, String nombre){
+		return new ActualizarSQL().Actualizar_Actividad_Nivel_Jerarquico(this, folio, nombre);
 	}
 	
 	public Obj_Actividad_Asignadas_Nivel_Jerarquico Buscar(int folio){
@@ -132,5 +132,9 @@ public class Obj_Actividad_Asignadas_Nivel_Jerarquico {
 	public Object[][] filtro(){
 		return new BuscarTablasModel().filtro_actividad_nivel_jerarquico();
 	}
-
+	
+	public String getPuestosDependientes(){
+		return new BuscarSQL().puestosDependientes();
+	}
+	
 }

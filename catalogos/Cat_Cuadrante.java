@@ -502,7 +502,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 											
 						for(int i=0; i<tabla.length; i++){
 							Dias currentDia = Dias.valueOf(tabla[i][0]);
-							
 							 switch (currentDia) {
 							 	case Domingo:
 							 		Object[] dom = new Object[6];
@@ -1088,8 +1087,6 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 							JOptionPane.showMessageDialog(null,"Ha ocurrido un error mientras se intentaba Actualizar el registro","Error",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-					}else{
-						return;
 					}
 				}else{
 					if(new Obj_Cuadrante().existe(txtFolio.getText())){

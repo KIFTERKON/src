@@ -23,6 +23,7 @@ import ObjetoChecador.Obj_Permisos_Checador;
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Actividades_Por_Proyecto;
+import objetos.Obj_Actividades_Relacionadas;
 import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
@@ -426,6 +427,87 @@ public class GuardarSQL {
 			if(con != null){
 				try{
 					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Relacion_Actividades(Obj_Actividades_Relacionadas relacion){
+		String query = "exec sp_insert_relacion_actividad ?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmt = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt	(1, relacion.getFolio());
+			pstmt.setString	(2, relacion.getProyecto().toUpperCase().trim());
+			pstmt.setString	(3, relacion.getDescripcion().toUpperCase().trim());
+			pstmt.setString	(4, relacion.getNivel_critico().trim());
+			pstmt.setInt	(5, relacion.getStatus());
+				
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean Guardar_Relacion_Tabla(Obj_Actividades_Relacionadas relacion, String[][] tabla){
+		String querytabla = "exec sp_insert_tabla_relacion_actividad ?,?,?,?,?";
+				
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtTabla = con.prepareStatement(querytabla);
+				
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, relacion.getFolio());
+				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(3, tabla[i][3].toString().trim().toUpperCase());
+				pstmtTabla.setString(4, tabla[i][4].toString().trim());
+				pstmtTabla.setInt(5, Boolean.parseBoolean(tabla[i][2]) ? 1 : 0);
+				
+				pstmtTabla.executeUpdate();
+			}
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Guardar_Proyecto_Tabla");
 					con.rollback();
 				}catch(SQLException ex){
 					System.out.println(ex.getMessage());
@@ -1744,8 +1826,8 @@ public class GuardarSQL {
 		return true;
 	}
 	
-	public boolean Guardar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad){
-		String query = "exec sp_insert_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?";
+	public boolean Guardar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad, String nombre){
+		String query = "exec sp_insert_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1760,6 +1842,7 @@ public class GuardarSQL {
 			pstmt.setString(6, actividad.getTemporada());
 			pstmt.setInt(7, actividad.isCarga() ? 1 : 0);
 			pstmt.setInt(8, actividad.getRepetir());
+			pstmt.setString(9, nombre);
 			
 			
 			pstmt.executeUpdate();

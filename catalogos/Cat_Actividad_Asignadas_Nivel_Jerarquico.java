@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
+import objetos.Obj_Usuario;
 
 @SuppressWarnings("serial")
 public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
@@ -55,6 +57,9 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 				return;
 			}else{
+				
+				Obj_Usuario user = new Obj_Usuario().LeerSession();
+				
 				Obj_Actividad_Asignadas_Nivel_Jerarquico actividad = new Obj_Actividad_Asignadas_Nivel_Jerarquico();
 				
 				if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe(Integer.parseInt(txtFolio.getText())) == true){
@@ -71,7 +76,7 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 						actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
 						actividad.setStatus(chbStatus.isSelected());
 						
-						if(actividad.Actualizar(Integer.parseInt(txtFolio.getText()))){
+						if(actividad.Actualizar(Integer.parseInt(txtFolio.getText()), procesa_texto(user.getNombre_completo()))){
 							JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
@@ -94,7 +99,7 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 					actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
 					actividad.setStatus(chbStatus.isSelected());
 					
-					if(actividad.Guardar()){
+					if(actividad.Guardar(procesa_texto(user.getNombre_completo()))){
 						panelLimpiar();
 						JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
 						return;
@@ -106,6 +111,17 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 			}
 		}
 	};
+	
+	public String procesa_texto(String texto) {
+        StringTokenizer tokens = new StringTokenizer(texto);
+        texto = "";
+        while(tokens.hasMoreTokens()){
+            texto += " "+tokens.nextToken();
+        }
+        texto = texto.toString();
+        texto = texto.trim().toUpperCase();
+        return texto;
+    }
 	
 	ActionListener opBuscarActividad = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {

@@ -3,6 +3,7 @@ package SQL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.StringTokenizer;
 
 import objetos.Obj_Alimentacion_Cuadrante;
 
@@ -475,5 +476,66 @@ public class GuardarTablasModel {
 			}
 		}		
 		return true;
+	}
+	
+	public boolean Guardar_Cuadrante_Tabla_Real(int folio, int cuadrante, String encargado, String[][] tabla){
+		//String queryDelete = "delete from tb_tabla_cuadrante_actividad where folio_empleado="+folio;
+		
+		String querytabla = "exec sp_insert_tabla_cuadrante_real ?,?,?,?,?,?,?,?,?,?";
+		
+		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtTabla = null;
+		try {
+			con.setAutoCommit(false);
+			
+			pstmtTabla = con.prepareStatement(querytabla);
+				
+			for(int i=0; i<tabla.length; i++){
+				
+				pstmtTabla.setInt(1, folio);
+				pstmtTabla.setString(2, procesa_texto(encargado));
+				pstmtTabla.setInt(3, cuadrante);
+				pstmtTabla.setInt(4, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmtTabla.setString(5, tabla[i][1].toString().trim().toUpperCase());
+				pstmtTabla.setString(6, tabla[i][2].toString().trim());
+				pstmtTabla.setInt(7, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				pstmtTabla.setString(8, tabla[i][4]);
+				pstmtTabla.setString(9, tabla[i][5]);
+				pstmtTabla.setString(10, tabla[i][6]);
+				
+				pstmtTabla.executeUpdate();
+			}
+			
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada Guardar_Cuadrante_Tabla");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public String procesa_texto(String texto) {
+		StringTokenizer tokens = new StringTokenizer(texto);
+	    texto = "";
+	    while(tokens.hasMoreTokens()){
+	    	texto += " "+tokens.nextToken();
+	    }
+	    texto = texto.toString();
+	    texto = texto.trim().toUpperCase();
+	     return texto;
 	}
 }

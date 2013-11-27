@@ -44,6 +44,7 @@ import catalogos.Cat_Establecimiento;
 import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Empleado_Directorio;
+import catalogos.Cat_Filtro_Empleado_Puesto_Dependiente;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
@@ -124,6 +125,8 @@ public class InitMenuBar extends Init{
 			JMenuItem Cuadrantes_Alimentacion_Actividades_Cuadrantes = new JMenuItem("Alimentación de Cuadrantes", new ImageIcon("Iconos/cuadrante_captura_icon&16.png"));
 			JMenuItem Cuadrantes_Alimentacion_Cuadrante 			 = new JMenuItem("Cuadrante", new ImageIcon("Iconos/cuadrante_icon&16.png"));
 			JMenuItem Cuadrantes_Alimentacion_Empleados_Cuadrantes   = new JMenuItem("Empleados en Cuadrantes", new ImageIcon("Iconos/cuadrante_user_icon&16.png"));
+			JMenuItem Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico = new JMenuItem("Asignación de Actividades por Nivel Jerarquico", new ImageIcon("Iconos/cuadrante_user_icon&16.png"));
+		
 		/* CATALOGO */
 		JMenu Cuadrantes_Catalogo = new JMenu("Catalogo");
 			JMenuItem Cuadrantes_Catalogo_Actividades 		= new JMenuItem("Actividades", new ImageIcon("Iconos/actividad_icon&16.png"));
@@ -293,6 +296,9 @@ public class InitMenuBar extends Init{
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Empleados_Cuadrantes);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.addActionListener(Opciones);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
+			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.addActionListener(Opciones);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(false);
 				
 		/* CUADRANTES 
 		*		CATALOGO */
@@ -548,6 +554,8 @@ public class InitMenuBar extends Init{
 				new Cat_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Empleados en Cuadrantes"))
 				new Cat_Empleados_Cuadrantes().setVisible(true);
+			if(e.getActionCommand().equals("Asignación de Actividades por Nivel Jerarquico"))
+				new Cat_Filtro_Empleado_Puesto_Dependiente().setVisible(true);
 			/* CUADRANTES 
 			 * 		CATALOGO */
 			if(e.getActionCommand().equals("Actividades"))
