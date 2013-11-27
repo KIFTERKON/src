@@ -221,6 +221,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		cont.add(panel);
 		this.setSize(600, 300);
 //		this.setSize(800,600);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
@@ -527,12 +528,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			
 			Object[][] getTablaFiltro = getTablaFiltro();
 			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
-		            new String[]{"Folio", "Empleados","Status",""}
+		            new String[]{"Folio", "Empleados",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
-			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.Boolean.class
 		         };
@@ -544,9 +544,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		        	 switch(columna){
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
-		        	 	case 2 : return false;
-		        	 	
-		        	 	case 3 : return true;
+		        	 	case 2 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
@@ -562,7 +560,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnAgregar = new JButton("Agregar");
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -574,12 +572,14 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Empleados En Cuadrantes"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
+
+				btnAgregar.setToolTipText("Agregar");
 				
-				campo.add(scroll).setBounds(15,43,454,360);
+				campo.add(scroll).setBounds(15,43,374,360);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
-				campo.add(btnAgregar).setBounds(390,20,80,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
 				
 				cont.add(campo);
 				
@@ -587,10 +587,8 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(80);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
 				
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -605,7 +603,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -621,7 +619,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -631,29 +629,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 								}
 								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
-							case 2:
-								componente = new JLabel(value == null? "": value.toString());
-								if(row %2 == 0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
-								break;
-							case 3: 
+							case 2: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -673,14 +655,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				
 				txtFolio.addKeyListener(opFiltroFolio);
 				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(495,450);
+				setSize(415,450);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
@@ -699,19 +680,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					txtFolio.setText("");
 					txtNombre_Completo.setText("");
 					
-					Object[] fila = new Object[5];
-					
 					int contador=0;
-					
 			 		String ListaEmpleados="('";	
 			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
-			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
 			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
-			 					fila[0] = posicion;
-			 					fila[1] = modeloFiltro.getValueAt(i, 1);
-			 					fila[2] = false;
-			 					fila[3] = fila[2] = "";
-			 					fila[4] = "" ;
 			 					
 			 					contador=contador+=1;
 			 					
@@ -720,7 +693,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 					}else{
 			 						
 			 						if(cmbOperadorEmpleado.getSelectedIndex() != 2 && contador != 1){
-			 							JOptionPane.showMessageDialog(null, "Seleccione solo un empleado", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							JOptionPane.showMessageDialog(null, "El operador seleccionado solo permite seleccionar un empleado", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			 							return;
 			 						}else{
 			 							if(contador == 1){
@@ -734,9 +707,15 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 			}
 			 			
 			 			ListaEmpleados=ListaEmpleados+"')";
-			 			txtComparacionEmpleado.setText(ListaEmpleados);
-			 			actionAplicar();
-			 			dispose();
+
+			 			if(ListaEmpleados.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionEmpleado.setText(ListaEmpleados);
+				 			actionAplicar();
+				 			dispose();
+			 			}
 				}
 			};
 			
@@ -775,14 +754,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					s = new Connexion().conexion().createStatement();
 					rs = s.executeQuery(todos);
 					
-					MatrizFiltro = new Object[getFilas(todos)][4];
+					MatrizFiltro = new Object[getFilas(todos)][3];
 					int i=0;
 					while(rs.next()){
 						int folio = rs.getInt(1);
 						MatrizFiltro[i][0] = folio+"  ";
 						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
-						MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-						MatrizFiltro[i][3] = false;
+						MatrizFiltro[i][2] = false;
 						i++;
 					}
 				} catch (SQLException e1) {
@@ -851,7 +829,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 	
 	
 	
-//	FILTRO POR EESTABLECIMIENTO---------------------------------------------------------------------------------------------------------------------
+//	FILTRO POR ESTABLECIMIENTO---------------------------------------------------------------------------------------------------------------------
 	
 // ARMADO DE QUERY DE SELECCION DE ENPLEADO CON OPERADOR-------------------------------------------------------------------------------------
 	public class Cat_Condiciones_Establecimientos extends JDialog {
@@ -991,12 +969,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			
 			Object[][] getTablaFiltro = getTablaFiltro();
 			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
-		            new String[]{"Folio", "Establecimiento","Abreviatura",""}
+		            new String[]{"Folio", "Establecimiento",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
-			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.Boolean.class
 		         };
@@ -1008,9 +985,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		        	 switch(columna){
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
-		        	 	case 2 : return false;
-		        	 	
-		        	 	case 3 : return true;
+		        	 	case 2 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
@@ -1026,7 +1001,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnAgregar = new JButton("Agregar");
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -1038,12 +1013,14 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Establecimiento"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
+
+				btnAgregar.setToolTipText("Agregar");
 				
-				campo.add(scroll).setBounds(15,43,454,360);
+				campo.add(scroll).setBounds(15,43,374,360);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
-				campo.add(btnAgregar).setBounds(390,20,80,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
 				
 				cont.add(campo);
 				
@@ -1051,10 +1028,9 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(80);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
+				
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 					boolean hasFocus, int row, int column) { 
@@ -1068,7 +1044,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -1084,7 +1060,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -1094,29 +1070,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 								}
 								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
-							case 2:
-								componente = new JLabel(value == null? "": value.toString());
-								if(row %2 == 0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
-								break;
-							case 3: 
+							case 2: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -1135,14 +1095,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				
 				txtFolio.addKeyListener(opFiltroFolio);
 				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(495,450);
+				setSize(415,450);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
@@ -1161,19 +1120,12 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					txtFolio.setText("");
 					txtNombre_Completo.setText("");
 					
-					Object[] fila = new Object[5];
-					
 					int contador=0;
-					
 			 		String ListaEstablecimientos="('";	
 			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
-			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
+			 					
 			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
-			 					fila[0] = posicion;
-			 					fila[1] = modeloFiltro.getValueAt(i, 1);
-			 					fila[2] = false;
-			 					fila[3] = fila[2] = "";
-			 					fila[4] = "" ;
 			 					
 			 					contador=contador+=1;
 			 					
@@ -1182,7 +1134,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 					}else{
 			 						
 			 						if(cmbOperadorEstablecimiento.getSelectedIndex() != 2 && contador != 1){
-			 							JOptionPane.showMessageDialog(null, "Seleccione solo un establecimientos", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							JOptionPane.showMessageDialog(null, "El operador asignado solo permite seleccionar un establecimientos", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			 							return;
 			 						}else{
 			 							if(contador == 1){
@@ -1196,9 +1148,15 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 			}
 			 			
 			 			ListaEstablecimientos=ListaEstablecimientos+"')";
-			 			txtComparacionEstablecimiento.setText(ListaEstablecimientos);
-			 			actionAplicar();
-			 			dispose();
+			 			
+			 			if(ListaEstablecimientos.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionEstablecimiento.setText(ListaEstablecimientos);
+				 			actionAplicar();
+				 			dispose();
+			 			}
 				}
 			};
 			
@@ -1237,14 +1195,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					s = new Connexion().conexion().createStatement();
 					rs = s.executeQuery(todos);
 					
-					MatrizFiltro = new Object[getFilas(todos)][4];
+					MatrizFiltro = new Object[getFilas(todos)][3];
 					int i=0;
 					while(rs.next()){
 						int folio = rs.getInt(1);
 						MatrizFiltro[i][0] = folio+"  ";
 						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
-						MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-						MatrizFiltro[i][3] = false;
+						MatrizFiltro[i][2] = false;
 						i++;
 					}
 				} catch (SQLException e1) {
@@ -1453,12 +1410,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			
 			Object[][] getTablaFiltro = getTablaFiltro();
 			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
-		            new String[]{"Folio", "Puesto","Abreviatura",""}
+		            new String[]{"Folio", "Puesto",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
-			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.Boolean.class
 		         };
@@ -1470,9 +1426,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		        	 switch(columna){
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
-		        	 	case 2 : return false;
-		        	 	
-		        	 	case 3 : return true;
+		        	 	case 2 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
@@ -1488,7 +1442,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnAgregar = new JButton("Agregar");
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -1496,16 +1450,18 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				
 				this.setModal(true);
 				setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-				setTitle("Filtro Por Establecimiento");
-				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Establecimiento"));
+				setTitle("Filtro Por Puestos");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Puesto"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
+
+				btnAgregar.setToolTipText("Agregar");
 				
-				campo.add(scroll).setBounds(15,43,454,360);
+				campo.add(scroll).setBounds(15,43,374,360);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
-				campo.add(btnAgregar).setBounds(390,20,80,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
 				
 				cont.add(campo);
 				
@@ -1513,10 +1469,8 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(80);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 					boolean hasFocus, int row, int column) { 
@@ -1530,7 +1484,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -1546,7 +1500,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -1556,29 +1510,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 								}
 								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
-							case 2:
-								componente = new JLabel(value == null? "": value.toString());
-								if(row %2 == 0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
-								break;
-							case 3: 
+							case 2: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -1597,14 +1535,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				
 				txtFolio.addKeyListener(opFiltroFolio);
 				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(495,450);
+				setSize(415,450);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
@@ -1623,19 +1560,12 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					txtFolio.setText("");
 					txtNombre_Completo.setText("");
 					
-					Object[] fila = new Object[5];
-					
 					int contador=0;
-					
 			 		String ListaPuestos="('";	
 			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
-			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
+			 					
 			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
-			 					fila[0] = posicion;
-			 					fila[1] = modeloFiltro.getValueAt(i, 1);
-			 					fila[2] = false;
-			 					fila[3] = fila[2] = "";
-			 					fila[4] = "" ;
 			 					
 			 					contador=contador+=1;
 			 					
@@ -1644,7 +1574,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 					}else{
 			 						
 			 						if(cmbOperadorPuesto.getSelectedIndex() != 2 && contador != 1){
-			 							JOptionPane.showMessageDialog(null, "Seleccione solo un puesto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							JOptionPane.showMessageDialog(null, "El operador asignado solo permite seleccionar un puesto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			 							return;
 			 						}else{
 			 							if(contador == 1){
@@ -1658,9 +1588,15 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 			}
 			 			
 			 			ListaPuestos=ListaPuestos+"')";
-			 			txtComparacionPuesto.setText(ListaPuestos);
-			 			actionAplicar();
-			 			dispose();
+
+			 			if(ListaPuestos.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionPuesto.setText(ListaPuestos);
+				 			actionAplicar();
+				 			dispose();
+			 			}
 				}
 			};
 			
@@ -1699,14 +1635,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					s = new Connexion().conexion().createStatement();
 					rs = s.executeQuery(todos);
 					
-					MatrizFiltro = new Object[getFilas(todos)][4];
+					MatrizFiltro = new Object[getFilas(todos)][3];
 					int i=0;
 					while(rs.next()){
 						int folio = rs.getInt(1);
 						MatrizFiltro[i][0] = folio+"  ";
 						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
-						MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-						MatrizFiltro[i][3] = false;
+						MatrizFiltro[i][2] = false;
 						i++;
 					}
 				} catch (SQLException e1) {
@@ -1802,7 +1737,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			panel.setBorder(BorderFactory.createTitledBorder("Reportes De Cuadrantes"));
 			this.setTitle("Seleccion Tipo De Reporte");
 			
-			btnSeleccionListaDepartamento.setToolTipText("Seleccion de departamento");
+			btnSeleccionListaDepartamento.setToolTipText("Seleccion de Departamentos");
 			btnLimpiarDepartamento.setToolTipText("Limpiar");
 
 			txaArmadoDepartamento.setBorder(border);
@@ -1915,12 +1850,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			
 			Object[][] getTablaFiltro = getTablaFiltro();
 			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
-		            new String[]{"Folio", "Departamento","Abreviatura",""}
+		            new String[]{"Folio", "Departamento",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
-			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.Boolean.class
 		         };
@@ -1932,9 +1866,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		        	 switch(columna){
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
-		        	 	case 2 : return false;
-		        	 	
-		        	 	case 3 : return true;
+		        	 	case 2 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
@@ -1950,7 +1882,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnAgregar = new JButton("Agregar");
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -1958,16 +1890,18 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				
 				this.setModal(true);
 				setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-				setTitle("Filtro Por Establecimiento");
-				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Establecimiento"));
+				setTitle("Filtro Por Departamentos");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Departamento"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
+
+				btnAgregar.setToolTipText("Agregar");
 				
-				campo.add(scroll).setBounds(15,43,454,360);
+				campo.add(scroll).setBounds(15,43,374,360);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
-				campo.add(btnAgregar).setBounds(390,20,80,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
 				
 				cont.add(campo);
 				
@@ -1975,10 +1909,9 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(80);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
+				
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 					boolean hasFocus, int row, int column) { 
@@ -1992,7 +1925,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2008,7 +1941,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2018,29 +1951,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 								}
 								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
-							case 2:
-								componente = new JLabel(value == null? "": value.toString());
-								if(row %2 == 0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
-								break;
-							case 3: 
+							case 2: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2059,14 +1976,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				
 				txtFolio.addKeyListener(opFiltroFolio);
 				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(495,450);
+				setSize(415,450);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
@@ -2085,19 +2001,12 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					txtFolio.setText("");
 					txtNombre_Completo.setText("");
 					
-					Object[] fila = new Object[5];
-					
 					int contador=0;
-					
 			 		String ListaDepartamentos="('";	
 			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
-			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
+			 					
 			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
-			 					fila[0] = posicion;
-			 					fila[1] = modeloFiltro.getValueAt(i, 1);
-			 					fila[2] = false;
-			 					fila[3] = fila[2] = "";
-			 					fila[4] = "" ;
 			 					
 			 					contador=contador+=1;
 			 					
@@ -2106,7 +2015,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 					}else{
 			 						
 			 						if(cmbOperadorDepartamento.getSelectedIndex() != 2 && contador != 1){
-			 							JOptionPane.showMessageDialog(null, "Seleccione solo un departamento", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							JOptionPane.showMessageDialog(null, "SEl operador asignado solo permite seleccionar un departamento", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			 							return;
 			 						}else{
 			 							if(contador == 1){
@@ -2120,9 +2029,15 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 			}
 			 			
 			 			ListaDepartamentos=ListaDepartamentos+"')";
-			 			txtComparacionDepartamento.setText(ListaDepartamentos);
-			 			actionAplicar();
-			 			dispose();
+			 			
+			 			if(ListaDepartamentos.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionDepartamento.setText(ListaDepartamentos);
+				 			actionAplicar();
+				 			dispose();
+			 			}
 				}
 			};
 			
@@ -2161,14 +2076,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					s = new Connexion().conexion().createStatement();
 					rs = s.executeQuery(todos);
 					
-					MatrizFiltro = new Object[getFilas(todos)][4];
+					MatrizFiltro = new Object[getFilas(todos)][3];
 					int i=0;
 					while(rs.next()){
 						int folio = rs.getInt(1);
 						MatrizFiltro[i][0] = folio+"  ";
 						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
-						MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-						MatrizFiltro[i][3] = false;
+						MatrizFiltro[i][2] = false;
 						i++;
 					}
 				} catch (SQLException e1) {
@@ -2378,12 +2292,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			
 			Object[][] getTablaFiltro = getTablaFiltro();
 			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
-		            new String[]{"Folio", "Departamento","Abreviatura",""}
+		            new String[]{"Folio", "Departamento",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
-			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.Boolean.class
 		         };
@@ -2395,9 +2308,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		        	 switch(columna){
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
-		        	 	case 2 : return false;
-		        	 	
-		        	 	case 3 : return true;
+		        	 	case 2 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
@@ -2413,7 +2324,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnAgregar = new JButton("Agregar");
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -2421,16 +2332,18 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				
 				this.setModal(true);
 				setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-				setTitle("Filtro Por Establecimiento");
-				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Establecimiento"));
+				setTitle("Filtro Por Niveles Criticos");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Nivel Critico"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
+
+				btnAgregar.setToolTipText("Agregar");
 				
-				campo.add(scroll).setBounds(15,43,454,360);
+				campo.add(scroll).setBounds(15,43,374,90);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
-				campo.add(btnAgregar).setBounds(390,20,80,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
 				
 				cont.add(campo);
 				
@@ -2438,10 +2351,9 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(80);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
+				
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 					boolean hasFocus, int row, int column) { 
@@ -2455,7 +2367,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2471,7 +2383,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2481,29 +2393,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 								}
 								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
-							case 2:
-								componente = new JLabel(value == null? "": value.toString());
-								if(row %2 == 0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
-								break;
-							case 3: 
+							case 2: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2522,14 +2418,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				
 				txtFolio.addKeyListener(opFiltroFolio);
 				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(495,450);
+				setSize(415,180);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
@@ -2548,19 +2443,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					txtFolio.setText("");
 					txtNombre_Completo.setText("");
 					
-					Object[] fila = new Object[5];
-					
 					int contador=0;
 					
 			 		String ListaNivelCritico="('";	
 			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
-			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
+			 					
 			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
-			 					fila[0] = posicion;
-			 					fila[1] = modeloFiltro.getValueAt(i, 1);
-			 					fila[2] = false;
-			 					fila[3] = fila[2] = "";
-			 					fila[4] = "" ;
 			 					
 			 					contador=contador+=1;
 			 					
@@ -2569,7 +2458,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 					}else{
 			 						
 			 						if(cmbOperadorNivelCritico.getSelectedIndex() != 2 && contador != 1){
-			 							JOptionPane.showMessageDialog(null, "Seleccione solo un Nivel Critoco", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							JOptionPane.showMessageDialog(null, "El operador asignado solo permite seleccionar un Nivel Critico", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			 							return;
 			 						}else{
 			 							if(contador == 1){
@@ -2583,9 +2472,15 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 			}
 			 			
 			 			ListaNivelCritico=ListaNivelCritico+"')";
-			 			txtComparacionNivelCritico.setText(ListaNivelCritico);
-			 			actionAplicar();
-			 			dispose();
+			 			
+			 			if(ListaNivelCritico.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionNivelCritico.setText(ListaNivelCritico);
+				 			actionAplicar();
+				 			dispose();
+			 			}
 				}
 			};
 			
@@ -2624,14 +2519,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					s = new Connexion().conexion().createStatement();
 					rs = s.executeQuery(todos);
 					
-					MatrizFiltro = new Object[getFilas(todos)][4];
+					MatrizFiltro = new Object[getFilas(todos)][3];
 					int i=0;
 					while(rs.next()){
 						int folio = rs.getInt(1);
 						MatrizFiltro[i][0] = folio+"  ";
 						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
-						MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-						MatrizFiltro[i][3] = false;
+						MatrizFiltro[i][2] = false;
 						i++;
 					}
 				} catch (SQLException e1) {
@@ -2702,9 +2596,9 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 	
 	
 	
-//	FILTRO POR NIVEL CRITICO---------------------------------------------------------------------------------------------------------------------
+//	FILTRO POR OPCIONES DE RESPUESTA---------------------------------------------------------------------------------------------------------------------
 	
-// ARMADO DE QUERY DE SELECCION DE NIVEL CRITICO CON OPERADOR-------------------------------------------------------------------------------------
+// ARMADO DE QUERY DE SELECCION DE OPCION DE RESPUESTA CON OPERADOR-------------------------------------------------------------------------------------
 	public class Cat_Condiciones_Tipo_De_Respuesta extends JDialog {
 		
 		Container cont = getContentPane();
@@ -2830,7 +2724,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				}
 		};
 		
-// FILTRO DE PUESTOS PARA ASIGNAR EN LA CONDICION DEL QUERY	
+// FILTRO DE OPCIONES DE RESPUESTA PARA ASIGNAR EN LA CONDICION DEL QUERY	
 	 	public class Cat_Filtro_Departamento extends JDialog {
 			
 			Container cont = getContentPane();
@@ -2842,12 +2736,11 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			
 			Object[][] getTablaFiltro = getTablaFiltro();
 			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
-		            new String[]{"Folio", "Departamento","Abreviatura",""}
+		            new String[]{"Folio", "Departamento",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
-			    	java.lang.String.class,
 			    	java.lang.String.class,
 			    	java.lang.Boolean.class
 		         };
@@ -2859,9 +2752,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		        	 switch(columna){
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
-		        	 	case 2 : return false;
-		        	 	
-		        	 	case 3 : return true;
+		        	 	case 2 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
@@ -2877,7 +2768,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnAgregar = new JButton("Agregar");
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -2885,16 +2776,18 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				
 				this.setModal(true);
 				setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-				setTitle("Filtro Por Establecimiento");
-				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Establecimiento"));
+				setTitle("Filtro Por Tipos De Respuesta");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Tipo de Respuesta"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
-				tablaFiltro.setRowSorter(trsfiltro);  
+				tablaFiltro.setRowSorter(trsfiltro);
 				
-				campo.add(scroll).setBounds(15,43,454,360);
+				btnAgregar.setToolTipText("Agregar");
+				
+				campo.add(scroll).setBounds(15,43,374,90);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
-				campo.add(btnAgregar).setBounds(390,20,80,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
 				
 				cont.add(campo);
 				
@@ -2902,10 +2795,8 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
 				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
 				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
-				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(80);
-				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
-				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 					boolean hasFocus, int row, int column) { 
@@ -2919,7 +2810,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2935,7 +2826,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2945,29 +2836,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 								}
 								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
 								break;
-							case 2:
-								componente = new JLabel(value == null? "": value.toString());
-								if(row %2 == 0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
-								break;
-							case 3: 
+							case 2: 
 								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
 								if(row%2==0){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(177,177,177));	
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,3).toString())){
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
@@ -2986,14 +2861,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
 				
 				txtFolio.addKeyListener(opFiltroFolio);
 				txtNombre_Completo.addKeyListener(opFiltroNombre);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(495,450);
+				setSize(415,180);
 				setResizable(false);
 				setLocationRelativeTo(null);
 				
@@ -3012,19 +2886,12 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					txtFolio.setText("");
 					txtNombre_Completo.setText("");
 					
-					Object[] fila = new Object[5];
-					
 					int contador=0;
-					
 			 		String ListaRespuesta="('";	
 			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
-			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 3).toString()) == true){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
+			 					
 			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
-			 					fila[0] = posicion;
-			 					fila[1] = modeloFiltro.getValueAt(i, 1);
-			 					fila[2] = false;
-			 					fila[3] = fila[2] = "";
-			 					fila[4] = "" ;
 			 					
 			 					contador=contador+=1;
 			 					
@@ -3033,7 +2900,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 					}else{
 			 						
 			 						if(cmbOperadorRespuesta.getSelectedIndex() != 2 && contador != 1){
-			 							JOptionPane.showMessageDialog(null, "Seleccione solo un Nivel Critoco", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							JOptionPane.showMessageDialog(null, "El operador asignado solo permite seleccionar una opcion de respuesta", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 			 							return;
 			 						}else{
 			 							if(contador == 1){
@@ -3047,9 +2914,15 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			 			}
 			 			
 			 			ListaRespuesta=ListaRespuesta+"')";
-			 			txtComparacionRespuesta.setText(ListaRespuesta);
-			 			actionAplicar();
-			 			dispose();
+			 			
+			 			if(ListaRespuesta.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionRespuesta.setText(ListaRespuesta);
+				 			actionAplicar();
+				 			dispose();
+			 			}
 				}
 			};
 			
@@ -3088,14 +2961,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 					s = new Connexion().conexion().createStatement();
 					rs = s.executeQuery(todos);
 					
-					MatrizFiltro = new Object[getFilas(todos)][4];
+					MatrizFiltro = new Object[getFilas(todos)][3];
 					int i=0;
 					while(rs.next()){
 						int folio = rs.getInt(1);
 						MatrizFiltro[i][0] = folio+"  ";
 						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
-						MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-						MatrizFiltro[i][3] = false;
+						MatrizFiltro[i][2] = false;
 						i++;
 					}
 				} catch (SQLException e1) {
@@ -3155,7 +3027,6 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				public void keyReleased(KeyEvent e){}
 										
 			};
-			
 		}
 	}
 }

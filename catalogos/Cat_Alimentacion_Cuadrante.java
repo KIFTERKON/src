@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
@@ -30,6 +31,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -311,14 +313,14 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	
 	public void init_tabla_multiple(){
 		this.tablaMultiple.getTableHeader().setReorderingAllowed(false);
-		this.tablaMultiple.getColumnModel().getColumn(0).setMaxWidth(60);
-		this.tablaMultiple.getColumnModel().getColumn(0).setMinWidth(60);
-		this.tablaMultiple.getColumnModel().getColumn(1).setMaxWidth(350);
-		this.tablaMultiple.getColumnModel().getColumn(1).setMinWidth(350);
-		this.tablaMultiple.getColumnModel().getColumn(2).setMaxWidth(150);
-		this.tablaMultiple.getColumnModel().getColumn(2).setMinWidth(150);
-		this.tablaMultiple.getColumnModel().getColumn(3).setMaxWidth(300);
-		this.tablaMultiple.getColumnModel().getColumn(3).setMinWidth(300);
+		this.tablaMultiple.getColumnModel().getColumn(0).setMaxWidth(40);
+		this.tablaMultiple.getColumnModel().getColumn(0).setMinWidth(40);
+		this.tablaMultiple.getColumnModel().getColumn(1).setMaxWidth(650);
+		this.tablaMultiple.getColumnModel().getColumn(1).setMinWidth(450);
+		this.tablaMultiple.getColumnModel().getColumn(2).setMaxWidth(100);
+		this.tablaMultiple.getColumnModel().getColumn(2).setMinWidth(100);
+		this.tablaMultiple.getColumnModel().getColumn(3).setMaxWidth(350);
+		this.tablaMultiple.getColumnModel().getColumn(3).setMinWidth(270);
 		
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -693,5 +695,29 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			dispose();
 		}
 	};
+	
+	
+	
+	public static void main (String [] arg){
+		try{        
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
+		}catch(Exception e){}
+		
+		Cat_Alimentacion_Cuadrante thisClass = new Cat_Alimentacion_Cuadrante("VALENTIN VILLEGAS PALAZUELOS");
+		thisClass.setVisible(true);
+
+		//utilizacion del AWTUtilities con el metodo opaque
+		try {
+			   @SuppressWarnings("rawtypes")
+			Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
+			   @SuppressWarnings("unchecked")
+			Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
+			   method.invoke(clazz,thisClass , false);
+			   } catch (Exception e) 
+			   { }	
+	}
+	
+	
 	
 }
