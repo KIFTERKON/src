@@ -1833,17 +1833,15 @@ public class GuardarSQL {
 			
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-			
+
 			pstmt.setInt (1, Permiso.getFolio_empleado());
 			pstmt.setInt(2, Permiso.getFolio_usuario());
 			pstmt.setString(3,Permiso.getFecha());
-			
-			
 			pstmt.setInt(4, Permiso.getTipo_de_permiso());
 			pstmt.setString(5, Permiso.getMotivo().toUpperCase().trim());
-			pstmt.setBoolean(6, (Permiso.isStatus())? true: false);
+			pstmt.setInt(6, (Permiso.isStatus())? 1: 0);
 			
-//			pstmt.executeUpdate();
+			pstmt.executeUpdate();
 		
 			con.commit();
 		} catch (Exception e) {

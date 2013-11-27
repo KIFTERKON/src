@@ -161,7 +161,7 @@ public class Main extends InitButton {
 					
 					/* CUADRANTES 
 					*		ALIMENTACION */
-					if(permisos[i].equals("Actividades en Cuadrantes"))
+					if(permisos[i].equals("Alimentación de Cuadrantes"))
 						Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
 					if(permisos[i].equals("Cuadrante"))
 						Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
@@ -356,7 +356,7 @@ public class Main extends InitButton {
 					
 					/* CUADRANTES 
 					*		ALIMENTACION */
-					if(permisos[i].equals("Actividades en Cuadrantes"))
+					if(permisos[i].equals("Alimentación de Cuadrantes"))
 						Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
 					if(permisos[i].equals("Cuadrante"))
 						Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
