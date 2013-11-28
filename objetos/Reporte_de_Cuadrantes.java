@@ -18,22 +18,26 @@ import SQL.Connexion;
 public class Reporte_de_Cuadrantes extends JFrame {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-		public Reporte_de_Cuadrantes(String fecha_inicio, String fecha_final, int operadorEmpleado, String cadenaEmpleados,
-									 int operadorEstablecimiento, String cadenaEstablecimiento,
-									 int operadorPuesto, String cadenaPuesto,
-									 int operadorDepartamento, String cadenaDepartamento,
-									 int operadorNivelCritico, String cadenaNivelCritico,
-									 int operadorRespuesta, String cadenaRespuesta
+		public Reporte_de_Cuadrantes(String fecha_inicio, String fecha_final, int operadorEqTrabajo, String cadenaEqTrabajo,
+										int operadorEmpleado, String cadenaEmpleados,
+										int operadorEstablecimiento, String cadenaEstablecimiento,
+										int operadorPuesto, String cadenaPuesto,
+										int operadorDepartamento, String cadenaDepartamento,
+										int operadorNivelCritico, String cadenaNivelCritico,
+										int operadorRespuesta, String cadenaRespuesta,
+										int reportePresentado
 									 ) {
 		
 //		generar procedimiento almacenado--------------------------------------------------------------
 		String query = "exec sp_reporte_dinamico_de_cuadrantes '"+fecha_inicio+"','"+fecha_final+"','"+
+				  												operadorEqTrabajo+"','"+cadenaEqTrabajo+"','"+
 																operadorEmpleado+"','"+cadenaEmpleados+"','"+
 																operadorEstablecimiento+"','"+cadenaEstablecimiento+"','"+
 																operadorPuesto+"','"+cadenaPuesto+"','"+
 																operadorDepartamento+"','"+cadenaDepartamento+"','"+
 																operadorNivelCritico+"','"+cadenaNivelCritico+"','"+
-																operadorRespuesta+"','"+cadenaRespuesta
+																operadorRespuesta+"','"+cadenaRespuesta+"','"+
+																reportePresentado
 																+"';";
 			
 			Statement stmt = null;
