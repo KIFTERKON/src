@@ -47,7 +47,10 @@ import com.toedter.calendar.JDateChooser;
 
 						//INDICE
 								//Cat_Reporte_Cuadrantes
-									
+
+										//Cat_Condiciones_Equipo_Trabajo
+												//Cat_Filtro_Tipo_De_Respuesta
+
 										//Cat_Condiciones_Empleados
 												//Cat_Filtro_Empleados_Con_Cuadrante
 								
@@ -76,13 +79,17 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 	
 	JButton btnGenerar = new JButton("Generar Reporte");
 	
-//	JLabel lblFechaInicial = new JLabel("Fecha Inicial:");
-	JDateChooser txtFechaInicial = new JDateChooser();
+	String presentado[] = {"Establecimiento a detalle","Establecimiento concentrado","Equipo de trabajo a detalle","Equipo de trabajo concentrado"};
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	JComboBox cmbPresentado = new JComboBox(presentado);
 	
-//	JLabel lblFechaFinal = new JLabel("Fecha Final:");
+	JDateChooser txtFechaInicial = new JDateChooser();
 	JDateChooser txtFechaFinal = new JDateChooser();
 	
-//	JLabel lblFiltroEmpleados = new JLabel("Filtro:");
+	JTextField txtFiltroEqTrabajo = new JTextField("Equipo De Trabajo Todos");
+	JButton btnFiltroEqTrabajo = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
+	JButton btnLimpiarFiltroEqTrabajo = new JButton(new ImageIcon("Iconos/limpiar.png"));
+	
 	JTextField txtFiltroEmpleados = new JTextField("Empleado Todos");
 	JButton btnFiltroEmpleados = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	JButton btnLimpiarFiltroEmpleados = new JButton(new ImageIcon("Iconos/limpiar.png"));
@@ -109,8 +116,12 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 	
 	Border blackline;
 	JLabel lblFiltros = new JLabel(); 
+	JLabel lblPresentado = new JLabel();
 	
 //	VARIABLE GLOBALES  -------------------------------------------------------------------------------------
+	
+	int operadorEqTrabajo=0;		String cadenaEqTrabajo="";
+	
 	int operadorEmpleado=0;			String cadenaEmpleados="";
 	
 	int operadorEstablecimiento=0;	String cadenaEstablecimiento="";
@@ -135,7 +146,10 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		
 		blackline = BorderFactory.createLineBorder(new java.awt.Color(105,105,105));
 		this.lblFiltros.setBorder(BorderFactory.createTitledBorder(blackline,"Filtros"));
+		this.lblPresentado.setBorder(BorderFactory.createTitledBorder(blackline,"Presentado por: "));
 		
+		btnFiltroEqTrabajo.setToolTipText("Seleccion de equipo de trabajo");
+		btnLimpiarFiltroEqTrabajo.setToolTipText("Limpiar campo equipo de trabajo");
 		
 		btnFiltroEmpleados.setToolTipText("Seleccion de empleados");
 		btnLimpiarFiltroEmpleados.setToolTipText("Limpiar campo empleado");
@@ -157,15 +171,20 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		
 		int y=20;
 		
-		panel.add(btnGenerar).setBounds(360,y+=05,115,20);
-		
+		panel.add(btnGenerar).setBounds(360,y+=5,115,20);
+		panel.add(lblPresentado).setBounds(480,50,180,220);
+		panel.add(cmbPresentado).setBounds(490, 70, 160, 20);		
 		
 		panel.add(new JLabel("De: ")).setBounds(90,y,30,20);
 		panel.add(txtFechaInicial).setBounds(120,y,100,20);
 		panel.add(new JLabel("A: ")).setBounds(230,y,30,20);
 		panel.add(txtFechaFinal).setBounds(250,y,100,20);
 		
-		panel.add(lblFiltros).setBounds(5,y+=25,475,190);
+		panel.add(lblFiltros).setBounds(5,y+=25,475,220);
+		
+		panel.add(txtFiltroEqTrabajo).setBounds(15, y+=25, 410, 20);
+		panel.add(btnFiltroEqTrabajo).setBounds(430,y,20,20);
+		panel.add(btnLimpiarFiltroEqTrabajo).setBounds(450,y,20,20);
 		
 		panel.add(txtFiltroEmpleados).setBounds(15, y+=25, 410, 20);
 		panel.add(btnFiltroEmpleados).setBounds(430,y,20,20);
@@ -193,6 +212,10 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		
 		btnGenerar.addActionListener(opGenerarReporte);
 		
+		
+		btnFiltroEqTrabajo.addActionListener(opCondicionEqTrabajo);
+		btnLimpiarFiltroEqTrabajo.addActionListener(opLimpiarFiltroEqTrabajo);
+		
 		btnFiltroEmpleados.addActionListener(opCondicionEmpleado);
 		btnLimpiarFiltroEmpleados.addActionListener(opLimpiarFiltroEmpleados);
 		
@@ -211,6 +234,7 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		btnFiltroRespuesta.addActionListener(opCondicionRespuesta);
 		btnLimpiarFiltroRespuesta.addActionListener(opLimpiarFiltroRespuesta);
 		
+		txtFiltroEqTrabajo.setEditable(false);
 		txtFiltroEmpleados.setEditable(false);
 		txtFiltroEstablecimiento.setEditable(false);
 		txtFiltroPuesto.setEditable(false);
@@ -219,12 +243,13 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		txtFiltroRespuesta.setEditable(false);
 		
 		cont.add(panel);
-		this.setSize(600, 300);
+		this.setSize(670, 320);
 //		this.setSize(800,600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}
 	
+	int reportePresentado=0;
 	ActionListener opGenerarReporte = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			
@@ -234,8 +259,17 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 				
 					if(txtFechaInicial.getDate().before(txtFechaFinal.getDate())){
 						
+						
+						reportePresentado=cmbPresentado.getSelectedIndex();
+						
+						
+						System.out.println(reportePresentado);
 						System.out.println(fecha_inicio);
 						System.out.println(fecha_final);
+						
+						System.out.println(operadorEqTrabajo+"");
+						System.out.println(cadenaEqTrabajo);
+						
 						System.out.println(operadorEmpleado+"");
 						System.out.println(cadenaEmpleados);
 						System.out.println(operadorEstablecimiento+"");
@@ -250,12 +284,14 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 						System.out.println(operadorRespuesta+"");
 						System.out.println(cadenaRespuesta);
 						
-						new Reporte_de_Cuadrantes(fecha_inicio, fecha_final, operadorEmpleado, cadenaEmpleados,
+						new Reporte_de_Cuadrantes(fecha_inicio, fecha_final, operadorEqTrabajo, cadenaEqTrabajo,
+																			operadorEmpleado, cadenaEmpleados,
 																			operadorEstablecimiento, cadenaEstablecimiento,
 																			operadorPuesto,cadenaPuesto,
 																			operadorDepartamento,cadenaDepartamento,
 																			operadorNivelCritico,cadenaNivelCritico,
-																			operadorRespuesta,cadenaRespuesta
+																			operadorRespuesta,cadenaRespuesta,
+																			reportePresentado
 																			);
 					}else{
 						JOptionPane.showMessageDialog(null,"El Rango de Fechas Esta Invertido","Aviso!", JOptionPane.WARNING_MESSAGE);
@@ -277,6 +313,20 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 		
 		return error;
 	}
+
+	ActionListener opCondicionEqTrabajo = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			new Cat_Condiciones_Equipo_De_Trabajo().setVisible(true);
+		}
+	};
+	
+	ActionListener opLimpiarFiltroEqTrabajo = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			txtFiltroEqTrabajo.setText("Equipo De Trabajo Todos");
+			cadenaEqTrabajo="";
+			operadorEqTrabajo=0;
+		}
+	};
 	
 	ActionListener opCondicionEmpleado = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -385,6 +435,450 @@ public class Cat_Reporte_Cuadrantes extends JFrame {
 			   } catch (Exception e) 
 			   { }	
 	}
+	
+	
+	
+	
+	
+	
+//	FILTRO POR EQUIPO DE TRABAJO---------------------------------------------------------------------------------------------------------------------
+	
+// ARMADO DE QUERY DE SELECCION DE EQUIPO DE TRABAJO CON OPERADOR-------------------------------------------------------------------------------------
+	public class Cat_Condiciones_Equipo_De_Trabajo extends JDialog {
+		
+		Container cont = getContentPane();
+		JLayeredPane panel = new JLayeredPane();
+		
+		String operador[] = {"Todos","Igual","Esta en lista","Menor que","Mayor que","Diferente"};
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		JComboBox cmbOperadorEqTrabajo = new JComboBox(operador);
+		
+		JTextField txtComparacionEqTrabajo = new JTextField();
+		JButton btnSeleccionEqTrabajo = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
+		JButton btnLimpiarEqTrabajo = new JButton(new ImageIcon("Iconos/limpiar.png"));
+		JButton btnEnviarEqTrabajo = new JButton("Enviar");
+		
+		JTextArea txaArmadoEqTrabajo = new JTextArea();
+		JScrollPane armadoEqTrabajo = new JScrollPane(txaArmadoEqTrabajo);
+		Border border = LineBorder.createGrayLineBorder();
+		
+		public void getConstructor(){
+
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_user_icon&16.png"));
+			panel.setBorder(BorderFactory.createTitledBorder("Reportes De Cuadrantes"));
+			this.setTitle("Seleccion Tipo De Reporte");
+			
+			btnSeleccionEqTrabajo.setToolTipText("Seleccion de equipo de trabajo");
+			btnLimpiarEqTrabajo.setToolTipText("Limpiar");
+
+			txaArmadoEqTrabajo.setBorder(border);
+			txaArmadoEqTrabajo.setLineWrap(true);
+			txaArmadoEqTrabajo.setDocument(new JTextFieldLimit(240));
+			
+			int y=20;
+			
+			panel.add(new JLabel("Equipo de trabajo ")).setBounds(20,y+=35,60,20);
+			panel.add(cmbOperadorEqTrabajo).setBounds(80,y,100,20);
+			
+			panel.add(txtComparacionEqTrabajo).setBounds(200, y, 140, 20);
+			panel.add(btnSeleccionEqTrabajo).setBounds(350, y, 30, 20);
+			panel.add(btnLimpiarEqTrabajo).setBounds(390, y, 30, 20);
+			
+			panel.add(armadoEqTrabajo).setBounds(20, y+=35, 400, 100);
+			
+			panel.add(btnEnviarEqTrabajo).setBounds(350, y+=110, 70, 20);
+			
+			cmbOperadorEqTrabajo.addActionListener(opCompararEqTrabajo);
+			btnLimpiarEqTrabajo.addActionListener(opLimpiarEqTrabajo);
+			btnSeleccionEqTrabajo.addActionListener(opFiltroEqTrabajo);
+			btnEnviarEqTrabajo.addActionListener(opEnviarEqTrabajo);
+			
+			txtComparacionEqTrabajo.setEditable(false);
+			txaArmadoEqTrabajo.setEditable(false);
+			btnSeleccionEqTrabajo.setEnabled(false);
+
+			cont.add(panel);
+			this.setSize(460,280);
+			this.setLocationRelativeTo(null);
+		}
+		
+		public Cat_Condiciones_Equipo_De_Trabajo(){
+			this.setModal(true);
+			 getConstructor();
+		}
+		
+		ActionListener opCompararEqTrabajo = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				if(cmbOperadorEqTrabajo.getSelectedIndex() == 0){
+					btnSeleccionEqTrabajo.setEnabled(false);
+				}else{
+					btnSeleccionEqTrabajo.setEnabled(true);
+				}
+				
+				actionAplicar();
+			}
+		};
+		
+		ActionListener opLimpiarEqTrabajo = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				txtComparacionEqTrabajo.setText("");
+				actionAplicar();
+			}
+		};
+		
+		ActionListener opEnviarEqTrabajo = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				if(cmbOperadorEqTrabajo.getSelectedIndex() == 0){
+					txtFiltroEmpleados.setText("Equipo De Trabajo Todos");
+				}else{
+					if(txtComparacionEqTrabajo.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Seleccione un parametro", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+					}else{
+						
+						txtFiltroEqTrabajo.setText(txaArmadoEqTrabajo.getText()+"");
+						
+						cadenaEqTrabajo=txtComparacionEqTrabajo.getText();
+						operadorEqTrabajo=cmbOperadorEqTrabajo.getSelectedIndex();
+					}
+				}
+				
+				dispose();
+			}
+		};
+		
+		public void actionAplicar(){
+				switch(cmbOperadorEqTrabajo.getSelectedIndex()){
+					case 0:  txaArmadoEqTrabajo.setText("");break;
+					case 1:  txaArmadoEqTrabajo.setText("folio_equipo_trabajo = "+txtComparacionEqTrabajo.getText()); break;
+					case 2:  txaArmadoEqTrabajo.setText("folio_equipo_trabajo IN "+txtComparacionEqTrabajo.getText()); break;
+					case 3:  txaArmadoEqTrabajo.setText("folio_equipo_trabajo < "+txtComparacionEqTrabajo.getText()); break;
+					case 4:  txaArmadoEqTrabajo.setText("folio_equipo_trabajo > "+txtComparacionEqTrabajo.getText()); break;
+					case 5:  txaArmadoEqTrabajo.setText("folio_equipo_trabajo <> "+txtComparacionEqTrabajo.getText()); break;
+				}
+		}
+		
+//		Cat_Filtro_Actividades
+		ActionListener opFiltroEqTrabajo = new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+					
+					new Cat_Filtro_Equipo_De_Trabajo().setVisible(true);
+				}
+		};
+		
+// FILTRO DE EQUIPO DE TRABAJO CON CUADRNATE PARA ASIGNAR EN LA CONDICION DEL QUERY	
+	 	public class Cat_Filtro_Equipo_De_Trabajo extends JDialog {
+			
+			Container cont = getContentPane();
+			JLayeredPane campo = new JLayeredPane();
+			
+			String dia = "";
+			
+			Object[][] MatrizFiltro ;
+			
+			Object[][] getTablaFiltro = getTablaFiltro();
+			DefaultTableModel modeloFiltro = new DefaultTableModel(getTablaFiltro,
+		            new String[]{"Folio", "Empleados",""}
+					){
+			     @SuppressWarnings("rawtypes")
+				Class[] types = new Class[]{
+			    	java.lang.Integer.class,
+			    	java.lang.String.class,
+			    	java.lang.Boolean.class
+		         };
+			     @SuppressWarnings({ "rawtypes", "unchecked" })
+				public Class getColumnClass(int columnIndex) {
+		             return types[columnIndex];
+		         }
+		         public boolean isCellEditable(int fila, int columna){
+		        	 switch(columna){
+		        	 	case 0 : return false; 
+		        	 	case 1 : return false; 
+		        	 	case 2 : return true;
+		        	 		
+		        	 } 				
+		 			return false;
+		 		}
+			};
+			
+			JTable tablaFiltro = new JTable(modeloFiltro);
+		    JScrollPane scroll = new JScrollPane(tablaFiltro);
+			
+			@SuppressWarnings("rawtypes")
+			private TableRowSorter trsfiltro;
+			
+			JTextField txtFolio = new JTextField();
+			JTextField txtNombre_Completo = new JTextField();
+			
+			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
+			
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			
+			public Cat_Filtro_Equipo_De_Trabajo() {
+				
+				this.setModal(true);
+				setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
+				setTitle("Filtro De Equipo De Trabajo");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Equipo De Trabajo"));
+				trsfiltro = new TableRowSorter(modeloFiltro); 
+				tablaFiltro.setRowSorter(trsfiltro);  
+
+				btnAgregar.setToolTipText("Agregar");
+				
+				campo.add(scroll).setBounds(15,43,374,360);
+				
+				campo.add(txtFolio).setBounds(15,20,40,20);
+				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
+				campo.add(btnAgregar).setBounds(340,20,50,20);
+				
+				cont.add(campo);
+				
+				tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(0).setMinWidth(40);
+				tablaFiltro.getColumnModel().getColumn(1).setMaxWidth(280);
+				tablaFiltro.getColumnModel().getColumn(1).setMinWidth(280);
+				tablaFiltro.getColumnModel().getColumn(2).setMaxWidth(40);
+				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(40);
+				
+				TableCellRenderer render = new TableCellRenderer() { 
+					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+					boolean hasFocus, int row, int column) { 
+						
+						Component componente = null;
+						
+						switch(column){
+							case 0: 
+								componente = new JLabel(value == null? "": value.toString());
+								if(row %2 == 0){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(177,177,177));	
+								}
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(186,143,73));
+								}
+								if(table.getSelectedRow() == row){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(186,143,73));
+								}
+								((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+								break;
+							case 1: 
+								componente = new JLabel(value == null? "": value.toString());
+								if(row %2 == 0){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(177,177,177));	
+								}
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(186,143,73));
+								}
+								if(table.getSelectedRow() == row){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(186,143,73));
+								}
+								((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+								break;
+							case 2: 
+								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
+								if(row%2==0){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(177,177,177));	
+								}
+								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(186,143,73));
+								}
+								if(table.getSelectedRow() == row){
+									((JComponent) componente).setOpaque(true); 
+									componente.setBackground(new java.awt.Color(186,143,73));
+								}
+								((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
+								break;
+							
+						}
+							
+						return componente;
+					} 
+				}; 
+			
+				tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
+				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
+				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
+				
+				txtFolio.addKeyListener(opFiltroFolio);
+				txtNombre_Completo.addKeyListener(opFiltroNombre);
+				
+				btnAgregar.addActionListener(opAgregar);
+				
+				setSize(415,450);
+				setResizable(false);
+				setLocationRelativeTo(null);
+				
+			}
+			
+			ActionListener opAgregar = new ActionListener() {
+				@SuppressWarnings({ "unchecked" })
+				public void actionPerformed(ActionEvent arg0) {
+					
+					if(tablaFiltro.isEditing()){
+			 			tablaFiltro.getCellEditor().stopCellEditing();
+					}
+					trsfiltro.setRowFilter(RowFilter.regexFilter("", 0));
+					trsfiltro.setRowFilter(RowFilter.regexFilter("", 1));
+					
+					txtFolio.setText("");
+					txtNombre_Completo.setText("");
+					
+					int contador=0;
+			 		String ListaEqTrabajo="('";	
+			 			for(int i=0; i<tablaFiltro.getRowCount(); i++){
+			 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(i, 2).toString()) == true){
+			 					int posicion = Integer.parseInt(modeloFiltro.getValueAt(i, 0).toString().trim());
+			 					
+			 					contador=contador+=1;
+			 					
+			 					if(cmbOperadorEqTrabajo.getSelectedIndex() != 2 && contador == 1){
+			 						ListaEqTrabajo=ListaEqTrabajo+"'"+posicion+"'";
+			 					}else{
+			 						
+			 						if(cmbOperadorEqTrabajo.getSelectedIndex() != 2 && contador != 1){
+			 							JOptionPane.showMessageDialog(null, "El operador seleccionado solo permite seleccionar un equipo de trabajo", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+			 							return;
+			 						}else{
+			 							if(contador == 1){
+			 								ListaEqTrabajo=ListaEqTrabajo+"'"+posicion+"'";
+					 					}else{
+					 						ListaEqTrabajo=ListaEqTrabajo+"'"+","+"'"+"'"+posicion+"'";
+					 					}
+			 						}
+			 					}
+			 				}
+			 			}
+			 			
+			 			ListaEqTrabajo=ListaEqTrabajo+"')";
+
+			 			if(ListaEqTrabajo.equals("('')")){
+			 				JOptionPane.showMessageDialog(null, "Es necesario seleccionar un argunemto", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+ 							return;
+			 			}else{
+			 				txtComparacionEqTrabajo.setText(ListaEqTrabajo);
+				 			actionAplicar();
+				 			dispose();
+			 			}
+				}
+			};
+			
+			
+			KeyListener opFiltroFolio = new KeyListener(){
+				@SuppressWarnings("unchecked")
+				public void keyReleased(KeyEvent arg0) {
+					trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
+				}
+				public void keyTyped(KeyEvent arg0) {
+					char caracter = arg0.getKeyChar();
+					if(((caracter < '0') ||
+						(caracter > '9')) &&
+					    (caracter != KeyEvent.VK_BACK_SPACE)){
+						arg0.consume(); 
+					}	
+				}
+				public void keyPressed(KeyEvent arg0) {}		
+			};
+			
+			KeyListener opFiltroNombre = new KeyListener(){
+				@SuppressWarnings("unchecked")
+				public void keyReleased(KeyEvent arg0) {
+					trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
+				}
+				public void keyTyped(KeyEvent arg0) {}
+				public void keyPressed(KeyEvent arg0) {}		
+			};
+			
+			
+		   	public Object[][] getTablaFiltro(){
+				String todos = "select folio,descripcion from tb_equipo_trabajo where status = 1";
+				Statement s;
+				ResultSet rs;
+				try {
+					s = new Connexion().conexion().createStatement();
+					rs = s.executeQuery(todos);
+					
+					MatrizFiltro = new Object[getFilas(todos)][3];
+					int i=0;
+					while(rs.next()){
+						int folio = rs.getInt(1);
+						MatrizFiltro[i][0] = folio+"  ";
+						MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
+						MatrizFiltro[i][2] = false;
+						i++;
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			    return MatrizFiltro; 
+			}
+		   	
+		   	public int getFilas(String qry){
+				int filas=0;
+				Statement stmt = null;
+				try {
+					stmt = new Connexion().conexion().createStatement();
+					ResultSet rs = stmt.executeQuery(qry);
+					while(rs.next()){
+						filas++;
+					}
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				return filas;
+			}	
+
+			KeyListener validaCantidad = new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent e){
+					char caracter = e.getKeyChar();				
+					if(((caracter < '0') ||	
+					    	(caracter > '9')) && 
+					    	(caracter != '.' )){
+					    	e.consume();
+					    	}
+				}
+				@Override
+				public void keyReleased(KeyEvent e) {	
+				}
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+				}	
+			};
+			
+			KeyListener validaNumericoConPunto = new KeyListener() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char caracter = e.getKeyChar();
+					
+				    if(((caracter < '0') ||	
+				    	(caracter > '9')) && 
+				    	(caracter != '.')){
+				    	e.consume();
+				    	}
+				}
+				@Override
+				public void keyPressed(KeyEvent e){}
+				@Override
+				public void keyReleased(KeyEvent e){}
+										
+			};
+			
+		}
+	}
+	
+	
+	
 	
 	
 	
