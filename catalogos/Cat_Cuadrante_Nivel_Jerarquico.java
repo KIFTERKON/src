@@ -16,7 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -50,11 +50,14 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 	Cat_Plantilla_Tabla plantillaViernes 	= new Cat_Plantilla_Tabla();
 	Cat_Plantilla_Tabla plantillaSabado 	= new Cat_Plantilla_Tabla();
 	
+	private JButton btnActividadNueva = new JButton("Nueva Actividad");
+	
 	public Cat_Cuadrante_Nivel_Jerarquico(String nombre, int folio){
 		NOMBRECOMPLETO = nombre;
 		FOLIO = folio;
 		NOMBREENCARGADO =  new Obj_Usuario().LeerSession().getNombre_completo();
 		initial();
+		panel.add(btnActividadNueva).setBounds(1068,20,110,20);
 	}
 	
 	private void initial(){
@@ -74,6 +77,23 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 		this.btnEditar.removeActionListener(opEditar);
 		this.btnGuardar.removeActionListener(opGuardar);
 		this.btnGuardar.addActionListener(opGuardarReal);
+		this.btnActividadNueva.addActionListener(opActividadNueva);
+		
+		this.btn_copiar_domingo_al_lunes.setVisible(false);
+		this.btn_copiar_lunes_al_martes.setVisible(false);
+		this.btn_copiar_martes_al_miercoles.setVisible(false);
+		this.btn_copiar_miercoles_al_jueves.setVisible(false);
+		this.btn_copiar_jueves_al_viernes.setVisible(false);
+		this.btn_copiar_vienres_al_sabado.setVisible(false);
+		this.btn_copiar_sabado_al_domingo.setVisible(false);
+		
+		this.btn_copiar_domingo_todos.setVisible(false);
+		this.btn_copiar_lunes_todos.setVisible(false);
+		this.btn_copiar_martes_todos.setVisible(false);
+		this.btn_copiar_miercoles_todos.setVisible(false);
+		this.btn_copiar_jueves_todos.setVisible(false);
+		this.btn_copiar_vienres_todos.setVisible(false);
+		this.btn_copiar_sabado_todos.setVisible(false);
 		
 		this.txtFolio.removeKeyListener(valida);
 		this.txtFolio.setEditable(false);
@@ -127,8 +147,6 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			this.btnRemoverDomingo.removeActionListener(opQuitarDomingo);
 			this.btnRemoverDomingo.addActionListener(opQuitar);
 			
-			//this.btn_copiar_domingo_al_lunes.setEnabled(true);
-			//this.btn_copiar_domingo_todos.setEnabled(true);
 			this.plantillaDomingo.tablaPlantilla.setEnabled(true);
 		}
 		if(this.chLunes.isSelected()){
@@ -249,6 +267,12 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 		}
 	}
 	
+	ActionListener opActividadNueva = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			new Cat_Actividad_Asignadas_Nivel_Jerarquico().setVisible(true);
+		}
+	};
+		
 	ActionListener opGuardarReal = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			guardarReal();
@@ -1112,7 +1136,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 		}
 	}
 	
-	public class Cat_Filtro_Actividades_Act extends JFrame {
+	public class Cat_Filtro_Actividades_Act extends JDialog {
 		
 		Container cont = getContentPane();
 		JLayeredPane campo = new JLayeredPane();
@@ -1173,7 +1197,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			
 			campo.add(txtFolio).setBounds(15,20,40,20);
 			campo.add(txtNombre_Completo).setBounds(56,20,800,20);
-			campo.add(btnAgregar).setBounds(920,20,80,20);
+			campo.add(btnAgregar).setBounds(930,20,80,20);
 			
 			cont.add(campo);
 			
@@ -1275,6 +1299,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			setSize(1024,450);
 			setResizable(false);
 			setLocationRelativeTo(null);
+			setModal(true);
 			
 		}
 		

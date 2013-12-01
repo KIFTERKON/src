@@ -289,7 +289,7 @@ public class InitMenuBar extends Init{
 		Cuadrantes.add(Cuadrantes_Alimentacion);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Actividades_Cuadrantes);
 				Cuadrantes_Alimentacion_Actividades_Cuadrantes.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(false);
+				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Cuadrante);
 				Cuadrantes_Alimentacion_Cuadrante.addActionListener(Opciones);
 				Cuadrantes_Alimentacion_Cuadrante.setEnabled(false);
@@ -298,7 +298,7 @@ public class InitMenuBar extends Init{
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico);
 				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(false);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(true);
 				
 		/* CUADRANTES 
 		*		CATALOGO */
