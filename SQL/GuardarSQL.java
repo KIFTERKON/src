@@ -525,7 +525,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Proyecto(Obj_Actividades_Por_Proyecto proyec){
-		String query = "exec sp_insert_proyecto ?,?,?,?,?";
+		String query = "exec sp_insert_proyecto ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -538,6 +538,8 @@ public class GuardarSQL {
 			pstmt.setString	(3, proyec.getDescripcion().toUpperCase().trim());
 			pstmt.setString	(4, proyec.getNivel_critico().trim());
 			pstmt.setInt	(5, proyec.getStatus());
+			pstmt.setString	(6, proyec.getFecha_inicial());
+			pstmt.setString	(7, proyec.getFecha_final());
 				
 			pstmt.executeUpdate();
 			con.commit();
