@@ -193,8 +193,9 @@ public class Main extends InitButton {
 					*		REPORTE */
 					if(permisos[i].equals("Reportes Directivo"))
 						Cuadrantes_Reportes_Directivo.setEnabled(true);
-					if(permisos[i].equals("Reportes Jefatura"))
-						Cuadrantes_Reportes_Jefatura.setEnabled(true);
+					if(permisos[i].equals("Reporte Dinamico de Cuadrantes"))
+						
+						Cuadrantes_Reportes_Dinamico.setEnabled(true);
 					if(permisos[i].equals("Reportes Usuario"))
 						Cuadrantes_Reportes_Usuario.setEnabled(true);
 									
@@ -388,8 +389,8 @@ public class Main extends InitButton {
 					*		REPORTE */
 					if(permisos[i].equals("Reportes Directivo"))
 						Cuadrantes_Reportes_Directivo.setEnabled(true);
-					if(permisos[i].equals("Reportes Jefatura"))
-						Cuadrantes_Reportes_Jefatura.setEnabled(true);
+					 if(permisos[i].equals("Reporte Dinamico de Cuadrantes"))
+						 Cuadrantes_Reportes_Dinamico.setEnabled(true);
 					if(permisos[i].equals("Reportes Usuario"))
 						Cuadrantes_Reportes_Usuario.setEnabled(true);
 									

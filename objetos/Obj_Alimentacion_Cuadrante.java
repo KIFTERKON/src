@@ -120,6 +120,10 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_alimentacion_cuadrante_libre(nombre, dia);
 	}
 	
+	public String[][] buscarTablaMultipleJerarquico(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple_jerarquico(nombre);
+	}
+	
 	public String[][] buscarTablaMultiple(String nombre){
 		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple(nombre);
 	}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="2.14358881000001"/>
+	<property name="ireport.zoom" value="2.5937424601000125"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="52"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -15,10 +15,7 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[declare @fecha_inicial smalldatetime, @fecha_final smalldatetime
-set  @fecha_inicial='24/11/2013 00:00:00'
-set  @fecha_final='28/11/2013 23:59:59'
-
+		<![CDATA[
 SELECT
          tb_captura_actividades_cuadrante.folio_empleado
         ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
@@ -98,8 +95,7 @@ SELECT
     INNER JOIN tb_jefatura ON tb_jefatura.folio=tb_cuadrante.jefatura
 	LEFT OUTER JOIN tb_departamento ON tb_departamento.folio=tb_empleado.departamento
 
-where tb_captura_actividades_cuadrante.fecha_creacion >=@fecha_inicial and tb_captura_actividades_cuadrante.fecha_creacion <=@fecha_final
-    order by tb_establecimiento.nombre,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno,tb_captura_actividades_cuadrante.fecha_creacion desc]]>
+]]>
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
 	<field name="nombre" class="java.lang.String"/>
@@ -197,7 +193,10 @@ where tb_captura_actividades_cuadrante.fecha_creacion >=@fecha_inicial and tb_ca
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="76">
+			<band height="88">
+				<frame>
+					<reportElement uuid="3c0ca94e-0181-4db9-a9b1-f2b4e069d2ba" mode="Opaque" x="2" y="0" width="570" height="88" backcolor="#CCFFFF"/>
+				</frame>
 				<textField>
 					<reportElement uuid="a7838f63-f17f-4ab7-add3-6e2f045691b3" x="228" y="28" width="144" height="8"/>
 					<textElement>
@@ -233,19 +232,19 @@ where tb_captura_actividades_cuadrante.fecha_creacion >=@fecha_inicial and tb_ca
 					</textElement>
 					<textFieldExpression><![CDATA["Total de Actividades No Capturadas:               "+$V{Actividad_No_Captura}]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement uuid="0be8c7d6-89e9-4689-ac9e-c1ac992c85f4" x="401" y="36" width="163" height="8"/>
+				<textField pattern="" isBlankWhenNull="false">
+					<reportElement uuid="0be8c7d6-89e9-4689-ac9e-c1ac992c85f4" x="401" y="44" width="163" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Cantidad Total de Actividades: "+$V{Actividades_Totales}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Cantidad Total de Actividades:                           " +$V{Actividades_Totales}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="eab82982-548c-4dd8-bbcf-b35bdf0a7040" x="401" y="53" width="171" height="8"/>
+					<reportElement uuid="eab82982-548c-4dd8-bbcf-b35bdf0a7040" x="401" y="62" width="171" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Total de Actividades Faltantes Capturada Auto. con NO: "+$V{Actividades_Falto_Capturar}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Total de Actividades Faltantes Capturada Auto. con No: "+$V{Actividades_Falto_Capturar}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="a9718a88-80d3-49ef-b1d6-30fd4f3260a0" x="401" y="4" width="163" height="8"/>
@@ -269,21 +268,22 @@ where tb_captura_actividades_cuadrante.fecha_creacion >=@fecha_inicial and tb_ca
 					<textFieldExpression><![CDATA["Total de Actividades Capturadas Como NA:    "+$V{Actividades_Capturo_No_Aplica}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="a34de9ab-d45c-4415-a0c8-7b3d52af6853" x="228" y="36" width="144" height="8"/>
+					<reportElement uuid="a34de9ab-d45c-4415-a0c8-7b3d52af6853" x="228" y="36" width="67" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Promedio de Captura:"+(($V{Dias_de_Captura}+$V{Dias_de_Captura_2_estatus_4})*(100))/($V{cantidad_de_dias}-$V{Dias_no_Aplica})+"%"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Promedio de Captura: "]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement uuid="40a8ef27-b67e-44b5-94a2-e505ab0cd2cd" x="401" y="44" width="163" height="8"/>
+				<textField pattern="#,##0.00 %">
+					<reportElement uuid="40a8ef27-b67e-44b5-94a2-e505ab0cd2cd" x="493" y="53" width="71" height="8"/>
 					<textElement>
-						<font size="6"/>
+						<font size="6" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Promedio de Cumplimiento: "+($V{Actividades_Capturo_si}*100)/($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$F{actividad_valor_no_captura}+$V{Actividades_Falto_Capturar}-$V{Actividades_Capturo_No_Aplica})+"%"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($V{Actividades_Capturo_si})/
+ ($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$V{Actividad_No_Captura})]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="ff3d1bb9-5e63-4d63-a796-0de23e3f3126" x="2" y="0" width="133" height="14"/>
+					<reportElement uuid="ff3d1bb9-5e63-4d63-a796-0de23e3f3126" x="2" y="0" width="59" height="14"/>
 					<textElement/>
 					<text><![CDATA[RESUMEN:]]></text>
 				</staticText>
@@ -299,34 +299,28 @@ where tb_captura_actividades_cuadrante.fecha_creacion >=@fecha_inicial and tb_ca
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["EQUIPO: "+$F{equipo_trabajo}
-
-]]></textFieldExpression>
+					<textFieldExpression><![CDATA["EQUIPO: "+$F{equipo_trabajo}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="4a57d45b-5722-4bb4-81e8-3ceb77743c05" x="2" y="28" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["ESTABLECIMIENTO: "+$F{establecimiento}
-
-]]></textFieldExpression>
+					<textFieldExpression><![CDATA["ESTABLECIMIENTO: "+$F{establecimiento}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="e9d865c7-64b7-4ed8-9f3b-9a7eb9023545" x="2" y="36" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["DEPARTAMENTO: "+$F{departamento}
-]]></textFieldExpression>
+					<textFieldExpression><![CDATA["DEPARTAMENTO: "+$F{departamento}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="10a5105e-5629-4449-ad79-81952a65eed8" x="2" y="44" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["PUESTO: "+$F{puesto}
-]]></textFieldExpression>
+					<textFieldExpression><![CDATA["PUESTO: "+$F{puesto}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="8850b6c1-50f4-4de4-abb7-ed46bb0233fb" x="2" y="53" width="209" height="8"/>
@@ -340,8 +334,28 @@ where tb_captura_actividades_cuadrante.fecha_creacion >=@fecha_inicial and tb_ca
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["CUADRANTE: "+$F{cuadrante}
-]]></textFieldExpression>
+					<textFieldExpression><![CDATA["CUADRANTE: "+$F{cuadrante}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement uuid="94231bc4-3353-477f-b4e5-6563542ce617" x="401" y="53" width="92" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Promedio de Cumplimiento: "]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement uuid="526dad64-3d1f-4c47-ad0b-c6411b432327" x="295" y="36" width="67" height="8"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{Dias_de_Captura}+$V{Dias_de_Captura_2_estatus_4}))/($V{cantidad_de_dias}-$V{Dias_no_Aplica})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="acfbb8c9-5434-49a1-a9a5-dd334fc8cabb" x="401" y="36" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades NA Descanso y Permiso:"+(($V{Actividades_Totales})-($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$V{Actividades_Capturo_No_Aplica}+$V{Actividad_No_Captura}))]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>

@@ -26,14 +26,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import SQL.Connexion;
@@ -42,7 +38,7 @@ import objetos.Obj_Alimentacion_Cuadrante;
 
 @SuppressWarnings("serial")
 public class Cat_Alimentacion_Cuadrante extends JFrame {
-	
+
 	private final String NOMBRECOMPLETO;
 	
 	JLabel lblCuadranteLleno = new JLabel("<Cuadrante Concluido>");
@@ -54,100 +50,18 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	JButton btnGuardarMultiple = new JButton("Guardar");
 	JButton btnGuardarMultipleConts = new JButton("Guardar");
 	JButton btnEditarMultipleConts = new JButton("Editar");
-	
-	/* OPCION LIBRE */
-	DefaultTableModel modelLibre = new DefaultTableModel(null,
-			new String[]{"Orden", "Actividad", "Respuesta", "Comentarios" }){
-	     @SuppressWarnings("rawtypes")
-		Class[] types = new Class[]{
-	    	java.lang.Integer.class,
-	    	java.lang.Object.class, 
-	    	java.lang.Object.class, 
-	    	java.lang.Object.class,
-	    	java.lang.Object.class
-         };
-	     
-	     @SuppressWarnings({ "rawtypes", "unchecked" })
-		public Class getColumnClass(int columnIndex) {
-             return types[columnIndex];
-         }
-         public boolean isCellEditable(int fila, int columna){
-        	 switch(columna){
-        	 	case 0 : return false; 
-        	 	case 1 : return false; 
-        	 	case 2 : return true; 
-        	 	case 3 : return true;
-        	 } 				
- 			return false;
-         }
-         
-	};
-	
-	JTable tablaLibre = new JTable(modelLibre);
-	JScrollPane scrollLibre = new JScrollPane(tablaLibre,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+	/* OPCION MEDIA MULTIPLE JERARQUICA */
+	Cat_Plantilla_Tabla_Cuadrante plantillaMultipleJerarquica = new Cat_Plantilla_Tabla_Cuadrante();
 	
 	/* OPCION MULTIPLE */
-	DefaultTableModel modelMultiple = new DefaultTableModel(null,
-			new String[]{"Orden", "Actividad", "Respuesta","Comentarios" }){
-	     @SuppressWarnings("rawtypes")
-		Class[] types = new Class[]{
-	    	java.lang.Integer.class,
-	    	java.lang.Object.class, 
-	    	java.lang.Object.class, 
-	    	java.lang.Object.class,
-	    	java.lang.Object.class
-         };
-	     
-	    @SuppressWarnings({ "rawtypes", "unchecked" })
-		public Class getColumnClass(int columnIndex) {
-             return types[columnIndex];
-         }
-         public boolean isCellEditable(int fila, int columna){
-        	 switch(columna){
-        	 	case 0 : return false; 
-        	 	case 1 : return false; 
-        	 	case 2 : return true; 
-        	 	case 3 : return true;
-
-        	 } 				
- 			return false;
-         }
-         
-	};
-	
-	JTable tablaMultiple = new JTable(modelMultiple);
-	JScrollPane scrollMultiple = new JScrollPane(tablaMultiple,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	Cat_Plantilla_Tabla_Cuadrante plantillaMultiple = new Cat_Plantilla_Tabla_Cuadrante();
 	
 	/* OPCION MULTIPLE CONTESTADAS */
-	DefaultTableModel modelMultipleConts = new DefaultTableModel(null,
-			new String[]{"Orden", "Actividad", "Respuesta","Comentarios" }){
-	     @SuppressWarnings("rawtypes")
-		Class[] types = new Class[]{
-	    	java.lang.Integer.class,
-	    	java.lang.Object.class, 
-	    	java.lang.Object.class, 
-	    	java.lang.Object.class,
-	    	java.lang.Object.class
-         };
-	     
-	    @SuppressWarnings({ "rawtypes", "unchecked" })
-		public Class getColumnClass(int columnIndex) {
-             return types[columnIndex];
-         }
-         public boolean isCellEditable(int fila, int columna){
-        	 switch(columna){
-        	 	case 0 : return false; 
-     	 		case 1 : return false; 
-     	 		case 2 : return true; 
-     	 		case 3 : return true;
-        	 } 				
- 			return false;
-         }
-         
-	};
+	Cat_Plantilla_Tabla_Cuadrante plantillaMultipleContestada = new Cat_Plantilla_Tabla_Cuadrante();
 	
-	JTable tablaMultipleConts = new JTable(modelMultipleConts);
-	JScrollPane scrollMultipleConts = new JScrollPane(tablaMultipleConts,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	/* OPCION LIBRE */
+	Cat_Plantilla_Tabla_Cuadrante plantillaLibre = new Cat_Plantilla_Tabla_Cuadrante();
 	
 	JTextField txtNombre_Completo 	= new JTextField();
 	JTextField txtPuesto 			= new JTextField();
@@ -213,16 +127,17 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.paneles.addTab("Actividades de Rutina Contestadas", panelMultipleContes);
 		this.paneles.addTab("Actividades por Avance", panelLibre);
 		
-		this.panelMultiple.add(btnGuardarMultiple).setBounds(10,10,75,20);
+		this.panelMultiple.add(btnGuardarMultiple).setBounds(10,10,115,20);
 		this.panelMultipleContes.add(btnGuardarMultipleConts).setBounds(10,10,75,20);
 		this.panelMultipleContes.add(btnEditarMultipleConts).setBounds(90,10,75,20);
-		this.panelLibre.add(btnGuardarLibre).setBounds(10,10,75,20);
+		this.panelLibre.add(btnGuardarLibre).setBounds(10,10,115,20);
 		
-		this.panelMultiple.add(scrollMultiple).setBounds(5,35,865,330);
-		this.panelMultipleContes.add(scrollMultipleConts).setBounds(5, 35, 865, 330);
-		this.panelLibre.add(scrollLibre).setBounds(5,35,865,330);
+		this.panelMultiple.add(plantillaMultipleJerarquica.scrollMultiple).setBounds(5,35,905,150);
+		this.panelMultiple.add(plantillaMultiple.scrollMultiple).setBounds(5,200,905,165);
+		this.panelMultipleContes.add(plantillaMultipleContestada.scrollMultiple).setBounds(5, 35, 905, 330);
+		this.panelLibre.add(plantillaLibre.scrollLibre).setBounds(5,35,905,330);
 		
-		this.panel.add(paneles).setBounds(8,240,880,400);
+		this.panel.add(paneles).setBounds(8,240,920,400);
 		
 		this.lblCuadranteLleno.setVisible(false);
 		this.lblCuadranteLleno.setForeground(Color.BLUE);
@@ -233,21 +148,16 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.btnEditarMultipleConts.addActionListener(op_editar_multiple_conts);
 		this.btnTerminarCaptura.addActionListener(op_terminar_captura);
 
-		this.tablaMultiple.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		this.tablaLibre.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
 		this.CamposEnabled(false);
 		
 		this.init(Nombre_Usuario);
-		this.init_tabla_libre();
-		this.init_tabla_multiple();
 		this.init_tabla_multiple_conts();
 
 		this.cont.add(panel);
 		this.setResizable(false);
 		
 		
-		this.setSize(900,680);
+		this.setSize(940,680);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
@@ -256,12 +166,12 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if(new Obj_Alimentacion_Cuadrante().terminar_captura(NOMBRECOMPLETO)){
 				JOptionPane.showMessageDialog(null,"Se ha teminado la edición del cuadrante", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-				while(tablaMultiple.getRowCount() > 0){
-					modelMultiple.removeRow(0);
-				}
-				
-				while(tablaMultipleConts.getRowCount() > 0){
-					modelMultipleConts.removeRow(0);
+				while(plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount() > 0)
+					plantillaMultipleJerarquica.modelPlantillaMultiple.removeRow(0);
+				while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
+					plantillaMultiple.modelPlantillaMultiple.removeRow(0);
+				while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0){
+					plantillaMultipleContestada.modelPlantillaMultiple.removeRow(0);
 				}
 				tablas_procesar();
 			}else{
@@ -270,137 +180,15 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 	};
 	
-	public void init_tabla_libre(){
-		this.tablaLibre.getTableHeader().setReorderingAllowed(false);
-		this.tablaLibre.getColumnModel().getColumn(0).setMaxWidth(60);
-		this.tablaLibre.getColumnModel().getColumn(0).setMinWidth(60);
-		this.tablaLibre.getColumnModel().getColumn(1).setMaxWidth(260);
-		this.tablaLibre.getColumnModel().getColumn(1).setMinWidth(260);
-		this.tablaLibre.getColumnModel().getColumn(2).setMaxWidth(270);
-		this.tablaLibre.getColumnModel().getColumn(2).setMinWidth(270);
-		this.tablaLibre.getColumnModel().getColumn(3).setMaxWidth(270);
-		this.tablaLibre.getColumnModel().getColumn(3).setMinWidth(270);
-		
-		TableCellRenderer render = new TableCellRenderer() { 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-				
-				if(table.getSelectedRow() == row){
-					lbl.setOpaque(true); 
-					lbl.setBackground(new java.awt.Color(186,143,73));
-				}
-				
-				switch(column){
-					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
-					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-					case 2 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-					case 3 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-				}
-			return lbl; 
-			} 
-		}; 
-		
-		this.tablaLibre.getColumnModel().getColumn(0).setCellRenderer(render); 
-		this.tablaLibre.getColumnModel().getColumn(1).setCellRenderer(render); 
-		this.tablaLibre.getColumnModel().getColumn(2).setCellRenderer(render);
-		this.tablaLibre.getColumnModel().getColumn(3).setCellRenderer(render); 
-	}
-	
-	public void init_tabla_multiple(){
-		this.tablaMultiple.getTableHeader().setReorderingAllowed(false);
-		this.tablaMultiple.getColumnModel().getColumn(0).setMaxWidth(40);
-		this.tablaMultiple.getColumnModel().getColumn(0).setMinWidth(40);
-		this.tablaMultiple.getColumnModel().getColumn(1).setMaxWidth(650);
-		this.tablaMultiple.getColumnModel().getColumn(1).setMinWidth(450);
-		this.tablaMultiple.getColumnModel().getColumn(2).setMaxWidth(100);
-		this.tablaMultiple.getColumnModel().getColumn(2).setMinWidth(100);
-		this.tablaMultiple.getColumnModel().getColumn(3).setMaxWidth(350);
-		this.tablaMultiple.getColumnModel().getColumn(3).setMinWidth(270);
-		
-		TableCellRenderer render = new TableCellRenderer() { 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-				
-				if(table.getSelectedRow() == row){
-					lbl.setOpaque(true); 
-					lbl.setBackground(new java.awt.Color(186,143,73));
-				}
-				
-				switch(column){
-					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
-					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-					case 2 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-					case 3 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-				}
-			return lbl; 
-			} 
-		}; 
-		
-		this.tablaMultiple.getColumnModel().getColumn(0).setCellRenderer(render); 
-		this.tablaMultiple.getColumnModel().getColumn(1).setCellRenderer(render); 
-		this.tablaMultiple.getColumnModel().getColumn(2).setCellRenderer(render);
-		this.tablaMultiple.getColumnModel().getColumn(3).setCellRenderer(render); 
-		
-	}
-	
 	public void init_tabla_multiple_conts(){
-		this.tablaMultipleConts.getTableHeader().setReorderingAllowed(false);
-		this.tablaMultipleConts.getColumnModel().getColumn(0).setMaxWidth(60);
-		this.tablaMultipleConts.getColumnModel().getColumn(0).setMinWidth(60);
-		this.tablaMultipleConts.getColumnModel().getColumn(1).setMaxWidth(350);
-		this.tablaMultipleConts.getColumnModel().getColumn(1).setMinWidth(350);
-		this.tablaMultipleConts.getColumnModel().getColumn(2).setMaxWidth(150);
-		this.tablaMultipleConts.getColumnModel().getColumn(2).setMinWidth(150);
-		this.tablaMultipleConts.getColumnModel().getColumn(3).setMaxWidth(300);
-		this.tablaMultipleConts.getColumnModel().getColumn(3).setMinWidth(300);
-		
-		TableCellRenderer render = new TableCellRenderer() { 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-				
-				if(table.getSelectedRow() == row){
-					lbl.setOpaque(true); 
-					lbl.setBackground(new java.awt.Color(186,143,73));
-				}
-				
-				switch(column){
-					case 0 : lbl.setHorizontalAlignment(SwingConstants.RIGHT); break;
-					case 1 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-					case 2 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-					case 3 : lbl.setHorizontalAlignment(SwingConstants.LEFT); break;
-				}
-			return lbl; 
-			} 
-		}; 
-		
-		this.tablaMultipleConts.getColumnModel().getColumn(0).setCellRenderer(render); 
-		this.tablaMultipleConts.getColumnModel().getColumn(1).setCellRenderer(render); 
-		this.tablaMultipleConts.getColumnModel().getColumn(2).setCellRenderer(render);
-		this.tablaMultipleConts.getColumnModel().getColumn(3).setCellRenderer(render); 
-		
-		this.tablaMultipleConts.setEnabled(false);
+		this.plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(false);
 		this.btnGuardarMultipleConts.setEnabled(false);
 		
 	}
 	
 	ActionListener op_editar_multiple_conts = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			tablaMultipleConts.setEnabled(true);
+			plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(true);
 			btnGuardarMultipleConts.setEnabled(true);
 		}
 	};
@@ -431,6 +219,29 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			lblCuadranteLleno.setVisible(true);
 			
 		}else{
+			
+			String[][] info_tabla_multiple_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleJerarquico(NOMBRECOMPLETO);
+	    	
+			String [] fila_multiple_jerarquico = new String[4];
+			
+			List<String[]> lista_jerarquico = new ArrayList<String[]>();
+			
+			for(int i=0; i<info_tabla_multiple_jerarquico.length; i++){
+		    
+				lista_jerarquico.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple_jerarquico[i][0].toString())));
+	            	            
+	            TableColumn col = plantillaMultipleJerarquica.tablaPlantillaMultiple.getColumnModel().getColumn(2);
+	            
+	            col.setCellEditor(new MyComboEditor(lista_jerarquico));
+	            
+	            fila_multiple_jerarquico[0]= info_tabla_multiple_jerarquico[i][1]+"  ";
+	            fila_multiple_jerarquico[1]= "   "+info_tabla_multiple_jerarquico[i][2];
+	            fila_multiple_jerarquico[2]= "   Respuestas";
+	            fila_multiple_jerarquico[3]= "   ";
+				
+				plantillaMultipleJerarquica.modelPlantillaMultiple.addRow(fila_multiple_jerarquico);
+			}
+			
 			String[][] info_tabla_multiple = new Obj_Alimentacion_Cuadrante().buscarTablaMultiple(NOMBRECOMPLETO);
 	    	
 			String [] fila_multiple = new String[4];
@@ -441,7 +252,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		    
 	            lista.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple[i][0].toString())));
 	            	            
-	            TableColumn col = tablaMultiple.getColumnModel().getColumn(2);
+	            TableColumn col = plantillaMultiple.tablaPlantillaMultiple.getColumnModel().getColumn(2);
 	            
 	            col.setCellEditor(new MyComboEditor(lista));
 	            
@@ -450,7 +261,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				fila_multiple[2]= "   Respuestas";
 				fila_multiple[3]= "   ";
 				
-				modelMultiple.addRow(fila_multiple);
+				plantillaMultiple.modelPlantillaMultiple.addRow(fila_multiple);
 			}
 			
 			String[][] info_tabla_multiple_capturada = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleCapturada(NOMBRECOMPLETO);
@@ -461,7 +272,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			    
 				listaCapturada.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple_capturada[i][0].toString())));
 	            	            
-	            TableColumn col = tablaMultipleConts.getColumnModel().getColumn(2);
+	            TableColumn col = plantillaMultipleContestada.tablaPlantillaMultiple.getColumnModel().getColumn(2);
 	            
 	            col.setCellEditor(new MyComboEditor(listaCapturada));
 	            
@@ -470,7 +281,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	            fila_multiple_capturada[2]= "   "+info_tabla_multiple_capturada[i][3];
 	            fila_multiple_capturada[3]= "   "+info_tabla_multiple_capturada[i][4];
 				
-				modelMultipleConts.addRow(fila_multiple_capturada);
+				plantillaMultipleContestada.modelPlantillaMultiple.addRow(fila_multiple_capturada);
 			}
 		}
 	}
@@ -528,18 +339,16 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	ActionListener op_guardar_multiple = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			if(tablaMultiple.isEditing())
-				tablaMultiple.getCellEditor().stopCellEditing();
+			if(plantillaMultiple.tablaPlantillaMultiple.isEditing())
+				plantillaMultiple.tablaPlantillaMultiple.getCellEditor().stopCellEditing();
 			
 			if(celdasVaciasMultiple().equals("")){
 				if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple())){
 					JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
-					while(tablaMultiple.getRowCount() > 0){
-						modelMultiple.removeRow(0);
-					}
-					while(tablaMultipleConts.getRowCount() > 0){
-						modelMultipleConts.removeRow(0);
-					}
+					while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
+						plantillaMultiple.modelPlantillaMultiple.removeRow(0);
+					while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0)
+						plantillaMultipleContestada.modelPlantillaMultiple.removeRow(0);
 					tablas_procesar();
 					return;
 				}else{
@@ -556,12 +365,12 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	ActionListener op_guardar_multiple_conts = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			if(tablaMultipleConts.isEditing())
-				tablaMultipleConts.getCellEditor().stopCellEditing();
+			if(plantillaMultipleContestada.tablaPlantillaMultiple.isEditing())
+				plantillaMultipleContestada.tablaPlantillaMultiple.getCellEditor().stopCellEditing();
 			
 			if(celdasVaciasMultipleConts().equals("")){
 				if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple_conts())){
-					tablaMultipleConts.setEnabled(false);
+					plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(false);
 					btnGuardarMultipleConts.setEnabled(false);
 					JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
 					return;
@@ -577,21 +386,21 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	};
 	
 	public Object[][] tabla_multiple(){
-		Object[][] multiple = new Object[tablaMultiple.getRowCount()][11];
+		Object[][] multiple = new Object[plantillaMultiple.tablaPlantillaMultiple.getRowCount()][11];
 		try {
 			String HOST  = InetAddress.getLocalHost().getHostName();
 			String IP = InetAddress.getLocalHost().getHostAddress();
-			for(int i = 0; i<tablaMultiple.getRowCount(); i++){
+			for(int i = 0; i<plantillaMultiple.tablaPlantillaMultiple.getRowCount(); i++){
 				multiple[i][0] = txtCuadrante.getText().toString().trim();
 				multiple[i][1] = txtNombre_Completo.getText().toString().trim();
 				multiple[i][2] = txtEstablecimiento.getText().toString().trim();
 				multiple[i][3] = txtPuesto.getText().toString().trim();
 				multiple[i][4] = HOST; 
 				multiple[i][5] = IP;
-				multiple[i][6] = modelMultiple.getValueAt(i,0).toString().trim();
-				multiple[i][7] = modelMultiple.getValueAt(i,1).toString().trim();
-				multiple[i][8] = modelMultiple.getValueAt(i,2).toString().trim();
-				multiple[i][9] = modelMultiple.getValueAt(i,3).toString().trim();
+				multiple[i][6] = plantillaMultiple.modelPlantillaMultiple.getValueAt(i,0).toString().trim();
+				multiple[i][7] = plantillaMultiple.modelPlantillaMultiple.getValueAt(i,1).toString().trim();
+				multiple[i][8] = plantillaMultiple.modelPlantillaMultiple.getValueAt(i,2).toString().trim();
+				multiple[i][9] = plantillaMultiple.modelPlantillaMultiple.getValueAt(i,3).toString().trim();
 				
 			}
 		} catch (UnknownHostException e) {
@@ -601,21 +410,21 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	}
 	
 	public Object[][] tabla_multiple_conts(){
-		Object[][] multiple = new Object[tablaMultipleConts.getRowCount()][11];
+		Object[][] multiple = new Object[plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount()][11];
 		try {
 			String HOST  = InetAddress.getLocalHost().getHostName();
 			String IP = InetAddress.getLocalHost().getHostAddress();
-			for(int i = 0; i<tablaMultipleConts.getRowCount(); i++){
+			for(int i = 0; i<plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount(); i++){
 				multiple[i][0] = txtCuadrante.getText().toString().trim();
 				multiple[i][1] = txtNombre_Completo.getText().toString().trim();
 				multiple[i][2] = txtEstablecimiento.getText().toString().trim();
 				multiple[i][3] = txtPuesto.getText().toString().trim();
 				multiple[i][4] = HOST; 
 				multiple[i][5] = IP;
-				multiple[i][6] = modelMultipleConts.getValueAt(i,0).toString().trim();
-				multiple[i][7] = modelMultipleConts.getValueAt(i,1).toString().trim();
-				multiple[i][8] = modelMultipleConts.getValueAt(i,2).toString().trim();
-				multiple[i][9] = modelMultipleConts.getValueAt(i,3).toString().trim();
+				multiple[i][6] = plantillaMultipleContestada.modelPlantillaMultiple.getValueAt(i,0).toString().trim();
+				multiple[i][7] = plantillaMultipleContestada.modelPlantillaMultiple.getValueAt(i,1).toString().trim();
+				multiple[i][8] = plantillaMultipleContestada.modelPlantillaMultiple.getValueAt(i,2).toString().trim();
+				multiple[i][9] = plantillaMultipleContestada.modelPlantillaMultiple.getValueAt(i,3).toString().trim();
 				
 			}
 		} catch (UnknownHostException e) {
@@ -625,12 +434,12 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	}
 	
 	public Object[][] tabla_libre(){
-		Object[][] libre = new Object[tablaLibre.getRowCount()][3];
+		Object[][] libre = new Object[plantillaLibre.tablaPlantillaLibre.getRowCount()][3];
 		
-		for(int i = 0; i<tablaMultiple.getRowCount(); i++){
-			libre[i][0] = modelLibre.getValueAt(i,0).toString().trim();
-			libre[i][1] = modelLibre.getValueAt(i,2).toString().trim();
-			libre[i][2] = modelLibre.getValueAt(i,3).toString().trim();
+		for(int i = 0; i<plantillaLibre.tablaPlantillaLibre.getRowCount(); i++){
+			libre[i][0] = plantillaLibre.modelPlantillaLibre.getValueAt(i,0).toString().trim();
+			libre[i][1] = plantillaLibre.modelPlantillaLibre.getValueAt(i,2).toString().trim();
+			libre[i][2] = plantillaLibre.modelPlantillaLibre.getValueAt(i,3).toString().trim();
 		}
 		return libre;
 	}
@@ -638,9 +447,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	public String celdasVaciasMultiple(){
 		String error = "";
 		
-		for(int i=0; i<tablaMultiple.getRowCount(); i++){
-			if(modelMultiple.getValueAt(i, 2).toString().trim().equals("Respuestas")){
-				error += "   La actividad con el folio: [ "+modelMultiple.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
+		for(int i=0; i<plantillaMultiple.tablaPlantillaMultiple.getRowCount(); i++){
+			if(plantillaMultiple.modelPlantillaMultiple.getValueAt(i, 2).toString().trim().equals("Respuestas")){
+				error += "   La actividad con el folio: [ "+plantillaMultiple.modelPlantillaMultiple.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
 			}
 		}		
 		return error;
@@ -649,9 +458,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	public String celdasVaciasMultipleConts(){
 		String error = "";
 		
-		for(int i=0; i<tablaMultipleConts.getRowCount(); i++){
-			if(modelMultipleConts.getValueAt(i, 2).toString().trim().equals("Respuestas")){
-				error += "   La actividad con el folio: [ "+modelMultipleConts.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
+		for(int i=0; i<plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount(); i++){
+			if(plantillaMultipleContestada.modelPlantillaMultiple.getValueAt(i, 2).toString().trim().equals("Respuestas")){
+				error += "   La actividad con el folio: [ "+plantillaMultipleContestada.modelPlantillaMultiple.getValueAt(i,0).toString().trim()+" ] en actividades de rutina no tiene una respuesta asignada.        \n";
 			}
 		}		
 		return error;
@@ -659,9 +468,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	
 	public String celdasVaciasLibre(){
 		String error="";
-		for(int i=0; i<tablaLibre.getRowCount(); i++){
-			if(modelLibre.getValueAt(i,2).toString().trim().equals("")){
-				error += "   La actividad con el folio: [ "+modelLibre.getValueAt(i,0).toString().trim()+" ] en actividades por avance no tiene una respuesta asignada.        \n";
+		for(int i=0; i<plantillaLibre.tablaPlantillaLibre.getRowCount(); i++){
+			if(plantillaLibre.modelPlantillaLibre.getValueAt(i,2).toString().trim().equals("")){
+				error += "   La actividad con el folio: [ "+plantillaLibre.modelPlantillaLibre.getValueAt(i,0).toString().trim()+" ] en actividades por avance no tiene una respuesta asignada.        \n";
 			}
 		}
 		
@@ -696,8 +505,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		}
 	};
 	
-	
-	
 	public static void main (String [] arg){
 		try{        
 			UIManager.setLookAndFeel(
@@ -717,7 +524,5 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			   } catch (Exception e) 
 			   { }	
 	}
-	
-	
 	
 }
