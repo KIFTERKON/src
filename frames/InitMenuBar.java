@@ -59,6 +59,7 @@ import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Ponderacion;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
+import catalogos.Cat_Reporte_Cuadrantes;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
 import catalogos.Cat_Reporte_Impresion_Gafetes;
 import catalogos.Cat_Revision_Lista_Raya;
@@ -140,10 +141,11 @@ public class InitMenuBar extends Init{
 			JMenuItem Cuadrantes_Catalogo_Respuesta_Multiple	= new JMenuItem("Opciones Múltiple de Respuesta", new ImageIcon("Iconos/opciones_respuesta_icon&16.png"));
 			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion", new ImageIcon("Iconos/ponderacion_icon&16.png"));
 		/* REPORTES */
-		JMenu Cuadrantes_Reportes = new JMenu("Reporte");
-			JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
-			JMenuItem Cuadrantes_Reportes_Jefatura    = new JMenuItem("Reportes Jefatura", new ImageIcon("Iconos/reporte_icon&16.png"));
-			JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario", new ImageIcon("Iconos/reporte_icon&16.png"));
+		JMenu Cuadrantes_Reportes = new JMenu("Reportes");
+		   	JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
+	    	JMenu Cuadrantes_Reportes_Jefatura    = new JMenu("Reportes Jefatura");
+		        JMenuItem Cuadrantes_Reportes_Dinamico    = new JMenuItem("Reporte Dinamico de Cuadrantes", new ImageIcon("Iconos/reporte_icon&16.png"));
+		    JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario", new ImageIcon("Iconos/reporte_icon&16.png"));
 					
 	/* LISTA DE RAYA */
 	JMenu Lista_Raya = new JMenu("Lista de Raya");
@@ -341,8 +343,9 @@ public class InitMenuBar extends Init{
 				Cuadrantes_Reportes_Directivo.addActionListener(Opciones);
 				Cuadrantes_Reportes_Directivo.setEnabled(false);
 			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Jefatura);
-				Cuadrantes_Reportes_Jefatura.addActionListener(Opciones);
-				Cuadrantes_Reportes_Jefatura.setEnabled(false);
+			         Cuadrantes_Reportes_Jefatura.add(Cuadrantes_Reportes_Dinamico);
+				       Cuadrantes_Reportes_Dinamico.addActionListener(Opciones);
+				       Cuadrantes_Reportes_Dinamico.setEnabled(false);
 			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Usuario);
 				Cuadrantes_Reportes_Usuario.addActionListener(Opciones);
 				Cuadrantes_Reportes_Usuario.setEnabled(false);
@@ -582,8 +585,8 @@ public class InitMenuBar extends Init{
 			 * 		REPORTES */
 			if(e.getActionCommand().equals("Reportes Directivo"))
 				System.out.println("Pendiente");
-			if(e.getActionCommand().equals("Reportes Jefatura"))
-				System.out.println("Pendiente");
+			if(e.getActionCommand().equals("Reporte Dinamico de Cuadrantes"))
+				new Cat_Reporte_Cuadrantes().setVisible(true);
 			if(e.getActionCommand().equals("Reportes Usuario"))
 				System.out.println("Pendiente");
 				

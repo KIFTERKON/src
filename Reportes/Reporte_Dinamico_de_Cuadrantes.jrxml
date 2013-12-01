@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
+	<property name="ireport.zoom" value="2.5937424601000125"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="52"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[
+SELECT
+         tb_captura_actividades_cuadrante.folio_empleado
+        ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
+        ,tb_puesto.nombre as puesto
+        ,tb_establecimiento.nombre as establecimiento
+		,isnull(tb_departamento.departamento,'FALTA DEPARTAMENTO') as departamento
+		,isnull(tb_actividad.actividad,'NO APLICA POR DESCANSO O PERMISO')as actividad
+        ,case when (tb_captura_actividades_cuadrante.status)=0
+                then  isnull(tb_tabla_opciones_respuesta.descripcion,'Error Avise al administrador del Sistema')
+              when (tb_captura_actividades_cuadrante.status)=1
+                then  isnull(tb_tabla_opciones_respuesta.descripcion,'Error Avise al administrador del Sistema')
+              when (tb_captura_actividades_cuadrante.status)=2
+                then  isnull(tb_tabla_opciones_respuesta.descripcion,'NO')
+              when (tb_captura_actividades_cuadrante.status)=3
+                then  isnull(tb_tabla_opciones_respuesta.descripcion,'NO APLICA')
+              when (tb_captura_actividades_cuadrante.status)=4
+                then  isnull(tb_tabla_opciones_respuesta.descripcion,'Error Avise al administrador del Sistema')
+              end as respuesta
+
+        ,case when (tb_captura_actividades_cuadrante.status)=2
+             then 1
+             else 0
+             end as actividad_valor_no_captura
+        ,case when (tb_captura_actividades_cuadrante.status)=4
+             then 1
+             else 0
+             end as actividad_valor_falto_captura
+        ,case when (tb_tabla_opciones_respuesta.descripcion)='SI'
+             then 1
+             else 0
+             end as actividad_capturo_si
+        ,case when (tb_tabla_opciones_respuesta.descripcion)='NO'
+             then 1
+             else 0
+             end as actividad_capturo_no
+        ,case when (tb_tabla_opciones_respuesta.descripcion)='NO APLICA'
+             then 1
+             else 0
+             end as actividad_capturo_no_aplica
+        ,isnull(tb_nivel_critico.descripcion,'NORMAL')as nivel_critico
+        ,tb_captura_actividades_cuadrante.actividad_comentario as comentario
+        ,datename(dw,tb_captura_actividades_cuadrante.fecha_creacion)+' '+convert(varchar(20),datepart(day,tb_captura_actividades_cuadrante.fecha_creacion))+' de '+datename(month,tb_captura_actividades_cuadrante.fecha_creacion)+' de '+convert(varchar(20),datepart(year,tb_captura_actividades_cuadrante.fecha_creacion)) as fecha
+        ,tb_cuadrante.cuadrante
+        ,tb_nivel_jerarquico.descripcion as nivel_jerarquico
+        ,tb_jefatura.descripcion as jefatura
+        ,tb_equipo_trabajo.descripcion as equipo_trabajo
+        ,tb_captura_actividades_cuadrante.host_nombre as pc_capturo
+        ,tb_captura_actividades_cuadrante.status
+         ,case when (tb_captura_actividades_cuadrante.status)=0
+             then 1
+             else 0
+             end as valor_captura
+         ,case when (tb_captura_actividades_cuadrante.status)=4
+             then 1
+             else 0
+             end as valor_captura_2_auto
+        ,case when (tb_captura_actividades_cuadrante.status)=2
+             then 1
+             else 0
+             end as valor_no_captura
+        ,case when (tb_captura_actividades_cuadrante.status)=3
+             then 1
+             else 0
+             end as valor_no_aplica_captura
+
+         ,tb_departamento.departamento as departamento
+  FROM tb_captura_actividades_cuadrante
+    INNER JOIN tb_empleado ON tb_empleado.folio=tb_captura_actividades_cuadrante.folio_empleado
+    INNER JOIN tb_puesto ON tb_puesto.folio=tb_captura_actividades_cuadrante.folio_puesto
+    INNER JOIN tb_establecimiento ON tb_establecimiento.folio=tb_captura_actividades_cuadrante.folio_establecimiento
+	LEFT OUTER JOIN tb_actividad ON tb_actividad.folio=tb_captura_actividades_cuadrante.actividad_folio
+    LEFT OUTER JOIN tb_nivel_critico ON tb_nivel_critico.folio=tb_actividad.nivel_critico
+    LEFT OUTER JOIN tb_tabla_opciones_respuesta ON tb_tabla_opciones_respuesta.folio=tb_captura_actividades_cuadrante.actividad_respuesta_mult
+    INNER JOIN tb_cuadrante ON tb_cuadrante.folio=tb_captura_actividades_cuadrante.folio_cuadrante
+    LEFT OUTER JOIN tb_equipo_trabajo ON tb_equipo_trabajo.folio=tb_cuadrante.equipo_trabajo
+    INNER JOIN tb_nivel_jerarquico ON tb_nivel_jerarquico.folio=tb_cuadrante.nivel_gerarquico
+    INNER JOIN tb_jefatura ON tb_jefatura.folio=tb_cuadrante.jefatura
+	LEFT OUTER JOIN tb_departamento ON tb_departamento.folio=tb_empleado.departamento
+
+]]>
+	</queryString>
+	<field name="folio_empleado" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="puesto" class="java.lang.String"/>
+	<field name="establecimiento" class="java.lang.String"/>
+	<field name="departamento" class="java.lang.String"/>
+	<field name="actividad" class="java.lang.String"/>
+	<field name="respuesta" class="java.lang.String"/>
+	<field name="actividad_valor_no_captura" class="java.lang.Integer"/>
+	<field name="actividad_valor_falto_captura" class="java.lang.Integer"/>
+	<field name="actividad_capturo_si" class="java.lang.Integer"/>
+	<field name="actividad_capturo_no" class="java.lang.Integer"/>
+	<field name="actividad_capturo_no_aplica" class="java.lang.Integer"/>
+	<field name="nivel_critico" class="java.lang.String"/>
+	<field name="comentario" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="cuadrante" class="java.lang.String"/>
+	<field name="nivel_jerarquico" class="java.lang.String"/>
+	<field name="jefatura" class="java.lang.String"/>
+	<field name="equipo_trabajo" class="java.lang.String"/>
+	<field name="pc_capturo" class="java.lang.String"/>
+	<field name="status" class="java.lang.Integer"/>
+	<field name="valor_captura" class="java.lang.Integer"/>
+	<field name="valor_captura_2_auto" class="java.lang.Integer"/>
+	<field name="valor_no_captura" class="java.lang.Integer"/>
+	<field name="valor_no_aplica_captura" class="java.lang.Integer"/>
+	<variable name="Dias_de_Captura" class="java.lang.Double" resetType="Group" resetGroup="Group2" incrementType="Group" incrementGroup="Grupo_fecha" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_captura}]]></variableExpression>
+	</variable>
+	<variable name="Dias_de_Captura_2_estatus_4" class="java.lang.Double" resetType="Group" resetGroup="Group2" incrementType="Group" incrementGroup="Grupo_fecha" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_captura_2_auto}]]></variableExpression>
+	</variable>
+	<variable name="cantidad_de_dias" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{fecha}]]></variableExpression>
+	</variable>
+	<variable name="Dias_de_No_Captura" class="java.lang.Double" resetType="Group" resetGroup="Group2" incrementType="Group" incrementGroup="Grupo_fecha" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_no_captura}]]></variableExpression>
+	</variable>
+	<variable name="Dias_no_Aplica" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_no_aplica_captura}]]></variableExpression>
+	</variable>
+	<variable name="Actividad_No_Captura" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{actividad_valor_no_captura}]]></variableExpression>
+	</variable>
+	<variable name="Actividades_Totales" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Count">
+		<variableExpression><![CDATA[$F{actividad}]]></variableExpression>
+	</variable>
+	<variable name="Actividades_Falto_Capturar" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{actividad_valor_falto_captura}]]></variableExpression>
+	</variable>
+	<variable name="Actividades_Capturo_si" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{actividad_capturo_si}]]></variableExpression>
+	</variable>
+	<variable name="Actividades_Capturo_no" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{actividad_capturo_no}]]></variableExpression>
+	</variable>
+	<variable name="Actividades_Capturo_No_Aplica" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
+		<variableExpression><![CDATA[$F{actividad_capturo_no_aplica}]]></variableExpression>
+	</variable>
+	<group name="Group1" footerPosition="StackAtBottom">
+		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<frame>
+					<reportElement uuid="b3fc5f3d-3fae-4d0c-8629-9d5933d5d8c2" mode="Opaque" x="0" y="0" width="197" height="15" forecolor="#CC6600" backcolor="#0000CC"/>
+				</frame>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="9b81957f-5648-45a6-a136-8dc96503bce0" style="SubTitle" isPrintRepeatedValues="false" x="0" y="0" width="197" height="15" forecolor="#FFFFFF"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group2" keepTogether="true">
+		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="15" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="13" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1cdae7b1-5144-42b4-a149-adf15fd3e3e3" x="0" y="0" width="31" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" size="13"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio_empleado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="88">
+				<frame>
+					<reportElement uuid="3c0ca94e-0181-4db9-a9b1-f2b4e069d2ba" mode="Opaque" x="2" y="0" width="570" height="88" backcolor="#CCFFFF"/>
+				</frame>
+				<textField>
+					<reportElement uuid="a7838f63-f17f-4ab7-add3-6e2f045691b3" x="228" y="28" width="144" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Acumulado de Dias:   "+$V{cantidad_de_dias}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="34de1bd1-f647-4efc-98f8-8cb4b6f04263" x="228" y="20" width="144" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Dias No Aplica Captura: "+$V{Dias_no_Aplica}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d3a1f351-acab-42d2-b89b-030e9e8d9629" x="228" y="12" width="144" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Dias Falto Capturar:       "+$V{Dias_de_No_Captura}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="834736f2-db98-4271-88b9-5428e0c7c014" x="228" y="4" width="144" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Dias Captura Normal:     "+($V{Dias_de_Captura}+$V{Dias_de_Captura_2_estatus_4})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="00bca0a1-17b1-4859-9ab1-7abe7f5e928b" x="401" y="20" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades No Capturadas:               "+$V{Actividad_No_Captura}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="false">
+					<reportElement uuid="0be8c7d6-89e9-4689-ac9e-c1ac992c85f4" x="401" y="44" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Cantidad Total de Actividades:                           " +$V{Actividades_Totales}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="eab82982-548c-4dd8-bbcf-b35bdf0a7040" x="401" y="62" width="171" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades Faltantes Capturada Auto. con No: "+$V{Actividades_Falto_Capturar}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a9718a88-80d3-49ef-b1d6-30fd4f3260a0" x="401" y="4" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades Capturadas Con Si:        "+$V{Actividades_Capturo_si}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="36f36b3e-b094-45d0-93e4-c6938485664f" x="401" y="12" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades Capturadas Con No:       "+$V{Actividades_Capturo_no}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="612e089c-ae01-496a-a2c1-4960c6532c9e" x="401" y="28" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades Capturadas Como NA:    "+$V{Actividades_Capturo_No_Aplica}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a34de9ab-d45c-4415-a0c8-7b3d52af6853" x="228" y="36" width="67" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Promedio de Captura: "]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement uuid="40a8ef27-b67e-44b5-94a2-e505ab0cd2cd" x="493" y="53" width="71" height="8"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{Actividades_Capturo_si})/
+ ($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$V{Actividad_No_Captura})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="ff3d1bb9-5e63-4d63-a796-0de23e3f3126" x="2" y="0" width="59" height="14"/>
+					<textElement/>
+					<text><![CDATA[RESUMEN:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="1a88cc6f-488a-44f8-80bd-e28c1e1b7e2f" x="2" y="12" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["NOMBRE: "+$F{folio_empleado}+"*"+$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e18d974b-8f4c-420b-bdc4-a498bacb5e86" x="2" y="20" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["EQUIPO: "+$F{equipo_trabajo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4a57d45b-5722-4bb4-81e8-3ceb77743c05" x="2" y="28" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["ESTABLECIMIENTO: "+$F{establecimiento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e9d865c7-64b7-4ed8-9f3b-9a7eb9023545" x="2" y="36" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["DEPARTAMENTO: "+$F{departamento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="10a5105e-5629-4449-ad79-81952a65eed8" x="2" y="44" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["PUESTO: "+$F{puesto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="8850b6c1-50f4-4de4-abb7-ed46bb0233fb" x="2" y="53" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["JEFATURA: "+$F{jefatura}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="365283e1-8a1d-4c3b-8df2-ff3c73d3f1d4" x="2" y="61" width="209" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["CUADRANTE: "+$F{cuadrante}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement uuid="94231bc4-3353-477f-b4e5-6563542ce617" x="401" y="53" width="92" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Promedio de Cumplimiento: "]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00 %">
+					<reportElement uuid="526dad64-3d1f-4c47-ad0b-c6411b432327" x="295" y="36" width="67" height="8"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($V{Dias_de_Captura}+$V{Dias_de_Captura_2_estatus_4}))/($V{cantidad_de_dias}-$V{Dias_no_Aplica})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="acfbb8c9-5434-49a1-a9a5-dd334fc8cabb" x="401" y="36" width="163" height="8"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de Actividades NA Descanso y Permiso:"+(($V{Actividades_Totales})-($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$V{Actividades_Capturo_No_Aplica}+$V{Actividad_No_Captura}))]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Grupo_fecha">
+		<groupExpression><![CDATA[$F{fecha}]]></groupExpression>
+		<groupHeader>
+			<band height="11">
+				<textField>
+					<reportElement uuid="d9092495-3fa6-480d-a769-2a91c9b35f32" x="2" y="0" width="170" height="11"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="4">
+				<line>
+					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="0" y="0" width="572" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="752" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<frame>
+				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
+				<staticText>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="372" height="40"/>
+					<textElement textAlignment="Center">
+						<font fontName="Arial Black" size="20" isBold="false"/>
+					</textElement>
+					<text><![CDATA[*Reporte de Cuadrantes]]></text>
+				</staticText>
+				<image scaleImage="FillFrame">
+					<reportElement uuid="cc4133a0-0b5a-4e0b-9abf-ed3c2c4adeee" x="528" y="0" width="44" height="40"/>
+					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreport.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="401" y="0" width="42" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DEL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="401" y="20" width="42" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[AL:]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<frame>
+				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="570" height="11"/>
+				<textField>
+					<reportElement uuid="50b48277-6aa5-4a0a-8e2b-0235f7af8a16" x="0" y="0" width="370" height="11"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{actividad}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1e5cd302-1390-4114-9261-cbab4dc1496c" x="370" y="0" width="40" height="11"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{respuesta}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="57368329-9622-47f5-b4e2-e1df32a0ec0e" x="410" y="0" width="160" height="11"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{comentario}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement uuid="3779e6f8-81f6-4e28-b25e-c27f5724c713" mode="Opaque" x="0" y="1" width="572" height="12" forecolor="#000080" backcolor="#000080"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="0ab7e32f-5093-48e8-9280-55e1963fb350" style="Column header" x="509" y="0" width="40" height="11" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="27854e05-12e3-4e25-87d2-78f26b2ca50e" style="Column header" x="450" y="0" width="59" height="11" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Pagina"+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="2b5b27fe-5005-4724-9d76-f4ce3ac95546" style="Column header" x="0" y="0" width="197" height="11" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="71"/>
+	</summary>
+</jasperReport>

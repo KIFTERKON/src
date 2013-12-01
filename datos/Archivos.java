@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import objetos.ObjTicket;
 
+
+
 public class Archivos {
 	public boolean escribirTicket(ObjTicket ex)
 	{

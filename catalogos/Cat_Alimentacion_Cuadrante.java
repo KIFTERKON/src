@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
@@ -28,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
 import SQL.Connexion;
@@ -502,5 +504,25 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			dispose();
 		}
 	};
+	
+	public static void main (String [] arg){
+		try{        
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
+		}catch(Exception e){}
+		
+		Cat_Alimentacion_Cuadrante thisClass = new Cat_Alimentacion_Cuadrante("VALENTIN VILLEGAS PALAZUELOS");
+		thisClass.setVisible(true);
+
+		//utilizacion del AWTUtilities con el metodo opaque
+		try {
+			   @SuppressWarnings("rawtypes")
+			Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
+			   @SuppressWarnings("unchecked")
+			Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
+			   method.invoke(clazz,thisClass , false);
+			   } catch (Exception e) 
+			   { }	
+	}
 	
 }
