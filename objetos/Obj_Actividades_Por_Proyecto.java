@@ -13,9 +13,11 @@ public class Obj_Actividades_Por_Proyecto {
 	private String descripcion;
 	private String nivel_critico;
 	private int status;
+	private String fecha_inicial;
+	private String fecha_final;
 	
 	public Obj_Actividades_Por_Proyecto(){
-		this.folio=0;	this.proyecto="";	this.descripcion="";	this.nivel_critico="";	this.status=0;
+		this.folio=0;	this.proyecto="";	this.descripcion="";	this.nivel_critico="";	this.status=0;	this.fecha_inicial="";	this.fecha_final="";
 	}
 
 	public int getFolio() {
@@ -57,6 +59,23 @@ public class Obj_Actividades_Por_Proyecto {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	public String getFecha_inicial() {
+		return fecha_inicial;
+	}
+
+	public void setFecha_inicial(String fecha_inicial) {
+		this.fecha_inicial = fecha_inicial;
+	}
+
+	public String getFecha_final() {
+		return fecha_final;
+	}
+
+	public void setFecha_final(String fecha_final) {
+		this.fecha_final = fecha_final;
+	}
+
 	
 	public int nuevo(){
 		try {

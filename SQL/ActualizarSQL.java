@@ -1480,7 +1480,7 @@ public class ActualizarSQL {
 	
 	public boolean Proyecto(Obj_Actividades_Por_Proyecto proyect, String[][] tabla){
 		String queryDelete ="delete tb_tabla_proyecto_cuadrante where folio_proyecto = ?";
-		String query = "exec sp_update_proyecto ?,?,?,?,?";
+		String query = "exec sp_update_proyecto ?,?,?,?,?,?,?";
 		String querytabla = "exec sp_insert_tabla_proyecto ?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
@@ -1506,6 +1506,8 @@ public class ActualizarSQL {
 			pstmt.setString(3, proyect.getDescripcion().toUpperCase().trim());
 			pstmt.setString(4, proyect.getNivel_critico().trim());
 			pstmt.setInt(5, proyect.getStatus());
+			pstmt.setString(6, proyect.getFecha_inicial());
+			pstmt.setString(7, proyect.getFecha_final());
 			
 			pstmt.execute();
 			

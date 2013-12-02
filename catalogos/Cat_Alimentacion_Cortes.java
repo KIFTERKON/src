@@ -84,8 +84,8 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 	
 	JTextField txtFechaCorte = new JTextField("");
 	JTextField txtAsignacionCorte = new JTextField("");
-	JTextField txtDeposito = new JTextField("");
 	JTextField txtCorteSistema = new JTextField("");
+	JTextField txtDeposito = new JTextField("");
 	JTextField txtEfectivo = new JTextField("");
 	
 	JLabel lblDiferenciaCorte = new JLabel("");
@@ -158,12 +158,12 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		panel.add(new JLabel("Asignacion:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtAsignacionCorte).setBounds(x+ancho,y,ancho*2-150,20);
 		
+		panel.add(new JLabel("Corte del Sistema:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtCorteSistema).setBounds(ancho+x,y,ancho*2-150,20);
+		
 		panel.add(new JLabel("Deposito:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtDeposito).setBounds(x+ancho,y,ancho-40,20);
 		panel.add(btnDeposito).setBounds(x+ancho*2-40,y,29,20);
-		
-		panel.add(new JLabel("Corte del Sistema:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtCorteSistema).setBounds(ancho+x,y,ancho*2-150,20);
 		
 		panel.add(new JLabel("Efectivo:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtEfectivo).setBounds(ancho+x,y,ancho-40,20);
@@ -231,6 +231,8 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		chStatus.setSelected(true);
 		
 		txtFechaCorte.setEditable(false);
+		txtCorteSistema.setEditable(false);
+		txtDeposito.setEditable(false);
 		txtEfectivo.setEditable(false);
 		chStatus.setEnabled(false);
 		
@@ -268,6 +270,8 @@ public class Cat_Alimentacion_Cortes extends JFrame{
  	         }
  	      }
 	}
+	
+	
 	
 //	btnEfectivo
 	ActionListener opAlimentarDenominacion = new ActionListener(){
