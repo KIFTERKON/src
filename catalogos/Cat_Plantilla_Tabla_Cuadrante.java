@@ -16,7 +16,7 @@ public class Cat_Plantilla_Tabla_Cuadrante {
 			new String[]{"Orden", "Actividad", "Respuesta", "Comentarios" }){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
-	    	java.lang.Integer.class,
+	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class,
@@ -47,7 +47,7 @@ public class Cat_Plantilla_Tabla_Cuadrante {
 			new String[]{"Orden", "Actividad", "Respuesta","Comentarios" }){
 	     @SuppressWarnings("rawtypes")
 		Class[] types = new Class[]{
-	    	java.lang.Integer.class,
+	    	java.lang.Object.class,
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class, 
 	    	java.lang.Object.class,
