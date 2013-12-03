@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -38,6 +39,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import com.toedter.calendar.JDateChooser;
+
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
@@ -52,7 +55,9 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
         
 //     ESTE BOTON SE CARGA DENTRO DE LA TABLA-------------------------------
         JButton button = new JButton("CUADRANTE");
-//        JDateChooser txtFechaPermiso = new JDateChooser();
+        
+        JDateChooser txtFechaInicial = new JDateChooser();
+        JDateChooser txtFechaFinal = new JDateChooser();
         
         JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
         JButton btnNuevo = new JButton("Nuevo");
@@ -126,7 +131,9 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
         	this.setTitle("Actividades Por Proyecto");
         	panel.setBorder(BorderFactory.createTitledBorder("Proyecto"));
         	
-//        	txtFechaPermiso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+        	this.txtFechaInicial.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+        	this.txtFechaFinal.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+        	
         	componentes();
         	
 //        	AGREGAR BOTON ALA TABLA 
@@ -260,6 +267,8 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 						proyect.setDescripcion(txaDescripcion.getText());
 						proyect.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
 						proyect.setStatus(chbStatus.isSelected() ? 1 : 0);
+						proyect.setFecha_inicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicial.getDate()));
+						proyect.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaFinal.getDate()));
 						
 						if(proyect.actualizar(Integer.parseInt(txtFolioProyecto.getText()),Tabla())){
 							limpiar();
@@ -284,6 +293,8 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 						proyect.setDescripcion(txaDescripcion.getText());
 						proyect.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
 						proyect.setStatus(chbStatus.isSelected() ? 1 : 0);
+						proyect.setFecha_inicial(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaInicial.getDate()));
+						proyect.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(txtFechaFinal.getDate()));
 															
 						if(proyect.guardar(Tabla())){
 							limpiar();
@@ -489,10 +500,14 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 		
 		public String ValidaError(){
 			String error ="";
+			String fechaInicioNull= txtFechaInicial.getDate()+"";
+			String fechaFinNull= txtFechaFinal.getDate()+"";
 			
 				if(txtProyecto.getText().equals("")) error+="-Proyecto\n";
 				if(txaDescripcion.getText().equals("")) error+="-Descripcion\n";
 				if(cmbNivelCritico.getSelectedIndex()==0) error+="-Nivel Gerarquico\n";
+				if(fechaInicioNull.equals("")) error+="Fecha Inicial";
+				if(fechaFinNull.equals("")) error +="Fecha Final";
 				
 			return error;
 		}
@@ -544,10 +559,15 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
              panel.add(txtProyecto).setBounds( x+70, y, 320, 20);
              
              panel.add(new JLabel("Descripcion: ")).setBounds( x, y+=25, 80, 20);
-             panel.add(Descripcion).setBounds( x+70, y, 320, 280);
+             panel.add(Descripcion).setBounds( x+70, y, 320, 250);
              
-             panel.add(new JLabel("Nivel Critico: ")).setBounds( x, y+=290, 100, 20);
+             panel.add(new JLabel("Nivel Critico: ")).setBounds( x, y+=260, 100, 20);
              panel.add(cmbNivelCritico).setBounds( x+70, y, 320, 20);
+             
+             panel.add(new JLabel("Fecha Inicio: ")).setBounds(x, y+=25, 80, 20);
+             panel.add(txtFechaInicial).setBounds(x+70,y,100,20);
+             panel.add(new JLabel("Fecha Final: ")).setBounds(x+225, y, 80, 20);
+             panel.add(txtFechaFinal).setBounds(x+290,y,100,20);
              
              panel.add(btnSalir).setBounds( x, y+=35, 80, 20);
              panel.add(btnDeshacer).setBounds( x+=100, y, 80, 20);

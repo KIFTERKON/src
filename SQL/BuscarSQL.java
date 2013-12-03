@@ -3537,10 +3537,10 @@ public class BuscarSQL {
 		return Matriz;
 	}
 	
-	public String[][] tabla_alimentacion_cuadrante_multiple(String nomgbre){
+	public String[][] tabla_alimentacion_cuadrante_multiple_jerarquico(String nomgbre){
 		String[][] Matriz = null;
 		
-		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"';";
+		String datosif = "exec sp_select_tabla_alimentacion_multiple_jerar '"+nomgbre+"';";
 
 		Matriz = new String[getFilas(datosif)][4];
 		Statement s;
@@ -3554,6 +3554,47 @@ public class BuscarSQL {
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
+				
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz;
+	}
+	
+	public String[][] tabla_alimentacion_cuadrante_multiple(String nomgbre){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"';";
+		String datosfi = "exec sp_select_tabla_alimentacion_multiple_por_proyecto '"+nomgbre+"';";
+		
+		Matriz = new String[getFilas(datosif)+getFilas(datosfi)][4];
+		Statement s;
+		Statement s1;
+		ResultSet rs;
+		ResultSet rs1;
+		
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			
+			s1 = con.conexion().createStatement();
+			rs1 = s1.executeQuery(datosfi);
+			
+			int i=0;
+			while(rs.next()){
+
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				
+				i++;
+			}
+			while(rs1.next()){
+				Matriz[i][0] = rs1.getString(1);
+				Matriz[i][1] = "N/A";
+				Matriz[i][2] = rs1.getString(3);
 				
 				i++;
 			}
@@ -3577,7 +3618,7 @@ public class BuscarSQL {
 			while(rs.next()){
 
 				Matriz[i][0] = rs.getString(1);
-				Matriz[i][1] = rs.getString(2);
+				Matriz[i][1] = rs.getString(2).equals("0") ? "N/A" : rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
 				Matriz[i][3] = rs.getString(4);
 				Matriz[i][4] = rs.getString(5);

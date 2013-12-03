@@ -23,7 +23,6 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 	}
 	
 	public Cat_Actividad_Asignadas_Nivel_Jerarquico(int Folio){
-		
 		inicializar();
 		
 		Obj_Actividad_Asignadas_Nivel_Jerarquico actividad = new Obj_Actividad_Asignadas_Nivel_Jerarquico().Buscar(Folio);
@@ -39,6 +38,7 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 		spRepetir.setValue(actividad.getRepetir());
 		chbStatus.setSelected(actividad.isStatus());
 		
+		setModal(true);
 	}
 	
 	ActionListener opNuevoActividad = new ActionListener(){

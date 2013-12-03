@@ -17,6 +17,8 @@ import SQL.Connexion;
 @SuppressWarnings("serial")
 public class Reporte_de_Cuadrantes extends JFrame {
 
+	String NombreReporte="";
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Reporte_de_Cuadrantes(String fecha_inicio, String fecha_final, int operadorEqTrabajo, String cadenaEqTrabajo,
 										int operadorEmpleado, String cadenaEmpleados,
@@ -25,34 +27,41 @@ public class Reporte_de_Cuadrantes extends JFrame {
 										int operadorDepartamento, String cadenaDepartamento,
 										int operadorNivelCritico, String cadenaNivelCritico,
 										int operadorRespuesta, String cadenaRespuesta,
-										int reportePresentado
-									 ) {
-		
-//		generar procedimiento almacenado--------------------------------------------------------------
-		String query = "exec sp_reporte_dinamico_de_cuadrantes '"+fecha_inicio+"','"+fecha_final+"','"+
-				  												operadorEqTrabajo+"','"+cadenaEqTrabajo+"','"+
-																operadorEmpleado+"','"+cadenaEmpleados+"','"+
-																operadorEstablecimiento+"','"+cadenaEstablecimiento+"','"+
-																operadorPuesto+"','"+cadenaPuesto+"','"+
-																operadorDepartamento+"','"+cadenaDepartamento+"','"+
-																operadorNivelCritico+"','"+cadenaNivelCritico+"','"+
-																operadorRespuesta+"','"+cadenaRespuesta+"','"+
-																reportePresentado
-																+"';";
-			
-			Statement stmt = null;
-			try {
-				stmt =  new Connexion().conexion().createStatement();
-			    ResultSet rs = stmt.executeQuery(query);
-			    
-			    System.out.println(query);
-////		crear plantilla cambiar ruta------------------------------------------------------------
-				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Dinamico_de_Cuadrantes.jrxml");
-				JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
-				JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), resultSetDataSource);
-				JasperViewer.viewReport(print, false);
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
+										int reportePresentado) {
+
+		if(reportePresentado < 2){
+			NombreReporte="Reporte_Dinamico_de_Cuadrantes";
+			System.out.println("abrira reportes por establecimiento");
+		}else{
+//			poner el nombre del reporte cuando sera presentado por equipo de trabajo
+			NombreReporte="Reporte_Dinamico_de_Cuadrantes";
+			System.out.println("abrira reportes por equipo de trabajo");
 		}
+		
+		String query = "exec sp_reporte_dinamico_de_cuadrantes '"+fecha_inicio+"','"+fecha_final+"','"+
+					operadorEqTrabajo+"','"+cadenaEqTrabajo+"','"+
+				operadorEmpleado+"','"+cadenaEmpleados+"','"+
+				operadorEstablecimiento+"','"+cadenaEstablecimiento+"','"+
+				operadorPuesto+"','"+cadenaPuesto+"','"+
+				operadorDepartamento+"','"+cadenaDepartamento+"','"+
+				operadorNivelCritico+"','"+cadenaNivelCritico+"','"+
+				operadorRespuesta+"','"+cadenaRespuesta+"','"+
+				reportePresentado
+				+"';";
+		
+		Statement stmt = null;
+		try {
+			stmt =  new Connexion().conexion().createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+		    
+		    System.out.println(query);
+			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\"+NombreReporte+".jrxml");
+			JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
+			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), resultSetDataSource);
+			JasperViewer.viewReport(print, false);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+			
+	}
 }
