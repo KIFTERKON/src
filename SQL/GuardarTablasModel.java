@@ -408,7 +408,7 @@ public class GuardarTablasModel {
 //		String query_delete = "exec sp_delete_alimentacion_multiple ?";
 //		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
 		
-		String query = "exec sp_insert_multiple_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?;";
+		String query = "exec sp_insert_multiple_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?,?;";
 		Connection con = new Connexion().conexion();
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
@@ -425,6 +425,7 @@ public class GuardarTablasModel {
 				pstmt.setString(8, tabla[i][7].toString().trim());
 				pstmt.setString(9, tabla[i][8].toString().trim());
 				pstmt.setString(10, tabla[i][9].toString().trim());
+				pstmt.setString(11, tabla[i][10].toString().toUpperCase());
 				pstmt.execute();
 			
 			}

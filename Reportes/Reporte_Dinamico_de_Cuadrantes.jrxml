@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="2.5937424601000125"/>
+	<property name="ireport.zoom" value="3.1384283767210164"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="52"/>
+	<property name="ireport.y" value="181"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -15,8 +15,7 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[
-SELECT
+		<![CDATA[SELECT
          tb_captura_actividades_cuadrante.folio_empleado
         ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as nombre
         ,tb_puesto.nombre as puesto
@@ -80,8 +79,8 @@ SELECT
              then 1
              else 0
              end as valor_no_aplica_captura
-
          ,tb_departamento.departamento as departamento
+         ,'@indexPresentado' as presentado
   FROM tb_captura_actividades_cuadrante
     INNER JOIN tb_empleado ON tb_empleado.folio=tb_captura_actividades_cuadrante.folio_empleado
     INNER JOIN tb_puesto ON tb_puesto.folio=tb_captura_actividades_cuadrante.folio_puesto
@@ -93,9 +92,7 @@ SELECT
     LEFT OUTER JOIN tb_equipo_trabajo ON tb_equipo_trabajo.folio=tb_cuadrante.equipo_trabajo
     INNER JOIN tb_nivel_jerarquico ON tb_nivel_jerarquico.folio=tb_cuadrante.nivel_gerarquico
     INNER JOIN tb_jefatura ON tb_jefatura.folio=tb_cuadrante.jefatura
-	LEFT OUTER JOIN tb_departamento ON tb_departamento.folio=tb_empleado.departamento
-
-]]>
+	LEFT OUTER JOIN tb_departamento ON tb_departamento.folio=tb_empleado.departamento]]>
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
 	<field name="nombre" class="java.lang.String"/>
@@ -122,6 +119,7 @@ SELECT
 	<field name="valor_captura_2_auto" class="java.lang.Integer"/>
 	<field name="valor_no_captura" class="java.lang.Integer"/>
 	<field name="valor_no_aplica_captura" class="java.lang.Integer"/>
+	<field name="presentado" class="java.lang.String"/>
 	<variable name="Dias_de_Captura" class="java.lang.Double" resetType="Group" resetGroup="Group2" incrementType="Group" incrementGroup="Grupo_fecha" calculation="Sum">
 		<variableExpression><![CDATA[$F{valor_captura}]]></variableExpression>
 	</variable>
@@ -155,7 +153,7 @@ SELECT
 	<variable name="Actividades_Capturo_No_Aplica" class="java.lang.Double" resetType="Group" resetGroup="Group2" calculation="Sum">
 		<variableExpression><![CDATA[$F{actividad_capturo_no_aplica}]]></variableExpression>
 	</variable>
-	<group name="Group1" footerPosition="StackAtBottom">
+	<group name="Group1" isStartNewPage="true" footerPosition="StackAtBottom">
 		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
 		<groupHeader>
 			<band height="16">
@@ -176,6 +174,7 @@ SELECT
 		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
 		<groupHeader>
 			<band height="17">
+				<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
 				<textField>
 					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="15" forecolor="#000000"/>
 					<textElement>
@@ -195,7 +194,7 @@ SELECT
 		<groupFooter>
 			<band height="88">
 				<frame>
-					<reportElement uuid="3c0ca94e-0181-4db9-a9b1-f2b4e069d2ba" mode="Opaque" x="2" y="0" width="570" height="88" backcolor="#CCFFFF"/>
+					<reportElement uuid="3c0ca94e-0181-4db9-a9b1-f2b4e069d2ba" mode="Opaque" x="2" y="0" width="570" height="70" backcolor="#FFE0A1"/>
 				</frame>
 				<textField>
 					<reportElement uuid="a7838f63-f17f-4ab7-add3-6e2f045691b3" x="228" y="28" width="144" height="8"/>
@@ -283,54 +282,54 @@ SELECT
  ($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$V{Actividad_No_Captura})]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="ff3d1bb9-5e63-4d63-a796-0de23e3f3126" x="2" y="0" width="59" height="14"/>
+					<reportElement uuid="ff3d1bb9-5e63-4d63-a796-0de23e3f3126" x="6" y="0" width="59" height="14"/>
 					<textElement/>
 					<text><![CDATA[RESUMEN:]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="1a88cc6f-488a-44f8-80bd-e28c1e1b7e2f" x="2" y="12" width="209" height="8"/>
+					<reportElement uuid="1a88cc6f-488a-44f8-80bd-e28c1e1b7e2f" x="6" y="12" width="29" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["NOMBRE: "+$F{folio_empleado}+"*"+$F{nombre}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["NOMBRE: "]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="e18d974b-8f4c-420b-bdc4-a498bacb5e86" x="2" y="20" width="209" height="8"/>
+					<reportElement uuid="e18d974b-8f4c-420b-bdc4-a498bacb5e86" x="6" y="20" width="29" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA["EQUIPO: "+$F{equipo_trabajo}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["EQUIPO: "]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="4a57d45b-5722-4bb4-81e8-3ceb77743c05" x="2" y="28" width="209" height="8"/>
+					<reportElement uuid="4a57d45b-5722-4bb4-81e8-3ceb77743c05" x="6" y="28" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA["ESTABLECIMIENTO: "+$F{establecimiento}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="e9d865c7-64b7-4ed8-9f3b-9a7eb9023545" x="2" y="36" width="209" height="8"/>
+					<reportElement uuid="e9d865c7-64b7-4ed8-9f3b-9a7eb9023545" x="6" y="36" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA["DEPARTAMENTO: "+$F{departamento}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="10a5105e-5629-4449-ad79-81952a65eed8" x="2" y="44" width="209" height="8"/>
+					<reportElement uuid="10a5105e-5629-4449-ad79-81952a65eed8" x="6" y="44" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA["PUESTO: "+$F{puesto}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="8850b6c1-50f4-4de4-abb7-ed46bb0233fb" x="2" y="53" width="209" height="8"/>
+					<reportElement uuid="8850b6c1-50f4-4de4-abb7-ed46bb0233fb" x="6" y="53" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA["JEFATURA: "+$F{jefatura}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="365283e1-8a1d-4c3b-8df2-ff3c73d3f1d4" x="2" y="61" width="209" height="8"/>
+					<reportElement uuid="365283e1-8a1d-4c3b-8df2-ff3c73d3f1d4" x="6" y="61" width="209" height="8"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
@@ -357,6 +356,20 @@ SELECT
 					</textElement>
 					<textFieldExpression><![CDATA["Total de Actividades NA Descanso y Permiso:"+(($V{Actividades_Totales})-($V{Actividades_Capturo_si}+$V{Actividades_Capturo_no}+$V{Actividades_Capturo_No_Aplica}+$V{Actividad_No_Captura}))]]></textFieldExpression>
 				</textField>
+				<textField>
+					<reportElement uuid="64032a07-c052-4073-addc-c04183afea15" x="35" y="12" width="180" height="8"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio_empleado}+" * "+$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="586aaf6e-ae7a-4e7b-9c54-900f63ff1b4e" x="35" y="20" width="180" height="8"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{equipo_trabajo}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -364,6 +377,7 @@ SELECT
 		<groupExpression><![CDATA[$F{fecha}]]></groupExpression>
 		<groupHeader>
 			<band height="11">
+				<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
 				<textField>
 					<reportElement uuid="d9092495-3fa6-480d-a769-2a91c9b35f32" x="2" y="0" width="170" height="11"/>
 					<textElement>
@@ -375,6 +389,7 @@ SELECT
 		</groupHeader>
 		<groupFooter>
 			<band height="4">
+				<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
 				<line>
 					<reportElement uuid="89fd0eb3-f57e-46fd-9321-a71495e13cc9" x="0" y="0" width="572" height="1"/>
 				</line>
@@ -421,6 +436,7 @@ SELECT
 	</pageHeader>
 	<detail>
 		<band height="11" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
 			<frame>
 				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="570" height="11"/>
 				<textField>

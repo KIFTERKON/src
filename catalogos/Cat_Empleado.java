@@ -191,7 +191,7 @@ public class Cat_Empleado extends JFrame{
 	JCheckBox chbFuente_Sodas = new JCheckBox("Fnt de Sodas");
 	JCheckBox chbGafete = new JCheckBox("Gafete");
 	
-	String status[] = {"Vigente","Vacaciones","Incapacidad","Baja","No Contratable"};
+	String status[] = {"Vigente","Vacaciones","Incapacidad","Baja","No Contratable","Provicional Checador"};
 	@SuppressWarnings("rawtypes")
 	JComboBox cmbStatus = new JComboBox(status);
 	
@@ -2037,7 +2037,7 @@ public class Cat_Empleado extends JFrame{
 			ResultSet rs;
 			try {
 				s = new Connexion().conexion().createStatement();
-				rs = s.executeQuery( "  select * from tb_horarios");
+				rs = s.executeQuery( "  select tb_horarios.folio,tb_horarios.nombre from tb_horarios");
 				int folio;
 				String nombre;
 				

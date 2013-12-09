@@ -1843,7 +1843,7 @@ public class BuscarSQL {
 	
 	public Obj_Horario_Empleado Turn_buscar(int folio) throws SQLException{
 		Obj_Horario_Empleado turno = new Obj_Horario_Empleado();
-		String query = "select nombre from tb_horarios where folio="+folio;
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -1864,7 +1864,7 @@ public class BuscarSQL {
 	
 	public Obj_Horario_Empleado2 Turn_buscar2(int folio) throws SQLException{
 		Obj_Horario_Empleado2 turno2 = new Obj_Horario_Empleado2();
-		String query = "select nombre from tb_horarios where folio="+folio;
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -3569,19 +3569,34 @@ public class BuscarSQL {
 		String[][] Matriz = null;
 		
 		String datosif = "exec sp_select_tabla_alimentacion_multiple '"+nomgbre+"';";
-
-		Matriz = new String[getFilas(datosif)][4];
+		String datosfi = "exec sp_select_tabla_alimentacion_multiple_por_proyecto '"+nomgbre+"';";
+		
+		Matriz = new String[getFilas(datosif)+getFilas(datosfi)][4];
 		Statement s;
+		Statement s1;
 		ResultSet rs;
+		ResultSet rs1;
+		
 		try {			
 			s = con.conexion().createStatement();
 			rs = s.executeQuery(datosif);
+			
+			s1 = con.conexion().createStatement();
+			rs1 = s1.executeQuery(datosfi);
+			
 			int i=0;
 			while(rs.next()){
 
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
+				
+				i++;
+			}
+			while(rs1.next()){
+				Matriz[i][0] = rs1.getString(1);
+				Matriz[i][1] = "N/A";
+				Matriz[i][2] = rs1.getString(3);
 				
 				i++;
 			}
@@ -3605,7 +3620,7 @@ public class BuscarSQL {
 			while(rs.next()){
 
 				Matriz[i][0] = rs.getString(1);
-				Matriz[i][1] = rs.getString(2);
+				Matriz[i][1] = rs.getString(2).equals("0") ? "N/A" : rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
 				Matriz[i][3] = rs.getString(4);
 				Matriz[i][4] = rs.getString(5);

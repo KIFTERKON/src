@@ -551,6 +551,20 @@ public class Cat_Checador extends JFrame {
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
                                                                                                         break;
+                                                                                 case 6: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+
+                                                                                                          registrarEntrada();
+                                                                                                   }else{
+                                                                                                           JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                                                           txtFolio.setEditable(true);
+                                                                                                           txtFolio.setText("");
+                                                                                                           txtClaveReal.setText("");
+                                                                                                           txtClaveReal.setEditable(false);
+                                                                                                           txtFolio.requestFocus();
+                                                                     }
+                                                                             break;
+                                                                                                        
+                                                                                                        
                                                                         };
                                                         }                        
                                         }                
