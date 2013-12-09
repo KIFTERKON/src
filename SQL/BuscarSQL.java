@@ -1843,7 +1843,7 @@ public class BuscarSQL {
 	
 	public Obj_Horario_Empleado Turn_buscar(int folio) throws SQLException{
 		Obj_Horario_Empleado turno = new Obj_Horario_Empleado();
-		String query = "select nombre from tb_horarios where folio="+folio;
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -1864,7 +1864,7 @@ public class BuscarSQL {
 	
 	public Obj_Horario_Empleado2 Turn_buscar2(int folio) throws SQLException{
 		Obj_Horario_Empleado2 turno2 = new Obj_Horario_Empleado2();
-		String query = "select nombre from tb_horarios where folio="+folio;
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
