@@ -172,6 +172,55 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
+	public boolean tabla_horario_temporado(Object[][] tabla, String fechaIn,String fechaFin){
+		String query = "exec sp_insert_horario_temporada ?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmt.setInt(1, Integer.parseInt(tabla[i][0].toString().trim()));
+				pstmt.setString(2, tabla[i][1].toString().trim());
+				pstmt.setString(3, tabla[i][2].toString().trim());
+				pstmt.setInt(4, Boolean.parseBoolean(tabla[i][3].toString().trim()) ? 1 : 0);
+				pstmt.setString(5, fechaIn);
+				pstmt.setString(6, fechaFin);
+				
+				System.out.println(tabla[i][0].toString().trim());
+				System.out.println(tabla[i][1].toString().trim());
+				System.out.println(tabla[i][2].toString().trim());
+				System.out.println(tabla[i][3].toString().trim());
+				System.out.println(fechaIn);
+				System.out.println(fechaFin);
+				
+				pstmt.executeUpdate();
+			}
+					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
 	public boolean tabla_model_lista_raya(Object[][] tabla, String fecha){
 		String query = "exec sp_insert_pre_listaraya ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
