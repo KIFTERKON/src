@@ -2906,6 +2906,8 @@ public class BuscarSQL {
 				proyect.setDescripcion(rs.getString(2));
 				proyect.setNivel_critico(rs.getString(3));
 				proyect.setStatus(rs.getInt(4));
+				proyect.setFecha_inicial(rs.getString(5));
+				proyect.setFecha_final(rs.getString(6));
 				
 			}
 			
@@ -4218,15 +4220,15 @@ public class BuscarSQL {
 //						lblEstablecimiento_empleado.setText(soda.getEstablecimiento_cliente()+"");
 //						lblpuesto_empleado.setText(soda.getPuesto_cliente()+"");
 						
-						sodas.setNombre_cajera(rs.getString("nombre_empleado"));
-						sodas.setNo_cliente(rs.getInt("no_cliente"));
-						sodas.setTicket(rs.getString("ticket"));
-						sodas.setImporte(rs.getInt("importe"));
-						
-						sodas.setNombre_cliente(rs.getString("nombre_cliente"));
-						sodas.setEstablecimiento_cliente(rs.getString("establecimiento_cliente"));
-						sodas.setPuesto_cliente(rs.getString("puesto_cliente"));
-						
+//						sodas.setNombre_cajera(rs.getString("nombre_empleado"));
+//						sodas.setNo_cliente(rs.getInt("no_cliente"));
+//						sodas.setTicket(rs.getString("ticket"));
+//						sodas.setImporte(rs.getInt("importe"));
+//						
+//						sodas.setNombre_cliente(rs.getString("nombre_cliente"));
+//						sodas.setEstablecimiento_cliente(rs.getString("establecimiento_cliente"));
+//						sodas.setPuesto_cliente(rs.getString("puesto_cliente"));
+//						
 						File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 						FileOutputStream fos = new FileOutputStream(photo);
 						
