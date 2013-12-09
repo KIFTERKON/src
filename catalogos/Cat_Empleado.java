@@ -112,6 +112,9 @@ public class Cat_Empleado extends JFrame{
 	JLabel lblLaboral = new JLabel();
 	JLabel lblPercepciones = new JLabel();
 	
+	JLabel lblFolioHorario1 = new JLabel("");
+	JLabel lblFolioHorario2 = new JLabel("");
+	
 	JPasswordField txtChecador = new JPasswordField();
 	
 	JTextField txtFolioEmpleado = new JTextField();
@@ -211,6 +214,7 @@ public class Cat_Empleado extends JFrame{
 	JButton btnVerificar = new JButton("Verificar Nombre");
 	JButton btnHorario = new JButton(".");
 	JButton btnHorario2 = new JButton(".");
+	JButton btnQuitarHorario2 = new JButton("x");
 		
 	JButton btnFoto = new JButton();
 	JButton btnStatus = new JButton();
@@ -257,8 +261,6 @@ public class Cat_Empleado extends JFrame{
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/user_icon&16.png"));
 		this.setTitle("Alta de Empleados");
 		
-		this.btnVerificar.setToolTipText("Verificar Nombre");
-		
 		this.panel.setBorder(BorderFactory.createTitledBorder(blackline, "Alta de Empleados"));
 		
 //		asignacion de bordes
@@ -268,10 +270,15 @@ public class Cat_Empleado extends JFrame{
 		this.lblLaboral.setBorder(BorderFactory.createTitledBorder(blackline, "Laboral"));
 		this.lblPercepciones.setBorder(BorderFactory.createTitledBorder(blackline,"Percepciones y Deducciones"));
 		
+		this.btnVerificar.setToolTipText("Verificar Nombre");
+		
 		this.btnHorario.setToolTipText("Asignar Horario");
+		this.btnQuitarHorario2.setToolTipText("Quitar Horario 2");
 		this.btnHorario2.setToolTipText("Asignar Segundo Horario");
+		
 		this.txtHorario.setToolTipText("Horario");
 		this.txtHorario2.setToolTipText("Segundo Horario");
+		
 		this.txaObservaciones.setBorder(BorderFactory.createTitledBorder(blackline));
 		
 //		agregando radio_button a grupo
@@ -357,9 +364,11 @@ public class Cat_Empleado extends JFrame{
 //Laboral ------------------------------------------------------------------------------------------------------------------------------------------		
 		
 		panel.add(lblLaboral).setBounds(10,y+=40,ancho*7-30,195);
+		
 		panel.add(new JLabel("Horario:")).setBounds(x,y+=15,ancho,20);
-		panel.add(btnHorario).setBounds(x+ancho-58,y+3,15,15);
-		panel.add(txtHorario).setBounds(x+ancho-40,y,ancho*2+80,20);
+		panel.add(btnHorario).setBounds(x+ancho-63,y+3,17,17);
+		panel.add(lblFolioHorario1).setBounds(x+ancho-40,y+3,20,15);
+		panel.add(txtHorario).setBounds(x+ancho-20,y,ancho*2+60,20);
 		panel.add(rbHorario).setBounds(x+460,y,20,20);
 		
 		panel.add(btnStatus).setBounds(x+ancho*5+20,y-5,ancho+60,180);
@@ -367,9 +376,12 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Descanso:")).setBounds(x+500,y,ancho,20);
 		panel.add(txtDescanso).setBounds(x+ancho+420,y,ancho+10,20);
 		
-		panel.add(btnHorario2).setBounds(x+ancho-58,y+28,15,15);
 		panel.add(new JLabel("Horario 2:")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtHorario2).setBounds(x+ancho-40,y,ancho*2+80,20);
+		
+		panel.add(btnQuitarHorario2).setBounds(x+ancho-83,y,17,17);
+		panel.add(btnHorario2).setBounds(x+ancho-63,y,17,17);
+		panel.add(lblFolioHorario2).setBounds(x+ancho-40,y,20,15);
+		panel.add(txtHorario2).setBounds(x+ancho-20,y,ancho*2+60,20);
 		panel.add(rbHorario2).setBounds(x+460,y,20,20);
 		
 		panel.add(new JLabel("Día Dobla:")).setBounds(x+500,y,ancho,20);
@@ -493,6 +505,7 @@ public class Cat_Empleado extends JFrame{
 		btnExaminar.addActionListener(opExaminar);
 		btnHorario.addActionListener(opFiltroHorairo);
 		btnHorario2.addActionListener(opFiltroHorairo2);
+		btnQuitarHorario2.addActionListener(opQuitarHorario2);
 
 		
 		txtTarjetaNomina.addKeyListener(txtlogns);
@@ -760,11 +773,24 @@ public class Cat_Empleado extends JFrame{
 			         
 					
 					Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(re.getHorario());
+					if(re.getHorario()>0){
+						lblFolioHorario1.setText(re.getHorario()+"");
+					}else{
+						lblFolioHorario1.setText("");
+					}
 					txtHorario.setText(comboFolioHorario.getNombre());
 	
+					
 					Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(re.getHorario2());
+					if(re.getHorario2()>0){
+						lblFolioHorario2.setText(re.getHorario2()+"");
+						btnQuitarHorario2.setEnabled(true);
+					}else{
+						lblFolioHorario2.setText("");
+					}
 					txtHorario2.setText(comboFolioHorario2.getNombre());
 
+					
 					if(re.getStatus_h1()==1){
 						rbHorario.setSelected(true);
 					}else{
@@ -1198,7 +1224,7 @@ public class Cat_Empleado extends JFrame{
 				txtFolioEmpleado.setEditable(false);
 				btnEditar.setVisible(false);
 				btnNuevo.setVisible(true);
-				chbHorarioRotativo.setEnabled(true);
+				chbHorarioRotativo.setEnabled(false);
 			}else{
 				JOptionPane.showMessageDialog(null,"El registró que desea actualizar no existe","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
 				return;
@@ -1292,6 +1318,7 @@ public class Cat_Empleado extends JFrame{
 		rbFemenino.setEnabled(false);
 		
 		btnHorario.setEnabled(false);
+		btnQuitarHorario2.setEnabled(false);
 		btnHorario2.setEnabled(false);
 		
 		rbHorario.setEnabled(false);
@@ -1360,6 +1387,9 @@ public class Cat_Empleado extends JFrame{
 		txtSalarioDiarioIntegrado.setText("");
 		txtFormaDePago.setText("");
 		txtFechaActualizacion.setText("");
+		
+		lblFolioHorario1.setText("");
+		lblFolioHorario2.setText("");
 	    
 		 ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.JPG");
          Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
@@ -1448,6 +1478,19 @@ public class Cat_Empleado extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			seleccion_de_asignacion_de_Horario1Horario2=2;
 			new Filtro_Horario_Empleado().setVisible(true);
+		}
+	};
+	ActionListener opQuitarHorario2 = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			txtHorario2.setText("");
+			lblFolioHorario2.setText("");
+			rbHorario.setSelected(true);
+			
+			rbHorario2.setEnabled(false);
+			chbHorarioRotativo.setSelected(false);
+			chbHorarioRotativo.setEnabled(false);
+			
+			btnQuitarHorario2.setEnabled(false);
 		}
 	};
 	
@@ -1957,16 +2000,21 @@ public class Cat_Empleado extends JFrame{
 		        	if(e.getClickCount() == 2){
 		        		
 		    			int fila = tabla.getSelectedRow();
-		    			Object folio =  tabla.getValueAt(fila, 1);
+		    			Object folio =  tabla.getValueAt(fila, 0);
+		    			Object horario =  tabla.getValueAt(fila, 1);
 		    			
 		    			if(seleccion_de_asignacion_de_Horario1Horario2==1){
-		    				txtHorario.setText(folio+"");
-			    			txtHorario.setToolTipText(folio+"");
+		    				txtHorario.setText(horario+"");
+		    				lblFolioHorario1.setText(folio+"");
+		    				
+			    			txtHorario.setToolTipText(horario+"");
 			    				rbHorario.doClick();
 		    			}else{
-		    				txtHorario2.setText(folio+"");
-			    			txtHorario2.setToolTipText(folio+"");
-			    			
+		    				txtHorario2.setText(horario+"");
+		    				lblFolioHorario2.setText(folio+"");
+		    				btnQuitarHorario2.setEnabled(true);
+		    				
+			    			txtHorario2.setToolTipText(horario+"");
 			    			rbHorario2.setEnabled(true);
 			    			chbHorarioRotativo.setEnabled(true);
 		    			}
