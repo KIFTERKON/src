@@ -249,6 +249,9 @@ public class Main extends InitButton {
 					}
 					/* LISTA DE RAYA 	
 					*		CHECADOR */
+					if(permisos[i].equals("Asignacion de Horario de Temporada")){
+						Asignacion_Horario_Temporada.setEnabled(true);
+					   }
 					if(permisos[i].equals("Checador")){
 						Checador_Menu.setEnabled(true);
 					   }
@@ -444,6 +447,9 @@ public class Main extends InitButton {
 					}
 					/* LISTA DE RAYA 	
 					*		CHECADOR */
+					if(permisos[i].equals("Asignacion de Horario de Temporada")){
+						Asignacion_Horario_Temporada.setEnabled(true);
+					   }
 					if(permisos[i].equals("Checador")){
 						Checador_Menu.setEnabled(true);
 					   }

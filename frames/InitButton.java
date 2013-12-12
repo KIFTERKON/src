@@ -810,6 +810,8 @@ public class InitButton extends InitMenuBar{
 				Importar_Cheques.setEnabled(false);
 				Importar_Consiliacion.setEnabled(false);
 				Importar_Voucher.setEnabled(false);
+		   	/* CORTES */	
+				Captura_Cortes.setEnabled(false);
 			/* CUADRANTES 
 			*		ALIMENTACION */
 				Cuadrantes_Catalogo_Actividades.setEnabled(false);
@@ -850,6 +852,7 @@ public class InitButton extends InitMenuBar{
 				Autorizacion_Finanzas.setEnabled(false);
 			/* LISTA DE RAYA 
 			* 		CHECADORES */
+				Asignacion_Horario_Temporada.setEnabled(false);
 				Checador_Menu.setEnabled(true);
 				Dias_Inhabiles.setEnabled(false);
 				Generacion_Gafetes_Empleados.setEnabled(false);
@@ -857,8 +860,7 @@ public class InitButton extends InitMenuBar{
 				Mensajes_Personales.setEnabled(false);
 				Permisos_Empleados.setEnabled(false);
 				Reportes_Checador_Gral.setEnabled(false);
-				
-				
+								
 			/* LISTA DE RAYA 
 			* 		COMPARACIONES */
 				Comparaciones_Listas_Fuente_Sodas.setEnabled(false);
