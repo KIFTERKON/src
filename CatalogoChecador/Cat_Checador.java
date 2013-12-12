@@ -56,7 +56,8 @@ import objetos.Obj_Puesto;
 
 @SuppressWarnings("serial")
 public class Cat_Checador extends JFrame {
-        
+	// DECLARAMOS EL OBJETO RUNTIME PARA EJECUTAR APLICACIONES
+	Runtime R = Runtime.getRuntime();
         Container cont = getContentPane();
         JLayeredPane panel = new JLayeredPane();
         
@@ -365,8 +366,11 @@ public class Cat_Checador extends JFrame {
                 lblCerrar.addMouseListener ( new  MouseAdapter (){
                         public void mouseReleased (MouseEvent e){
                              dispose();
+                 			try {
+                				R.exec("taskkill /f /im javaw.exe");
+                			} catch (Exception e2){}
                         }  
-                });  
+                                        });  
         }
         
         @SuppressWarnings("rawtypes")
