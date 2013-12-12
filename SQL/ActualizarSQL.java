@@ -58,7 +58,7 @@ public class ActualizarSQL {
 	Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "exec sp_update_alta_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_update_alta_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -129,6 +129,9 @@ public class ActualizarSQL {
 			pstmt.setString(i+=1, 	empleado.getObservasiones().toUpperCase());
 			
 			pstmt.setString(i+=1, 	empleado.getFecha_actualizacion().toUpperCase());
+			
+			pstmt.setInt(i+=1,		empleado.getHorario3());
+			pstmt.setInt(i+=1, 		empleado.getStatus_h3());
 			
 			pstmt.executeUpdate();
 			con.commit();

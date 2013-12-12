@@ -33,8 +33,10 @@ public class Obj_Empleado {
 //	laboral
 	private int horario;
 	private int horario2;
+	private int horario3;
 	private int status_h1;
 	private int status_h2;
+	private int status_h3;
 	private int status_rotativo;
 //	dependen del horario activo
 	private String descanso;
@@ -71,7 +73,7 @@ public class Obj_Empleado {
 		folio=0; no_checador=""; nombre=""; ap_paterno=""; ap_materno=""; fecha_nacimiento=""; calle=""; colonia=""; poblacion=""; telefono_familiar="";
 		telefono_propio=""; telefono_cuadrante=""; rfc=""; curp=""; sexo=0; foto=null;
 		
-		horario=0; horario2=0; status_h1=0; status_h2=0; status_rotativo=0; descanso=""; dobla=""; fecha_ingreso=""; status=0; fecha_baja=""; cuadrante_parcial=false;
+		horario=0; horario2=0; horario2=0; status_h1=0; status_h2=0; status_h3=0; status_rotativo=0; descanso=""; dobla=""; fecha_ingreso=""; status=0; fecha_baja=""; cuadrante_parcial=false;
 		departameto=0; imss=""; status_imss=0; numero_infonavit=""; establecimiento=0; puesto=0;
 		
 		salario_diario=0; salario_diario_integrado=0; forma_pago=""; sueldo=0; bono=0; prestamo=0; pension_alimenticia=0; infonavit=0; targeta_nomina="";
@@ -223,6 +225,14 @@ public class Obj_Empleado {
 		this.horario2 = horario2;
 	}
 
+	public int getHorario3() {
+		return horario3;
+	}
+
+	public void setHorario3(int horario3) {
+		this.horario3 = horario3;
+	}
+
 	public int getStatus_h1() {
 		return status_h1;
 	}
@@ -237,6 +247,14 @@ public class Obj_Empleado {
 
 	public void setStatus_h2(int status_h2) {
 		this.status_h2 = status_h2;
+	}
+	
+	public int getStatus_h3() {
+		return status_h3;
+	}
+
+	public void setStatus_h3(int status_h3) {
+		this.status_h3 = status_h3;
 	}
 
 	public int getStatus_rotativo() {
