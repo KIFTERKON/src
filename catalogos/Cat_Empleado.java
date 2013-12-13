@@ -275,8 +275,6 @@ public class Cat_Empleado extends JFrame{
 		this.btnVerificar.setToolTipText("Verificar Nombre");
 		
 		this.btnHorario.setToolTipText("Asignar Horario");
-//		this.btnQuitarHorario2.setToolTipText("Quitar Horario 2");
-//		this.btnQuitarHorario3.setToolTipText("Quitar Horario 3");
 		this.btnHorario2.setToolTipText("Asignar Segundo Horario");
 		this.btnHorario3.setToolTipText("Asignar Tercer Horario");
 		
@@ -369,7 +367,6 @@ public class Cat_Empleado extends JFrame{
 		panel.add(txtCurp).setBounds(x+ancho-40,y,ancho-15,20);
 		
 //Laboral ------------------------------------------------------------------------------------------------------------------------------------------		
-		
 		panel.add(lblLaboral).setBounds(10,y+=40,ancho*7-30,195);
 		
 		panel.add(new JLabel("Horario:")).setBounds(x,y+=15,ancho,20);
@@ -384,7 +381,6 @@ public class Cat_Empleado extends JFrame{
 		panel.add(cmbHorarioRotativo).setBounds(x+ancho+420,y, ancho+10, 20);
 		
 		panel.add(new JLabel("Horario 2:")).setBounds(x,y+=25,ancho,20);
-//		panel.add(btnQuitarHorario2).setBounds(x+ancho-83,y,17,17);
 		panel.add(btnHorario2).setBounds(x+ancho-63,y,17,17);
 		panel.add(lblFolioHorario2).setBounds(x+ancho-40,y,20,15);
 		panel.add(txtHorario2).setBounds(x+ancho-20,y,ancho*2+60,20);
@@ -394,7 +390,6 @@ public class Cat_Empleado extends JFrame{
 		panel.add(txtDescanso).setBounds(x+ancho+420,y,ancho+10,20);
 		
 		panel.add(new JLabel("Horario 3:")).setBounds(x,y+=25,ancho,20);
-//		panel.add(btnQuitarHorario3).setBounds(x+ancho-83,y,17,17);
 		panel.add(btnHorario3).setBounds(x+ancho-63,y,17,17);
 		panel.add(lblFolioHorario3).setBounds(x+ancho-40,y,20,15);
 		panel.add(txtHorario3).setBounds(x+ancho-20,y,ancho*2+60,20);
@@ -431,7 +426,6 @@ public class Cat_Empleado extends JFrame{
 		panel.add(cmbPuesto).setBounds(x+330,y,ancho*2+100,20);
 
 //Percepciones y Deducciones ------------------------------------------------------------------------------------------------------------------------------------------		
-
 		panel.add(lblPercepciones).setBounds(10,y+=30,ancho*4-40,170);
 		panel.add(new JLabel("Salario Diario:")).setBounds(x,y+=15,ancho,20);
 		panel.add(txtSalarioDiario).setBounds(x+ancho-40,y,ancho,20);
@@ -504,7 +498,6 @@ public class Cat_Empleado extends JFrame{
 		txtPensionAli.setDocument(new JTextFieldLimit(15));
 		txtInfonavit.setDocument(new JTextFieldLimit(15));
 		
-//		cmbTurno.addActionListener(opHorario_Turno);
 		btnEditar.addActionListener(editar);
 		btnBuscar.addActionListener(buscar);
 		btnGuardar.addActionListener(guardar);
@@ -520,8 +513,6 @@ public class Cat_Empleado extends JFrame{
 		btnHorario.addActionListener(opFiltroHorairo);
 		btnHorario2.addActionListener(opFiltroHorairo2);
 		btnHorario3.addActionListener(opFiltroHorairo3);
-		
-//		btnQuitarHorario2.addActionListener(opQuitarHorario2);
 		
 		txtTarjetaNomina.addKeyListener(txtlogns);
 		
@@ -593,9 +584,8 @@ public class Cat_Empleado extends JFrame{
 						rbHorario.setEnabled(true);
 						rbHorario2.setEnabled(false);
 						rbHorario3.setEnabled(false);
-						
-//						rbHorario.setSelected(true);
 						break;
+						
 				case 1: btnHorario.setEnabled(true);
 						btnHorario2.setEnabled(true);
 						btnHorario3.setEnabled(false);
@@ -603,9 +593,8 @@ public class Cat_Empleado extends JFrame{
 						rbHorario.setEnabled(true);
 						rbHorario2.setEnabled(true);
 						rbHorario3.setEnabled(false);
-						
-//						rbHorario.setSelected(true);
 						break;
+						
 				case 2: btnHorario.setEnabled(true);
 						btnHorario2.setEnabled(true);
 						btnHorario3.setEnabled(true);
@@ -613,8 +602,6 @@ public class Cat_Empleado extends JFrame{
 						rbHorario.setEnabled(true);
 						rbHorario2.setEnabled(true);
 						rbHorario3.setEnabled(true);
-						
-//						rbHorario.setSelected(true);
 						break;
 			}
 		}
@@ -667,57 +654,55 @@ public class Cat_Empleado extends JFrame{
 			
 			if(file.getDirectory() != null){
 
-				try {
-					String rootPicture = file.getDirectory()+file.getFile();
-					
-					File foto = new File(rootPicture);
-					File destino = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-			    	
-			    	InputStream in = new FileInputStream(foto);
-					OutputStream out = new FileOutputStream(destino);
-					
-				    byte[] buf = new byte[1024];
-				    int len;
-
-				    while ((len = in.read(buf)) > 0) {
-				    	out.write(buf, 0, len);
-				    }
-				    
-				    in.close();
-				    out.close();
-					
-					File foto1 = new File(rootPicture);
-					File destino1 = new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg");
-			    	
-			    	InputStream in1 = new FileInputStream(foto1);
-					OutputStream out1 = new FileOutputStream(destino1);
-					
-				    byte[] buf1 = new byte[1024];
-				    int len1;
-
-				    while ((len1 = in1.read(buf1)) > 0) {
-				    	out1.write(buf1, 0, len1);
-				    }
-				    
-				    in1.close();
-				    out1.close();
-				    
-					
-				    ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-			         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-			         btnFoto.setIcon(iconoDefault);
-			         
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+					try {
+						String rootPicture = file.getDirectory()+file.getFile();
+						
+						File foto = new File(rootPicture);
+						File destino = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				    	
+				    	InputStream in = new FileInputStream(foto);
+						OutputStream out = new FileOutputStream(destino);
+						
+					    byte[] buf = new byte[1024];
+					    int len;
+	
+					    while ((len = in.read(buf)) > 0) {
+					    	out.write(buf, 0, len);
+					    }
+					    
+					    in.close();
+					    out.close();
+						
+						File foto1 = new File(rootPicture);
+						File destino1 = new File(System.getProperty("user.dir")+"/tmp/tmp_update/tmp.jpg");
+				    	
+				    	InputStream in1 = new FileInputStream(foto1);
+						OutputStream out1 = new FileOutputStream(destino1);
+						
+					    byte[] buf1 = new byte[1024];
+					    int len1;
+	
+					    while ((len1 = in1.read(buf1)) > 0) {
+					    	out1.write(buf1, 0, len1);
+					    }
+					    
+					    in1.close();
+					    out1.close();
+					    
+						
+					    ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+				         btnFoto.setIcon(iconoDefault);
+				         
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				
 			}else{
 				JOptionPane.showMessageDialog(null,"No ha seleccionado ninguna imagen","Aviso",JOptionPane.WARNING_MESSAGE);
 				return;
 			}
-						
 		}
-		
 	};
 	
 	ActionListener opVerificar = new ActionListener(){
@@ -730,7 +715,6 @@ public class Cat_Empleado extends JFrame{
 				if(new Obj_Empleado().nombre_disponible(nombre)){
 					btnVerificar.setBackground(Color.red);
 					
-//					txtChecador.setEditable(true);
 					txtNombre.setEditable(true);
 					txtApPaterno.setEditable(true);
 					txtApMaterno.setEditable(true);
@@ -755,14 +739,6 @@ public class Cat_Empleado extends JFrame{
         texto = texto.trim().toUpperCase();
         return texto;
     }
-	
-//	ActionListener opHorario_Turno = new ActionListener() {
-//		public void actionPerformed(ActionEvent arg0) {
-//			Obj_Turno horario = new Obj_Turno().buscar_hora(cmbTurno.getSelectedIndex());
-////			cmbTurno2.setSelectedIndex(horar)
-////			Text(horario.getHorario());
-//		}
-//	};
 	
 	ActionListener opFoto = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
@@ -865,10 +841,6 @@ public class Cat_Empleado extends JFrame{
 					if(re.getStatus_h3()==1){
 						rbHorario3.setSelected(true);
 					}
-					System.out.println(re.getStatus_h1());
-					System.out.println(re.getStatus_h2());
-					System.out.println(re.getStatus_h3());
-					
 										
 					txtHorario.setToolTipText(comboFolioHorario.getNombre());
 					txtHorario2.setToolTipText(comboFolioHorario2.getNombre());
@@ -1218,7 +1190,6 @@ public class Cat_Empleado extends JFrame{
 						empleado.setPuesto(comboFolioPues.getFolio());
 						
 //				percepciones y deducciones
-						
 						if(!txtSalarioDiario.getText().equals("")){
 							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
 						}else{

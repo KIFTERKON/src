@@ -172,8 +172,8 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
-	public boolean tabla_horario_temporado(Object[][] tabla, String fechaIn,String fechaFin){
-		String query = "exec sp_insert_horario_temporada ?,?,?,?,?,?";
+	public boolean tabla_horario_temporado(Object[][] tabla, String fechaIn,String fechaFin,String horarioTemporal){
+		String query = "exec sp_insert_horario_temporada ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {
@@ -188,6 +188,7 @@ public class GuardarTablasModel {
 				pstmt.setInt(4, Boolean.parseBoolean(tabla[i][3].toString().trim()) ? 1 : 0);
 				pstmt.setString(5, fechaIn);
 				pstmt.setString(6, fechaFin);
+				pstmt.setString(7, horarioTemporal);
 				
 				System.out.println(tabla[i][0].toString().trim());
 				System.out.println(tabla[i][1].toString().trim());
@@ -199,6 +200,44 @@ public class GuardarTablasModel {
 				pstmt.executeUpdate();
 			}
 					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean borrar_empleado_con_horario_temporal(int folio, String establecimiento,String puesto,String fecha1,String fecha2){
+		String query = "exec sp_delete_empleado_horario_temporada "+folio+",'"+establecimiento+"','"+puesto+"','"+fecha1+"','"+fecha2+"';";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+//			pstmt.setInt(1, folio);
+//			pstmt.setString(2, establecimiento);
+//			pstmt.setString(3, puesto);
+//			pstmt.setString(4, fecha1);
+//			pstmt.setString(5, fecha2);
+			
+			con.setAutoCommit(false);
+			
+			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());

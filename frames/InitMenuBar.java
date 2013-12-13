@@ -19,6 +19,7 @@ import CatalogoChecador.Cat_Dias_Inhabiles;
 import CatalogoChecador.Cat_Horario;
 import CatalogoChecador.Cat_Msj_Personal;
 import CatalogoChecador.Cat_Permisos_Checador;
+import CatalogoChecador.Cat_Reporte_Impresion_Gafetes;
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 
 import catalogos.Cat_Actividad;
@@ -61,7 +62,6 @@ import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Reporte_Cuadrantes;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
-import catalogos.Cat_Reporte_Impresion_Gafetes;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;

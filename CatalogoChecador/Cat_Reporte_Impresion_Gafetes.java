@@ -1,4 +1,4 @@
-package catalogos;
+package CatalogoChecador;
 
 import java.awt.Component;
 import java.awt.Container;

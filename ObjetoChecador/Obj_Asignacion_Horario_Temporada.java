@@ -35,7 +35,11 @@ public class Obj_Asignacion_Horario_Temporada {
 	public void setFecha_final(String fecha_final) {
 		this.fecha_final = fecha_final;
 	}
-	public boolean guardar(Object[][] tabla, String fechaIn,String fechaFin){
-		return new GuardarTablasModel().tabla_horario_temporado(tabla,fechaIn,fechaFin);
+	public boolean guardar(Object[][] tabla, String fechaIn,String fechaFin,String horarioTemporal){
+		return new GuardarTablasModel().tabla_horario_temporado(tabla,fechaIn,fechaFin,horarioTemporal);
+	}
+	
+	public boolean borrar(int folio, String establecimiento,String puesto,String fecha1,String fecha2){
+		return new GuardarTablasModel().borrar_empleado_con_horario_temporal(folio, establecimiento, puesto, fecha1, fecha2);
 	}
 }
