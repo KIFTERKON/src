@@ -84,6 +84,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import CatalogoChecador.Cat_Horario;
 import SQL.Connexion;
 
 import com.toedter.calendar.JDateChooser;
@@ -212,7 +213,7 @@ public class Cat_Empleado extends JFrame{
 	JButton btnHorario = new JButton(".");
 	JButton btnHorario2 = new JButton(".");
 	JButton btnHorario3 = new JButton(".");
-//	JButton btnQuitarHorario2 = new JButton("x");
+	JButton btnHorarioNew = new JButton("new");
 //	JButton btnQuitarHorario3 = new JButton("x");
 		
 	JButton btnFoto = new JButton();
@@ -274,6 +275,7 @@ public class Cat_Empleado extends JFrame{
 		
 		this.btnVerificar.setToolTipText("Verificar Nombre");
 		
+		this.btnHorarioNew.setToolTipText("Generar Horario");
 		this.btnHorario.setToolTipText("Asignar Horario");
 		this.btnHorario2.setToolTipText("Asignar Segundo Horario");
 		this.btnHorario3.setToolTipText("Asignar Tercer Horario");
@@ -300,7 +302,7 @@ public class Cat_Empleado extends JFrame{
 		txtHorario.setFont(new Font("ARIAL", Font.ITALIC, 9));
 		txtHorario2.setFont(new Font("ARIAL", Font.ITALIC, 9));
 		txtHorario3.setFont(new Font("ARIAL", Font.ITALIC, 9));
-
+		
 //Datos personales ----------------------------------------------------------------------------------------------------------------------------		
 		panel.add(lblDatosPersonales).setBounds(10,y-15,ancho*7-30,230);
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
@@ -370,6 +372,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(lblLaboral).setBounds(10,y+=40,ancho*7-30,195);
 		
 		panel.add(new JLabel("Horario:")).setBounds(x,y+=15,ancho,20);
+		panel.add(btnHorarioNew).setBounds(x+ancho-83,y+3,17,17);
 		panel.add(btnHorario).setBounds(x+ancho-63,y+3,17,17);
 		panel.add(lblFolioHorario1).setBounds(x+ancho-40,y+3,20,15);
 		panel.add(txtHorario).setBounds(x+ancho-20,y,ancho*2+60,20);
@@ -510,6 +513,7 @@ public class Cat_Empleado extends JFrame{
 		btnTrueFoto.addActionListener(opPresionFoto);
 		btnIncontratables.addActionListener(Reporte_de_Empleados_No_Contratables);
 		btnExaminar.addActionListener(opExaminar);
+		btnHorarioNew.addActionListener(opGenerarHorairo);
 		btnHorario.addActionListener(opFiltroHorairo);
 		btnHorario2.addActionListener(opFiltroHorairo2);
 		btnHorario3.addActionListener(opFiltroHorairo3);
@@ -1549,6 +1553,12 @@ public class Cat_Empleado extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			seleccion_de_asignacion_de_Horario1Horario2Horario3=3;
 			new Filtro_Horario_Empleado().setVisible(true);
+		}
+	};
+	
+	ActionListener opGenerarHorairo = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			new Cat_Horario().setVisible(true);
 		}
 	};
 	

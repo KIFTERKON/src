@@ -190,13 +190,6 @@ public class GuardarTablasModel {
 				pstmt.setString(6, fechaFin);
 				pstmt.setString(7, horarioTemporal);
 				
-				System.out.println(tabla[i][0].toString().trim());
-				System.out.println(tabla[i][1].toString().trim());
-				System.out.println(tabla[i][2].toString().trim());
-				System.out.println(tabla[i][3].toString().trim());
-				System.out.println(fechaIn);
-				System.out.println(fechaFin);
-				
 				pstmt.executeUpdate();
 			}
 					
@@ -228,15 +221,7 @@ public class GuardarTablasModel {
 		
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
-
-//			pstmt.setInt(1, folio);
-//			pstmt.setString(2, establecimiento);
-//			pstmt.setString(3, puesto);
-//			pstmt.setString(4, fecha1);
-//			pstmt.setString(5, fecha2);
-			
 			con.setAutoCommit(false);
-			
 			pstmt.executeUpdate();
 			con.commit();
 		} catch (Exception e) {
@@ -266,7 +251,6 @@ public class GuardarTablasModel {
 		
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
-
 			con.setAutoCommit(false);
 			
 			for(int i=0; i<tabla.length; i++){
@@ -308,7 +292,6 @@ public class GuardarTablasModel {
 		
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
-
 			con.setAutoCommit(false);
 			
 			for(int i=0; i<tabla.length; i++){

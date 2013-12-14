@@ -253,7 +253,9 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnNuevo.addActionListener(nuevo);
 		txtNombre.addKeyListener(valida);
 		
-		txtFolio.setEditable(false);
+		txtFolio.addKeyListener(action_buscar);
+		
+//		txtFolio.setEditable(false);
 		
 //		asigna el foco al JTextField deseado al arrancar la ventana
 		this.addWindowListener(new WindowAdapter() {
@@ -527,6 +529,30 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnAceptar.setEnabled(false);
 		btnEditar.setEnabled(false);
 	}
+
+//buscar horario
+	KeyListener action_buscar = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                    char caracter = e.getKeyChar();
+
+               if(((caracter < '0') ||
+                    (caracter > '9')) &&
+                    (caracter != KeyEvent.VK_BACK_SPACE)){
+                        e.consume(); 
+                }                        
+            }
+            @Override
+            public void keyPressed(KeyEvent e){
+                            
+                    if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                    	dispose();
+                    	new Cat_Horario(Integer.parseInt(txtFolio.getText())).setVisible(true);
+                    }
+            }
+            @Override
+            public void keyReleased(KeyEvent e){}
+    };
 	
 	ActionListener pintarchbRecesoEx = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
