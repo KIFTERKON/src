@@ -66,6 +66,7 @@ public class Cat_Horario extends Cat_Horario_base
 		horario1.add(btnJueves).setBounds		(20,240,90,20);
 		horario1.add(btnViernes).setBounds		(20,270,90,20);
 		horario1.add(btnSabado).setBounds		(20,300,90,20);
+		horario1.add(btnSD).setBounds			(20,340,90,20);
 		
 		horario1.add(lblLimi).setBounds(130,70,100,20);
 		horario1.add(lblTrabajo).setBounds(310+x,70,60,20);
@@ -176,11 +177,11 @@ public class Cat_Horario extends Cat_Horario_base
 		horario1.add(lblSintaxis2).setBounds(205,50,60,20);
 		horario1.add(lblSintaxis3).setBounds(260,50,250,20);
 		
-		horario1.add(btnAceptar).setBounds(20,340,80,20);
-		horario1.add(btnDeshacer).setBounds(110,340,80,20);
-		horario1.add(btnEditar).setBounds(200,340,80,20);
-		horario1.add(btnCancelar).setBounds(290,340,80,20);
-		horario1.add(lblNoDobla).setBounds(580,340,70,20);
+		horario1.add(btnAceptar).setBounds(190,340,80,20);
+		horario1.add(btnDeshacer).setBounds(285,340,80,20);
+		horario1.add(btnEditar).setBounds(380,340,80,20);
+		horario1.add(btnCancelar).setBounds(475,340,80,20);
+		horario1.add(lblNoDobla).setBounds(770,340,70,20);
 		
 		panel.add(paneles).setBounds(10,20,825,400);
 		paneles.addTab("Horario 1", horario1);
@@ -193,6 +194,7 @@ ButtonGroup botonesAgrupados = new ButtonGroup();
 		botonesAgrupados.add(btnJueves);
 		botonesAgrupados.add(btnViernes);
 		botonesAgrupados.add(btnSabado);
+		botonesAgrupados.add(btnSD);
 		
 ButtonGroup RBAgrupados = new ButtonGroup();
 		RBAgrupados.add(rbDomingo);
@@ -231,6 +233,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnJueves.addActionListener(Jueves);
 		btnViernes.addActionListener(Viernes);
 		btnSabado.addActionListener(Sabado);
+		
+		btnSD.addActionListener(SinDescanso);
 		
 //		btnTurno.setToolTipText("Agregar Segundo Horario");
 		btnCancelar.setToolTipText("Cancelar");
@@ -1420,6 +1424,20 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			}else{
 				SabadoVisible();
 				}
+		}
+	};
+	
+	ActionListener SinDescanso = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0){
+			if(btnSD.isSelected()){
+				LunesVisible();
+				MartesVisible();
+				MiercolesVisible();
+				JuevesVisible();
+				ViernesVisible();
+				SabadoVisible();
+				DomingoVisible();
+			}
 		}
 	};
 	
