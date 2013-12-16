@@ -209,8 +209,4 @@ public class Cat_Filtro_Cortes extends JFrame{
 		public void keyReleased(KeyEvent e){}
 								
 	};
-	public static void main(String [] arg){
-		new Cat_Filtro_Cortes().setVisible(true);
-	}
-	
 }

@@ -28,16 +28,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-
 import com.toedter.calendar.JDateChooser;
-
 import SQL.Connexion;
-
-
 import objetos.JTextFieldLimit;
 import objetos.Obj_Temporada;
 
@@ -434,13 +429,4 @@ public class Cat_Temporada extends JFrame{
 	    return scrol; 
 	}
 	
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Temporada().setVisible(true);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-
 }

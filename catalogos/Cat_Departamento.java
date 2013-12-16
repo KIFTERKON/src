@@ -24,7 +24,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -504,14 +503,5 @@ public class Cat_Departamento extends JFrame{
 		public void keyReleased(KeyEvent e){}
 								
 	};
-	
-	public static void main(String arg []){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Departamento().setVisible(true);
-		}catch(Exception e){
-			System.err.print("Error: "+e.getMessage());
-		}
-	}
 	
 }

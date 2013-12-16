@@ -393,7 +393,4 @@ Connexion con = new Connexion();
 		txtDescripcion.setText("");
 		chStatus.setSelected(true);
 	}
-	public static void main (String arg []){
-		new Cat_Equipo_Trabajo().setVisible(true);
-	}
 }

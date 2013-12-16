@@ -185,7 +185,4 @@ public class Filtro_Horario extends JFrame
 	    return scrol; 
 	}
 	
-	public static void main(String [] arg){
-		new Filtro_Horario().setVisible(true);
-	}
 }

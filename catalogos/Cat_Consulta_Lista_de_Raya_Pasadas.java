@@ -21,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -228,12 +227,4 @@ public class Cat_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 								
 	};
 	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Consulta_Lista_de_Raya_Pasadas().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}		
-	}
 }

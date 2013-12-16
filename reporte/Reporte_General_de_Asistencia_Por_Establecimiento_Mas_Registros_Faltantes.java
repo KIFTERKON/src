@@ -37,11 +37,5 @@ public class Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Fal
 				System.out.println(e.getMessage());
 			}
 		}
-
 	
-	public static void main(String[] args) {
-	
-
-	}
-
 }

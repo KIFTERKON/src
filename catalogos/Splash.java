@@ -3,15 +3,11 @@ package catalogos;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
-import java.lang.reflect.Method;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 
 import frames.Main;
 
@@ -132,30 +128,5 @@ public class Splash extends JFrame{
 				}
 			}
 		}
-	//declaramos un main con el que va a iniciar nuestra ventana
-	public static void main(String[]a)
-	{
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try{
-					UIManager.setLookAndFeel(
-							UIManager.getSystemLookAndFeelClassName());
-				}catch(Exception e){}
-				
-				Splash thisClass = new Splash();
-				thisClass.setVisible(true);
 
-				//utilizacion del AWTUtilities con el metodo opaque
-				try {
-					   @SuppressWarnings("rawtypes")
-					Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-					   @SuppressWarnings("unchecked")
-					Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-					   method.invoke(clazz,thisClass , false);
-					   } catch (Exception e) 
-					   { }	
-				}
-			}
-		);
-	}
 }

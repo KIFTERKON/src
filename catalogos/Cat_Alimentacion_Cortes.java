@@ -17,8 +17,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import java.lang.reflect.Method;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,7 +42,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -1700,25 +1697,4 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 
 	}
 	
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	public static void main (String [] arg){
-		try{
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-		}catch(Exception e){}
-		
-		Cat_Filtro_Cortes thisClass = new Cat_Filtro_Cortes();
-		thisClass.setVisible(true);
-
-		//utilizacion del AWTUtilities con el metodo opaque
-		try {
-			   @SuppressWarnings("rawtypes")
-			Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-			   @SuppressWarnings("unchecked")
-			Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-			   method.invoke(clazz,thisClass , false);
-			   } catch (Exception e) 
-			   { }	
-	}
 }

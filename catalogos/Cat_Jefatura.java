@@ -385,7 +385,4 @@ public class Cat_Jefatura extends JFrame{
 		txtNombre.setText("");
 		chStatus.setSelected(true);
 	}
-	public static void main (String arg []){
-		new Cat_Jefatura().setVisible(true);
-	}
 }

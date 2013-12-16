@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Usuario;
@@ -64,8 +63,8 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 				
 				if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe(Integer.parseInt(txtFolio.getText())) == true){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-						actividad.setActividad(txaActividad.getText());
-						actividad.setDescripcion(txaDescripcion.getText());
+						actividad.setActividad(procesa_texto(txaActividad.getText()));
+						actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
 
 						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 						actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
@@ -87,8 +86,8 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 						return;
 					}
 				}else{
-					actividad.setActividad(txaActividad.getText());
-					actividad.setDescripcion(txaDescripcion.getText());
+					actividad.setActividad(procesa_texto(txaActividad.getText()));
+					actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
 
 					actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 					actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
@@ -292,12 +291,4 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 		
 	}
 	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Actividad_Asignadas_Nivel_Jerarquico().setVisible(true);
-		}catch(Exception e){
-			System.err.println("Error: "+ e.getMessage());
-		}
-	}
 }

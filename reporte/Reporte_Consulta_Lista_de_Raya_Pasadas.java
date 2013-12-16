@@ -3,11 +3,7 @@ package reporte;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-
 import SQL.Connexion;
-
-
 
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -33,17 +29,6 @@ public class Reporte_Consulta_Lista_de_Raya_Pasadas extends JFrame {
 				System.out.println(e.getMessage());
 			}
 		}
-
-		public static void main(String args[]){
-			try{
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				new Reporte_Consulta_Lista_de_Raya_Pasadas();
-			}catch(Exception e){
-				
-			}
-			
-		}
-	
 
 	}
 

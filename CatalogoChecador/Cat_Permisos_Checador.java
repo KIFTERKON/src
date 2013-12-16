@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,7 +34,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -478,26 +476,6 @@ public class Cat_Permisos_Checador extends JFrame {
  	            e2.printStackTrace();
  	         }
  	      }
-	}
-	
-	public static void main (String [] arg){
-		try{
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-		}catch(Exception e){}
-		
-		Cat_Permisos_Checador thisClass = new Cat_Permisos_Checador();
-		thisClass.setVisible(true);
-
-		//utilizacion del AWTUtilities con el metodo opaque
-		try {
-			   @SuppressWarnings("rawtypes")
-			Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-			   @SuppressWarnings("unchecked")
-			Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-			   method.invoke(clazz,thisClass , false);
-			   } catch (Exception e) 
-			   { }	
 	}
 	
 //Filtro Permisos Asignados

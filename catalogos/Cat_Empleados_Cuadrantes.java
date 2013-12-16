@@ -28,7 +28,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -1250,14 +1249,6 @@ public class Cat_Empleados_Cuadrantes extends JFrame {
 		    }
 	}
 	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Empleados_Cuadrantes().setVisible(true);
-		}catch(Exception e){
-			System.out.println(e);
-		}
-	}
 }
 
 

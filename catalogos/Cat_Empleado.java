@@ -76,7 +76,6 @@ import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -1625,15 +1624,6 @@ public class Cat_Empleado extends JFrame{
 		if(fechaIngresoNull.equals("null"))error += "Fecha de ingreso\n";
 		
 		return error;
-	}
-	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Empleado().setVisible(true);
-		}catch(Exception e){
-			
-		}
 	}
 	
 	public class MainCamara extends javax.swing.JFrame {

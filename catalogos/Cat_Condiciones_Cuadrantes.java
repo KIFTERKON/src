@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,7 +29,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -142,29 +140,7 @@ public class Cat_Condiciones_Cuadrantes extends JFrame {
 			}
 	};
 
-	public static void main (String [] arg){
-		try{
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-		}catch(Exception e){}
-		
-		Cat_Condiciones_Cuadrantes thisClass = new Cat_Condiciones_Cuadrantes();
-		thisClass.setVisible(true);
-
-		//utilizacion del AWTUtilities con el metodo opaque
-		try {
-			   @SuppressWarnings("rawtypes")
-			Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-			   @SuppressWarnings("unchecked")
-			Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-			   method.invoke(clazz,thisClass , false);
-			   } catch (Exception e) 
-			   { }	
-	}
-	
-	
-	
- 	public class Cat_Filtro_Empleados_Con_Cuadrante extends JDialog {
+	public class Cat_Filtro_Empleados_Con_Cuadrante extends JDialog {
 		
 		Container cont = getContentPane();
 		JLayeredPane campo = new JLayeredPane();

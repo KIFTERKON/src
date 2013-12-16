@@ -16,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-
 import objetos.Obj_Asistencia_Puntualidad;
 
 @SuppressWarnings("serial")
@@ -185,13 +183,4 @@ public class Cat_Asistencia_Puntualidad extends JFrame {
 								
 	};
 	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Asistencia_Puntualidad().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	}
 }

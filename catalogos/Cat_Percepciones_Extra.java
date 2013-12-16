@@ -20,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -436,16 +435,4 @@ public class Cat_Percepciones_Extra extends Cat_Root {
 		}
 	};
 	
-		
-	 
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Percepciones_Extra().setVisible(true);
-		}catch(Exception e){
-			System.out.println(e);
-		}
-	}
-
-
 }

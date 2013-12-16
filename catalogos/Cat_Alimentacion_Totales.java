@@ -13,7 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -222,15 +221,4 @@ public class Cat_Alimentacion_Totales extends Cat_Root {
     		return false;
     	}
     }
-    
-
-	public static void main(String[] args) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Alimentacion_Totales().setVisible(true);
-		}catch(Exception e){
-			
-		}
-	}
-
 }

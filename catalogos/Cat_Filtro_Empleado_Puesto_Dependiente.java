@@ -23,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -232,12 +231,4 @@ public class Cat_Filtro_Empleado_Puesto_Dependiente extends JFrame {
 	     return texto;
 	}
  	
- 	public static void main(String[] args){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Filtro_Empleado_Puesto_Dependiente().setVisible(true);
-		}catch(Exception e){
-			System.err.println("Exception "+ e.getMessage());
-		}
-	}
 }

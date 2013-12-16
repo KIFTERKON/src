@@ -25,7 +25,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.RowFilter;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -623,15 +622,6 @@ public class Cat_Usuario extends JFrame{
 			}
 		}
 	};
-	
-	public static void main(String args[]){
-		try	{  
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Usuario().setVisible(true);
-		} catch (Exception e){
-		   e.printStackTrace();
-		}
-	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Vector vectorComponentes(JTree tree) {

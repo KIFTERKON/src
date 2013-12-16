@@ -207,8 +207,5 @@ public class Cat_Lista_Pago extends JFrame {
 		public void keyReleased(KeyEvent e){}
 								
 	};
-	public static void main (String arg [])
-	{
-		new Cat_Lista_Pago().setVisible(true);
-	}
+
 }

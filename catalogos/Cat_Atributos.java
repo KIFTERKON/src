@@ -446,7 +446,4 @@ Connexion con = new Connexion();
 		txtValor.setText("");
 		chStatus.setSelected(true);
 	}
-	public static void main (String arg []){
-		new Cat_Atributos().setVisible(true);
-	}
 }

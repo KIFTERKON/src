@@ -69,8 +69,4 @@ public class Cat_Reloj{
 		}
 	}
 	
-	public static void main(String args[]){
-		new Cat_Reloj();
-	}
-	
 }

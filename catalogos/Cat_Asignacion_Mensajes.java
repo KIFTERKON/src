@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Asignacion_Mensajes;
@@ -573,14 +572,4 @@ public class Cat_Asignacion_Mensajes extends JFrame
 			
 		}
 	};
-	
-	public static void main(String[]a)
-	{
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Asignacion_Mensajes().setVisible(true);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-	}
 }

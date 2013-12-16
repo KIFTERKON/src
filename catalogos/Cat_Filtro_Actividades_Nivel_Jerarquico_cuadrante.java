@@ -8,9 +8,6 @@ import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 @SuppressWarnings("serial")
 public class Cat_Filtro_Actividades_Nivel_Jerarquico_cuadrante extends Cat_Filtro_Actividades {
 	
-	public static void main(String args[]){
-		new Cat_Filtro_Actividades_Nivel_Jerarquico_cuadrante().setVisible(true);
-	}
 	public Cat_Filtro_Actividades_Nivel_Jerarquico_cuadrante(){
 		while(tabla.getRowCount() >0)
 			this.tabla_model.removeRow(0);

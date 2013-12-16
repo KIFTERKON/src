@@ -21,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -239,13 +238,4 @@ public class Cat_Filtro_Empleado_Directorio extends JFrame {
 								
 	};
 	
-	public static void main(String[]a)
-	{
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		new Cat_Filtro_Empleado_Directorio().setVisible(true);
-	}
 }

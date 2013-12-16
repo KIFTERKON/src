@@ -294,15 +294,6 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 			
 		}
 		
-		public static void main(String[] args) {
-			new Cat_Impresion_de_Cuadrantes().setVisible(true);
-
-		}
-
-	
-
-	
-	
-		}
+}
 
 	

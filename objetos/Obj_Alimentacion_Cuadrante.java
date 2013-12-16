@@ -132,6 +132,10 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple_capturada(nombre);
 	}
 	
+	public String[][] buscarTablaMultipleCapturadaJerarquico(String nombre){
+		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple_capturada_jerarquica(nombre);
+	}
+	
 	public String[][] buscarTablaPrimeraParte(String nombre){
 		return new BuscarSQL().tabla_alimentacion_cuadrante_primera_parte(nombre);
 	}
@@ -149,14 +153,8 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().Existe_Cuadrante_Muliple(nombre);		
 	}
 	
-	public boolean guardar(Object[][] multiple){
-		return new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple);
-//		if(new GuardarSQL().guardarAlimentacionCuadrante(this)){
-//			new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple,this);
-//			return true;
-//		}else{
-//			return false;
-//		}
+	public boolean guardar(Object[][] multiple, Object[][] multiple_proyecto){
+		return new GuardarTablasModel().Alimentacion_cuadrante_multiple(multiple, multiple_proyecto);
 	}
 	
 	public boolean terminar_captura(String nombre){
