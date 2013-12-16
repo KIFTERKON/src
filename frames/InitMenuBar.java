@@ -14,11 +14,13 @@ import javax.swing.JTabbedPane;
 
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
+import CatalogoChecador.Cat_Asignacion_Horario_Temporada;
 import CatalogoChecador.Cat_Checador;
 import CatalogoChecador.Cat_Dias_Inhabiles;
 import CatalogoChecador.Cat_Horario;
 import CatalogoChecador.Cat_Msj_Personal;
 import CatalogoChecador.Cat_Permisos_Checador;
+import CatalogoChecador.Cat_Reporte_Impresion_Gafetes;
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 
 import catalogos.Cat_Actividad;
@@ -61,7 +63,6 @@ import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Reporte_Cuadrantes;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
-import catalogos.Cat_Reporte_Impresion_Gafetes;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;
@@ -169,6 +170,7 @@ public class InitMenuBar extends Init{
 			JMenuItem Comparaciones_Listas_Raya = new JMenuItem("Lista de Raya", new ImageIcon("Iconos/list_bullets_icon&16.png"));
 	    /* CHECADOR */
 		JMenu Checador = new JMenu("Checador");	
+		    JMenuItem Asignacion_Horario_Temporada = new JMenuItem("Asignacion de Horario de Temporada"); 		
 	       	JMenuItem Checador_Menu = new JMenuItem("Checador");
 	       	JMenuItem Dias_Inhabiles = new JMenuItem("Dias Inhabiles");
 	       	JMenuItem Generacion_Gafetes_Empleados = new JMenuItem("Generacion de Gafetes de Empleados");
@@ -176,7 +178,9 @@ public class InitMenuBar extends Init{
 	       	JMenuItem Mensajes_Personales = new JMenuItem("Mensajes Personales a Empleados");
 	       	JMenuItem Permisos_Empleados = new JMenuItem("Permisos a Empleados");
 	       	JMenu Reportes_Checador = new JMenu("Reportes");
-	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia");           
+	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia"); 
+	         	
+	         	
 	    /* LISTA DE RAYA CORTES */
 		JMenu Departamento_Cortes = new JMenu("Departamento de Cortes");
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
@@ -291,7 +295,7 @@ public class InitMenuBar extends Init{
 		Cuadrantes.add(Cuadrantes_Alimentacion);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Actividades_Cuadrantes);
 				Cuadrantes_Alimentacion_Actividades_Cuadrantes.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
+				Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(false);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Cuadrante);
 				Cuadrantes_Alimentacion_Cuadrante.addActionListener(Opciones);
 				Cuadrantes_Alimentacion_Cuadrante.setEnabled(false);
@@ -300,7 +304,7 @@ public class InitMenuBar extends Init{
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico);
 				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(true);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(false);
 				
 		/* CUADRANTES 
 		*		CATALOGO */
@@ -398,6 +402,9 @@ public class InitMenuBar extends Init{
 		/* LISTA DE RAYA 
 		* 		CHECADOR */
 		Lista_Raya.add(Checador);
+		     Checador.add(Asignacion_Horario_Temporada);
+		                 Asignacion_Horario_Temporada.addActionListener(Opciones);	
+		                 Asignacion_Horario_Temporada.setEnabled(false);
 	         Checador.add(Checador_Menu);
 			               Checador_Menu.addActionListener(Opciones);
 	         Checador.add(Dias_Inhabiles);
@@ -622,6 +629,8 @@ public class InitMenuBar extends Init{
 				new Cat_Revision_Lista_Raya().setVisible(true);
 			/* LISTA DE RAYA 
 			 * 		CHECADOR */
+			if(e.getActionCommand().equals("Asignacion de Horario de Temporada"))
+				new Cat_Asignacion_Horario_Temporada().setVisible(true);
 			if(e.getActionCommand().equals("Checador"))
 				new Cat_Checador().setVisible(true);
 			if(e.getActionCommand().equals("Dias Inhabiles"))

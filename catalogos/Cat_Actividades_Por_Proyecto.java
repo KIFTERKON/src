@@ -13,7 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -177,11 +179,13 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     	
     	KeyListener op_key_buscar = new KeyListener() {
     		public void keyTyped(KeyEvent e) {
+    			
     		}
     		public void keyReleased(KeyEvent e) {
     			btnBuscar.doClick();
     		}
     		public void keyPressed(KeyEvent e) {
+    			
     		}
     	};
     	
@@ -229,6 +233,9 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 				if(table.getRowCount()>0){
 					
 					if(table.isRowSelected(table.getSelectedRow())){
+						
+						System.out.println(table.getSelectedRow());
+						
 							tabla_model.removeRow(table.getSelectedRow());
 							new Cat_Filtro_Actividades().porcentajeDefault();
 					}else{
@@ -339,6 +346,15 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
 							txaDescripcion.setText(proyecto.getDescripcion());
 							cmbNivelCritico.setSelectedItem(proyecto.getNivel_critico());
 							chbStatus.setSelected(proyecto.getStatus() == 1 ? true : false);
+							
+							try {
+								Date date_fechainicial = new SimpleDateFormat("dd/MM/yyyy").parse(proyecto.getFecha_inicial());
+								Date date_fechafinal = new SimpleDateFormat("dd/MM/yyyy").parse(proyecto.getFecha_final());
+								txtFechaInicial.setDate(date_fechainicial);
+								txtFechaFinal.setDate(date_fechafinal);
+							} catch (ParseException e1) {
+								e1.printStackTrace();
+							}
 							
 							enablesTodos(false);
 							btnEditar.setEnabled(true);

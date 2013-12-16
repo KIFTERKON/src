@@ -70,7 +70,7 @@ public class GuardarSQL {
 	
 				
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -140,6 +140,9 @@ public class GuardarSQL {
 			pstmt.setString(i+=1, 	empleado.getObservasiones().toUpperCase());
 			
 			pstmt.setString(i+=1, 	empleado.getFecha_actualizacion().toUpperCase());
+			
+			pstmt.setInt(i+=1, empleado.getHorario3());
+			pstmt.setInt(i+=1, empleado.getStatus_h3());
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -2571,17 +2574,14 @@ public boolean Guardar_Horario(ObjHorario horario){
 				con.setAutoCommit(false);
 				pstmt = con.prepareStatement(query);
 				
-				pstmt.setString(1,sodas.getNombre_cajera());
-				pstmt.setInt(2, sodas.getNo_cliente());
+				String pc_nombre =	InetAddress.getLocalHost().getHostName();
+//				String pc_ip = 		InetAddress.getLocalHost().getHostAddress();
+				
+				pstmt.setString(1,sodas.getUsuario());
+				pstmt.setInt(2, sodas.getEmpleado());
 				pstmt.setString(3,sodas.getTicket());
 				pstmt.setDouble(4,sodas.getImporte());
-				pstmt.setString(5, sodas.getNombre_cliente());
-				pstmt.setString(6,sodas.getEstablecimiento_cliente());
-				pstmt.setString(7, sodas.getPuesto_cliente());
-				
-				FileInputStream stream_foto = new FileInputStream(sodas.getFoto());
-				pstmt.setBinaryStream(8, stream_foto, sodas.getFoto().length());
-				
+				pstmt.setString(5, pc_nombre);
 				
 				pstmt.executeUpdate();
 				con.commit();

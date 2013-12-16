@@ -54,7 +54,8 @@ import objetos.Obj_Puesto;
 
 @SuppressWarnings("serial")
 public class Cat_Checador extends JFrame {
-        
+	// DECLARAMOS EL OBJETO RUNTIME PARA EJECUTAR APLICACIONES
+	Runtime R = Runtime.getRuntime();
         Container cont = getContentPane();
         JLayeredPane panel = new JLayeredPane();
         
@@ -363,8 +364,11 @@ public class Cat_Checador extends JFrame {
                 lblCerrar.addMouseListener ( new  MouseAdapter (){
                         public void mouseReleased (MouseEvent e){
                              dispose();
+                 			try {
+                				R.exec("taskkill /f /im javaw.exe");
+                			} catch (Exception e2){}
                         }  
-                });  
+                                        });  
         }
         
         @SuppressWarnings("rawtypes")
@@ -549,6 +553,20 @@ public class Cat_Checador extends JFrame {
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
                                                                                                         break;
+                                                                                 case 6: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+
+                                                                                                          registrarEntrada();
+                                                                                                   }else{
+                                                                                                           JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                                                           txtFolio.setEditable(true);
+                                                                                                           txtFolio.setText("");
+                                                                                                           txtClaveReal.setText("");
+                                                                                                           txtClaveReal.setEditable(false);
+                                                                                                           txtFolio.requestFocus();
+                                                                     }
+                                                                             break;
+                                                                                                        
+                                                                                                        
                                                                         };
                                                         }                        
                                         }                

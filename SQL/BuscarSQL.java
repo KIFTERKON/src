@@ -50,6 +50,7 @@ import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Gen_Code_Bar;
+import objetos.Obj_Horario_Empleado3;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
@@ -1040,6 +1041,9 @@ public class BuscarSQL {
 				empleado.setObservasiones(rs.getString("observaciones"));
 				empleado.setFecha_actualizacion(rs.getString("fecha_actualizacion"));
 				
+				empleado.setHorario3(rs.getInt("horario3"));
+				empleado.setStatus_h3(rs.getInt("status_h3"));
+				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);
 				
@@ -1757,6 +1761,30 @@ public class BuscarSQL {
 		return turno2;
 	}
 	
+	public Obj_Horario_Empleado3 Turn_buscar3(String nombre) throws SQLException{
+		Obj_Horario_Empleado3 turno3 = new Obj_Horario_Empleado3();
+		String query = "exec sp_select_horario_desc_dobla '"+nombre+"'";
+		
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno3.setFolio(rs.getInt("folio"));
+				turno3.setDescanso(rs.getString("descanso"));
+				turno3.setDobla(rs.getString("dobla"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno3;
+	}
+	
 	public Obj_Establecimiento Establ_buscar_folio(int folio) throws SQLException{
 		Obj_Establecimiento estab = new Obj_Establecimiento();
 		String query = "select nombre from tb_establecimiento where folio="+folio;
@@ -1843,7 +1871,7 @@ public class BuscarSQL {
 	
 	public Obj_Horario_Empleado Turn_buscar(int folio) throws SQLException{
 		Obj_Horario_Empleado turno = new Obj_Horario_Empleado();
-		String query = "select nombre from tb_horarios where folio="+folio;
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -1864,7 +1892,7 @@ public class BuscarSQL {
 	
 	public Obj_Horario_Empleado2 Turn_buscar2(int folio) throws SQLException{
 		Obj_Horario_Empleado2 turno2 = new Obj_Horario_Empleado2();
-		String query = "select nombre from tb_horarios where folio="+folio;
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -1881,7 +1909,28 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return turno2;
-	}	
+	}
+	
+	public Obj_Horario_Empleado3 Turn_buscar3(int folio) throws SQLException{
+		Obj_Horario_Empleado3 turno3 = new Obj_Horario_Empleado3();
+		String query = "select tb_horarios.nombre from tb_horarios where folio="+folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				turno3.setNombre(rs.getString("nombre"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return turno3;
+	}
 	
 //	public Obj_Revision_Lista_Raya Lista_buscar_folio(int folio) throws SQLException{
 //		Obj_Revision_Lista_Raya lista = new Obj_Revision_Lista_Raya();
@@ -2906,6 +2955,8 @@ public class BuscarSQL {
 				proyect.setDescripcion(rs.getString(2));
 				proyect.setNivel_critico(rs.getString(3));
 				proyect.setStatus(rs.getInt(4));
+				proyect.setFecha_inicial(rs.getString(5));
+				proyect.setFecha_final(rs.getString(6));
 				
 			}
 			
@@ -4242,15 +4293,15 @@ public class BuscarSQL {
 //						lblEstablecimiento_empleado.setText(soda.getEstablecimiento_cliente()+"");
 //						lblpuesto_empleado.setText(soda.getPuesto_cliente()+"");
 						
-						sodas.setNombre_cajera(rs.getString("nombre_empleado"));
-						sodas.setNo_cliente(rs.getInt("no_cliente"));
-						sodas.setTicket(rs.getString("ticket"));
-						sodas.setImporte(rs.getInt("importe"));
-						
-						sodas.setNombre_cliente(rs.getString("nombre_cliente"));
-						sodas.setEstablecimiento_cliente(rs.getString("establecimiento_cliente"));
-						sodas.setPuesto_cliente(rs.getString("puesto_cliente"));
-						
+//						sodas.setNombre_cajera(rs.getString("nombre_empleado"));
+//						sodas.setNo_cliente(rs.getInt("no_cliente"));
+//						sodas.setTicket(rs.getString("ticket"));
+//						sodas.setImporte(rs.getInt("importe"));
+//						
+//						sodas.setNombre_cliente(rs.getString("nombre_cliente"));
+//						sodas.setEstablecimiento_cliente(rs.getString("establecimiento_cliente"));
+//						sodas.setPuesto_cliente(rs.getString("puesto_cliente"));
+//						
 						File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 						FileOutputStream fos = new FileOutputStream(photo);
 						

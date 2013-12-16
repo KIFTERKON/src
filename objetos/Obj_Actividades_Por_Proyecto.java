@@ -113,7 +113,6 @@ public class Obj_Actividades_Por_Proyecto {
 		}else{
 			return false;
 		}
-	
 	}
 	
 	public Obj_Actividades_Por_Proyecto buscarProyectoCuadrante(int folio){
