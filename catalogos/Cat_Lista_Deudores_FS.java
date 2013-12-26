@@ -126,9 +126,6 @@ public class Cat_Lista_Deudores_FS extends JFrame {
 		tabla.setAutoResizeMode ( JTable.AUTO_RESIZE_OFF );
 	    return scrol; 
 	}
-	public static void main(String args[]){
-		new Cat_Lista_Deudores_FS().setVisible(true);
-	}
 	public void Columnas(){
 		
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();

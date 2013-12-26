@@ -22,7 +22,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -42,7 +41,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -90,7 +88,6 @@ public class Cat_Checador extends JFrame {
                                         case 2  : return false; 
                                         case 3  : return false; 
                                         case 4  : return false; 
-                                        
                                         case 5  : return false;
                                         case 6  : return false; 
                                         case 7  : return false; 
@@ -1007,27 +1004,6 @@ public class Cat_Checador extends JFrame {
                         this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
                 }
     }
-        
-        public static void main (String [] arg){
-                try{
-                        UIManager.setLookAndFeel(
-                                        UIManager.getSystemLookAndFeelClassName());
-                }catch(Exception e){}
-                
-                Cat_Checador thisClass = new Cat_Checador();
-                thisClass.setVisible(true);
-
-                //utilizacion del AWTUtilities con el metodo opaque
-                try {
-                           @SuppressWarnings("rawtypes")
-                        Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-                           @SuppressWarnings("unchecked")
-                        Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-                           method.invoke(clazz,thisClass , false);
-                           } catch (Exception e) 
-                           { }        
-        }
-
         
         public static void refresh(int folio_empleado,String tipo_entrada,int tipo_salida_comer) {
             fila2(folio_empleado,tipo_entrada,tipo_salida_comer);

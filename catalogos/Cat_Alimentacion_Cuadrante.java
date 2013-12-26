@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
@@ -29,7 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
 import SQL.Connexion;
@@ -53,7 +51,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	JButton btnGuardarMultipleConts = new JButton("Guardar");
 	JButton btnEditarMultipleConts = new JButton("Editar");
 	
-
 	/* OPCION MEDIA MULTIPLE JERARQUICA */
 	Cat_Plantilla_Tabla_Cuadrante plantillaMultipleJerarquica = new Cat_Plantilla_Tabla_Cuadrante();
 	Cat_Plantilla_Tabla_Cuadrante plantillaMultipleJerarquicaConts = new Cat_Plantilla_Tabla_Cuadrante();
@@ -65,7 +62,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	/* OPCION LIBRE */
 	Cat_Plantilla_Tabla_Cuadrante plantillaLibreJerarquica = new Cat_Plantilla_Tabla_Cuadrante();
 	Cat_Plantilla_Tabla_Cuadrante plantillaLibre = new Cat_Plantilla_Tabla_Cuadrante();
-	
 	
 	JTextField txtNombre_Completo 	= new JTextField();
 	JTextField txtPuesto 			= new JTextField();
@@ -88,10 +84,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	JLayeredPane panelLibre    = new JLayeredPane();
 	JLayeredPane panelLibreContes = new JLayeredPane();
 	
-	
 	JTabbedPane paneles = new JTabbedPane();
 	
-	public Cat_Alimentacion_Cuadrante(String Nombre_Usuario)	{
+	public Cat_Alimentacion_Cuadrante(String Nombre_Usuario) {
 		NOMBRECOMPLETO = Nombre_Usuario;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_captura_icon&16.png"));
 		this.setTitle("Alimentación de Cuadrante");
@@ -200,13 +195,14 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	};
 	
 	public void init_tabla_multiple_conts(){
+		this.plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.setEnabled(false);
 		this.plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(false);
 		this.btnGuardarMultipleConts.setEnabled(false);
-		
 	}
 	
 	ActionListener op_editar_multiple_conts = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.setEnabled(true);
 			plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(true);
 			btnGuardarMultipleConts.setEnabled(true);
 		}
@@ -238,7 +234,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			lblCuadranteLleno.setVisible(true);
 			
 		}else{
-			
 			String[][] info_tabla_multiple_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleJerarquico(NOMBRECOMPLETO);
 	    	
 			String [] fila_multiple_jerarquico = new String[4];
@@ -281,6 +276,26 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				fila_multiple[3]= "   ";
 				
 				plantillaMultiple.modelPlantillaMultiple.addRow(fila_multiple);
+			}
+			
+			String[][] info_tabla_multiple_capturada_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleCapturadaJerarquico(NOMBRECOMPLETO);
+			String [] fila_multiple_capturada_jerarquico = new String[6];
+			List<String[]> listaCapturadaJerarquico = new ArrayList<String[]>();			
+			
+			for(int i=0; i<info_tabla_multiple_capturada_jerarquico.length; i++){
+			    
+				listaCapturadaJerarquico.add(new Obj_Alimentacion_Cuadrante().ComboBox(Integer.parseInt(info_tabla_multiple_capturada_jerarquico[i][0].toString())));
+	            	            
+	            TableColumn col = plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getColumnModel().getColumn(2);
+	            
+	            col.setCellEditor(new MyComboEditor(listaCapturadaJerarquico));
+	            
+	            fila_multiple_capturada_jerarquico[0]= info_tabla_multiple_capturada_jerarquico[i][1]+"  ";
+	            fila_multiple_capturada_jerarquico[1]= "   "+info_tabla_multiple_capturada_jerarquico[i][2];
+	            fila_multiple_capturada_jerarquico[2]= "   "+info_tabla_multiple_capturada_jerarquico[i][3];
+	            fila_multiple_capturada_jerarquico[3]= "   "+info_tabla_multiple_capturada_jerarquico[i][4];
+				
+	            plantillaMultipleJerarquicaConts.modelPlantillaMultiple.addRow(fila_multiple_capturada_jerarquico);
 			}
 			
 			String[][] info_tabla_multiple_capturada = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleCapturada(NOMBRECOMPLETO);
@@ -360,9 +375,15 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			if(plantillaMultiple.tablaPlantillaMultiple.isEditing())
 				plantillaMultiple.tablaPlantillaMultiple.getCellEditor().stopCellEditing();
+			if(plantillaMultipleJerarquica.tablaPlantillaMultiple.isEditing())
+				plantillaMultipleJerarquica.tablaPlantillaMultiple.getCellEditor().stopCellEditing();
 			
-			if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple())){
+			if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple(), tabla_multiple_jerarquico())){
 				JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				while(plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount() > 0)
+					plantillaMultipleJerarquica.modelPlantillaMultiple.removeRow(0);
+				while(plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount() > 0)
+					plantillaMultipleJerarquicaConts.modelPlantillaMultiple.removeRow(0);
 				while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
 					plantillaMultiple.modelPlantillaMultiple.removeRow(0);
 				while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0)
@@ -377,13 +398,15 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	};
 	
 	ActionListener op_guardar_multiple_conts = new ActionListener() {
-		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			if(plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.isEditing())
+				plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getCellEditor().stopCellEditing();
 			if(plantillaMultipleContestada.tablaPlantillaMultiple.isEditing())
 				plantillaMultipleContestada.tablaPlantillaMultiple.getCellEditor().stopCellEditing();
 		
-			if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple_conts())){
+			if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple_conts(), tabla_multiple_jerarquico_const())){
 				plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(false);
+				plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.setEnabled(false);
 				btnGuardarMultipleConts.setEnabled(false);
 				JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
 				return;
@@ -391,8 +414,32 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			
 		}
 	};
+	
+	public Object[][] tabla_multiple_jerarquico(){
+		Object[][] multiple = new Object[plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount()][11];
+		try{
+			String HOST  = InetAddress.getLocalHost().getHostName();
+			String IP = InetAddress.getLocalHost().getHostAddress();
+			for(int i=0; i<plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount(); i++){
+				multiple[i][0] = txtCuadrante.getText().toString().trim();
+				multiple[i][1] = txtNombre_Completo.getText().toString().trim();
+				multiple[i][2] = txtEstablecimiento.getText().toString().trim();
+				multiple[i][3] = txtPuesto.getText().toString().trim();
+				multiple[i][4] = HOST; 
+				multiple[i][5] = IP;
+				multiple[i][6] = plantillaMultipleJerarquica.modelPlantillaMultiple.getValueAt(i,0).toString().trim();
+				multiple[i][7] = plantillaMultipleJerarquica.modelPlantillaMultiple.getValueAt(i,1).toString().trim();
+				multiple[i][8] = plantillaMultipleJerarquica.modelPlantillaMultiple.getValueAt(i,2).toString().trim();
+				multiple[i][9] = plantillaMultipleJerarquica.modelPlantillaMultiple.getValueAt(i,3).toString().trim();
+			}
+		}catch(UnknownHostException e){
+			e.printStackTrace();
+		}
+		return multiple;
+	}
 	
 	public Object[][] tabla_multiple(){
 		Object[][] multiple = new Object[plantillaMultiple.tablaPlantillaMultiple.getRowCount()][12];
@@ -414,6 +461,29 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				
 			}
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return multiple;
+	}
+	
+	public Object[][] tabla_multiple_jerarquico_const(){
+		Object[][] multiple = new Object[plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount()][11];
+		try{
+			String HOST  = InetAddress.getLocalHost().getHostName();
+			String IP = InetAddress.getLocalHost().getHostAddress();
+			for(int i=0; i<plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount(); i++){
+				multiple[i][0] = txtCuadrante.getText().toString().trim();
+				multiple[i][1] = txtNombre_Completo.getText().toString().trim();
+				multiple[i][2] = txtEstablecimiento.getText().toString().trim();
+				multiple[i][3] = txtPuesto.getText().toString().trim();
+				multiple[i][4] = HOST; 
+				multiple[i][5] = IP;
+				multiple[i][6] = plantillaMultipleJerarquicaConts.modelPlantillaMultiple.getValueAt(i,0).toString().trim();
+				multiple[i][7] = plantillaMultipleJerarquicaConts.modelPlantillaMultiple.getValueAt(i,1).toString().trim();
+				multiple[i][8] = plantillaMultipleJerarquicaConts.modelPlantillaMultiple.getValueAt(i,2).toString().trim();
+				multiple[i][9] = plantillaMultipleJerarquicaConts.modelPlantillaMultiple.getValueAt(i,3).toString().trim();
+			}
+		}catch(UnknownHostException e){
 			e.printStackTrace();
 		}
 		return multiple;
@@ -503,25 +573,4 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			dispose();
 		}
 	};
-	
-	public static void main (String [] arg){
-		try{        
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-		}catch(Exception e){}
-		
-		Cat_Alimentacion_Cuadrante thisClass = new Cat_Alimentacion_Cuadrante("VALENTIN VILLEGAS PALAZUELOS");
-		thisClass.setVisible(true);
-
-		//utilizacion del AWTUtilities con el metodo opaque
-		try {
-			   @SuppressWarnings("rawtypes")
-			Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-			   @SuppressWarnings("unchecked")
-			Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-			   method.invoke(clazz,thisClass , false);
-			   } catch (Exception e) 
-			   { }	
-	}
-	
 }

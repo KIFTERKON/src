@@ -434,7 +434,4 @@ Connexion con = new Connexion();
 		txtValorD.setText("");
 		cmbMoneda.setSelectedIndex(0);
 	}
-	public static void main (String [] arg){
-		new Cat_Denominaciones().setVisible(true);
-	}
 }

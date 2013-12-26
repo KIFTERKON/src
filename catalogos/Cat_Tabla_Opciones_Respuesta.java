@@ -20,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -362,12 +361,4 @@ public class Cat_Tabla_Opciones_Respuesta extends JFrame {
 		}
 	};
 	
-	public static void main(String[]a) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Tabla_Opciones_Respuesta().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}	
-	}
 }

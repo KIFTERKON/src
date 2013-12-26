@@ -121,8 +121,5 @@ public class MainCamara extends javax.swing.JFrame {
     private void infoDispositivo() {
         txtInfo.setText(misDispositivos.verInfoDispositivos());
     }
-    public static void main(String[]a){
-    	new MainCamara("").setVisible(true);
-    }
 
 }

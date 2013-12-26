@@ -40,10 +40,4 @@ public class Reporte_de_Permisos_a_Empleados extends JFrame {
 			}
 		}
 
-	
-	public static void main(String[] args) {
-	
-
-	}
-
 }

@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Cuadrante;
@@ -1443,14 +1442,4 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			}
 		}
 	};
-	
-	public static void main (String arg []){
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Cuadrante().setVisible(true);
-			
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-	}
 }

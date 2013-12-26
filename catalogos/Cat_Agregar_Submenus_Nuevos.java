@@ -83,16 +83,4 @@ public class Cat_Agregar_Submenus_Nuevos extends JFrame  {
 		}
 	;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		new Cat_Agregar_Submenus_Nuevos().setVisible(true);
-	}
-
 }

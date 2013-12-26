@@ -17,8 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-
 import objetos.Obj_OpRespuesta;
 
 @SuppressWarnings("serial")
@@ -269,14 +267,5 @@ public class Cat_Opciones_Respuesta extends JFrame {
 			}
 		}
 	};
-	
-	public static void main(String[]a) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Opciones_Respuesta().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}	
-	}
 	
 }

@@ -18,7 +18,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 import objetos.Obj_Configuracion_Sistema;
 
@@ -1570,13 +1569,4 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		}
 	};
 	
-	public static void main(String[]a)
-	{
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Horario().setVisible(true);
-		} catch(Exception e){
-			e.printStackTrace();
-		}		
-	}
 }

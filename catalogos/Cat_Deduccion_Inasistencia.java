@@ -20,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -533,14 +532,5 @@ public class Cat_Deduccion_Inasistencia extends Cat_Root{
 			}
 		}
 	};
-
-	public static void main(String[] args) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Deduccion_Inasistencia().setVisible(true);
-		}catch(Exception e){
-			System.out.println(e);
-		}
-	}
 
 }

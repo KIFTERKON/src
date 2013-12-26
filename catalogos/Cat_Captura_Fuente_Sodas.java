@@ -602,5 +602,6 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			new Cat_Captura_Fuente_Sodas().setVisible(true);
 		}catch(Exception e){}
 	}
+
 }
 

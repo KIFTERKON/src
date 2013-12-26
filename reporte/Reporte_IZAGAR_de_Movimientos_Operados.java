@@ -19,17 +19,17 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 @SuppressWarnings("serial")
-public class Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Faltantes extends JFrame {
+public class Reporte_IZAGAR_de_Movimientos_Operados extends JFrame {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-		public Reporte_General_de_Asistencia_Por_Establecimiento_Mas_Registros_Faltantes(String fecha_inicio, String fecha_final, String Establecimiento) {
-			String query = "exec sp_Reporte_General_de_Asistencia_Por_Establecimiento_Faltantes '"+fecha_inicio+"','"+fecha_final+"','"+Establecimiento+"';";
+		public Reporte_IZAGAR_de_Movimientos_Operados(String fecha) {
+			String query = "exec sp_Reporte_IZAGAR_de_Movimientos_Operados '"+fecha+"';";
 			Statement stmt = null;
 			try {
-				stmt =  new Connexion().conexion().createStatement();
+				stmt =  new Connexion().conexionDB_DOS().createStatement();
 			    ResultSet rs = stmt.executeQuery(query);
 			    
-				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_General_de_Asistencia_Por_Establecimiento_Faltantes.jrxml");
+				JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_IZAGAR_de_Movimientos_Operados.jrxml");
 				JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
 				JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), resultSetDataSource);
 				JasperViewer.viewReport(print, false);

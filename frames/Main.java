@@ -3,19 +3,12 @@ package frames;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.File;
 import java.sql.SQLException;
-
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
 import SQL.Connexion;
-
-
 import catalogos.Cat_Conexion_BD;
-
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_MD5;
@@ -155,6 +148,9 @@ public class Main extends InitButton {
 						Importar_Consiliacion.setEnabled(true);
 					if(permisos[i].equals("Importar Voucher"))
 						Importar_Voucher.setEnabled(true);
+					if(permisos[i].equals("Reporte de Apartados y Abonos en una Asignacion"))
+						Egresos_Reporte_de_apartados_y_abonos.setEnabled(true);
+													
 					/*CORTES*/
 					if(permisos[i].equals("Captura de Cortes de Cajeras"))
 						Captura_Cortes .setEnabled(true);
@@ -353,6 +349,8 @@ public class Main extends InitButton {
 						Importar_Consiliacion.setEnabled(true);
 					if(permisos[i].equals("Importar Voucher"))
 						Importar_Voucher.setEnabled(true);
+					if(permisos[i].equals("Reporte de Apartados y Abonos en una Asignacion"))
+						Egresos_Reporte_de_apartados_y_abonos.setEnabled(true);
 					
 					/*CORTES*/
 					if(permisos[i].equals("Captura de Cortes de Cajeras"))

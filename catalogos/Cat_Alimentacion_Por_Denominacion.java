@@ -21,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -295,12 +294,4 @@ public class Cat_Alimentacion_Por_Denominacion extends JFrame {
     	}
     }
 
-	public static void main(String[] args) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Alimentacion_Por_Denominacion().setVisible(true);
-		}catch(Exception e){
-			
-		}
-	}
 }

@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 import objetos.Obj_Departamento;
 import objetos.Obj_Establecimiento;
@@ -140,15 +139,6 @@ public class Cat_Reporte_General_Asistencia_Por_Establecimiento extends JFrame {
 		if(fechafinalNull.equals("null"))error+= "Fecha Final\n";
 		
 		return error;
-	}
-	public static void main(String[] args) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Reporte_General_Asistencia_Por_Establecimiento().setVisible(true);
-		}catch(Exception e){
-			System.err.println("Error: "+e.getMessage());
-		}
-		
 	}
 
 }

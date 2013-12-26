@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte de Apartados" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d02be077-f7f1-423a-b73f-283738e4eb9c">
+	<property name="ireport.zoom" value="1.331000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="dataset1" uuid="4971f467-0644-4026-b5a4-306739639fab">
+		<queryString>
+			<![CDATA[declare @asignacion varchar(50),@suma money
+set @asignacion=(select asignacion from IZAGAR)
+
+set @suma=(select sum(case when liquidaciones_tickets.afectacion = '+' then liquidaciones_tickets.importe else liquidaciones_tickets.importe * -1 end) as Abono
+from ((select ticket  from liquidaciones_tickets with(nolock) where folio_asignacion=@asignacion)
+         except
+      (select folio  as ticket from facremtick with(nolock) where folio_cajero=@asignacion)) folio
+inner join liquidaciones_tickets on liquidaciones_tickets.folio_asignacion=@asignacion and folio.ticket=liquidaciones_tickets.ticket)
+
+
+select folio.ticket as Ticket
+       ,datos_apartados_mercancia.entregar_a as Cliente
+       ,datos_apartados_mercancia.domicilio as Domicilio
+       ,datos_apartados_mercancia.telefono as ApartadoN
+       ,sum(case when liquidaciones_tickets.afectacion = '+' then liquidaciones_tickets.importe else liquidaciones_tickets.importe * -1 end) as Abono
+       ,@suma as Total_abono
+
+from ((select ticket  from liquidaciones_tickets with(nolock) where folio_asignacion=@asignacion)
+         except
+      (select folio  as ticket from facremtick with(nolock) where folio_cajero=@asignacion)) folio
+inner join liquidaciones_tickets on liquidaciones_tickets.folio_asignacion=@asignacion and folio.ticket=liquidaciones_tickets.ticket
+inner join datos_apartados_mercancia ON datos_apartados_mercancia.folio = folio.ticket
+group by folio.ticket,datos_apartados_mercancia.entregar_a
+         ,datos_apartados_mercancia.domicilio,datos_apartados_mercancia.telefono]]>
+		</queryString>
+		<field name="Ticket" class="java.lang.String"/>
+		<field name="Cliente" class="java.lang.String"/>
+		<field name="Domicilio" class="java.lang.String"/>
+		<field name="ApartadoN" class="java.lang.String"/>
+		<field name="Abono" class="java.math.BigDecimal"/>
+		<field name="Total_abono" class="java.math.BigDecimal"/>
+		<variable name="Total_Abonos" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{Abono}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["M:\\Proyecto Lista\\Proyecto Grupo Izagar\\Grupo Izagar\\src\\Reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[declare @asignacion varchar(50)
+set @asignacion=(select asignacion from IZAGAR)
+
+SELECT     facremtick.folio AS Ticket
+          ,datos_apartados_mercancia.entregar_a as Cliente_Apartado
+          ,datos_apartados_mercancia.domicilio as Domicilio
+          ,datos_apartados_mercancia.telefono as ApartadoN
+          ,CONVERT (VARCHAR(20),facremtick.fecha,103) AS Fecha_del_Apartado
+          ,facremtick.total as Total_Apartado
+          ,CONVERT (VARCHAR(20),abonos_clientes.fecha,103) AS Fecha_Abono
+          ,abonos_clientes.importe as Primer_Abono
+          ,facremtick.total-abonos_clientes.importe as Primer_Saldo
+          ,facremtick.abonos as Total_Abonos_Actual
+          ,facremtick.saldo as Saldo_Actual
+          ,abonos_clientes.dias_pago as Dias_Pago
+          ,CONVERT (VARCHAR(20),datos_apartados_mercancia.fecha_estimada_entrega ,103)  as Fecha_Limite_del_Apartado
+          ,case when datos_apartados_mercancia.fecha_entregado>'16/11/2064 00:00:00'
+                then  'No Entregado Aún'
+                else  CONVERT (VARCHAR(20),datos_apartados_mercancia.fecha_entregado ,103)
+                end AS Fecha_de_Entrega
+          ,datos_apartados_mercancia.entregado_a AS Persona_Que_Recibio_Apartado
+          ,datos_apartados_mercancia.notas as Notas
+          ,cajeros.nombre as Cajero
+          ,cajeros.cod_estab as Num_Estab
+          ,facremtick.folio_cajero as Asignacion
+          ,convert(varchar(20),asignaciones_cajeros.fecha_liquidacion,103) as Fecha_Liquidacion
+          ,facremtick.factura as Factura
+
+FROM         abonos_clientes with(nolock)
+
+LEFT OUTER JOIN  facremtick with(nolock) ON  facremtick.folio=abonos_clientes.folio_aplicado
+INNER JOIN   datos_apartados_mercancia ON datos_apartados_mercancia.folio = facremtick.folio AND datos_apartados_mercancia.transaccion = facremtick.transaccion
+INNER JOIN   clientes ON facremtick.cod_cte = clientes.cod_cte
+INNER JOIN   transacciones ON facremtick.transaccion = transacciones.transaccion
+INNER JOIN   cajeros ON cajeros.cajero=facremtick.cajero
+LEFT OUTER JOIN  asignaciones_cajeros ON asignaciones_cajeros.folio=facremtick.folio_cajero
+where  facremtick.status <> 'C' and facremtick.cond_pago = '4' AND facremtick.folio_cajero=@asignacion and abonos_clientes.status='V' and abonos_clientes.fecha>=asignaciones_cajeros.fecha_inicial and abonos_clientes.fecha<=asignaciones_cajeros.fecha_liquidacion
+order by  facremtick.folio asc,abonos_clientes.fecha asc]]>
+	</queryString>
+	<field name="Ticket" class="java.lang.String"/>
+	<field name="Cliente_Apartado" class="java.lang.String"/>
+	<field name="Domicilio" class="java.lang.String"/>
+	<field name="ApartadoN" class="java.lang.String"/>
+	<field name="Fecha_del_Apartado" class="java.lang.String"/>
+	<field name="Total_Apartado" class="java.math.BigDecimal"/>
+	<field name="Fecha_Abono" class="java.lang.String"/>
+	<field name="Primer_Abono" class="java.math.BigDecimal"/>
+	<field name="Primer_Saldo" class="java.math.BigDecimal"/>
+	<field name="Total_Abonos_Actual" class="java.math.BigDecimal"/>
+	<field name="Saldo_Actual" class="java.math.BigDecimal"/>
+	<field name="Dias_Pago" class="java.lang.Short"/>
+	<field name="Fecha_Limite_del_Apartado" class="java.lang.String"/>
+	<field name="Fecha_de_Entrega" class="java.lang.String"/>
+	<field name="Persona_Que_Recibio_Apartado" class="java.lang.String"/>
+	<field name="Notas" class="java.lang.String"/>
+	<field name="Cajero" class="java.lang.String"/>
+	<field name="Num_Estab" class="java.lang.String"/>
+	<field name="Asignacion" class="java.lang.String"/>
+	<field name="Fecha_Liquidacion" class="java.lang.String"/>
+	<field name="Factura" class="java.lang.String"/>
+	<variable name="Total.Primer Saldo" class="java.lang.Float" resetType="Group" resetGroup="Asignacion" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primer_Saldo}]]></variableExpression>
+	</variable>
+	<variable name="Total_1er_abono" class="java.lang.Float" resetType="Group" resetGroup="Asignacion" calculation="Sum">
+		<variableExpression><![CDATA[$F{Primer_Abono}]]></variableExpression>
+	</variable>
+	<variable name="Total Apartadados" class="java.lang.Float" resetType="Group" resetGroup="Asignacion" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total_Apartado}]]></variableExpression>
+	</variable>
+	<group name="Asignacion">
+		<groupExpression><![CDATA[$F{Asignacion}]]></groupExpression>
+		<groupHeader>
+			<band height="47">
+				<frame>
+					<reportElement uuid="75b8378c-be34-4457-bdd4-a23f202ebb03" mode="Opaque" x="-1" y="26" width="802" height="21" forecolor="#B89F7D" backcolor="#000099"/>
+					<staticText>
+						<reportElement uuid="63816cb9-a663-43cb-a782-df8a37fe4b94" style="Column header" x="0" y="0" width="39" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Ticket]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="0a436748-e3fc-4494-9779-ad0501a5c03f" style="Column header" x="65" y="0" width="58" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Cliente]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="69be4a25-376e-4353-8d47-0ff3883c8b14" style="Column header" x="199" y="0" width="53" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Domicilio]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="009ca848-9583-4d4e-a10f-d0ecfb8cd1e0" style="Column header" x="329" y="0" width="56" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Num.Apart]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="5afe284f-47b9-486f-839b-51cf8f1c1722" style="Column header" x="385" y="0" width="56" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Fecha Apart]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="b2d6e122-bf5e-4684-9903-fd1ab4f02648" style="Column header" x="441" y="0" width="65" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Tot. Apartado]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="57ffe2cc-eeea-4fa7-abba-0db793a9e8f9" style="Column header" x="506" y="0" width="61" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Fecha Abono]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="976311c5-c139-4a9c-9df8-11bc350a7e4f" style="Column header" x="567" y="0" width="61" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[1er Abono]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="2e43c86c-7388-40bb-b58f-211cf938223d" style="Column header" x="628" y="0" width="55" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[1er Saldo]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="0597063a-6c90-48e7-a0eb-f57386890c3e" style="Column header" x="686" y="0" width="52" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Tot. Abonos]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="52c94d8a-7346-4e1a-b0f8-03d217926eb6" style="Column header" x="738" y="0" width="59" height="18" forecolor="#FFFFFF"/>
+						<textElement textAlignment="Center">
+							<font size="10" isBold="false"/>
+						</textElement>
+						<text><![CDATA[Saldo Act]]></text>
+					</staticText>
+				</frame>
+				<staticText>
+					<reportElement uuid="96607ddd-13e9-4ca7-bb89-b4993b2b39d0" x="25" y="0" width="381" height="26"/>
+					<textElement>
+						<font fontName="Times New Roman" size="18"/>
+					</textElement>
+					<text><![CDATA[APARTADOS DE UNA ASIGNACION]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="19">
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="28905b58-a653-4fb4-a3d8-b3caa7dae704" x="629" y="1" width="55" height="14"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total.Primer Saldo}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="95dc4c2e-1b1c-4ea1-a794-d60dcaaa8519" x="4" y="0" width="800" height="1"/>
+				</line>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="95cfe10d-ad0e-43f9-aaa9-ee0ae08ebc16" x="566" y="1" width="63" height="14"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_1er_abono}]]></textFieldExpression>
+				</textField>
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="9e874994-2898-40b0-ab80-6c090b413f2e" x="444" y="0" width="60" height="15"/>
+					<textElement textAlignment="Right">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total Apartadados}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="32" splitType="Stretch">
+			<frame>
+				<reportElement uuid="1c1a4c06-49a6-480d-954d-b0bf1476b142" mode="Opaque" x="0" y="0" width="464" height="32" forecolor="#FF6600" backcolor="#000066"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="aa23ab39-6cf5-4926-8818-660108697d92" style="SubTitle" x="2" y="0" width="442" height="24" forecolor="#FFFFFF"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["APARTADOS DE LA ASIGNACION: "+$F{Asignacion}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<frame>
+				<reportElement uuid="5926d0c2-7d15-4a25-8bd4-eada9d8b7e27" style="Row" mode="Opaque" x="0" y="0" width="802" height="14"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="81be6307-d095-49cc-b759-5073dff25bd2" style="Detail" positionType="Float" x="0" y="0" width="50" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Ticket}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d58a95fc-cdcc-4adc-95d9-40c474b166ff" style="Detail" positionType="Float" x="50" y="0" width="149" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Cliente_Apartado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="c8d58141-1a7d-4c17-aa22-813441efd363" style="Detail" positionType="Float" x="199" y="0" width="140" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Domicilio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="850020d6-a905-49a5-8291-81a866fd5bdc" style="Detail" positionType="Float" x="339" y="0" width="46" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ApartadoN}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="0d2a5489-739d-46c7-ab09-f0dfc2862151" style="Detail" positionType="Float" x="385" y="0" width="59" height="10"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Fecha_del_Apartado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+					<reportElement uuid="beef620e-5d95-48e5-8bb4-8b479222d9a7" style="Detail" positionType="Float" x="444" y="0" width="62" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Total_Apartado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="0805f1e6-f7c2-4213-b085-3554b79b1c2d" style="Detail" positionType="Float" x="506" y="0" width="61" height="10"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Fecha_Abono}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+					<reportElement uuid="9fa7aa4f-05ce-4351-83bf-75ceef782110" style="Detail" positionType="Float" x="567" y="0" width="61" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Primer_Abono}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+					<reportElement uuid="9d47cb2b-f23d-45ad-823e-f6da2a70fc0a" style="Detail" positionType="Float" x="628" y="0" width="55" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Primer_Saldo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+					<reportElement uuid="108a4b7e-22f8-40a5-82ab-86925ded4b5d" style="Detail" positionType="Float" x="683" y="0" width="55" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Total_Abonos_Actual}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+					<reportElement uuid="d46c6f73-0dee-43f0-a46e-762ada899bee" style="Detail" positionType="Float" x="738" y="0" width="59" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Saldo_Actual}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="41a8bb22-d5a0-4713-b61a-3fa3b595bf31" mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000099"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="ed5025f4-3a1d-4a87-9baf-e2cb5d957340" style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="290f2ed4-d736-40f9-8838-dae58f11c5df" style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="5abd1a80-6de4-4fad-94c4-a3fcf6692ca8" style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3ed5c6a2-bd02-4b8e-a773-311d5ae90cca" x="2" y="0" width="381" height="26"/>
+				<textElement>
+					<font fontName="Times New Roman" size="18"/>
+				</textElement>
+				<text><![CDATA[ABONOS DE UNA ASIGNACION]]></text>
+			</staticText>
+			<frame>
+				<reportElement uuid="b3a4166c-eb87-4c92-ae36-9a0fa28b5350" mode="Opaque" x="0" y="26" width="802" height="21" forecolor="#B89F7D" backcolor="#000099"/>
+				<staticText>
+					<reportElement uuid="8d039ac4-6a6b-4231-b84e-7453beb91b7d" style="Column header" x="0" y="1" width="39" height="18" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Ticket]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4921bbff-630a-4718-af1f-2db5ab55755a" style="Column header" x="65" y="1" width="58" height="18" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6ea15f2a-db78-44d7-a17c-c0caac8961fe" style="Column header" x="199" y="1" width="53" height="18" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Domicilio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="04558dfc-35cb-4393-a62c-41f0622a8e17" style="Column header" x="325" y="1" width="56" height="18" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Num.Apart]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f0e23262-573f-46c5-ac88-7d16d26dc830" style="Column header" x="437" y="1" width="38" height="18" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Abono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="30ac561c-7d09-4f8b-bef4-1d862e2dcc4f" style="Column header" x="567" y="1" width="74" height="18" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Total de Abonos]]></text>
+				</staticText>
+			</frame>
+			<componentElement>
+				<reportElement uuid="9e73921a-2711-4afa-90bf-acdcaa778ee0" style="Detail" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="47" width="802" height="16" forecolor="#000000" backcolor="#FFFFFF"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical" ignoreWidth="false">
+					<datasetRun subDataset="dataset1" uuid="827aaac4-8602-47d9-8de2-ffbdca3afa89">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="802">
+						<textField>
+							<reportElement uuid="59541b2a-3c35-4503-ab24-aa797ef25b28" x="0" y="1" width="50" height="13"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Ticket}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement uuid="2f1f7332-d85a-4269-808f-07c6242d4ae5" x="50" y="1" width="147" height="13"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Cliente}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement uuid="aa2c2fc9-ddd2-42dc-9be4-32ea261fd57a" x="197" y="1" width="142" height="13"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Domicilio}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement uuid="4dc641bb-f46f-40c8-b7c1-f42df83dc303" x="344" y="1" width="41" height="13"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{ApartadoN}]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤ #,##0.00">
+							<reportElement uuid="8aef16c5-4eb6-4d5a-b475-5bf7f91dec4e" x="439" y="1" width="65" height="13"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Abono}]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤ #,##0.00">
+							<reportElement uuid="3cffa910-68c0-4e8a-ad5e-9c6927c77b3d" isPrintRepeatedValues="false" x="566" y="1" width="75" height="13"/>
+							<textElement textAlignment="Center">
+								<font size="8" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{Total_abono}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

@@ -26,7 +26,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -139,15 +138,6 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		return lista;
 	}
 
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Reporte_Impresion_Gafetes().setVisible(true);
-		}catch(Exception e){
-			System.err.println("Error: "+e.getMessage());
-		}
-	}
-	
 	ActionListener op_filtro = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			new Cat_Filtro_Empleado().setVisible(true);

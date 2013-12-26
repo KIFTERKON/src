@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -16,13 +15,9 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Mensajes;
-
 
 @SuppressWarnings("serial")
 public class Cat_Mensajes extends JFrame
@@ -362,29 +357,4 @@ public class Cat_Mensajes extends JFrame
 		}
 	};
 	
-	public static void main(String[]a)
-	{
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try{
-					UIManager.setLookAndFeel(
-							UIManager.getSystemLookAndFeelClassName());
-				}catch(Exception e){}
-				
-				Cat_Mensajes thisClass = new Cat_Mensajes();
-				thisClass.setVisible(true);
-
-				//utilizacion del AWTUtilities con el metodo opaque
-				try {
-					   @SuppressWarnings("rawtypes")
-					Class clazz =  Class.forName("com.sun.awt.AWTUtilities");
-					   @SuppressWarnings("unchecked")
-					Method method = clazz.getMethod("setWindowOpaque", java.awt.Window.class, Boolean.TYPE);
-					   method.invoke(clazz,thisClass , false);
-					   } catch (Exception e) 
-					   { }	
-				}
-			}
-		);
-	}
 }

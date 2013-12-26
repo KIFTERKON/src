@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -395,13 +394,4 @@ public class Cat_Nomina extends Cat_Root {
 		}
 	}
 	
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Nomina().setVisible(true);
-		}catch(Exception e){
-			
-		}
-	}
-
 }

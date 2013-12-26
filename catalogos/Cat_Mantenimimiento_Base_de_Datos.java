@@ -89,14 +89,5 @@ public class Cat_Mantenimimiento_Base_de_Datos extends JFrame {
 			new Cat_Agregar_Submenus_Nuevos().setVisible(true);				
 		}
 	};
-		
-		
-	
-	
-	public static void main(String[] args) {
-		//se  agrega al public static void mainla posiblilidad de una nuevo catalogo que se a visible
-		new Cat_Mantenimimiento_Base_de_Datos().setVisible(true);
- 
-  	}
- 	 }
+ }
 

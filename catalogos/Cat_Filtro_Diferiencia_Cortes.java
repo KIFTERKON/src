@@ -241,9 +241,6 @@ public class Cat_Filtro_Diferiencia_Cortes extends JFrame {
 		@Override
 		public void keyReleased(KeyEvent e){}								
 	};
-	public static void main (String [] arg){
-		new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
-	}
 	
 }
 

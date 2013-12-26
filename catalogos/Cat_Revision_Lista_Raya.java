@@ -21,7 +21,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
@@ -933,12 +932,4 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		}
 	};
 
-	public static void main(String[] args) {
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Revision_Lista_Raya().setVisible(true);
-		}catch(Exception e){
-			
-		}
-	}
 }

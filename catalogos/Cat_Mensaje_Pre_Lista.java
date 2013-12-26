@@ -29,9 +29,5 @@ public class Cat_Mensaje_Pre_Lista extends JDialog{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	
-	public static void main(String args[]){
-		new Cat_Mensaje_Pre_Lista().setVisible(true);
-	}
 
 }

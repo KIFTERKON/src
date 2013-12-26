@@ -2,8 +2,6 @@ package reporte;
 
 import java.util.HashMap;
 
-import javax.swing.UIManager;
-
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -22,16 +20,6 @@ public class Reporte_Impresion_de_Cuadrantes {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	public static void main(String args[]){
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Reporte_Impresion_de_Cuadrantes();
-		}catch(Exception e){
-			
-		}
-		
 	}
 
 }

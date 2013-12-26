@@ -810,6 +810,7 @@ public class InitButton extends InitMenuBar{
 				Importar_Cheques.setEnabled(false);
 				Importar_Consiliacion.setEnabled(false);
 				Importar_Voucher.setEnabled(false);
+				Egresos_Reporte_de_apartados_y_abonos.setEnabled(false);
 		   	/* CORTES */	
 				Captura_Cortes.setEnabled(false);
 			/* CUADRANTES 

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,7 +22,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Actividad;
@@ -362,8 +362,8 @@ public class Cat_Actividad extends JDialog {
 				
 				if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
 					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-						actividad.setActividad(txaActividad.getText());
-						actividad.setDescripcion(txaDescripcion.getText());
+						actividad.setActividad(procesa_texto(txaActividad.getText()));
+						actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
 
 						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 						actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
@@ -386,8 +386,8 @@ public class Cat_Actividad extends JDialog {
 						return;
 					}
 				}else{
-					actividad.setActividad(txaActividad.getText());
-					actividad.setDescripcion(txaDescripcion.getText());
+					actividad.setActividad(procesa_texto(txaActividad.getText()));
+					actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
 
 					actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
 					actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
@@ -518,13 +518,15 @@ public class Cat_Actividad extends JDialog {
 	}
 	};
 	
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Actividad().setVisible(true);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+	public String procesa_texto(String texto) {
+		StringTokenizer tokens = new StringTokenizer(texto);
+	    texto = "";
+	    while(tokens.hasMoreTokens()){
+	    	texto += " "+tokens.nextToken();
+	    }
+	    texto = texto.toString();
+	    texto = texto.trim().toUpperCase();
+	     return texto;
 	}
-
+	
 }

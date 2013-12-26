@@ -27,7 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -445,13 +444,5 @@ public class Cat_Nivel_Critico extends JFrame{
 		cmbValor.setSelectedIndex(0);
 		chStatus.setSelected(true);
 	}
-	public static void main (String arg []){
-		//new Cat_Nivel_Critico().setVisible(true);
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Nivel_Critico().setVisible(true);
-		}catch(Exception e){
-			e.printStackTrace();
-		}	  	
-	}
+
 }

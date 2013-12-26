@@ -3699,11 +3699,9 @@ public class BuscarSQL {
 			rs = s.executeQuery(datosif);
 			int i=0;
 			while(rs.next()){
-
 				Matriz[i][0] = rs.getString(1);
 				Matriz[i][1] = rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
-				
 				i++;
 			}
 		} catch (SQLException e1) {
@@ -3756,6 +3754,32 @@ public class BuscarSQL {
 	public String[][] tabla_alimentacion_cuadrante_multiple_capturada(String nombre){
 		String[][] Matriz = null;
 		String datosif = "exec sp_select_tabla_alimentacion_multiple_capturada '"+nombre+"';";
+
+		Matriz = new String[getFilas(datosif)][6];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2).equals("0") ? "N/A" : rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				Matriz[i][3] = rs.getString(4);
+				Matriz[i][4] = rs.getString(5);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz;
+	}
+	
+	public String[][] tabla_alimentacion_cuadrante_multiple_capturada_jerarquica(String nombre){
+		String[][] Matriz = null;
+		String datosif = "exec sp_select_tabla_alimentacion_multiple_capturada_jerarquica '"+nombre+"';";
 
 		Matriz = new String[getFilas(datosif)][6];
 		Statement s;

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -265,7 +267,27 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			this.plantillaSabado.tablaPlantilla.setEnabled(true);
 			
 		}
+		
+		//this.addWindowListener(op_cerrar);
+		this.removeWindowListener(op_cerrar);
+		this.addWindowListener(op_cerra_real);
 	}
+	
+	WindowListener op_cerra_real = new WindowListener() {
+		public void windowOpened(WindowEvent e) {}
+		public void windowIconified(WindowEvent e) {}
+		public void windowDeiconified(WindowEvent e) {}
+		public void windowDeactivated(WindowEvent e) {}
+		public void windowClosing(WindowEvent e) {
+			if(ValidaError().equals("")){
+				if(JOptionPane.showConfirmDialog(null, "¿Desea guardar antes de cerrar?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+					guardarReal();
+				}
+			}
+		}
+		public void windowClosed(WindowEvent e) {}
+		public void windowActivated(WindowEvent e) {}
+	};
 	
 	ActionListener opActividadNueva = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -280,6 +302,21 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 	};
 	
 	public void guardarReal(){
+		if(plantillaDomingo.tablaPlantilla.isEditing())
+			plantillaDomingo.tablaPlantilla.getCellEditor().stopCellEditing();
+		if(plantillaLunes.tablaPlantilla.isEditing())
+			plantillaLunes.tablaPlantilla.getCellEditor().stopCellEditing();
+		if(plantillaMartes.tablaPlantilla.isEditing())
+			plantillaMartes.tablaPlantilla.getCellEditor().stopCellEditing();
+		if(plantillaMiercoles.tablaPlantilla.isEditing())
+			plantillaMiercoles.tablaPlantilla.getCellEditor().stopCellEditing();
+		if(plantillaJueves.tablaPlantilla.isEditing())
+			plantillaJueves.tablaPlantilla.getCellEditor().stopCellEditing();
+		if(plantillaViernes.tablaPlantilla.isEditing())
+			plantillaViernes.tablaPlantilla.getCellEditor().stopCellEditing();
+		if(plantillaSabado.tablaPlantilla.isEditing())
+			plantillaSabado.tablaPlantilla.getCellEditor().stopCellEditing();
+			
 		if(new Obj_Cuadrante_Actividades().guardar(FOLIO, Integer.valueOf(txtFolio.getText()) , NOMBREENCARGADO, DiasTablaReal())){
 			JOptionPane.showMessageDialog(null,"El registro se guardó correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 			return;
@@ -290,7 +327,6 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 	}
 	
 	public String[][] DiasTablaReal(){
-		
 		int filas = plantillaDomingo.tablaPlantilla.getRowCount()+plantillaLunes.tablaPlantilla.getRowCount()+
 					plantillaMartes.tablaPlantilla.getRowCount()+plantillaMiercoles.tablaPlantilla.getRowCount()+
 					plantillaJueves.tablaPlantilla.getRowCount()+plantillaViernes.tablaPlantilla.getRowCount()+
@@ -551,6 +587,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverDomingo){
 				if(plantillaDomingo.tablaPlantilla.getRowCount()>0){
 					if(plantillaDomingo.tablaPlantilla.isRowSelected(plantillaDomingo.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaDomingo.modelPantilla.getValueAt(plantillaDomingo.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 1);
 						plantillaDomingo.modelPantilla.removeRow(plantillaDomingo.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaDomingo.tablaPlantilla.getRowCount(); domingo++){
 							plantillaDomingo.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);
@@ -567,6 +604,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverLunes){
 				if(plantillaLunes.tablaPlantilla.getRowCount()>0){
 					if(plantillaLunes.tablaPlantilla.isRowSelected(plantillaLunes.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaLunes.modelPantilla.getValueAt(plantillaLunes.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 2);
 						plantillaLunes.modelPantilla.removeRow(plantillaLunes.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaLunes.tablaPlantilla.getRowCount(); domingo++){
 							plantillaLunes.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);
@@ -583,6 +621,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverMartes){
 				if(plantillaMartes.tablaPlantilla.getRowCount()>0){
 					if(plantillaMartes.tablaPlantilla.isRowSelected(plantillaMartes.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaMartes.modelPantilla.getValueAt(plantillaMartes.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 3);
 						plantillaMartes.modelPantilla.removeRow(plantillaMartes.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaMartes.tablaPlantilla.getRowCount(); domingo++){
 							plantillaMartes.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);
@@ -599,6 +638,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverMiercoles){
 				if(plantillaMiercoles.tablaPlantilla.getRowCount()>0){
 					if(plantillaMiercoles.tablaPlantilla.isRowSelected(plantillaMiercoles.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaMiercoles.modelPantilla.getValueAt(plantillaMiercoles.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 4);
 						plantillaMiercoles.modelPantilla.removeRow(plantillaMiercoles.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaMiercoles.tablaPlantilla.getRowCount(); domingo++){
 							plantillaMiercoles.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);
@@ -615,6 +655,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverJueves){
 				if(plantillaJueves.tablaPlantilla.getRowCount()>0){
 					if(plantillaJueves.tablaPlantilla.isRowSelected(plantillaJueves.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaJueves.modelPantilla.getValueAt(plantillaJueves.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 5);
 						plantillaJueves.modelPantilla.removeRow(plantillaJueves.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaJueves.tablaPlantilla.getRowCount(); domingo++){
 							plantillaJueves.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);
@@ -631,6 +672,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverViernes){
 				if(plantillaViernes.tablaPlantilla.getRowCount()>0){
 					if(plantillaViernes.tablaPlantilla.isRowSelected(plantillaViernes.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaViernes.modelPantilla.getValueAt(plantillaViernes.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 6);
 						plantillaViernes.modelPantilla.removeRow(plantillaViernes.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaViernes.tablaPlantilla.getRowCount(); domingo++){
 							plantillaViernes.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);
@@ -647,6 +689,7 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			if(arg0.getSource() == btnRemoverSabado){
 				if(plantillaSabado.tablaPlantilla.getRowCount()>0){
 					if(plantillaSabado.tablaPlantilla.isRowSelected(plantillaSabado.tablaPlantilla.getSelectedRow())){
+//						new Obj_Cuadrante_Actividades().delete(FOLIO, Integer.parseInt(plantillaSabado.modelPantilla.getValueAt(plantillaSabado.tablaPlantilla.getSelectedRow(), 0).toString().trim()), 7);
 						plantillaSabado.modelPantilla.removeRow(plantillaSabado.tablaPlantilla.getSelectedRow());
 						for(int domingo = 0; domingo<plantillaSabado.tablaPlantilla.getRowCount(); domingo++){
 							plantillaSabado.tablaPlantilla.setValueAt(domingo+1+"  ", domingo,0);

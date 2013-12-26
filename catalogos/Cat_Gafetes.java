@@ -267,9 +267,4 @@ public class Cat_Gafetes extends JFrame {
 		
 	}
 	
-	public static void main(String[] args) {
-		new Cat_Gafetes().setVisible(true);
-
-	}
-
 }

@@ -9,14 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-
 import objetos.Obj_Arduino;
 
-
-
 import ObjetoChecador.Obj_Hora_Sincronizada;
-
 
 @SuppressWarnings("serial")
 public class Cat_Arduino extends JFrame
@@ -144,16 +139,5 @@ public class Cat_Arduino extends JFrame
 				}
 			}
 		}
-				
-	
-	public static void main(String[]a)
-	{
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			new Cat_Arduino().setVisible(true);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-	}
 	
 }

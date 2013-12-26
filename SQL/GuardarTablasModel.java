@@ -470,16 +470,15 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
-	public boolean Alimentacion_cuadrante_multiple(Object[][] tabla){
-//		String query_delete = "exec sp_delete_alimentacion_multiple ?";
-//		String query = "exec sp_insert_tabla_alimentacion_multiple ?,?,?,?,?";
-		
+	public boolean Alimentacion_cuadrante_multiple(Object[][] tabla, Object[][] multipleProyecto){
 		String query = "exec sp_insert_multiple_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?,?;";
+		String query_proyecto = "exec sp_insert_multiple_actividades_cuadrante_jerarquico ?,?,?,?,?,?,?,?,?,?";
+		
 		Connection con = new Connexion().conexion();
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
+			PreparedStatement pstmtJerarquico = con.prepareStatement(query_proyecto);
 			con.setAutoCommit(false);
-			System.out.println(tabla.length);
 			for(int i=0; i<tabla.length; i++){
 				pstmt.setString(1, tabla[i][0].toString().trim());
 				pstmt.setString(2, tabla[i][1].toString().trim());
@@ -494,6 +493,22 @@ public class GuardarTablasModel {
 				pstmt.setString(11, tabla[i][10].toString().toUpperCase());
 				pstmt.execute();
 			
+			}
+			
+			for(int j=0; j<multipleProyecto.length; j++){
+				if(!multipleProyecto[j][8].toString().trim().equalsIgnoreCase("Respuestas")){
+					pstmtJerarquico.setString(1, multipleProyecto[j][0].toString().trim());
+					pstmtJerarquico.setString(2, multipleProyecto[j][1].toString().trim());
+					pstmtJerarquico.setString(3, multipleProyecto[j][2].toString().trim());
+					pstmtJerarquico.setString(4, multipleProyecto[j][3].toString().trim());
+					pstmtJerarquico.setString(5, multipleProyecto[j][4].toString().trim());
+					pstmtJerarquico.setString(6, multipleProyecto[j][5].toString().trim());
+					pstmtJerarquico.setInt(7, Integer.parseInt(multipleProyecto[j][6].toString().trim()));
+					pstmtJerarquico.setString(8, multipleProyecto[j][7].toString().trim());
+					pstmtJerarquico.setString(9, multipleProyecto[j][8].toString().trim());
+					pstmtJerarquico.setString(10, multipleProyecto[j][9].toString().trim());
+					pstmtJerarquico.execute();
+				}				
 			}
 			con.commit();
 		} catch (Exception e) {
@@ -595,31 +610,33 @@ public class GuardarTablasModel {
 	}
 	
 	public boolean Guardar_Cuadrante_Tabla_Real(int folio, int cuadrante, String encargado, String[][] tabla){
-		//String queryDelete = "delete from tb_tabla_cuadrante_actividad where folio_empleado="+folio;
-		
+		String queryDelete = "exec sp_delete_tabla_cuadrante_nivel_jerarquico "+ folio;
 		String querytabla = "exec sp_insert_tabla_cuadrante_real ?,?,?,?,?,?,?,?,?,?";
-		
 		Connection con = new Connexion().conexion();
+		PreparedStatement pstmtDelete = null;
 		PreparedStatement pstmtTabla = null;
 		try {
 			con.setAutoCommit(false);
 			
+			pstmtDelete = con.prepareStatement(queryDelete);
 			pstmtTabla = con.prepareStatement(querytabla);
-				
+			
+			pstmtDelete.execute();
 			for(int i=0; i<tabla.length; i++){
-				
+				System.out.println(i);
 				pstmtTabla.setInt(1, folio);
 				pstmtTabla.setString(2, procesa_texto(encargado));
 				pstmtTabla.setInt(3, cuadrante);
 				pstmtTabla.setInt(4, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(5, tabla[i][1].toString().trim().toUpperCase());
+				System.out.println(tabla[i][2].toString());
 				pstmtTabla.setString(6, tabla[i][2].toString().trim());
 				pstmtTabla.setInt(7, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
 				pstmtTabla.setString(8, tabla[i][4]);
 				pstmtTabla.setString(9, tabla[i][5]);
 				pstmtTabla.setString(10, tabla[i][6]);
 				
-				pstmtTabla.executeUpdate();
+				pstmtTabla.execute();
 			}
 			
 			con.commit();
