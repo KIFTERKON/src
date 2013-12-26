@@ -785,6 +785,10 @@ public class InitButton extends InitMenuBar{
 			btnListaFirma.setEnabled(false);
 			btnListaComparacion.setEnabled(false);
 			
+		   	/* AUDITORIA */	
+			    Reporte_de_Movimientos_Operados.setEnabled(false); 
+				Captura_Cortes.setEnabled(false);
+			
 			/* CATALOGO */
 			    Catalogo_Departamento.setEnabled(false);
 				Catalogo_Empleado.setEnabled(false);
@@ -811,8 +815,7 @@ public class InitButton extends InitMenuBar{
 				Importar_Consiliacion.setEnabled(false);
 				Importar_Voucher.setEnabled(false);
 				Egresos_Reporte_de_apartados_y_abonos.setEnabled(false);
-		   	/* CORTES */	
-				Captura_Cortes.setEnabled(false);
+
 			/* CUADRANTES 
 			*		ALIMENTACION */
 				Cuadrantes_Catalogo_Actividades.setEnabled(false);

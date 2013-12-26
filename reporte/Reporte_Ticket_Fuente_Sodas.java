@@ -74,13 +74,14 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 		                  }
 	}
 
-	private long close() {
-		Runtime R = Runtime.getRuntime();
-		try {
-			R.exec("taskkill /f /im NitroPDF.exe");
-		} catch (Exception e2){}
-		return 0;
-	}
+
+//	private long close() {
+//		Runtime R = Runtime.getRuntime();
+//		try {
+//			R.exec("taskkill /f /im NitroPDF.exe");
+//		} catch (Exception e2){}
+//		return 0;
+//	}
 
 
 	

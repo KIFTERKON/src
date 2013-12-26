@@ -33,7 +33,7 @@ public class Cat_Horario_base  extends JFrame
 	JToggleButton btnJueves = new JToggleButton("Jueves");                             
 	JToggleButton btnViernes = new JToggleButton("Viernes");                           
 	JToggleButton btnSabado = new JToggleButton("Sábado");                             
-	JToggleButton btnSD = new JToggleButton("Sin Descanso");  
+	JToggleButton btnSD = new JToggleButton("Todos");  
 	
 	JLabel lblDobla = new JLabel("Dia Dobla");
 	
