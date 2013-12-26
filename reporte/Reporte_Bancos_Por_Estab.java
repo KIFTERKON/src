@@ -22,7 +22,7 @@ public class Reporte_Bancos_Por_Estab extends JFrame {
 		try {
 			JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Bancos.jrxml");
 			JasperPrint print = JasperFillManager.fillReport(report, new HashMap(), new Connexion().conexion());
-			JasperViewer.viewReport(print, false);
+			JasperViewer.viewReport(print, true);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

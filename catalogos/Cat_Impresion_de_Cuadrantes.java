@@ -293,7 +293,10 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 			return vector_seleccionados;
 			
 		}
-		
+		public static  void main(String []arg){
+		new Cat_Impresion_de_Cuadrantes().setVisible(true);	
+			
+		}
 }
 
 	

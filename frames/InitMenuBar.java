@@ -61,6 +61,7 @@ import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Ponderacion;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
+import catalogos.Cat_Reporte_BMS_Apartados;
 import catalogos.Cat_Reporte_Cuadrantes;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
 import catalogos.Cat_Revision_Lista_Raya;
@@ -114,11 +115,15 @@ public class InitMenuBar extends Init{
 				JMenuItem Importar_Consiliacion 		  = new JMenuItem("Importar Conciliación AuxF");
 				JMenuItem Importar_Voucher				  = new JMenuItem("Importar Voucher");
 				
+		JMenu Contabilidad_Egresos = new JMenu("Egresos");
+		       JMenuItem Egresos_Reporte_de_apartados_y_abonos = new JMenuItem("Reporte de Apartados y Abonos en una Asignacion");	
+		       
     /* CORTES */	
 	JMenu Cortes = new JMenu("Cortes");
 		JMenu Cortes_Alimentacion = new JMenu("Alimentacion");
 		        JMenuItem Captura_Cortes 			  = new JMenuItem("Captura de Cortes de Cajeras");  
-		JMenu Cortes_Reportes = new JMenu("Reportes de Cortes");        
+		JMenu Cortes_Reportes = new JMenu("Reportes de Cortes"); 
+		    
 				
 	/* CUADRANTES */
 	JMenu Cuadrantes = new JMenu("Cuadrantes");
@@ -281,6 +286,12 @@ public class InitMenuBar extends Init{
 				Contabilidad_Consiliacion_Auxiliar_Finanzas.add(Importar_Voucher);
 					Importar_Voucher.addActionListener(Opciones);
 					Importar_Voucher.setEnabled(false);
+					
+		Contabilidad.add(Contabilidad_Egresos);	
+		        Contabilidad_Egresos.add(Egresos_Reporte_de_apartados_y_abonos);
+		        Egresos_Reporte_de_apartados_y_abonos.addActionListener(Opciones);
+		        Egresos_Reporte_de_apartados_y_abonos.setEnabled(false);
+				
 					
 	    /* CORTES */
 		Cortes.add(Cortes_Alimentacion); 
@@ -539,6 +550,9 @@ public class InitMenuBar extends Init{
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Importar Voucher"))
 				System.out.println("Pendiente");
+			if(e.getActionCommand().equals("Reporte de Apartados y Abonos en una Asignacion"))
+				new Cat_Reporte_BMS_Apartados().setVisible(true);
+	
 			
 			/* CORTES */
 			if(e.getActionCommand().equals("Captura de Cortes de Cajeras"))

@@ -90,7 +90,6 @@ public class Cat_Checador extends JFrame {
                                         case 2  : return false; 
                                         case 3  : return false; 
                                         case 4  : return false; 
-                                        
                                         case 5  : return false;
                                         case 6  : return false; 
                                         case 7  : return false; 
