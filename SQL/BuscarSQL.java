@@ -1066,6 +1066,48 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
+	public Obj_Captura_Fuente_Sodas CapturaFuenteSodas(String clave) throws SQLException{
+		Obj_Captura_Fuente_Sodas empleado = new Obj_Captura_Fuente_Sodas();
+		String query = "exec sp_select_empleado_fuente_sodas '"+clave+"'";
+		Statement stmt = null;
+
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			while(rs.next()){
+//				datos personales	
+				
+				empleado.setFolio_empleado(rs.getInt("folio"));
+				empleado.setClave(rs.getString("clave"));
+				empleado.setEmpleado(rs.getString("empleado"));
+				empleado.setEstablecimiento(rs.getString("establecimiento"));
+				empleado.setPuesto(rs.getString("puesto"));
+				empleado.setTotal(rs.getFloat("total"));
+				
+				
+				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				FileOutputStream fos = new FileOutputStream(photo);
+				
+		            byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close();
+		            
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return empleado;
+	}
+	
 //	public Obj_Alimentacion_Denominacion Denom(String asignacion) throws SQLException{
 //		Obj_Alimentacion_Denominacion denom = new Obj_Alimentacion_Denominacion();
 //		String query = "select * from tb_alimentacion_denominaciones where asignacion ='"+ asignacion+"'";
@@ -1988,6 +2030,8 @@ public class BuscarSQL {
 			while(rs.next()){
 				configs.setBono_10_12(rs.getBoolean("bono_10_12"));
 				configs.setBono_dia_extra(rs.getBoolean("bono_dia_extra"));
+				configs.setGuardar_horario(rs.getBoolean("guardar_horario"));
+				configs.setGuardar_departamento(rs.getBoolean("guardar_departamento"));
 			}
 			
 		} catch (Exception e) {
@@ -3017,6 +3061,60 @@ public class BuscarSQL {
 				Matriz[i][2] = rs.getString(3);
 				Matriz[i][3] = rs.getString(4);
 				Matriz[i][4] = rs.getString(5);
+				
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return Matriz;
+	}
+	
+	public String[][] getTablaCapturaFuenteSodas(String clave){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_select_tabla_captura_fuente_sodas '"+clave+"'";
+		
+		Matriz = new String[getFilas(datosif)][5];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				Matriz[i][3] = rs.getString(4);
+				Matriz[i][4] = rs.getString(5);
+				
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return Matriz;
+	}
+	
+	public String[][] getTablaTicketFuenteSodas(int folio){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_acumulado_ticket_fuente_de_sodas_por_empleado "+folio;
+		
+		Matriz = new String[getFilas(datosif)][3];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
 				
 				i++;
 			}

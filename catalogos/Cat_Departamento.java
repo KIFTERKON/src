@@ -29,6 +29,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import objetos.JTextFieldLimit;
+import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Departamento;
 
 @SuppressWarnings("serial")
@@ -123,6 +124,8 @@ public class Cat_Departamento extends JFrame{
 		panel.add(txtDepartamentoFiltro).setBounds((x*2)+(ancho*3)+40,15,200,20);
 		panel.add(panelScroll).setBounds((x*2)+(ancho*3)-10,35,ancho+255,130);
 
+		botonNuevoDepartamento();
+		
 		txtDepartamento.setEditable(false);
 		txtAbreviatura.setEditable(false);
 		chbStatus.setEnabled(false);
@@ -244,6 +247,15 @@ public class Cat_Departamento extends JFrame{
 			dispose();
 		}
 	};
+	
+	public void botonNuevoDepartamento(){
+		Obj_Configuracion_Sistema configs2 = new Obj_Configuracion_Sistema().buscar2();
+		if(configs2.isGuardar_departamento()==true){
+			btnNuevo.setEnabled(true);
+		}else{
+			btnNuevo.setEnabled(false);
+		}
+	}
 	
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){

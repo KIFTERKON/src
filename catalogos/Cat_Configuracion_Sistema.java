@@ -23,6 +23,9 @@ public class Cat_Configuracion_Sistema extends JFrame{
 	JCheckBox chbBono_10_12 = new JCheckBox();
 	JCheckBox chbBono_dia_extra = new JCheckBox();
 	
+	JCheckBox chbHorario = new JCheckBox();
+	JCheckBox chbDepartamento = new JCheckBox();
+	
 	JButton btnAplicar = new JButton("Aplicar");
 	public Cat_Configuracion_Sistema(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Application.png"));
@@ -35,7 +38,13 @@ public class Cat_Configuracion_Sistema extends JFrame{
 		panel.add(chbBono_dia_extra).setBounds(15, y+=25, 20,20);
 		panel.add(new JLabel("Activar bono en día extra")).setBounds( 40, y, 380, 20);
 		
-		panel.add(btnAplicar).setBounds(65,100,80,20);
+		panel.add(chbHorario).setBounds(15, y+=25, 20,20);
+		panel.add(new JLabel("Activar alta de horarios")).setBounds( 40, y, 380, 20);
+		
+		panel.add(chbDepartamento).setBounds(15, y+=25, 20,20);
+		panel.add(new JLabel("Activar alta de departamentos")).setBounds( 40, y, 380, 20);
+		
+		panel.add(btnAplicar).setBounds(65, y+=25, 80, 20);
 		btnAplicar.addActionListener(opAplicar);
 		
 		cont.add(panel);
@@ -44,6 +53,8 @@ public class Cat_Configuracion_Sistema extends JFrame{
 		if(configs.getCouns() > 0){
 			chbBono_10_12.setSelected(configs2.isBono_10_12());
 			chbBono_dia_extra.setSelected(configs2.isBono_dia_extra());
+			chbHorario.setSelected(configs2.isGuardar_horario());
+			chbDepartamento.setSelected(configs2.isGuardar_departamento());
 		}
 		this.setSize(390,190);
 		this.setResizable(false);
@@ -58,6 +69,8 @@ public class Cat_Configuracion_Sistema extends JFrame{
 				if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
 					configs.setBono_10_12(chbBono_10_12.isSelected());
 					configs.setBono_dia_extra(chbBono_dia_extra.isSelected());
+					configs.setGuardar_horario(chbHorario.isSelected());
+					configs.setGuardar_departamento(chbDepartamento.isSelected());
 					configs.actualizar();
 				}else{
 					return;
@@ -65,6 +78,8 @@ public class Cat_Configuracion_Sistema extends JFrame{
 			}else{
 				configs.setBono_10_12(chbBono_10_12.isSelected());
 				configs.setBono_dia_extra(chbBono_dia_extra.isSelected());
+				configs.setGuardar_horario(chbHorario.isSelected());
+				configs.setGuardar_departamento(chbDepartamento.isSelected());
 				configs.guardar();
 			}
 		}

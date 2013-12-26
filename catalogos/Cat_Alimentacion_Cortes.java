@@ -228,7 +228,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 		chStatus.setSelected(true);
 		
 		txtFechaCorte.setEditable(false);
-		txtCorteSistema.setEditable(false);
+//		txtCorteSistema.setEditable(false);
 		txtDeposito.setEditable(false);
 		txtEfectivo.setEditable(false);
 		chStatus.setEnabled(false);

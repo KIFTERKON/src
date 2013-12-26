@@ -19,6 +19,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import objetos.Obj_Configuracion_Sistema;
+
 import ObjetoChecador.ObjHorario;
 
 @SuppressWarnings("serial")
@@ -185,6 +187,8 @@ public class Cat_Horario extends Cat_Horario_base
 		panel.add(paneles).setBounds(10,20,825,400);
 		paneles.addTab("Horario 1", horario1);
 		
+		botonNuevoHorario();
+		
 ButtonGroup botonesAgrupados = new ButtonGroup();
 		botonesAgrupados.add(btnDomingo);
 		botonesAgrupados.add(btnLunes);
@@ -263,7 +267,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 //		asigna el foco al JTextField deseado al arrancar la ventana
 		this.addWindowListener(new WindowAdapter() {
 			public void windowOpened( WindowEvent e ){
-		        txtNombre.requestFocus();
+		        txtFolio.requestFocus();
 		     }
 		});
 		
@@ -882,6 +886,16 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		
 		btnAceptar.setEnabled(false);
 		btnEditar.setEnabled(false);
+		
+	}
+	
+	public void botonNuevoHorario(){
+		Obj_Configuracion_Sistema configs2 = new Obj_Configuracion_Sistema().buscar2();
+		if(configs2.isGuardar_horario()==true){
+			btnNuevo.setEnabled(true);
+		}else{
+			btnNuevo.setEnabled(false);
+		}
 	}
 	
 	ActionListener Guardar = new ActionListener() {
