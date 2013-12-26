@@ -1449,7 +1449,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar(Obj_Configuracion_Sistema configs){
-		String query = "exec sp_config_sistema ?,?";
+		String query = "exec sp_config_sistema ?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1458,6 +1458,8 @@ public class GuardarSQL {
 			
 			pstmt.setString(1, (configs.isBono_10_12())? "true" : "false");
 			pstmt.setString(2, (configs.isBono_dia_extra())? "true" : "false");
+			pstmt.setString(3, (configs.isGuardar_horario())? "true" : "false");
+			pstmt.setString(4, (configs.isGuardar_departamento())? "true" : "false");
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -2567,7 +2569,7 @@ public boolean Guardar_Horario(ObjHorario horario){
 		
 		//Guardar captura fuente de sodas
 		public boolean Guardar_Fuente_Sodas(Obj_Captura_Fuente_Sodas sodas){
-			String query = "insert into tb_captura_fuente_sodas(nombre_empleado,no_cliente,ticket,importe,nombre_cliente,establecimiento_cliente,puesto_cliente,foto)values(?,?,?,?,?,?,?,?)";
+			String query = "exec sp_insert_captura_fuente_sodas ?,?,?,?,?,?,?,?,?";
 			Connection con = new Connexion().conexion();
 			PreparedStatement pstmt = null;
 			try {
@@ -2575,13 +2577,18 @@ public boolean Guardar_Horario(ObjHorario horario){
 				pstmt = con.prepareStatement(query);
 				
 				String pc_nombre =	InetAddress.getLocalHost().getHostName();
-//				String pc_ip = 		InetAddress.getLocalHost().getHostAddress();
+				String pc_ip = 		InetAddress.getLocalHost().getHostAddress();
 				
-				pstmt.setString(1,sodas.getUsuario());
-				pstmt.setInt(2, sodas.getEmpleado());
-				pstmt.setString(3,sodas.getTicket());
-				pstmt.setDouble(4,sodas.getImporte());
-				pstmt.setString(5, pc_nombre);
+				
+				pstmt.setString(1, sodas.getClave().toUpperCase().trim());
+				pstmt.setString(2, sodas.getEstablecimiento().trim());
+				pstmt.setString(3, sodas.getPuesto().trim());
+				pstmt.setString(4, sodas.getTicket().trim());
+				pstmt.setFloat(5, sodas.getImporte());
+				pstmt.setString(6, sodas.getUsuario().trim());
+				pstmt.setString(7, pc_nombre);
+				pstmt.setString(8, pc_ip);
+				pstmt.setInt(9, 1);			//status default al guardar
 				
 				pstmt.executeUpdate();
 				con.commit();

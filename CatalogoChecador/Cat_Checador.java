@@ -63,10 +63,9 @@ public class Cat_Checador extends JFrame {
         
         Cat_Reloj trae_hora = new Cat_Reloj();
         
-        public static DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Traer_Checador().get_tabla_model(),
-                        new String[]{"Folio", "Nombre", "EntoSal", "H Evento",
-                                "T Retardo", "Alerta", "PC", "IP","Tipo Entrada"}){
-                                
+        public static DefaultTableModel tabla_model = new DefaultTableModel(
+        		new Obj_Traer_Checador().get_tabla_model(),	new String[]{	"Folio",	"Nombre", "EntoSal", "H Evento", "T Retardo", 
+        																	"Alerta",	"PC",		"IP",	  "Tipo Entrada"}){
                         @SuppressWarnings("rawtypes")
                         Class[] types = new Class[]{
                                    java.lang.Object.class,
@@ -79,7 +78,6 @@ public class Cat_Checador extends JFrame {
                                    java.lang.Object.class,  
                                    java.lang.Object.class,  
                                    java.lang.Object.class
-                                    
                     };
                         @SuppressWarnings({ "rawtypes", "unchecked" })
                         public Class getColumnClass(int columnIndex) {
@@ -97,7 +95,6 @@ public class Cat_Checador extends JFrame {
                                         case 6  : return false; 
                                         case 7  : return false; 
                                         case 8  : return false; 
-                                        
                                 }
                                  return false;
                          }
@@ -179,7 +176,6 @@ public class Cat_Checador extends JFrame {
                 barra_mensaje.setOpaque(false);
                 barra_mensaje.setViewportView(txaAvisos);
                 
-//                btnFoto.setBorder(null);
                 String fileFondo="";
                 if(anchoMon < 1300){
                         fileFondo = "Imagen/calaFondoChecador2.jpg";
@@ -344,8 +340,6 @@ public class Cat_Checador extends JFrame {
                     }
                 });
                 
-                
-                
 //                setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 //        addWindowListener(new java.awt.event.WindowAdapter() {
 //            @Override
@@ -370,7 +364,7 @@ public class Cat_Checador extends JFrame {
                 				R.exec("taskkill /f /im javaw.exe");
                 			} catch (Exception e2){}
                         }  
-                                        });  
+                 });  
         }
         
         @SuppressWarnings("rawtypes")
@@ -382,13 +376,13 @@ public class Cat_Checador extends JFrame {
                 if(new Obj_Empleado().insertar(folio,t_entrada)){
                         
                  Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio);
-                                          for(int i=0 ; i<fila_sql.size(); i++ ){
-                                 vector[i]= "   "+ fila_sql.get(i);
-                         }
+                 for(int i=0 ; i<fila_sql.size(); i++ ){
+                   vector[i]= "   "+ fila_sql.get(i);
+                 }
                          
                  while(tabla.getRowCount()>0){
-                                        tabla_model.removeRow(0);
-                                }
+                   tabla_model.removeRow(0);
+                }
                  
                 Object [][] lista_tabla = new Obj_Traer_Checador().get_tabla_model();
                         String[] fila = new String[9];
@@ -417,9 +411,7 @@ public class Cat_Checador extends JFrame {
                 public void keyTyped(KeyEvent e) {
                         char caracter = e.getKeyChar();
 
-                   if(((caracter < '0') ||
-                        (caracter > '9')) &&
-                        (caracter != KeyEvent.VK_BACK_SPACE)){
+                   if(((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE)){
                             e.consume(); 
                     }                        
                 }
@@ -459,8 +451,7 @@ public class Cat_Checador extends JFrame {
                                                                 txtClaveReal.setEditable(true);
                                                                 txtClaveReal.requestFocus();
                                                                 
-                                                        }
-                                                        else{
+                                                        }else{
                                                                 JOptionPane.showMessageDialog(null, "El Numero de Empleado no existe o no tiene Horario Asignado","Error",JOptionPane.WARNING_MESSAGE);
                                                                 txtFolio.setEditable(true);
                                                                 txtClaveReal.setEditable(false);
@@ -481,13 +472,8 @@ public class Cat_Checador extends JFrame {
                 public void keyTyped(KeyEvent e) {
 //                        char caracter = e.getKeyChar();
 //
-//                   if(((caracter < '0') ||
-//                        (caracter > '9'))||
-//                        (caracter == KeyEvent.VK_BACK_QUOTE)&&
-//                        (caracter != KeyEvent.VK_BACK_SPACE)){
-//                           
+//                   if(((caracter < '0') || (caracter > '9')) || (caracter == KeyEvent.VK_BACK_QUOTE) && (caracter != KeyEvent.VK_BACK_SPACE)){
 //                            e.consume(); 
-//                            
 //                    }else{
 //                            txtClaveReal.setText(txtClaveReal.getText()+"  ");
 //                    }                        
@@ -507,54 +493,52 @@ public class Cat_Checador extends JFrame {
                                                                 txtClaveReal.setEditable(false);
                                                                 txtFolio.requestFocus();
                                                                 return;
-                                                        
                                                 }else{        
-                                                        
                                                         Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
                                                         Obj_Entosal entosalClave = new Obj_Entosal().buscar();
                                                         
                                                                 switch (re.getStatus()){
-                                                                
                                                                                 case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
 
                                                                                                                  registrarEntrada();
                                                                                                  }else{
-                                                                                                                 JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                                 txtFolio.setEditable(true);
+                                                                                                                JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                                                                txtFolio.setEditable(true);
                                                                                                                 txtFolio.setText("");
                                                                                                                 txtClaveReal.setText("");
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
+                                                                                                                return;
                                                                                                  }
-                                                                                                         break;
+                                                                                 break;
                                                                                  case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
                                                                                                                  txtFolio.setEditable(true);
                                                                                                                 txtFolio.setText("");
                                                                                                                 txtClaveReal.setText("");
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
-                                                                                                        break;
+                                                                                 break;
                                                                                  case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
                                                                                                                  txtFolio.setEditable(true);
                                                                                                                 txtFolio.setText("");
                                                                                                                 txtClaveReal.setText("");
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
-                                                                                                     break;
+                                                                                 break;
                                                                                  case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
                                                                                                                  txtFolio.setEditable(true);
                                                                                                                 txtFolio.setText("");
                                                                                                                 txtClaveReal.setText("");
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
-                                                                                                        break;
+                                                                                 break;
                                                                                  case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
                                                                                                                  txtFolio.setEditable(true);
                                                                                                                 txtFolio.setText("");
                                                                                                                 txtClaveReal.setText("");
                                                                                                                 txtClaveReal.setEditable(false);
                                                                                                                 txtFolio.requestFocus();
-                                                                                                        break;
+                                                                                 break;
                                                                                  case 6: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
 
                                                                                                           registrarEntrada();
@@ -565,10 +549,9 @@ public class Cat_Checador extends JFrame {
                                                                                                            txtClaveReal.setText("");
                                                                                                            txtClaveReal.setEditable(false);
                                                                                                            txtFolio.requestFocus();
-                                                                     }
-                                                                             break;
-                                                                                                        
-                                                                                                        
+                                                                                                           return;
+                                                                                                   		}
+                                                                                  break;
                                                                         };
                                                         }                        
                                         }                

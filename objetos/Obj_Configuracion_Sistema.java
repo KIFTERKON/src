@@ -13,9 +13,11 @@ public class Obj_Configuracion_Sistema {
 	private int couns;
 	private boolean bono_10_12;
 	private boolean bono_dia_extra;
+	private boolean guardar_horario;
+	private boolean guardar_departamento;
 	
 	public Obj_Configuracion_Sistema(){
-		this.bono_10_12=false; this.bono_dia_extra=false;
+		this.bono_10_12=false; this.bono_dia_extra=false; this.guardar_horario=false; this.guardar_departamento=false;
 		this.couns=0;
 	}
 
@@ -33,6 +35,22 @@ public class Obj_Configuracion_Sistema {
 
 	public void setBono_dia_extra(boolean bonoDiaExtra) {
 		bono_dia_extra = bonoDiaExtra;
+	}
+
+	public boolean isGuardar_horario() {
+		return guardar_horario;
+	}
+
+	public void setGuardar_horario(boolean guardar_horario) {
+		this.guardar_horario = guardar_horario;
+	}
+
+	public boolean isGuardar_departamento() {
+		return guardar_departamento;
+	}
+
+	public void setGuardar_departamento(boolean guardar_departamento) {
+		this.guardar_departamento = guardar_departamento;
 	}
 
 	public int getCouns() {

@@ -1036,7 +1036,7 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Configurar_Sistema(Obj_Configuracion_Sistema configs){
-		String query = "update tb_configuracion_sistema set bono_10_12=?, bono_dia_extra=?";
+		String query = "update tb_configuracion_sistema set bono_10_12=?, bono_dia_extra=?, guardar_horario=?, guardar_departamento=?";
 				
 		System.out.println(query);
 		Connection con = new Connexion().conexion();
@@ -1047,6 +1047,8 @@ public class ActualizarSQL {
 		
 			pstmt.setString(1, (configs.isBono_10_12())? "true" : "false");
 			pstmt.setString(2, (configs.isBono_dia_extra())? "true" : "false");
+			pstmt.setString(3, (configs.isGuardar_horario())? "true" : "false");
+			pstmt.setString(4, (configs.isGuardar_departamento())? "true" : "false");
 						
 			pstmt.executeUpdate();
 			con.commit();
