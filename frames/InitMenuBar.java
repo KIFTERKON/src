@@ -63,6 +63,7 @@ import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Reporte_BMS_Apartados;
 import catalogos.Cat_Reporte_Cuadrantes;
+import catalogos.Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
@@ -148,6 +149,7 @@ public class InitMenuBar extends Init{
 			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion", new ImageIcon("Iconos/ponderacion_icon&16.png"));
 		/* REPORTES */
 		JMenu Cuadrantes_Reportes = new JMenu("Reportes");
+		    JMenuItem Impresion_Cuadrante_Personal = new JMenuItem("Impresion de Cuadrante Personal"); 
 		   	JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
 	    	JMenu Cuadrantes_Reportes_Jefatura    = new JMenu("Reportes Jefatura");
 		        JMenuItem Cuadrantes_Reportes_Dinamico    = new JMenuItem("Reporte Dinamico de Cuadrantes", new ImageIcon("Iconos/reporte_icon&16.png"));
@@ -354,6 +356,9 @@ public class InitMenuBar extends Init{
 		/* CUADRANTES 
 		*		REPORTE */
 		Cuadrantes.add(Cuadrantes_Reportes);
+		    Cuadrantes_Reportes.add(Impresion_Cuadrante_Personal);
+		    Impresion_Cuadrante_Personal.addActionListener(Opciones);
+		    Impresion_Cuadrante_Personal.setEnabled(false);
 			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Directivo);
 				Cuadrantes_Reportes_Directivo.addActionListener(Opciones);
 				Cuadrantes_Reportes_Directivo.setEnabled(false);
@@ -604,6 +609,10 @@ public class InitMenuBar extends Init{
 				new Cat_Ponderacion().setVisible(true);
 			/* CUADRANTES 
 			 * 		REPORTES */
+			
+			if(e.getActionCommand().equals("Impresion de Cuadrante Personal"))
+				 new Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario().setVisible(true);
+			
 			if(e.getActionCommand().equals("Reportes Directivo"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Dinamico de Cuadrantes"))

@@ -833,6 +833,7 @@ public class InitButton extends InitMenuBar{
 				Cuadrantes_Catalogo_Respuesta.setEnabled(false);
 			/* CUADRANTES 
 			*		REPORTE */
+				Impresion_Cuadrante_Personal.setEnabled(false);
 				Cuadrantes_Reportes_Directivo.setEnabled(false);
 				Cuadrantes_Reportes_Jefatura.setEnabled(false);
 				Cuadrantes_Reportes_Usuario.setEnabled(false);

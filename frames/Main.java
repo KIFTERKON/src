@@ -23,7 +23,7 @@ import objetos.Obj_Usuario;
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    offline+ López Arballo Oscar Manuel        ***
-***	    offline+ Rodríguez Sánchez José Mario      ***
+***	    online+ Rodríguez Sánchez José Mario      ***
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/
@@ -187,7 +187,10 @@ public class Main extends InitButton {
 						Cuadrantes_Catalogo_Ponderacion.setEnabled(true);
 					/* CUADRANTES
 					*		REPORTE */
-					if(permisos[i].equals("Reportes Directivo"))
+				
+				    if(permisos[i].equals("Impresion de Cuadrante Personal"));
+					 Impresion_Cuadrante_Personal.setEnabled(true);
+				    if(permisos[i].equals("Reportes Directivo"))
 						Cuadrantes_Reportes_Directivo.setEnabled(true);
 					if(permisos[i].equals("Reporte Dinamico de Cuadrantes"))
 						
@@ -358,6 +361,8 @@ public class Main extends InitButton {
 					
 					/* CUADRANTES 
 					*		ALIMENTACION */
+				    if(permisos[i].equals("Impresion de Cuadrante Personal"));
+					 Impresion_Cuadrante_Personal.setEnabled(true);
 					if(permisos[i].equals("Alimentación de Cuadrantes"))
 						Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
 					if(permisos[i].equals("Cuadrante"))
