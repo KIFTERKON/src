@@ -2528,10 +2528,6 @@ public boolean Guardar_Horario(ObjHorario horario){
 }
 
 	public boolean Insert_Empleado_Comida(int folio, String t_entrada, int tipo_salida_comer) {
-		System.out.println("2sad13asd");
-		
-		System.out.println(tipo_salida_comer);
-		
 		String insert ="exec sp_insert_entosal "+folio+",?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;

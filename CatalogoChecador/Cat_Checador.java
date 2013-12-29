@@ -437,8 +437,8 @@ public class Cat_Checador extends JFrame {
 	                                    Obj_Empleado re = new Obj_Empleado().buscar(folio_empleado);
 	                                    
 	                                    if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
-	//                                                                
-	//                                                                                        	manda folio del empleado,tipo de checada y (0 por defaul ya ke no dobla y saldra a comer)
+	                                    	try{
+//	                                        	manda folio del empleado,tipo de checada y (0 por defaul ya ke no dobla y saldra a comer)
 			                                    Object[] registro = fila2(folio_empleado,checada,0);
 			
 			                                    String tipo=registro[2].toString();
@@ -472,7 +472,29 @@ public class Cat_Checador extends JFrame {
 	                                            Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
 	                                            lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
 	                                            
-	                                            txtClaveReal.requestFocus();
+	                                            txtClaveReal.requestFocus(); 		
+	                                    	}catch(NullPointerException e){
+	                                    		while(tabla.getRowCount() > 0)
+	                                    			tabla_model.removeRow(0);
+	                                    		
+	                                    		Object [][] lista_tabla = new Obj_Traer_Checador().get_tabla_model();
+	                                            String[] fila = new String[9];
+	                                                    for(int i=0; i<lista_tabla.length; i++){
+	                                                            fila[0] = lista_tabla[i][0]+"";
+	                                                            fila[1] = lista_tabla[i][1]+"";
+	                                                            fila[2] = lista_tabla[i][2]+"";
+	                                                            fila[3] = lista_tabla[i][3]+"";
+	                                                            fila[4] = lista_tabla[i][4]+"";
+	                                                            fila[5] = lista_tabla[i][5]+"";
+	                                                            fila[6] = lista_tabla[i][6]+"";
+	                                                            fila[7] = lista_tabla[i][7]+"";
+	                                                            fila[8] = lista_tabla[i][8]+"";
+	                                                            tabla_model.addRow(fila);
+	                                                    }
+	                                            System.err.println("Entró al Catch, verificar si se llenó la tabla");
+	                                                    
+	                                    	}
+
                                  }else{
                                                 JOptionPane.showMessageDialog(null, "LA CLAVE NO CORRESPONDE","Error",JOptionPane.WARNING_MESSAGE);
                                                 panelLimpiar();
