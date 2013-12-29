@@ -63,7 +63,9 @@ import catalogos.Cat_Puesto;
 import catalogos.Cat_Rango_Prestamos;
 import catalogos.Cat_Reporte_BMS_Apartados;
 import catalogos.Cat_Reporte_Cuadrantes;
+import catalogos.Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
+import catalogos.Cat_Reporte_IZAGAR_de_Movimientos_Operados;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;
@@ -83,6 +85,15 @@ public class InitMenuBar extends Init{
 	/* ARCHIVO */
 	JMenu Archivo = new JMenu("Archivo");
 	JMenuItem Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
+	
+    /* AUDITORIA */	
+    JMenu Auditoria = new JMenu("Auditoria");
+       JMenu Reportes_Auditoria = new JMenu("Reportes");
+             JMenuItem Reporte_de_Movimientos_Operados = new JMenuItem ("Reporte de Movimientos Operados"); 
+       JMenu Cortes = new JMenu("Cortes");
+		    JMenu Cortes_Alimentacion = new JMenu("Alimentacion");
+		           JMenuItem Captura_Cortes 			  = new JMenuItem("Captura de Cortes de Cajeras");  
+	    	JMenu Cortes_Reportes = new JMenu("Reportes de Cortes"); 
 	
 	/* CATALOGO */
 	JMenu Catalogo = new JMenu("Catalogo");
@@ -118,11 +129,7 @@ public class InitMenuBar extends Init{
 		JMenu Contabilidad_Egresos = new JMenu("Egresos");
 		       JMenuItem Egresos_Reporte_de_apartados_y_abonos = new JMenuItem("Reporte de Apartados y Abonos en una Asignacion");	
 		       
-    /* CORTES */	
-	JMenu Cortes = new JMenu("Cortes");
-		JMenu Cortes_Alimentacion = new JMenu("Alimentacion");
-		        JMenuItem Captura_Cortes 			  = new JMenuItem("Captura de Cortes de Cajeras");  
-		JMenu Cortes_Reportes = new JMenu("Reportes de Cortes"); 
+
 		    
 				
 	/* CUADRANTES */
@@ -148,6 +155,7 @@ public class InitMenuBar extends Init{
 			JMenuItem Cuadrantes_Catalogo_Ponderacion 		= new JMenuItem("Ponderacion", new ImageIcon("Iconos/ponderacion_icon&16.png"));
 		/* REPORTES */
 		JMenu Cuadrantes_Reportes = new JMenu("Reportes");
+		    JMenuItem Impresion_Cuadrante_Personal = new JMenuItem("Impresion de Cuadrante Personal"); 
 		   	JMenuItem Cuadrantes_Reportes_Directivo   = new JMenuItem("Reportes Directivo", new ImageIcon("Iconos/reporte_icon&16.png"));
 	    	JMenu Cuadrantes_Reportes_Jefatura    = new JMenu("Reportes Jefatura");
 		        JMenuItem Cuadrantes_Reportes_Dinamico    = new JMenuItem("Reporte Dinamico de Cuadrantes", new ImageIcon("Iconos/reporte_icon&16.png"));
@@ -214,6 +222,20 @@ public class InitMenuBar extends Init{
 		Archivo.setMnemonic(KeyEvent.VK_I);
 		Archivo.add(Cerrar);
 			Cerrar.addActionListener(Opciones);
+			
+       /* AUDITORIA */
+
+       Auditoria.add(Cortes);
+         Auditoria.add(Reportes_Auditoria);
+            Reportes_Auditoria.add(Reporte_de_Movimientos_Operados);    
+             Reporte_de_Movimientos_Operados.addActionListener(Opciones);
+             Reporte_de_Movimientos_Operados.setEnabled(false);  
+         Cortes.add(Cortes_Alimentacion); 
+	       Cortes_Alimentacion.add(Captura_Cortes);
+             Captura_Cortes.addActionListener(Opciones);
+             Captura_Cortes.setEnabled(false);
+         Cortes.add(Cortes_Reportes);
+               Cortes_Reportes.addActionListener(Opciones);
 
 		/* CATALOGO */
 		Catalogo.setMnemonic(KeyEvent.VK_C);
@@ -292,15 +314,7 @@ public class InitMenuBar extends Init{
 		        Egresos_Reporte_de_apartados_y_abonos.addActionListener(Opciones);
 		        Egresos_Reporte_de_apartados_y_abonos.setEnabled(false);
 				
-					
-	    /* CORTES */
-		Cortes.add(Cortes_Alimentacion); 
-			   Cortes_Alimentacion.add(Captura_Cortes);
-		             Captura_Cortes.addActionListener(Opciones);
-		             Captura_Cortes.setEnabled(false);
-  	    Cortes.add(Cortes_Reportes);
-  	                 Cortes_Reportes.addActionListener(Opciones);
-                        	              	
+                       	              	
 		/* CUADRANTES 
 		*		ALIMENTACION */
 		Cuadrantes.add(Cuadrantes_Alimentacion);
@@ -354,6 +368,9 @@ public class InitMenuBar extends Init{
 		/* CUADRANTES 
 		*		REPORTE */
 		Cuadrantes.add(Cuadrantes_Reportes);
+		    Cuadrantes_Reportes.add(Impresion_Cuadrante_Personal);
+		    Impresion_Cuadrante_Personal.addActionListener(Opciones);
+		    Impresion_Cuadrante_Personal.setEnabled(false);
 			Cuadrantes_Reportes.add(Cuadrantes_Reportes_Directivo);
 				Cuadrantes_Reportes_Directivo.addActionListener(Opciones);
 				Cuadrantes_Reportes_Directivo.setEnabled(false);
@@ -471,9 +488,9 @@ public class InitMenuBar extends Init{
 			Ayuda.add(Ayuda_Acerca_de);
 				
 		Barra.add(Archivo);
+		Barra.add(Auditoria);
 		Barra.add(Catalogo);
 		Barra.add(Configuracion);
-		Barra.add(Cortes);
 		Barra.add(Contabilidad);
 		Barra.add(Cuadrantes);
 		Barra.add(Lista_Raya);
@@ -505,7 +522,16 @@ public class InitMenuBar extends Init{
 			} catch (Exception e2){}
 			}
 			
-			/* CATALOGO */
+			/* AUDITORIA */
+			 
+			if(e.getActionCommand().equals("Reporte de Movimientos Operados"))
+			    new Cat_Reporte_IZAGAR_de_Movimientos_Operados().setVisible(true);
+			if(e.getActionCommand().equals("Captura de Cortes de Cajeras"))
+				new Cat_Filtro_Cortes().setVisible(true);	
+			if(e.getActionCommand().equals("Reportes de Cortes"))
+				System.out.println("Pendiente");
+			
+		    /* CATALOGO */
 			if(e.getActionCommand().equals("Nuevo Departamento"))
 				new Cat_Departamento().setVisible(true);
 			if(e.getActionCommand().equals("Nuevo Empleado"))
@@ -553,13 +579,7 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Reporte de Apartados y Abonos en una Asignacion"))
 				new Cat_Reporte_BMS_Apartados().setVisible(true);
 	
-			
-			/* CORTES */
-			if(e.getActionCommand().equals("Captura de Cortes de Cajeras"))
-				new Cat_Filtro_Cortes().setVisible(true);	
-			if(e.getActionCommand().equals("Reportes de Cortes"))
-				System.out.println("Pendiente");
-			
+		
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
 			if(e.getActionCommand().equals("Alimentación de Cuadrantes")){
@@ -604,6 +624,10 @@ public class InitMenuBar extends Init{
 				new Cat_Ponderacion().setVisible(true);
 			/* CUADRANTES 
 			 * 		REPORTES */
+			
+			if(e.getActionCommand().equals("Impresion de Cuadrante Personal"))
+				 new Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario().setVisible(true);
+			
 			if(e.getActionCommand().equals("Reportes Directivo"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Dinamico de Cuadrantes"))

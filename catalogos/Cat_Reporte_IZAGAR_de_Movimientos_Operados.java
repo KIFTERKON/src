@@ -32,15 +32,15 @@ public class Cat_Reporte_IZAGAR_de_Movimientos_Operados extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/reporte_icon&16.png"));
 		this.setTitle("Reportes IZAGAR de Movimientos Operados");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Movimientos Operados"));
-		this.panel.add(new JLabel("Fecha:")).setBounds(130,40,100,20);
-		this.panel.add(c_inicio).setBounds(180,40,100,20);
+		this.panel.add(new JLabel("Fecha:")).setBounds(110,40,100,20);
+		this.panel.add(c_inicio).setBounds(150,40,140,20);
 
 	   
 		this.btn_generar.addActionListener(op_generar);
-		this.panel.add(btn_generar).setBounds(140,100,210,20);
+		this.panel.add(btn_generar).setBounds(110,100,180,20);
 
 		this.cont.add(panel);
-		this.setSize(490,270);
+		this.setSize(400,200);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 	}

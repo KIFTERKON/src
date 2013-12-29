@@ -28,7 +28,7 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 
 
 	@SuppressWarnings("serial")
-	public class Cat_Impresion_de_Cuadrantes extends JFrame{
+	public class Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario extends JFrame{
 				
 			Container cont = getContentPane();
 			JLayeredPane campo = new JLayeredPane();
@@ -77,7 +77,7 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
-			public Cat_Impresion_de_Cuadrantes()	{
+			public Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario()	{
 				
 				
 				
@@ -294,7 +294,7 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 			
 		}
 		public static  void main(String []arg){
-		new Cat_Impresion_de_Cuadrantes().setVisible(true);	
+		new Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario().setVisible(true);	
 			
 		}
 }

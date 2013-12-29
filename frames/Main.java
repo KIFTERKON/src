@@ -23,7 +23,7 @@ import objetos.Obj_Usuario;
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    offline+ López Arballo Oscar Manuel        ***
-***	    offline+ Rodríguez Sánchez José Mario      ***
+***	    online+ Rodríguez Sánchez José Mario      ***
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/
@@ -95,6 +95,13 @@ public class Main extends InitButton {
 			if((auditoriaBoolean == true)  || (finanzasBoolean == true)){
 				Object[] permisos = new Obj_Main().Permisos(txtUsuario.getText());
 				for(int i=0; i<permisos.length; i++){
+	               /*AUDITORIA*/
+					if(permisos[i].equals("Reporte de Movimientos Operados"))
+						Reporte_de_Movimientos_Operados.setEnabled(true);
+					
+					if(permisos[i].equals("Captura de Cortes de Cajeras"))
+						Captura_Cortes .setEnabled(true);
+					
 					
 					/* CATALOGO */
 					if(permisos[i].equals("Nuevo Departamento")){
@@ -151,10 +158,7 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Reporte de Apartados y Abonos en una Asignacion"))
 						Egresos_Reporte_de_apartados_y_abonos.setEnabled(true);
 													
-					/*CORTES*/
-					if(permisos[i].equals("Captura de Cortes de Cajeras"))
-						Captura_Cortes .setEnabled(true);
-					
+				
 					/* CUADRANTES 
 					*		ALIMENTACION */
 					if(permisos[i].equals("Alimentación de Cuadrantes"))
@@ -187,7 +191,10 @@ public class Main extends InitButton {
 						Cuadrantes_Catalogo_Ponderacion.setEnabled(true);
 					/* CUADRANTES
 					*		REPORTE */
-					if(permisos[i].equals("Reportes Directivo"))
+				
+				    if(permisos[i].equals("Impresion de Cuadrante Personal"));
+					 Impresion_Cuadrante_Personal.setEnabled(true);
+				    if(permisos[i].equals("Reportes Directivo"))
 						Cuadrantes_Reportes_Directivo.setEnabled(true);
 					if(permisos[i].equals("Reporte Dinamico de Cuadrantes"))
 						
@@ -297,6 +304,12 @@ public class Main extends InitButton {
 				Object[] permisos = new Obj_Main().Permisos(txtUsuario.getText());
 				for(int i=0; i<permisos.length; i++){
 					
+		           /*AUDITORIA*/
+				    if(permisos[i].equals("Reporte de Movimientos Operados"))
+							Reporte_de_Movimientos_Operados.setEnabled(true);
+					if(permisos[i].equals("Captura de Cortes de Cajeras"))
+							Captura_Cortes .setEnabled(true);
+					
 					/* CATALOGO */
 					if(permisos[i].equals("Nuevo Departamento")){
 						Catalogo_Departamento.setEnabled(true);
@@ -351,13 +364,12 @@ public class Main extends InitButton {
 						Importar_Voucher.setEnabled(true);
 					if(permisos[i].equals("Reporte de Apartados y Abonos en una Asignacion"))
 						Egresos_Reporte_de_apartados_y_abonos.setEnabled(true);
-					
-					/*CORTES*/
-					if(permisos[i].equals("Captura de Cortes de Cajeras"))
-						Captura_Cortes .setEnabled(true);
-					
+				
+							
 					/* CUADRANTES 
 					*		ALIMENTACION */
+				    if(permisos[i].equals("Impresion de Cuadrante Personal"));
+					 Impresion_Cuadrante_Personal.setEnabled(true);
 					if(permisos[i].equals("Alimentación de Cuadrantes"))
 						Cuadrantes_Alimentacion_Actividades_Cuadrantes.setEnabled(true);
 					if(permisos[i].equals("Cuadrante"))
