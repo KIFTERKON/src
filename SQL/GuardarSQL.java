@@ -2532,7 +2532,7 @@ public boolean Guardar_Horario(ObjHorario horario){
 		
 		System.out.println(tipo_salida_comer);
 		
-		String insert ="exec sp_insert_entosal_comida_dobla "+folio+",?,?,?,?";
+		String insert ="exec sp_insert_entosal "+folio+",?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		

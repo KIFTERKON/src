@@ -50,7 +50,8 @@ public class Cat_Checador_Selecion_Comida extends JDialog{
 	   {@Override
 			public  void actionPerformed(ActionEvent e) {
 			tipo_salida_comer=1;
-				Cat_Checador.refresh(folio_empleado,tipo_entrada,tipo_salida_comer);
+//				Cat_Checador.refresh(folio_empleado,tipo_entrada,tipo_salida_comer);
+				Cat_Checador.fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
 				dispose();
 			}
 	   };
@@ -59,7 +60,8 @@ public class Cat_Checador_Selecion_Comida extends JDialog{
 	{@Override
 		public void actionPerformed(ActionEvent e) {
 			tipo_salida_comer=2;
-			Cat_Checador.refresh(folio_empleado,tipo_entrada,tipo_salida_comer);
+//			Cat_Checador.refresh(folio_empleado,tipo_entrada,tipo_salida_comer);
+			Cat_Checador.fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
 			dispose();
 		}
 	};	

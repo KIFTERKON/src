@@ -25,7 +25,6 @@ import java.io.OutputStream;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -38,9 +37,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -100,25 +99,25 @@ public class Cat_Checador extends JFrame {
                 static JTable tabla = new JTable(tabla_model);
                 JScrollPane panelScroll = new JScrollPane(tabla);
                 
-                JLabel lblFolio = new JLabel("Numero de Empleado:");
-                JTextField txtFolio = new JTextField();
-                
                 JLabel lblClave = new JLabel("Clave:");
                 JPasswordField txtClaveReal = new JPasswordField();
                 
                 JButton btnEmplorar = new JButton("");
                 
-                JLabel lblFecha = new JLabel("");
+                JLabel lblSemaforoRojo = new JLabel("");
+                JLabel lblSemaforoVerde = new JLabel("");
                 JLabel lblLogo = new JLabel("");
                 JLabel lblCerrar = new JLabel("");
+                
                 JButton btnFoto = new JButton("");
+                JLabel lblFecha = new JLabel("");
                 
                 JLabel lblNota = new JLabel("");
                 JLabel lblNota2 = new JLabel("");
                 
-                JLabel lblNombre = new JLabel("Empleado: ");
-                JLabel lblNombreConsulta = new JLabel("");
-                JLabel lblEstablecimiento = new JLabel("Establecimiento: ");
+                JLabel lblNombre = new JLabel("Emp: ");
+//                JLabel lblNombreConsulta = new JLabel("");
+                JLabel lblEstablecimiento = new JLabel("Estab: ");
                 JLabel lblPuesto = new JLabel("Puesto: ");
                 JLabel lblHorario = new JLabel("Horario: ");
                 
@@ -129,194 +128,147 @@ public class Cat_Checador extends JFrame {
                 JTextArea txaAvisos = new JTextArea("");
                 ImageIcon img = new ImageIcon("imagen/txa.jpg");
                 
-        //        float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
-                int anchoMon = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width);
-        //        int anchoMon = 1366;
-                int altoMon = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height)-30;
+                
+                int anchoMon = Toolkit.getDefaultToolkit().getScreenSize().width;
+        		int altoMon = Toolkit.getDefaultToolkit().getScreenSize().height;
                 
                 static JLabel fondo = new JLabel();
+              
+                Font font;
                 
-        public Cat_Checador(){
+                String semaforoR = System.getProperty("user.dir")+"/Imagen/semaforo_rojo_chica.png";
+                ImageIcon tmpIconSemR = new ImageIcon(semaforoR);
                 
-                this.init_tabla();
-                
-                lblFolio.setForeground(Color.BLUE);
-                lblFolio.setFont(new Font("Arial",0,12));
-                
-                lblClave.setForeground(Color.BLUE);
-                lblClave.setFont(new Font("Arial",0,12));
-                
-                lblFecha.setForeground(Color.BLUE);
-                lblFecha.setFont(new Font("Algerian",0,25));
-                
-                lblNota2.setForeground(Color.BLUE);
-                lblNota2.setFont(new Font("Arial",0,28));
-                
-                lblNota.setForeground(Color.BLUE);
-                lblNota.setFont(new Font("Arial",0,28));
-                
-                lblNota2.setForeground(Color.BLUE);
-                lblNota2.setFont(new Font("Arial",0,28));
-                
-                lblNombre.setFont(new Font("Monospaced",0,14));
-                lblEstablecimiento.setFont(new Font("Monospaced",0,14));
-                lblPuesto.setFont(new Font("Monospaced",0,14));
-                lblHorario.setFont(new Font("Monospaced",0,14));
-                
-                txaAvisos.setBackground(new java.awt.Color(0,0,205));
-                txaAvisos.setForeground(new java.awt.Color(255,69,0));
-                
-                Font font = new Font("Verdana", Font.BOLD, 24);
-                txaAvisos.setFont(font);
-                
-                txaAvisos.setLineWrap(true);
-                barra_mensaje.setOpaque(false);
-                barra_mensaje.setViewportView(txaAvisos);
-                
-                String fileFondo="";
-                if(anchoMon < 1300){
-                        fileFondo = "Imagen/calaFondoChecador2.jpg";
-                }else{
-                        fileFondo = "Imagen/calaFondoChecador.jpg";
-                }
-                
-                ImageIcon tmpIconAuxFondo = new ImageIcon(fileFondo);
-                Icon iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
-                fondo.setIcon(iconoFondo);
-                
-                this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-                panel.setBorder(BorderFactory.createTitledBorder("Checador"));
-                this.setTitle("Checador");
-                
-                int x = 15, y=80, ancho=100;
-                
-                if(anchoMon < 1300){
-                        trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,90));
-                        
-                        panel.add(lblFolio).setBounds(10,y-50,ancho+30,20);
-                        panel.add(txtFolio).setBounds(10,y-30,ancho-20,20);
-                        
-                        panel.add(lblClave).setBounds(10,y-10,ancho,20);
-                        panel.add(txtClaveReal).setBounds(10,y+10,ancho+40,20);
-                        
-                        panel.add(trae_hora.lblHora).setBounds(170,10, 550, 120);
-                        panel.add(lblNota).setBounds(60,y+=110, 900, 30);
-                        panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
-                        
-                        panel.add(lblFecha).setBounds(820,120, 300, 40);
-                        panel.add(lblLogo).setBounds((anchoMon/2)-60,23, 100, 100);
-                        panel.add(lblCerrar).setBounds(anchoMon-77,10, 127, 127);
-                        panel.add(btnFoto).setBounds(anchoMon-430,24,100,100);
-                        
-                        panel.add(lblNombre).setBounds(700,25,320,20);
-                        panel.add(lblNombreConsulta).setBounds(700,45,280,20);
-                        panel.add(lblEstablecimiento).setBounds(700,65,280,20);
-                        panel.add(lblPuesto).setBounds(700,85,280,20);
-                        panel.add(lblHorario).setBounds(700,105,280,20);
-                        
-                        panel.add(barra_mensaje).setBounds(ancho+710,y-58,210,560);
-                        
-                        panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-300);
-                        panel.add(fondo).setBounds(0,-80,1660,900);
-                }
-                if(anchoMon >= 1300 && anchoMon <= 1380){
-                        trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,115));
-                        
-                        panel.add(lblFolio).setBounds(10,y-10,ancho+30,20);
-                        panel.add(txtFolio).setBounds(ancho+55,y-10,ancho-20,20);
-                        
-                        panel.add(lblClave).setBounds(10,y+=20,ancho,20);
-                        panel.add(txtClaveReal).setBounds(ancho-35,y,ancho+70,20);
-                        
-                        panel.add(trae_hora.lblHora).setBounds(247,35, 550, 120);
-                        panel.add(lblNota).setBounds(60,y+=125, 900, 30);
-                        panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
-                        
-                        panel.add(lblFecha).setBounds(835+33,165, 300, 40);
-                        panel.add(lblLogo).setBounds((anchoMon/2)-55,24, 147, 147);
-                        panel.add(lblCerrar).setBounds(anchoMon-100,34, 127, 127);
-                        panel.add(btnFoto).setBounds(anchoMon-540,34, 127, 127);
-                        
-                        panel.add(lblNombre).setBounds(960,40,320,20);
-                        panel.add(lblEstablecimiento).setBounds(960,70,280,20);
-                        panel.add(lblPuesto).setBounds(960,105,280,20);
-                        panel.add(lblHorario).setBounds(960,140,280,20);
-                        
-                        panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-330);
-                        panel.add(fondo).setBounds(0,-80,1660,900);
-                        
-                }
-                if(anchoMon > 1380){
-                        trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,130));
-                        
-                        panel.add(lblFolio).setBounds(x+10,y,ancho+50,20);
-                        panel.add(txtFolio).setBounds(ancho+50+20,y,ancho,20);
-                        
-                        panel.add(lblClave).setBounds(x+10,y+=40,ancho,20);
-                        panel.add(txtClaveReal).setBounds(ancho-20+20,y,ancho+70,20);
-                        
-                        panel.add(trae_hora.lblHora).setBounds(300,45, 550, 120);
-                        panel.add(lblNota).setBounds(130,y+=145, 900, 30);
-                        panel.add(lblNota2).setBounds(190,y+=30, 900, 30);
-                        
-                        panel.add(lblFecha).setBounds(835+33+242,190, 300, 40);
-                        panel.add(lblLogo).setBounds(935+33-237,34, 147, 147);
-                        panel.add(lblCerrar).setBounds(935+33+522,34, 147, 147);
-                        panel.add(btnFoto).setBounds(935+33,35, 147, 147);
-                        
-                        panel.add(lblNombre).setBounds(1130,40,320,20);
-                        panel.add(lblEstablecimiento).setBounds(1130,80,320,20);
-                        panel.add(lblPuesto).setBounds(1130,120,320,20);
-                        panel.add(lblHorario).setBounds(1130,160,320,20);
-                        
-                        panel.add(btnExaminar).setBounds(1000,200,80,20);
-                        panel.add(btnMensaje).setBounds(960,247,608,608);
-                        
-                        panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
-                        panel.add(fondo).setBounds(0,-20,1660,900);
-                }
-                
-                txtFolio.setDocument(new JTextFieldLimit(9));
-                txtClaveReal.setDocument(new JTextFieldLimit(100));
-
-                txtClaveReal.setEditable(false);
+                String semaforoV = System.getProperty("user.dir")+"/Imagen/semaforo_verde_chica.png";
+                ImageIcon tmpIconSemV = new ImageIcon(semaforoV);
                 
                 String fileLogo = System.getProperty("user.dir")+"/Imagen/LogPrincipal3.png";
                 ImageIcon tmpIconLogo = new ImageIcon(fileLogo);
                 
-                Icon iconoLogo;
-                if(anchoMon < 1300){
-                        iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-                }else{
-                        iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(127, 127, Image.SCALE_DEFAULT));
-                }
-                lblLogo.setIcon(iconoLogo);        
-                
                 String fileCerrar = System.getProperty("user.dir")+"/Imagen/cerrar.png";
                 ImageIcon tmpIconCerrar = new ImageIcon(fileCerrar);
-                
-                Icon iconoCerrar;
-                if(anchoMon < 1300){
-                        iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(80, 100, Image.SCALE_DEFAULT));
-                }else{
-                        iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(120, 150, Image.SCALE_DEFAULT));
-                }
-                lblCerrar.setIcon(iconoCerrar);
-                
+              
+                String fileFondo = "Imagen/calaFondoChecador.jpg";
+                String fileFondo2 = "Imagen/calaFondoChecador2.jpg";
+                ImageIcon tmpIconAuxFondo;
+               
                 String fileFoto = System.getProperty("user.dir")+"/Iconos/Un.JPG";
                 ImageIcon tmpIconAuxFoto = new ImageIcon(fileFoto);
+                
+                Icon iconoFondo;
+                
+                Icon iconoSemaforoR;
+                Icon iconoSemaforoV;
+                
+                Icon iconoLogo;
+                Icon iconoCerrar;
+                
+                
+        public Cat_Checador(){
+                
+                this.init_tabla();
+                Resolucion(anchoMon, altoMon);
+                
                 Icon iconoFoto = new ImageIcon(tmpIconAuxFoto.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-                btnFoto.setIcon(iconoFoto);        
+                btnFoto.setIcon(iconoFoto);
+                
+//                this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
+//                panel.setBorder(BorderFactory.createTitledBorder("Checador"));
+//                this.setTitle("Checador");
+                
+//                lblSemaforoRojo.setEnabled(true);
+//                lblSemaforoVerde.setEnabled(false);
+                
+//         int x = 15, y=80, ancho=100;
+//                
+//                if(anchoMon < 1300){
+//                        trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,90));
+//                        
+//                        panel.add(lblClave).setBounds(10,y-10,ancho,20);
+//                        panel.add(txtClaveReal).setBounds(10,y+10,ancho+40,20);
+//                        
+//                        panel.add(trae_hora.lblHora).setBounds(170,10, 550, 120);
+//                        panel.add(lblNota).setBounds(60,y+=110, 900, 30);
+//                        panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
+//                        
+//                        panel.add(lblFecha).setBounds(820,120, 300, 40);
+//                        panel.add(lblLogo).setBounds((anchoMon/2)-60,23, 100, 100);
+//                        panel.add(lblCerrar).setBounds(anchoMon-77,10, 127, 127);
+//                        panel.add(btnFoto).setBounds(anchoMon-430,24,100,100);
+//                        
+//                        panel.add(lblNombre).setBounds(700,25,320,20);
+//                        panel.add(lblNombreConsulta).setBounds(700,45,280,20);
+//                        panel.add(lblEstablecimiento).setBounds(700,65,280,20);
+//                        panel.add(lblPuesto).setBounds(700,85,280,20);
+//                        panel.add(lblHorario).setBounds(700,105,280,20);
+//                        
+//                        panel.add(barra_mensaje).setBounds(ancho+710,y-58,210,560);
+//                        
+//                        panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-300);
+//                        panel.add(fondo).setBounds(0,-80,1660,900);
+//                }
+//                if(anchoMon >= 1300 && anchoMon <= 1380){
+//                        trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,115));
+//                        
+//                        panel.add(lblClave).setBounds(10,y+=20,ancho,20);
+//                        panel.add(txtClaveReal).setBounds(ancho-35,y,ancho+70,20);
+//                        
+//                        panel.add(trae_hora.lblHora).setBounds(247,35, 550, 120);
+//                        panel.add(lblNota).setBounds(60,y+=125, 900, 30);
+//                        panel.add(lblNota2).setBounds(120,y+=30, 900, 30);
+//                        
+//                        panel.add(lblFecha).setBounds(835+33,165, 300, 40);
+//                        panel.add(lblLogo).setBounds((anchoMon/2)-55,24, 147, 147);
+//                        panel.add(lblCerrar).setBounds(anchoMon-100,34, 127, 127);
+//                        panel.add(btnFoto).setBounds(anchoMon-540,34, 127, 127);
+//                        
+//                        panel.add(lblNombre).setBounds(960,40,320,20);
+//                        panel.add(lblEstablecimiento).setBounds(960,70,280,20);
+//                        panel.add(lblPuesto).setBounds(960,105,280,20);
+//                        panel.add(lblHorario).setBounds(960,140,280,20);
+//                        
+//                        panel.add(panelScroll).setBounds(25,y+63,ancho+670,altoMon-330);
+//                        panel.add(fondo).setBounds(0,-80,1660,900);
+//                        
+//                }
+//                if(anchoMon > 1380){
+//                        trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,130));
+//                        
+//                        panel.add(lblClave).setBounds(x+10,y+=40,ancho,20);
+//                        panel.add(txtClaveReal).setBounds(ancho-20+20,y,ancho+70,20);
+//                        
+//                        panel.add(trae_hora.lblHora).setBounds(300,45, 550, 120);
+//                        panel.add(lblNota).setBounds(130,y+=145, 900, 30);
+//                        panel.add(lblNota2).setBounds(190,y+=30, 900, 30);
+//                        
+//                        panel.add(lblFecha).setBounds(835+33+242,190, 300, 40);
+//                        panel.add(lblLogo).setBounds(935+33-237,34, 147, 147);
+//                        panel.add(lblCerrar).setBounds(935+33+522,34, 147, 147);
+//                        panel.add(btnFoto).setBounds(935+33,35, 147, 147);
+//                        
+//                        panel.add(lblNombre).setBounds(1130,40,320,20);
+//                        panel.add(lblEstablecimiento).setBounds(1130,80,320,20);
+//                        panel.add(lblPuesto).setBounds(1130,120,320,20);
+//                        panel.add(lblHorario).setBounds(1130,160,320,20);
+//                        
+//                        panel.add(btnExaminar).setBounds(1000,200,80,20);
+//                        panel.add(btnMensaje).setBounds(960,247,608,608);
+//                        
+//                        panel.add(panelScroll).setBounds(32,y+65,ancho+800,altoMon-380);
+//                        panel.add(fondo).setBounds(0,-20,1660,900);
+//                }
+                
+                txtClaveReal.setDocument(new JTextFieldLimit(100));
                 
                 btnExaminar.addActionListener(opExaminar);
                 
-                txtFolio.addKeyListener(action_buscar);
-                txtClaveReal.addKeyListener(action_entosal_clave);
+                txtClaveReal.addKeyListener(action_registrar_entrada);
              
 //           asigna el foco al JTextField deseado al arrancar la ventana
               this.addWindowListener(new WindowAdapter() {
                       public void windowOpened( WindowEvent e ){
-                      txtFolio.requestFocus();
+//                      txtFolio.requestFocus();
+                      txtClaveReal.requestFocus();
                    }
               });
                 
@@ -328,26 +280,20 @@ public class Cat_Checador extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
-                           Toolkit.getDefaultToolkit().beep();
-                            txtFolio.setEditable(true);
-                                        txtFolio.setText("");
-                                        txtClaveReal.setText("");
-                                        txtClaveReal.setEditable(false);
-                                        txtFolio.requestFocus();
+                                     txtClaveReal.setText("");
+                                     txtClaveReal.setText("");
+                                     txtClaveReal.requestFocus();
                     }
                 });
                 
-//                setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-//        addWindowListener(new java.awt.event.WindowAdapter() {
-//            @Override
-//            public void windowClosing(java.awt.event.WindowEvent evt) {
-//                close();
-//            }
-//        });
-//        ----------------------------------------------------------------------------------------------------------------        
                 cont.add(panel);
                 
-                this.setSize(anchoMon,altoMon);
+                if(anchoMon>=1280){
+                	this.setSize(1280,768);
+                }else{
+                	this.setSize(anchoMon,altoMon);
+                }
+                
                 this.setResizable(false);
                 this.setUndecorated(true);
                 this.setLocationRelativeTo(null);
@@ -357,208 +303,101 @@ public class Cat_Checador extends JFrame {
                 lblCerrar.addMouseListener ( new  MouseAdapter (){
                         public void mouseReleased (MouseEvent e){
                              dispose();
-                 			try {
-                				R.exec("taskkill /f /im javaw.exe");
-                			} catch (Exception e2){}
+//                 			try {
+//                				R.exec("taskkill /f /im javaw.exe");
+//                			} catch (Exception e2){}
                         }  
                  });  
         }
         
-        @SuppressWarnings("rawtypes")
-        public static Object[] fila(int folio,String t_entrada){
-                
-//metodo para llenar vector para checador--------------------------------------
-                Object [] vector = new Object[10];
-                
-                if(new Obj_Empleado().insertar(folio,t_entrada)){
-                        
-                 Vector fila_sql=new Obj_Entosal().buscar_hora_entosal(folio);
-                 for(int i=0 ; i<fila_sql.size(); i++ ){
-                   vector[i]= "   "+ fila_sql.get(i);
-                 }
-                         
-                 while(tabla.getRowCount()>0){
-                   tabla_model.removeRow(0);
-                }
+        int folio_empleado;
+        KeyListener action_registrar_entrada = new KeyListener() {
+
+        	@SuppressWarnings({ "deprecation" })
+			public void keyPressed(KeyEvent e) {	
+				
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					
+						 if(txtClaveReal.getText().toUpperCase().equals("")){
+	                         
+	                         JOptionPane.showMessageDialog(null, "la clave es requerida \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+	                         txtClaveReal.setText("");
+	                         txtClaveReal.requestFocus();
+	                         return;
+						 }else{   
+							 
+						 		char palabraBuscar = 'C';
+		
+								 for(int i=0; i < txtClaveReal.getText().length(); i++ ){
+									 if( txtClaveReal.getText().charAt(i)== palabraBuscar){
+										 System.out.println("La palabra que esta buscando es " + palabraBuscar);
+										 System.out.println("La posicion de la palabra es " + i);
+										 folio_empleado = Integer.parseInt(txtClaveReal.getText().substring(0, i));
+										 break;
+									 }
+								 }
+					 
+								 Obj_Empleado re = new Obj_Empleado().buscar(folio_empleado);  //busca a empleado 
+		                         Obj_Entosal entosalClave = new Obj_Entosal().buscar(); //busca clave maestra
+		                 
+		                         ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+		                         Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
+		                         btnFoto.setIcon(icono);        
                  
-                Object [][] lista_tabla = new Obj_Traer_Checador().get_tabla_model();
-                        String[] fila = new String[9];
-                                        for(int i=0; i<lista_tabla.length; i++){
-                                                fila[0] = lista_tabla[i][0]+"";
-                                                fila[1] = lista_tabla[i][1]+"";
-                                                fila[2] = lista_tabla[i][2]+"";
-                                                fila[3] = lista_tabla[i][3]+"";
-                                                fila[4] = lista_tabla[i][4]+"";
-                                                fila[5] = lista_tabla[i][5]+"";
-                                                fila[6] = lista_tabla[i][6]+"";
-                                                fila[7] = lista_tabla[i][7]+"";
-                                                fila[8] = lista_tabla[i][8]+"";
-                                                tabla_model.addRow(fila);
-                                        }
-                }else{
-                        JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
-                }
-                return vector;
-        }
-        
-//SE BUSCA AL EMPLEADO Y SE ASIGNA EL VALOR A LA VARIABLE (numero_de_checador) PARA SER COMPROVADA POSTERIORMENTE AL SOLICITAR LA CLAVE(no_checador)
-        String numero_de_checador;
-        KeyListener action_buscar = new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                        char caracter = e.getKeyChar();
+                           		switch (re.getStatus()){
+                                         case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
+                                            		 		registrarEntrada("-");
+                                            	 }else{
+                                            		 if(entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+                                            			 	registrarEntrada("MASTER");
+                                            		 }else{
+                                                			 JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                			 txtClaveReal.setText("");
+                                                			 txtClaveReal.requestFocus();
+                                                           return;
+                                            		 }
+                                            	 }
+                                          break;
+                                          case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                         txtClaveReal.setText("");
+                                                                         txtClaveReal.requestFocus();
+                                          break;
+                                          case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                         txtClaveReal.setText("");
+                                                                         txtClaveReal.requestFocus();
+                                          break;
+                                          case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                         txtClaveReal.setText("");
+                                                                         txtClaveReal.requestFocus();
+                                          break;
+                                          case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
+                                                                         txtClaveReal.setText("");
+                                                                         txtClaveReal.requestFocus();
+                                          break;
+                                          case 6:  if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
+		                                          		 		registrarEntrada("-");
+		                                          	 }else{
+		                                          		 if(entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
+		                                          			 	registrarEntrada("MASTER");
+		                                          		 }else{
+		                                              			 JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
+		                                              			 txtClaveReal.setText("");
+		                                              			 txtClaveReal.requestFocus();
+		                                                         return;
+		                                          		 }
+		                                          	 }
+		                                  break;  
+                                };
+						 }
+				}
+			}
 
-                   if(((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE)){
-                            e.consume(); 
-                    }                        
-                }
-                @Override
-                public void keyPressed(KeyEvent e){
-                                
-                        if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                                        
-                                        if(txtFolio.getText().equals("")){
-                                                
-                                                        JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
-                                                        txtFolio.setEditable(true);
-                                                        txtFolio.setText("");
-                                                        txtClaveReal.setText("");
-                                                        txtClaveReal.setEditable(false);
-                                                        txtFolio.requestFocus();
-                                                        return;
-                                                
-                                        }else{
-                                                        Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                                                        
-                                                        if(re.getFolio() != 0 && re.getHorario() !=0){        
-                                                                        
-                                                                txtFolio.setText(re.getFolio()+"");
-                                                                numero_de_checador = re.getNo_checador();
-                                                                
-                                                                ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-                                                                Icon icono = new ImageIcon(tmpIconAux.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
-                                                                btnFoto.setIcon(icono);        
-                                                                
-//                                                                lblNombre.setText("Empleado: ");
-//                                                                lblEstablecimiento.setText("Establecimiento: ");
-//                                                                lblPuesto.setText("Puesto: ");
-//                                                                lblHorario.setText("Horario: ");
-                                                            
-                                                                txtFolio.setEditable(false);
-                                                                txtClaveReal.setEditable(true);
-                                                                txtClaveReal.requestFocus();
-                                                                
-                                                        }else{
-                                                                JOptionPane.showMessageDialog(null, "El Numero de Empleado no existe o no tiene Horario Asignado","Error",JOptionPane.WARNING_MESSAGE);
-                                                                txtFolio.setEditable(true);
-                                                                txtClaveReal.setEditable(false);
-                                                                panelLimpiar();
-                                                                txtFolio.requestFocus();
-                                                                return;
-                                                        }
-                                        }
-                        }
-                }
-                @Override
-                public void keyReleased(KeyEvent e){}
-        };
-        
-//FUNCION PARA CONFIRMAR  EL No_Checador(clave) Y REGISTRAR MOVIMIENTO DE ENTRADA O SALIDA A TRAVES DE UN ENTER 
-        KeyListener action_entosal_clave = new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-//                        char caracter = e.getKeyChar();
-//
-//                   if(((caracter < '0') || (caracter > '9')) || (caracter == KeyEvent.VK_BACK_QUOTE) && (caracter != KeyEvent.VK_BACK_SPACE)){
-//                            e.consume(); 
-//                    }else{
-//                            txtClaveReal.setText(txtClaveReal.getText()+"  ");
-//                    }                        
-                }
-                
-                @SuppressWarnings("deprecation")
-                @Override
-                public void keyPressed(KeyEvent e){
-                                if(e.getKeyCode()==KeyEvent.VK_ENTER){
-
-                                        if(txtClaveReal.getText().toUpperCase().equals("")){
-                                                        
-                                                                JOptionPane.showMessageDialog(null, "la clave es requerida \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-                                                                txtFolio.setEditable(true);
-                                                                txtFolio.setText("");
-                                                                txtClaveReal.setText("");
-                                                                txtClaveReal.setEditable(false);
-                                                                txtFolio.requestFocus();
-                                                                return;
-                                                }else{        
-                                                        Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                                                        Obj_Entosal entosalClave = new Obj_Entosal().buscar();
-                                                        
-                                                                switch (re.getStatus()){
-                                                                                case 1: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
-
-                                                                                                                 registrarEntrada();
-                                                                                                 }else{
-                                                                                                                JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                                txtFolio.setEditable(true);
-                                                                                                                txtFolio.setText("");
-                                                                                                                txtClaveReal.setText("");
-                                                                                                                txtClaveReal.setEditable(false);
-                                                                                                                txtFolio.requestFocus();
-                                                                                                                return;
-                                                                                                 }
-                                                                                 break;
-                                                                                 case 2:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Vacaciones Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                                 txtFolio.setEditable(true);
-                                                                                                                txtFolio.setText("");
-                                                                                                                txtClaveReal.setText("");
-                                                                                                                txtClaveReal.setEditable(false);
-                                                                                                                txtFolio.requestFocus();
-                                                                                 break;
-                                                                                 case 3:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Incapacidad Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                                 txtFolio.setEditable(true);
-                                                                                                                txtFolio.setText("");
-                                                                                                                txtClaveReal.setText("");
-                                                                                                                txtClaveReal.setEditable(false);
-                                                                                                                txtFolio.requestFocus();
-                                                                                 break;
-                                                                                 case 4:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                                 txtFolio.setEditable(true);
-                                                                                                                txtFolio.setText("");
-                                                                                                                txtClaveReal.setText("");
-                                                                                                                txtClaveReal.setEditable(false);
-                                                                                                                txtFolio.requestFocus();
-                                                                                 break;
-                                                                                 case 5:JOptionPane.showMessageDialog(null, "No Puedes Checar Tu Estatus es de Baja Favor de Comunicarte a Desarrollo Humano, Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                                 txtFolio.setEditable(true);
-                                                                                                                txtFolio.setText("");
-                                                                                                                txtClaveReal.setText("");
-                                                                                                                txtClaveReal.setEditable(false);
-                                                                                                                txtFolio.requestFocus();
-                                                                                 break;
-                                                                                 case 6: if(re.getNo_checador().equals(txtClaveReal.getText().toUpperCase()) || entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
-
-                                                                                                          registrarEntrada();
-                                                                                                   }else{
-                                                                                                           JOptionPane.showMessageDialog(null, "La Clave no Corresponde","Aviso",JOptionPane.WARNING_MESSAGE);
-                                                                                                           txtFolio.setEditable(true);
-                                                                                                           txtFolio.setText("");
-                                                                                                           txtClaveReal.setText("");
-                                                                                                           txtClaveReal.setEditable(false);
-                                                                                                           txtFolio.requestFocus();
-                                                                                                           return;
-                                                                                                   		}
-                                                                                  break;
-                                                                        };
-                                                        }                        
-                                        }                
-                        }
-                @Override
-                public void keyReleased(KeyEvent e){}
-        };
+			public void keyReleased(KeyEvent e) {}
+			public void keyTyped(KeyEvent e) {}
+        };        
         
         @SuppressWarnings("deprecation")
-        public void registrarEntrada(){
+        public void registrarEntrada(String checada){
 //----------------------------------------------------------------------------------------------------------------------        
 ////meter split para que extraiga el puro numero
 ////                        declarar variable que cachara el valor real de la clave
@@ -570,218 +409,83 @@ public class Cat_Checador extends JFrame {
 //                                        CadenaDeClave += txtClaveReal.getText().charAt(x);
 //                        }
 //----------------------------------------------------------------------------------------------------------------------        
-                if(txtClaveReal.getText().toUpperCase().equals(numero_de_checador)){
+//                if(txtClaveReal.getText().toUpperCase().equals(numero_de_checador)){
 //-----------------------------------------
-                        if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){         
-                                         JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
-                                                 JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE);
-                                                 
-                                                                 txtFolio.setEditable(true);
-                                                                txtFolio.setText("");
-                                                                txtClaveReal.setText("");
-                                                                txtClaveReal.setEditable(false);
-                                                                txtFolio.requestFocus();
-                                                
-                                         return;
-                         }else{
-                                
-                                        if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
-                                                                
-                                                JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
-                                                        
-                                                                txtFolio.setEditable(true);
-                                                                txtFolio.setText("");
-                                                                txtClaveReal.setText("");
-                                                                txtClaveReal.setEditable(false);
-                                                                txtFolio.requestFocus();
-                                                                
-                                                return;
-                                        }else{
-                                                        if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
-                                                                
-                                                                JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
-                                                                 
-                                                                         txtFolio.setEditable(true);
-                                                                        txtFolio.setText("");
-                                                                        txtClaveReal.setText("");
-                                                                        txtClaveReal.setEditable(false);
-                                                                        txtFolio.requestFocus();
-                                                                        
-                                                                return;
-                                                        }else{
-                                                                          if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
-                                                                                      new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"-").setVisible(true);
-                                                                           }else{
-                                                                                                                                                                                     
-                                                                                        Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                                                                                        
-                                                                                        if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
-//                                                                
-                                                                                        Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"-");
-                                                                                        
-//                                                                                        tabla_model.addRow(registro);
-                                                                                        String tipo=registro[2].toString();
-                                                                                        String hora=registro[3].toString();
-                                                                                        
-                                                                                        String Fecha=registro[9].toString();
-                                                                                        lblFecha.setText(Fecha);
-                                                                                        
-                                                                                        txtFolio.setEditable(true);
-                                                                                        txtFolio.setText("");
-                                                                                        txtClaveReal.setText("");
-                                                                                        txtClaveReal.setEditable(false);
-                                                                                        txtFolio.requestFocus();
-                                                                        
-                                                                                                        if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-                                                                                                                        lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-                                                                                                                        lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
-                                                
-                                                                                                        }else{
-                                                                                                                        lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
-                                                                                                                        lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-                                                                                                                }
-                                                                                                        lblNombre.setText("Empleado: ");
-                                                                                                        lblEstablecimiento.setText("Establecimiento: ");
-                                                                                                        lblPuesto.setText("Puesto: ");
-                                                                                                        lblHorario.setText("Horario: ");
-                                                                                                        
-                                                                                        lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-                                                                                        
-                                                                                        Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
-                                                                                        lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-                                        
-                                                                                        Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
-                                                                                        lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-                                                                                        
-                                                                                        txtFolio.setEditable(false);
-                                                                                        txtClaveReal.setEditable(true);
-                                                                                        txtClaveReal.requestFocus();
-                                                                
-                                                                             }else{
-                                                                                             JOptionPane.showMessageDialog(null, "LA CLAVE NO CORRESPONDE","Error",JOptionPane.WARNING_MESSAGE);
-                                                                                            txtFolio.setEditable(true);
-                                                                                            txtClaveReal.setEditable(false);
-                                                                                            panelLimpiar();
-                                                                                            txtFolio.requestFocus();
-                                                                                            return;
-                                                                                }
-                                                        }
-                                                }
-                                        }
-                                }
-        
-                                txtFolio.setEditable(true);
-                                txtClaveReal.setEditable(false);
-                                txtFolio.setText("");
-                                txtClaveReal.setText("");
-                                txtFolio.requestFocus();
-                }else{
-
-                    Obj_Empleado re = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                    Obj_Entosal entosalClave = new Obj_Entosal().buscar();
-                    
-                    if(new Obj_Entosal().checar_dia_descanso(Integer.parseInt(txtFolio.getText()))){         
-                        JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
-                                JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE);
-                                
-                                                txtFolio.setEditable(true);
-                                               txtFolio.setText("");
-                                               txtClaveReal.setText("");
-                                               txtClaveReal.setEditable(false);
-                                               txtFolio.requestFocus();
+        if(new Obj_Entosal().checar_dia_descanso(folio_empleado)){     
+                         JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.WARNING_MESSAGE);
+                         JOptionPane.showMessageDialog(null, "El Dia de Hoy lo Tienes Registrado Como tu Dia de Descanso Favor de Avisar a Desarrollo Humano Para que Puedas Registrar tu Entrada a Trabajar, de lo Contrario no te Sera Valido el Pago de este Dia ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                 
+                                                txtClaveReal.setText("");
+                                                txtClaveReal.requestFocus();
+                         return;
+         }else{
+                if(new Obj_Entosal().buscar_colicion(folio_empleado)){
+                        JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
+                                        txtClaveReal.setText("");
+                                        txtClaveReal.requestFocus();
                         return;
-        }else{
-               
-                       if(new Obj_Entosal().buscar_colicion(Integer.parseInt(txtFolio.getText()))){
-                                               
-                               JOptionPane.showMessageDialog(null, "Estas Intentando Checar 2 Veces en Menos de 1 Minuto Espere un Momento y Reintente","AVISO",JOptionPane.WARNING_MESSAGE);
-                                       
-                                               txtFolio.setEditable(true);
-                                               txtFolio.setText("");
-                                               txtClaveReal.setText("");
-                                               txtClaveReal.setEditable(false);
-                                               txtFolio.requestFocus();
-                               return;
-                       }else{
-                                       if(new Obj_Entosal().checadas_dia_dobla(Integer.parseInt(txtFolio.getText()))){
-                                               
-                                               JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
-                                                
-                                                       txtFolio.setEditable(true);
-                                                       txtFolio.setText("");
-                                                       txtClaveReal.setText("");
-                                                       txtClaveReal.setEditable(false);
-                                                       txtFolio.requestFocus();
-                                               return;
-                                       }else{
-                                                         if(new Obj_Entosal().checa_salida_comer(Integer.parseInt(txtFolio.getText()))){
-                                                                     new Cat_Checador_Selecion_Comida(Integer.parseInt(txtFolio.getText()),"MASTER").setVisible(true);
-                                                          }else{
-                                                                       Obj_Empleado emplead = new Obj_Empleado().buscar(Integer.parseInt(txtFolio.getText()));
-                                                                       
-                                                                       if(emplead.getFolio()!=0 && entosalClave.getClave().equals(txtClaveReal.getText().toUpperCase())){
-//                                                   
-                                                                       Object[] registro = fila(Integer.parseInt(txtFolio.getText()),"MASTER");
-                                                                       
-//                                                                           tabla_model.addRow(registro);
-                                                                       String tipo=registro[2].toString();
-                                                                       String hora=registro[3].toString();
-                                                                       
-                                                                       String Fecha=registro[9].toString();
-                                                                       lblFecha.setText(Fecha);
-                                                                       
-                                                                       txtFolio.setEditable(true);
-                                                                       txtFolio.setText("");
-                                                                       txtClaveReal.setText("");
-                                                                       txtClaveReal.setEditable(false);
-                                                                       txtFolio.requestFocus();
-                                                       
-                                                                                       if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
-                                                                                                       lblNota.setText("EL EMPLEADO "+emplead.getNombre()+" "+emplead.getAp_paterno()+" "+emplead.getAp_materno());
-                                                                                                       lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
-                               
-                                                                                       }else{
-                                                                                                       lblNota.setText("EL EMPLEADO "+emplead.getNombre()+" "+emplead.getAp_paterno()+" "+emplead.getAp_materno());
-                                                                                                       lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
-                                                                                               }
-                                                                                       lblNombre.setText("Empleado: ");
-                                                                                       lblEstablecimiento.setText("Establecimiento: ");
-                                                                                       lblPuesto.setText("Puesto: ");
-                                                                                       lblHorario.setText("Horario: ");
-                                                                                       
-                                                                       lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
-                                                                       
-                                                                       Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(emplead.getEstablecimiento());
-                                                                       lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
-                       
-                                                                       Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(emplead.getPuesto());
-                                                                       lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
-                                                                       
-                                                                       txtFolio.setEditable(false);
-                                                                       txtClaveReal.setEditable(true);
-                                                                       txtClaveReal.requestFocus();
-                                               
-                                                            }else{
-                                                                            JOptionPane.showMessageDialog(null, "LA CLAVE NO CORRESPONDE","Error",JOptionPane.WARNING_MESSAGE);
-                                                                           txtFolio.setEditable(true);
-                                                                           txtClaveReal.setEditable(false);
-                                                                           panelLimpiar();
-                                                                           txtFolio.requestFocus();
-                                                                           return;
-                                                               }
-
-                                           }
-                                   }
-                           }
-                   }
-
-                   txtFolio.setEditable(true);
-                   txtClaveReal.setEditable(false);
-                   txtFolio.setText("");
-                   txtClaveReal.setText("");
-                   txtFolio.requestFocus();
-                }
+                }else{
+                        if(new Obj_Entosal().checadas_dia_dobla(folio_empleado)){
+                                JOptionPane.showMessageDialog(null, "A Excedido El Numero de Checadas Son 4 Para Turno Normal y 6 Para el Dia Que Tienen 15 Minutos Extras ","AVISO",JOptionPane.INFORMATION_MESSAGE);
+                                txtClaveReal.setText("");
+                                txtClaveReal.requestFocus();
+                                return;
+                        }else{
+                              if(new Obj_Entosal().checa_salida_comer(folio_empleado)){
+                                        new Cat_Checador_Selecion_Comida((folio_empleado),checada).setVisible(true);
+                               }else{
+	                                    Obj_Empleado re = new Obj_Empleado().buscar(folio_empleado);
+	                                    
+	                                    if(re.getFolio()!=0 && re.getNo_checador().equals(txtClaveReal.getText().toUpperCase())){
+	//                                                                
+	//                                                                                        	manda folio del empleado,tipo de checada y (0 por defaul ya ke no dobla y saldra a comer)
+			                                    Object[] registro = fila2(folio_empleado,checada,0);
+			
+			                                    String tipo=registro[2].toString();
+			                                    String hora=registro[3].toString();
+			                                    
+			                                    String Fecha=registro[9].toString();
+			                                    lblFecha.setText(Fecha);
+			                                    
+			                                    txtClaveReal.setText("");
+			                                    txtClaveReal.requestFocus();
+	            
+		                                            if(Integer.parseInt(registro[3].toString().trim().substring(0,2))<2){
+		                                                            lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+		                                                            lblNota2.setText("A CHECADO "+tipo+" A LA "+hora.substring(0,9)+" Hr");
+		
+		                                            }else{
+		                                                            lblNota.setText("EL EMPLEADO "+re.getNombre()+" "+re.getAp_paterno()+" "+re.getAp_materno());
+		                                                            lblNota2.setText("A  CHECADO "+tipo+" A LAS "+hora.substring(0,9)+" Hrs");
+		                                            }
+	                                            
+		                                        lblNombre.setText("Emp: ");
+		                                        lblEstablecimiento.setText("Estab: ");
+		                                        lblPuesto.setText("Puesto: ");
+		                                        lblHorario.setText("Horario: ");
+                                                            
+	                                            lblNombre.setText(lblNombre.getText() + re.getNombre() + " "+re.getAp_paterno() + " "+re.getAp_materno());
+	                                            
+	                                            Obj_Establecimiento comboNombreEsta = new Obj_Establecimiento().buscar_estab(re.getEstablecimiento());
+	                                            lblEstablecimiento.setText(lblEstablecimiento.getText() + comboNombreEsta.getNombre());
+	
+	                                            Obj_Puesto comboNombrePues = new Obj_Puesto().buscar_pues(re.getPuesto());
+	                                            lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
+	                                            
+	                                            txtClaveReal.requestFocus();
+                                 }else{
+                                                JOptionPane.showMessageDialog(null, "LA CLAVE NO CORRESPONDE","Error",JOptionPane.WARNING_MESSAGE);
+                                                panelLimpiar();
+                                                txtClaveReal.requestFocus();
+                                                return;
+                                    }
+                               }
+                        }
+             }
         }
+                txtClaveReal.setText("");
+                txtClaveReal.requestFocus();
+   }
         
         ActionListener opExaminar = new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
@@ -799,18 +503,18 @@ public class Cat_Checador extends JFrame {
                                         File foto = new File(rootPicture);
                                         File destino = new File(System.getProperty("user.dir")+"/tmp/mensaje.jpg");
                                     
-                                    InputStream in = new FileInputStream(foto);
+                                        InputStream in = new FileInputStream(foto);
                                         OutputStream out = new FileOutputStream(destino);
                                         
-                                    byte[] buf = new byte[1024];
-                                    int len;
+	                                    byte[] buf = new byte[1024];
+	                                    int len;
 
-                                    while ((len = in.read(buf)) > 0) {
-                                            out.write(buf, 0, len);
-                                    }
+	                                    while ((len = in.read(buf)) > 0) {
+	                                            out.write(buf, 0, len);
+	                                    }
                                     
-                                    in.close();
-                                    out.close();
+	                                    in.close();
+	                                    out.close();
                                         
                                         String fileFoto = System.getProperty("user.dir")+"/tmp/mensaje.jpg";
                                         ImageIcon tmpIconAuxFoto = new ImageIcon(fileFoto);
@@ -819,7 +523,6 @@ public class Cat_Checador extends JFrame {
                                 } catch (IOException e1) {
                                         e1.printStackTrace();
                                 }
-                                
                         }else{
                                 JOptionPane.showMessageDialog(null,"No ha seleccionado ninguna imagen","Aviso",JOptionPane.WARNING_MESSAGE);
                                 return;
@@ -834,7 +537,6 @@ public class Cat_Checador extends JFrame {
         };
         
         public void panelLimpiar(){        
-                txtFolio.setText("");
                 txtClaveReal.setText("");
         }
         
@@ -912,7 +614,6 @@ public class Cat_Checador extends JFrame {
                                                 }
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
                                                 break;
-                                                
                                         case 1:
                                                 componente = new JLabel(value == null? "": value.toString());
                                                 if(row%2==0){
@@ -921,7 +622,6 @@ public class Cat_Checador extends JFrame {
                                                 }
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
                                                 break;
-                                                
                                         case 2: 
                                                 componente = new JLabel(value == null? "": value.toString());
                                                 if(row%2==0){
@@ -930,7 +630,6 @@ public class Cat_Checador extends JFrame {
                                                 }
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                                 break;
-                                                
                                         case 3: 
                                                 componente = new JLabel(value == null? "": value.toString());
                                                 if(row%2==0){
@@ -947,7 +646,6 @@ public class Cat_Checador extends JFrame {
                                                 }
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                                 break;
-                                                
                                         case 5: 
                                                 componente = new JLabel(value == null? "": value.toString());
                                                         ((JComponent) componente).setOpaque(true); 
@@ -966,10 +664,8 @@ public class Cat_Checador extends JFrame {
                                                         if(retardo>10){
                                                                 componente.setBackground(new java.awt.Color(255,0,0));
                                                         }
-                                                                
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                                 break;
-                                                
                                         case 6: 
                                                 componente = new JLabel(value == null? "": value.toString());
                                                 if(row%2==0){
@@ -978,7 +674,6 @@ public class Cat_Checador extends JFrame {
                                                 }
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                                 break;
-                                                
                                         case 7: 
                                                 componente = new JLabel(value == null? "": value.toString());
                                                 if(row%2==0){
@@ -987,7 +682,6 @@ public class Cat_Checador extends JFrame {
                                                 }
                                                 ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                                 break;
-                                                
                                         case 8: 
                                                 componente = new JLabel(value == null? "": value.toString());
                                                 if(row%2==0){
@@ -1004,15 +698,11 @@ public class Cat_Checador extends JFrame {
                         this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
                 }
     }
-        
-        public static void refresh(int folio_empleado,String tipo_entrada,int tipo_salida_comer) {
-            fila2(folio_empleado,tipo_entrada,tipo_salida_comer);
-//                tabla_model.addRow(registro);
-        }
+
         @SuppressWarnings("rawtypes")
         public static Object[] fila2(int folio_empleado,String tipo_entrada,int tipo_salida_comer){
                 
-//metodo para llenar vector para checador--------------------------------------
+//metodo para llenar vector para checador2--------------------------------------
                 Object [] vector = new Object[10];
                 
                 if(new Obj_Empleado().insertar_comida(folio_empleado,tipo_entrada,tipo_salida_comer)){
@@ -1040,10 +730,507 @@ public class Cat_Checador extends JFrame {
                                         fila[8] = lista_tabla[i][8]+"";
                                         tabla_model.addRow(fila);
                                 }
-                        
                 }else{
                         JOptionPane.showMessageDialog(null, "Error al momento de checar","Error",JOptionPane.ERROR_MESSAGE);
                 }
                 return vector;
         }
+        
+    	public void Resolucion(int ancho, int alto){
+    		int x = 10, y = 30, z = 100;
+//			int yl = 60, zl = 120;
+			
+//    		if(ancho == 1360){
+////    			medidade (1360*768)
+//    			
+//    			tmpIconAuxFondo = new ImageIcon(fileFondo2);
+//                iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
+//                fondo.setIcon(iconoFondo);
+//                
+//    			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,70));
+//    			
+//    			 lblClave.setForeground(Color.BLUE);
+//                 lblClave.setFont(new Font("Arial",0,10));
+//                 
+//                 lblFecha.setForeground(Color.BLUE);
+//                 lblFecha.setFont(new Font("Algerian",0,20));
+//                 
+//                 lblNota.setForeground(Color.BLUE);
+//                 lblNota.setFont(new Font("Arial",0,20));
+//                 
+//                 lblNota2.setForeground(Color.BLUE);
+//                 lblNota2.setFont(new Font("Arial",0,20));
+//                 
+//                 lblNombre.setFont(new Font("Monospaced",0,9));
+//                 lblEstablecimiento.setFont(new Font("Monospaced",0,9));
+//                 lblPuesto.setFont(new Font("Monospaced",0,9));
+//                 lblHorario.setFont(new Font("Monospaced",0,9));
+//                 
+////                 txaAvisos.setBackground(new java.awt.Color(0,0,205));
+////                 txaAvisos.setForeground(new java.awt.Color(255,69,0));
+//                 
+////                 Font font = new Font("Verdana", Font.BOLD, 24);
+////                 txaAvisos.setFont(font);
+//                
+//                panel.add(lblClave).setBounds(5,y,z,20);
+//                panel.add(txtClaveReal).setBounds(x*4,y,z-18,20);
+//                
+//                panel.add(trae_hora.lblHora).setBounds(x*13,y-20, z*5, 100);
+//                panel.add(lblNota).setBounds(x*6,y+=115, 800, 30);
+//                panel.add(lblNota2).setBounds(100,y+=30, 800, 30);
+//                
+//                panel.add(lblFecha).setBounds(570,100, 150, 30);
+//                panel.add(lblSemaforoRojo).setBounds(15,52, 40, 40);
+//                panel.add(lblSemaforoVerde).setBounds(70,52, 40, 40);
+//                panel.add(lblLogo).setBounds((anchoMon/2)-45, 21, 75, 75);
+//                panel.add(lblCerrar).setBounds(anchoMon-62,21, 70, 75);
+//                panel.add(btnFoto).setBounds(anchoMon-334,21,77,77);
+//                
+//                panel.add(lblNombre).setBounds(550,22,190,10);
+////                panel.add(lblNombreConsulta).setBounds(550,26,190,10);
+//                panel.add(lblEstablecimiento).setBounds(550,40,190,10);
+//                panel.add(lblPuesto).setBounds(550,58,190,10);
+//                panel.add(lblHorario).setBounds(550,76,190,10);
+//                
+//                panel.add(barra_mensaje).setBounds(ancho+710,y-58,210,560);
+//                
+//                panel.add(panelScroll).setBounds(15,y+63,773,altoMon-250);
+//                panel.add(fondo).setBounds(0,0,anchoMon,altoMon);
+//                
+//                iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+//                lblSemaforoRojo.setIcon(iconoSemaforoR);
+//                
+//                iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+//                lblSemaforoVerde.setIcon(iconoSemaforoV);
+//                
+//                iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT));
+//                lblLogo.setIcon(iconoLogo);        
+//        
+//                iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(70, 75, Image.SCALE_DEFAULT));
+//                lblCerrar.setIcon(iconoCerrar);
+//    		}
+    		if(ancho == 800){
+//    			valores unicos(800*600)
+    			tmpIconAuxFondo = new ImageIcon(fileFondo2);
+                iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
+                fondo.setIcon(iconoFondo);
+                
+    			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,70));
+    			
+   			 lblClave.setForeground(Color.BLUE);
+                lblClave.setFont(new Font("Arial",0,10));
+                
+                lblFecha.setForeground(Color.BLUE);
+                lblFecha.setFont(new Font("Algerian",0,20));
+                
+                lblNota.setForeground(Color.BLUE);
+                lblNota.setFont(new Font("Arial",0,20));
+                
+                lblNota2.setForeground(Color.BLUE);
+                lblNota2.setFont(new Font("Arial",0,20));
+                
+                lblNombre.setFont(new Font("Monospaced",0,9));
+                lblEstablecimiento.setFont(new Font("Monospaced",0,9));
+                lblPuesto.setFont(new Font("Monospaced",0,9));
+                lblHorario.setFont(new Font("Monospaced",0,9));
+                
+               panel.add(lblClave).setBounds(5,y,z,20);
+               panel.add(txtClaveReal).setBounds(x*4,y,z-18,20);
+               
+               panel.add(trae_hora.lblHora).setBounds(x*13,y-20, z*5, 100);
+               panel.add(lblNota).setBounds(x*6,y+=115, 800, 30);
+               panel.add(lblNota2).setBounds(100,y+=30, 800, 30);
+               
+               panel.add(lblFecha).setBounds(570,100, 150, 30);
+               panel.add(lblSemaforoRojo).setBounds(15,52, 40, 40);
+               panel.add(lblSemaforoVerde).setBounds(70,52, 40, 40);
+               panel.add(lblLogo).setBounds((anchoMon/2)-45, 21, 75, 75);
+               panel.add(lblCerrar).setBounds(anchoMon-62,21, 70, 75);
+               panel.add(btnFoto).setBounds(anchoMon-334,21,77,77);
+               
+               panel.add(lblNombre).setBounds(550,22,190,10);
+               panel.add(lblEstablecimiento).setBounds(550,40,190,10);
+               panel.add(lblPuesto).setBounds(550,58,190,10);
+               panel.add(lblHorario).setBounds(550,76,190,10);
+               
+               panel.add(panelScroll).setBounds(15,y+63,773,altoMon-250);
+               panel.add(fondo).setBounds(0,0,anchoMon,altoMon);
+               
+               iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+               lblSemaforoRojo.setIcon(iconoSemaforoR);
+               
+               iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+               lblSemaforoVerde.setIcon(iconoSemaforoV);
+               
+               iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT));
+               lblLogo.setIcon(iconoLogo);        
+       
+               iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(70, 75, Image.SCALE_DEFAULT));
+               lblCerrar.setIcon(iconoCerrar);
+    			
+    		}
+    		if(ancho == 1024){
+//    			valores unicos(1024*768)
+    			tmpIconAuxFondo = new ImageIcon(fileFondo2);
+                iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
+                fondo.setIcon(iconoFondo);
+                
+    			txaAvisos.setLineWrap(true);
+                barra_mensaje.setOpaque(false);
+                barra_mensaje.setViewportView(txaAvisos);
+                
+    			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,80));
+    			
+    			lblClave.setForeground(Color.BLUE);
+                lblClave.setFont(new Font("Arial",0,10));
+                
+                lblFecha.setForeground(Color.BLUE);
+                lblFecha.setFont(new Font("Algerian",0,20));
+                
+                lblNota.setForeground(Color.BLUE);
+                lblNota.setFont(new Font("Arial",0,30));
+                
+                lblNota2.setForeground(Color.BLUE);
+                lblNota2.setFont(new Font("Arial",0,30));
+                
+                lblNombre.setFont(new Font("Monospaced",0,11));
+                lblEstablecimiento.setFont(new Font("Monospaced",0,11));
+                lblPuesto.setFont(new Font("Monospaced",0,11));
+                lblHorario.setFont(new Font("Monospaced",0,11));
+                
+                txaAvisos.setBackground(new java.awt.Color(0,0,205));
+                txaAvisos.setForeground(new java.awt.Color(255,69,0));
+                
+                Font font = new Font("Verdana", Font.BOLD, 24);
+                txaAvisos.setFont(font);
+               
+               panel.add(lblClave).setBounds(5,y,z,20);
+               panel.add(txtClaveReal).setBounds(x*4,y,z-18,20);
+               
+               panel.add(trae_hora.lblHora).setBounds(x*18,y-5, z*5, 100);
+               panel.add(lblNota).setBounds(x*6,y+=165, 800, 30);
+               panel.add(lblNota2).setBounds(100,y+=30, 800, 30);
+               
+               panel.add(lblFecha).setBounds(780,130, 150, 30);
+               panel.add(lblSemaforoRojo).setBounds(5,52, 70, 70);
+               panel.add(lblSemaforoVerde).setBounds(85,52, 70, 70);
+               panel.add(lblLogo).setBounds((anchoMon/2)-58, 27, 95, 95);
+               panel.add(lblCerrar).setBounds(anchoMon-79,28, 85, 95);
+               panel.add(btnFoto).setBounds(anchoMon-431,24,105,105);
+               
+               panel.add(lblNombre).setBounds(705,30,230,20);
+               panel.add(lblEstablecimiento).setBounds(705,55,230,20);
+               panel.add(lblPuesto).setBounds(705,80,230,20);
+               panel.add(lblHorario).setBounds(705,105,230,20);
+               
+               panel.add(barra_mensaje).setBounds(810,y-58,210,580);
+               
+               panel.add(panelScroll).setBounds(17,y+73,783,altoMon-320);
+               panel.add(fondo).setBounds(0,0,anchoMon,altoMon);
+               
+               iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+               lblSemaforoRojo.setIcon(iconoSemaforoR);
+               
+               iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+               lblSemaforoVerde.setIcon(iconoSemaforoV);
+               
+               iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT));
+               lblLogo.setIcon(iconoLogo);        
+       
+               iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(lblCerrar.getWidth(), lblCerrar.getHeight(), Image.SCALE_DEFAULT));
+               lblCerrar.setIcon(iconoCerrar);
+    		}
+    		if(ancho == 1152){
+    			switch(alto){
+//    			case 720: 
+//    				
+//    			break;
+    			case 864:
+    				tmpIconAuxFondo = new ImageIcon(fileFondo2);
+                    iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
+                    fondo.setIcon(iconoFondo);
+                    
+        			txaAvisos.setLineWrap(true);
+                    barra_mensaje.setOpaque(false);
+                    barra_mensaje.setViewportView(txaAvisos);
+                    
+        			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,90));
+        			
+        			lblClave.setForeground(Color.BLUE);
+                    lblClave.setFont(new Font("Arial",0,12));
+                    
+                    lblFecha.setForeground(Color.BLUE);
+                    lblFecha.setFont(new Font("Algerian",0,22));
+                    
+                    lblNota.setForeground(Color.BLUE);
+                    lblNota.setFont(new Font("Arial",0,35));
+                    
+                    lblNota2.setForeground(Color.BLUE);
+                    lblNota2.setFont(new Font("Arial",0,35));
+                    
+                    lblNombre.setFont(new Font("Monospaced",0,11));
+                    lblEstablecimiento.setFont(new Font("Monospaced",0,11));
+                    lblPuesto.setFont(new Font("Monospaced",0,11));
+                    lblHorario.setFont(new Font("Monospaced",0,11));
+                    
+                    txaAvisos.setBackground(new java.awt.Color(0,0,205));
+                    txaAvisos.setForeground(new java.awt.Color(255,69,0));
+                    
+                    Font font = new Font("Verdana", Font.BOLD, 24);
+                    txaAvisos.setFont(font);
+                   
+                   panel.add(lblClave).setBounds(5,y,z,20);
+                   panel.add(txtClaveReal).setBounds(x*4,y,z-18,20);
+                   
+                   panel.add(trae_hora.lblHora).setBounds(x*20,y+5, z*5, 100);
+                   panel.add(lblNota).setBounds(x*6,y+=185, 800, 40);
+                   panel.add(lblNota2).setBounds(100,y+=40, 800, 40);
+                   
+                   panel.add(lblFecha).setBounds(850,160, 150, 30);
+                   panel.add(lblSemaforoRojo).setBounds(15,62, 70, 70);
+                   panel.add(lblSemaforoVerde).setBounds(95,62, 70, 70);
+                   panel.add(lblLogo).setBounds((anchoMon/2)-68, 27, 115, 115);
+                   panel.add(lblCerrar).setBounds(anchoMon-89,28, 90, 110);
+                   panel.add(btnFoto).setBounds(anchoMon-484,29,115,115);
+                   
+                   panel.add(lblNombre).setBounds(790,30,270,20);
+                   panel.add(lblEstablecimiento).setBounds(790,55,270,20);
+                   panel.add(lblPuesto).setBounds(790,80,270,20);
+                   panel.add(lblHorario).setBounds(790,105,270,20);
+                   
+                   panel.add(barra_mensaje).setBounds(915,y-68,220,645);
+                   
+                   panel.add(panelScroll).setBounds(17,y+73,783,altoMon-360);
+                   panel.add(fondo).setBounds(0,0,anchoMon,altoMon);
+                   
+                   iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+                   lblSemaforoRojo.setIcon(iconoSemaforoR);
+                   
+                   iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+                   lblSemaforoVerde.setIcon(iconoSemaforoV);
+                   
+                   iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT));
+                   lblLogo.setIcon(iconoLogo);        
+           
+                   iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(lblCerrar.getWidth(), lblCerrar.getHeight(), Image.SCALE_DEFAULT));
+                   lblCerrar.setIcon(iconoCerrar);
+                 break;
+    			}
+    		}
+    		if(ancho >= 1280){
+    			switch(alto){
+    			case 600:
+    				tmpIconAuxFondo = new ImageIcon(fileFondo);
+                    iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(anchoMon,altoMon, Image.SCALE_DEFAULT));
+                    fondo.setIcon(iconoFondo);
+                    
+        			txaAvisos.setLineWrap(true);
+                    barra_mensaje.setOpaque(false);
+                    barra_mensaje.setViewportView(txaAvisos);
+                    
+        			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,100));
+        			
+        			lblClave.setForeground(Color.BLUE);
+                    lblClave.setFont(new Font("Arial",0,12));
+                    
+                    lblFecha.setForeground(Color.BLUE);
+                    lblFecha.setFont(new Font("Algerian",0,22));
+                    
+                    lblNota.setForeground(Color.BLUE);
+                    lblNota.setFont(new Font("Arial",0,20));
+                    
+                    lblNota2.setForeground(Color.BLUE);
+                    lblNota2.setFont(new Font("Arial",0,20));
+                    
+                    lblNombre.setFont(new Font("Monospaced",0,11));
+                    lblEstablecimiento.setFont(new Font("Monospaced",0,11));
+                    lblPuesto.setFont(new Font("Monospaced",0,11));
+                    lblHorario.setFont(new Font("Monospaced",0,11));
+                    
+                    txaAvisos.setBackground(new java.awt.Color(0,0,205));
+                    txaAvisos.setForeground(new java.awt.Color(255,69,0));
+                    
+                    font = new Font("Verdana", Font.BOLD, 24);
+                    txaAvisos.setFont(font);
+                   
+                   panel.add(lblClave).setBounds(45,y,z,20);
+                   panel.add(txtClaveReal).setBounds(x*8,y,z-18,20);
+                   
+                   panel.add(trae_hora.lblHora).setBounds(x*24,y, z*5, 100);
+                   panel.add(lblNota).setBounds(x*12,y+=145, 800, 40);
+                   panel.add(lblNota2).setBounds(160,y+=30, 800, 40);
+                   
+                   panel.add(lblFecha).setBounds(900,135, 250, 30);
+                   panel.add(lblSemaforoRojo).setBounds(35,55, 70, 70);
+                   panel.add(lblSemaforoVerde).setBounds(115,55, 70, 70);
+                   panel.add(lblLogo).setBounds((anchoMon/2)-45, 27, 105, 105);
+                   panel.add(lblCerrar).setBounds(anchoMon-89,28, 90, 100);
+                   panel.add(btnFoto).setBounds(anchoMon-505,28,118,100);
+                   
+                   panel.add(lblNombre).setBounds(900,30,290,20);
+                   panel.add(lblEstablecimiento).setBounds(900,55,290,20);
+                   panel.add(lblPuesto).setBounds(900,80,290,20);
+                   panel.add(lblHorario).setBounds(900,105,290,20);
+                   
+//                   panel.add(barra_mensaje).setBounds(915,y-68,220,645);
+                   
+                   panel.add(panelScroll).setBounds(17,y+53,783,altoMon-268);
+                   panel.add(fondo).setBounds(0,0,anchoMon,altoMon);
+                   
+                   iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+                   lblSemaforoRojo.setIcon(iconoSemaforoR);
+                   
+                   iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+                   lblSemaforoVerde.setIcon(iconoSemaforoV);
+                   
+                   iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT));
+                   lblLogo.setIcon(iconoLogo);        
+           
+                   iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(lblCerrar.getWidth(), lblCerrar.getHeight(), Image.SCALE_DEFAULT));
+                   lblCerrar.setIcon(iconoCerrar);
+                 break;
+//    			case 768:
+//    				tmpIconAuxFondo = new ImageIcon(fileFondo);
+//                    iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(1280,768, Image.SCALE_DEFAULT));
+//                    fondo.setIcon(iconoFondo);
+//    				
+//        			txaAvisos.setLineWrap(true);
+//                    barra_mensaje.setOpaque(false);
+//                    barra_mensaje.setViewportView(txaAvisos);
+//                    
+//        			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,100));
+//        			
+//        			lblClave.setForeground(Color.BLUE);
+//                    lblClave.setFont(new Font("Arial",0,12));
+//                    
+//                    lblFecha.setForeground(Color.BLUE);
+//                    lblFecha.setFont(new Font("Algerian",0,30));
+//                    
+//                    lblNota.setForeground(Color.BLUE);
+//                    lblNota.setFont(new Font("Arial",0,22));
+//                    
+//                    lblNota2.setForeground(Color.BLUE);
+//                    lblNota2.setFont(new Font("Arial",0,22));
+//                    
+//                    lblNombre.setFont(new Font("Monospaced",0,14));
+//                    lblEstablecimiento.setFont(new Font("Monospaced",0,14));
+//                    lblPuesto.setFont(new Font("Monospaced",0,14));
+//                    lblHorario.setFont(new Font("Monospaced",0,14));
+//                    
+//                    txaAvisos.setBackground(new java.awt.Color(0,0,205));
+//                    txaAvisos.setForeground(new java.awt.Color(255,69,0));
+//                    
+//                    font = new Font("Verdana", Font.BOLD, 24);
+//                    txaAvisos.setFont(font);
+//                   
+//                   panel.add(lblClave).setBounds(45,y+10,z,20);
+//                   panel.add(txtClaveReal).setBounds(x*8,y+10,z-18,20);
+//                   
+//                   panel.add(trae_hora.lblHora).setBounds(x*24,y+10, z*5, 100);
+//                   panel.add(lblNota).setBounds(x*10,y+=185, 800, 40);
+//                   panel.add(lblNota2).setBounds(150,y+=30, 800, 40);
+//                   
+//                   panel.add(lblFecha).setBounds(980,163, 250, 30);
+//                   panel.add(lblSemaforoRojo).setBounds(35,70, 70, 70);
+//                   panel.add(lblSemaforoVerde).setBounds(115,70, 70, 70);
+//                   panel.add(lblLogo).setBounds((1280/2)-55, 35, 117, 117);
+//                   panel.add(lblCerrar).setBounds(1280-89,35, 90, 120);
+//                   panel.add(btnFoto).setBounds(1280-505,35,118,118);
+//                   
+//                   panel.add(lblNombre).setBounds(900,30,290,20);
+//                   panel.add(lblEstablecimiento).setBounds(900,55,290,20);
+//                   panel.add(lblPuesto).setBounds(900,80,290,20);
+//                   panel.add(lblHorario).setBounds(900,105,290,20);
+//                   
+////                   panel.add(barra_mensaje).setBounds(915,y-68,220,645);
+//                   
+//                   panel.add(panelScroll).setBounds(17,y+53,783,1280-309);
+//                   panel.add(fondo).setBounds(0,0,1280,768);
+//                   
+//                   iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+//                   lblSemaforoRojo.setIcon(iconoSemaforoR);
+//                   
+//                   iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+//                   lblSemaforoVerde.setIcon(iconoSemaforoV);
+//                   
+//                   iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT));
+//                   lblLogo.setIcon(iconoLogo);        
+//           
+//                   iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(lblCerrar.getWidth(), lblCerrar.getHeight(), Image.SCALE_DEFAULT));
+//                   lblCerrar.setIcon(iconoCerrar);
+//                 break;
+    			default:
+    				tmpIconAuxFondo = new ImageIcon(fileFondo);
+                    iconoFondo = new ImageIcon(tmpIconAuxFondo.getImage().getScaledInstance(1280,768, Image.SCALE_DEFAULT));
+                    fondo.setIcon(iconoFondo);
+    				
+        			txaAvisos.setLineWrap(true);
+                    barra_mensaje.setOpaque(false);
+                    barra_mensaje.setViewportView(txaAvisos);
+                    
+        			trae_hora.lblHora.setFont(new java.awt.Font("Algerian",0,100));
+        			
+        			lblClave.setForeground(Color.BLUE);
+                    lblClave.setFont(new Font("Arial",0,12));
+                    
+                    lblFecha.setForeground(Color.BLUE);
+                    lblFecha.setFont(new Font("Algerian",0,30));
+                    
+                    lblNota.setForeground(Color.BLUE);
+                    lblNota.setFont(new Font("Arial",0,22));
+                    
+                    lblNota2.setForeground(Color.BLUE);
+                    lblNota2.setFont(new Font("Arial",0,22));
+                    
+                    lblNombre.setFont(new Font("Monospaced",0,14));
+                    lblEstablecimiento.setFont(new Font("Monospaced",0,14));
+                    lblPuesto.setFont(new Font("Monospaced",0,14));
+                    lblHorario.setFont(new Font("Monospaced",0,14));
+                   
+                   panel.add(lblClave).setBounds(45,y+25,z,20);
+                   panel.add(txtClaveReal).setBounds(x*8,y+25,z-18,20);
+                   
+                   panel.add(trae_hora.lblHora).setBounds(x*24,y+20, z*5, 100);
+                   panel.add(lblNota).setBounds(x*10,y+=205, 800, 40);
+                   panel.add(lblNota2).setBounds(150,y+=30, 800, 40);
+                   
+                   panel.add(lblFecha).setBounds(910,176, 250, 30);
+                   panel.add(lblSemaforoRojo).setBounds(35,80, 70, 70);
+                   panel.add(lblSemaforoVerde).setBounds(115,80, 70, 70);
+                   panel.add(lblLogo).setBounds((1280/2)-60, 38, 127, 127);
+                   panel.add(lblCerrar).setBounds(1280-89,38, 90, 130);
+                   panel.add(btnFoto).setBounds(1280-505,38,118,128);
+                   
+                   panel.add(lblNombre).setBounds(900,38,290,20);
+                   panel.add(lblEstablecimiento).setBounds(900,68,290,20);
+                   panel.add(lblPuesto).setBounds(900,98,290,20);
+                   panel.add(lblHorario).setBounds(900,128,290,20);
+                   
+//                   panel.add(barra_mensaje).setBounds(915,y-68,220,645);
+                   
+                   panel.add(panelScroll).setBounds(19,y+62,733,429);
+                   panel.add(fondo).setBounds(0,0,1280,768);
+                   
+                   iconoSemaforoR = new ImageIcon(tmpIconSemR.getImage().getScaledInstance(lblSemaforoRojo.getWidth(), lblSemaforoRojo.getHeight(), Image.SCALE_DEFAULT));
+                   lblSemaforoRojo.setIcon(iconoSemaforoR);
+                   
+                   iconoSemaforoV = new ImageIcon(tmpIconSemV.getImage().getScaledInstance(lblSemaforoVerde.getWidth(), lblSemaforoVerde.getHeight(), Image.SCALE_DEFAULT));
+                   lblSemaforoVerde.setIcon(iconoSemaforoV);
+                   
+                   iconoLogo = new ImageIcon(tmpIconLogo.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT));
+                   lblLogo.setIcon(iconoLogo);        
+           
+                   iconoCerrar = new ImageIcon(tmpIconCerrar.getImage().getScaledInstance(lblCerrar.getWidth(), lblCerrar.getHeight(), Image.SCALE_DEFAULT));
+                   lblCerrar.setIcon(iconoCerrar);
+                 break;
+    			}
+    		}
+    	}
+    	
+    	public static void main(String args[]){
+    		try{
+    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    			new Cat_Checador().setVisible(true);
+    		}catch(Exception e){}
+    	}
 }
