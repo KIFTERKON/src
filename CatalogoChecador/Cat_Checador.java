@@ -174,6 +174,8 @@ public class Cat_Checador extends JFrame {
                 barra_mensaje.setViewportView(txaAvisos);
                 
                 String fileFondo="";
+                
+                
                 if(anchoMon < 1300){
                         fileFondo = "Imagen/calaFondoChecador2.jpg";
                 }else{
