@@ -74,7 +74,6 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 		                  }
 	}
 
-
 //	private long close() {
 //		Runtime R = Runtime.getRuntime();
 //		try {
