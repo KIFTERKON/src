@@ -330,7 +330,7 @@ public class InitMenuBar extends Init{
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico);
 				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(false);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(true);
 				
 		/* CUADRANTES 
 		*		CATALOGO */
