@@ -436,7 +436,6 @@ public class Cat_Checador extends JFrame {
 	                                            lblPuesto.setText(lblPuesto.getText() + comboNombrePues.getPuesto());
 	                                            
 	                                            txtClaveReal.requestFocus(); 		
-
                                  }else{
 	                                	 lblSemaforoRojo.setEnabled(true);
 	                                     lblSemaforoVerde.setEnabled(false);
@@ -1121,11 +1120,12 @@ public class Cat_Checador extends JFrame {
     			}
     		}
     	}
-    	
     	public static void main(String args[]){
     		try{
     			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     			new Cat_Checador().setVisible(true);
-    		}catch(Exception e){}
+    		}catch(Exception e){
+    			System.err.println("Error :"+ e.getMessage());
+    		}
     	}
 }
