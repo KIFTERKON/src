@@ -116,10 +116,6 @@ public class Obj_Alimentacion_Cuadrante {
 	     return texto;
 	}
 	
-	public String[][] buscarTablaLibre(String nombre, String dia){
-		return new BuscarSQL().tabla_alimentacion_cuadrante_libre(nombre, dia);
-	}
-	
 	public String[][] buscarTablaMultipleJerarquico(String nombre){
 		return new BuscarSQL().tabla_alimentacion_cuadrante_multiple_jerarquico(nombre);
 	}
@@ -138,6 +134,14 @@ public class Obj_Alimentacion_Cuadrante {
 	
 	public String[][] buscarTablaPrimeraParte(String nombre){
 		return new BuscarSQL().tabla_alimentacion_cuadrante_primera_parte(nombre);
+	}
+	
+	public String[][] buscarTablaLibreJerarquico(String nombre){
+		return new BuscarSQL().tabla_libre_jerarquico(nombre);
+	}
+	
+	public String[][] buscarTablaLibre(String nombre){
+		return new BuscarSQL().tabla_libre(nombre);
 	}
 	
 	public String[] ComboBox(int actividad){

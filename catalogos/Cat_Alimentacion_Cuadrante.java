@@ -61,7 +61,10 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	
 	/* OPCION LIBRE */
 	Cat_Plantilla_Tabla_Cuadrante plantillaLibreJerarquica = new Cat_Plantilla_Tabla_Cuadrante();
+	Cat_Plantilla_Tabla_Cuadrante plantillaLibreJerarquicaConts = new Cat_Plantilla_Tabla_Cuadrante();
+	
 	Cat_Plantilla_Tabla_Cuadrante plantillaLibre = new Cat_Plantilla_Tabla_Cuadrante();
+	Cat_Plantilla_Tabla_Cuadrante plantillaLibreContestada = new Cat_Plantilla_Tabla_Cuadrante();
 	
 	JTextField txtNombre_Completo 	= new JTextField();
 	JTextField txtPuesto 			= new JTextField();
@@ -99,7 +102,18 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.plantillaMultipleContestada.tablaPlantillaMultiple.getColumnModel().getColumn(1).setHeaderValue("Actividades Contestadas por Cuadrante");
 		
 		this.plantillaLibreJerarquica.tablaPlantillaLibre.getColumnModel().getColumn(1).setHeaderValue("Actividades por Avance por Nivel Jerarquico");
+		this.plantillaLibreJerarquica.tablaPlantillaLibre.getColumnModel().getColumn(1).setMaxWidth(300);
+		this.plantillaLibreJerarquica.tablaPlantillaLibre.getColumnModel().getColumn(1).setMinWidth(300);
 		this.plantillaLibre.tablaPlantillaLibre.getColumnModel().getColumn(1).setHeaderValue("Actividades por Avance por Cuadrante");
+		this.plantillaLibre.tablaPlantillaLibre.getColumnModel().getColumn(1).setMaxWidth(300);
+		this.plantillaLibre.tablaPlantillaLibre.getColumnModel().getColumn(1).setMinWidth(300);
+		
+		this.plantillaLibreJerarquicaConts.tablaPlantillaLibre.getColumnModel().getColumn(1).setHeaderValue("Actividades Contestadas de Avance por Nivel Jerarquico");
+		this.plantillaLibreJerarquicaConts.tablaPlantillaLibre.getColumnModel().getColumn(1).setMaxWidth(300);
+		this.plantillaLibreJerarquicaConts.tablaPlantillaLibre.getColumnModel().getColumn(1).setMinWidth(300);
+		this.plantillaLibreContestada.tablaPlantillaLibre.getColumnModel().getColumn(1).setHeaderValue("Actividades Contestadas de Avance por Cuadrante");
+		this.plantillaLibreContestada.tablaPlantillaLibre.getColumnModel().getColumn(1).setMaxWidth(300);
+		this.plantillaLibreContestada.tablaPlantillaLibre.getColumnModel().getColumn(1).setMinWidth(300);
 		
 		this.panel.add(new JLabel("Nombre:")).setBounds(40,30,50,20);
 		this.panel.add(txtNombre_Completo).setBounds(150,30,250,20);
@@ -141,6 +155,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.panelMultipleContes.add(btnGuardarMultipleConts).setBounds(10,10,75,20);
 		this.panelMultipleContes.add(btnEditarMultipleConts).setBounds(90,10,75,20);
 		this.panelLibre.add(btnGuardarLibre).setBounds(10,10,115,20);
+		this.panelLibreContes.add(btnGuardarLibreConts).setBounds(10,10,75,20);
+		this.panelLibreContes.add(btnEditarLibreConts).setBounds(90,10,75,20);
 		
 		this.panelMultiple.add(plantillaMultipleJerarquica.scrollMultiple).setBounds(5,35,905,120);
 		this.panelMultiple.add(plantillaMultiple.scrollMultiple).setBounds(5,170,905,245);
@@ -150,6 +166,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		
 		this.panelLibre.add(plantillaLibreJerarquica.scrollLibre).setBounds(5,35,905,120);
 		this.panelLibre.add(plantillaLibre.scrollLibre).setBounds(5,170,905,245);
+		
+		this.panelLibreContes.add(plantillaLibreJerarquicaConts.scrollLibre).setBounds(5,35,905,120);
+		this.panelLibreContes.add(plantillaLibreContestada.scrollLibre).setBounds(5,170,905,245);
 		
 		this.panel.add(paneles).setBounds(35,240,920,450);
 		
@@ -230,7 +249,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	public void tablas_procesar(){
 		
 		if(new Obj_Alimentacion_Cuadrante().status_llanado_tabla(NOMBRECOMPLETO)){
-			JOptionPane.showMessageDialog(null, "En buena hora!!! \n Ya llenó su cuadrante.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "En hora Buena! \n Ya llenó su cuadrante.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			lblCuadranteLleno.setVisible(true);
 			
 		}else{
@@ -317,6 +336,15 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				
 				plantillaMultipleContestada.modelPlantillaMultiple.addRow(fila_multiple_capturada);
 			}
+			
+			String[][] info_tabla_libre_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaLibreJerarquico(NOMBRECOMPLETO);
+			for(String[] tmpArray : info_tabla_libre_jerarquico)
+				plantillaLibreJerarquica.modelPlantillaLibre.addRow(tmpArray);
+
+			String[][] info_tabla_libre = new Obj_Alimentacion_Cuadrante().buscarTablaLibre(NOMBRECOMPLETO);
+			for(String[] tmpArray : info_tabla_libre)
+				plantillaLibre.modelPlantillaLibre.addRow(tmpArray);
+			
 		}
 	}
 	
