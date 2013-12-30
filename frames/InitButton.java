@@ -97,6 +97,13 @@ public class InitButton extends InitMenuBar{
 	JLabel lblListaComparacion2= new JLabel("Lista de");
 	JLabel lblListaComparacion3= new JLabel("Comparacion FS");
 	
+	/* BOTON CHECADOR */
+	
+	JButton btnChecador= new JButton(new ImageIcon("imagen/checador.png"));
+	JLabel lblListaChecador2= new JLabel("Checador");
+
+	
+	
 	JTextField txtFolio = new JTextField("");
 	JTextField txtUsuario = new JTextField("");
 	JPasswordField txtContrasena = new JPasswordField("");
@@ -135,6 +142,7 @@ public class InitButton extends InitMenuBar{
 		btnListaRaya.addActionListener(Opciones);
 		btnListaFirma.addActionListener(Opciones);
 		btnListaComparacion.addActionListener(Opciones);
+		btnChecador.addActionListener(Opciones);
 		
 		btnBanco.setEnabled(false);
 		btnInasistencia.setEnabled(false);
@@ -149,7 +157,7 @@ public class InitButton extends InitMenuBar{
 		btnListaRaya.setEnabled(false);
 		btnListaFirma.setEnabled(false);
 		btnListaComparacion.setEnabled(false);
-		
+		btnChecador.setEnabled(true);
 	}
 	
 	ActionListener Opciones = new ActionListener(){
@@ -181,6 +189,8 @@ public class InitButton extends InitMenuBar{
 				new Cat_Lista_Pago().setVisible(true);
 			if(arg0.getSource().equals(btnListaComparacion))
 				new Cat_Comprobar_Fuente_Sodas_RH().setVisible(true);
+			if(arg0.getSource().equals(btnChecador))
+				new Cat_Checador().setVisible(true);
 
 		}
 		
@@ -238,9 +248,12 @@ public class InitButton extends InitMenuBar{
 			
 			/* FILA 5 */
 			campo.add(btnFsAux).setBounds(x, y+=115, z, z);		
-
+			campo.add(btnChecador).setBounds(594, y, z, z);
+			
 			campo.add(lblFsAux2).setBounds(112, y+=20, zl, 20);
 			campo.add(lblFsAux3).setBounds(112, y+10, zl, 20);
+			campo.add(lblListaChecador2).setBounds(676, y+10, zl, 20);
+			
 
 			
 			campo.add(new JLabel("Folio:")).setBounds(1000, 490, 80, 20);
@@ -314,9 +327,11 @@ public class InitButton extends InitMenuBar{
 					
 					/* FILA 5 */
 					campo.add(btnFsAux).setBounds(x, y+=115, z, z);		
-
+					campo.add(btnChecador).setBounds(594, y+=115, z, z);
+					
 					campo.add(lblFsAux2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsAux3).setBounds(112, y+10, zl, 20);
+					campo.add(lblListaChecador2).setBounds(676, y, zl, 20);
 					
 					campo.add(new JLabel("Folio:")).setBounds(880, 470, 80, 20);
 					campo.add(new JLabel("Usuario:")).setBounds(880, 500, 80, 20);
@@ -386,11 +401,12 @@ public class InitButton extends InitMenuBar{
 					campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
 					
 					/* FILA 5 */
-					campo.add(btnFsAux).setBounds(x, y+=105, z, z);		
-
+					campo.add(btnFsAux).setBounds(x, y+=105, z, z);	
+					campo.add(btnChecador).setBounds(594, y+=105, z, z);
+					
 					campo.add(lblFsAux2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsAux3).setBounds(112, y+10, zl, 20);
-
+					campo.add(lblListaChecador2).setBounds(676, y, zl, 20);
 					
 					campo.add(new JLabel("Folio:")).setBounds(880, 470, 80, 20);
 					campo.add(new JLabel("Usuario:")).setBounds(880, 500, 80, 20);
@@ -460,10 +476,12 @@ public class InitButton extends InitMenuBar{
 					campo.add(lblFsRH3).setBounds(112, y+10, zl, 20);
 					
 					/* FILA 5 */
-					campo.add(btnFsAux).setBounds(x, y+=80, z, z);		
-
+					campo.add(btnFsAux).setBounds(x, y+=80, z, z);	
+					campo.add(btnChecador).setBounds(594, y+80, z, z);
+		
 					campo.add(lblFsAux2).setBounds(112, y+=20, zl, 20);
 					campo.add(lblFsAux3).setBounds(112, y+10, zl, 20);
+					campo.add(lblListaChecador2).setBounds(676, y, zl, 20);
 
 					
 					campo.add(new JLabel("Folio:")).setBounds(880, 370, 80, 20);
