@@ -112,6 +112,14 @@ public class Obj_Actividad_Asignadas_Nivel_Jerarquico {
 		return new BuscarSQL().ActividadExisteJerarquico(folio);
 	}
 	
+	public boolean Existe_Nombre(String actividad){ 
+		return new BuscarSQL().ActividadExisteJerarquico(actividad);
+	}
+	
+	public String NombreOld(int folio){ 
+		return new BuscarSQL().ActividadExisteJerarquicoNameOld(folio);
+	}
+	
 	public boolean Guardar(String nombre){
 		return new GuardarSQL().Guardar_Actividad_Nivel_Jerarquico(this, nombre);
 	}
