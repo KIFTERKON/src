@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -45,6 +46,8 @@ import objetos.JTextFieldLimit;
 
 import ObjetoChecador.Obj_Permisos_Checador;
 import SQL.Connexion;
+
+import catalogos.Cat_Actividades_Por_Proyecto;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -678,7 +681,7 @@ public class Filtro_Permiso_Empleado extends JFrame{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Filtro_Permiso_Empleado()	{
 		this.setTitle("Filtro Empleados");
-		txtBuscar.setDocument(new JTextFieldLimit(10));
+		txtBuscar.setDocument(new JTextFieldLimit(130));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
 			public void keyReleased(final KeyEvent e) { 
@@ -821,5 +824,13 @@ public class Filtro_Permiso_Empleado extends JFrame{
 	};
 	
 	
+}
+public static void main(String [] args){
+	try{
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		new Cat_Permisos_Checador().setVisible(true);
+	}catch(Exception e){
+		System.err.println("Error :"+ e.getMessage());
+	}
 }
 }

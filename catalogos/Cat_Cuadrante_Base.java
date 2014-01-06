@@ -2077,7 +2077,7 @@ public class Cat_Cuadrante_Base extends JFrame{
 		public void actionPerformed(ActionEvent arg0) {
 			if(tablaSabado.getRowCount()>0){
 				if(tablaSabado.isRowSelected(tablaSabado.getSelectedRow())){
-					if(tablaViernes.getSelectedRow() == 0 || tablaViernes.getSelectedRow() == tablaViernes.getRowCount()-1){
+					if(tablaSabado.getSelectedRow() == 0 || tablaSabado.getSelectedRow() == tablaSabado.getRowCount()-1){
 						JOptionPane.showMessageDialog(null,"Esta fila no se puede remover","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}else{

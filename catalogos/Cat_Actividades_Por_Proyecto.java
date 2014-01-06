@@ -36,12 +36,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import com.toedter.calendar.JDateChooser;
 
+import CatalogoChecador.Cat_Reportes_Checador;
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;
@@ -1525,5 +1527,13 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     			public void keyPressed(KeyEvent arg0) {}		
     		};
     		
+    	}
+    	public static void main(String [] args){
+    		try{
+    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    			new Cat_Actividades_Por_Proyecto().setVisible(true);
+    		}catch(Exception e){
+    			System.err.println("Error :"+ e.getMessage());
+    		}
     	}
 }
