@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -429,13 +431,30 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 					
 					if(remover.borrar(asignacion)){
 						
+						 while(tablaFiltro.getRowCount()>0){
+	                            modeloFiltro.removeRow(0);
+	                            
+						  }
 							  while(tablaFiltroAsignado.getRowCount()>0){
 		                            modeloFiltroAsignado.removeRow(0);
+		                            
 							  }
-							    
+							  Object[][] getTablaFiltro = getTablaFiltro();
+				              String[] fila = new String[9];
+				                              for(int i=0; i<getTablaFiltro.length; i++){
+				                                      fila[0] = getTablaFiltro[i][0]+"";
+				                                      fila[1] = getTablaFiltro[i][1]+"";
+				                                      fila[2] = getTablaFiltro[i][2]+"";
+				                                      fila[3] = getTablaFiltro[i][3]+"";
+				                                      fila[4] = getTablaFiltro[i][4]+"";
+				                                      fila[5] = getTablaFiltro[i][5]+"";
+				                                      fila[6] = getTablaFiltro[i][6]+"";
+				                                      fila[7] = getTablaFiltro[i][7]+"";
+				                                      fila[8] = "";
+				                                      modeloFiltro.addRow(fila);
+				                              }					    
 
-				                              
-					          Object[][] getTablaAsignada = getTablaFiltroAsignado();
+				        Object[][] getTablaAsignada = getTablaFiltroAsignado();
 					              String[] filaAsignada = new String[7];
 					                              for(int j=0; j<getTablaAsignada.length; j++){
 						                            	  filaAsignada[0] = getTablaAsignada[j][0]+"";
@@ -447,6 +466,8 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 						                            	  filaAsignada[6] = getTablaAsignada[j][6]+"";
 					                                      modeloFiltroAsignado.addRow(filaAsignada);
 					                              }
+					                              
+					                              
 					         cmbEstablecimiento.setSelectedIndex(0);
 								JOptionPane.showMessageDialog(null, "El registro se a eliminado correctamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 								return;
@@ -468,12 +489,8 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 			if(tablaFiltro.isEditing()){
 	 			tablaFiltro.getCellEditor().stopCellEditing();
 			}
-
-			
 			txtFolio.setText("");
 			txtNombre_Completo.setText("");
-			
-
 			
 			Obj_IZAGAR_Asignaciones_Liquidadas Guardado_Asignacion = new Obj_IZAGAR_Asignaciones_Liquidadas();
 
@@ -515,7 +532,9 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 						                            	  filaAsignada[6] = getTablaAsignada[j][6]+"";
 					                                      modeloFiltroAsignado.addRow(filaAsignada);
 					                              }
+					                              
 					         cmbEstablecimiento.setSelectedIndex(0);
+					         copiavalores_por_tasa_de_liquidaciones_selecionadas();
 							JOptionPane.showMessageDialog(null, "La tabla se guardó exitosamente","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
@@ -613,7 +632,35 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 			}
 		}
 	};
-	
+	public void copiavalores_por_tasa_de_liquidaciones_selecionadas(){
+		String todos = "exec IZAGAR_insert_valores_por_tasa_liquidaciones_selecionadas ";
+		PreparedStatement pstmt = null;
+		Connection con = new Connexion().conexion();
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(todos);
+		
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+
+	}
    	public Object[][] getTablaFiltro(){
 		String todos = "exec IZAGAR_select_asignaciones_liquidadas_todas ";
 		Statement s;
@@ -643,7 +690,7 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 	}
    	
    	public Object[][] getTablaFiltroAsignado(){
-		String todos = "exec IZAGAR_select_asignaciones_contables";
+		String todos = "exec IZAGAR_select_asignaciones_c";
 		Statement s;
 		ResultSet rs;
 		try {
@@ -710,8 +757,6 @@ public class Cat_IZAGAR_Asignaciones extends JFrame{
 		}	
 	};
 	
-
-
 	public static void main(String args[]){
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

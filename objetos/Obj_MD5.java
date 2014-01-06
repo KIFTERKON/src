@@ -19,10 +19,14 @@ public class Obj_MD5 {
 				strCryptMD5.append(HEXADECIMALES[high]);
 				strCryptMD5.append(HEXADECIMALES[low]);
 			}
+			  System.out.println(strCryptMD5.toString());
 		return strCryptMD5.toString();
 		} catch (NoSuchAlgorithmException e) {
 			return null;
 		}
+	} 
+
+	public static void main (String args[]){
+	     cryptMD5("050565","izagar");
 	}
-			
 }
