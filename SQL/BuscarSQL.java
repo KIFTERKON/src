@@ -2610,6 +2610,50 @@ public class BuscarSQL {
 		return existe;
 	}
 	
+	public boolean ActividadExiste(String actividad){
+		String query = "exec sp_actividad_duplicada '"+actividad+"'";
+		
+		boolean existe = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = Boolean.parseBoolean(rs.getString("Existe").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return existe;
+	}
+	
+	
+	public String ActividadExisteNameOld(int actividad){
+		String query = "exec sp_select_actividad_nombre "+actividad;
+		
+		String nombre = "";
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				nombre = rs.getString("actividad").trim();
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return nombre;
+	}
 	public boolean ActividadExisteJerarquico(int actividad){
 		String query = "exec [sp_folio_actividad_jerarquico] "+actividad;
 		
@@ -2623,6 +2667,50 @@ public class BuscarSQL {
 			
 			while(rs.next()){
 				existe = Boolean.parseBoolean(rs.getString("Existe").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return existe;
+	}
+	
+	public boolean ActividadExisteJerarquico(String actividad){
+		String query = "exec [sp_actividad_jerarquico_duplicada] '"+actividad+"'";
+		
+		boolean existe = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = Boolean.parseBoolean(rs.getString("Existe").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return existe;
+	}
+	
+	public String ActividadExisteJerarquicoNameOld(int actividad){
+		String query = "exec [sp_select_actividad_jerarquica_nombre] '"+actividad+"'";
+		
+		String existe = "";
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = rs.getString("actividad").trim();
 			}
 			
 		} catch (SQLException e1) {
@@ -4479,8 +4567,8 @@ public class BuscarSQL {
 			while(rs.next()){
 				Matriz[i][0] = String.valueOf(i+1)+"  ";
 				Matriz[i][1] = "  "+rs.getString(2);
-				Matriz[i][2] = "";
-				Matriz[i][3] = "";
+				Matriz[i][2] = "  ";
+				Matriz[i][3] = "  ";
 				i++;
 			}
 		} catch (SQLException e1) {
@@ -4504,8 +4592,8 @@ public class BuscarSQL {
 			while(rs.next()){
 				Matriz[i][0] = String.valueOf(i+1)+"  ";
 				Matriz[i][1] = "  "+rs.getString(2);
-				Matriz[i][2] = "";
-				Matriz[i][3] = "";
+				Matriz[i][2] = "  ";
+				Matriz[i][3] = "  ";
 				i++;
 			}
 		} catch (SQLException e1) {
