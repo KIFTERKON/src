@@ -1,4 +1,4 @@
-package catalogos;
+package izagar;
 
 import java.awt.Container;
 import java.awt.Toolkit;

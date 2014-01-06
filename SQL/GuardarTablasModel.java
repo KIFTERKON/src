@@ -692,4 +692,162 @@ public class GuardarTablasModel {
 	    texto = texto.trim().toUpperCase();
 	     return texto;
 	}
+	public boolean tabla_IZAGAR_asignaciones_liquidadas(Object[][] tabla){
+		String query = "exec IZAGAR_insert_liquidaciones_seleccionadas ?,?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmt.setString(1, tabla[i][0].toString().trim());
+				pstmt.setString(2, tabla[i][1].toString().trim());
+				pstmt.setString(3, tabla[i][2].toString().trim());
+				pstmt.setString(4, tabla[i][3].toString().trim());
+				pstmt.setString(5, tabla[i][4].toString().trim());
+				pstmt.setString(6, tabla[i][5].toString().trim());
+				pstmt.setString(7, tabla[i][6].toString().trim());
+				pstmt.setString(8, tabla[i][7].toString().trim());
+				pstmt.setInt(9, Boolean.parseBoolean(tabla[i][8].toString().trim()) ? 1 : 0);
+	
+				
+				pstmt.executeUpdate();
+			}
+					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	public boolean borrar_IZAGAR_asignacion_liquidada(String asignacion){
+		String query = "exec IZAGAR_delete_asignaciones_liquidadas '"+asignacion+"';";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+			con.setAutoCommit(false);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
+public boolean IZAGAR_asignaciones_liquidadas_todas(Object[][] tabla){
+	String query = "exec IZAGAR_insert_liquidaciones_todas ?,?,?,?,?,?,?,?";
+	Connection con = new Connexion().conexion();
+	
+	try {
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		con.setAutoCommit(false);
+		
+		for(int i=0; i<tabla.length; i++){
+			pstmt.setString(1, tabla[i][0].toString().trim());
+			pstmt.setString(2, tabla[i][1].toString().trim());
+			pstmt.setString(3, tabla[i][2].toString().trim());
+			pstmt.setString(4, tabla[i][3].toString().trim());
+			pstmt.setString(5, tabla[i][4].toString().trim());
+			pstmt.setString(6, tabla[i][5].toString().trim());
+			pstmt.setString(7, tabla[i][6].toString().trim());
+			pstmt.setString(8, tabla[i][7].toString().trim());
+			;
+		pstmt.executeUpdate();
+		}
+				
+		con.commit();
+	} catch (Exception e) {
+		System.out.println("SQLException: "+e.getMessage());
+		if(con != null){
+			try{
+				System.out.println("La transacción ha sido abortada");
+				con.rollback();
+			}catch(SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+		return false;
+	}finally{
+		try {
+			con.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}		
+	return true;
+	}
+public boolean IZAGAR_insert_valores_por_tasa_todas(Object[][] tabla){
+	String query = "exec IZAGAR_insert_valores_por_tasa_todas ?,?,?,?,?";
+	Connection con = new Connexion().conexion();
+	
+	try {
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		con.setAutoCommit(false);
+		
+		for(int i=0; i<tabla.length; i++){
+			pstmt.setString(1, tabla[i][0].toString().trim());
+			pstmt.setString(2, tabla[i][1].toString().trim());
+			pstmt.setString(3, tabla[i][2].toString().trim());
+			pstmt.setString(4, tabla[i][3].toString().trim());
+			pstmt.setString(5, tabla[i][4].toString().trim());
+			;
+		pstmt.executeUpdate();
+		}
+				
+		con.commit();
+	} catch (Exception e) {
+		System.out.println("SQLException: "+e.getMessage());
+		if(con != null){
+			try{
+				System.out.println("La transacción ha sido abortada");
+				con.rollback();
+			}catch(SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+		return false;
+	}finally{
+		try {
+			con.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}		
+	return true;
+}
 }

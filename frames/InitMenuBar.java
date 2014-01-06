@@ -1,5 +1,7 @@
 package frames;
 
+import izagar.Cat_Reporte_IZAGAR_de_Movimientos_Operados;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -65,7 +67,6 @@ import catalogos.Cat_Reporte_BMS_Apartados;
 import catalogos.Cat_Reporte_Cuadrantes;
 import catalogos.Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario;
 import catalogos.Cat_Reporte_General_Asistencia_Por_Establecimiento;
-import catalogos.Cat_Reporte_IZAGAR_de_Movimientos_Operados;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
 import catalogos.Cat_Tabla_Opciones_Respuesta;
