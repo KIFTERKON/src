@@ -22,6 +22,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Actividad;
@@ -85,6 +86,7 @@ public class Cat_Actividad extends JDialog {
 	JButton btnizquierda = new JButton(new ImageIcon("Iconos/left_icon&16.png"));
 	JButton btnBuscar = new JButton(new ImageIcon("Iconos/zoom_icon&16.png"));
 	
+	String actividadOld;
 	public Cat_Actividad(){
 		this.init();
 		
@@ -358,10 +360,75 @@ public class Cat_Actividad extends JDialog {
 				return;
 			}else{
 				Obj_Actividad actividad = new Obj_Actividad();
-//				SimpleDateFormat simpledateformat = new SimpleDateFormat("H:mm");
 				
-				if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText())) == true){
-					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+				if(new Obj_Actividad().Existe(Integer.parseInt(txtFolio.getText()))){
+					if(new Obj_Actividad().Existe_Nombre(procesa_texto(txaActividad.getText()))){
+						if(procesa_texto(txaActividad.getText()).equalsIgnoreCase(procesa_texto(new Obj_Actividad().Nombre_Old(Integer.valueOf(txtFolio.getText()))))){
+							actividad.setActividad(procesa_texto(txaActividad.getText()));
+							actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
+
+							actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+							actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
+							actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+							
+							actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
+							actividad.setCarga(chbCajaDeTrabajo.isSelected());
+							actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
+							actividad.setStatus(chbStatus.isSelected());
+							
+							if(actividad.Actualizar(Integer.parseInt(txtFolio.getText())))
+								JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
+							else
+								JOptionPane.showMessageDialog(null, "Error al tratar de actualizar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
+						}else{
+							if(new Obj_Actividad().Existe_Nombre(procesa_texto(txaActividad.getText()))){
+								JOptionPane.showMessageDialog(null, "El nombre: "+txaActividad.getText() +"\n\n Ya está registrada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}else{
+								actividad.setActividad(procesa_texto(txaActividad.getText()));
+								actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
+
+								actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+								actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
+								actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+								
+								actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
+								actividad.setCarga(chbCajaDeTrabajo.isSelected());
+								actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
+								actividad.setStatus(chbStatus.isSelected());
+								
+								if(actividad.Actualizar(Integer.parseInt(txtFolio.getText())))
+									JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
+								else
+									JOptionPane.showMessageDialog(null, "Error al tratar de actualizar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
+							}
+						}
+					}else{
+						if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
+							actividad.setActividad(procesa_texto(txaActividad.getText()));
+							actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
+
+							actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+							actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
+							actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+							
+							actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
+							actividad.setCarga(chbCajaDeTrabajo.isSelected());
+							actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
+							actividad.setStatus(chbStatus.isSelected());
+							
+							if(actividad.Actualizar(Integer.parseInt(txtFolio.getText())))
+								JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
+							else
+								JOptionPane.showMessageDialog(null, "Error al tratar de actualizar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+				}else{
+					if(new Obj_Actividad().Existe_Nombre(procesa_texto(txaActividad.getText()))){
+						JOptionPane.showMessageDialog(null, "El nombre: "+txaActividad.getText() +"\n\n Ya está registrada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}else{
+						actividad.setFolio(Integer.valueOf(txtFolio.getText()));
 						actividad.setActividad(procesa_texto(txaActividad.getText()));
 						actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
 
@@ -374,39 +441,16 @@ public class Cat_Actividad extends JDialog {
 						actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
 						actividad.setStatus(chbStatus.isSelected());
 						
-						if(actividad.Actualizar(Integer.parseInt(txtFolio.getText()))){
-							JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
+						if(actividad.Guardar()){
+							panelLimpiar();
+							JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}else{
-							JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
 							return;
-						}
+						}	
 						
-					}else{
-						return;
 					}
-				}else{
-					actividad.setActividad(procesa_texto(txaActividad.getText()));
-					actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
-
-					actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
-					actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
-					actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
-					
-					actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
-					actividad.setCarga(chbCajaDeTrabajo.isSelected());
-					actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
-					actividad.setStatus(chbStatus.isSelected());
-					
-					if(actividad.Guardar()){
-						panelLimpiar();
-						JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
-						return;
-					}else{
-						JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
-						return;
-					}
-					
 				}
 			}
 		}
@@ -529,4 +573,12 @@ public class Cat_Actividad extends JDialog {
 	     return texto;
 	}
 	
+	public static void main(String args[]){
+		try{
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Actividad().setVisible(true);
+		}catch(Exception e){
+			System.err.println("Error en Main: "+e.getMessage());
+		}
+	}
 }

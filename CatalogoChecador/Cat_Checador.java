@@ -223,9 +223,9 @@ public class Cat_Checador extends JFrame {
                 lblCerrar.addMouseListener ( new  MouseAdapter (){
                         public void mouseReleased (MouseEvent e){
                              dispose();
-//                 			try {
-//                				R.exec("taskkill /f /im javaw.exe");
-//                			} catch (Exception e2){}
+                 			try {
+                				R.exec("taskkill /f /im javaw.exe");
+                			} catch (Exception e2){}
                         }  
                  });  
         }

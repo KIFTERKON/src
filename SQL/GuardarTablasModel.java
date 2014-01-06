@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.StringTokenizer;
 
-import objetos.Obj_Alimentacion_Cuadrante;
-
 public class GuardarTablasModel {
 	public boolean tabla_model_bancos(Object[][] tabla){
 		String query_delete = "exec sp_borrado_empleados_dif_1";
@@ -476,25 +474,29 @@ public class GuardarTablasModel {
 		
 		Connection con = new Connexion().conexion();
 		try {
+			con.setAutoCommit(false);
 			PreparedStatement pstmt = con.prepareStatement(query);
 			PreparedStatement pstmtJerarquico = con.prepareStatement(query_proyecto);
-			con.setAutoCommit(false);
+			
+			
+			System.out.println("longitud de la tabla a: "+tabla.length);
 			for(int i=0; i<tabla.length; i++){
-				pstmt.setString(1, tabla[i][0].toString().trim());
-				pstmt.setString(2, tabla[i][1].toString().trim());
-				pstmt.setString(3, tabla[i][2].toString().trim());
-				pstmt.setString(4, tabla[i][3].toString().trim());
-				pstmt.setString(5, tabla[i][4].toString().trim());
-				pstmt.setString(6, tabla[i][5].toString().trim());
-				pstmt.setInt(7, Integer.parseInt(tabla[i][6].toString().trim()));
-				pstmt.setString(8, tabla[i][7].toString().trim());
-				pstmt.setString(9, tabla[i][8].toString().trim());
-				pstmt.setString(10, tabla[i][9].toString().trim());
-				pstmt.setString(11, tabla[i][10].toString().toUpperCase());
-				pstmt.execute();
-			
+				if(!tabla[i][8].toString().trim().equalsIgnoreCase("Respuestas")){
+					pstmt.setString(1, tabla[i][0].toString().trim());
+					pstmt.setString(2, tabla[i][1].toString().trim());
+					pstmt.setString(3, tabla[i][2].toString().trim());
+					pstmt.setString(4, tabla[i][3].toString().trim());
+					pstmt.setString(5, tabla[i][4].toString().trim());
+					pstmt.setString(6, tabla[i][5].toString().trim());
+					pstmt.setInt(7, Integer.parseInt(tabla[i][6].toString().trim()));
+					pstmt.setString(8, tabla[i][7].toString().trim());
+					pstmt.setString(9, tabla[i][8].toString().trim());
+					pstmt.setString(10, tabla[i][9].toString().trim());
+					pstmt.setString(11, tabla[i][10].toString().toUpperCase());
+					pstmt.execute();
+				}
 			}
-			
+			System.out.println("longitud de la tabla b: "+multipleProyecto.length);
 			for(int j=0; j<multipleProyecto.length; j++){
 				if(!multipleProyecto[j][8].toString().trim().equalsIgnoreCase("Respuestas")){
 					pstmtJerarquico.setString(1, multipleProyecto[j][0].toString().trim());
@@ -512,7 +514,8 @@ public class GuardarTablasModel {
 			}
 			con.commit();
 		} catch (Exception e) {
-			System.out.println("SQLException: "+e.getMessage());
+			System.out.println("Exception: "+e.getMessage());
+			System.out.println("Error: "+e.getCause());
 			if(con != null){
 				try{
 					System.out.println("La transacción ha sido abortada");
@@ -526,7 +529,7 @@ public class GuardarTablasModel {
 			try {
 				con.close();
 			} catch(SQLException e){
-				e.printStackTrace();
+				System.err.println("Error de SQL: "+e.getMessage());
 			}
 		}		
 		return true;
@@ -564,29 +567,47 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
-	public boolean Alimentacion_cuadrante_libre(Object[][] tabla, Obj_Alimentacion_Cuadrante alimentacion){
-		String query_delete = "exec sp_borrado_alimentacion_libre";
-		String query = "exec sp_insert_bancos ?,?,?,?,?,?";
+	
+	public boolean Alimentacion_cuadrante_libre(Object[][] tabla_libre, Object[][] tabla_libre_jerarquico){
+		String query = "exec sp_insert_libre_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?;";
+		String query_proyecto = "exec [sp_insert_libre_actividades_cuadrante_jerarquico] ?,?,?,?,?,?,?,?,?,?";
+		
 		Connection con = new Connexion().conexion();
-		
 		try {
-			PreparedStatement pstmtDelete = con.prepareStatement(query_delete);
 			PreparedStatement pstmt = con.prepareStatement(query);
-
+			PreparedStatement pstmtJerarquico = con.prepareStatement(query_proyecto);
 			con.setAutoCommit(false);
-			
-			pstmtDelete.executeUpdate();
-			
-			for(int i=0; i<tabla.length; i++){
-				pstmt.setInt(1, Integer.parseInt(tabla[i][0].toString().trim()));
-				pstmt.setString(2, tabla[i][1].toString().trim());
-				pstmt.setString(3, tabla[i][2].toString().trim());
-				pstmt.setFloat(4, Float.parseFloat(tabla[i][3].toString()));
-				pstmt.setFloat(5, Float.parseFloat(tabla[i][4].toString()));
-				pstmt.setString(6, "1");
-				pstmt.executeUpdate();
+			for(int i=0; i<tabla_libre.length; i++){
+				if(!tabla_libre[i][8].toString().trim().equalsIgnoreCase("")){
+					pstmt.setString(1, tabla_libre[i][0].toString().trim());
+					pstmt.setString(2, tabla_libre[i][1].toString().trim());
+					pstmt.setString(3, tabla_libre[i][2].toString().trim());
+					pstmt.setString(4, tabla_libre[i][3].toString().trim());
+					pstmt.setString(5, tabla_libre[i][4].toString().trim());
+					pstmt.setString(6, tabla_libre[i][5].toString().trim());
+					pstmt.setInt(7, Integer.parseInt(tabla_libre[i][6].toString().trim()));
+					pstmt.setString(8, tabla_libre[i][7].toString().trim());
+					pstmt.setString(9, tabla_libre[i][8].toString().trim());
+					pstmt.setString(10, tabla_libre[i][9].toString().trim());
+					pstmt.execute();
+				}
 			}
-		
+			
+			for(int j=0; j<tabla_libre_jerarquico.length; j++){
+				if(!tabla_libre_jerarquico[j][8].toString().trim().equalsIgnoreCase("")){
+					pstmtJerarquico.setString(1, tabla_libre_jerarquico[j][0].toString().trim());
+					pstmtJerarquico.setString(2, tabla_libre_jerarquico[j][1].toString().trim());
+					pstmtJerarquico.setString(3, tabla_libre_jerarquico[j][2].toString().trim());
+					pstmtJerarquico.setString(4, tabla_libre_jerarquico[j][3].toString().trim());
+					pstmtJerarquico.setString(5, tabla_libre_jerarquico[j][4].toString().trim());
+					pstmtJerarquico.setString(6, tabla_libre_jerarquico[j][5].toString().trim());
+					pstmtJerarquico.setInt(7, Integer.parseInt(tabla_libre_jerarquico[j][6].toString().trim()));
+					pstmtJerarquico.setString(8, tabla_libre_jerarquico[j][7].toString().trim());
+					pstmtJerarquico.setString(9, tabla_libre_jerarquico[j][8].toString().trim());
+					pstmtJerarquico.setString(10, tabla_libre_jerarquico[j][9].toString().trim());
+					pstmtJerarquico.execute();
+				}				
+			}
 			con.commit();
 		} catch (Exception e) {
 			System.out.println("SQLException: "+e.getMessage());
@@ -671,4 +692,162 @@ public class GuardarTablasModel {
 	    texto = texto.trim().toUpperCase();
 	     return texto;
 	}
+	public boolean tabla_IZAGAR_asignaciones_liquidadas(Object[][] tabla){
+		String query = "exec IZAGAR_insert_liquidaciones_seleccionadas ?,?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmt.setString(1, tabla[i][0].toString().trim());
+				pstmt.setString(2, tabla[i][1].toString().trim());
+				pstmt.setString(3, tabla[i][2].toString().trim());
+				pstmt.setString(4, tabla[i][3].toString().trim());
+				pstmt.setString(5, tabla[i][4].toString().trim());
+				pstmt.setString(6, tabla[i][5].toString().trim());
+				pstmt.setString(7, tabla[i][6].toString().trim());
+				pstmt.setString(8, tabla[i][7].toString().trim());
+				pstmt.setInt(9, Boolean.parseBoolean(tabla[i][8].toString().trim()) ? 1 : 0);
+	
+				
+				pstmt.executeUpdate();
+			}
+					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	public boolean borrar_IZAGAR_asignacion_liquidada(String asignacion){
+		String query = "exec IZAGAR_delete_asignaciones_liquidadas '"+asignacion+"';";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+			con.setAutoCommit(false);
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+
+public boolean IZAGAR_asignaciones_liquidadas_todas(Object[][] tabla){
+	String query = "exec IZAGAR_insert_liquidaciones_todas ?,?,?,?,?,?,?,?";
+	Connection con = new Connexion().conexion();
+	
+	try {
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		con.setAutoCommit(false);
+		
+		for(int i=0; i<tabla.length; i++){
+			pstmt.setString(1, tabla[i][0].toString().trim());
+			pstmt.setString(2, tabla[i][1].toString().trim());
+			pstmt.setString(3, tabla[i][2].toString().trim());
+			pstmt.setString(4, tabla[i][3].toString().trim());
+			pstmt.setString(5, tabla[i][4].toString().trim());
+			pstmt.setString(6, tabla[i][5].toString().trim());
+			pstmt.setString(7, tabla[i][6].toString().trim());
+			pstmt.setString(8, tabla[i][7].toString().trim());
+			;
+		pstmt.executeUpdate();
+		}
+				
+		con.commit();
+	} catch (Exception e) {
+		System.out.println("SQLException: "+e.getMessage());
+		if(con != null){
+			try{
+				System.out.println("La transacción ha sido abortada");
+				con.rollback();
+			}catch(SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+		return false;
+	}finally{
+		try {
+			con.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}		
+	return true;
+	}
+public boolean IZAGAR_insert_valores_por_tasa_todas(Object[][] tabla){
+	String query = "exec IZAGAR_insert_valores_por_tasa_todas ?,?,?,?,?";
+	Connection con = new Connexion().conexion();
+	
+	try {
+		PreparedStatement pstmt = con.prepareStatement(query);
+
+		con.setAutoCommit(false);
+		
+		for(int i=0; i<tabla.length; i++){
+			pstmt.setString(1, tabla[i][0].toString().trim());
+			pstmt.setString(2, tabla[i][1].toString().trim());
+			pstmt.setString(3, tabla[i][2].toString().trim());
+			pstmt.setString(4, tabla[i][3].toString().trim());
+			pstmt.setString(5, tabla[i][4].toString().trim());
+			;
+		pstmt.executeUpdate();
+		}
+				
+		con.commit();
+	} catch (Exception e) {
+		System.out.println("SQLException: "+e.getMessage());
+		if(con != null){
+			try{
+				System.out.println("La transacción ha sido abortada");
+				con.rollback();
+			}catch(SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+		return false;
+	}finally{
+		try {
+			con.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}		
+	return true;
+}
 }

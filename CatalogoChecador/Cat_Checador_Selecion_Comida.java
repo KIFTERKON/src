@@ -13,8 +13,8 @@ public class Cat_Checador_Selecion_Comida extends JDialog{
 
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
-	JButton btn_comida = new JButton("Comida 2 Horas"); 
-	JButton btn_receso15 = new JButton("Receso 15 Min"); 
+	JButton btn_comida = new JButton("Comida Normal"); 
+	JButton btn_receso15 = new JButton("Break 15 Min"); 
 	
 	int folio_empleado;
 	String tipo_entrada;

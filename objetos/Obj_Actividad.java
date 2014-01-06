@@ -114,6 +114,13 @@ public class Obj_Actividad {
 		return new BuscarSQL().ActividadExiste(folio);
 	}
 	
+	public boolean Existe_Nombre(String nombre){ 
+		return new BuscarSQL().ActividadExiste(nombre);
+	}
+	public String Nombre_Old(int folio){ 
+		return new BuscarSQL().ActividadExisteNameOld(folio);
+	}
+	
 	public boolean Guardar(){
 		return new GuardarSQL().Guardar_Actividad(this);
 	}

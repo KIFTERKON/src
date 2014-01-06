@@ -24,7 +24,7 @@ public class Obj_MD5 {
 		} catch (NoSuchAlgorithmException e) {
 			return null;
 		}
-	}
+	} 
 	public static void main(String []arg){
 		cryptMD5("AGUILAS","izagar");
 	}

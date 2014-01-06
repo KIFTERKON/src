@@ -58,53 +58,79 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 			}else{
 				
 				Obj_Usuario user = new Obj_Usuario().LeerSession();
-				
 				Obj_Actividad_Asignadas_Nivel_Jerarquico actividad = new Obj_Actividad_Asignadas_Nivel_Jerarquico();
 				
-				if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe(Integer.parseInt(txtFolio.getText())) == true){
-					if(JOptionPane.showConfirmDialog(null, "El registro existe, ¿desea actualizarlo?") == 0){
-						actividad.setActividad(procesa_texto(txaActividad.getText()));
-						actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
+				if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe(Integer.parseInt(txtFolio.getText()))){
+					if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe_Nombre(procesa_texto(txaActividad.getText()))){
+						if(procesa_texto(txaActividad.getText()).equalsIgnoreCase(procesa_texto(new Obj_Actividad_Asignadas_Nivel_Jerarquico().NombreOld(Integer.valueOf(txtFolio.getText()))))){
+							actividad.setFolio(Integer.valueOf(txtFolio.getText()));
+							actividad.setActividad(procesa_texto(txaActividad.getText()));
+							actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
 
-						actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
-						actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
-						actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
-						
-						actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
-						actividad.setCarga(chbCajaDeTrabajo.isSelected());
-						actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
-						actividad.setStatus(chbStatus.isSelected());
-						
-						if(actividad.Actualizar(Integer.parseInt(txtFolio.getText()), procesa_texto(user.getNombre_completo()))){
-							JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
-							return;
+							actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+							actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
+							actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+							
+							actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
+							actividad.setCarga(chbCajaDeTrabajo.isSelected());
+							actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
+							actividad.setStatus(chbStatus.isSelected());
+							
+							if(actividad.Actualizar(Integer.parseInt(txtFolio.getText()), procesa_texto(user.getNombre_completo())))
+								JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
+							else
+								JOptionPane.showMessageDialog(null, "Error al tratar de actualizar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
 						}else{
-							JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
-							return;
+							if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe_Nombre(procesa_texto(txaActividad.getText()))){
+								JOptionPane.showMessageDialog(null, "El nombre: "+txaActividad.getText() +"\n\n Ya está registrada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}else{
+								actividad.setFolio(Integer.valueOf(txtFolio.getText()));
+								actividad.setActividad(procesa_texto(txaActividad.getText()));
+								actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
+
+								actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+								actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
+								actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+								
+								actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
+								actividad.setCarga(chbCajaDeTrabajo.isSelected());
+								actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
+								actividad.setStatus(chbStatus.isSelected());
+								
+								if(actividad.Actualizar(Integer.parseInt(txtFolio.getText()), procesa_texto(user.getNombre_completo())))
+									JOptionPane.showMessageDialog(null, "El registro se actualizó exitosamente!" , "Exito al actualizar!", JOptionPane.INFORMATION_MESSAGE);
+								else
+									JOptionPane.showMessageDialog(null, "Error al tratar de actualizar el registro", "Error al actualizar registro", JOptionPane.WARNING_MESSAGE);
+							}
 						}
 					}else{
-						return;
-					}
-				}else{
-					actividad.setActividad(procesa_texto(txaActividad.getText()));
-					actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
-
-					actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
-					actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
-					actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
-					
-					actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
-					actividad.setCarga(chbCajaDeTrabajo.isSelected());
-					actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
-					actividad.setStatus(chbStatus.isSelected());
-					
-					if(actividad.Guardar(procesa_texto(user.getNombre_completo()))){
-						panelLimpiar();
-						JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
-						return;
-					}else{
-						JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
-						return;
+						if(new Obj_Actividad_Asignadas_Nivel_Jerarquico().Existe_Nombre(procesa_texto(txaActividad.getText()))){
+							JOptionPane.showMessageDialog(null, "El nombre: "+txaActividad.getText() +"\n\n Ya está registrada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+							return;
+						}else{
+							actividad.setFolio(Integer.valueOf(txtFolio.getText()));
+							actividad.setActividad(procesa_texto(txaActividad.getText()));
+							actividad.setDescripcion(procesa_texto(txaDescripcion.getText()));
+	
+							actividad.setRespuesta(cmbRespuesta.getSelectedItem().toString());
+							actividad.setAtributos(cmbAtributos.getSelectedItem().toString());
+							actividad.setNivel_critico(cmbNivelCritico.getSelectedItem().toString());
+							
+							actividad.setTemporada(cmbTemporada.getSelectedItem().toString());
+							actividad.setCarga(chbCajaDeTrabajo.isSelected());
+							actividad.setRepetir(Integer.parseInt(spRepetir.getValue().toString()));
+							actividad.setStatus(chbStatus.isSelected());
+							
+							if(actividad.Guardar(procesa_texto(user.getNombre_completo()))){
+								panelLimpiar();
+								JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
+								return;
+							}else{
+								JOptionPane.showMessageDialog(null, "Error al tratar de guardar el registro", "Error al guardar registro", JOptionPane.WARNING_MESSAGE);
+								return;
+							}
+						}
 					}
 				}
 			}
@@ -114,9 +140,9 @@ public class Cat_Actividad_Asignadas_Nivel_Jerarquico extends Cat_Actividad {
 	public String procesa_texto(String texto) {
         StringTokenizer tokens = new StringTokenizer(texto);
         texto = "";
-        while(tokens.hasMoreTokens()){
+        while(tokens.hasMoreTokens())
             texto += " "+tokens.nextToken();
-        }
+
         texto = texto.toString();
         texto = texto.trim().toUpperCase();
         return texto;

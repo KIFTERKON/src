@@ -168,5 +168,9 @@ public class Obj_Alimentacion_Cuadrante {
 	public boolean status_llanado_tabla(String nombre){
 		return new BuscarTablasModel().tablas_status(nombre);
 	}
+	
+	public boolean guardarLibre(Object[][] libre, Object[][] libreJerarquico){
+		return new GuardarTablasModel().Alimentacion_cuadrante_libre(libre, libreJerarquico);
+	}
 
 }
