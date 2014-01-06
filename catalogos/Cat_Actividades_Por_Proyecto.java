@@ -43,7 +43,6 @@ import javax.swing.table.TableRowSorter;
 
 import com.toedter.calendar.JDateChooser;
 
-import CatalogoChecador.Cat_Reportes_Checador;
 import SQL.Connexion;
 
 import objetos.JTextFieldLimit;

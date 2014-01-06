@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,13 +28,16 @@ public class Cat_Reportes_Checador extends JFrame {
 	String establecimiento[] = new Obj_Establecimiento().Combo_Establecimiento();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbEstablecimiento = new JComboBox(establecimiento);
-	JButton btnEmpleadosFaltantes = new JButton();
 	
+	JButton btnEmpleadosFaltantes = new JButton();
 	JButton btnEmpleadosConRetardo = new JButton();
+	
+	String filtro_establecimiento ="";
 	
 	public Cat_Reportes_Checador(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/user_icon&16.png"));
 		this.setTitle("Reporte Checador");
+		panel.setBorder(BorderFactory.createTitledBorder("Seleccion de Reporte"));
 
 		btnEmpleadosFaltantes.setSelected(true);
 		btnEmpleadosFaltantes.setText(	"<html> <FONT FACE="+"arial"+" SIZE=4 COLOR=BLACk>" +
@@ -54,24 +58,28 @@ public class Cat_Reportes_Checador extends JFrame {
 		panel.add(btnEmpleadosConRetardo).setBounds(140, 135, 300, 75);
 		
 		this.btnEmpleadosFaltantes.addActionListener(opGenerarReporteEmpleadosFaltantes);
-		this.btnEmpleadosFaltantes.addActionListener(opGenerarReporteEmpleadosConRetardo);
+		this.btnEmpleadosConRetardo.addActionListener(opGenerarReporteEmpleadosConRetardo);
+		
 		
 		cont.add(panel);
 		this.setSize(470, 300);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
 	ActionListener opGenerarReporteEmpleadosFaltantes = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			String filtro_establecimiento = cmbEstablecimiento.getSelectedItem().toString();
+			filtro_establecimiento = cmbEstablecimiento.getSelectedItem().toString();
 			if(llenado()==true){
 				new Reporte_Empleados_Faltantes_o_Retardo(1,filtro_establecimiento);
-			}
+			} 
 		}
 	};
 	
 	ActionListener opGenerarReporteEmpleadosConRetardo = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			String filtro_establecimiento = cmbEstablecimiento.getSelectedItem().toString();
+			filtro_establecimiento = cmbEstablecimiento.getSelectedItem().toString();
 				new Reporte_Empleados_Faltantes_o_Retardo(2,filtro_establecimiento);
 		}
 	};
