@@ -254,7 +254,8 @@ public class Cat_Checador extends JFrame {
         int folio_empleado;
         String claveMaster;
         
-        public void checar(){        
+        @SuppressWarnings("deprecation")
+		public void checar(){        
         	if(txtClaveReal.getText().toUpperCase().equals("")){
 				 
 				 lblSemaforoRojo.setEnabled(true);

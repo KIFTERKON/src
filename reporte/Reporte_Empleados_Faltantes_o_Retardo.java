@@ -20,17 +20,16 @@ import net.sf.jasperreports.view.JasperViewer;
 @SuppressWarnings("serial")
 public class Reporte_Empleados_Faltantes_o_Retardo extends JFrame {
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Reporte_Empleados_Faltantes_o_Retardo(int reporte,String Establecimiento) {
+	@SuppressWarnings({ "null", "rawtypes", "unchecked" })
+	public Reporte_Empleados_Faltantes_o_Retardo(int reporte,String Establecimiento,int tiempo) {
 		
 		String query="";
 		Statement stmt = null;
 		
 		switch(reporte){
-		case 1:
-				query = "exec sp_select_empleados_que_no_han_checado '"+Establecimiento+"';";
+		case 1:	query = "exec sp_select_empleados_que_no_han_checado '"+Establecimiento+"';";
 				try {
-					stmt =  new Connexion().conexion().createStatement();
+					
 				    ResultSet rs = stmt.executeQuery(query);
 	
 				    JasperReport report = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Checador_Empleados_Faltantes.jrxml");
@@ -41,8 +40,7 @@ public class Reporte_Empleados_Faltantes_o_Retardo extends JFrame {
 					System.out.println(e.getMessage());
 				}
 		break;
-		case 2:
-				query = "exec sp_select_empleados_con_retardo_en_checador '"+Establecimiento+"';";
+		case 2:	query = "exec sp_select_empleados_con_retardo_en_checador '"+Establecimiento+"',"+tiempo+";";
 				try {
 					stmt =  new Connexion().conexion().createStatement();
 				    ResultSet rs = stmt.executeQuery(query);
