@@ -2577,9 +2577,9 @@ public boolean Guardar_Horario(ObjHorario horario){
 				
 				
 				pstmt.setString(1, sodas.getClave().toUpperCase().trim());
-				pstmt.setString(2, sodas.getEstablecimiento().trim());
-				pstmt.setString(3, sodas.getPuesto().trim());
-				pstmt.setString(4, sodas.getTicket().trim());
+				pstmt.setString(2, sodas.getEstablecimiento().toUpperCase().trim());
+				pstmt.setString(3, sodas.getPuesto().toUpperCase().trim());
+				pstmt.setString(4, sodas.getTicket().toUpperCase().trim());
 				pstmt.setFloat(5, sodas.getImporte());
 				pstmt.setString(6, sodas.getUsuario().trim());
 				pstmt.setString(7, pc_nombre);

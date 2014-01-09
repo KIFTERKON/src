@@ -9,12 +9,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -24,11 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
+import SQL.BuscarTablasModel;
 import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
@@ -41,15 +39,45 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 	
 	Connexion con = new Connexion();
 	
-	DefaultTableModel model = new DefaultTableModel(0,5){
-		public boolean isCellEditable(int fila, int columna){
-			if(columna < 0)
-				return true;
-			return false;
-		}
-	};
+	public static Object[][] get_tabla(){
+		return new BuscarTablasModel().tabla_model_empleados_conpendiente_en_fuente_de_sodas();
+	}
 	
-	JTable tabla = new JTable(model);
+    public static DefaultTableModel tabla_model = new DefaultTableModel(
+    		get_tabla(),	new String[]{	"Folio",	"Nombre Completo", "Establecimiento", "Puesto", "Sueldo"}){
+                    @SuppressWarnings("rawtypes")
+                    Class[] types = new Class[]{
+                               java.lang.Object.class, 
+                               java.lang.Object.class, 
+                               java.lang.Object.class,  
+                               java.lang.Object.class,  
+                               java.lang.Object.class
+                };
+                    @SuppressWarnings({ "rawtypes" })
+                    public Class getColumnClass(int columnIndex) {
+                            return types[columnIndex];
+                    }
+                public boolean isCellEditable(int fila, int columna){
+                            switch(columna){
+                                    case 0  : return false; 
+                                    case 1  : return false; 
+                                    case 2  : return false; 
+                                    case 3  : return false; 
+                                    case 4  : return false; 
+                            }
+                             return false;
+                     }
+            };
+//	DefaultTableModel model = new DefaultTableModel(0,5){
+//		public boolean isCellEditable(int fila, int columna){
+//			if(columna < 0)
+//				return true;
+//			return false;
+//		}
+//	};
+	
+	JTable tabla = new JTable(tabla_model);
+	JScrollPane panelScroll = new JScrollPane(tabla);
 	
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -66,10 +94,12 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 		this.setTitle("Filtro de empleados consaldo en fuente de sodas");
 		panel.setBorder(BorderFactory.createTitledBorder("Empleados consaldo en fuente de sodas"));
 
-		trsfiltro = new TableRowSorter(model); 
+		this.init_tabla();
+		
+		trsfiltro = new TableRowSorter(tabla_model); 
 		tabla.setRowSorter(trsfiltro);  
 		
-		panel.add(getPanelTabla()).setBounds(15,42,800,327);
+		panel.add(panelScroll).setBounds(15,42,800,327);
 		
 		panel.add(txtFolio).setBounds(15,20,68,20);
 		panel.add(txtNombre_Completo).setBounds(85,20,300,20);
@@ -140,74 +170,82 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 		}
 	};
 	
-	private JScrollPane getPanelTabla()	{		
-		new Connexion();
-
-		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
-		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(0).setMinWidth(70);
-		tabla.getColumnModel().getColumn(1).setHeaderValue("Nombre Completo");
-		tabla.getColumnModel().getColumn(1).setMaxWidth(300);
-		tabla.getColumnModel().getColumn(1).setMinWidth(300);
-		tabla.getColumnModel().getColumn(2).setHeaderValue("Establecimiento");
-		tabla.getColumnModel().getColumn(2).setMaxWidth(180);
-		tabla.getColumnModel().getColumn(2).setMinWidth(180);
-		tabla.getColumnModel().getColumn(3).setHeaderValue("Puesto");
-		tabla.getColumnModel().getColumn(3).setMaxWidth(170);
-		tabla.getColumnModel().getColumn(3).setMinWidth(170);
-		tabla.getColumnModel().getColumn(4).setHeaderValue("Saldo");
-		tabla.getColumnModel().getColumn(4).setMaxWidth(70);
-		tabla.getColumnModel().getColumn(4).setMinWidth(70);
-		
-		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();
-		tcr.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		int a=2;
-		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		tabla.getColumnModel().getColumn(a+=1).setCellRenderer(tcr);
-		
-		TableCellRenderer render = new TableCellRenderer() { 
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-			return lbl; 
-			} 
-		}; 
-		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(1).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(2).setCellRenderer(render);
-		tabla.getColumnModel().getColumn(3).setCellRenderer(render); 
-		tabla.getColumnModel().getColumn(4).setCellRenderer(render); 
-		
-		Statement s;
-		ResultSet rs;
-		try {
-			s = con.conexion().createStatement();
-			rs = s.executeQuery("exec sp_select_filtro_empleados_con_pendiente_en_fuente_de_sodas");
-			
-			while (rs.next()){ 
-				String [] fila = new String[5];
-				fila[0] = rs.getString(1).trim();
-				fila[1] = rs.getString(2).trim();
-				fila[2] = rs.getString(3).trim();
-				fila[3] = rs.getString(4).trim();
-				fila[4] = rs.getString(5).trim();
-				
-			   model.addRow(fila); 
-			}	
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		 JScrollPane scrol = new JScrollPane(tabla);
-	    return scrol; 
-	}
+	public void init_tabla(){
+        this.tabla.getTableHeader().setReorderingAllowed(false) ;
+        
+        	   int w=60;
+               int x=330;
+               int y=160;
+               int z=80;
+               
+                this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                
+                this.tabla.getColumnModel().getColumn(0).setMaxWidth(w);
+                this.tabla.getColumnModel().getColumn(0).setMinWidth(w);
+                this.tabla.getColumnModel().getColumn(1).setMaxWidth(x);
+                this.tabla.getColumnModel().getColumn(1).setMinWidth(x);
+                this.tabla.getColumnModel().getColumn(2).setMaxWidth(y);
+                this.tabla.getColumnModel().getColumn(2).setMinWidth(y);
+                this.tabla.getColumnModel().getColumn(3).setMaxWidth(y);
+                this.tabla.getColumnModel().getColumn(3).setMinWidth(y);
+                this.tabla.getColumnModel().getColumn(4).setMaxWidth(z);
+                this.tabla.getColumnModel().getColumn(4).setMinWidth(z);
+                
+        TableCellRenderer render = new TableCellRenderer() { 
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+                boolean hasFocus, int row, int column) { 
+                        
+                        Component componente = null;
+                
+                        switch(column){
+                                case 0: 
+                                        componente = new JLabel(value == null? "": value.toString());
+                                        if(row%2==0){
+                                                ((JComponent) componente).setOpaque(true); 
+                                                componente.setBackground(new java.awt.Color(177,177,177));
+                                        }
+                                        ((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+                                        break;
+                                case 1:
+                                        componente = new JLabel(value == null? "": value.toString());
+                                        if(row%2==0){
+                                                ((JComponent) componente).setOpaque(true); 
+                                                componente.setBackground(new java.awt.Color(177,177,177));        
+                                        }
+                                        ((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+                                        break;
+                                case 2: 
+                                        componente = new JLabel(value == null? "": value.toString());
+                                        if(row%2==0){
+                                                ((JComponent) componente).setOpaque(true); 
+                                                componente.setBackground(new java.awt.Color(177,177,177));        
+                                        }
+                                        ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+                                        break;
+                                case 3: 
+                                        componente = new JLabel(value == null? "": value.toString());
+                                        if(row%2==0){
+                                                ((JComponent) componente).setOpaque(true); 
+                                                componente.setBackground(new java.awt.Color(177,177,177));        
+                                        }
+                                        ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+                                        break;
+                                case 4: 
+                                        componente = new JLabel(value == null? "": value.toString());
+                                        if(row%2==0){
+                                                ((JComponent) componente).setOpaque(true); 
+                                                componente.setBackground(new java.awt.Color(177,177,177));        
+                                        }
+                                        ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
+                                        break;
+                        }
+                        return componente;
+                } 
+        }; 
+        for(int i=0; i<tabla.getColumnCount(); i++){
+                this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
+        }
+}
 	
 	KeyListener validaCantidad = new KeyListener() {
 		@Override

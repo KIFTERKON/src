@@ -27,6 +27,8 @@ import objetos.Obj_Usuario;
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/
+//CONVERTIR ARCHIVOS .JAR A .EXE
+//https://sites.google.com/site/aprendeinformatik/programacionjava/convertir-de-java-a-exe
 
 @SuppressWarnings("serial")
 public class Main extends InitButton {
