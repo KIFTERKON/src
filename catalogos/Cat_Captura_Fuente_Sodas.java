@@ -196,9 +196,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
 	    lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
 		
-		txtTicket.setEditable(false);
-		txtImporte.setEditable(false);
-		txtConfirmarCompra.setEditable(false);
+		txtTicket.setEnabled(false);
+		txtImporte.setEnabled(false);
+		txtConfirmarCompra.setEnabled(false);
 		
 		btnGuardar.setEnabled(false);
 		
@@ -274,8 +274,8 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 							return;
 						}else{
 						
-							txtClave.setEditable(false);
-							txtTicket.setEditable(true);
+							txtClave.setEnabled(false);
+							txtTicket.setEnabled(true);
 							txtTicket.requestFocus();
 					}
 							
@@ -298,8 +298,8 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 	ActionListener opTiket = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			if(txtTicket.getText().length() != 0 ){
-				txtTicket.setEditable(false);
-				txtImporte.setEditable(true);
+				txtTicket.setEnabled(false);
+				txtImporte.setEnabled(true);
 				txtImporte.requestFocus();
 				btnGuardar.setEnabled(true);
 			}else{
@@ -352,7 +352,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 					JOptionPane.showMessageDialog(null, "No cuenta con el saldo suficiente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}else{
-					txtConfirmarCompra.setEditable(true);
+					txtConfirmarCompra.setEnabled(true);
 					txtConfirmarCompra.requestFocus();
 				}
 			}
@@ -400,10 +400,10 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 							lblPuesto_Empleado.setText("");
 							lblSaldo.setText("");
 							
-							txtClave.setEditable(true);
-							txtTicket.setEditable(false);
-							txtImporte.setEditable(false);
-							txtConfirmarCompra.setEditable(false);
+							txtClave.setEnabled(true);
+							txtTicket.setEnabled(false);
+							txtImporte.setEnabled(false);
+							txtConfirmarCompra.setEnabled(false);
 							
 							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
 							lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
@@ -436,9 +436,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			lblPuesto_Empleado.setText("");
 			lblSaldo.setText("");
 			
-			txtClave.setEditable(true);
-			txtTicket.setEditable(false);
-			txtImporte.setEditable(false);
+			txtClave.setEnabled(true);
+			txtTicket.setEnabled(false);
+			txtImporte.setEnabled(false);
 			txtClave.requestFocus();
 			
 			ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");

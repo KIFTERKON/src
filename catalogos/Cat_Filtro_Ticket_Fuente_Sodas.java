@@ -218,16 +218,19 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 					    }
 						buscar_tabla_empleado_con_pendiente_en_fuente_sodas();
 						//------------------------------------------------
+						
+						if(tablaFiltro.getRowCount()==0){
+							dispose();
+						}
 					}else{
 						JOptionPane.showMessageDialog(null, "Error al guardar", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 						return;
 					}
-					txtFolio.setText("");
-					txtNombre_Completo.setText("");
 				}
 			};
 			
 			public void buscar_tabla(int folio_empleado){
+				
 				try {
 					String[][] tabla = new Obj_Captura_Fuente_Sodas().tabla(folio_empleado);
 										

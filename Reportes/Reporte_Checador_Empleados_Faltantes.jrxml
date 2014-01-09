@@ -15,15 +15,14 @@
 	</style>
 	<queryString>
 		<![CDATA[declare @establecimineto varchar(100)
+set @establecimineto='Seleccione un Establecimiento';
 if(@establecimineto='Seleccione un Establecimiento')
 	begin
 		select * from empleados_faltantes_de_checar_este_dia
-		delete empleados_faltantes_de_checar_este_dia
 	end
 else
 	begin
 		select * from empleados_faltantes_de_checar_este_dia where establecimiento = @establecimineto
-		delete empleados_faltantes_de_checar_este_dia
 	end]]>
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
