@@ -693,4 +693,8 @@ public class Cat_Nivel_Jerarquico extends JFrame {
 		    return scrol; 
 		}
 	}
+	public static void main(String args[]){
+		new Cat_Nivel_Jerarquico().setVisible(true);
+		
+	}
 }

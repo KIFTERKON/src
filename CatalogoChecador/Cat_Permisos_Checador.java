@@ -18,7 +18,6 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -41,12 +40,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-
 import objetos.JTextFieldLimit;
-
 import ObjetoChecador.Obj_Permisos_Checador;
 import SQL.Connexion;
-
 import com.toedter.calendar.JDateChooser;
 
 @SuppressWarnings("serial")

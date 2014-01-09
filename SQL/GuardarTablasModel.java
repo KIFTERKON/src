@@ -644,24 +644,24 @@ public class GuardarTablasModel {
 			
 			pstmtDelete.execute();
 			for(int i=0; i<tabla.length; i++){
-				System.out.println(i);
+				
+			
 				pstmtTabla.setInt(1, folio);
 				pstmtTabla.setString(2, procesa_texto(encargado));
 				pstmtTabla.setInt(3, cuadrante);
 				pstmtTabla.setInt(4, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(5, tabla[i][1].toString().trim().toUpperCase());
-				System.out.println(tabla[i][2].toString());
 				pstmtTabla.setString(6, tabla[i][2].toString().trim());
 				pstmtTabla.setInt(7, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
 				pstmtTabla.setString(8, tabla[i][4]);
 				pstmtTabla.setString(9, tabla[i][5]);
 				pstmtTabla.setString(10, tabla[i][6]);
-				
 				pstmtTabla.execute();
 			}
 			
 			con.commit();
 		} catch (Exception e) {
+			
 			System.out.println("SQLException: "+e.getMessage());
 			if(con != null){
 				try{

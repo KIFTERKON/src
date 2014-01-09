@@ -502,10 +502,12 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 	
 	public void init_component(){
 		String fecha = new Obj_Revision_Lista_Raya().get_fecha();
+		
 		if(fecha != ""){
 			try {
 				Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
 				txtCalendario.setDate(date);
+				txtCalendario.setEnabled(false);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
