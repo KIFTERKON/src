@@ -134,7 +134,7 @@ else
 			</frame>
 			<image scaleImage="FillFrame" hAlign="Left" vAlign="Top" isUsingCache="true">
 				<reportElement uuid="b4e8cf73-e38d-4e33-9111-e1f378f70aa0" positionType="Float" x="455" y="0" width="100" height="132"/>
-				<imageExpression><![CDATA["C:\\Proyecto\\GrupoIzagar\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\SCOI\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
