@@ -33,7 +33,7 @@ public class Cat_Reportes_Checador extends JFrame {
 	
 	public Cat_Reportes_Checador(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/user_icon&16.png"));
-		this.setTitle("Reporte Checador");
+		this.setTitle("Reportes de Asistencia y Retardos del Dia");
 
 		btnEmpleadosFaltantes.setSelected(true);
 		btnEmpleadosFaltantes.setText(	"<html> <FONT FACE="+"arial"+" SIZE=4 COLOR=BLACk>" +

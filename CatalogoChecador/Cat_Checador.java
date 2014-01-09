@@ -254,7 +254,8 @@ public class Cat_Checador extends JFrame {
         int folio_empleado;
         String claveMaster;
         
-        public void checar(){        
+        @SuppressWarnings("deprecation")
+		public void checar(){        
         	if(txtClaveReal.getText().toUpperCase().equals("")){
 				 
 				 lblSemaforoRojo.setEnabled(true);
@@ -1118,7 +1119,7 @@ public class Cat_Checador extends JFrame {
                    panel.add(lblSemaforoRojo).setBounds(35,80, 70, 70);
                    panel.add(lblSemaforoVerde).setBounds(115,80, 70, 70);
                    
-                   panel.add(btnChecar).setBounds(45,180,130,20);
+//                   panel.add(btnChecar).setBounds(45,180,130,20);
                    
                    panel.add(lblLogo).setBounds((1280/2)-60, 38, 127, 127);
                    panel.add(lblCerrar).setBounds(1280-89,38, 90, 130);

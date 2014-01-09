@@ -16,7 +16,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -40,12 +39,8 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-
 import com.toedter.calendar.JDateChooser;
-
-import CatalogoChecador.Cat_Reportes_Checador;
 import SQL.Connexion;
-
 import objetos.JTextFieldLimit;
 import objetos.Obj_Actividades_Por_Proyecto;
 import objetos.Obj_Establecimiento;

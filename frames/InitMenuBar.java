@@ -23,6 +23,7 @@ import CatalogoChecador.Cat_Horario;
 import CatalogoChecador.Cat_Msj_Personal;
 import CatalogoChecador.Cat_Permisos_Checador;
 import CatalogoChecador.Cat_Reporte_Impresion_Gafetes;
+import CatalogoChecador.Cat_Reportes_Checador;
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 
 import catalogos.Cat_Actividad;
@@ -34,6 +35,7 @@ import catalogos.Cat_Auto_Auditoria;
 import catalogos.Cat_Auto_Finanzas;
 import catalogos.Cat_Bancos;
 import catalogos.Cat_Bono_Complemento_Sueldo;
+import catalogos.Cat_Captura_Fuente_Sodas;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
@@ -167,6 +169,7 @@ public class InitMenuBar extends Init{
 		/* ALIMENTACION */
 		JMenu Alimentacion = new JMenu("Alimentación");
 			JMenuItem Alimentacion_Bancos 				  = new JMenuItem("Alimentación Bancos", new ImageIcon("Iconos/money_icon&16.png"));
+			JMenuItem Alimentacion_Cajeras_de_Fuente_Sodas= new JMenuItem("Alimentación de Fuente de Sodas Por Cajeras");
 			JMenuItem Alimentacion_Captura_Totales_Nomina = new JMenuItem("Alimentación de Totales de Nómina", new ImageIcon("Iconos/captura_nomina_icon&16.png"));
 			JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Alimentación Deducción por Inasistencia", new ImageIcon("Iconos/hand_contra_icon&16.png"));
 			JMenuItem Alimentacion_Diferencia_Cortes 	  = new JMenuItem("Alimentación Diferencia de Cortes");
@@ -174,6 +177,7 @@ public class InitMenuBar extends Init{
 			JMenuItem Alimentacion_Fuente_Sodas_rh 		  = new JMenuItem("Alimentación Fuente de Sodas DH");
 			JMenuItem Alimentacion_Percepciones_Extra 	  = new JMenuItem("Alimentación Percepciones Extras", new ImageIcon("Iconos/hand_pro_icon&16.png"));
 			JMenuItem Alimentacion_Prestamos 			  = new JMenuItem("Alimentación Prestamos");
+	
 		/* AUTORIZACIONES */
 		JMenu Autorizaciones = new JMenu("Autorizaciones");
 			JMenuItem Autorizacion_Auditoria = new JMenuItem("Autorizacion Auditoria");
@@ -192,8 +196,9 @@ public class InitMenuBar extends Init{
 	       	JMenuItem Mensajes_Personales = new JMenuItem("Mensajes Personales a Empleados");
 	       	JMenuItem Permisos_Empleados = new JMenuItem("Permisos a Empleados");
 	       	JMenu Reportes_Checador = new JMenu("Reportes");
+	       	    JMenuItem Reportes_del_Dia = new JMenuItem("Reportes de Asistencia y Retardos del Dia");
 	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia"); 
-	         	
+	         	         
 	         	
 	    /* LISTA DE RAYA CORTES */
 		JMenu Departamento_Cortes = new JMenu("Departamento de Cortes");
@@ -330,7 +335,7 @@ public class InitMenuBar extends Init{
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
 			Cuadrantes_Alimentacion.add(Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico);
 				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.addActionListener(Opciones);
-				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(true);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(false);
 				
 		/* CUADRANTES 
 		*		CATALOGO */
@@ -389,6 +394,9 @@ public class InitMenuBar extends Init{
 			Alimentacion.add(Alimentacion_Bancos);
 				Alimentacion_Bancos.addActionListener(Opciones);
 				Alimentacion_Bancos.setEnabled(false);
+			Alimentacion.add(Alimentacion_Cajeras_de_Fuente_Sodas);
+			    Alimentacion_Cajeras_de_Fuente_Sodas.addActionListener(Opciones);
+			    Alimentacion_Cajeras_de_Fuente_Sodas.setEnabled(false);
 			Alimentacion.add(Alimentacion_Captura_Totales_Nomina);
 				Alimentacion_Captura_Totales_Nomina.addActionListener(Opciones);
 				Alimentacion_Captura_Totales_Nomina.setEnabled(false);
@@ -452,9 +460,13 @@ public class InitMenuBar extends Init{
 		                Permisos_Empleados.addActionListener(Opciones);
 		                Permisos_Empleados.setEnabled(false);	
 		     Checador.add(Reportes_Checador);
+	         Reportes_Checador.add(Reportes_del_Dia);
+	                  Reportes_del_Dia.addActionListener(Opciones);
+	                  Reportes_del_Dia.setEnabled(false);	
 		         Reportes_Checador.add(Reportes_Checador_Gral);
 		                 Reportes_Checador_Gral.addActionListener(Opciones);
 		                 Reportes_Checador_Gral.setEnabled(false);	
+	                 
 		/* LISTA DE RAYA CORTES  */
 		Lista_Raya.add(Departamento_Cortes);
 			Departamento_Cortes.add(Departamento_Cortes_Alimentacion);
@@ -601,6 +613,7 @@ public class InitMenuBar extends Init{
 				new Cat_Empleados_Cuadrantes().setVisible(true);
 			if(e.getActionCommand().equals("Asignación de Actividades por Nivel Jerarquico"))
 				new Cat_Filtro_Empleado_Puesto_Dependiente().setVisible(true);
+			
 			/* CUADRANTES 
 			 * 		CATALOGO */
 			if(e.getActionCommand().equals("Actividades"))
@@ -640,6 +653,8 @@ public class InitMenuBar extends Init{
 			 * 		ALIMENTACION */
 			if(e.getActionCommand().equals("Alimentación Bancos"))
 				new Cat_Bancos().setVisible(true);
+			if(e.getActionCommand().equals("Alimentación de Fuente de Sodas Por Cajeras"))
+				new Cat_Captura_Fuente_Sodas().setVisible(true);
 			if(e.getActionCommand().equals("Alimentación de Totales de Nómina"))
 				new Cat_Alimentacion_Totales().setVisible(true);
 			if(e.getActionCommand().equals("Alimentación Deducción por Inasistencia"))
@@ -682,6 +697,8 @@ public class InitMenuBar extends Init{
 				new Cat_Msj_Personal().setVisible(true);
 			if(e.getActionCommand().equals("Permisos a Empleados"))
 				new Cat_Permisos_Checador().setVisible(true);
+			if(e.getActionCommand().equals("Reportes de Asistencia y Retardos del Dia"))
+				new Cat_Reportes_Checador().setVisible(true);
 			if(e.getActionCommand().equals("Reporte General de Asistencia"))
 				new Cat_Reporte_General_Asistencia_Por_Establecimiento().setVisible(true);
 		

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Checador_Empleados_Faltantes" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="adae4b36-835a-4fcd-b4a1-695d81f37a3f">
+	<property name="ireport.zoom" value="1.9487171000000054"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="185"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT tb_empleado.folio as folio_empleado,
+				tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado,
+				tb_establecimiento.nombre as establecimiento,
+				tb_departamento.departamento as departamento
+				,(select nombre from tb_horarios where folio =(
+								  select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																				and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+												 then(select horario)
+											  when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																				and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+												 then(select horario2)
+											  when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																				and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+												 then(select horario3)
+										 else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+												 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+										end))as horario
+
+    			,(SELECT CASE WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=1
+							THEN 'LUNES'
+    						WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=2
+							THEN 'MARTES'
+    						WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=3
+							THEN 'MIERCOLES'
+    						WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=4
+							THEN 'JUEVES'
+    						WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=5
+							THEN 'VIERNES'
+    						WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=6
+							THEN 'SABADO'
+    						WHEN (select descanso from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=7
+							THEN 'DOMINGO'
+							ELSE 'SIN DESCANSO ASIGNODA'
+						END) as descanso
+
+    			,(SELECT CASE WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=1
+							THEN 'LUNES'
+    						WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=2
+							THEN 'MARTES'
+    						WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=3
+							THEN 'MIERCOLES'
+    						WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=4
+							THEN 'JUEVES'
+    						WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=5
+							THEN 'VIERNES'
+    						WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=6
+							THEN 'SABADO'
+    						WHEN (select dobla from tb_horarios where folio =(
+													select case when status_h1=1 and ( isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																	and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario)
+																when status_h2=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario2)
+																when status_h3=1 and (isnull((select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																								and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio),0)=0)
+																  then(select horario3)
+															   else (select horario_temporada from tb_horario_de_temporada where tb_horario_de_temporada.fecha_inicio<getdate()
+																 and tb_horario_de_temporada.fecha_fin>getdate() and tb_horario_de_temporada.status=1 and tb_horario_de_temporada.folio_empleado=tb_empleado.folio)
+														   end))=7
+							THEN 'DOMINGO'
+							ELSE 'NO DOBLA'
+						END) as dobla
+				,tb_empleado.calle as calle
+				,tb_empleado.colonia as colonia
+				,tb_empleado.telefono_propio as telefono_propio
+				,tb_acumulado_inpuntualidad.dif_minutos as tiempo
+				,(convert(varchar(50),tb_acumulado_inpuntualidad.fecha_mov,108)) as hora_entrada
+			from tb_acumulado_inpuntualidad
+			inner join tb_empleado on tb_empleado.folio = tb_acumulado_inpuntualidad.folio_empleado
+			inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id
+			inner join tb_departamento on tb_departamento.folio = tb_empleado.departamento
+		where convert(varchar (50),tb_acumulado_inpuntualidad.fecha_mov,103)=convert(varchar(50),getdate(),103) and tb_acumulado_inpuntualidad.dif_minutos>0 order by establecimiento,departamento,empleado,hora_entrada]]>
+	</queryString>
+	<field name="folio_empleado" class="java.lang.Integer"/>
+	<field name="empleado" class="java.lang.String"/>
+	<field name="establecimiento" class="java.lang.String"/>
+	<field name="departamento" class="java.lang.String"/>
+	<field name="horario" class="java.lang.String"/>
+	<field name="descanso" class="java.lang.String"/>
+	<field name="dobla" class="java.lang.String"/>
+	<field name="calle" class="java.lang.String"/>
+	<field name="colonia" class="java.lang.String"/>
+	<field name="telefono_propio" class="java.lang.String"/>
+	<field name="tiempo" class="java.lang.Integer"/>
+	<field name="hora_entrada" class="java.lang.String"/>
+	<group name="establecimiento" keepTogether="true">
+		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement uuid="be43e946-e0ed-4517-926b-3446cbceb151" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#993300"/>
+					<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+						<reportElement uuid="aaa4c5c0-2281-4da9-9a2c-6be3c6d8d824" style="SubTitle" isPrintRepeatedValues="false" x="2" y="0" width="479" height="24" forecolor="#FFFFFF" backcolor="#FFFFFF"/>
+						<textElement>
+							<font size="16" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="departamento">
+		<groupExpression><![CDATA[$F{departamento}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement uuid="2e5b3a75-1106-4386-a2bc-4fcfb2b4af34" positionType="Float" mode="Opaque" x="0" y="0" width="169" height="23" forecolor="#000000" backcolor="#CC6600"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="1c13d89f-82dc-4957-8241-430a2cbea80f" style="Column header" x="169" y="0" width="94" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[HORARIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e9f806dd-657f-4d93-baa8-8c6596d1d1d4" style="Column header" x="264" y="0" width="56" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[DESCANSO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="46ca00ee-fd54-4fbb-8d19-ddf7ae046871" style="Column header" x="320" y="0" width="43" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[DOBLA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="1e49e1c0-09a8-4984-ac68-5b810b4d649b" style="Column header" x="363" y="0" width="71" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[DOMICILIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="0d6162a3-fac0-4cd0-9d0b-a2bab260d592" style="Column header" x="434" y="0" width="48" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[TEL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="995ea6fd-8074-46f6-872a-161cc4bd0cba" style="Column header" x="482" y="0" width="31" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[HORA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="15930fab-61dd-47da-a625-59ea77d7c942" style="Column header" x="513" y="0" width="42" height="23" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[MIN.]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="empleado">
+		<groupExpression><![CDATA[$F{empleado}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<frame>
+				<reportElement uuid="9fec3b1b-375c-4eef-b315-6f6b010c7a3e" mode="Opaque" x="0" y="0" width="451" height="95" forecolor="#993300" backcolor="#993300"/>
+				<staticText>
+					<reportElement uuid="05f2d08b-866a-4130-97da-d7f3e40ca0bd" style="Title" mode="Opaque" x="2" y="0" width="449" height="95" forecolor="#FFFFFF" backcolor="#993300"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="32" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Reporte de empleados con retardo en el dia]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement uuid="63402211-2b34-4028-8850-a30827aadb27" mode="Opaque" x="0" y="100" width="451" height="32" forecolor="#000000" backcolor="#CC6600"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="030a39e6-0966-4098-a967-91f3b5e9e0e7" x="301" y="7" width="144" height="20" forecolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<image scaleImage="FillFrame" hAlign="Left" vAlign="Top" isUsingCache="true">
+				<reportElement uuid="b4e8cf73-e38d-4e33-9111-e1f378f70aa0" positionType="Float" x="455" y="0" width="100" height="132"/>
+				<imageExpression><![CDATA["C:\\SCOI\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="5" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement uuid="4133b205-e97a-45e0-a700-c36a4132e216" style="Row" mode="Opaque" x="0" y="-7" width="555" height="19"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="3708afc5-fbfd-4b47-9051-6cdee4a36413" style="Detail" positionType="Float" x="0" y="1" width="31" height="18"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio_empleado}+"  "]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d43d1974-d9b8-46c2-a7d9-5a1f288c8b1c" x="31" y="0" width="138" height="18"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="1dda825e-716a-480d-afad-700b08a18e38" style="Detail" positionType="Float" x="169" y="0" width="94" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{horario}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="5915315b-d958-4c4f-a6c1-a9ddc1477ee6" style="Detail" positionType="Float" x="264" y="0" width="56" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{descanso}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="107d358c-0403-4a5f-9ff9-37060adbfe6f" style="Detail" positionType="Float" x="320" y="0" width="43" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dobla}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="81a38e44-5f75-44cb-bb45-587093e196e9" style="Detail" positionType="Float" x="363" y="0" width="71" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{calle}+" "+$F{colonia}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+					<reportElement uuid="f0c529ce-74b5-404b-8c39-07c6c2e1b640" style="Detail" positionType="Float" x="434" y="0" width="48" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{telefono_propio}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1240d5a4-3d3e-4b28-923b-dec4b1f3b0b4" x="99" y="7" width="45" height="6"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tiempo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="ff22dcb2-58f1-45c5-8462-003ef97b87b9" x="482" y="0" width="31" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isStrikeThrough="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{hora_entrada}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="dda5bf36-a265-46c2-868c-c97e61c2685c" x="513" y="0" width="42" height="18"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="7" isStrikeThrough="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tiempo}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement uuid="cb06fe41-62ca-4029-a95d-9e2094d375e9" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="192b3f48-971b-4cbb-a633-744552055fab" mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#993300"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="67f624bf-8971-4dff-93bb-1b3350aa5e2a" style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="0fb6588a-987e-45ba-a259-f93b20ef04be" style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="51b0fc8b-27d5-4366-b6fa-1bc9897c9254" style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
