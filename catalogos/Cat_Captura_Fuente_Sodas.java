@@ -147,6 +147,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		lblClave.setForeground(new java.awt.Color(105,105,105));
 		lblTicket.setForeground(new java.awt.Color(105,105,105));
 		lblImporte.setForeground(new java.awt.Color(105,105,105));
+		lblConfirmarCompra.setForeground(new java.awt.Color(105,105,105));
 		
 		lblCajero.setForeground(new java.awt.Color(105,105,105));
 		lblUsuario.setForeground(new java.awt.Color(105,105,105));
@@ -160,16 +161,16 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		panel.add(lblUsuario).setBounds(105,20,350,20);
 		
 		panel.add(lblClave).setBounds(20,60,50,20);
-		panel.add(txtClave).setBounds(70,60,150,20);
+		panel.add(txtClave).setBounds(90,60,130,20);
 		
 		panel.add(lblTicket).setBounds(20,90,50,20);
-		panel.add(txtTicket).setBounds(70,90,150,20);
+		panel.add(txtTicket).setBounds(90,90,130,20);
 		
 		panel.add(lblImporte).setBounds(20,120,50,20);
-		panel.add(txtImporte).setBounds(70,120,150,20);
+		panel.add(txtImporte).setBounds(90,120,130,20);
 		
-		panel.add(lblConfirmarCompra).setBounds(20,150,50,20);
-		panel.add(txtConfirmarCompra).setBounds(70,150,150,20);
+		panel.add(lblConfirmarCompra).setBounds(20,150,70,20);
+		panel.add(txtConfirmarCompra).setBounds(90,150,130,20);
 		
 		panel.add(lblFoto).setBounds(235,60,170,170);
 		
@@ -195,9 +196,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
 	    lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
 		
-		txtTicket.setEditable(false);
-		txtImporte.setEditable(false);
-		txtConfirmarCompra.setEditable(false);
+		txtTicket.setEnabled(false);
+		txtImporte.setEnabled(false);
+		txtConfirmarCompra.setEnabled(false);
 		
 		btnGuardar.setEnabled(false);
 		
@@ -235,44 +236,47 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 				
 					if(txtClave.getText().toUpperCase().equals(capturaFS.getClave())){
 						
+						ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+					    lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
+						
+						lblNombre_Empleado.setText(capturaFS.getEmpleado());
+						lblEstablecimiento_Empleado.setText(capturaFS.getEstablecimiento());
+						lblPuesto_Empleado.setText(capturaFS.getPuesto());
+						lblSaldo.setText(capturaFS.getTotal()+"");
+						
+						try {
+							String[][] tabla = new Obj_Captura_Fuente_Sodas().tabla(txtClave.getText());
+										
+							while(tabla_model.getRowCount()>0){
+								tabla_model.removeRow(0);
+							}
+								
+							for(int i=0; i<tabla.length; i++){
+								 		Object[] dom = new Object[5];
+								 		
+								 		dom[0] = tabla[i][0]+"   ";
+								 		dom[1] = tabla[i][1]+"   ";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+								 		dom[2] = "   "+tabla[i][2];
+								 		dom[3] = tabla[i][3];
+								 		dom[4] = tabla[i][4]+"   ";
+								 		
+								 		tabla_model.addRow(dom);
+							}
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+						
 						if(capturaFS.getTotal() <= 0){
 							
 							txtClave.setText("");
 							txtClave.requestFocus();
 							JOptionPane.showMessageDialog(null,"No cuenta con saldo suficiente","Aviso", JOptionPane.WARNING_MESSAGE);
 							return;
-					}else{
+						}else{
 						
-							txtClave.setEditable(false);
-							txtTicket.setEditable(true);
+							txtClave.setEnabled(false);
+							txtTicket.setEnabled(true);
 							txtTicket.requestFocus();
-							
-							try {
-								String[][] tabla = new Obj_Captura_Fuente_Sodas().tabla(txtClave.getText());
-													
-								for(int i=0; i<tabla.length; i++){
-									 		Object[] dom = new Object[5];
-									 		
-									 		dom[0] = tabla[i][0]+"   ";
-									 		dom[1] = tabla[i][1]+"   ";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-									 		dom[2] = "   "+tabla[i][2];
-									 		dom[3] = tabla[i][3];
-									 		dom[4] = tabla[i][4]+"   ";
-									 		
-									 		tabla_model.addRow(dom);
-								}
-								
-								ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
-							    lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
-								
-								lblNombre_Empleado.setText(capturaFS.getEmpleado());
-								lblEstablecimiento_Empleado.setText(capturaFS.getEstablecimiento());
-								lblPuesto_Empleado.setText(capturaFS.getPuesto());
-								lblSaldo.setText(capturaFS.getTotal()+"");
-								
-							} catch (SQLException e1) {
-								e1.printStackTrace();
-							}
 					}
 							
 					}else{
@@ -294,8 +298,8 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 	ActionListener opTiket = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			if(txtTicket.getText().length() != 0 ){
-				txtTicket.setEditable(false);
-				txtImporte.setEditable(true);
+				txtTicket.setEnabled(false);
+				txtImporte.setEnabled(true);
 				txtImporte.requestFocus();
 				btnGuardar.setEnabled(true);
 			}else{
@@ -348,7 +352,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 					JOptionPane.showMessageDialog(null, "No cuenta con el saldo suficiente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}else{
-					txtConfirmarCompra.setEditable(true);
+					txtConfirmarCompra.setEnabled(true);
 					txtConfirmarCompra.requestFocus();
 				}
 			}
@@ -366,7 +370,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 				return;
 			}else{
 				
-				if(txtConfirmarCompra.getText().toUpperCase().equals(txtClave.getText())){
+				if(txtConfirmarCompra.getText().toUpperCase().equals(txtClave.getText().toUpperCase())){
 					
 					Obj_Captura_Fuente_Sodas sodas = new Obj_Captura_Fuente_Sodas();
 				
@@ -378,61 +382,41 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 						sodas.setUsuario(lblUsuario.getText());
 							
 						if(sodas.Guardar()){
-						    try {
-						    	
-						    	String pass = txtClave.getText().toUpperCase().trim();
-								JOptionPane.showMessageDialog(null, "Guardado exitosamente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-								
-						    	 while(tabla.getRowCount()>0){
-						                tabla_model.removeRow(0);
-								    }
-						    	
-								String[][] tabla = new Obj_Captura_Fuente_Sodas().tabla(txtClave.getText());
-													
-								for(int i=0; i<tabla.length; i++){
-									 		Object[] dom = new Object[5];
-									 		
-									 		dom[0] = tabla[i][0]+"   ";
-									 		dom[1] = tabla[i][1]+"   ";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-									 		dom[2] = "   "+tabla[i][2];
-									 		dom[3] = tabla[i][3];
-									 		dom[4] = tabla[i][4]+"   ";
-									 		
-									 		tabla_model.addRow(dom);
-								}
-								
-								txtClave.setText("");
-								txtTicket.setText("");
-								txtImporte.setText("");
-								txtConfirmarCompra.setText("");
-								
-								lblFoto.setText("");
-								lblNombre_Empleado.setText("");
-								lblEstablecimiento_Empleado.setText("");
-								lblPuesto_Empleado.setText("");
-								lblSaldo.setText("");
-								
-								txtClave.setEditable(true);
-								txtTicket.setEditable(false);
-								txtImporte.setEditable(false);
-								txtConfirmarCompra.setEditable(false);
-								txtClave.requestFocus();
-								
-								ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
-							    lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
-								
-								 new Reporte_Ticket_Fuente_Sodas(pass);
-								
-							} catch (SQLException e1) {
-								e1.printStackTrace();
-							}
+						    String pass = txtClave.getText().toUpperCase().trim();
+							JOptionPane.showMessageDialog(null, "Guardado exitosamente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+							
+							 while(tabla_model.getRowCount()>0){
+							        tabla_model.removeRow(0);
+							    }
+							
+							txtClave.setText("");
+							txtTicket.setText("");
+							txtImporte.setText("");
+							txtConfirmarCompra.setText("");
+							
+							lblFoto.setText("");
+							lblNombre_Empleado.setText("");
+							lblEstablecimiento_Empleado.setText("");
+							lblPuesto_Empleado.setText("");
+							lblSaldo.setText("");
+							
+							txtClave.setEnabled(true);
+							txtTicket.setEnabled(false);
+							txtImporte.setEnabled(false);
+							txtConfirmarCompra.setEnabled(false);
+							
+							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
+							lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
+							
+							 new Reporte_Ticket_Fuente_Sodas(pass);
 						return;
 					}else{
 						JOptionPane.showMessageDialog(null, "La clave no coinside!!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, "Fallo al guardar","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					txtConfirmarCompra.setText("");
+					JOptionPane.showMessageDialog(null, "No se ha podido realisar su pedido de forma correcta,\npase su gafete de nuevo o comuniquese a\nDesarrollo Humano","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
@@ -452,9 +436,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			lblPuesto_Empleado.setText("");
 			lblSaldo.setText("");
 			
-			txtClave.setEditable(true);
-			txtTicket.setEditable(false);
-			txtImporte.setEditable(false);
+			txtClave.setEnabled(true);
+			txtTicket.setEnabled(false);
+			txtImporte.setEnabled(false);
 			txtClave.requestFocus();
 			
 			ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");

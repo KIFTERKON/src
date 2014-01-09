@@ -611,24 +611,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 	    return scrol; 
 	}
 	
-	KeyListener validaCantidad = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e){
-			char caracter = e.getKeyChar();				
-			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
-			    	}
-		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-		}	
-	};
-	
 	KeyListener validaNumericoConPunto = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {

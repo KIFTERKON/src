@@ -34,11 +34,9 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 			stmt =  new Connexion().conexion().createStatement();
 		    ResultSet rs = stmt.executeQuery(query);
 		    
-//			JasperReport reporte=(JasperReport) JRLoader.loadObject(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Ticket_Fuente_de_Sodas.jasper"); 
 			JasperReport reporte = JasperCompileManager.compileReport(System.getProperty("user.dir")+"\\src\\Reportes\\Reporte_Ticket_Fuente_de_Sodas.jrxml");
 			JRResultSetDataSource resultSetDataSource = new JRResultSetDataSource(rs);
 			JasperPrint jasperprint= JasperFillManager.fillReport(reporte, new HashMap(), resultSetDataSource);
-//			JasperViewer.viewReport(print, false);
 			JasperExportManager.exportReportToPdfFile( jasperprint, "C:/SCOI/reporte.pdf");
 			
 			imprimir("C:/SCOI/reporte.pdf");
@@ -64,27 +62,15 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 	        
 		              try{
 		            	  Runtime R = Runtime.getRuntime();
-		            	  
-			                  Process pr = R.exec("Rundll32 printui.dll,PrintUIEntry /y /n \""+"EPSON TM-T88IV Receipt"+"\"");
+//		            	  Process pr =
+			                  R.exec("Rundll32 printui.dll,PrintUIEntry /y /n \""+"EPSON TM-T88IV Receipt"+"\"");
 			                  desktop.print(fichero);
-//			                  desktop.print(fichero);
-			                
+			                  desktop.print(fichero);
 		                  }catch(Exception ex){
 		                	  System.out.println("Ha ocurrido un error al ejecutar el comando. Error: "+ex);
 		                  }
 	}
-
-//	private long close() {
-//		Runtime R = Runtime.getRuntime();
-//		try {
-//			R.exec("taskkill /f /im NitroPDF.exe");
-//		} catch (Exception e2){}
-//		return 0;
-//	}
-
-
-	
-	}
+}
 
 
 
