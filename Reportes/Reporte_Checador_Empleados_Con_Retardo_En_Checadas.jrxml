@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Checador_Empleados_Faltantes" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="adae4b36-835a-4fcd-b4a1-695d81f37a3f">
+<<<<<<< HEAD
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
+=======
+<<<<<<< HEAD
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+=======
+	<property name="ireport.zoom" value="1.9487171000000054"/>
+<<<<<<< HEAD
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="185"/>
+=======
+	<property name="ireport.x" value="190"/>
+>>>>>>> 0c2f577134d3aa514b591f546b91bc5c87ae6116
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -15,6 +29,16 @@
 	</style>
 	<queryString>
 		<![CDATA[SELECT tb_empleado.folio as folio_empleado,
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+		<![CDATA[SELECT tb_empleado.folio as folio_empleado,
+=======
+		<![CDATA[		SELECT tb_empleado.folio as folio_empleado,
+>>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
+>>>>>>> 0c2f577134d3aa514b591f546b91bc5c87ae6116
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 				tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado,
 				tb_establecimiento.nombre as establecimiento,
 				tb_departamento.departamento as departamento
@@ -243,6 +267,17 @@
 			inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id
 			inner join tb_departamento on tb_departamento.folio = tb_empleado.departamento
 		where convert(varchar (50),tb_acumulado_inpuntualidad.fecha_mov,103)=convert(varchar(50),getdate(),103) and tb_acumulado_inpuntualidad.dif_minutos>0 order by establecimiento,departamento,empleado,hora_entrada]]>
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+		where convert(varchar (50),tb_acumulado_inpuntualidad.fecha_mov,103)=convert(varchar(50),getdate(),103) and tb_acumulado_inpuntualidad.dif_minutos>0 order by establecimiento,departamento,empleado,hora_entrada]]>
+=======
+		where convert(varchar (50),tb_acumulado_inpuntualidad.fecha_mov,103)=convert(varchar(50),getdate(),103) and tb_acumulado_inpuntualidad.dif_minutos>0 order by establecimiento,departamento,empleado,hora_entrada
+]]>
+>>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
+>>>>>>> 0c2f577134d3aa514b591f546b91bc5c87ae6116
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
 	<field name="empleado" class="java.lang.String"/>
@@ -370,6 +405,16 @@
 			<image scaleImage="FillFrame" hAlign="Left" vAlign="Top" isUsingCache="true">
 				<reportElement uuid="b4e8cf73-e38d-4e33-9111-e1f378f70aa0" positionType="Float" x="455" y="0" width="100" height="132"/>
 				<imageExpression><![CDATA["C:\\SCOI\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+				<imageExpression><![CDATA["C:\\SCOI\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
+=======
+				<imageExpression><![CDATA["C:\\Proyecto\\GrupoIzagar\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
+>>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
+>>>>>>> 0c2f577134d3aa514b591f546b91bc5c87ae6116
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 			</image>
 		</band>
 	</title>

@@ -53,7 +53,9 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 	{
 	       PrinterJob job = PrinterJob.getPrinterJob();
 	       job.printDialog();
-	       String impresora=job.getPrintService().getName();
+	       
+//	       NOMBRE DE LA IMPRESORA CONECTADA AL ORDENADOR
+//	       String impresora=job.getPrintService().getName();
 
 	       //ESTE ES TU CÓDIGO
 	       Desktop desktop = Desktop.getDesktop();
@@ -63,7 +65,7 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 		              try{
 		            	  Runtime R = Runtime.getRuntime();
 //		            	  Process pr =
-			                  R.exec("Rundll32 printui.dll,PrintUIEntry /y /n \""+"EPSON TM-T88IV Receipt"+"\"");
+			                  R.exec("Rundll32 printui.dll,PrintUIEntry /y /n \""+job.getPrintService().getName()+"\"");
 			                  desktop.print(fichero);
 			                  desktop.print(fichero);
 		                  }catch(Exception ex){

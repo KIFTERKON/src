@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Ticket_Fuente_de_Sodas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="570" leftMargin="5" rightMargin="20" topMargin="0" bottomMargin="20" uuid="a81281ab-8f54-4785-8f4d-853d09e680d4">
 	<property name="ireport.zoom" value="1.7715610000000142"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="47"/>
 	<property name="ireport.background.image" value="C:\Proyecto\GrupoIzagar\src\Reportes\coffee.jpg"/>
 	<property name="ireport.background.image.properties" value="false,true,0.25,0,0,0,0,0,0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
@@ -88,7 +88,11 @@ order by tb_captura_fuente_sodas.fecha desc]]>
 				<text><![CDATA[Ticket:]]></text>
 			</staticText>
 			<frame>
+<<<<<<< HEAD
 				<reportElement uuid="740c458f-7993-4dbd-848d-341cf8232bcc" style="Row" mode="Opaque" x="7" y="0" width="223" height="197"/>
+=======
+				<reportElement uuid="740c458f-7993-4dbd-848d-341cf8232bcc" style="Row" mode="Opaque" x="1" y="0" width="223" height="197"/>
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 				<textField isStretchWithOverflow="true">
 					<reportElement uuid="c3c3049a-3358-4bbb-8a20-4b3b518b5827" style="Detail" x="39" y="89" width="172" height="15" forecolor="#000000"/>
 					<textElement verticalAlignment="Middle">
@@ -160,7 +164,11 @@ order by tb_captura_fuente_sodas.fecha desc]]>
 					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 				</textField>
 				<staticText>
+<<<<<<< HEAD
 					<reportElement uuid="eed10df7-d3eb-4c11-8c88-ce6f91fb578c" style="Column header" x="87" y="22" width="36" height="15" forecolor="#000000"/>
+=======
+					<reportElement uuid="eed10df7-d3eb-4c11-8c88-ce6f91fb578c" style="Column header" x="86" y="22" width="36" height="15" forecolor="#000000"/>
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 					<textElement verticalAlignment="Middle">
 						<font size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 					</textElement>
@@ -169,9 +177,15 @@ order by tb_captura_fuente_sodas.fecha desc]]>
 				<frame>
 					<reportElement uuid="d258a378-c698-48f6-b205-dea0662db969" mode="Opaque" x="1" y="107" width="207" height="23" forecolor="#D0B48E" backcolor="#F2EBDF"/>
 					<textField isStretchWithOverflow="true" pattern="###0.00">
+<<<<<<< HEAD
 						<reportElement uuid="8249e8b0-bfbe-44c4-89ea-ad5068518a91" style="Detail" x="57" y="1" width="150" height="22"/>
 						<textElement verticalAlignment="Middle">
 							<font size="14" isBold="true" isItalic="false"/>
+=======
+						<reportElement uuid="8249e8b0-bfbe-44c4-89ea-ad5068518a91" style="Detail" x="57" y="1" width="136" height="22"/>
+						<textElement verticalAlignment="Middle">
+							<font size="12" isBold="true" isItalic="false"/>
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 						</textElement>
 						<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 					</textField>
@@ -192,7 +206,11 @@ order by tb_captura_fuente_sodas.fecha desc]]>
 				</frame>
 			</frame>
 			<staticText>
+<<<<<<< HEAD
 				<reportElement uuid="047b05c8-d775-4260-ba83-d2836e65542a" style="Column header" x="8" y="90" width="38" height="15" forecolor="#000000"/>
+=======
+				<reportElement uuid="047b05c8-d775-4260-ba83-d2836e65542a" style="Column header" x="2" y="90" width="38" height="15" forecolor="#000000"/>
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
