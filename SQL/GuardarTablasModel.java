@@ -567,16 +567,16 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
-	
 	public boolean Alimentacion_cuadrante_libre(Object[][] tabla_libre, Object[][] tabla_libre_jerarquico){
-		String query = "exec sp_insert_libre_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?;";
-		String query_proyecto = "exec [sp_insert_libre_actividades_cuadrante_jerarquico] ?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_libre_actividades_cuadrante ?,?,?,?,?,?,?,?,?,?,?;";
+		//String query_proyecto = "exec [sp_insert_libre_actividades_cuadrante_jerarquico] ?,?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		try {
 			PreparedStatement pstmt = con.prepareStatement(query);
-			PreparedStatement pstmtJerarquico = con.prepareStatement(query_proyecto);
+			//PreparedStatement pstmtJerarquico = con.prepareStatement(query_proyecto);
 			con.setAutoCommit(false);
+			
 			for(int i=0; i<tabla_libre.length; i++){
 				if(!tabla_libre[i][8].toString().trim().equalsIgnoreCase("")){
 					pstmt.setString(1, tabla_libre[i][0].toString().trim());
@@ -589,12 +589,13 @@ public class GuardarTablasModel {
 					pstmt.setString(8, tabla_libre[i][7].toString().trim());
 					pstmt.setString(9, tabla_libre[i][8].toString().trim());
 					pstmt.setString(10, tabla_libre[i][9].toString().trim());
+					pstmt.setString(11, tabla_libre[i][10].toString().trim());
 					pstmt.execute();
 				}
 			}
 			
 			for(int j=0; j<tabla_libre_jerarquico.length; j++){
-				if(!tabla_libre_jerarquico[j][8].toString().trim().equalsIgnoreCase("")){
+				/*if(!tabla_libre_jerarquico[j][8].toString().trim().equalsIgnoreCase("")){
 					pstmtJerarquico.setString(1, tabla_libre_jerarquico[j][0].toString().trim());
 					pstmtJerarquico.setString(2, tabla_libre_jerarquico[j][1].toString().trim());
 					pstmtJerarquico.setString(3, tabla_libre_jerarquico[j][2].toString().trim());
@@ -606,7 +607,8 @@ public class GuardarTablasModel {
 					pstmtJerarquico.setString(9, tabla_libre_jerarquico[j][8].toString().trim());
 					pstmtJerarquico.setString(10, tabla_libre_jerarquico[j][9].toString().trim());
 					pstmtJerarquico.execute();
-				}				
+				}	
+				*/			
 			}
 			con.commit();
 		} catch (Exception e) {

@@ -181,8 +181,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.btnEditarMultipleConts.addActionListener(op_editar_multiple_conts);
 		this.btnTerminarCaptura.addActionListener(op_terminar_captura);
 		
-		
-		
 		/** BOTON GUARDAR PARA OPCIONES LIBRE **/
 		this.btnGuardarLibre.addActionListener(op_guardar_libre);
 
@@ -221,7 +219,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 					plantillaMultipleJerarquicaConts.modelPlantillaLibre.removeRow(0);
 				
 				tablas_procesar();
-				
 				JOptionPane.showMessageDialog(null,"Se ha teminado la edición del cuadrante", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			}else{
 				JOptionPane.showMessageDialog(null, "No se pudo terminar la edición del cuadrante", "Error", JOptionPane.ERROR_MESSAGE);
@@ -265,9 +262,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	public void tablas_procesar(){
 		
 		if(new Obj_Alimentacion_Cuadrante().status_llanado_tabla(NOMBRECOMPLETO)){
-			JOptionPane.showMessageDialog(null, "En hora Buena! \n Ya llenó su cuadrante.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "En hora Buena! \n Ya llenó su cuadrante!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			lblCuadranteLleno.setVisible(true);
-			
 		}else{
 			String[][] info_tabla_multiple_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleJerarquico(NOMBRECOMPLETO);
 	    	
@@ -361,18 +357,21 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			for(String[] tmpArray : info_tabla_libre)
 				plantillaLibre.modelPlantillaLibre.addRow(tmpArray);
 			
+			String[][] info_tabla_libre_contestada = new Obj_Alimentacion_Cuadrante().buscarTablaLibreContestada(NOMBRECOMPLETO);
+			for(String[] tmpArray : info_tabla_libre_contestada)
+				plantillaLibreContestada.modelPlantillaLibre.addRow(tmpArray);
 		}
 	}
 	
 	public String procesa_texto(String texto) {
 		StringTokenizer tokens = new StringTokenizer(texto);
 	    texto = "";
-	    while(tokens.hasMoreTokens()){
+	    while(tokens.hasMoreTokens())
 	    	texto += " "+tokens.nextToken();
-	    }
+
 	    texto = texto.toString();
 	    texto = texto.trim().toUpperCase();
-	     return texto;
+	    return texto;
 	}
 	
 	private class MyComboEditor extends DefaultCellEditor{
@@ -391,9 +390,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
         	combo.removeAllItems();
             String[] valores = values.get(row);
                 
-            for(int i=0; i<valores.length; i++){
+            for(int i=0; i<valores.length; i++)
             	combo.addItem(valores[i]);
-            }
 
             return combo;          
         }
@@ -404,9 +402,8 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		try {
 			Statement s = new Connexion().conexion().createStatement();
 			ResultSet rs = s.executeQuery(qry);
-			while(rs.next()){
+			while(rs.next())
 				filas++;
-			}
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -471,7 +468,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			if(plantillaLibreJerarquica.tablaPlantillaLibre.isEditing())
 				plantillaLibreJerarquica.tablaPlantillaLibre.getCellEditor().stopCellEditing();
-			if(plantillaLibre.tablaPlantillaMultiple.isEditing())
+			if(plantillaLibre.tablaPlantillaLibre.isEditing())
 				plantillaLibre.tablaPlantillaLibre.getCellEditor().stopCellEditing();
 			
 			if(new Obj_Alimentacion_Cuadrante().guardarLibre(tabla_LIBRE(), tabla_LIBRE_jerarquico())){
@@ -637,6 +634,20 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				libre[i][7] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,1).toString().trim();
 				libre[i][8] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,2).toString().trim();
 				libre[i][9] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,3).toString().trim();
+				libre[i][10] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,0).toString().trim().equalsIgnoreCase("N/A") ? 'B' : 'A';
+				/*
+				Datas: ENCARGADO DE SISTEMAS
+				Datas: VICTOR HUGO HERRERA CUEVAS
+				Datas: SISTEMAS
+				Datas: AUXILIAR DE SISTEMAS
+				Datas: SIV_caja3
+				Datas: 192.168.2.143
+				Datas: 1
+				Datas: PRUEBA ACTIVIDAD POR AVANCE
+				Datas: asdfasdfsadf
+				Datas: 
+				Datas: null 
+				*/
 			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

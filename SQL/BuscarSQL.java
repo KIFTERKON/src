@@ -4601,4 +4601,29 @@ public class BuscarSQL {
 		}
 		return Matriz;
 	}
+	
+	public String[][] tabla_libre_contestada(String nomgbre){
+		String datos = "exec sp_select_tabla_alimentacion_libre_contestada '"+nomgbre+"';";
+
+		String[][] Matriz = new String[getFilas(datos)][4];
+		
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = String.valueOf(i+1)+"  ";
+				Matriz[i][1] = "  "+rs.getString(2);
+				Matriz[i][2] = "  "+rs.getString(3);
+				Matriz[i][3] = "  "+rs.getString(4);
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz;
+	}
 }
