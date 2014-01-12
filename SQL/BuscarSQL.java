@@ -2654,6 +2654,28 @@ public class BuscarSQL {
 			
 		return nombre;
 	}
+	
+	public String ActividadExisteNameOldJerarquica(int actividad){
+		String query = "exec sp_select_actividad_nombre_jerarquico "+actividad;
+		String nombre = "";
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				nombre = rs.getString("actividad").trim();
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return nombre;
+	}
+	
 	public boolean ActividadExisteJerarquico(int actividad){
 		String query = "exec [sp_folio_actividad_jerarquico] "+actividad;
 		

@@ -640,14 +640,11 @@ public class GuardarTablasModel {
 		PreparedStatement pstmtTabla = null;
 		try {
 			con.setAutoCommit(false);
-			
 			pstmtDelete = con.prepareStatement(queryDelete);
-			pstmtTabla = con.prepareStatement(querytabla);
-			
 			pstmtDelete.execute();
-			for(int i=0; i<tabla.length; i++){
-				
 			
+			pstmtTabla = con.prepareStatement(querytabla);
+			for(int i=0; i<tabla.length; i++){
 				pstmtTabla.setInt(1, folio);
 				pstmtTabla.setString(2, procesa_texto(encargado));
 				pstmtTabla.setInt(3, cuadrante);
