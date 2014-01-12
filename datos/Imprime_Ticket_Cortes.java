@@ -11,7 +11,7 @@ import catalogos.Cat_Filtro_Cortes;
 import java.util.*;
 
 @SuppressWarnings("serial")
-public class Imprime extends JFrame
+public class Imprime_Ticket_Cortes extends JFrame
 {
 	Container container = getContentPane();
 	private JLabel jLabel1;
@@ -25,7 +25,7 @@ public class Imprime extends JFrame
 	private JPanel contentPane;
 
 	@SuppressWarnings("resource")
-	public Imprime()
+	public Imprime_Ticket_Cortes()
 	{
 		jLabel1 = new JLabel();
 		

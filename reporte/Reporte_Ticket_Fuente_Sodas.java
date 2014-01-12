@@ -48,7 +48,7 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 		}
 	}
 
-	@SuppressWarnings({ "unused" })
+	@SuppressWarnings({ })
 	public void imprimir(String rutaDoc) throws IOException
 	{
 	       PrinterJob job = PrinterJob.getPrinterJob();

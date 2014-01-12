@@ -4,17 +4,18 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import objetos.ObjTicket;
+import objetos.Obj_TicketCortes;
 
 
 
-public class Archivos {
-	public boolean escribirTicket(ObjTicket ex)
+public class Escribir_Ticket_Cortes {
+	public boolean escribirTicket(Obj_TicketCortes ex)
 	{
 		BufferedWriter bw = null;
 		String nomArchivo = "DbTiket/" + "Ticket.txt";
 		try
 		{
+			
 			bw = new BufferedWriter(new FileWriter(nomArchivo));
 			
 			//escribe

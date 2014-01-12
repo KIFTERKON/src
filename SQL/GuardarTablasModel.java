@@ -170,8 +170,52 @@ public class GuardarTablasModel {
 		return true;
 	}
 	
-	public boolean tablaTicketFuenteSodas(Object[][] tabla, int folio, String empleado){
+	public boolean tablaTicketFuenteSodas_auxf(Object[][] tabla, int folio, String empleado){
 		String query = "exec sp_insert_fuente_soda_auxf_de_seleccion_de_ticket ?,?,?,?,?,?,?,?";
+		Connection con = new Connexion().conexion();
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			con.setAutoCommit(false);
+			
+			for(int i=0; i<tabla.length; i++){
+				pstmt.setInt(1, folio);
+				pstmt.setString(2, empleado.toUpperCase().trim());
+				pstmt.setString(3, tabla[i][0].toString().toUpperCase().trim());
+				pstmt.setFloat(4, Float.valueOf(tabla[i][1].toString().trim()));
+				pstmt.setString(5, tabla[i][2].toString().trim());
+				pstmt.setInt(6, Boolean.parseBoolean(tabla[i][3].toString().trim()) ? 1 : 0);
+				pstmt.setString(7, "0");
+				pstmt.setString(8, "1");
+				
+				pstmt.executeUpdate();
+			}
+					
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+			return false;
+		}finally{
+			try {
+				con.close();
+			} catch(SQLException e){
+				e.printStackTrace();
+			}
+		}		
+		return true;
+	}
+	
+	public boolean tablaTicketFuenteSodas_dh(Object[][] tabla, int folio, String empleado){
+		String query = "exec sp_insert_fuente_soda_dh_de_seleccion_de_ticket ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {

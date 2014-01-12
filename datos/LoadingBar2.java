@@ -72,7 +72,7 @@ public class LoadingBar2 extends JDialog
 					if(i == 100)
 					{
 						dispose();
-						new Imprime().setVisible(true);
+						new Imprime_Ticket_Cortes().setVisible(true);
 						
 					}
 				

@@ -3213,6 +3213,33 @@ public class BuscarSQL {
 		return Matriz;
 	}
 	
+	public String[][] getTablaTicketFuenteSodas_dh(int folio){
+		String[][] Matriz = null;
+		
+		String datosif = "exec sp_acumulado_ticket_fuente_de_sodas_por_empleado_dh "+folio;
+		
+		Matriz = new String[getFilas(datosif)][4];
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datosif);
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = rs.getString(1);
+				Matriz[i][1] = rs.getString(2);
+				Matriz[i][2] = rs.getString(3);
+				Matriz[i][3] = rs.getString(4);
+				
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return Matriz;
+	}
+	
 	public Obj_Cuadrante Cuadrante(int folio) throws SQLException{
 		Obj_Cuadrante cuadrante = new Obj_Cuadrante();
 		String query = "exec sp_select_cuadrante_folio "+ folio;
