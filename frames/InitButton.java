@@ -841,6 +841,7 @@ public class InitButton extends InitMenuBar{
 				Cuadrantes_Catalogo_Telefono.setEnabled(false);
 				Cuadrantes_Alimentacion_Cuadrante.setEnabled(false);
 				Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(false);
+				Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(false);
 				
 			/* CUADRANTES 
 			*		CATALOGO */
@@ -862,6 +863,7 @@ public class InitButton extends InitMenuBar{
 			/* LISTA DE RAYA 
 			* 		ALIMENTACION */
 				Alimentacion_Bancos.setEnabled(false);
+				Alimentacion_Cajeras_de_Fuente_Sodas.setEnabled(false);
 				Alimentacion_Captura_Totales_Nomina.setEnabled(false);
 				Alimentacion_Deducciones_Asistencia.setEnabled(false);
 				Alimentacion_Diferencia_Cortes.setEnabled(false);
@@ -882,6 +884,7 @@ public class InitButton extends InitMenuBar{
 				Horarios.setEnabled(false);
 				Mensajes_Personales.setEnabled(false);
 				Permisos_Empleados.setEnabled(false);
+				Reportes_del_Dia.setEnabled(false);
 				Reportes_Checador_Gral.setEnabled(false);
 								
 			/* LISTA DE RAYA 

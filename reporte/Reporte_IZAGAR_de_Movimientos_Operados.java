@@ -24,6 +24,7 @@ public class Reporte_IZAGAR_de_Movimientos_Operados extends JFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Reporte_IZAGAR_de_Movimientos_Operados(String fecha) {
 			String query = "exec sp_Reporte_IZAGAR_de_Movimientos_Operados '"+fecha+"';";
+			System.out.println(fecha);
 			Statement stmt = null;
 			try {
 				stmt =  new Connexion().conexionDB_DOS().createStatement();

@@ -1374,13 +1374,15 @@ public class ActualizarSQL {
 	public boolean Actualizar_Actividad_Nivel_Jerarquico(Obj_Actividad_Asignadas_Nivel_Jerarquico actividad, int folio, String nombre){
 		
 		String query = "exec sp_update_actividad_nivel_jerarquico ?,?,?,?,?,?,?,?,?,?,?";
-		
+				
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
 			
+			System.out.println(actividad.getDescripcion().toUpperCase());
+					
 			pstmt.setString(1, actividad.getActividad().toUpperCase());
 			pstmt.setString(2, actividad.getDescripcion().toUpperCase());
 			pstmt.setString(3, actividad.getRespuesta());

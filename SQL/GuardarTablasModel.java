@@ -171,7 +171,7 @@ public class GuardarTablasModel {
 	}
 	
 	public boolean tablaTicketFuenteSodas(Object[][] tabla, int folio, String empleado){
-		String query = "exec sp_insert_fuent_soda_rh_de_seleccion_de_ticket ?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_fuente_soda_auxf_de_seleccion_de_ticket ?,?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		
 		try {
@@ -180,13 +180,13 @@ public class GuardarTablasModel {
 			con.setAutoCommit(false);
 			
 			for(int i=0; i<tabla.length; i++){
-				pstmt.setString(1, "0");
-				pstmt.setInt(2, folio);
-				pstmt.setString(3, empleado.toUpperCase().trim());
-				pstmt.setString(4, tabla[i][0].toString().trim());
-				pstmt.setString(5, tabla[i][1].toString().trim());
-				pstmt.setString(6, tabla[i][2].toString().trim());
-				pstmt.setInt(7, Boolean.parseBoolean(tabla[i][3].toString().trim()) ? 1 : 0);
+				pstmt.setInt(1, folio);
+				pstmt.setString(2, empleado.toUpperCase().trim());
+				pstmt.setString(3, tabla[i][0].toString().toUpperCase().trim());
+				pstmt.setFloat(4, Float.valueOf(tabla[i][1].toString().trim()));
+				pstmt.setString(5, tabla[i][2].toString().trim());
+				pstmt.setInt(6, Boolean.parseBoolean(tabla[i][3].toString().trim()) ? 1 : 0);
+				pstmt.setString(7, "0");
 				pstmt.setString(8, "1");
 				
 				pstmt.executeUpdate();
@@ -646,24 +646,24 @@ public class GuardarTablasModel {
 			
 			pstmtDelete.execute();
 			for(int i=0; i<tabla.length; i++){
-				System.out.println(i);
+				
+			
 				pstmtTabla.setInt(1, folio);
 				pstmtTabla.setString(2, procesa_texto(encargado));
 				pstmtTabla.setInt(3, cuadrante);
 				pstmtTabla.setInt(4, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(5, tabla[i][1].toString().trim().toUpperCase());
-				System.out.println(tabla[i][2].toString());
 				pstmtTabla.setString(6, tabla[i][2].toString().trim());
 				pstmtTabla.setInt(7, Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
 				pstmtTabla.setString(8, tabla[i][4]);
 				pstmtTabla.setString(9, tabla[i][5]);
 				pstmtTabla.setString(10, tabla[i][6]);
-				
 				pstmtTabla.execute();
 			}
 			
 			con.commit();
 		} catch (Exception e) {
+			
 			System.out.println("SQLException: "+e.getMessage());
 			if(con != null){
 				try{

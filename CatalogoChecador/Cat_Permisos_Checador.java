@@ -18,7 +18,6 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -34,18 +33,16 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-
 import objetos.JTextFieldLimit;
-
 import ObjetoChecador.Obj_Permisos_Checador;
 import SQL.Connexion;
-
 import com.toedter.calendar.JDateChooser;
 
 @SuppressWarnings("serial")
@@ -614,24 +611,6 @@ public class Filtro_Permisos_Checador extends JFrame{
 	    return scrol; 
 	}
 	
-	KeyListener validaCantidad = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e){
-			char caracter = e.getKeyChar();				
-			if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.' )){
-			    	e.consume();
-			    	}
-		}
-		@Override
-		public void keyReleased(KeyEvent e) {	
-		}
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-		}	
-	};
-	
 	KeyListener validaNumericoConPunto = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -678,7 +657,7 @@ public class Filtro_Permiso_Empleado extends JFrame{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Filtro_Permiso_Empleado()	{
 		this.setTitle("Filtro Empleados");
-		txtBuscar.setDocument(new JTextFieldLimit(10));
+		txtBuscar.setDocument(new JTextFieldLimit(130));
 		
 		txtBuscar.addKeyListener(new KeyAdapter() { 
 			public void keyReleased(final KeyEvent e) { 
@@ -821,5 +800,13 @@ public class Filtro_Permiso_Empleado extends JFrame{
 	};
 	
 	
+}
+public static void main(String [] args){
+	try{
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		new Cat_Permisos_Checador().setVisible(true);
+	}catch(Exception e){
+		System.err.println("Error :"+ e.getMessage());
+	}
 }
 }

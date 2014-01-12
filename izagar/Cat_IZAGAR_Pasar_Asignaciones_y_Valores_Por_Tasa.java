@@ -341,11 +341,11 @@ public class Cat_IZAGAR_Pasar_Asignaciones_y_Valores_Por_Tasa extends JFrame{
 		tablaFiltro.getColumnModel().getColumn(7).setCellRenderer(render);
 
 		
-		tablatasas.getColumnModel().getColumn(0).setCellRenderer(render); 
-		tablatasas.getColumnModel().getColumn(1).setCellRenderer(render); 
-		tablatasas.getColumnModel().getColumn(2).setCellRenderer(render);
-		tablatasas.getColumnModel().getColumn(3).setCellRenderer(render);
-		tablatasas.getColumnModel().getColumn(4).setCellRenderer(render);
+//		tablatasas.getColumnModel().getColumn(0).setCellRenderer(render); 
+//		tablatasas.getColumnModel().getColumn(1).setCellRenderer(render); 
+//		tablatasas.getColumnModel().getColumn(2).setCellRenderer(render);
+//		tablatasas.getColumnModel().getColumn(3).setCellRenderer(render);
+//		tablatasas.getColumnModel().getColumn(4).setCellRenderer(render);
 			
 		btnAgregar.addActionListener(opAgregar);
 		

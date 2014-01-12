@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -155,6 +157,7 @@ public class Cat_Asignacion_Horario_Temporada extends JFrame{
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
 		setTitle("Asignacion de horario de temporada");
 		campo.setBorder(BorderFactory.createTitledBorder("Asignar a enpleado"));
+		
 		
 		trsfiltro = new TableRowSorter(modeloFiltro); 
 		tablaFiltro.setRowSorter(trsfiltro); 
@@ -366,6 +369,7 @@ public class Cat_Asignacion_Horario_Temporada extends JFrame{
 				return componente;
 			} 
 		}; 
+		
 		
 		tablaFiltro.getColumnModel().getColumn(0).setCellRenderer(render); 
 		tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render); 
@@ -641,7 +645,39 @@ public class Cat_Asignacion_Horario_Temporada extends JFrame{
 		}
 	};
 	
+	public void update_de_horarios_vencidos(){
+		String todos = "exec sp_update_status_de_horarios_de_temporada_que_expiraron ";
+		PreparedStatement pstmt = null;
+		Connection con = new Connexion().conexion();
+		try {
+			con.setAutoCommit(false);
+			pstmt = con.prepareStatement(todos);
+		
+			pstmt.executeUpdate();
+			con.commit();
+		} catch (Exception e) {
+			System.out.println("SQLException: "+e.getMessage());
+			if(con != null){
+				try{
+					System.out.println("La transacción ha sido abortada");
+					con.rollback();
+				}catch(SQLException ex){
+					System.out.println(ex.getMessage());
+				}
+			}
+		}finally{
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+
+	}
+	
    	public Object[][] getTablaFiltro(){
+   		update_de_horarios_vencidos();
+   		
 		String todos = "exec sp_select_filtro_horarios_temporada";
 		Statement s;
 		ResultSet rs;

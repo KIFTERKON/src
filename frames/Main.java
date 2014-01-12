@@ -27,6 +27,8 @@ import objetos.Obj_Usuario;
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/
+//CONVERTIR ARCHIVOS .JAR A .EXE
+//https://sites.google.com/site/aprendeinformatik/programacionjava/convertir-de-java-a-exe
 
 @SuppressWarnings("serial")
 public class Main extends InitButton {
@@ -167,6 +169,9 @@ public class Main extends InitButton {
 						Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
 					if(permisos[i].equals("Empleados en Cuadrantes"))
 						Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(true);	
+					if(permisos[i].equals("Asignación de Actividades por Nivel Jerarquico"))
+						Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(true);
+					
 					/* CUADRANTES
 					 * 		CATALOGO */
 					if(permisos[i].equals("Actividades"))
@@ -208,6 +213,9 @@ public class Main extends InitButton {
 						Alimentacion_Bancos.setEnabled(false);
 						btnBanco.setEnabled(false);
 					}
+					if(permisos[i].equals("Alimentación de Fuente de Sodas Por Cajeras"))
+						Alimentacion_Cajeras_de_Fuente_Sodas.setEnabled(true);
+					
 					if(permisos[i].equals("Alimentación de Totales de Nómina"))
 						Alimentacion_Captura_Totales_Nomina.setEnabled(false);
 					if(permisos[i].equals("Alimentación Deducción por Inasistencia")){
@@ -273,10 +281,14 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Permisos a Empleados")){
 						Permisos_Empleados.setEnabled(true);
 								}
+					if(permisos[i].equals("Reportes de Asistencia y Retardos del Dia")){
+						Reportes_del_Dia.setEnabled(true);
+								}
 					if(permisos[i].equals("Reporte General de Asistencia")){
 						Reportes_Checador_Gral.setEnabled(true);
 								}
 
+					
 					/* LISTA DE RAYA 
 					*		DEPARTAMENTO DE CORTES */
 					if(permisos[i].equals("Alimentación de Cortes"))
@@ -364,6 +376,9 @@ public class Main extends InitButton {
 						Importar_Voucher.setEnabled(true);
 					if(permisos[i].equals("Reporte de Apartados y Abonos en una Asignacion"))
 						Egresos_Reporte_de_apartados_y_abonos.setEnabled(true);
+					if(permisos[i].equals("Reporte de Apartados y Abonos en una Asignacion"))
+						Egresos_Reporte_de_apartados_y_abonos.setEnabled(true);
+
 				
 							
 					/* CUADRANTES 
@@ -376,6 +391,10 @@ public class Main extends InitButton {
 						Cuadrantes_Alimentacion_Cuadrante.setEnabled(true);
 					if(permisos[i].equals("Empleados en Cuadrantes"))
 						Cuadrantes_Alimentacion_Empleados_Cuadrantes.setEnabled(true);	
+					if(permisos[i].equals("Asignación de Actividades por Nivel Jerarquico"))
+						Cuadrantes_Alimentacion_Asignacion_Actividades_Nivel_Jerarquico.setEnabled(true);	
+					
+			
 					/* CUADRANTES
 					 * 		CATALOGO */
 					if(permisos[i].equals("Actividades"))
@@ -413,6 +432,9 @@ public class Main extends InitButton {
 						Alimentacion_Bancos.setEnabled(true);
 						btnBanco.setEnabled(true);
 					}
+					if(permisos[i].equals("Alimentación de Fuente de Sodas Por Cajeras"))
+						Alimentacion_Cajeras_de_Fuente_Sodas.setEnabled(true);
+					
 					if(permisos[i].equals("Alimentación de Totales de Nómina"))
 						Alimentacion_Captura_Totales_Nomina.setEnabled(true);
 					if(permisos[i].equals("Alimentación Deducción por Inasistencia")){
@@ -478,8 +500,8 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Permisos a Empleados")){
 						Permisos_Empleados.setEnabled(true);
 					            }
-					if(permisos[i].equals("Reporte General de Asistencia")){
-						Reportes_Checador_Gral.setEnabled(true);
+					if(permisos[i].equals("Reportes de Asistencia y Retardos del Dia")){
+						Reportes_del_Dia.setEnabled(true);
 				              	}  
 					if(permisos[i].equals("Reporte General de Asistencia")){
 						Reportes_Checador_Gral.setEnabled(true);

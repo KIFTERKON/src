@@ -16,7 +16,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -36,14 +35,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
-
 import com.toedter.calendar.JDateChooser;
-
 import SQL.Connexion;
-
 import objetos.JTextFieldLimit;
 import objetos.Obj_Actividades_Por_Proyecto;
 import objetos.Obj_Establecimiento;
@@ -1525,5 +1522,13 @@ public class Cat_Actividades_Por_Proyecto extends JFrame{
     			public void keyPressed(KeyEvent arg0) {}		
     		};
     		
+    	}
+    	public static void main(String [] args){
+    		try{
+    			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    			new Cat_Actividades_Por_Proyecto().setVisible(true);
+    		}catch(Exception e){
+    			System.err.println("Error :"+ e.getMessage());
+    		}
     	}
 }
