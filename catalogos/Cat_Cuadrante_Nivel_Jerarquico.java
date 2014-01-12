@@ -1885,7 +1885,6 @@ public class Cat_Cuadrante_Nivel_Jerarquico extends Cat_Cuadrante {
 			Statement s;
 			ResultSet rs;
 			
-			System.out.println(todos);
 			try {
 				s = new Connexion().conexion().createStatement();
 				rs = s.executeQuery(todos);

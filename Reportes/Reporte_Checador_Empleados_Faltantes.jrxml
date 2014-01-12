@@ -15,25 +15,14 @@
 	</style>
 	<queryString>
 		<![CDATA[declare @establecimineto varchar(100)
-<<<<<<< HEAD
-if(@establecimineto='Seleccione un Establecimiento')
-	begin
-		select * from empleados_faltantes_de_checar_este_dia
-		delete empleados_faltantes_de_checar_este_dia
-=======
 set @establecimineto='Seleccione un Establecimiento';
 if(@establecimineto='Seleccione un Establecimiento')
 	begin
 		select * from empleados_faltantes_de_checar_este_dia
->>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
 	end
 else
 	begin
 		select * from empleados_faltantes_de_checar_este_dia where establecimiento = @establecimineto
-<<<<<<< HEAD
-		delete empleados_faltantes_de_checar_este_dia
-=======
->>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
 	end]]>
 	</queryString>
 	<field name="folio_empleado" class="java.lang.Integer"/>
@@ -145,8 +134,9 @@ else
 			</frame>
 			<image scaleImage="FillFrame" hAlign="Left" vAlign="Top" isUsingCache="true">
 				<reportElement uuid="b4e8cf73-e38d-4e33-9111-e1f378f70aa0" positionType="Float" x="455" y="0" width="100" height="132"/>
-<<<<<<< HEAD
 				<imageExpression><![CDATA["C:\\SCOI\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
+<<<<<<< HEAD
+=======
 =======
 <<<<<<< HEAD
 				<imageExpression><![CDATA["C:\\SCOI\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
@@ -154,6 +144,7 @@ else
 				<imageExpression><![CDATA["C:\\Proyecto\\GrupoIzagar\\Imagen\\reporte_empleados_faltantes.jpg"]]></imageExpression>
 >>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
 >>>>>>> 0c2f577134d3aa514b591f546b91bc5c87ae6116
+>>>>>>> 5bd7c9f45f7f12858260310a0ae8a23db8fe7321
 			</image>
 		</band>
 	</title>
@@ -161,11 +152,7 @@ else
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-<<<<<<< HEAD
-		<band height="7" splitType="Stretch"/>
-=======
 		<band height="26" splitType="Stretch"/>
->>>>>>> cd16b2f194f0e3af4d04d3207b51a2f8e35a7fd0
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
