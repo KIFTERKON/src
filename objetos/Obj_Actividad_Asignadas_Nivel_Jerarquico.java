@@ -145,4 +145,8 @@ public class Obj_Actividad_Asignadas_Nivel_Jerarquico {
 		return new BuscarSQL().puestosDependientes();
 	}
 	
+	public String Nombre_Old(int folio){ 
+		return new BuscarSQL().ActividadExisteNameOldJerarquica(folio);
+	}
+	
 }

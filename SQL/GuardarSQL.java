@@ -2565,7 +2565,7 @@ public boolean Guardar_Horario(ObjHorario horario){
 		
 		//Guardar captura fuente de sodas
 		public boolean Guardar_Fuente_Sodas(Obj_Captura_Fuente_Sodas sodas){
-			String query = "exec sp_insert_captura_fuente_sodas ?,?,?,?,?,?,?,?,?";
+			String query = "exec sp_insert_captura_fuente_sodas ?,?,?,?,?,?,?,?,?,?";
 			Connection con = new Connexion().conexion();
 			PreparedStatement pstmt = null;
 			try {
@@ -2584,7 +2584,8 @@ public boolean Guardar_Horario(ObjHorario horario){
 				pstmt.setString(6, sodas.getUsuario().trim());
 				pstmt.setString(7, pc_nombre);
 				pstmt.setString(8, pc_ip);
-				pstmt.setInt(9, 1);			//status default al guardar
+				pstmt.setInt(9, 1);			//status default al guardar usado para revision de auxilizr y finanazas
+				pstmt.setInt(10, 1);			//status default al guardar usado para revisicon de desarrollo humano
 				
 				pstmt.executeUpdate();
 				con.commit();

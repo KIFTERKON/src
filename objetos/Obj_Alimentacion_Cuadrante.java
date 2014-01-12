@@ -144,6 +144,10 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_libre(nombre);
 	}
 	
+	public String[][] buscarTablaLibreContestada(String nombre){
+		return new BuscarSQL().tabla_libre_contestada(nombre);
+	}
+	
 	public String[] ComboBox(int actividad){
 		try {
 			return new Cargar_Combo().ComboALimentacionMultiple(actividad);

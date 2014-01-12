@@ -1,8 +1,8 @@
 package objetos;
 
-import datos.Archivos;
+import datos.Escribir_Ticket_Cortes;
 
-public class ObjTicket 
+public class Obj_TicketCortes 
 {
 	private String izagar;
 	private String talon;
@@ -22,7 +22,7 @@ public class ObjTicket
 	private String resivo_luz;
 	
 
-	public ObjTicket()
+	public Obj_TicketCortes()
 	{
 		
 	}
@@ -158,7 +158,7 @@ public class ObjTicket
 	}
 
 	public boolean guardar(){ 
-		if(new Archivos().escribirTicket(this))
+		if(new Escribir_Ticket_Cortes().escribirTicket(this))
 			return true;
 		else
 			return false;

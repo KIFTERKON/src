@@ -137,8 +137,13 @@ public class Obj_Captura_Fuente_Sodas
 	return null; 
 	}
 	
-//	tabla de tickets por empleado
+//	tabla de tickets por empleado auxiliar y finanazas
 	public String[][] tabla(int folio_empleado) throws SQLException{
 		return new BuscarSQL().getTablaTicketFuenteSodas(folio_empleado);
+	}
+	
+//	tabla de tickets por empleado desarrollo humano
+	public String[][] tabla_dh(int folio_empleado) throws SQLException{
+		return new BuscarSQL().getTablaTicketFuenteSodas_dh(folio_empleado);
 	}
 }
