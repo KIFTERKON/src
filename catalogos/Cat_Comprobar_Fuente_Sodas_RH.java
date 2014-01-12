@@ -85,6 +85,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		
 		Etiqueta();
 		
+		
 		panel.add(new JLabel("Tabla Desarrollo Humanos")).setBounds(110,40,200,20);
 		panel.add(lblTotalRH).setBounds(370,40,200,20);
 		panel.add(scrollRh).setBounds(110,65,320,290);
@@ -143,11 +144,15 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		
 		sumaAX();
 		
-		if(TablaDifAX.length == 0 && TablaDifRH.length == 0){
-			btnAceptar.setEnabled(true);
+		
+		
+		if((TablaDifAX.length == 0 && TablaDifRH.length == 0)	){
+			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
+
 		}else{
-			btnAceptar.setEnabled(false);
+			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
 		}
+		
 		cont.add(panel);
 		agregar(tablaRh);
 		this.setSize(980,750);
@@ -184,6 +189,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			Obj_fuente_sodas_rh fuente_soda = new Obj_fuente_sodas_rh();
 			System.out.println(fuente_soda.actualizar_status_ticket());
 			Actualizar();
+			btnAceptar.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Se Comprobaron con exito","Aviso",JOptionPane.INFORMATION_MESSAGE);
 		}
 	};

@@ -802,12 +802,15 @@ public class ActualizarSQL {
 	}
 	
 	public boolean fuente_sodas_Rh(){
-		String query = "update tb_fuente_sodas_rh set status_ticket=? where status=?; update tb_fuente_sodas_auxf set status_ticket=? where status=?;";
+		String query = "update tb_fuente_sodas_rh set status_ticket=? where status=?; update tb_fuente_sodas_auxf set status_ticket=? where status=?; UPDATE tb_autorizaciones SET autorizar_comparacion_fuente_sodas = 'false' ";
+
+		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
+	
 			pstmt.setString(1, "1");
 			pstmt.setInt(2, 1);
 			pstmt.setString(3, "1");

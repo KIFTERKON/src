@@ -23,6 +23,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import objetos.Obj_Imprimir_Cuadrante;
+import objetos.Reporte_de_Cuadrantes;
 import reporte.Reporte_Impresion_de_Cuadrantes;
 
 
@@ -73,7 +74,14 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 			JTextField txtFolio = new JTextField();
 			JTextField txtNombre_Completo = new JTextField();
 			
-			JButton btnGenerar = new JButton("Generar Reporte de Seleccion");
+			JButton btnGenerar = new JButton(" Imprimir Actividades del Cuadrante de Hoy");
+			JButton btnGenerarreportecaptura = new JButton(" Imprimir Captura del Cuadrante de Hoy");
+			JButton btnGenerarcaptura7= new JButton(" Imprimir Captura del Cuadrante 7 Dias");
+			
+			JButton btnGenerarAsistenciaH = new JButton(" Imprimir Movimientos del Checador Hoy");
+			JButton btnGenerarAsistenciaH7 = new JButton(" Imprimir Movimientos del Checador 7 Dias");
+			
+			
 			
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			
@@ -81,18 +89,24 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 				
 				
 				
-				setTitle("Impresion de Cuadrantes");
-				campo.setBorder(BorderFactory.createTitledBorder("Seleccion de Cuadrante Para Impresion"));
+				setTitle("Reportes Personales Cuadrantes y Checador");
+				campo.setBorder(BorderFactory.createTitledBorder("Seleccion de Empleado Para Impresion"));
 				trsfiltro = new TableRowSorter(modeloFiltro); 
 				tablaFiltro.setRowSorter(trsfiltro);  
 				
-				setSize(1024,350);
+				setSize(1024,425);
 				setResizable(false);
 				setLocationRelativeTo(null);
-				campo.add(scroll).setBounds(15,43,1000,250);
-				campo.add(txtFolio).setBounds(15,20,38,20);
+				campo.add(scroll).setBounds(10,43,1000,300);
+				campo.add(txtFolio).setBounds(10,20,38,20);
 				campo.add(txtNombre_Completo).setBounds(54,20,300,20);
-				campo.add(btnGenerar).setBounds(585,20,250,20);
+				campo.add(btnGenerar).setBounds(10,360,280,20);
+				campo.add(btnGenerarreportecaptura).setBounds(385,360,280,20);
+				campo.add(btnGenerarcaptura7).setBounds(730,360,280,20);
+				
+				
+				
+				
 				cont.add(campo);
 				
 				tablaFiltro.getColumnModel().getColumn(0).setMaxWidth(40);
@@ -226,7 +240,8 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 				tablaFiltro.getColumnModel().getColumn(4).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(5).setCellRenderer(render);
 				btnGenerar.addActionListener(opAgregar);
-				
+				btnGenerarreportecaptura.addActionListener(opReporteCaptura);
+				btnGenerarcaptura7.addActionListener(opReporteCaptura7);
 				
 				
 			}
@@ -263,10 +278,84 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 				}
 				
 			};
+			
+			ActionListener opReporteCaptura = new ActionListener() {
+				@SuppressWarnings({ })
+				public void actionPerformed(ActionEvent arg0) {
+					
+					txtFolio.setText("");
+					txtNombre_Completo.setText("");
+					
+					if(tablaFiltro.isEditing()){
+						tablaFiltro.getCellEditor().stopCellEditing();
+					}
+					if(valida_cantidad_seleccion ()==0){
+						JOptionPane.showMessageDialog(null,"Seleciona Un Empleado","Aviso",JOptionPane.NO_OPTION);
+					}
+					if(valida_cantidad_seleccion ()==1){
 
-			    				    			
-			    			
-			    		
+						int fila = tablaFiltro.getSelectedRow();
+		
+						int Folio = Integer.parseInt(tablaFiltro.getValueAt(fila, 0).toString().trim());
+						
+						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(Folio)) {
+
+					  		
+							new Reporte_de_Cuadrantes("scoi", "scoif",
+									   0, "0",
+									1,"(''" +Folio+"'')",
+									0,"0",
+									0,"0",
+									0,"0",
+									0,"0",
+									0,"0",
+									0);
+					}
+					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
+					}
+					}				
+				}
+			};
+			ActionListener opReporteCaptura7 = new ActionListener() {
+				@SuppressWarnings({ })
+				public void actionPerformed(ActionEvent arg0) {
+					
+					txtFolio.setText("");
+					txtNombre_Completo.setText("");
+					
+					if(tablaFiltro.isEditing()){
+						tablaFiltro.getCellEditor().stopCellEditing();
+					}
+					if(valida_cantidad_seleccion ()==0){
+						JOptionPane.showMessageDialog(null,"Seleciona Un Empleado","Aviso",JOptionPane.NO_OPTION);
+					}
+					if(valida_cantidad_seleccion ()==1){
+
+						int fila = tablaFiltro.getSelectedRow();
+		
+						int Folio = Integer.parseInt(tablaFiltro.getValueAt(fila, 0).toString().trim());
+						
+						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(Folio)) {
+
+					  		
+							new Reporte_de_Cuadrantes("scoi7", "scoif7",
+									   0, "0",
+									1,"(''" +Folio+"'')",
+									0,"0",
+									0,"0",
+									0,"0",
+									0,"0",
+									0,"0",
+									0);
+	
+				
+					}
+					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
+					}
+					}				
+				}
+				
+			};
 			
 			
 		public int valida_cantidad_seleccion (){

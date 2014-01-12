@@ -489,7 +489,7 @@ public class BuscarTablasModel {
 	}
 	public Object[][] tabla_model_filtro_Obtener_Emp_imprimir_cuadrantes(){
 		Obj_Usuario usuario = new Obj_Usuario().LeerSession();
-		System.out.println(usuario.getNombre_completo());
+		
 		String query_lista = "exec sp_select_impresion_cuadrante "+"'"+usuario.getNombre_completo()+"'" ;
 		
 		Object[][] matriz = new Object[get_filas(query_lista)][6];
@@ -504,8 +504,7 @@ public class BuscarTablasModel {
 				matriz[i][2] = "   "+rs.getString(3);
 				matriz[i][3] = "   "+rs.getString(4);
 				matriz[i][4] = "   "+rs.getString(5);
-				matriz[i][5] = "   "+rs.getString(6);
-				
+				matriz[i][5] = rs.getString(6);
 				i++;
 			}
 
