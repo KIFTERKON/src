@@ -499,7 +499,7 @@ public class BuscarTablasModel {
 			
 			int i = 0;
 			while(rs.next()){
-				matriz[i][0] = rs.getInt(1)+" ";
+				matriz[i][0] = rs.getInt(1);
 				matriz[i][1] = "   "+rs.getString(2);
 				matriz[i][2] = "   "+rs.getString(3);
 				matriz[i][3] = "   "+rs.getString(4);

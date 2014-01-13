@@ -34,7 +34,7 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 			Container cont = getContentPane();
 			JLayeredPane campo = new JLayeredPane();
 			
-			
+			int folio_empleado=0;
 			DefaultTableModel modeloFiltro = new DefaultTableModel(new Obj_Imprimir_Cuadrante().Obj_Obtener_Empleados_Cuadrantes(),
 		            new String[]{"Folio", "Nombre","Establecimiento","Puesto","Cuadrante",""}
 					){
@@ -256,24 +256,13 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 					if(tablaFiltro.isEditing()){
 						tablaFiltro.getCellEditor().stopCellEditing();
 					}
-					if(valida_cantidad_seleccion ()==0){
-						JOptionPane.showMessageDialog(null,"Seleciona Un Empleado","Aviso",JOptionPane.NO_OPTION);
-					}
+
 					if(valida_cantidad_seleccion ()==1){
-//						System.out.println("correcto");
-						int fila = tablaFiltro.getSelectedRow();
-						//se asigna la seleccion a la variable folio
-						int Folio = Integer.parseInt(tablaFiltro.getValueAt(fila, 0).toString().trim());
-						
-						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(Folio)) {
-		    										
-//					  		dispose();
+
 					  		new Reporte_Impresion_de_Cuadrantes();
-    
-						
+ 
 					}
 					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
-					}
 					}				
 				}
 				
@@ -289,30 +278,27 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 					if(tablaFiltro.isEditing()){
 						tablaFiltro.getCellEditor().stopCellEditing();
 					}
-					if(valida_cantidad_seleccion ()==0){
-						JOptionPane.showMessageDialog(null,"Seleciona Un Empleado","Aviso",JOptionPane.NO_OPTION);
-					}
+
 					if(valida_cantidad_seleccion ()==1){
 
-						int fila = tablaFiltro.getSelectedRow();
-		
-						int Folio = Integer.parseInt(tablaFiltro.getValueAt(fila, 0).toString().trim());
-						
-						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(Folio)) {
+
+//REVISAR PARA BORRAR EL OBJETO Y EL PROCEDIMIENTO						
+//						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(folio_empleado)) {
 
 					  		
 							new Reporte_de_Cuadrantes("scoi", "scoif",
 									   0, "0",
-									1,"(''" +Folio+"'')",
+									1,"(''" +folio_empleado+"'')",
 									0,"0",
 									0,"0",
 									0,"0",
 									0,"0",
 									0,"0",
 									0);
+//					}
+					
 					}
 					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
-					}
 					}				
 				}
 			};
@@ -326,43 +312,32 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 					if(tablaFiltro.isEditing()){
 						tablaFiltro.getCellEditor().stopCellEditing();
 					}
-					if(valida_cantidad_seleccion ()==0){
-						JOptionPane.showMessageDialog(null,"Seleciona Un Empleado","Aviso",JOptionPane.NO_OPTION);
-					}
-					if(valida_cantidad_seleccion ()==1){
 
-						int fila = tablaFiltro.getSelectedRow();
-		
-						int Folio = Integer.parseInt(tablaFiltro.getValueAt(fila, 0).toString().trim());
-						
-						if (new Obj_Imprimir_Cuadrante().Obj_Imprimir_Cuadrante_Update_Folio(Folio)) {
+					if(valida_cantidad_seleccion()==1){
 
-					  		
-							new Reporte_de_Cuadrantes("scoi7", "scoif7",
-									   0, "0",
-									1,"(''" +Folio+"'')",
-									0,"0",
-									0,"0",
-									0,"0",
-									0,"0",
-									0,"0",
-									0);
-	
-				
-					}
-					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
-					}
-					}				
+								new Reporte_de_Cuadrantes("scoi7", "scoif7",
+										   0, "0",
+										1,"(''" +folio_empleado+"'')",
+										0,"0",
+										0,"0",
+										0,"0",
+										0,"0",
+										0,"0",
+										0);
+						}else{
+								JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
+							}
 				}
 				
 			};
 			
-			
 		public int valida_cantidad_seleccion (){
 			int i=0;
+			
 			for (int y=0; y<tablaFiltro.getRowCount(); y=y+1){
 				if(Boolean.parseBoolean(modeloFiltro.getValueAt(y,5).toString().trim())){
 					i=i+1;
+					folio_empleado= Integer.valueOf(modeloFiltro.getValueAt(y, 0).toString());
 				}
 			}
 			
