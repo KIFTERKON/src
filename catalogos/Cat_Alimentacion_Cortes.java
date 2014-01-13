@@ -55,7 +55,7 @@ import SQL.Connexion;
 import datos.LoadingBar2;
 
 import objetos.JTextFieldLimit;
-import objetos.ObjTicket;
+import objetos.Obj_TicketCortes;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Alimentacion_Por_Denominacion;
@@ -355,7 +355,7 @@ public class Cat_Alimentacion_Cortes extends JFrame{
 						
 						if(corte.guardar()){
 //TICKET--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------		
-							ObjTicket t = new ObjTicket();
+							Obj_TicketCortes t = new Obj_TicketCortes();
 							
 							//Ticket
 							t.setIzagar					("     SUPERMERCADO LA COMPETIDORA S.A DE C.V");

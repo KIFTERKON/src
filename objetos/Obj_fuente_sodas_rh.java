@@ -15,6 +15,7 @@ public class Obj_fuente_sodas_rh {
     private double cantidad;
     private String fecha;
     private int status_ticket;
+    private boolean status_autorizacion;
     
 	public Obj_fuente_sodas_rh(){
     	this.ticket = ' ';
@@ -22,7 +23,7 @@ public class Obj_fuente_sodas_rh {
     	this.cantidad = 0.0;
     	this.fecha = "";
     	this.status_ticket =0;
-
+    	this.status_autorizacion=false;
     }
 
 	public int getFolio() {
@@ -81,6 +82,14 @@ public class Obj_fuente_sodas_rh {
 		status_ticket = statusTicket;
 	}
 	
+	public boolean isStatus_autorizacion() {
+		return status_autorizacion;
+	}
+
+	public void setStatus_autorizacion(boolean status_autorizacion) {
+		this.status_autorizacion = status_autorizacion;
+	}
+
 	// Funcion Guardar Empleado
 	public boolean guardar(){ return new GuardarSQL().Guardar_fuente_sodas_rh(this); }
 	
@@ -94,5 +103,8 @@ public class Obj_fuente_sodas_rh {
 	
 	public Obj_fuente_sodas_rh buscar(int folio) throws SQLException{ return new BuscarSQL().fuente_sodas_rh(folio); }
 	
-
+   public Obj_fuente_sodas_rh busquedaautoizacionfs(){
+		return new BuscarSQL().buscarautoizacionfs();
+   }
+   
 }

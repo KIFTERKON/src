@@ -32,7 +32,7 @@ import SQL.Connexion;
 import objetos.Obj_Establecimiento;
 
 @SuppressWarnings({ "serial", "unchecked" })
-public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
+public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -40,7 +40,7 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 	Connexion con = new Connexion();
 	
 	public static Object[][] get_tabla(){
-		return new BuscarTablasModel().tabla_model_empleados_conpendiente_en_fuente_de_sodas_auxf();
+		return new BuscarTablasModel().tabla_model_empleados_conpendiente_en_fuente_de_sodas_dh();
 	}
 	
     public static DefaultTableModel tabla_model = new DefaultTableModel(
@@ -89,9 +89,9 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
 	@SuppressWarnings({ "rawtypes" })
-	public Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas()	{
+	public Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH()	{
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/sun_icon&16.png"));
-		this.setTitle("Filtro de empleados consaldo en fuente de sodas (Auxiliar y Finanzas)");
+		this.setTitle("Filtro de empleados consaldo en fuente de sodas (Desarrollo Humano)");
 		panel.setBorder(BorderFactory.createTitledBorder("Empleados consaldo en fuente de sodas"));
 
 		this.init_tabla();
@@ -129,7 +129,7 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 	    			int folio =  Integer.parseInt(tabla.getValueAt(fila, 0)+"");
 	    			Object empleado =  tabla.getValueAt(fila, 1);
 	    			
-	    			new Cat_Filtro_Ticket_Fuente_Sodas(folio,empleado+"").setVisible(true);
+	    			new Cat_Filtro_Ticket_Fuente_Sodas_DH(folio,empleado+"").setVisible(true);
 	        	}
 	        }
         });
@@ -289,7 +289,7 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas extends JFrame {
 					UIManager.getSystemLookAndFeelClassName());
 		}catch(Exception e){}
 		
-		Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas thisClass = new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas();
+		Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH thisClass = new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH();
 		thisClass.setVisible(true);
 
 		//utilizacion del AWTUtilities con el metodo opaque

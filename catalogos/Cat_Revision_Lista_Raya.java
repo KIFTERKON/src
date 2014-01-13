@@ -26,6 +26,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import objetos.Obj_Revision_Lista_Raya;
+import objetos.Obj_fuente_sodas_rh;
 
 @SuppressWarnings("serial")
 /** CTRL EN CAT_ROOT_LISTA_RAYA PARA AGREGAR BOTON **/
@@ -125,8 +126,18 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 		
 		this.init_tabla();
 		this.init_component();
+		txtCalendario.setEnabled(false);
 		
 		this.btn_guardar.addActionListener(op_guardar);
+		
+		
+		if((new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion()))
+		{
+		btn_imprimir.setEnabled(false);
+		} else { 
+			btn_imprimir.setEnabled(true);
+					}
+		
 		this.btn_imprimir.addActionListener(op_imprimir);
 		this.btn_nomina.addActionListener(op_nomina);
 		this.btn_refrescar.addActionListener(op_refrescar);
@@ -213,7 +224,7 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 					
 						Obj_Revision_Lista_Raya lista_raya = new Obj_Revision_Lista_Raya();
 						if(lista_raya.generar(tabla_generar(),new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()))){
-//							actualizar();
+
 							JOptionPane.showMessageDialog(null, "La lista de raya se generó con éxito","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 							new Cat_Revision_Lista_Raya().setVisible(true);
@@ -461,6 +472,8 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 	
 	ActionListener op_imprimir = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
+			
+			
 			new Cat_Imprimir_LR().setVisible(true);
 		}
 	};
@@ -510,8 +523,8 @@ public class Cat_Revision_Lista_Raya extends Cat_Root_Lista_Raya {
 				txtCalendario.setEnabled(false);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
+			}				
 			}
-		}
 	}
 	
 	@SuppressWarnings("unchecked")

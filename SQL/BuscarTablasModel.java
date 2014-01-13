@@ -489,7 +489,7 @@ public class BuscarTablasModel {
 	}
 	public Object[][] tabla_model_filtro_Obtener_Emp_imprimir_cuadrantes(){
 		Obj_Usuario usuario = new Obj_Usuario().LeerSession();
-		System.out.println(usuario.getNombre_completo());
+		
 		String query_lista = "exec sp_select_impresion_cuadrante "+"'"+usuario.getNombre_completo()+"'" ;
 		
 		Object[][] matriz = new Object[get_filas(query_lista)][6];
@@ -504,8 +504,7 @@ public class BuscarTablasModel {
 				matriz[i][2] = "   "+rs.getString(3);
 				matriz[i][3] = "   "+rs.getString(4);
 				matriz[i][4] = "   "+rs.getString(5);
-				matriz[i][5] = "   "+rs.getString(6);
-				
+				matriz[i][5] = rs.getString(6);
 				i++;
 			}
 
@@ -580,8 +579,32 @@ public boolean Guardar_Folio_de_Empleado_Imprimir_Cuadrante(int Folio) {
 	    return matriz; 
 	}
 	
-	public Object[][] tabla_model_empleados_conpendiente_en_fuente_de_sodas(){
+	public Object[][] tabla_model_empleados_conpendiente_en_fuente_de_sodas_auxf(){
 		String query = "exec sp_select_filtro_empleados_con_pendiente_en_fuente_de_sodas";
+		Object[][] matriz = new Object[get_filas(query)][5];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] =rs.getString(1);
+				matriz[i][1] = "   "+rs.getString(2);
+				matriz[i][2] = "   "+rs.getString(3);
+				matriz[i][3] = "   "+rs.getString(4);
+				matriz[i][4] = "   "+rs.getString(5);
+				
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
+	public Object[][] tabla_model_empleados_conpendiente_en_fuente_de_sodas_dh(){
+		String query = "exec sp_select_filtro_empleados_con_pendiente_en_fuente_de_sodas_dh";
 		Object[][] matriz = new Object[get_filas(query)][5];
 		try {
 			Statement stmt = new Connexion().conexion().createStatement();
