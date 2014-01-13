@@ -79,7 +79,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	JComboBox cmbMultiple = new JComboBox();
 	
 	JButton btnSalir = new JButton("Salir");
-	JButton btnTerminarCaptura = new JButton("Terminar Captura");
+	JButton btnTerminarCaptura = new JButton("Terminar Captura del Cuadrante");
 	JButton btnFoto = new JButton();
 	
 	JLayeredPane panelMultiple = new JLayeredPane();
@@ -118,7 +118,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.panel.add(new JLabel("Nombre:")).setBounds(40,30,50,20);
 		this.panel.add(txtNombre_Completo).setBounds(150,30,250,20);
 		
-		this.panel.add(btnTerminarCaptura).setBounds(750,30,100,20);
+		this.panel.add(btnTerminarCaptura).setBounds(750,30,200,20);
 		this.panel.add(btnSalir).setBounds(750,60,100,20);
 		
 		this.panel.add(new JLabel("Puesto:")).setBounds(40,60,50,20);
@@ -183,7 +183,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		
 		/** BOTON GUARDAR PARA OPCIONES LIBRE **/
 		this.btnGuardarLibre.addActionListener(op_guardar_libre);
-
+		this.btnGuardarLibreConts.addActionListener(op_guardar_libre_contestada);
+		this.btnEditarLibreConts.addActionListener(op_editar_libre_conts);
+		
 		this.CamposEnabled(false);
 		
 		this.init(Nombre_Usuario);
@@ -200,28 +202,13 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	
 	ActionListener op_terminar_captura = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			if(new Obj_Alimentacion_Cuadrante().terminar_captura(NOMBRECOMPLETO)){
-				while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultiple.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleContestada.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleJerarquica.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleJerarquicaConts.modelPlantillaMultiple.removeRow(0);
-				while(plantillaLibre.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibre.modelPlantillaLibre.removeRow(0);
-				while(plantillaLibreContestada.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibreContestada.modelPlantillaLibre.removeRow(0);
-				while(plantillaLibreJerarquica.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibreJerarquica.modelPlantillaLibre.removeRow(0);
-				while(plantillaMultipleJerarquicaConts.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaMultipleJerarquicaConts.modelPlantillaLibre.removeRow(0);
-				
-				tablas_procesar();
-				JOptionPane.showMessageDialog(null,"Se ha teminado la edición del cuadrante", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-			}else{
-				JOptionPane.showMessageDialog(null, "No se pudo terminar la edición del cuadrante", "Error", JOptionPane.ERROR_MESSAGE);
+			if(JOptionPane.showConfirmDialog(null, "Al terminar la edición del CUADRANTE tenga en cuenta que \n No podrá hacer ninguna otra modificación. \n\n Si algúna actividad no está contestada esta se agregará por defult No. \n\n \n\n  ¿Desea terminar la edición del cuadrante?", "Aviso!", JOptionPane.YES_NO_OPTION) == 0){
+				if(new Obj_Alimentacion_Cuadrante().terminar_captura(NOMBRECOMPLETO)){
+					tablas_procesar();
+					JOptionPane.showMessageDialog(null,"Se ha teminado la edición del cuadrante", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					JOptionPane.showMessageDialog(null, "No se pudo terminar la edición del cuadrante", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	};
@@ -230,6 +217,10 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		this.plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.setEnabled(false);
 		this.plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(false);
 		this.btnGuardarMultipleConts.setEnabled(false);
+		
+		this.plantillaLibreContestada.tablaPlantillaLibre.setEnabled(false);
+		this.plantillaLibreJerarquicaConts.tablaPlantillaLibre.setEnabled(false);
+		this.btnGuardarLibreConts.setEnabled(false);
 	}
 	
 	ActionListener op_editar_multiple_conts = new ActionListener() {
@@ -237,6 +228,14 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.setEnabled(true);
 			plantillaMultipleContestada.tablaPlantillaMultiple.setEnabled(true);
 			btnGuardarMultipleConts.setEnabled(true);
+		}
+	};
+	
+	ActionListener op_editar_libre_conts = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			plantillaLibreContestada.tablaPlantillaLibre.setEnabled(true);
+			plantillaLibreJerarquicaConts.tablaPlantillaLibre.setEnabled(true);
+			btnGuardarLibreConts.setEnabled(true);
 		}
 	};
 	
@@ -260,11 +259,31 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	}
 	
 	public void tablas_procesar(){
-		
 		if(new Obj_Alimentacion_Cuadrante().status_llanado_tabla(NOMBRECOMPLETO)){
 			JOptionPane.showMessageDialog(null, "En hora Buena! \n Ya llenó su cuadrante!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 			lblCuadranteLleno.setVisible(true);
 		}else{
+			/* SE RESETEAN LAS TABLAS */
+			while(plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount() > 0)
+				plantillaMultipleJerarquica.modelPlantillaMultiple.removeRow(0);
+			while(plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount() > 0)
+				plantillaMultipleJerarquicaConts.modelPlantillaMultiple.removeRow(0);
+			
+			while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
+				plantillaMultiple.modelPlantillaMultiple.removeRow(0);
+			while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0)
+				plantillaMultipleContestada.modelPlantillaMultiple.removeRow(0);
+
+			while(plantillaLibreJerarquica.tablaPlantillaLibre.getRowCount() > 0)
+				plantillaLibreJerarquica.modelPlantillaLibre.removeRow(0);
+			while(plantillaLibreJerarquicaConts.tablaPlantillaLibre.getRowCount() > 0)
+				plantillaLibreJerarquicaConts.modelPlantillaLibre.removeRow(0);
+			
+			while(plantillaLibre.tablaPlantillaLibre.getRowCount() > 0)
+				plantillaLibre.modelPlantillaLibre.removeRow(0);
+			while(plantillaLibreContestada.tablaPlantillaLibre.getRowCount() > 0)
+				plantillaLibreContestada.modelPlantillaLibre.removeRow(0);
+			
 			String[][] info_tabla_multiple_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaMultipleJerarquico(NOMBRECOMPLETO);
 	    	
 			String [] fila_multiple_jerarquico = new String[4];
@@ -352,7 +371,11 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			String[][] info_tabla_libre_jerarquico = new Obj_Alimentacion_Cuadrante().buscarTablaLibreJerarquico(NOMBRECOMPLETO);
 			for(String[] tmpArray : info_tabla_libre_jerarquico)
 				plantillaLibreJerarquica.modelPlantillaLibre.addRow(tmpArray);
-
+			
+			String[][] info_tabla_libre_jerarquico_contestada = new Obj_Alimentacion_Cuadrante().buscarTablaLibreJerarquicoContestada(NOMBRECOMPLETO);
+			for(String[] tmpArray : info_tabla_libre_jerarquico_contestada)
+				plantillaLibreJerarquicaConts.modelPlantillaLibre.addRow(tmpArray);
+				
 			String[][] info_tabla_libre = new Obj_Alimentacion_Cuadrante().buscarTablaLibre(NOMBRECOMPLETO);
 			for(String[] tmpArray : info_tabla_libre)
 				plantillaLibre.modelPlantillaLibre.addRow(tmpArray);
@@ -360,6 +383,9 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			String[][] info_tabla_libre_contestada = new Obj_Alimentacion_Cuadrante().buscarTablaLibreContestada(NOMBRECOMPLETO);
 			for(String[] tmpArray : info_tabla_libre_contestada)
 				plantillaLibreContestada.modelPlantillaLibre.addRow(tmpArray);
+			
+			
+			init_tabla_multiple_conts();
 		}
 	}
 	
@@ -421,18 +447,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			
 			if(new Obj_Alimentacion_Cuadrante().guardar(tabla_multiple(), tabla_multiple_jerarquico())){
 				JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
-				while(plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleJerarquica.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleJerarquicaConts.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultiple.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleContestada.modelPlantillaMultiple.removeRow(0);
-				while(plantillaLibreJerarquica.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibreJerarquica.modelPlantillaLibre.removeRow(0);
-				while(plantillaLibre.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibre.modelPlantillaLibre.removeRow(0);	
 				tablas_procesar();
 				return;
 			}else{
@@ -459,7 +473,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			
 		}
 	};
 	
@@ -473,22 +486,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			
 			if(new Obj_Alimentacion_Cuadrante().guardarLibre(tabla_LIBRE(), tabla_LIBRE_jerarquico())){
 				JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
-				while(plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleJerarquica.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleJerarquicaConts.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleJerarquicaConts.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultiple.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultiple.modelPlantillaMultiple.removeRow(0);
-				while(plantillaMultipleContestada.tablaPlantillaMultiple.getRowCount() > 0)
-					plantillaMultipleContestada.modelPlantillaMultiple.removeRow(0);
-				while(plantillaLibreJerarquica.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibreJerarquica.modelPlantillaLibre.removeRow(0);
-				while(plantillaLibreJerarquicaConts.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibreJerarquicaConts.modelPlantillaLibre.removeRow(0);
-				while(plantillaLibre.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibre.modelPlantillaLibre.removeRow(0);
-				while(plantillaLibreContestada.tablaPlantillaLibre.getRowCount() > 0)
-					plantillaLibreContestada.modelPlantillaLibre.removeRow(0);
 				tablas_procesar();
 				return;
 			}else{
@@ -497,6 +494,25 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 			}
 		}
 	};
+	
+	ActionListener op_guardar_libre_contestada = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if(plantillaLibreContestada.tablaPlantillaLibre.isEditing())
+				plantillaLibreContestada.tablaPlantillaLibre.getCellEditor().stopCellEditing();
+			if(plantillaLibreJerarquicaConts.tablaPlantillaLibre.isEditing())
+				plantillaLibreJerarquicaConts.tablaPlantillaLibre.getCellEditor().stopCellEditing();
+			
+			if(new Obj_Alimentacion_Cuadrante().guardarLibre(tabla_LIBRE_Contestada(), tabla_LIBRE_jerarquico_contestada())){
+				JOptionPane.showMessageDialog(null, "El registro se guardó con exito!" , "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				tablas_procesar();
+				return;
+			}else{
+				JOptionPane.showMessageDialog(null, "Ocurrió un problema al tratar de almacenar el registro" , "Aviso", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+		}
+	};	
 	
 	public Object[][] tabla_multiple_jerarquico(){
 		Object[][] multiple = new Object[plantillaMultipleJerarquica.tablaPlantillaMultiple.getRowCount()][11];
@@ -595,7 +611,7 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 	}
 	
 	public Object[][] tabla_LIBRE_jerarquico(){
-		Object[][] libre_jerarquico = new Object[plantillaLibreJerarquica.tablaPlantillaLibre.getRowCount()][11];
+		Object[][] libre_jerarquico = new Object[plantillaLibreJerarquica.tablaPlantillaLibre.getRowCount()][10];
 		try{
 			String HOST  = InetAddress.getLocalHost().getHostName();
 			String IP = InetAddress.getLocalHost().getHostAddress();
@@ -606,10 +622,34 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				libre_jerarquico[i][3] = txtPuesto.getText().toString().trim();
 				libre_jerarquico[i][4] = HOST; 
 				libre_jerarquico[i][5] = IP;
-				libre_jerarquico[i][6] = plantillaLibreJerarquica.tablaPlantillaLibre.getValueAt(i,0).toString().trim().equalsIgnoreCase("N/A") ? "0" : plantillaLibreJerarquica.tablaPlantillaLibre.getValueAt(i,0).toString().trim();
+				libre_jerarquico[i][6] = plantillaLibreJerarquica.tablaPlantillaLibre.getValueAt(i,0).toString().trim();
 				libre_jerarquico[i][7] = plantillaLibreJerarquica.tablaPlantillaLibre.getValueAt(i,1).toString().trim();
 				libre_jerarquico[i][8] = plantillaLibreJerarquica.tablaPlantillaLibre.getValueAt(i,2).toString().trim();
 				libre_jerarquico[i][9] = plantillaLibreJerarquica.tablaPlantillaLibre.getValueAt(i,3).toString().trim();
+			}
+
+		}catch(UnknownHostException e){
+			e.printStackTrace();
+		}
+		return libre_jerarquico;
+	}
+	
+	public Object[][] tabla_LIBRE_jerarquico_contestada(){
+		Object[][] libre_jerarquico = new Object[plantillaLibreJerarquicaConts.tablaPlantillaLibre.getRowCount()][10];
+		try{
+			String HOST  = InetAddress.getLocalHost().getHostName();
+			String IP = InetAddress.getLocalHost().getHostAddress();
+			for(int i=0; i<plantillaLibreJerarquicaConts.tablaPlantillaLibre.getRowCount(); i++){
+				libre_jerarquico[i][0] = txtCuadrante.getText().toString().trim();
+				libre_jerarquico[i][1] = txtNombre_Completo.getText().toString().trim();
+				libre_jerarquico[i][2] = txtEstablecimiento.getText().toString().trim();
+				libre_jerarquico[i][3] = txtPuesto.getText().toString().trim();
+				libre_jerarquico[i][4] = HOST; 
+				libre_jerarquico[i][5] = IP;
+				libre_jerarquico[i][6] = plantillaLibreJerarquicaConts.tablaPlantillaLibre.getValueAt(i,0).toString().trim();
+				libre_jerarquico[i][7] = plantillaLibreJerarquicaConts.tablaPlantillaLibre.getValueAt(i,1).toString().trim();
+				libre_jerarquico[i][8] = plantillaLibreJerarquicaConts.tablaPlantillaLibre.getValueAt(i,2).toString().trim();
+				libre_jerarquico[i][9] = plantillaLibreJerarquicaConts.tablaPlantillaLibre.getValueAt(i,3).toString().trim();
 			}
 
 		}catch(UnknownHostException e){
@@ -635,19 +675,6 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 				libre[i][8] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,2).toString().trim();
 				libre[i][9] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,3).toString().trim();
 				libre[i][10] = plantillaLibre.tablaPlantillaLibre.getValueAt(i,0).toString().trim().equalsIgnoreCase("N/A") ? 'B' : 'A';
-				/*
-				Datas: ENCARGADO DE SISTEMAS
-				Datas: VICTOR HUGO HERRERA CUEVAS
-				Datas: SISTEMAS
-				Datas: AUXILIAR DE SISTEMAS
-				Datas: SIV_caja3
-				Datas: 192.168.2.143
-				Datas: 1
-				Datas: PRUEBA ACTIVIDAD POR AVANCE
-				Datas: asdfasdfsadf
-				Datas: 
-				Datas: null 
-				*/
 			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -655,14 +682,29 @@ public class Cat_Alimentacion_Cuadrante extends JFrame {
 		return libre;
 	}
 	
-	
-
-
-	
-	
-	
-	
-	
+	public Object[][] tabla_LIBRE_Contestada(){
+		Object[][] libre = new Object[plantillaLibreContestada.tablaPlantillaLibre.getRowCount()][11];
+		try {
+			String HOST  = InetAddress.getLocalHost().getHostName();
+			String IP = InetAddress.getLocalHost().getHostAddress();
+			for(int i = 0; i<plantillaLibreContestada.tablaPlantillaLibre.getRowCount(); i++){
+				libre[i][0] = txtCuadrante.getText().toString().trim();
+				libre[i][1] = txtNombre_Completo.getText().toString().trim();
+				libre[i][2] = txtEstablecimiento.getText().toString().trim();
+				libre[i][3] = txtPuesto.getText().toString().trim();
+				libre[i][4] = HOST; 
+				libre[i][5] = IP;
+				libre[i][6] = plantillaLibreContestada.tablaPlantillaLibre.getValueAt(i,0).toString().trim().equalsIgnoreCase("N/A") ? "0" : plantillaLibreContestada.tablaPlantillaLibre.getValueAt(i,0).toString().trim();
+				libre[i][7] = plantillaLibreContestada.tablaPlantillaLibre.getValueAt(i,1).toString().trim();
+				libre[i][8] = plantillaLibreContestada.tablaPlantillaLibre.getValueAt(i,2).toString().trim();
+				libre[i][9] = plantillaLibreContestada.tablaPlantillaLibre.getValueAt(i,3).toString().trim();
+				libre[i][10] = plantillaLibreContestada.tablaPlantillaLibre.getValueAt(i,0).toString().trim().equalsIgnoreCase("N/A") ? 'B' : 'A';
+			}
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return libre;
+	}
 	
 	public Object[][] tabla_libre(){
 		Object[][] libre = new Object[plantillaLibre.tablaPlantillaLibre.getRowCount()][3];
