@@ -140,6 +140,10 @@ public class Obj_Alimentacion_Cuadrante {
 		return new BuscarSQL().tabla_libre_jerarquico(nombre);
 	}
 	
+	public String[][] buscarTablaLibreJerarquicoContestada(String nombre){
+		return new BuscarSQL().tabla_libre_jerarquico_contestada(nombre);
+	}
+	
 	public String[][] buscarTablaLibre(String nombre){
 		return new BuscarSQL().tabla_libre(nombre);
 	}
