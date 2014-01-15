@@ -3,8 +3,12 @@ package catalogos;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.PrintJob;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,20 +17,25 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
+import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -36,7 +45,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import objetos.Obj_Captura_Fuente_Sodas;
-import reporte.Reporte_Ticket_Fuente_Sodas;
 
 @SuppressWarnings("serial")
 public class Cat_Captura_Fuente_Sodas extends JFrame
@@ -324,11 +332,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 				Obj_Captura_Fuente_Sodas capturaFS = new Obj_Captura_Fuente_Sodas().buscar(txtClave.getText());
 				if(txtClave.getText().toUpperCase().trim().equals(capturaFS.getClave())){
 
-					new Reporte_Ticket_Fuente_Sodas(txtClave.getText().toUpperCase());
-					
-
-		            	
-					
+//					new Reporte_Ticket_Fuente_Sodas(txtClave.getText().toUpperCase());
+					new Imprime_Ticket_Captura_Fuente_Sodas(txtClave.getText().toUpperCase()).setVisible(true);
+					 
 				}else{
 						txtClave.setText("");
 						txtClave.requestFocus();
@@ -382,34 +388,35 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 						sodas.setUsuario(lblUsuario.getText());
 							
 						if(sodas.Guardar()){
-						    String pass = txtClave.getText().toUpperCase().trim();
-							JOptionPane.showMessageDialog(null, "Guardado exitosamente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							
 							 while(tabla_model.getRowCount()>0){
 							        tabla_model.removeRow(0);
 							    }
 							
-							txtClave.setText("");
-							txtTicket.setText("");
-							txtImporte.setText("");
-							txtConfirmarCompra.setText("");
-							
-							lblFoto.setText("");
-							lblNombre_Empleado.setText("");
-							lblEstablecimiento_Empleado.setText("");
-							lblPuesto_Empleado.setText("");
-							lblSaldo.setText("");
-							
-							txtClave.setEnabled(true);
-							txtTicket.setEnabled(false);
-							txtImporte.setEnabled(false);
-							txtConfirmarCompra.setEnabled(false);
-							
+//							 new Reporte_Ticket_Fuente_Sodas(txtClave.getText().toUpperCase().trim());
+							 new Imprime_Ticket_Captura_Fuente_Sodas(txtClave.getText().toUpperCase()).setVisible(true);
+							 
 							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
 							lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
 							
-							 new Reporte_Ticket_Fuente_Sodas(pass);
-						return;
+								txtClave.setEnabled(true);
+								txtTicket.setEnabled(false);
+								txtImporte.setEnabled(false);
+								txtConfirmarCompra.setEnabled(false);
+								
+							 	txtClave.setText("");
+								txtTicket.setText("");
+								txtImporte.setText("");
+								txtConfirmarCompra.setText("");
+								
+								lblFoto.setText("");
+								lblNombre_Empleado.setText("");
+								lblEstablecimiento_Empleado.setText("");
+								lblPuesto_Empleado.setText("");
+								lblSaldo.setText("");
+								
+								JOptionPane.showMessageDialog(null, "Guardado exitosamente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+								return;
 					}else{
 						JOptionPane.showMessageDialog(null, "La clave no coinside!!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
@@ -587,5 +594,139 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		}catch(Exception e){}
 	}
 
-}
+	
+	public class Imprime_Ticket_Captura_Fuente_Sodas extends JFrame
+	{
+		Container container = getContentPane();
 
+	//Declarar Imagen para Txa	
+		ImageIcon img = new ImageIcon("imagen/fuenteSodasTicket.png");
+		
+//variables para ticket -----------------------------------------------------------------------------------
+		private JTextArea jTextArea1;
+		private JScrollPane jScrollPane1;
+		private JButton jButImprime;
+		private JPanel contentPane;
+
+		String usuario= "Cajera(o): ";
+		String fecha ="Fecha: ";
+		String lblEmpleado="Empleado: ";
+		
+		String establecimiento="Establecimiento: ";
+		String puesto="Puesto: ";
+		String ticket="Ticket: ";
+		String importe="Importe: $";
+		String linea = "_____________________________________________________";
+		String firma=" Firma: (  ";
+//-----------------------------------------------------------------------------------------------------------
+
+		@SuppressWarnings("deprecation")
+		public Imprime_Ticket_Captura_Fuente_Sodas(String pass)
+		{
+			Obj_Captura_Fuente_Sodas ultimiTicket = new Obj_Captura_Fuente_Sodas().buscar_ultimo_ticket(txtClave.getText().toUpperCase());
+			
+			usuario=		usuario+ultimiTicket.getUsuario();
+			fecha= 			fecha+ultimiTicket.getFecha();
+			lblEmpleado=	lblEmpleado+ultimiTicket.getEmpleado();
+			establecimiento=establecimiento+ultimiTicket.getEstablecimiento();
+			puesto=			puesto+ultimiTicket.getPuesto();
+			ticket=			ticket+ultimiTicket.getTicket();
+			importe=		importe+ultimiTicket.getImporte();
+			firma=			firma+ultimiTicket.getEmpleado()+"  )";
+			
+//			Declarar Txa y Asignarle imagen
+			jTextArea1 = new JTextArea(){
+				
+				Image image = img.getImage();
+				
+				Image grayImage = GrayFilter.createDisabledImage(image);{
+					setOpaque(false);
+				}
+				
+				public void paint(Graphics g){
+						g.drawImage(grayImage,0,0,this);
+						super.paint(g);
+				}
+			};
+				
+			jScrollPane1 = new JScrollPane();
+			jButImprime = new JButton();
+			contentPane = (JPanel)this.getContentPane();
+
+			jScrollPane1.setViewportView(jTextArea1);
+			
+			jButImprime.setHorizontalTextPosition(SwingConstants.CENTER);
+			jButImprime.setText("Imprimir");
+			jButImprime.setToolTipText("Imprimir");
+			jButImprime.setVerticalAlignment(SwingConstants.TOP);
+			jButImprime.setVerticalTextPosition(SwingConstants.BOTTOM);
+			jButImprime.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e){
+					jButImprime_actionPerformed(e);
+				}
+			});
+
+			contentPane.setLayout(null);
+			
+			jTextArea1.setBounds(14,24,210,310);
+			jButImprime.setBounds(134,335,100,20);
+			
+			container.add(jTextArea1);
+			container.add(jButImprime);
+
+			this.setTitle("Imprimir Ticket");
+			this.setLocation(new Point(280, 170));
+			this.setSize(new Dimension(260, 400));
+			
+			Font font = new Font("ARIAL",Font.PLAIN,8);
+			jTextArea1.setFont(font);
+
+			jTextArea1.setText(
+		        		new String ("\n\n\n\n\n\n\n"+usuario
+		        				+"\n\n                                       "
+		        				+"                   "+fecha+"\n\n"
+        						+lblEmpleado+"\n\n"+establecimiento+"\n\n"
+        						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n"
+        						+linea+"\n"+firma+"\n\n\n\n.")
+		        		);
+//		        setCursor (Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+		        jTextArea1.setEditable(false);
+//			this.setVisible(true);
+		}
+		
+		private void jButImprime_actionPerformed(ActionEvent e)
+		{
+		 		
+				
+				if(imprimir()){
+					imprimir();
+				}else{
+					JOptionPane.showMessageDialog(null,"Fallo al intentar guardar","Aviso", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				
+				dispose();
+				
+		}
+		
+		@SuppressWarnings("null")
+		public boolean imprimir(){
+			boolean valor = false;
+			
+			Properties defaultProps = new Properties();
+	 		
+			PrintJob print=Toolkit.getDefaultToolkit().getPrintJob(this,"",defaultProps);
+			Graphics g=print.getGraphics();
+
+			if(g!=null){
+				jTextArea1.printAll(g);
+				print.end();
+				g.dispose();
+				valor= true;
+				
+			}
+			return valor;
+		}
+	}
+}
