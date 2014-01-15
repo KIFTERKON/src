@@ -230,8 +230,16 @@ public class Main extends InitButton {
 						Alimentacion_Fuente_Sodas_auxf.setEnabled(false);
 						btnFsAux.setEnabled(false);
 					}
+					if(permisos[i].equals("Alimentación Fuente de Sodas AUXF Selecionable")){
+						Alimentacion_FS_auxf_seleccionable.setEnabled(false);
+						btnFsAux.setEnabled(false);
+					}
 					if(permisos[i].equals("Alimentación Fuente de Sodas DH")){
 						Alimentacion_Fuente_Sodas_rh.setEnabled(false);
+						btnFsRH.setEnabled(false);
+					}
+					if(permisos[i].equals("Alimentación Fuente de Sodas DH Selecionable")){
+						Alimentacion_FS_dh_seleccionable.setEnabled(false);
 						btnFsRH.setEnabled(false);
 					}
 					if(permisos[i].equals("Alimentación Percepciones Extras")){
@@ -449,8 +457,16 @@ public class Main extends InitButton {
 						Alimentacion_Fuente_Sodas_auxf.setEnabled(true);
 						btnFsAux.setEnabled(true);
 					}
+					if(permisos[i].equals("Alimentación Fuente de Sodas AUXF Selecionable")){
+						Alimentacion_FS_auxf_seleccionable.setEnabled(true);
+						btnFsAux.setEnabled(true);
+					}
 					if(permisos[i].equals("Alimentación Fuente de Sodas DH")){
 						Alimentacion_Fuente_Sodas_rh.setEnabled(true);
+						btnFsRH.setEnabled(true);
+					}
+					if(permisos[i].equals("Alimentación Fuente de Sodas DH Selecionable")){
+						Alimentacion_FS_dh_seleccionable.setEnabled(true);
 						btnFsRH.setEnabled(true);
 					}
 					if(permisos[i].equals("Alimentación Percepciones Extras")){
