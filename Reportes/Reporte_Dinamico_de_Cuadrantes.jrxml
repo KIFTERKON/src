@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
-	<property name="ireport.zoom" value="3.1384283767210164"/>
+	<property name="ireport.zoom" value="1.464100000000007"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="181"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -81,6 +81,9 @@
              end as valor_no_aplica_captura
          ,tb_departamento.departamento as departamento
          ,'@indexPresentado' as presentado
+         ,'replace@fecha_i' as fecha_de
+         ,'replace@fecha_f' as fecha_a
+
   FROM tb_captura_actividades_cuadrante
     INNER JOIN tb_empleado ON tb_empleado.folio=tb_captura_actividades_cuadrante.folio_empleado
     INNER JOIN tb_puesto ON tb_puesto.folio=tb_captura_actividades_cuadrante.folio_puesto
@@ -120,6 +123,8 @@
 	<field name="valor_no_captura" class="java.lang.Integer"/>
 	<field name="valor_no_aplica_captura" class="java.lang.Integer"/>
 	<field name="presentado" class="java.lang.String"/>
+	<field name="fecha_de" class="java.lang.String"/>
+	<field name="fecha_a" class="java.lang.String"/>
 	<variable name="Dias_de_Captura" class="java.lang.Double" resetType="Group" resetGroup="Group2" incrementType="Group" incrementGroup="Grupo_fecha" calculation="Sum">
 		<variableExpression><![CDATA[$F{valor_captura}]]></variableExpression>
 	</variable>
@@ -154,7 +159,7 @@
 		<variableExpression><![CDATA[$F{actividad_capturo_no_aplica}]]></variableExpression>
 	</variable>
 	<group name="Group1" isStartNewPage="true" footerPosition="StackAtBottom">
-		<groupExpression><![CDATA[$F{establecimiento}]]></groupExpression>
+		<groupExpression><![CDATA[( $F{presentado}.equals("2") ? $F{equipo_trabajo} : $F{establecimiento} )]]></groupExpression>
 		<groupHeader>
 			<band height="16">
 				<frame>
@@ -174,7 +179,7 @@
 		<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
 		<groupHeader>
 			<band height="17">
-				<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$F{presentado}.equals('0')||$F{presentado}.equals('2')]]></printWhenExpression>
 				<textField>
 					<reportElement uuid="fe9668c6-240b-4372-bc04-3f0d56b0b8e9" positionType="Float" x="31" y="0" width="249" height="15" forecolor="#000000"/>
 					<textElement>
@@ -192,7 +197,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="88">
+			<band height="72">
 				<frame>
 					<reportElement uuid="3c0ca94e-0181-4db9-a9b1-f2b4e069d2ba" mode="Opaque" x="2" y="0" width="570" height="70" backcolor="#FFE0A1"/>
 				</frame>
@@ -377,7 +382,7 @@
 		<groupExpression><![CDATA[$F{fecha}]]></groupExpression>
 		<groupHeader>
 			<band height="11">
-				<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$F{presentado}.equals('0')||$F{presentado}.equals('2')]]></printWhenExpression>
 				<textField>
 					<reportElement uuid="d9092495-3fa6-480d-a769-2a91c9b35f32" x="2" y="0" width="170" height="11"/>
 					<textElement>
@@ -404,7 +409,7 @@
 			<frame>
 				<reportElement uuid="e240bfbe-93bc-4f07-b945-777193d9b1cb" mode="Opaque" x="0" y="0" width="572" height="40" forecolor="#000080" backcolor="#000080"/>
 				<staticText>
-					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="372" height="40"/>
+					<reportElement uuid="72d156aa-3e58-47f8-be35-76cead36680a" style="Title" x="0" y="0" width="280" height="40"/>
 					<textElement textAlignment="Center">
 						<font fontName="Arial Black" size="20" isBold="false"/>
 					</textElement>
@@ -415,19 +420,33 @@
 					<imageExpression><![CDATA["C:\\SCOI\\imagen\\icoreport.jpg"]]></imageExpression>
 				</image>
 				<staticText>
-					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="401" y="0" width="42" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="a5dc0280-a528-4f29-911e-60255b2f42a1" x="408" y="0" width="42" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[DEL:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="401" y="20" width="42" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="ea445ba0-5ba0-4439-b836-4f16a04f5acf" x="408" y="20" width="42" height="20" forecolor="#FFFFFF"/>
 					<textElement>
 						<font fontName="Times New Roman" size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[AL:]]></text>
 				</staticText>
+				<textField>
+					<reportElement uuid="7eeb9792-02fd-40f5-baf0-66dd1b4c08dd" x="450" y="0" width="69" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_de}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="b45716aa-3086-4717-a573-d2ec512776f5" x="450" y="20" width="69" height="20" forecolor="#FFFFFF"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_a}]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 	</title>
@@ -435,26 +454,26 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<detail>
-		<band height="11" splitType="Stretch">
-			<printWhenExpression><![CDATA[$F{presentado}.equals('0')]]></printWhenExpression>
+		<band height="21" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{presentado}.equals('0')||$F{presentado}.equals('2')]]></printWhenExpression>
 			<frame>
-				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="570" height="11"/>
+				<reportElement uuid="58e3e387-c259-450f-b14d-fa90e8a5a8b1" style="Row" mode="Opaque" x="2" y="0" width="570" height="21"/>
 				<textField>
-					<reportElement uuid="50b48277-6aa5-4a0a-8e2b-0235f7af8a16" x="0" y="0" width="370" height="11"/>
+					<reportElement uuid="50b48277-6aa5-4a0a-8e2b-0235f7af8a16" x="0" y="0" width="343" height="21"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{actividad}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="1e5cd302-1390-4114-9261-cbab4dc1496c" x="370" y="0" width="40" height="11"/>
+					<reportElement uuid="1e5cd302-1390-4114-9261-cbab4dc1496c" x="343" y="0" width="40" height="11"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{respuesta}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="57368329-9622-47f5-b4e2-e1df32a0ec0e" x="410" y="0" width="160" height="11"/>
+					<reportElement uuid="57368329-9622-47f5-b4e2-e1df32a0ec0e" x="383" y="0" width="187" height="21"/>
 					<textElement>
 						<font size="6"/>
 					</textElement>
@@ -482,12 +501,19 @@
 					<textFieldExpression><![CDATA["Pagina"+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement uuid="2b5b27fe-5005-4724-9d76-f4ce3ac95546" style="Column header" x="0" y="0" width="197" height="11" forecolor="#FFFFFF"/>
+					<reportElement uuid="2b5b27fe-5005-4724-9d76-f4ce3ac95546" style="Column header" x="77" y="1" width="110" height="11" forecolor="#FFFFFF"/>
 					<textElement verticalAlignment="Middle">
 						<font size="9" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement uuid="07deb6bb-3a3c-4a14-848a-bf3934891721" x="2" y="1" width="75" height="11" forecolor="#FFFFFF"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9"/>
+					</textElement>
+					<text><![CDATA[Fecha de Impresion:]]></text>
+				</staticText>
 			</frame>
 		</band>
 	</pageFooter>
