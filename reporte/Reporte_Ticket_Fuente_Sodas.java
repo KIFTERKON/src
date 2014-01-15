@@ -40,7 +40,7 @@ public class Reporte_Ticket_Fuente_Sodas extends JFrame {
 			JasperExportManager.exportReportToPdfFile( jasperprint, "C:/SCOI/reporte.pdf");
 			
 			imprimir("C:/SCOI/reporte.pdf");
-			
+			stmt.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			JOptionPane.showMessageDialog(null, "Problemas al generar el reporte. \n Detalles: " + e);

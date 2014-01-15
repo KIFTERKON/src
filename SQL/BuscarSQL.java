@@ -1151,6 +1151,39 @@ public class BuscarSQL {
 		return empleado;
 	}
 	
+	public Obj_Captura_Fuente_Sodas CapturaFuenteSodas_UltimiTicket(String clave) throws SQLException{
+		Obj_Captura_Fuente_Sodas empleado = new Obj_Captura_Fuente_Sodas();
+		String query = "exec sp_reporte_ultimo_ticket_por_empleado '"+clave+"';";
+		Statement stmt = null;
+
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			while(rs.next()){
+//				datos personales	
+				
+				
+				empleado.setUsuario(rs.getString("usuario"));
+				empleado.setFecha(rs.getString("fecha"));
+				empleado.setEmpleado(rs.getString("empleado"));
+				empleado.setEstablecimiento(rs.getString("establecimiento"));
+				empleado.setPuesto(rs.getString("puesto"));
+				empleado.setTicket(rs.getString("ticket"));
+				empleado.setImporte(rs.getFloat("importe"));
+		            
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return empleado;
+	}
+	
 //	public Obj_Alimentacion_Denominacion Denom(String asignacion) throws SQLException{
 //		Obj_Alimentacion_Denominacion denom = new Obj_Alimentacion_Denominacion();
 //		String query = "select * from tb_alimentacion_denominaciones where asignacion ='"+ asignacion+"'";

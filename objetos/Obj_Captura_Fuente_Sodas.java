@@ -22,13 +22,13 @@ public class Obj_Captura_Fuente_Sodas
 	
 	private File foto;
 	
-	
+	private String fecha;
 	
 	public Obj_Captura_Fuente_Sodas()
 	{
 		this.clave="";    this.establecimiento="";    this.puesto="";    this.ticket="";    this.importe=0;    this.usuario="";
 		
-		this.folio_empleado=0;	this.empleado="";		this.total=0;	this.foto=null;
+		this.folio_empleado=0;	this.empleado="";		this.total=0;	this.foto=null;		this.fecha="";
 	}
 		
 	public String getClave() {
@@ -111,6 +111,14 @@ public class Obj_Captura_Fuente_Sodas
 		this.foto = foto;
 	}
 
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
 	public boolean Guardar(){
 		return new GuardarSQL().Guardar_Fuente_Sodas(this);
 	}
@@ -145,5 +153,14 @@ public class Obj_Captura_Fuente_Sodas
 //	tabla de tickets por empleado desarrollo humano
 	public String[][] tabla_dh(int folio_empleado) throws SQLException{
 		return new BuscarSQL().getTablaTicketFuenteSodas_dh(folio_empleado);
+	}
+	
+	public Obj_Captura_Fuente_Sodas buscar_ultimo_ticket(String clave){ 
+		try {
+			return new BuscarSQL().CapturaFuenteSodas_UltimiTicket(clave);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return null; 
 	}
 }
