@@ -23,7 +23,7 @@ import objetos.Obj_Usuario;
 ***												   ***
 ***	    online + Jimenez Molina Edgar Eduardo      ***
 ***	    offline+ López Arballo Oscar Manuel        ***
-***	    online+ Rodríguez Sánchez José Mario      ***
+***	    online+ Rodríguez Sánchez José Mario       ***
 ***		online + Marco Antonio Bodart Guzman	   ***
 ***												   ***
 *****************************************************/

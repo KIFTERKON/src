@@ -73,6 +73,49 @@ public class BuscarSQL {
 	
 	Connexion con = new Connexion();
 	
+	public Obj_fuente_sodas_rh buscarautoizacionfs(){
+		Obj_fuente_sodas_rh fs_autorizacion = new Obj_fuente_sodas_rh();
+		String query = "select autorizar_comparacion_fuente_sodas from tb_autorizaciones";
+		try {				
+			Statement s = con.conexion().createStatement();
+			ResultSet rs = s.executeQuery(query);
+			
+			while(rs.next())
+				fs_autorizacion.setStatus_autorizacion(Boolean.valueOf(rs.getString(1).trim()));
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return fs_autorizacion;
+	}
+	
+	/*
+	public Obj_fuente_sodas_rh buscarautoizacionfs() throws SQLException{
+		Obj_fuente_sodas_rh fs_autorizacion = new Obj_fuente_sodas_rh();
+		String query = "select autorizar_comparacion_fuente_sodas from tb_autorizaciones ";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+			fs_autorizacion.setStatus_autorizacion(Boolean.valueOf(rs.getString(1)));
+//				algo =  (Boolean.valueOf(rs.getString(1)));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+//			return false;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+//		return algo;
+		return fs_autorizacion;
+	}
+	*/
+	
 	public Obj_Establecimiento Establecimiento(int folio) throws SQLException{
 		Obj_Establecimiento establecimiento = new Obj_Establecimiento();
 		String query = "select * from tb_establecimiento where folio ="+ folio;
@@ -4651,6 +4694,31 @@ public class BuscarSQL {
 				Matriz[i][1] = "  "+rs.getString(2);
 				Matriz[i][2] = "  ";
 				Matriz[i][3] = "  ";
+				i++;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return Matriz;
+	}
+	
+	public String[][] tabla_libre_jerarquico_contestada(String nomgbre){
+		String datos = "exec sp_select_tabla_alimentacion_libre_jerarquico_contestada '"+nomgbre+"';";
+
+		String[][] Matriz = new String[getFilas(datos)][4];
+		
+		Statement s;
+		ResultSet rs;
+		try {			
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(datos);
+			
+			int i=0;
+			while(rs.next()){
+				Matriz[i][0] = String.valueOf(i+1)+"  ";
+				Matriz[i][1] = "  "+rs.getString(2);
+				Matriz[i][2] = "  "+rs.getString(3);
+				Matriz[i][3] = "  "+rs.getString(4);
 				i++;
 			}
 		} catch (SQLException e1) {
