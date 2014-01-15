@@ -17,7 +17,6 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
@@ -710,7 +709,6 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 				
 		}
 		
-		@SuppressWarnings("null")
 		public boolean imprimir(){
 			boolean valor = false;
 			

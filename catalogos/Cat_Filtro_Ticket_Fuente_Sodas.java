@@ -198,13 +198,11 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 				@SuppressWarnings("static-access")
 				public void actionPerformed(ActionEvent arg0) {
 					
-					Obj_Filtro_Ticket_Fuente_Sodas ticket = new Obj_Filtro_Ticket_Fuente_Sodas();
-					
 						if(tablaFiltro.isEditing()){
 				 			tablaFiltro.getCellEditor().stopCellEditing();
 						}
 					
-					if(ticket.guardar(tabla_guardar(), Integer.parseInt(txtFolio.getText()), txtNombre_Completo.getText())){
+					if(new Obj_Filtro_Ticket_Fuente_Sodas().guardar(tabla_guardar(), Integer.parseInt(txtFolio.getText()), txtNombre_Completo.getText())){
 
 						//tabla de tickets--------------------------------
 						while(tablaFiltro.getRowCount()>0){
@@ -212,15 +210,16 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 					    }
 						buscar_tabla(folio_empleado);
 						//------------------------------------------------
-						//tabla de tickets--------------------------------
-						while(new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.getRowCount()>0){
-							new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.removeRow(0);
-					    }
-						buscar_tabla_empleado_con_pendiente_en_fuente_sodas();
-						//------------------------------------------------
 						
 						if(tablaFiltro.getRowCount()==0){
 							dispose();
+							
+							//tabla de empleados con adeudo en fuente de sodas auxf--------------------------------
+							while(new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.getRowCount()>0){
+								new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.removeRow(0);
+						    }
+							buscar_tabla_empleado_con_pendiente_en_fuente_sodas();
+							//------------------------------------------------
 						}
 					}else{
 						JOptionPane.showMessageDialog(null, "Error al guardar", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
