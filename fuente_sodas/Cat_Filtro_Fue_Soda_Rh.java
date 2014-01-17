@@ -1,4 +1,4 @@
-package catalogos;
+package fuente_sodas;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -30,8 +30,8 @@ import SQL.Connexion;
 
 import objetos.Obj_Establecimiento;
 
-@SuppressWarnings("serial")
-public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
+@SuppressWarnings({ "serial", "unchecked" })
+public class Cat_Filtro_Fue_Soda_Rh extends JFrame {
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
@@ -48,20 +48,20 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 	
 	JTable tabla = new JTable(model);
 	
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
 	
 	JTextField txtFolio = new JTextField();
 	JTextField txtNombre_Completo = new JTextField();
 	String establecimientos[] = new Obj_Establecimiento().Combo_Establecimiento();
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("rawtypes")
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Cat_Filtro_Fue_Soda_Auxf()	{
-		this.setTitle("Filtro Fuente de Sodas Auxiliar y Finanzas");
-		panel.setBorder(BorderFactory.createTitledBorder("Filtro Fuente de Sodas Auxiliar y Finanzas"));
-	
+	@SuppressWarnings({ "rawtypes" })
+	public Cat_Filtro_Fue_Soda_Rh()	{
+		this.setTitle("Filtro Fuente de Sodas RRHH");
+		panel.setBorder(BorderFactory.createTitledBorder("Filtro Fuente de Sodas RRHH"));
+
 		trsfiltro = new TableRowSorter(model); 
 		tabla.setRowSorter(trsfiltro);  
 		
@@ -71,9 +71,9 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 		panel.add(txtNombre_Completo).setBounds(85,20,239,20);
 		panel.add(cmbEstablecimientos).setBounds(325,20, 148, 20);
 		
-		cont.add(panel);
-		
 		agregar(tabla);
+		
+		cont.add(panel);
 		
 		txtFolio.addKeyListener(opFiltroFolio);
 		txtNombre_Completo.addKeyListener(opFiltroNombre);
@@ -92,15 +92,14 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 	        	if(e.getClickCount() == 2){
 	    			int fila = tabla.getSelectedRow();
 	    			Object folio =  tabla.getValueAt(fila, 0);
-	    			new Cat_Fue_Soda_Auxf(folio+"").setVisible(true);
+	    			new Cat_Fue_Soda_Rh(folio+"").setVisible(true);
 	    			dispose();
 	        	}
 	        }
         });
     }
-
+	
 	KeyListener opFiltroFolio = new KeyListener(){
-		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolio.getText(), 0));
 		}
@@ -117,7 +116,6 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 	};
 	
 	KeyListener opFiltroNombre = new KeyListener(){
-		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
 			trsfiltro.setRowFilter(RowFilter.regexFilter(txtNombre_Completo.getText().toUpperCase().trim(), 1));
 		}
@@ -127,7 +125,6 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 	};
 	
 	ActionListener opFiltro = new ActionListener(){
-		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0){
 			if(cmbEstablecimientos.getSelectedIndex() != 0){
 				trsfiltro.setRowFilter(RowFilter.regexFilter(cmbEstablecimientos.getSelectedItem()+"", 2));
@@ -139,7 +136,7 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 	
 	private JScrollPane getPanelTabla()	{		
 		new Connexion();
-		// Creamos las columnas.
+
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(0).setMinWidth(70);
@@ -187,29 +184,29 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 		ResultSet rs;
 		try {
 			s = con.conexion().createStatement();
-			rs = s.executeQuery("exec sp_lista_fuente_sodas_auxF");
-			while (rs.next()) {
+			rs = s.executeQuery("exec sp_lista_fuente_sodas_rh");
+			
+			while (rs.next()){ 
 				String [] fila = new String[5];
 				fila[0] = rs.getString(1).trim();
-				fila[1] = " "+rs.getString(2).trim();
-				fila[2] = rs.getString(3).trim(); 
-				switch (Integer.parseInt(rs.getString(4).trim())){
+				fila[1] = rs.getString(2).trim()+" "+rs.getString(3).trim()+" "+rs.getString(4).trim();
+				fila[2] = rs.getString(5).trim(); 
+				switch (Integer.parseInt(rs.getString(6).trim())){
 					case 1 : fila[3] = "Vigente"; break;
 					case 2 : fila[3] = "Vacaciones"; break;
 					case 3 : fila[3] = "Baja"; break;	
 				}	
-				if(Integer.parseInt(rs.getString(5).trim()) == 1){
+				if(Integer.parseInt(rs.getString(7).trim()) == 1){
 					fila[4] = "Si";
 				}else {
 					fila[4] = "No";
 				}
-				model.addRow(fila); 
+			   model.addRow(fila); 
 			}	
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		 JScrollPane scrol = new JScrollPane(tabla);
-		   
 	    return scrol; 
 	}
 	
@@ -235,8 +232,8 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
-			
-		    if(((caracter < '0') ||	
+
+			if(((caracter < '0') ||	
 		    	(caracter > '9')) && 
 		    	(caracter != '.')){
 		    	e.consume();
@@ -249,6 +246,5 @@ public class Cat_Filtro_Fue_Soda_Auxf extends JFrame {
 		public void keyReleased(KeyEvent e){}
 								
 	};
-
 }
 

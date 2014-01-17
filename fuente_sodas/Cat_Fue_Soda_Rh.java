@@ -1,4 +1,4 @@
-package catalogos;
+package fuente_sodas;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -30,6 +30,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+
+import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 
 import SQL.Connexion;
 

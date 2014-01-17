@@ -1,5 +1,10 @@
 package frames;
 
+import fuente_sodas.Cat_Captura_Fuente_Sodas;
+import fuente_sodas.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas;
+import fuente_sodas.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH;
+import fuente_sodas.Cat_Filtro_Fue_Soda_Auxf;
+import fuente_sodas.Cat_Filtro_Fue_Soda_Rh;
 import izagar.Cat_Reporte_IZAGAR_de_Movimientos_Operados;
 
 import java.awt.event.ActionEvent;
@@ -36,7 +41,6 @@ import catalogos.Cat_Auto_Auditoria;
 import catalogos.Cat_Auto_Finanzas;
 import catalogos.Cat_Bancos;
 import catalogos.Cat_Bono_Complemento_Sueldo;
-import catalogos.Cat_Captura_Fuente_Sodas;
 import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
@@ -52,10 +56,6 @@ import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Empleado_Directorio;
 import catalogos.Cat_Filtro_Empleado_Puesto_Dependiente;
-import catalogos.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas;
-import catalogos.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH;
-import catalogos.Cat_Filtro_Fue_Soda_Auxf;
-import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
 import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Jefatura;

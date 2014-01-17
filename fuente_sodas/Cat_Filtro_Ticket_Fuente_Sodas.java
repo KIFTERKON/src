@@ -1,4 +1,4 @@
-package catalogos;
+package fuente_sodas;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -24,28 +24,26 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import objetos.Obj_Captura_Fuente_Sodas;
+import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 
 //FILTRO DE TICKETS QUE NO SE LE AN DESCONTADO AL EMPLEADO SELECCIONADO	
 	 	@SuppressWarnings("serial")
-		public class Cat_Filtro_Ticket_Fuente_Sodas_DH extends JDialog {
+		public class Cat_Filtro_Ticket_Fuente_Sodas extends JDialog {
 			
 			Container cont = getContentPane();
 			JLayeredPane campo = new JLayeredPane();
 			
 			int folio_empleado=0;
 			
-			int bandera_capturado_auxf;
 			DefaultTableModel modeloFiltro = new DefaultTableModel(null,
-		            new String[]{"Ticket", "Importe","Fecha","DH","AF"}
+		            new String[]{"Ticket", "Importe","Fecha",""}
 					){
 			     @SuppressWarnings("rawtypes")
 				Class[] types = new Class[]{
 			    	java.lang.Integer.class,
 			    	java.lang.String.class,
 			    	java.lang.String.class,
-			    	java.lang.Boolean.class,
 			    	java.lang.Boolean.class
 		         };
 			     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -57,14 +55,12 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 		        	 	case 0 : return false; 
 		        	 	case 1 : return false; 
 		        	 	case 2 : return false; 
-		        	 	case 3 : if(Boolean.valueOf(tablaFiltro.getValueAt(fila, 4).toString())!=true){return false;}else{return true;}
-		        	 	case 4 : return false;
+		        	 	case 3 : return true;
 		        	 		
 		        	 } 				
 		 			return false;
 		 		}
 			};
-			
 			
 			JTable tablaFiltro = new JTable(modeloFiltro);
 		    JScrollPane scroll = new JScrollPane(tablaFiltro);
@@ -74,11 +70,11 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 			
 			JButton btnAgregar = new JButton(new ImageIcon("Iconos/agregar.png"));
 			
-			public Cat_Filtro_Ticket_Fuente_Sodas_DH(int folio,String empleado) {
+			public Cat_Filtro_Ticket_Fuente_Sodas(int folio,String empleado) {
 				
 				this.setModal(true);
 				setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/filter_icon&16.png"));
-				setTitle("Tabla De Ticket Por Empleado (Desarrollo humano)");
+				setTitle("Tabla De Ticket Por Empleado (Auxiliar y Finanzas)");
 				campo.setBorder(BorderFactory.createTitledBorder("Seleccion De Ticket Por Empleado"));
 				
 				this.txtFolio.setEditable(false);
@@ -93,7 +89,7 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 				
 				btnAgregar.setToolTipText("Agregar");
 				
-				campo.add(scroll).setBounds(15,43,414,360);
+				campo.add(scroll).setBounds(15,43,374,360);
 				
 				campo.add(txtFolio).setBounds(15,20,40,20);
 				campo.add(txtNombre_Completo).setBounds(56,20,280,20);
@@ -109,8 +105,6 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 				tablaFiltro.getColumnModel().getColumn(2).setMinWidth(80);
 				tablaFiltro.getColumnModel().getColumn(3).setMaxWidth(40);
 				tablaFiltro.getColumnModel().getColumn(3).setMinWidth(40);
-				tablaFiltro.getColumnModel().getColumn(4).setMaxWidth(40);
-				tablaFiltro.getColumnModel().getColumn(4).setMinWidth(40);
 				
 				TableCellRenderer render = new TableCellRenderer() { 
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -129,10 +123,6 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,4).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(166,160,131));
-								}
 								if(table.getSelectedRow() == row){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
@@ -148,10 +138,6 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,4).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(166,160,131));
 								}
 								if(table.getSelectedRow() == row){
 									((JComponent) componente).setOpaque(true); 
@@ -169,10 +155,6 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,4).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(166,160,131));
-								}
 								if(table.getSelectedRow() == row){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
@@ -189,30 +171,6 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
 								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,4).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(166,160,131));
-								}
-								if(table.getSelectedRow() == row){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								((AbstractButton) componente).setHorizontalAlignment(SwingConstants.CENTER);
-								break;
-							case 4: 
-								componente = new JCheckBox("",Boolean.parseBoolean(value.toString()));
-								if(row%2==0){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(177,177,177));	
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,2).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(186,143,73));
-								}
-								if(Boolean.parseBoolean(modeloFiltro.getValueAt(row,4).toString())){
-									((JComponent) componente).setOpaque(true); 
-									componente.setBackground(new java.awt.Color(166,160,131));
-								}
 								if(table.getSelectedRow() == row){
 									((JComponent) componente).setOpaque(true); 
 									componente.setBackground(new java.awt.Color(186,143,73));
@@ -228,11 +186,10 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 				tablaFiltro.getColumnModel().getColumn(1).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(2).setCellRenderer(render);
 				tablaFiltro.getColumnModel().getColumn(3).setCellRenderer(render);
-				tablaFiltro.getColumnModel().getColumn(4).setCellRenderer(render);
 				
 				btnAgregar.addActionListener(opAgregar);
 				
-				setSize(455,450);
+				setSize(415,450);
 				setResizable(false);
 				setLocationRelativeTo(null);
 			}
@@ -245,7 +202,7 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 				 			tablaFiltro.getCellEditor().stopCellEditing();
 						}
 					
-					if(new Obj_Filtro_Ticket_Fuente_Sodas().guardar_dh(tabla_guardar(), Integer.parseInt(txtFolio.getText()), txtNombre_Completo.getText())){
+					if(new Obj_Filtro_Ticket_Fuente_Sodas().guardar(tabla_guardar(), Integer.parseInt(txtFolio.getText()), txtNombre_Completo.getText())){
 
 						//tabla de tickets--------------------------------
 						while(tablaFiltro.getRowCount()>0){
@@ -253,17 +210,16 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 					    }
 						buscar_tabla(folio_empleado);
 						//------------------------------------------------
-
+						
 						if(tablaFiltro.getRowCount()==0){
 							dispose();
 							
-							//tabla de empleados con adeudo en fuente de sodas DH--------------------------------
-							while(new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH().tabla_model.getRowCount()>0){
-								new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH().tabla_model.removeRow(0);
+							//tabla de empleados con adeudo en fuente de sodas auxf--------------------------------
+							while(new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.getRowCount()>0){
+								new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.removeRow(0);
 						    }
 							buscar_tabla_empleado_con_pendiente_en_fuente_sodas();
 							//------------------------------------------------
-							
 						}
 					}else{
 						JOptionPane.showMessageDialog(null, "Error al guardar", "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
@@ -275,7 +231,7 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 			public void buscar_tabla(int folio_empleado){
 				
 				try {
-					String[][] tabla = new Obj_Captura_Fuente_Sodas().tabla_dh(folio_empleado);
+					String[][] tabla = new Obj_Captura_Fuente_Sodas().tabla(folio_empleado);
 										
 					for(int i=0; i<tabla.length; i++){
 						 		Object[] dom = new Object[5];
@@ -284,7 +240,6 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 						 		dom[1] = "   "+tabla[i][1];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 						 		dom[2] = tabla[i][2];
 						 		dom[3] = "";
-						 		dom[4]=Integer.valueOf(tabla[i][3])==1?false:true;
 						 		modeloFiltro.addRow(dom);
 					}
 				} catch (SQLException e1) {
@@ -294,7 +249,7 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 			
 			@SuppressWarnings("static-access")
 			public void buscar_tabla_empleado_con_pendiente_en_fuente_sodas(){
-				Object [][] lista_tabla_empleados = new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH().get_tabla();
+				Object [][] lista_tabla_empleados = new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().get_tabla();
 				 String[] fila = new String[9];
 				         for(int i=0; i<lista_tabla_empleados.length; i++){
 				                 fila[0] = lista_tabla_empleados[i][0]+"";
@@ -302,7 +257,7 @@ import objetos.Obj_Filtro_Ticket_Fuente_Sodas;
 				                 fila[2] = lista_tabla_empleados[i][2]+"";
 				                 fila[3] = lista_tabla_empleados[i][3]+"";
 				                 fila[4] = lista_tabla_empleados[i][4]+"";
-				                 new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH().tabla_model.addRow(fila);
+				                 new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().tabla_model.addRow(fila);
 				         }
 			}
 			

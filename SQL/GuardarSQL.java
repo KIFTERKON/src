@@ -20,6 +20,7 @@ import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
 
+import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Actividades_Por_Proyecto;
@@ -32,7 +33,6 @@ import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
 import objetos.Obj_Atributos;
 import objetos.Obj_Bono_Complemento_Sueldo;
-import objetos.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
@@ -2565,7 +2565,7 @@ public boolean Guardar_Horario(ObjHorario horario){
 		
 		//Guardar captura fuente de sodas
 		public boolean Guardar_Fuente_Sodas(Obj_Captura_Fuente_Sodas sodas){
-			String query = "exec sp_insert_captura_fuente_sodas ?,?,?,?,?,?,?,?,?,?";
+			String query = "exec sp_insert_captura_fuente_sodas ?,?,?,?,?,?,?,?,?";
 			Connection con = new Connexion().conexion();
 			PreparedStatement pstmt = null;
 			try {
@@ -2585,7 +2585,7 @@ public boolean Guardar_Horario(ObjHorario horario){
 				pstmt.setString(7, pc_nombre);
 				pstmt.setString(8, pc_ip);
 				pstmt.setInt(9, 1);			//status default al guardar usado para revision de auxilizr y finanazas
-				pstmt.setInt(10, 1);			//status default al guardar usado para revisicon de desarrollo humano
+//				pstmt.setInt(10, 1);			//status default al guardar usado para revisicon de desarrollo humano
 				
 				pstmt.executeUpdate();
 				con.commit();

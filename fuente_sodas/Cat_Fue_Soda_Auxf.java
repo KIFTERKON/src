@@ -1,4 +1,4 @@
-package catalogos;
+package fuente_sodas;
 
 import java.awt.Component;
 import java.awt.Container;
