@@ -190,9 +190,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		panel.add(lblPuesto).setBounds(420,110,70,20);
 		panel.add(lblPuesto_Empleado).setBounds(490,110,320,20);
 		
-		panel.add(lblEnmarcadoSaldo).setBounds(440,135,280,100);
+		panel.add(lblEnmarcadoSaldo).setBounds(440,135,380,100);
 		panel.add(Imgsigno).setBounds(450,150,80,80);
-		panel.add(lblSaldo).setBounds(500,150,220,80);
+		panel.add(lblSaldo).setBounds(500,150,360,80);
 		
 		panel.add(btnImprimir).setBounds(30,180,180,20);
 		panel.add(btnGuardar).setBounds(30,205,80,20);
