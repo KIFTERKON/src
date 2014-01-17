@@ -30,7 +30,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -597,16 +596,29 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 	public class Imprime_Ticket_Captura_Fuente_Sodas extends JFrame
 	{
 		Container container = getContentPane();
-
+		JLayeredPane panel = new JLayeredPane();
+		
 	//Declarar Imagen para Txa	
 		ImageIcon img = new ImageIcon("imagen/fuenteSodasTicket.png");
 		
+		
+		JScrollPane jScrollPane1 = new JScrollPane();
+		JButton jButImprime = new JButton("Imprimir");
+		
+		private JTextArea jTextArea1=new JTextArea(){
+			
+			Image image = img.getImage();
+			
+			Image grayImage = GrayFilter.createDisabledImage(image);{
+				setOpaque(false);
+			}
+			
+			public void paint(Graphics g){
+					g.drawImage(grayImage,0,0,this);
+					super.paint(g);
+			}
+		};
 //variables para ticket -----------------------------------------------------------------------------------
-		private JTextArea jTextArea1;
-		private JScrollPane jScrollPane1;
-		private JButton jButImprime;
-		private JPanel contentPane;
-
 		String usuario= "Cajera(o): ";
 		String fecha ="Fecha: ";
 		String lblEmpleado="Empleado: ";
@@ -622,6 +634,10 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		@SuppressWarnings("deprecation")
 		public Imprime_Ticket_Captura_Fuente_Sodas(String pass)
 		{
+			this.setTitle("Imprimir Ticket");
+			Font font = new Font("ARIAL",Font.PLAIN,8);
+			jTextArea1.setFont(font);
+			
 			Obj_Captura_Fuente_Sodas ultimiTicket = new Obj_Captura_Fuente_Sodas().buscar_ultimo_ticket(txtClave.getText().toUpperCase());
 			
 			usuario=		usuario+ultimiTicket.getUsuario();
@@ -633,70 +649,34 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			importe=		importe+ultimiTicket.getImporte();
 			firma=			firma+ultimiTicket.getEmpleado()+"  )";
 			
-//			Declarar Txa y Asignarle imagen
-			jTextArea1 = new JTextArea(){
-				
-				Image image = img.getImage();
-				
-				Image grayImage = GrayFilter.createDisabledImage(image);{
-					setOpaque(false);
-				}
-				
-				public void paint(Graphics g){
-						g.drawImage(grayImage,0,0,this);
-						super.paint(g);
-				}
-			};
-				
-			jScrollPane1 = new JScrollPane();
-			jButImprime = new JButton();
-			contentPane = (JPanel)this.getContentPane();
-
 			jScrollPane1.setViewportView(jTextArea1);
 			
-			jButImprime.setHorizontalTextPosition(SwingConstants.CENTER);
-			jButImprime.setText("Imprimir");
-			jButImprime.setToolTipText("Imprimir");
-			jButImprime.setVerticalAlignment(SwingConstants.TOP);
-			jButImprime.setVerticalTextPosition(SwingConstants.BOTTOM);
-			jButImprime.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e){
-					jButImprime_actionPerformed(e);
-				}
-			});
-
-			contentPane.setLayout(null);
+			jTextArea1.setText(
+	        		new String ("\n\n\n\n\n\n\n"+usuario
+	        				+"\n\n                                       "
+	        				+"                   "+fecha+"\n\n"
+    						+lblEmpleado+"\n\n"+establecimiento+"\n\n"
+    						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n"
+    						+linea+"\n"+firma+"\n\n\n\n.")
+	        		);
 			
-			jTextArea1.setBounds(14,24,210,310);
-			jButImprime.setBounds(134,335,100,20);
+			panel.add(jButImprime).setBounds(134,10,100,20);
+			panel.add(jTextArea1).setBounds(14,50,210,310);
 			
-			container.add(jTextArea1);
-			container.add(jButImprime);
+			jButImprime.requestFocus();
+			jButImprime.addActionListener(opImprimir);
+			
+			container.add(panel);
 
-			this.setTitle("Imprimir Ticket");
 			this.setLocation(new Point(280, 170));
 			this.setSize(new Dimension(260, 400));
 			
-			Font font = new Font("ARIAL",Font.PLAIN,8);
-			jTextArea1.setFont(font);
-
-			jTextArea1.setText(
-		        		new String ("\n\n\n\n\n\n\n"+usuario
-		        				+"\n\n                                       "
-		        				+"                   "+fecha+"\n\n"
-        						+lblEmpleado+"\n\n"+establecimiento+"\n\n"
-        						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n"
-        						+linea+"\n"+firma+"\n\n\n\n.")
-		        		);
-//		        setCursor (Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
+				jTextArea1.requestFocus();
 		        jTextArea1.setEditable(false);
-//			this.setVisible(true);
 		}
 		
-		private void jButImprime_actionPerformed(ActionEvent e)
-		{
-		 		
+		ActionListener opImprimir = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
 				if(imprimir()){
 					imprimir();
@@ -704,10 +684,9 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 					JOptionPane.showMessageDialog(null,"Fallo al intentar guardar","Aviso", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				
 				dispose();
-				
-		}
+			}
+		};
 		
 		public boolean imprimir(){
 			boolean valor = false;
