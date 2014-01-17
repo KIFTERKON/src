@@ -868,7 +868,9 @@ public class InitButton extends InitMenuBar{
 				Alimentacion_Deducciones_Asistencia.setEnabled(false);
 				Alimentacion_Diferencia_Cortes.setEnabled(false);
 				Alimentacion_Fuente_Sodas_auxf.setEnabled(false);
+				Alimentacion_FS_auxf_seleccionable.setEnabled(false);
 				Alimentacion_Fuente_Sodas_rh.setEnabled(false);
+				Alimentacion_FS_dh_seleccionable.setEnabled(false);
 				Alimentacion_Percepciones_Extra.setEnabled(false);
 				Alimentacion_Prestamos.setEnabled(false);
 			/* LISTA DE RAYA 

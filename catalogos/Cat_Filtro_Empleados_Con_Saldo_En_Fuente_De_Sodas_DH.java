@@ -44,7 +44,7 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH extends JFrame
 	}
 	
     public static DefaultTableModel tabla_model = new DefaultTableModel(
-    		get_tabla(),	new String[]{	"Folio",	"Nombre Completo", "Establecimiento", "Puesto", "Sueldo"}){
+    		get_tabla(),	new String[]{	"Folio",	"Nombre Completo", "Establecimiento", "Puesto", "Saldo"}){
                     @SuppressWarnings("rawtypes")
                     Class[] types = new Class[]{
                                java.lang.Object.class, 
@@ -91,7 +91,7 @@ public class Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH extends JFrame
 	@SuppressWarnings({ "rawtypes" })
 	public Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH()	{
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/sun_icon&16.png"));
-		this.setTitle("Filtro de empleados consaldo en fuente de sodas (Desarrollo Humano)");
+		this.setTitle("Filtro de empleados con Saldo en fuente de sodas (Desarrollo Humano)");
 		panel.setBorder(BorderFactory.createTitledBorder("Empleados consaldo en fuente de sodas"));
 
 		this.init_tabla();

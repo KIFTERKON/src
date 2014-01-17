@@ -52,6 +52,8 @@ import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Empleado_Directorio;
 import catalogos.Cat_Filtro_Empleado_Puesto_Dependiente;
+import catalogos.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas;
+import catalogos.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH;
 import catalogos.Cat_Filtro_Fue_Soda_Auxf;
 import catalogos.Cat_Filtro_Fue_Soda_Rh;
 import catalogos.Cat_Filtro_Prestamo;
@@ -174,10 +176,12 @@ public class InitMenuBar extends Init{
 			JMenuItem Alimentacion_Deducciones_Asistencia = new JMenuItem("Alimentación Deducción por Inasistencia", new ImageIcon("Iconos/hand_contra_icon&16.png"));
 			JMenuItem Alimentacion_Diferencia_Cortes 	  = new JMenuItem("Alimentación Diferencia de Cortes");
 			JMenuItem Alimentacion_Fuente_Sodas_auxf 	  = new JMenuItem("Alimentación Fuente de Sodas AUXF");
+			JMenuItem Alimentacion_FS_auxf_seleccionable  = new JMenuItem("Alimentación Fuente de Sodas AUXF Selecionable");			
 			JMenuItem Alimentacion_Fuente_Sodas_rh 		  = new JMenuItem("Alimentación Fuente de Sodas DH");
+			JMenuItem Alimentacion_FS_dh_seleccionable  = new JMenuItem("Alimentación Fuente de Sodas DH Selecionable");
 			JMenuItem Alimentacion_Percepciones_Extra 	  = new JMenuItem("Alimentación Percepciones Extras", new ImageIcon("Iconos/hand_pro_icon&16.png"));
 			JMenuItem Alimentacion_Prestamos 			  = new JMenuItem("Alimentación Prestamos");
-	
+			
 		/* AUTORIZACIONES */
 		JMenu Autorizaciones = new JMenu("Autorizaciones");
 			JMenuItem Autorizacion_Auditoria = new JMenuItem("Autorizacion Auditoria");
@@ -409,9 +413,15 @@ public class InitMenuBar extends Init{
 			Alimentacion.add(Alimentacion_Fuente_Sodas_auxf);
 				Alimentacion_Fuente_Sodas_auxf.addActionListener(Opciones);
 				Alimentacion_Fuente_Sodas_auxf.setEnabled(false);
-			Alimentacion.add(Alimentacion_Fuente_Sodas_rh);
+			Alimentacion.add(Alimentacion_FS_auxf_seleccionable);
+			    Alimentacion_FS_auxf_seleccionable.addActionListener(Opciones);
+			    Alimentacion_FS_auxf_seleccionable.setEnabled(false);
+		    Alimentacion.add(Alimentacion_Fuente_Sodas_rh);
 				Alimentacion_Fuente_Sodas_rh.addActionListener(Opciones);
 				Alimentacion_Fuente_Sodas_rh.setEnabled(false);
+		    Alimentacion.add(Alimentacion_FS_dh_seleccionable);
+		        Alimentacion_FS_dh_seleccionable.addActionListener(Opciones);
+		        Alimentacion_FS_dh_seleccionable.setEnabled(false);
 			Alimentacion.add(Alimentacion_Percepciones_Extra);
 				Alimentacion_Percepciones_Extra.addActionListener(Opciones);
 				Alimentacion_Percepciones_Extra.setEnabled(false);
@@ -663,8 +673,12 @@ public class InitMenuBar extends Init{
 				new Cat_Filtro_Diferiencia_Cortes().setVisible(true);
 			if(e.getActionCommand().equals("Alimentación Fuente de Sodas AUXF"))	
 				new Cat_Filtro_Fue_Soda_Auxf().setVisible(true);
+			if(e.getActionCommand().equals("Alimentación Fuente de Sodas AUXF Selecionable"))	
+				new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas().setVisible(true);
 			if(e.getActionCommand().equals("Alimentación Fuente de Sodas DH"))	
 				new Cat_Filtro_Fue_Soda_Rh().setVisible(true);
+			if(e.getActionCommand().equals("Alimentación Fuente de Sodas DH Selecionable"))	
+				new Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH().setVisible(true);
 			if(e.getActionCommand().equals("Alimentación Percepciones Extras"))
 				new Cat_Percepciones_Extra().setVisible(true);
 			if(e.getActionCommand().equals("Alimentación Prestamos"))

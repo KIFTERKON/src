@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Fuente_de_Sodas_Desarrollo_Humano" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74d7631d-7b80-4ebc-946a-dd1ef7e761d5">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -17,7 +19,7 @@
         tb_fuente_sodas_auxf.nombre_completo as Nombre,
         tb_establecimiento.nombre as Establecimiento,
         sum(tb_fuente_sodas_auxf.cantidad)as Total
-        
+
 
  from tb_fuente_sodas_auxf
 left outer join tb_empleado on tb_empleado.folio=tb_fuente_sodas_auxf.folio_empleado
@@ -30,21 +32,21 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 	<field name="Num" class="java.lang.Integer"/>
 	<field name="Nombre" class="java.lang.String"/>
 	<field name="Total" class="java.math.BigDecimal"/>
-	<group name="Group1">
+	<group name="Group1" keepTogether="true">
 		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
 		<groupHeader>
 			<band height="37">
 				<frame>
 					<reportElement uuid="1cd8ca01-5e9d-4513-86af-7b0f594b7751" mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#000000"/>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="a128416b-474f-4622-af0c-e07e2ca8611e" style="SubTitle" isPrintRepeatedValues="false" x="2" y="0" width="318" height="24" forecolor="#FFFFFF"/>
+						<reportElement uuid="a128416b-474f-4622-af0c-e07e2ca8611e" style="SubTitle" isPrintRepeatedValues="false" x="9" y="0" width="318" height="24" forecolor="#FFFFFF"/>
 						<textElement>
 							<font isBold="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement uuid="25b3e545-4c43-4ba4-bbd7-50a6a045345b" style="Column header" x="500" y="6" width="54" height="18" forecolor="#FFFFFF"/>
+						<reportElement uuid="25b3e545-4c43-4ba4-bbd7-50a6a045345b" style="Column header" x="494" y="6" width="54" height="18" forecolor="#FFFFFF"/>
 						<textElement>
 							<font isBold="true"/>
 						</textElement>
@@ -89,7 +91,7 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 			<frame>
 				<reportElement uuid="d561148d-c455-41e3-ae45-14d9bb5be8f9" style="Row" mode="Opaque" x="0" y="0" width="555" height="18"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="77f82dff-fbec-467b-a2c7-b32e7ab1b7e0" style="Detail" positionType="Float" x="0" y="0" width="40" height="18"/>
+					<reportElement uuid="77f82dff-fbec-467b-a2c7-b32e7ab1b7e0" style="Detail" positionType="Float" x="5" y="0" width="40" height="18"/>
 					<textElement>
 						<font size="14"/>
 					</textElement>
@@ -103,7 +105,7 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 					<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-					<reportElement uuid="6962b5c8-4e23-4c6e-afbf-413e79eda521" style="Detail" positionType="Float" x="460" y="0" width="95" height="18"/>
+					<reportElement uuid="6962b5c8-4e23-4c6e-afbf-413e79eda521" style="Detail" positionType="Float" x="454" y="0" width="95" height="18"/>
 					<textElement textAlignment="Right" markup="html">
 						<font size="14"/>
 					</textElement>
