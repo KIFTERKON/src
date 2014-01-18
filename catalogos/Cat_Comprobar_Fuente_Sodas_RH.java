@@ -21,6 +21,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import fuente_sodas.Cat_Fue_Soda_Rh;
+
 import SQL.Connexion;
 
 import objetos.Obj_fuente_sodas_rh;

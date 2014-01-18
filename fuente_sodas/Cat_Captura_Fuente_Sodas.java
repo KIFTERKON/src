@@ -1,13 +1,11 @@
-package catalogos;
+package fuente_sodas;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.PrintJob;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -20,7 +18,6 @@ import java.io.FileReader;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.GrayFilter;
@@ -42,7 +39,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import objetos.Obj_Captura_Fuente_Sodas;
+import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 
 @SuppressWarnings("serial")
 public class Cat_Captura_Fuente_Sodas extends JFrame
@@ -128,7 +125,6 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		this.setTitle("Captura de fuente de sodas");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Captura de fuente de sodas"));
 		
-//		new java.awt.Color(105,105,105)
 		blackline = BorderFactory.createLineBorder(Color.blue);
 		this.lblEnmarcadoSaldo.setBorder(BorderFactory.createTitledBorder(blackline,"Credito Disponible"));
 		
@@ -219,7 +215,6 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		btnImprimir.addActionListener(opImprmiAutorizacion);
 		btnCancelar.addActionListener(cancelar);
 		
-		
 		this.setSize(850,600);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
@@ -303,6 +298,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 	
 	ActionListener opTiket = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
+			
 			if(txtTicket.getText().length() != 0 ){
 				txtTicket.setEnabled(false);
 				txtImporte.setEnabled(true);
@@ -318,8 +314,6 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 	ActionListener opImprmiAutorizacion= new ActionListener(){
 		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent e) {
-		
-			
 			
 			if(txtClave.getText().equals("")){
 				txtClave.requestFocus();
@@ -332,7 +326,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 
 //					new Reporte_Ticket_Fuente_Sodas(txtClave.getText().toUpperCase());
 					new Imprime_Ticket_Captura_Fuente_Sodas(txtClave.getText().toUpperCase()).setVisible(true);
-					 
+
 				}else{
 						txtClave.setText("");
 						txtClave.requestFocus();
@@ -340,7 +334,6 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 						return;
 				}
 			}
-			
 		}
 	};
 	
@@ -356,6 +349,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 					JOptionPane.showMessageDialog(null, "No cuenta con el saldo suficiente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}else{
+					txtImporte.setEnabled(false);
 					txtConfirmarCompra.setEnabled(true);
 					txtConfirmarCompra.requestFocus();
 				}
@@ -387,41 +381,38 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 							
 						if(sodas.Guardar()){
 							
-							 while(tabla_model.getRowCount()>0){
-							        tabla_model.removeRow(0);
-							    }
+//							 while(tabla_model.getRowCount()>0){
+//							        tabla_model.removeRow(0);
+//							    }
 							
 //							 new Reporte_Ticket_Fuente_Sodas(txtClave.getText().toUpperCase().trim());
 							 new Imprime_Ticket_Captura_Fuente_Sodas(txtClave.getText().toUpperCase()).setVisible(true);
-							 
-							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
-							lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
 							
-								txtClave.setEnabled(true);
-								txtTicket.setEnabled(false);
-								txtImporte.setEnabled(false);
-								txtConfirmarCompra.setEnabled(false);
-								
-							 	txtClave.setText("");
-								txtTicket.setText("");
-								txtImporte.setText("");
-								txtConfirmarCompra.setText("");
-								
-								lblFoto.setText("");
-								lblNombre_Empleado.setText("");
-								lblEstablecimiento_Empleado.setText("");
-								lblPuesto_Empleado.setText("");
-								lblSaldo.setText("");
-								
-								JOptionPane.showMessageDialog(null, "Guardado exitosamente !!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
-								return;
+//							ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
+//							lblFoto.setIcon(new ImageIcon(tmpIconAux.getImage().getScaledInstance(lblFoto.getWidth(),lblFoto.getHeight(), Image.SCALE_DEFAULT)));	
+//							
+//								txtClave.setEnabled(true);
+//								txtTicket.setEnabled(false);
+//								txtImporte.setEnabled(false);
+//								txtConfirmarCompra.setEnabled(false);
+//								
+//							 	txtClave.setText("");
+//								txtTicket.setText("");
+//								txtImporte.setText("");
+//								txtConfirmarCompra.setText("");
+//								
+//								lblFoto.setText("");
+//								lblNombre_Empleado.setText("");
+//								lblEstablecimiento_Empleado.setText("");
+//								lblPuesto_Empleado.setText("");
+//								lblSaldo.setText("");
 					}else{
-						JOptionPane.showMessageDialog(null, "La clave no coinside!!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La clave no coincide!!!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						return;
 					}
 				}else{
 					txtConfirmarCompra.setText("");
-					JOptionPane.showMessageDialog(null, "No se ha podido realisar su pedido de forma correcta,\npase su gafete de nuevo o comuniquese a\nDesarrollo Humano","Aviso",JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se ha podido realizar su pedido de forma correcta,\npase su gafete de nuevo o comuniquese a\nDesarrollo Humano","Aviso",JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
@@ -434,6 +425,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			txtClave.setText("");
 			txtTicket.setText("");
 			txtImporte.setText("");
+			txtConfirmarCompra.setText("");
 			
 			lblFoto.setText("");
 			lblNombre_Empleado.setText("");
@@ -444,6 +436,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			txtClave.setEnabled(true);
 			txtTicket.setEnabled(false);
 			txtImporte.setEnabled(false);
+			txtConfirmarCompra.setEnabled(false);
 			txtClave.requestFocus();
 			
 			ImageIcon tmpIconAux = new ImageIcon(System.getProperty("user.dir")+"/Iconos/Un.jpg");
@@ -592,15 +585,13 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		}catch(Exception e){}
 	}
 
-	
 	public class Imprime_Ticket_Captura_Fuente_Sodas extends JFrame
 	{
 		Container container = getContentPane();
-		JLayeredPane panel = new JLayeredPane();
+		JLayeredPane panel2 = new JLayeredPane();
 		
 	//Declarar Imagen para Txa	
 		ImageIcon img = new ImageIcon("imagen/fuenteSodasTicket.png");
-		
 		
 		JScrollPane jScrollPane1 = new JScrollPane();
 		JButton jButImprime = new JButton("Imprimir");
@@ -649,61 +640,48 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			importe=		importe+ultimiTicket.getImporte();
 			firma=			firma+ultimiTicket.getEmpleado()+"  )";
 			
-			jScrollPane1.setViewportView(jTextArea1);
+			panel2.add(jButImprime).setBounds(134,10,100,20);
+			panel2.add(jTextArea1).setBounds(14,50,210,310);
 			
 			jTextArea1.setText(
-	        		new String ("\n\n\n\n\n\n\n"+usuario
-	        				+"\n\n                                       "
-	        				+"                   "+fecha+"\n\n"
-    						+lblEmpleado+"\n\n"+establecimiento+"\n\n"
-    						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n"
-    						+linea+"\n"+firma+"\n\n\n\n.")
-	        		);
+        		new String ("\n\n\n\n\n\n\n"+usuario
+        				+"\n\n                                       "//espacio para acomodar fecha
+        				+"                   "+fecha+"\n\n"
+						+lblEmpleado+"\n\n"+establecimiento+"\n\n"
+						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n"
+						+linea+"\n"+firma+"\n\n\n\n.")
+	        );
 			
-			panel.add(jButImprime).setBounds(134,10,100,20);
-			panel.add(jTextArea1).setBounds(14,50,210,310);
+			jTextArea1.setEditable(false);
 			
 			jButImprime.requestFocus();
 			jButImprime.addActionListener(opImprimir);
 			
-			container.add(panel);
-
-			this.setLocation(new Point(280, 170));
-			this.setSize(new Dimension(260, 400));
-			
-				jTextArea1.requestFocus();
-		        jTextArea1.setEditable(false);
+			this.setSize(260, 400);
+			this.setLocationRelativeTo(null);
+			container.add(panel2);
 		}
 		
 		ActionListener opImprimir = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(imprimir()){
 					imprimir();
-				}else{
-					JOptionPane.showMessageDialog(null,"Fallo al intentar guardar","Aviso", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				dispose();
+					imprimir();
+					dispose();
+					btnCancelar.doClick();
 			}
 		};
 		
-		public boolean imprimir(){
-			boolean valor = false;
+		public void imprimir() {
 			
-			Properties defaultProps = new Properties();
-	 		
-			PrintJob print=Toolkit.getDefaultToolkit().getPrintJob(this,"",defaultProps);
-			Graphics g=print.getGraphics();
-
-			if(g!=null){
-				jTextArea1.printAll(g);
-				print.end();
-				g.dispose();
-				valor= true;
-				
-			}
-			return valor;
+			PrintJob print = Toolkit.getDefaultToolkit().getPrintJob(this, "", null); 
+					try { 
+						Graphics g = print.getGraphics(); 
+						jTextArea1.print(g); 
+						print.end();
+						g.dispose();
+					}catch(Exception e) {
+						System.out.println("LA IMPRESION HA SIDO CANCELADA..."); 
+					} 
 		}
 	}
 }

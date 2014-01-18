@@ -22,6 +22,7 @@ import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
 
+import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Actividad;
 import objetos.Obj_Actividad_Asignadas_Nivel_Jerarquico;
 import objetos.Obj_Actividades_Por_Proyecto;
@@ -36,7 +37,6 @@ import objetos.Obj_Atributos;
 import objetos.Obj_Auto_Auditoria;
 import objetos.Obj_Auto_Finanzas;
 import objetos.Obj_Bono_Complemento_Sueldo;
-import objetos.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Conexion_BD;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Cuadrante;
