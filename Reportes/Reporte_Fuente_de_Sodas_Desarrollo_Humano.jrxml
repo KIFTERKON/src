@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Fuente_de_Sodas_Desarrollo_Humano" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="74d7631d-7b80-4ebc-946a-dd1ef7e761d5">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter 1"/>
-	<property name="ireport.zoom" value="1.4641000000000006"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="2.5937424601000023"/>
+	<property name="ireport.x" value="335"/>
+	<property name="ireport.y" value="111"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -32,6 +32,12 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 	<field name="Num" class="java.lang.Integer"/>
 	<field name="Nombre" class="java.lang.String"/>
 	<field name="Total" class="java.math.BigDecimal"/>
+	<variable name="Totales_Por_Establecimiento" class="java.lang.Double" resetType="Group" resetGroup="Group1" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
+	<variable name="total_global" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
 	<group name="Group1" keepTogether="true">
 		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
 		<groupHeader>
@@ -56,7 +62,15 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="6"/>
+			<band height="21">
+				<textField pattern="¤ #,##0.00">
+					<reportElement uuid="f2bad8ca-99f4-4abd-895e-c289c4f91728" x="454" y="1" width="95" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="14" isBold="true" isItalic="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Totales_Por_Establecimiento}]]></textFieldExpression>
+				</textField>
+			</band>
 		</groupFooter>
 	</group>
 	<background>
@@ -153,6 +167,17 @@ order by tb_establecimiento.nombre,tb_fuente_sodas_auxf.nombre_completo]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="24" splitType="Stretch">
+			<textField evaluationTime="Report" pattern="¤ #,##0.00">
+				<reportElement uuid="dbd903f9-07f0-44f4-b9cc-ae7915a78b3b" mode="Opaque" x="433" y="3" width="120" height="20" backcolor="#D2DCF3"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="14" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_global}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="669137fe-713f-4cab-99d0-4f30264c8643" x="433" y="2" width="117" height="1"/>
+			</line>
+		</band>
 	</summary>
 </jasperReport>
