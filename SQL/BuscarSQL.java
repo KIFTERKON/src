@@ -1040,7 +1040,7 @@ public class BuscarSQL {
 				empleado.setAp_materno(rs.getString("ap_materno").trim());
 				empleado.setFecha_nacimiento(rs.getString("fecha_nacimiento").trim());
 				empleado.setCalle(rs.getString("calle").trim());
-				empleado.setColionia(rs.getString("colonia").trim());
+				empleado.setColonia(rs.getString("colonia").trim());
 				empleado.setPoblacion(rs.getString("poblacion").trim());
 				empleado.setTelefono_familiar(rs.getString("telefono_familiar").trim());
 				empleado.setTelefono_propio(rs.getString("telefono_propio").trim());
@@ -1086,6 +1086,9 @@ public class BuscarSQL {
 				
 				empleado.setHorario3(rs.getInt("horario3"));
 				empleado.setStatus_h3(rs.getInt("status_h3"));
+				
+				empleado.setFecha_ingreso_imss(rs.getString("fecha_ingreso_imss"));
+				empleado.setFecha_vencimiento_licencia(rs.getString("fecha_vencimiento_licencia"));
 				
 				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				FileOutputStream fos = new FileOutputStream(photo);

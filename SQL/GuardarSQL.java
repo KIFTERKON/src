@@ -70,7 +70,7 @@ public class GuardarSQL {
 	
 				
 	public boolean Guardar_Empleado(Obj_Empleado empleado){
-		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_insert_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 		
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -97,7 +97,7 @@ public class GuardarSQL {
 			pstmt.setString(i+=1,	empleado.getAp_materno().toUpperCase());
 			pstmt.setString(i+=1,	empleado.getFecha_nacimiento());
 			pstmt.setString(i+=1,	empleado.getCalle().toUpperCase());
-			pstmt.setString(i+=1, 	empleado.getColionia().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getColonia().toUpperCase());
 			pstmt.setString(i+=1, 	empleado.getPoblacion().toUpperCase());
 			pstmt.setString(i+=1, 	empleado.getTelefono_familiar().toUpperCase());
 			pstmt.setString(i+=1, 	empleado.getTelefono_propio().toUpperCase());
@@ -143,6 +143,9 @@ public class GuardarSQL {
 			
 			pstmt.setInt(i+=1, empleado.getHorario3());
 			pstmt.setInt(i+=1, empleado.getStatus_h3());
+			
+			pstmt.setString(i+=1, empleado.getFecha_ingreso_imss());
+			pstmt.setString(i+=1, empleado.getFecha_vencimiento_licencia());
 			
 			pstmt.executeUpdate();
 			con.commit();
