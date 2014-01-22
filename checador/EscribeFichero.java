@@ -1,4 +1,4 @@
-package CatalogoChecador;
+package checador;
 import java.io.*;
  
 public class EscribeFichero

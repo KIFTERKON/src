@@ -1,4 +1,4 @@
-package CatalogoChecador;
+package checador;
 
 import javax.swing.JLabel;
 

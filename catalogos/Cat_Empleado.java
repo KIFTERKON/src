@@ -83,8 +83,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import CatalogoChecador.Cat_Horario;
 import SQL.Connexion;
+
+import checador.Cat_Horario;
 
 import com.toedter.calendar.JDateChooser;
 

@@ -16,7 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import CatalogoChecador.Cat_Checador;
+import checador.Cat_Checador;
+
 
 import objetos.Obj_Usuario;
 import catalogos.Cat_Bancos;

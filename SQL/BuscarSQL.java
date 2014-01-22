@@ -3333,6 +3333,7 @@ public class BuscarSQL {
 				Matriz[i][1] = rs.getString(2);
 				Matriz[i][2] = rs.getString(3);
 				Matriz[i][3] = rs.getString(4);
+
 				
 				i++;
 			}

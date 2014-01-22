@@ -1,4 +1,4 @@
-package CatalogoChecador;
+package checador;
 
 import java.awt.Color;
 import java.awt.Font;
