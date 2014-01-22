@@ -139,16 +139,8 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 			}
 		}
 		sumaRH();
-		
 		sumaAX();
-		
-		
-		if(/*modelRh.getRowCount()==modelAx.getRowCount() &&*/ modelTotalRH.getRowCount()==0 && modelTotalAX.getRowCount()==0){
-			btnAceptar.setEnabled(true);
-		}else{
-			btnAceptar.setEnabled(false);
-		}
-		
+		comparacion();
 //		if((TablaDifAX.length == 0 && TablaDifRH.length == 0)	){
 //			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
 //
@@ -164,7 +156,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	
+
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
 	        public void mouseClicked(MouseEvent e) {
@@ -200,15 +192,25 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	ActionListener opActualizar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
 			Actualizar();
-			String[][] TablaDifRH = getMatrizDifRH();
-			String[][] TablaDifAX = getMatrizDifAX();
-			if(TablaDifAX.length == 0 && TablaDifRH.length == 0){
-				btnAceptar.setEnabled(true);
-			}else{
-				btnAceptar.setEnabled(false);		
-			}
+			comparacion();
+			
+//			String[][] TablaDifRH = getMatrizDifRH();
+//			String[][] TablaDifAX = getMatrizDifAX();
+//			if(TablaDifAX.length == 0 && TablaDifRH.length == 0){
+//				btnAceptar.setEnabled(true);
+//			}else{
+//				btnAceptar.setEnabled(false);		
+//			}
 		}	
 	};
+	
+	public void comparacion(){
+		if(modelTotalRH.getRowCount()==0 && modelTotalAX.getRowCount()==0){
+			btnAceptar.setEnabled(true);
+		}else{
+			btnAceptar.setEnabled(false);
+		}
+	}
 	
 	public void Actualizar(){
 		int numeroRH = tablaRh.getRowCount();
