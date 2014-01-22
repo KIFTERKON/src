@@ -6,8 +6,6 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
-
-
 public class Obj_Configuracion_Sistema {
 	
 	private int couns;
