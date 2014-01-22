@@ -1452,7 +1452,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar(Obj_Configuracion_Sistema configs){
-		String query = "exec sp_config_sistema ?,?,?,?";
+		String query = "exec sp_config_sistema ?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1463,6 +1463,8 @@ public class GuardarSQL {
 			pstmt.setString(2, (configs.isBono_dia_extra())? "true" : "false");
 			pstmt.setString(3, (configs.isGuardar_horario())? "true" : "false");
 			pstmt.setString(4, (configs.isGuardar_departamento())? "true" : "false");
+			pstmt.setInt(5, configs.getPorcentaje_fs());
+			pstmt.setString(6,configs.getFechaLR());
 			
 			pstmt.executeUpdate();
 			con.commit();

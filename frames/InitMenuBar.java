@@ -1,6 +1,7 @@
 package frames;
 
 import fuente_sodas.Cat_Captura_Fuente_Sodas;
+import fuente_sodas.Cat_Comprobar_Fuente_Sodas_RH;
 import fuente_sodas.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas;
 import fuente_sodas.Cat_Filtro_Empleados_Con_Saldo_En_Fuente_De_Sodas_DH;
 import fuente_sodas.Cat_Filtro_Fue_Soda_Auxf;
@@ -41,7 +42,6 @@ import catalogos.Cat_Auto_Auditoria;
 import catalogos.Cat_Auto_Finanzas;
 import catalogos.Cat_Bancos;
 import catalogos.Cat_Bono_Complemento_Sueldo;
-import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Conexion_BD;
 import catalogos.Cat_Configuracion_Sistema;
 import catalogos.Cat_Cuadrante;

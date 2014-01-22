@@ -1,4 +1,4 @@
-package catalogos;
+package fuente_sodas;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -21,12 +21,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import fuente_sodas.Cat_Fue_Soda_Rh;
-
 import SQL.Connexion;
 
 import objetos.Obj_fuente_sodas_rh;
-
 
 @SuppressWarnings("serial")
 public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
@@ -87,7 +84,6 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		
 		Etiqueta();
 		
-		
 		panel.add(new JLabel("Tabla Desarrollo Humanos")).setBounds(110,40,200,20);
 		panel.add(lblTotalRH).setBounds(370,40,200,20);
 		panel.add(scrollRh).setBounds(110,65,320,290);
@@ -147,13 +143,18 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		sumaAX();
 		
 		
-		
-		if((TablaDifAX.length == 0 && TablaDifRH.length == 0)	){
-			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
-
+		if(/*modelRh.getRowCount()==modelAx.getRowCount() &&*/ modelTotalRH.getRowCount()==0 && modelTotalAX.getRowCount()==0){
+			btnAceptar.setEnabled(true);
 		}else{
-			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
+			btnAceptar.setEnabled(false);
 		}
+		
+//		if((TablaDifAX.length == 0 && TablaDifRH.length == 0)	){
+//			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
+//
+//		}else{
+//			btnAceptar.setEnabled(new Obj_fuente_sodas_rh().busquedaautoizacionfs().isStatus_autorizacion());
+//		}
 		
 		cont.add(panel);
 		agregar(tablaRh);
@@ -271,6 +272,7 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 		}
 		sumaAX();
 	}
+	
 	public void Etiqueta(){
 		int fila=0;
 		tablaRh.getColumnModel().getColumn(fila).setHeaderValue("Folio");

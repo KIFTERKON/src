@@ -16,8 +16,12 @@ public class Obj_Configuracion_Sistema {
 	private boolean guardar_horario;
 	private boolean guardar_departamento;
 	
+	private int porcentaje_fs;
+	private String fechaLR;
+	
 	public Obj_Configuracion_Sistema(){
 		this.bono_10_12=false; this.bono_dia_extra=false; this.guardar_horario=false; this.guardar_departamento=false;
+		this.porcentaje_fs=0;  this.fechaLR="";
 		this.couns=0;
 	}
 
@@ -59,6 +63,22 @@ public class Obj_Configuracion_Sistema {
 
 	public void setCouns(int couns) {
 		this.couns = couns;
+	}
+
+	public int getPorcentaje_fs() {
+		return porcentaje_fs;
+	}
+
+	public void setPorcentaje_fs(int porcentaje_fs) {
+		this.porcentaje_fs = porcentaje_fs;
+	}
+
+	public String getFechaLR() {
+		return fechaLR;
+	}
+
+	public void setFechaLR(String fechaLR) {
+		this.fechaLR = fechaLR;
 	}
 
 	public boolean guardar(){ 

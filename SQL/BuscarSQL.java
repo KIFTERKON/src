@@ -2101,7 +2101,7 @@ public class BuscarSQL {
 	
 	public Obj_Configuracion_Sistema Configuracion_sistema2() throws SQLException{
 		Obj_Configuracion_Sistema configs = new Obj_Configuracion_Sistema();
-		String query ="select * from tb_configuracion_sistema";
+		String query ="exec sp_select_configuracion_del_sistema";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2111,6 +2111,8 @@ public class BuscarSQL {
 				configs.setBono_dia_extra(rs.getBoolean("bono_dia_extra"));
 				configs.setGuardar_horario(rs.getBoolean("guardar_horario"));
 				configs.setGuardar_departamento(rs.getBoolean("guardar_departamento"));
+				configs.setPorcentaje_fs(rs.getInt("porcentaje_fuente_sodas"));
+				configs.setFechaLR(rs.getString("fecha_lista_raya_pasada"));
 			}
 			
 		} catch (Exception e) {

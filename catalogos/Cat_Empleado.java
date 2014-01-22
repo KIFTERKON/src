@@ -823,12 +823,6 @@ public class Cat_Empleado extends JFrame{
 						txtCalendario.setDate(date);
 						txtIngreso.setDate(date_ingreso);
 						
-						System.out.println(date_ingreso_imss_comparacion);
-						System.out.println(date_vencimiento_licencia_comparacion);
-						
-						System.out.println(date_ingreso_imss+"");
-						System.out.println(date_vencimiento_licencia+"");
-						
 						if(date_ingreso_imss_comparacion.before(date_ingreso_imss)){
 							txtIngresoImss.setDate(date_ingreso_imss);
 						}else{
