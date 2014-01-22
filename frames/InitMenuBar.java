@@ -19,17 +19,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
+import checador.Cat_Asignacion_Horario_Temporada;
+import checador.Cat_Checador;
+import checador.Cat_Dias_Inhabiles;
+import checador.Cat_Horario;
+import checador.Cat_Msj_Personal;
+import checador.Cat_Permisos_Checador;
+import checador.Cat_Reporte_General_Asistencia_Por_Establecimiento;
+import checador.Cat_Reporte_Impresion_Gafetes;
+import checador.Cat_Reportes_Checador;
+
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
-import CatalogoChecador.Cat_Asignacion_Horario_Temporada;
-import CatalogoChecador.Cat_Checador;
-import CatalogoChecador.Cat_Dias_Inhabiles;
-import CatalogoChecador.Cat_Horario;
-import CatalogoChecador.Cat_Msj_Personal;
-import CatalogoChecador.Cat_Permisos_Checador;
-import CatalogoChecador.Cat_Reporte_General_Asistencia_Por_Establecimiento;
-import CatalogoChecador.Cat_Reporte_Impresion_Gafetes;
-import CatalogoChecador.Cat_Reportes_Checador;
 import reporte.Reporte_Fuente_de_Sodas_Desarrollo_Humano;
 
 import catalogos.Cat_Actividad;

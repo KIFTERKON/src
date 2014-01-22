@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Impresion_Cuadrante" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="9d760aa8-188d-449b-a44e-dd7288683b99">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -11,6 +10,9 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="ireport.zoom" value="2.357947691000002"/>
+	<property name="ireport.x" value="2"/>
+	<property name="ireport.y" value="249"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -31,16 +33,17 @@ CASE WHEN ((select(datepart(weekday,getdate())))=7)
      THEN 1
      ELSE (select(datepart(weekday,getdate()))+1)
      END    )
-set @folio_empleado=(select * from tb_temp_imprimir_Cuadrante_femp)
- select 
+set @folio_empleado=16
+ select
         tb_empleado.folio
        ,tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as [Empleado]
        ,tb_establecimiento.nombre as Establecimiento
        ,tb_puesto.nombre as Puesto
        ,tb_empleado_cuadrante.cuadrante as Cuadrante
-       ,tb_actividad.actividad as Actividad  
+       ,tb_actividad.actividad as Actividad
        ,substring(CONVERT([varchar](30),(tb_tabla_cuadrante.hora_i),108),0,6)as Hora
-       ,tb_opciones_respuesta.nombre as Respuestas  
+       ,tb_opciones_respuesta.nombre as Respuestas
+       ,'Actividades Normales del Cuadrante' as tipo_de_actividad
       from tb_tabla_empleado_cuadrante
 INNER JOIN tb_empleado ON tb_empleado.folio=tb_tabla_empleado_cuadrante.folio_empleado
 INNER JOIN tb_puesto on tb_puesto.folio=tb_empleado.puesto_id
@@ -57,12 +60,46 @@ order by CONVERT([varchar](30),(tb_tabla_cuadrante.hora_i),108),tb_actividad.act
 	<field name="Empleado" class="java.lang.String"/>
 	<field name="Establecimiento" class="java.lang.String"/>
 	<field name="Puesto" class="java.lang.String"/>
-	<field name="Cuadrante" class="java.lang.String"/>
+	<field name="Cuadrante" class="java.lang.Integer"/>
 	<field name="Actividad" class="java.lang.String"/>
 	<field name="Hora" class="java.lang.String"/>
 	<field name="Respuestas" class="java.lang.String"/>
+	<field name="tipo_de_actividad" class="java.lang.String"/>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{folio}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<textField>
+					<reportElement uuid="9cc154f4-4490-455e-9f43-22f865c10236" mode="Opaque" x="0" y="0" width="200" height="14" forecolor="#FFFFFF" backcolor="#0000A3"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo_de_actividad}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="d6a0a927-d683-4c34-9fe0-0c6b900f7b04" style="Column header" x="0" y="20" width="50" height="10" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="false"/>
+						<paragraph tabStopWidth="30"/>
+					</textElement>
+					<text><![CDATA[Actividad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="028cc436-a72f-4efc-b5bb-37e4860431b1" style="Column header" x="50" y="20" width="50" height="10" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Hora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6a3eb6be-fe98-4cd0-9478-97a50f54ddb0" style="Column header" x="100" y="20" width="50" height="10" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Arial" size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Respuestas]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
 	</group>
 	<group name="Group2">
 		<groupExpression><![CDATA[$F{Empleado}]]></groupExpression>
@@ -139,33 +176,10 @@ order by CONVERT([varchar](30),(tb_tabla_cuadrante.hora_i),108),tb_actividad.act
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="11" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="d6a0a927-d683-4c34-9fe0-0c6b900f7b04" style="Column header" x="0" y="0" width="50" height="10" forecolor="#000000"/>
-				<textElement>
-					<font fontName="Arial" size="8" isBold="false"/>
-					<paragraph tabStopWidth="30"/>
-				</textElement>
-				<text><![CDATA[Actividad]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="028cc436-a72f-4efc-b5bb-37e4860431b1" style="Column header" x="70" y="0" width="50" height="10" forecolor="#000000"/>
-				<textElement>
-					<font fontName="Arial" size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Hora]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="6a3eb6be-fe98-4cd0-9478-97a50f54ddb0" style="Column header" x="150" y="0" width="50" height="10" forecolor="#000000"/>
-				<textElement>
-					<font fontName="Arial" size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Respuestas]]></text>
-			</staticText>
-		</band>
+		<band height="3" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<frame>
 				<reportElement uuid="f151e353-76a8-4f3f-a714-a571e7d11bc9" style="Row" mode="Opaque" x="0" y="0" width="198" height="22"/>
 				<textField isStretchWithOverflow="true">

@@ -259,7 +259,7 @@ import reporte.Reporte_Impresion_de_Cuadrantes;
 
 					if(valida_cantidad_seleccion ()==1){
 
-					  		new Reporte_Impresion_de_Cuadrantes();
+					  		new Reporte_Impresion_de_Cuadrantes(folio_empleado);
  
 					}
 					else{JOptionPane.showMessageDialog(null,"Debe de Seleccionar Un Empleado","Aviso",JOptionPane.NO_OPTION);
