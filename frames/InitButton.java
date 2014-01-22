@@ -21,7 +21,6 @@ import checador.Cat_Checador;
 
 import objetos.Obj_Usuario;
 import catalogos.Cat_Bancos;
-import catalogos.Cat_Comprobar_Fuente_Sodas_RH;
 import catalogos.Cat_Deduccion_Inasistencia;
 import catalogos.Cat_Empleado;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
@@ -31,6 +30,7 @@ import catalogos.Cat_Percepciones_Extra;
 import catalogos.Cat_Puesto;
 import catalogos.Cat_Revision_Lista_Raya;
 import catalogos.Cat_Sueldo;
+import fuente_sodas.Cat_Comprobar_Fuente_Sodas_RH;
 import fuente_sodas.Cat_Filtro_Fue_Soda_Auxf;
 import fuente_sodas.Cat_Filtro_Fue_Soda_Rh;
 

@@ -143,6 +143,8 @@ public class Cat_Empleado extends JFrame{
 	JTextField txtCalle = new JTextField();
 	JTextField txtDescanso = new JTextField();
 	JTextField txtDobla = new JTextField();
+	JTextField txtFechaUltimasVacaciones = new JTextField();
+	JTextField txtFechaIncapacidad = new JTextField();
 	
 	String Departamentos[] = new Obj_Departamento().Combo_Departamento();
 	@SuppressWarnings("rawtypes")
@@ -215,7 +217,9 @@ public class Cat_Empleado extends JFrame{
 	JButton btnHorario3 = new JButton(".");
 	JButton btnHorarioNew = new JButton("new");
 //	JButton btnQuitarHorario3 = new JButton("x");
-		
+	JButton btnFechaUltimasVacaciones = new JButton();
+	JButton btnFechaIncapacidad = new JButton();
+
 	JButton btnFoto = new JButton();
 	JButton btnStatus = new JButton();
 	JButton btnExaminar = new JButton("Examinar");
@@ -223,11 +227,15 @@ public class Cat_Empleado extends JFrame{
 	JButton btnCumpleaños_del_Mes = new JButton("Cumpleaños del Mes");
 	JButton btnIncontratables = new JButton("No contratables");
 	
+	JButton btnBaja = new JButton("No contratables");
+
 	JTextArea txaObservaciones = new JTextArea(5,5);
 	JScrollPane Observasiones = new JScrollPane(txaObservaciones);
 	
 	JDateChooser txtCalendario = new JDateChooser();
 	JDateChooser txtIngreso = new JDateChooser();
+	JDateChooser txtIngresoImss = new JDateChooser();
+	JDateChooser txtVencimientoLicencia = new JDateChooser();
 	
 	 private ButtonGroup bgSexo = new ButtonGroup();
 	 private JRadioButton rbMasculino = new JRadioButton("Masculino",true);
@@ -253,7 +261,13 @@ public class Cat_Empleado extends JFrame{
 	}
 	
 	public void getContenedor(){
-		
+//		pendientes en funcionalidad----------------------------------------------------
+		txtFechaUltimasVacaciones.setEnabled(false);
+		btnFechaUltimasVacaciones.setEnabled(false);
+		txtFechaIncapacidad.setEnabled(false);
+		btnFechaIncapacidad.setEnabled(false);
+		btnBaja.setEnabled(false);
+//		------------------------------------------------------------------------------
 //		efectos de bordes
 		blackline = BorderFactory.createLineBorder(new java.awt.Color(105,105,105));
 //		etched = BorderFactory.createEtchedBorder();
@@ -280,6 +294,12 @@ public class Cat_Empleado extends JFrame{
 		this.btnHorario2.setToolTipText("Asignar Segundo Horario");
 		this.btnHorario3.setToolTipText("Asignar Tercer Horario");
 		
+		this.txtFechaUltimasVacaciones.setToolTipText("Fecha de vacaciones");
+		this.txtFechaIncapacidad.setToolTipText("Fecha de incapacidad");
+		
+		this.btnFechaUltimasVacaciones.setToolTipText("Alimentacion de vacaciones");
+		this.btnFechaIncapacidad.setToolTipText("Alimentacion de incapacidad");
+			
 		this.txtHorario.setToolTipText("Horario");
 		this.txtHorario2.setToolTipText("Segundo Horario");
 		this.txtHorario3.setToolTipText("Tercer Horario");
@@ -298,13 +318,15 @@ public class Cat_Empleado extends JFrame{
 		
 		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		this.txtIngreso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+		this.txtIngresoImss.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+		this.txtVencimientoLicencia.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		
 		txtHorario.setFont(new Font("ARIAL", Font.ITALIC, 9));
 		txtHorario2.setFont(new Font("ARIAL", Font.ITALIC, 9));
 		txtHorario3.setFont(new Font("ARIAL", Font.ITALIC, 9));
 		
 //Datos personales ----------------------------------------------------------------------------------------------------------------------------		
-		panel.add(lblDatosPersonales).setBounds(10,y-15,ancho*7-30,230);
+		panel.add(lblDatosPersonales).setBounds(10,y-15,ancho*7-30,215);
 		panel.add(new JLabel("Folio:")).setBounds(x,y,ancho,20);
 		panel.add(txtFolioEmpleado).setBounds(x+ancho-40,y,ancho-15,20);
 		
@@ -316,19 +338,19 @@ public class Cat_Empleado extends JFrame{
 		
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
-		panel.add(btnFoto).setBounds(x*2+ancho*5,y,ancho+55,160);
+		panel.add(btnFoto).setBounds(x*2+ancho*5,y-5,ancho+55,160);
 		
 		panel.add(btnCumpleaños_del_Mes).setBounds(x+ancho*4+120,8,130,18);
 		panel.add(btnIncontratables).setBounds(x*2+ancho*3+ancho+230,8,130,18);
 		
-		panel.add(btnTrueFoto).setBounds(x*2+ancho*5-10, y+165,220,20);
+		panel.add(btnTrueFoto).setBounds(x*2+ancho*5-10, y+155,220,20);
 		
-		panel.add(btnExaminar).setBounds(x*2+ancho*5-10, y+185,80,20);		
-		panel.add(new JLabel("320 x 240")).setBounds(x*2+ancho*5+76, y+185,60,20);
-		panel.add(btnCamara).setBounds(x*2+ancho*5+130, y+185,80,20);
+		panel.add(btnExaminar).setBounds(x*2+ancho*5-10, y+175,80,20);		
+		panel.add(new JLabel("320 x 240")).setBounds(x*2+ancho*5+76, y+175,60,20);
+		panel.add(btnCamara).setBounds(x*2+ancho*5+130, y+175,80,20);
 		
-		panel.add(new JLabel("Clave Checador")).setBounds(x,y+=25,ancho,20);
-		panel.add(txtChecador).setBounds(x+ancho-40,y,ancho-15,20);
+		panel.add(new JLabel("Clave Checador")).setBounds(x+450,y,ancho,20);
+		panel.add(txtChecador).setBounds(x+(ancho*3)+110,y,ancho-15,20);
 		
 		panel.add(new JLabel("Nombre:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtNombre).setBounds(x+ancho-40,y,ancho-15,20);
@@ -369,7 +391,7 @@ public class Cat_Empleado extends JFrame{
 		panel.add(txtCurp).setBounds(x+ancho-40,y,ancho-15,20);
 		
 //Laboral ------------------------------------------------------------------------------------------------------------------------------------------		
-		panel.add(lblLaboral).setBounds(10,y+=40,ancho*7-30,195);
+		panel.add(lblLaboral).setBounds(10,y+=50,ancho*7-30,220);
 		
 		panel.add(new JLabel("Horario:")).setBounds(x,y+=15,ancho,20);
 		panel.add(btnHorarioNew).setBounds(x+ancho-83,y+3,17,17);
@@ -404,30 +426,45 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Fecha Ingreso:")).setBounds(x,y+=25, ancho, 20);
 		panel.add(txtIngreso).setBounds(x+(ancho)-40,y,130,20);
 		
-		panel.add(new JLabel("Fecha Baja:")).setBounds(x+250,y, ancho, 20);
-		panel.add(txtBaja).setBounds(x+ancho+180,y,140,20);
+		panel.add(chb_cuadrante_parcial).setBounds(x+ancho+175,y,150,20);
+		
+		
+		panel.add(new JLabel("Establecimiento:")).setBounds(x+470,y,ancho,20);
+		panel.add(cmbEstablecimiento).setBounds(x+ancho+410,y,ancho+20,20);
 		
 		panel.add(new JLabel("Status:")).setBounds(x,y+=25,ancho,20);
 		panel.add(cmbStatus).setBounds(x+ancho-40,y,ancho-15,20);
 		
-		panel.add(chb_cuadrante_parcial).setBounds(x+ancho+175,y,150,20);
+		panel.add(new JLabel("Fecha Baja:")).setBounds(x+250,y, ancho, 20);
+		panel.add(txtBaja).setBounds(x+ancho+180,y,115,20);
+		panel.add(btnBaja).setBounds(x+ancho+295,y,25,20);
 
 		panel.add(new JLabel("Departamento:")).setBounds(x+470,y,ancho,20);
 		panel.add(cmbDepartamento).setBounds(x+(ancho*3)+130,y,ancho+20,20);
+		
+		panel.add(new JLabel("N° Infonavit:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtNumeroInfonavit).setBounds(x+ancho-40,y,ancho+20,20);
+		
+		panel.add(new JLabel("Puesto:")).setBounds(x+290,y,ancho,20);
+		panel.add(cmbPuesto).setBounds(x+330,y,ancho*2+100,20);
 		
 		panel.add(new JLabel("N° Seguro Social:")).setBounds(x,y+=25,ancho,20);
 		panel.add(txtImss).setBounds(x+ancho-40,y,ancho+35,20);
 		panel.add(cmbActivo_Inactivo).setBounds(x+ancho+135,y,180,20);
 		
-		panel.add(new JLabel("N° Infonavit:")).setBounds(x+470,y,ancho,20);
-		panel.add(txtNumeroInfonavit).setBounds(x+(ancho*3)+130,y,ancho+20,20);
+		panel.add(new JLabel("Ingreso IMSS:")).setBounds(x+470,y,ancho,20);
+		panel.add(txtIngresoImss).setBounds(x+(ancho*3)+130,y,ancho+20,20);
 		
-		panel.add(new JLabel("Establecimiento:")).setBounds(x,y+=25,ancho,20);
-		panel.add(cmbEstablecimiento).setBounds(x+ancho-40,y,ancho+30,20);
+		panel.add(new JLabel("Vencimiento de licencia:")).setBounds(x,y+=25,ancho,20);
+		panel.add(txtVencimientoLicencia).setBounds(x+ancho-20,y,ancho-20,20);
 		
-		panel.add(new JLabel("Puesto:")).setBounds(x+290,y,ancho,20);
-		panel.add(cmbPuesto).setBounds(x+330,y,ancho*2+100,20);
-
+		panel.add(new JLabel("Ultimas vacaciones:")).setBounds(x+ancho+105,y,ancho,20);
+		panel.add(txtFechaUltimasVacaciones).setBounds(x+(ancho*2)+65,y,ancho-40,20);
+		panel.add(btnFechaUltimasVacaciones).setBounds(x+(ancho*3)+25,y,25,20);
+		
+		panel.add(new JLabel("Ultima icapacidad:")).setBounds(x+(ancho*3)+55,y,ancho,20);
+		panel.add(txtFechaIncapacidad).setBounds(x+(ancho*3)+145,y,ancho-40,20);
+		panel.add(btnFechaIncapacidad).setBounds(x+(ancho*4)+105,y,25,20);
 //Percepciones y Deducciones ------------------------------------------------------------------------------------------------------------------------------------------		
 		panel.add(lblPercepciones).setBounds(10,y+=30,ancho*4-40,170);
 		panel.add(new JLabel("Salario Diario:")).setBounds(x,y+=15,ancho,20);
@@ -466,11 +503,11 @@ public class Cat_Empleado extends JFrame{
 		panel.add(new JLabel("Ultima actualización:")).setBounds(x+250,y,ancho,20);
 		panel.add(txtFechaActualizacion).setBounds(x+ancho+220,y,ancho,20);
 		
-		panel.add(btnDeshacer).setBounds(x,y+=35,ancho-20,20);
+		panel.add(btnDeshacer).setBounds(x,y+=30,ancho-20,20);
 		panel.add(btnSalir).setBounds(x+ancho+10,y,ancho-20,20);
 		panel.add(btnGuardar).setBounds(x+ancho+ancho+20,y,ancho-20,20);
 		
-		panel.add(Observasiones).setBounds(x+ancho*3+98,y-169,ancho+280,190);
+		panel.add(Observasiones).setBounds(x+ancho*3+98,y-163,ancho+280,180);
 		
 		txaObservaciones.setLineWrap(true); 
 		txaObservaciones.setWrapStyleWord(true);
@@ -777,14 +814,36 @@ public class Cat_Empleado extends JFrame{
 					try {
 						Date date = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_nacimiento());
 						Date date_ingreso = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso());
+						
+						Date date_ingreso_imss = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_ingreso_imss());
+						Date date_vencimiento_licencia = new SimpleDateFormat("dd/MM/yyyy").parse(re.getFecha_vencimiento_licencia());
+						
+						Date date_ingreso_imss_comparacion = new SimpleDateFormat("dd/MM/yyyy").parse("1/01/1900");
+						Date date_vencimiento_licencia_comparacion = new SimpleDateFormat("dd/MM/yyyy").parse("1/01/1900");
+						
 						txtCalendario.setDate(date);
 						txtIngreso.setDate(date_ingreso);
+						
+						if(date_ingreso_imss_comparacion.before(date_ingreso_imss)){
+							txtIngresoImss.setDate(date_ingreso_imss);
+						}else{
+							txtIngresoImss.setDate(null);
+						}
+						
+						if(date_vencimiento_licencia_comparacion.before(date_vencimiento_licencia)){
+							txtVencimientoLicencia.setDate(date_vencimiento_licencia);
+						}else{
+							txtVencimientoLicencia.setDate(null);
+						}
+						
+						
+						
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}
 					
 					txtCalle.setText(re.getCalle()+"");
-					txtColonia.setText(re.getColionia()+"");
+					txtColonia.setText(re.getColonia()+"");
 					txtPoblacion.setText(re.getPoblacion()+"");
 					txtTelefono_Familiar.setText(re.getTelefono_familiar()+"");
 					txtTelefono_Propio.setText(re.getTelefono_propio()+"");
@@ -966,7 +1025,7 @@ public class Cat_Empleado extends JFrame{
 							
 							empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 							empleado.setCalle(txtCalle.getText());
-							empleado.setColionia(txtColonia.getText());
+							empleado.setColonia(txtColonia.getText());
 							empleado.setPoblacion(txtPoblacion.getText());
 							empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
 							empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
@@ -1033,6 +1092,18 @@ public class Cat_Empleado extends JFrame{
 							
 							Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 							empleado.setPuesto(comboFolioPues.getFolio());
+							
+							if(txtIngresoImss.getDate()==null){
+								empleado.setFecha_ingreso_imss("1/01/1900");
+							}else{
+								empleado.setFecha_ingreso_imss(new SimpleDateFormat("dd/MM/yyyy").format(txtIngresoImss.getDate()));
+							}
+							
+							if(txtVencimientoLicencia.getDate()==null){
+								empleado.setFecha_vencimiento_licencia("1/01/1900");
+							}else{
+								empleado.setFecha_vencimiento_licencia(new SimpleDateFormat("dd/MM/yyyy").format(txtVencimientoLicencia.getDate()));
+							}
 							
 //					percepciones y deducciones
 					
@@ -1125,7 +1196,7 @@ public class Cat_Empleado extends JFrame{
 						
 						empleado.setFecha_nacimiento(new SimpleDateFormat("dd/MM/yyyy").format(txtCalendario.getDate()));
 						empleado.setCalle(txtCalle.getText());
-						empleado.setColionia(txtColonia.getText());
+						empleado.setColonia(txtColonia.getText());
 						empleado.setPoblacion(txtPoblacion.getText());
 						empleado.setTelefono_familiar(txtTelefono_Familiar.getText()+"");
 						empleado.setTelefono_propio(txtTelefono_Propio.getText()+"");
@@ -1193,6 +1264,18 @@ public class Cat_Empleado extends JFrame{
 						Obj_Puesto comboFolioPues = new Obj_Puesto().buscar_pues(cmbPuesto.getSelectedItem()+"");
 						empleado.setPuesto(comboFolioPues.getFolio());
 						
+						if(txtIngresoImss.getDate()==null){
+							empleado.setFecha_ingreso_imss("1/01/1900");
+						}else{
+							empleado.setFecha_ingreso_imss(new SimpleDateFormat("dd/MM/yyyy").format(txtIngresoImss.getDate()));
+						}
+						
+						if(txtVencimientoLicencia.getDate()==null){
+							empleado.setFecha_vencimiento_licencia("1/01/1900");
+						}else{
+							empleado.setFecha_vencimiento_licencia(new SimpleDateFormat("dd/MM/yyyy").format(txtVencimientoLicencia.getDate()));
+						}
+
 //				percepciones y deducciones
 						if(!txtSalarioDiario.getText().equals("")){
 							empleado.setSalario_diario(Float.parseFloat(txtSalarioDiario.getText())) ;
@@ -1243,7 +1326,6 @@ public class Cat_Empleado extends JFrame{
 //						}else{
 //							empleado.setObservasiones("");
 //						}
-						
 						if(empleado.guardar()){
 							panelLimpiar();
 							panelEnabledFalse();
@@ -1331,6 +1413,9 @@ public class Cat_Empleado extends JFrame{
 		txtTelefono_Familiar.setEditable(true);
 		chb_cuadrante_parcial.setEnabled(true);
 		
+		txtIngresoImss.setEnabled(true);
+		txtVencimientoLicencia.setEnabled(true);
+		
 		txtCalle.setEnabled(true);
 		txtColonia.setEnabled(true);
 		txtPoblacion.setEnabled(true);
@@ -1375,6 +1460,9 @@ public class Cat_Empleado extends JFrame{
 		txtIngreso.setEnabled(false);
 		txtTelefono_Familiar.setEditable(false);
 		chb_cuadrante_parcial.setEnabled(false);
+		
+		txtIngresoImss.setEnabled(false);
+		txtVencimientoLicencia.setEnabled(false);
 		
 		txtCalle.setEnabled(false);
 		txtColonia.setEnabled(false);
@@ -1442,6 +1530,9 @@ public class Cat_Empleado extends JFrame{
 		txtRFC.setText("");
 		txtCurp.setText("");
 		txtIngreso.setDate(null);
+		
+		txtIngresoImss.setDate(null);
+		txtVencimientoLicencia.setDate(null);
 		
 		txtDescanso.setText("");
 		txtDobla.setText("");
@@ -1710,6 +1801,8 @@ public class Cat_Empleado extends JFrame{
 		String error="";
 		String fechaNull = txtCalendario.getDate()+"";
 		String fechaIngresoNull = txtIngreso.getDate()+"";
+//		String fechaIngresoImssNull = txtIngresoImss.getDate()+"";
+//		String fechaVencimientoLicenciaNull = txtVencimientoLicencia.getDate()+"";
 		
 		if(txtFolioEmpleado.getText().equals("")) 		error+= "Folio\n";
 		if(txtNombre.getText().equals("")) 		error+= "Nombre\n";
@@ -1739,6 +1832,8 @@ public class Cat_Empleado extends JFrame{
 		if(cmbPrestamos.getSelectedItem().equals("Selecciona un Rango de Prestamo")) error += "Rango de Prestamo\n";
 		if(fechaNull.equals("null"))error+= "Fecha de Nacimiento\n";	
 		if(fechaIngresoNull.equals("null"))error += "Fecha de ingreso\n";
+//		if(fechaIngresoImssNull.equals("null"))error +="Fecha de ingreso IMSS\n";
+//		if(fechaVencimientoLicenciaNull.equals("null"))error += "Fecha de vencimiento de licencia de conducir\n";
 		
 		return error;
 	}

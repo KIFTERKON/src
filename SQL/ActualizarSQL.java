@@ -58,7 +58,7 @@ public class ActualizarSQL {
 	Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 	
 	public boolean Empleado(Obj_Empleado empleado, int folio){
-		String query = "exec sp_update_alta_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+		String query = "exec sp_update_alta_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
 
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
@@ -86,7 +86,7 @@ public class ActualizarSQL {
 			pstmt.setString(i+=1,	empleado.getAp_materno().toUpperCase());
 			pstmt.setString(i+=1,	empleado.getFecha_nacimiento());
 			pstmt.setString(i+=1,	empleado.getCalle().toUpperCase());
-			pstmt.setString(i+=1, 	empleado.getColionia().toUpperCase());
+			pstmt.setString(i+=1, 	empleado.getColonia().toUpperCase());
 			pstmt.setString(i+=1, 	empleado.getPoblacion().toUpperCase());
 			pstmt.setString(i+=1, 	empleado.getTelefono_familiar().toUpperCase());
 			pstmt.setString(i+=1, 	empleado.getTelefono_propio().toUpperCase());
@@ -130,8 +130,12 @@ public class ActualizarSQL {
 			
 			pstmt.setString(i+=1, 	empleado.getFecha_actualizacion().toUpperCase());
 			
+			
+//			cambios extras 
 			pstmt.setInt(i+=1,		empleado.getHorario3());
 			pstmt.setInt(i+=1, 		empleado.getStatus_h3());
+			pstmt.setString(i+=1, 		empleado.getFecha_ingreso_imss());
+			pstmt.setString(i+=1, 		empleado.getFecha_vencimiento_licencia());
 			
 			pstmt.executeUpdate();
 			con.commit();
@@ -1039,9 +1043,8 @@ public class ActualizarSQL {
 	}
 	
 	public boolean Configurar_Sistema(Obj_Configuracion_Sistema configs){
-		String query = "update tb_configuracion_sistema set bono_10_12=?, bono_dia_extra=?, guardar_horario=?, guardar_departamento=?";
+		String query = "exec sp_update_config_sistema ?,?,?,?,?,?";
 				
-		System.out.println(query);
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1052,6 +1055,8 @@ public class ActualizarSQL {
 			pstmt.setString(2, (configs.isBono_dia_extra())? "true" : "false");
 			pstmt.setString(3, (configs.isGuardar_horario())? "true" : "false");
 			pstmt.setString(4, (configs.isGuardar_departamento())? "true" : "false");
+			pstmt.setInt(5, configs.getPorcentaje_fs());
+			pstmt.setString(6,configs.getFechaLR());
 						
 			pstmt.executeUpdate();
 			con.commit();

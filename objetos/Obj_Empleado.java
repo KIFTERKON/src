@@ -51,6 +51,8 @@ public class Obj_Empleado {
 	private String numero_infonavit;
 	private int establecimiento;
 	private int puesto;
+	private String fecha_ingreso_imss;
+	private String fecha_vencimiento_licencia;
 	
 //	percepciones y deducciones
 	private float salario_diario;
@@ -137,11 +139,11 @@ public class Obj_Empleado {
 		this.calle = calle;
 	}
 
-	public String getColionia() {
+	public String getColonia() {
 		return colonia;
 	}
 
-	public void setColionia(String colonia) {
+	public void setColonia(String colonia) {
 		this.colonia = colonia;
 	}
 
@@ -359,6 +361,22 @@ public class Obj_Empleado {
 
 	public void setPuesto(int puesto) {
 		this.puesto = puesto;
+	}
+
+	public String getFecha_ingreso_imss() {
+		return fecha_ingreso_imss;
+	}
+
+	public void setFecha_ingreso_imss(String fecha_ingreso_imss) {
+		this.fecha_ingreso_imss = fecha_ingreso_imss;
+	}
+
+	public String getFecha_vencimiento_licencia() {
+		return fecha_vencimiento_licencia;
+	}
+
+	public void setFecha_vencimiento_licencia(String fecha_vencimiento_licencia) {
+		this.fecha_vencimiento_licencia = fecha_vencimiento_licencia;
 	}
 
 	public float getSalario_diario() {

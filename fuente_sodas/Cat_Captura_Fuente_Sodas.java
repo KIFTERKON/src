@@ -591,7 +591,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		JLayeredPane panel2 = new JLayeredPane();
 		
 	//Declarar Imagen para Txa	
-		ImageIcon img = new ImageIcon("imagen/fuenteSodasTicket.png");
+		ImageIcon img = new ImageIcon("imagen/fuenteSodasTicket2.png");
 		
 		JScrollPane jScrollPane1 = new JScrollPane();
 		JButton jButImprime = new JButton("Imprimir");
@@ -648,7 +648,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
         				+"\n\n                                       "//espacio para acomodar fecha
         				+"                   "+fecha+"\n\n"
 						+lblEmpleado+"\n\n"+establecimiento+"\n\n"
-						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n"
+						+puesto+"\n\n"+ticket+"\n\n"+importe+"\n\n\n\n\n"
 						+linea+"\n"+firma+"\n\n\n\n.")
 	        );
 			
