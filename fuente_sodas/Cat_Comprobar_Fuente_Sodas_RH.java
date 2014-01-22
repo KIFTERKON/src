@@ -23,6 +23,7 @@ import javax.swing.table.TableCellRenderer;
 
 import SQL.Connexion;
 
+import objetos.Obj_fuente_sodas_auxf;
 import objetos.Obj_fuente_sodas_rh;
 
 @SuppressWarnings("serial")
@@ -189,8 +190,8 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	
 	ActionListener opAceptar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
-			Obj_fuente_sodas_rh fuente_soda = new Obj_fuente_sodas_rh();
-			System.out.println(fuente_soda.actualizar_status_ticket());
+			new Obj_fuente_sodas_rh().actualizar_status_ticket();
+			
 			Actualizar();
 			btnAceptar.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Se Comprobaron con exito","Aviso",JOptionPane.INFORMATION_MESSAGE);
