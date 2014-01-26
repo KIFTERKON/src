@@ -1,5 +1,6 @@
 package catalogos;
 
+
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -188,4 +189,5 @@ public class Cat_Directorios extends JFrame {
 		}
 		public void keyReleased(KeyEvent arg0) {}
 	};
+
 }

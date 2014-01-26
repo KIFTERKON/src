@@ -22,6 +22,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import cuadrantes.Cat_Filtro_Asignacion_Mensaje;
+
 import objetos.JTextFieldLimit;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Empleado;

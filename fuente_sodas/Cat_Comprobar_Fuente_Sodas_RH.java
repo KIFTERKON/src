@@ -181,9 +181,10 @@ public class Cat_Comprobar_Fuente_Sodas_RH extends JDialog{
 	
 	ActionListener opAceptar = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0){
+			Actualizar();
 			new Obj_fuente_sodas_rh().actualizar_status_ticket();
 			
-			Actualizar();
+			
 			btnAceptar.setEnabled(false);
 			JOptionPane.showMessageDialog(null, "Se Comprobaron con exito","Aviso",JOptionPane.INFORMATION_MESSAGE);
 		}
