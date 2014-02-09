@@ -150,6 +150,8 @@ public class Cat_Permisos_Checador extends JFrame {
 		grupo.add(chbP_entrarTarde);
 		grupo.add(chbP_noAsistir);
 		grupo.add(chbP_noAsistir2);
+
+		txtFolio.addKeyListener(validaNumerico);
 		
 		btnGuardar.addActionListener(guardar);
 		btnBuscar.addActionListener(opBuscar);
@@ -191,6 +193,21 @@ public class Cat_Permisos_Checador extends JFrame {
 				btnBuscar.doClick();
 			}
 		}
+	};
+	
+ 	KeyListener validaNumerico = new KeyListener() {
+		public void keyTyped(KeyEvent e){
+			char caracter = e.getKeyChar();
+
+			if(((caracter < '0') ||
+		        (caracter > '9')) &&
+		        (caracter != KeyEvent.VK_BACK_SPACE)){
+		    	e.consume(); 
+		    }
+		}
+		public void keyReleased(KeyEvent e) {	
+		}
+		public void keyPressed(KeyEvent e) {}
 	};
 	
 	public String ValidaCampos(){
@@ -268,10 +285,11 @@ public class Cat_Permisos_Checador extends JFrame {
 										Campos_False();
 										txtFolio.setEditable(true);
 										txtFolio.requestFocus();
-											JOptionPane.showMessageDialog(null,"El Registro se guardo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null,"El Registro se actualizo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 											return;
 									}else{
-										
+										JOptionPane.showMessageDialog(null,"El Registro no se a actializado!","Error",JOptionPane.ERROR_MESSAGE);
+										return;
 									}
 								}
 							}else{

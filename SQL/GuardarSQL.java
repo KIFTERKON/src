@@ -19,6 +19,7 @@ import ObjetoChecador.ObjHorario;
 import ObjetoChecador.Obj_Dias_Inhabiles;
 import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
+import ObjetoChecador.Obj_Solicitud_De_Empleados;
 
 import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Actividad;
@@ -2679,6 +2680,77 @@ public boolean Guardar_Horario(ObjHorario horario){
 				} catch(SQLException e){
 					e.printStackTrace();
 					}
+			}		
+			return true;
+		}
+		
+		public boolean Guardar_Solicitud(Obj_Solicitud_De_Empleados solicitud){
+			String query = "exec sp_insert_solicitud_empleado ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+
+				String pc_nombre = InetAddress.getLocalHost().getHostName();
+				String pc_ip = InetAddress.getLocalHost().getHostAddress();
+
+//				System.out.println(solicitud.getFolio_empleado());
+//				System.out.println(solicitud.getUsuario());
+//				System.out.println(solicitud.getFolio_permiso());
+//				System.out.println(solicitud.getFolio_solicitud());
+//				System.out.println(solicitud.getFolio_cambio());
+//				System.out.println(solicitud.getCambio_a());
+//				System.out.println(solicitud.getFecha_solicitada());
+//				System.out.println(solicitud.getTemp_fijo());
+//				System.out.println(solicitud.getCantidad_solicitada());
+//				System.out.println(solicitud.getPuntualidad_y_asistencia());
+//				System.out.println(solicitud.getCumplimiento_de_tareas());
+//				System.out.println(solicitud.getDiciplina());
+//				System.out.println(solicitud.getRespeto_y_trato_general());
+//				System.out.println(solicitud.getMotivo());
+//				System.out.println(pc_nombre);
+//				System.out.println(pc_ip);
+				
+				int i=1;
+				pstmt.setInt (i,solicitud.getFolio_empleado());
+				pstmt.setString (i+=1,solicitud.getUsuario().toLowerCase().trim());
+				pstmt.setInt (i+=1,solicitud.getFolio_permiso());
+				pstmt.setInt (i+=1,solicitud.getFolio_solicitud());
+				pstmt.setInt (i+=1,solicitud.getFolio_cambio());
+				pstmt.setString (i+=1,solicitud.getCambio_a());
+				pstmt.setString (i+=1,solicitud.getFecha_solicitada());
+				pstmt.setInt (i+=1,solicitud.getTemp_fijo());
+				pstmt.setFloat (i+=1,solicitud.getCantidad_solicitada());
+				pstmt.setInt (i+=1,solicitud.getPuntualidad_y_asistencia());
+				pstmt.setInt (i+=1,solicitud.getCumplimiento_de_tareas());
+				pstmt.setInt (i+=1,solicitud.getDiciplina());
+				pstmt.setInt (i+=1,solicitud.getRespeto_y_trato_general());
+				pstmt.setString (i+=1,solicitud.getMotivo().toUpperCase());
+				pstmt.setString (i+=1,pc_nombre);
+				pstmt.setString (i+=1,pc_ip);
+				
+				pstmt.execute();
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: " + e.getMessage());
+				if (con != null){
+					try {
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					} catch(SQLException ex) {
+						System.out.println(ex.getMessage());
+					}
+				} 
+				return false;
+			}finally{
+				try {
+					pstmt.close();
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
 			}		
 			return true;
 		}

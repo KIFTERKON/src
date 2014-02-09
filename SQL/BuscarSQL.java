@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import ObjetoChecador.ObjHorario;
 import ObjetoChecador.Obj_Dias_Inhabiles;
+import ObjetoChecador.Obj_Encargado_De_Solicitudes;
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
@@ -4781,5 +4782,29 @@ public class BuscarSQL {
 			e1.printStackTrace();
 		}
 		return Matriz;
+	}
+	
+	public Obj_Encargado_De_Solicitudes Emcargado_de_solicitudes(String encargado) throws SQLException{
+		Obj_Encargado_De_Solicitudes objEncargado = new Obj_Encargado_De_Solicitudes();
+		String query = "exec sp_select_seleccion_empleados_por_encargado '"+ encargado +"';";
+		Statement stmt = null;
+
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			while(rs.next()){
+				objEncargado.setFolio(rs.getInt("folio_encargado"));
+				objEncargado.setEstablecimiento(rs.getInt("establecimiento_id"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return objEncargado;
 	}
 }

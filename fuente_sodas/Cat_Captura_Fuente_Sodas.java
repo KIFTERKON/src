@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -44,6 +45,7 @@ import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 @SuppressWarnings("serial")
 public class Cat_Captura_Fuente_Sodas extends JFrame
 {
+	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
@@ -585,7 +587,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		}catch(Exception e){}
 	}
 
-	public class Imprime_Ticket_Captura_Fuente_Sodas extends JFrame
+	public class Imprime_Ticket_Captura_Fuente_Sodas extends JDialog
 	{
 		Container container = getContentPane();
 		JLayeredPane panel2 = new JLayeredPane();
@@ -621,10 +623,13 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		String linea = "_____________________________________________________";
 		String firma=" Firma: (  ";
 //-----------------------------------------------------------------------------------------------------------
-
+		JFrame frame = null;
 		@SuppressWarnings("deprecation")
 		public Imprime_Ticket_Captura_Fuente_Sodas(String pass)
 		{
+			
+			frame = new JFrame();
+			this.setModal(true);
 			this.setTitle("Imprimir Ticket");
 			Font font = new Font("ARIAL",Font.PLAIN,8);
 			jTextArea1.setFont(font);
@@ -657,6 +662,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 			jButImprime.requestFocus();
 			jButImprime.addActionListener(opImprimir);
 			
+			frame.add(panel2);
 			this.setSize(260, 400);
 			this.setLocationRelativeTo(null);
 			container.add(panel2);
@@ -673,7 +679,7 @@ public class Cat_Captura_Fuente_Sodas extends JFrame
 		
 		public void imprimir() {
 			
-			PrintJob print = Toolkit.getDefaultToolkit().getPrintJob(this, "", null); 
+			PrintJob print = Toolkit.getDefaultToolkit().getPrintJob(frame, "", null); 
 					try { 
 						Graphics g = print.getGraphics(); 
 						jTextArea1.print(g); 
