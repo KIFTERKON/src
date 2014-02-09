@@ -77,13 +77,15 @@ public class Cat_Plantilla_Tabla_Cuadrante {
 	public Cat_Plantilla_Tabla_Cuadrante(){
 		
 		this.tablaPlantillaLibre.getTableHeader().setReorderingAllowed(false);
+		this.tablaPlantillaLibre.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		this.tablaPlantillaLibre.getColumnModel().getColumn(0).setMaxWidth(40);
 		this.tablaPlantillaLibre.getColumnModel().getColumn(0).setMinWidth(40);
-		this.tablaPlantillaLibre.getColumnModel().getColumn(1).setMaxWidth(550);
+		this.tablaPlantillaLibre.getColumnModel().getColumn(1).setMaxWidth(1500);
 		this.tablaPlantillaLibre.getColumnModel().getColumn(1).setMinWidth(550);
-		this.tablaPlantillaLibre.getColumnModel().getColumn(2).setMaxWidth(250);
+		this.tablaPlantillaLibre.getColumnModel().getColumn(2).setMaxWidth(1500);
 		this.tablaPlantillaLibre.getColumnModel().getColumn(2).setMinWidth(250);
-		this.tablaPlantillaLibre.getColumnModel().getColumn(3).setMaxWidth(250);
+		this.tablaPlantillaLibre.getColumnModel().getColumn(3).setMaxWidth(1500);
 		this.tablaPlantillaLibre.getColumnModel().getColumn(3).setMinWidth(250);
 		
 		TableCellRenderer renderPlantillaLibre = new TableCellRenderer() { 
@@ -113,15 +115,17 @@ public class Cat_Plantilla_Tabla_Cuadrante {
 			this.tablaPlantillaLibre.getColumnModel().getColumn(i).setCellRenderer(renderPlantillaLibre); 
 		}
 		
-		this.tablaPlantillaMultiple.getTableHeader().setReorderingAllowed(false);
+		this.tablaPlantillaMultiple.getTableHeader().setReorderingAllowed(false) ;
+		this.tablaPlantillaMultiple.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		this.tablaPlantillaMultiple.getColumnModel().getColumn(0).setMaxWidth(40);
 		this.tablaPlantillaMultiple.getColumnModel().getColumn(0).setMinWidth(40);
-		this.tablaPlantillaMultiple.getColumnModel().getColumn(1).setMaxWidth(600);
+		this.tablaPlantillaMultiple.getColumnModel().getColumn(1).setMaxWidth(1500);
 		this.tablaPlantillaMultiple.getColumnModel().getColumn(1).setMinWidth(600);
-		this.tablaPlantillaMultiple.getColumnModel().getColumn(2).setMaxWidth(65);
-		this.tablaPlantillaMultiple.getColumnModel().getColumn(2).setMinWidth(65);
-		this.tablaPlantillaMultiple.getColumnModel().getColumn(3).setMaxWidth(198);
-		this.tablaPlantillaMultiple.getColumnModel().getColumn(3).setMinWidth(198);
+		this.tablaPlantillaMultiple.getColumnModel().getColumn(2).setMaxWidth(70);
+		this.tablaPlantillaMultiple.getColumnModel().getColumn(2).setMinWidth(70);
+		this.tablaPlantillaMultiple.getColumnModel().getColumn(3).setMaxWidth(500);
+		this.tablaPlantillaMultiple.getColumnModel().getColumn(3).setMinWidth(193);
 		
 		TableCellRenderer renderPlantillaMultiple = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 

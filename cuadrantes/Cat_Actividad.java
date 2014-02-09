@@ -8,11 +8,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.StringTokenizer;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -21,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 
@@ -89,12 +92,17 @@ public class Cat_Actividad extends JDialog {
 	
 	String actividadOld;
 	public Cat_Actividad(){
+		
+ 
+	    
 		this.init();
 		
 		this.setSize(730,530);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+	
 		
 	}
 	
@@ -131,9 +139,23 @@ public class Cat_Actividad extends JDialog {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
+
 	}
 	
 	public void init(){
+		//  abre el filtro de busqueda de empleado al presionar la tecla f2
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+	       KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "filtro");
+	    
+	    getRootPane().getActionMap().put("filtro", new AbstractAction(){
+	        @Override
+	        public void actionPerformed(ActionEvent e)
+	        {
+	    
+	        	btnBuscar.doClick();    	
+	        }
+	    });
+	    
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/actividad_icon&16.png"));
 		this.setTitle("Actividad");
 		this.panel.setBorder(BorderFactory.createTitledBorder("Actividad"));

@@ -15,11 +15,13 @@ public class Obj_Permisos_Checador {
 	int tipo_de_permiso;
 	String motivo;
 	boolean status;
+	int descanso;
 	
 	public Obj_Permisos_Checador(){
 		
 		this.folio=0;	this.folio_empleado=0;	this.nombre_empleado="";	this.folio_usuario=0;	
-		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";				this.status=false;			
+		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";				this.status=false;	
+		this.descanso=0; 
 		
 	}
 	
@@ -85,6 +87,14 @@ public class Obj_Permisos_Checador {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public int getDescanso() {
+		return descanso;
+	}
+
+	public void setDescanso(int descanso) {
+		this.descanso = descanso;
 	}
 
 	public Obj_Permisos_Checador buscar(int folio){

@@ -1921,7 +1921,7 @@ public class GuardarSQL {
 	}
 	
 	public boolean Guardar_Permiso_Checador(Obj_Permisos_Checador Permiso){
-		String query = "exec sp_insert_permiso_checador ?,?,?,?,?,?";
+		String query = "exec sp_insert_permiso_checador ?,?,?,?,?,?,?";
 		Connection con = new Connexion().conexion();
 		PreparedStatement pstmt = null;
 		try {
@@ -1935,7 +1935,8 @@ public class GuardarSQL {
 			pstmt.setInt(4, Permiso.getTipo_de_permiso());
 			pstmt.setString(5, Permiso.getMotivo().toUpperCase().trim());
 			pstmt.setInt(6, (Permiso.isStatus())? 1: 0);
-			
+			pstmt.setInt(7,Permiso.getDescanso());
+			System.out.println("prueba dia"+Permiso.getDescanso());
 			pstmt.executeUpdate();
 		
 			con.commit();
