@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
+import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -108,6 +110,19 @@ public class Cat_Reporte_Impresion_Gafetes extends JFrame{
 		tabla.getColumnModel().getColumn(2).setMinWidth(140);
 		tabla.getColumnModel().getColumn(3).setMaxWidth(240);
 		tabla.getColumnModel().getColumn(3).setMinWidth(240);
+		
+//      abre el filtro de empleado
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+           KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "filtro");
+        
+        getRootPane().getActionMap().put("filtro", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+            	btn_Empleados.doClick();
+            }
+        });
+
 
 	}
 	

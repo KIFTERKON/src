@@ -18,19 +18,24 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -55,6 +60,9 @@ public class Cat_Permisos_Checador extends JFrame {
 	JLabel lblFolioEmpleado = new JLabel("Folio de Empleado:");
 	JLabel lblFecha = new JLabel("Fecha de Permiso");
 	JLabel lblMotivo = new JLabel("Motivo:");
+	//pa
+	JLabel lblDia = new JLabel("Selecione el dia a Descansar Despues de la fecha:");
+	//pb
 	
 	JLabel lblUsuario = new JLabel("Usuario: ");
 	JLabel lblEmpleado = new JLabel("Empleado: ");
@@ -68,11 +76,30 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	ButtonGroup grupo = new ButtonGroup();
 	
+	//pa
+	ButtonGroup gruporb = new ButtonGroup();
+	//pb
+	
 	JCheckBox chbP_trabajarCorrido = new JCheckBox("1.- Permiso Para Trabajar Corrido");
 	JCheckBox chbP_salirTemprano = new JCheckBox("2.- Permiso Para Salir Temprano");
 	JCheckBox chbP_entrarTarde = new JCheckBox("3.- Permiso Para Entrar Tarde");
 	JCheckBox chbP_noAsistir = new JCheckBox("4.- Permiso Para No Asistir (con goce de sueldo)");
 	JCheckBox chbP_noAsistir2 = new JCheckBox("5.- Permiso Para No Asistir (sin goce de sueldo)");
+	
+	//pa
+	JCheckBox chbP_cambiodescanso = new JCheckBox("6.- Permiso para Cambiar el Dia de Descanso");
+	
+	
+	JRadioButton rbLunes = new JRadioButton("Lunes",false);
+	JRadioButton rbMartes = new JRadioButton("Martes",false);
+	JRadioButton rbMiercoles = new JRadioButton("Miércoles",false);
+	JRadioButton rbJueves = new JRadioButton("Jueves",false);
+	JRadioButton rbViernes = new JRadioButton("Viernes",false);
+	JRadioButton rbSabado = new JRadioButton("Sabado",false);
+	JRadioButton rbDomingo = new JRadioButton("Domingo",false);
+	JRadioButton rbSinDescanso = new JRadioButton("Ninguno",true);
+	//pb
+	
 	
 	JTextArea txaMotivo = new JTextArea();
 	JScrollPane Observasiones = new JScrollPane(txaMotivo);
@@ -88,8 +115,12 @@ public class Cat_Permisos_Checador extends JFrame {
 	
 	Border border = LineBorder.createGrayLineBorder();
 	
+	
+	
 //	almacena el numero de permisos que se le asignara al empleado
 	int permiso=0;
+//	almacena el numero de dia de descanso que se le asignara al empleado
+	int descanso=0;
 	
 //	almacena el folio del usuario que entro al sistema para mandarsela guardar a la tabla de permisos
 	int folio_usuario=0;
@@ -131,10 +162,25 @@ public class Cat_Permisos_Checador extends JFrame {
 		panel.add(chbP_salirTemprano).setBounds(20,y+=30,200,20);
 		panel.add(chbP_noAsistir2).setBounds(240,y,300,20);
 		
-		panel.add(chbP_entrarTarde).setBounds(20,y+=30,300,20);
+		panel.add(chbP_entrarTarde).setBounds(20,y+=30,200,20);
 		
-		panel.add(lblMotivo).setBounds(10,y+=30,80,20);
-		panel.add(Observasiones).setBounds(10,y+=20,500,130);
+		//pa
+		panel.add(chbP_cambiodescanso).setBounds(240,y,300,20);
+		
+		panel.add(lblDia).setBounds(260,y+=30,400,20);
+		
+		panel.add(rbLunes).setBounds(240,y+=30,70,20);
+		panel.add(rbMartes).setBounds(310,y,70,20);
+		panel.add(rbMiercoles).setBounds(380,y,70,20);
+		panel.add(rbJueves).setBounds(450,y,70,20);
+		panel.add(rbViernes).setBounds(240,y+=30,70,20);
+		panel.add(rbSabado).setBounds(310,y,70,20);
+		panel.add(rbDomingo).setBounds(380,y,70,20);
+		panel.add(rbSinDescanso).setBounds(450,y,70,20);
+		//pb
+		panel.add(lblMotivo).setBounds(10,y+=40,80,20);
+		panel.add(Observasiones).setBounds(10,y+=40,500,130);
+		
 		
 		panel.add(btnNuevo).setBounds(70,y+=150,80,20);
 		panel.add(btnGuardar).setBounds(160,y,80,20);
@@ -153,6 +199,22 @@ public class Cat_Permisos_Checador extends JFrame {
 
 		txtFolio.addKeyListener(validaNumerico);
 		
+		//pa
+		grupo.add(chbP_cambiodescanso);
+		
+		
+		gruporb.add(rbLunes);
+		gruporb.add(rbMartes);
+		gruporb.add(rbMiercoles);
+		gruporb.add(rbJueves);
+		gruporb.add(rbViernes);
+		gruporb.add(rbSabado);
+		gruporb.add(rbDomingo);
+		gruporb.add(rbSinDescanso);
+		
+		
+		//pb
+		
 		btnGuardar.addActionListener(guardar);
 		btnBuscar.addActionListener(opBuscar);
 		btnNuevo.addActionListener(opNuevo);
@@ -160,7 +222,18 @@ public class Cat_Permisos_Checador extends JFrame {
 		btnLimpiar.addActionListener(opLimpiar);
 		btnEditar.addActionListener(opEditar);
 		btnFiltro.addActionListener(opFiltro);
-		btnFiltroEmpleado.addActionListener(opFiltroEmpleados);	
+		btnFiltroEmpleado.addActionListener(opFiltroEmpleados);
+		
+		//pa
+		chbP_cambiodescanso.addActionListener(Cambio_dia_descanso);
+		chbP_entrarTarde.addActionListener(Cambio_dia_descanso);
+        chbP_noAsistir.addActionListener(Cambio_dia_descanso);
+        chbP_noAsistir2.addActionListener(Cambio_dia_descanso);
+		chbP_salirTemprano.addActionListener(Cambio_dia_descanso);
+		chbP_trabajarCorrido.addActionListener(Cambio_dia_descanso);
+		
+		//pb
+		
 		
 		txtFolio.addKeyListener(buscaAction);
 		
@@ -172,8 +245,39 @@ public class Cat_Permisos_Checador extends JFrame {
 		CargarCajero();
 		
 		cont.add(panel);
-		this.setSize(540,465);
+//		this.setSize(540,465);
+		this.setSize(540,600);
+		
+		
+		
 		this.setLocationRelativeTo(null);
+		
+//      abre el filtro del permiso guardado
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+           KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "filtro");
+        
+        getRootPane().getActionMap().put("filtro", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                            btnFiltro.doClick();
+            }
+        });
+        
+//      abre el filtro de busqueda de el empleado
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+           KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), "filtroempleado");
+        
+        getRootPane().getActionMap().put("filtroempleado", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+            	btnFiltroEmpleado.doClick();
+            }
+        });
+
+		
+		
 	}
 	
 	public Cat_Permisos_Checador(){
@@ -225,7 +329,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		
 		if(chbP_trabajarCorrido.isSelected()==false && chbP_salirTemprano.isSelected()==false 
 				&& chbP_entrarTarde.isSelected()==false && chbP_noAsistir.isSelected()==false 
-				&& chbP_noAsistir2.isSelected()==false) 
+				&& chbP_noAsistir2.isSelected()==false && chbP_cambiodescanso.isSelected()==false) //pb despues del ultimo par &&
 			error+="Seleccione un Permiso\n";
 		
 		if(txaMotivo.getText().equals("")) 
@@ -240,6 +344,22 @@ public class Cat_Permisos_Checador extends JFrame {
 		if(chbP_entrarTarde.isSelected()){permiso=3;}
 		if(chbP_noAsistir.isSelected()){permiso=4;}
 		if(chbP_noAsistir2.isSelected()){permiso=5;}
+		//pa
+		if(chbP_cambiodescanso.isSelected()){permiso=6;}
+		//pb
+	}
+	//pa
+	public void dia_selecionado_p_descanso(){
+		if(rbLunes.isSelected()){descanso=1;}
+		if(rbMartes.isSelected()){descanso=2;}
+		if(rbMiercoles.isSelected()){descanso=3;}
+		if(rbJueves.isSelected()){descanso=4;}
+		if(rbViernes.isSelected()){descanso=5;}
+		if(rbSabado.isSelected()){descanso=6;}
+		if(rbDomingo.isSelected()){descanso=7;}
+		if(rbSinDescanso.isSelected()){descanso=0;}
+			
+	//pb
 	}
 	
 	ActionListener guardar = new ActionListener(){
@@ -258,8 +378,10 @@ public class Cat_Permisos_Checador extends JFrame {
 						return;
 					}else{
 							Obj_Permisos_Checador Permiso = new Obj_Permisos_Checador().buscar(Integer.parseInt(txtFolio.getText()));
-							 permisoChecador();
-							if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
+							
+							permisoChecador();
+							 dia_selecionado_p_descanso();
+							 if(Permiso.getFolio() == Integer.parseInt(txtFolio.getText())){
 								if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0)
 								{
 									
@@ -271,6 +393,7 @@ public class Cat_Permisos_Checador extends JFrame {
 									Permiso.setTipo_de_permiso(permiso);
 									Permiso.setStatus(chb_status.isSelected());
 									
+
 									Permiso.setMotivo(txaMotivo.getText().toUpperCase());
 									
 		
@@ -301,8 +424,11 @@ public class Cat_Permisos_Checador extends JFrame {
 								
 								Permiso.setTipo_de_permiso(permiso);
 								Permiso.setStatus(chb_status.isSelected());
+								Permiso.setDescanso(descanso);
 								
 								Permiso.setMotivo(txaMotivo.getText().toUpperCase());
+								
+								
 								
 								if(Permiso.guardar_permiso()){
 									btnGuardar.setEnabled(false);
@@ -415,6 +541,20 @@ public class Cat_Permisos_Checador extends JFrame {
 		}
 	};
 	
+	ActionListener Cambio_dia_descanso = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(chbP_cambiodescanso.isSelected()){
+				Radio_Butons_true();
+							
+			}else{
+				Radio_Butons_false();
+				}	
+			
+	
+		}
+	};
+	
+	
 	ActionListener opSalir = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
@@ -449,6 +589,19 @@ public class Cat_Permisos_Checador extends JFrame {
 		chbP_entrarTarde.setEnabled(false);
 		chbP_noAsistir.setEnabled(false);
 		chbP_noAsistir2.setEnabled(false);
+		//pa
+		chbP_cambiodescanso.setEnabled(false);
+		rbLunes.setEnabled(false);
+		rbMartes.setEnabled(false);
+		rbMiercoles.setEnabled(false);
+		rbJueves.setEnabled(false);
+		rbViernes.setEnabled(false);
+		rbSabado.setEnabled(false);
+		rbDomingo.setEnabled(false);
+		rbSinDescanso.setEnabled(false);
+		lblDia.setEnabled(false);	
+		//pb
+		
 	}
 	
 	public void Campos_True()
@@ -462,7 +615,38 @@ public class Cat_Permisos_Checador extends JFrame {
 		chbP_entrarTarde.setEnabled(true);
 		chbP_noAsistir.setEnabled(true);
 		chbP_noAsistir2.setEnabled(true);
+		//pb
+		chbP_cambiodescanso.setEnabled(true);
+		//pb
 	}
+    //pa
+	public void Radio_Butons_true()
+	{
+	lblDia.setEnabled(true);	
+	rbLunes.setEnabled(true);
+	rbMartes.setEnabled(true);
+	rbMiercoles.setEnabled(true);
+	rbJueves.setEnabled(true);
+	rbViernes.setEnabled(true);
+	rbSabado.setEnabled(true);
+	rbDomingo.setEnabled(true);
+	rbSinDescanso.setEnabled(true);
+			}
+	
+	public void Radio_Butons_false()
+	{
+	lblDia.setEnabled(false);	
+	rbLunes.setEnabled(false);
+	rbMartes.setEnabled(false);
+	rbMiercoles.setEnabled(false);
+	rbJueves.setEnabled(false);
+	rbViernes.setEnabled(false);
+	rbSabado.setEnabled(false);
+	rbDomingo.setEnabled(false);
+	rbSinDescanso.setEnabled(false);
+	rbSinDescanso.setSelected(true);
+			}
+	//pb
 	
 	public void CargarCajero()
 	{
@@ -700,6 +884,8 @@ public class Filtro_Permiso_Empleado extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
+		tabla.addKeyListener(seleccionEmpleadoconteclado);
+		
 	}
 	private void agregar(final JTable tbl) {
         tbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -730,6 +916,8 @@ public class Filtro_Permiso_Empleado extends JFrame{
 		
 		tabla.getColumnModel().getColumn(0).setCellRenderer(tcr);
 		
+
+		
 		tabla.getColumnModel().getColumn(0).setHeaderValue("Folio");
 		tabla.getColumnModel().getColumn(0).setMaxWidth(70);
 		tabla.getColumnModel().getColumn(0).setMinWidth(70);
@@ -744,13 +932,20 @@ public class Filtro_Permiso_Empleado extends JFrame{
 		{ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
+				Component componente = null;
+				
+				componente = new JLabel(value == null? "": value.toString());
 		
-				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
-				} 
-			return lbl; 
+				if(row %2 == 0){
+					((JComponent) componente).setOpaque(true); 
+					componente.setBackground(new java.awt.Color(177,177,177));	
+				}
+				
+				if(table.getSelectedRow() == row){
+					((JComponent) componente).setOpaque(true); 
+					componente.setBackground(new java.awt.Color(186,143,73));
+				}	
+			return componente; 
 			} 
 		}; 
 						tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
@@ -809,6 +1004,28 @@ public class Filtro_Permiso_Empleado extends JFrame{
 		    	e.consume();
 		    	}
 		    		    		       	
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	KeyListener seleccionEmpleadoconteclado = new KeyListener() {
+		@SuppressWarnings("static-access")
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+			if(caracter==e.VK_ENTER){
+			int fila=tabla.getSelectedRow()-1;
+			String folio = tabla.getValueAt(fila,0).toString().trim();
+				
+			txtFolioEmpleado.setText(folio);
+			btnBuscar.doClick();
+			dispose();
+			}
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}

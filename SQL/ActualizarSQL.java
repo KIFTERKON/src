@@ -814,7 +814,7 @@ public class ActualizarSQL {
 		try {
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(query);
-	
+	System.out.println( query);
 //			pstmt.setString(1, "1");
 //			pstmt.setInt(2, 1);
 //			pstmt.setString(3, "1");

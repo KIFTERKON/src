@@ -48,6 +48,7 @@ import javax.media.format.RGBFormat;
 import javax.media.format.VideoFormat;
 import javax.media.format.YUVFormat;
 import javax.media.util.BufferToImage;
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -73,6 +74,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
@@ -612,8 +614,37 @@ public class Cat_Empleado extends JFrame{
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
+		
+	//  abre el filtro de busqueda de empleado al presionar la tecla f2
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+	       KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "foco");
+	    
+	    getRootPane().getActionMap().put("foco", new AbstractAction(){
+	        @Override
+	        public void actionPerformed(ActionEvent e)
+	        {
+	    
+	        	btnFiltro.doClick();    	
+	        }
+	    });
+	    
+	    
+		//  abre el filtro de busqueda de Horario 
+	    getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+	       KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), "horario");
+	    
+	    getRootPane().getActionMap().put("horario", new AbstractAction(){
+	        @Override
+	        public void actionPerformed(ActionEvent e)
+	        {
+	    
+	        	btnHorarioNew.doClick();    	
+	        }
+	    });
+	    
+	  	}
 	
+
 	ActionListener opCmbHorarioRotarivo = new ActionListener(){
 		public void actionPerformed(ActionEvent arg0) {
 			
@@ -2350,6 +2381,41 @@ public class Cat_Empleado extends JFrame{
 			this.setLocationRelativeTo(null);
 			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			
+			tabla.addKeyListener(seleccionEmpleadoconteclado);
+			
+//          asigna el foco al JTextField del nombre deseado al arrancar la ventana
+            this.addWindowListener(new WindowAdapter() {
+                    public void windowOpened( WindowEvent e ){
+                    	txtNombre_Completo.requestFocus();
+                 }
+            });
+              
+//         pone el foco en el txtFolio al presionar la tecla scape
+              getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "foco");
+              
+              getRootPane().getActionMap().put("foco", new AbstractAction(){
+                  @Override
+                  public void actionPerformed(ActionEvent e)
+                  {
+                	  txtNombre_Completo.setText("");
+                      txtNombre_Completo.requestFocus();
+                  }
+              });
+              
+//            pone el foco en la tabla al presionar f4
+              getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                 KeyStroke.getKeyStroke(KeyEvent.VK_F4 , 0), "dtabla");
+              
+              getRootPane().getActionMap().put("dtabla", new AbstractAction(){
+                  @Override
+                  public void actionPerformed(ActionEvent e)
+                  {
+                	tabla.requestFocus();
+                  }
+              });
+			 
+			
 		}
 		private void agregar(final JTable tbl) {
 	        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2630,6 +2696,28 @@ public class Cat_Empleado extends JFrame{
 			    	(caracter != '.')){
 			    	e.consume();
 			    	}
+			}
+			@Override
+			public void keyPressed(KeyEvent e){}
+			@Override
+			public void keyReleased(KeyEvent e){}
+									
+		};
+		
+		KeyListener seleccionEmpleadoconteclado = new KeyListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char caracter = e.getKeyChar();
+				
+				if(caracter==e.VK_ENTER){
+				int fila=tabla.getSelectedRow()-1;
+				String folio = tabla.getValueAt(fila,0).toString().trim();
+					
+				txtFolioEmpleado.setText(folio);
+				btnBuscar.doClick();
+				dispose();
+				}
 			}
 			@Override
 			public void keyPressed(KeyEvent e){}

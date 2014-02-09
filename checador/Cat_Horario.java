@@ -13,11 +13,15 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import objetos.Obj_Configuracion_Sistema;
 
@@ -317,6 +321,20 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		this.setSize(850,460);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		
+//     abre el filtro de busqueda
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+           KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "filtro");
+        
+        getRootPane().getActionMap().put("filtro", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+            	btnFiltro.doClick();
+            }
+        });
+
+		
 	}	
 	
 
@@ -1557,6 +1575,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			}
 		}
 	};
+
 	
 	KeyListener valida = new KeyListener() {
 		public void keyTyped(KeyEvent arg0){}
@@ -1568,5 +1587,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			}
 		}
 	};
+	
+	
 	
 }

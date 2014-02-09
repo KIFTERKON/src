@@ -3,20 +3,26 @@ package checador;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -61,6 +67,36 @@ public class Filtro_Horario extends JFrame
 		panel.add(txtFolio).setBounds(20,20,80,20);
 		panel.add(txtNombre).setBounds(100,20,720,20);
 		
+//      asigna el foco al JTextField deseado al arrancar la ventana
+        this.addWindowListener(new WindowAdapter() {
+                public void windowOpened( WindowEvent e ){
+                	txtNombre.requestFocus();
+             }              
+                });
+//      pone el foco en el txtFolio al presionar la tecla scape
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+           KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "foco");
+        
+        getRootPane().getActionMap().put("foco", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+          	  txtNombre.setText("");
+                txtNombre.requestFocus();
+            }
+        });
+//      pone el foco en la tabla al presionar f4
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+           KeyStroke.getKeyStroke(KeyEvent.VK_F4 , 0), "dtabla");
+        
+        getRootPane().getActionMap().put("dtabla", new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+          	tabla.requestFocus();
+            }
+        });
+        
 		cont.add(panel);
 		txtNombre.setToolTipText("Filtro");
 		
@@ -79,6 +115,10 @@ public class Filtro_Horario extends JFrame
 		this.setSize(845,500);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		
+		tabla.addKeyListener(seleccionEmpleadoconteclado);
+		
+		
 	}
 	
 	private void agregar(final JTable tbl) {
@@ -94,6 +134,29 @@ public class Filtro_Horario extends JFrame
 	        }
         });
     }
+	
+	KeyListener seleccionEmpleadoconteclado = new KeyListener() {
+		@SuppressWarnings("static-access")
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+			if(caracter==e.VK_ENTER){
+			int fila=tabla.getSelectedRow()-1;
+			String folio = tabla.getValueAt(fila,0).toString().trim();
+				
+			new Cat_Horario(Integer.parseInt(folio+"")).setVisible(true);
+						dispose();
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+		
 	
 	KeyListener opFiltroFolio = new KeyListener(){
 		@SuppressWarnings("unchecked")
@@ -142,13 +205,21 @@ public class Filtro_Horario extends JFrame
 		{ 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
 			boolean hasFocus, int row, int column) { 
-				JLabel lbl = new JLabel(value == null? "": value.toString());
-		
+				
+				JComponent componente= null;
+				
+				componente = new JLabel(value == null? "": value.toString());
+		        
 				if(row%2==0){
-						lbl.setOpaque(true); 
-						lbl.setBackground(new java.awt.Color(177,177,177));
+					componente.setOpaque(true); 
+					componente.setBackground(new java.awt.Color(177,177,177));
 				} 
-			return lbl; 
+				if(table.getSelectedRow() == row){
+					((JComponent) componente).setOpaque(true); 
+					componente.setBackground(new java.awt.Color(186,143,73));
+				}	
+				
+			return componente; 
 			} 
 		}; 
 		tabla.getColumnModel().getColumn(0).setCellRenderer(render); 
@@ -183,6 +254,7 @@ public class Filtro_Horario extends JFrame
 		 JScrollPane scrol = new JScrollPane(tabla);
 		   
 	    return scrol; 
+	    
 	}
 	
 }
