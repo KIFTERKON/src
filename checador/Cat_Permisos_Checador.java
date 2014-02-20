@@ -61,7 +61,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	JLabel lblFecha = new JLabel("Fecha de Permiso");
 	JLabel lblMotivo = new JLabel("Motivo:");
 	//pa
-	JLabel lblDia = new JLabel("Selecione el dia a Descansar Despues de la fecha:");
+	JLabel lblDia = new JLabel("Selecione el horario del dia como el que va a Trabajar:");
 	//pb
 	
 	JLabel lblUsuario = new JLabel("Usuario: ");
@@ -97,7 +97,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	JRadioButton rbViernes = new JRadioButton("Viernes",false);
 	JRadioButton rbSabado = new JRadioButton("Sabado",false);
 	JRadioButton rbDomingo = new JRadioButton("Domingo",false);
-	JRadioButton rbSinDescanso = new JRadioButton("Ninguno",true);
+	
 	//pb
 	
 	
@@ -176,7 +176,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		panel.add(rbViernes).setBounds(240,y+=30,70,20);
 		panel.add(rbSabado).setBounds(310,y,70,20);
 		panel.add(rbDomingo).setBounds(380,y,70,20);
-		panel.add(rbSinDescanso).setBounds(450,y,70,20);
+	
 		//pb
 		panel.add(lblMotivo).setBounds(10,y+=40,80,20);
 		panel.add(Observasiones).setBounds(10,y+=40,500,130);
@@ -210,8 +210,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		gruporb.add(rbViernes);
 		gruporb.add(rbSabado);
 		gruporb.add(rbDomingo);
-		gruporb.add(rbSinDescanso);
-		
+			
 		
 		//pb
 		
@@ -357,7 +356,7 @@ public class Cat_Permisos_Checador extends JFrame {
 		if(rbViernes.isSelected()){descanso=5;}
 		if(rbSabado.isSelected()){descanso=6;}
 		if(rbDomingo.isSelected()){descanso=7;}
-		if(rbSinDescanso.isSelected()){descanso=0;}
+	
 			
 	//pb
 	}
@@ -411,7 +410,7 @@ public class Cat_Permisos_Checador extends JFrame {
 											JOptionPane.showMessageDialog(null,"El Registro se actualizo Exitosamente!","Aviso",JOptionPane.INFORMATION_MESSAGE);
 											return;
 									}else{
-										JOptionPane.showMessageDialog(null,"El Registro no se a actializado!","Error",JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null,"El Registro no se a actualizado!","Error",JOptionPane.ERROR_MESSAGE);
 										return;
 									}
 								}
@@ -598,7 +597,6 @@ public class Cat_Permisos_Checador extends JFrame {
 		rbViernes.setEnabled(false);
 		rbSabado.setEnabled(false);
 		rbDomingo.setEnabled(false);
-		rbSinDescanso.setEnabled(false);
 		lblDia.setEnabled(false);	
 		//pb
 		
@@ -630,7 +628,6 @@ public class Cat_Permisos_Checador extends JFrame {
 	rbViernes.setEnabled(true);
 	rbSabado.setEnabled(true);
 	rbDomingo.setEnabled(true);
-	rbSinDescanso.setEnabled(true);
 			}
 	
 	public void Radio_Butons_false()
@@ -643,8 +640,7 @@ public class Cat_Permisos_Checador extends JFrame {
 	rbViernes.setEnabled(false);
 	rbSabado.setEnabled(false);
 	rbDomingo.setEnabled(false);
-	rbSinDescanso.setEnabled(false);
-	rbSinDescanso.setSelected(true);
+	rbDomingo.setSelected(true);
 			}
 	//pb
 	
