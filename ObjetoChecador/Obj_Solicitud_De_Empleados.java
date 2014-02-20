@@ -1,5 +1,6 @@
 package ObjetoChecador;
 
+import SQL.ActualizarSQL;
 import SQL.GuardarSQL;
 
 public class Obj_Solicitud_De_Empleados {
@@ -139,4 +140,7 @@ public class Obj_Solicitud_De_Empleados {
 	}
 
 	public boolean guardar(){ return new GuardarSQL().Guardar_Solicitud(this); }
+	
+	public boolean actualizar(int folioSolicitud,int status){ return new ActualizarSQL().status_solicitud_empleados(folioSolicitud,status); }
+	
 }

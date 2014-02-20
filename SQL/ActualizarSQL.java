@@ -2195,5 +2195,37 @@ public class ActualizarSQL {
 				return true;
 			}
 	
-	
+			public boolean status_solicitud_empleados(int folioSolicitud,int status){
+				String query = "exec sp_update_solicitud_empleados "+folioSolicitud+","+status+";";
+
+				Connection con = new Connexion().conexion();
+				PreparedStatement pstmt = null;
+				try {
+					con.setAutoCommit(false);
+//					int i=1;
+					pstmt = con.prepareStatement(query);
+//					pstmt.setInt   (i,		folio);
+					pstmt.executeUpdate();
+					con.commit();
+					
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}		
+				return true;
+			}
 }

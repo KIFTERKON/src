@@ -1015,6 +1015,10 @@ public class Cat_Empleado extends JFrame{
 					txtFolioEmpleado.setEditable(true);
 					txtFolioEmpleado.requestFocus();
 					btnEditar.setVisible(true);
+					
+					txtFolioEmpleado.setEditable(false);
+					btnBuscar.setEnabled(false);
+					btnFiltro.setEnabled(false);
 				}else{
 					JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
 					panelEnabledFalse();
@@ -1645,6 +1649,9 @@ public class Cat_Empleado extends JFrame{
 			btnEditar.setVisible(false);
 			btnNuevo.setVisible(true);
 			txtHorario.setEnabled(false);
+			
+			btnBuscar.setEnabled(true);
+			btnFiltro.setEnabled(true);
 		}
 	};
 	

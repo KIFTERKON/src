@@ -22,6 +22,7 @@ import ObjetoChecador.Obj_Encargado_De_Solicitudes;
 import ObjetoChecador.Obj_Entosal;
 import ObjetoChecador.Obj_Mensaje_Personal;
 import ObjetoChecador.Obj_Permisos_Checador;
+import ObjetoChecador.Obj_Seleccion_Operaciones;
 
 import objeto_fuente_sodas.Obj_Captura_Fuente_Sodas;
 import objetos.Obj_Actividad;
@@ -4806,5 +4807,58 @@ public class BuscarSQL {
 			if(stmt!=null){stmt.close();}
 		}
 		return objEncargado;
+	}
+	
+	public Obj_Seleccion_Operaciones Solicitud_empleado(int folio) throws SQLException{
+		Obj_Seleccion_Operaciones solicitud = new Obj_Seleccion_Operaciones();
+		String query = "exec sp_select_solicitud_permiso_empleado_operaciones "+ folio;
+		Statement stmt = null;
+
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			while(rs.next()){
+				
+				solicitud.setFolio_solicitud(rs.getInt("folio_solicitud"));
+				solicitud.setFolio_empleado(rs.getInt("folio_empleado"));
+				solicitud.setNombre_empleado(rs.getString("nombre_empleado"));
+				solicitud.setEstablecimiento(rs.getString("establecimiento"));
+				solicitud.setPuesto(rs.getString("puesto"));
+				solicitud.setDescanso(rs.getString("descanso"));
+				solicitud.setDobla(rs.getString("dobla"));
+				solicitud.setStatus(rs.getString("status"));
+				solicitud.setTelefono(rs.getString("telefono_propio"));
+				solicitud.setNombre_encargado(rs.getString("encargado"));
+				solicitud.setSopeca(rs.getString("SoPeCa"));
+				solicitud.setCambio(rs.getString("Cambio"));
+				
+				solicitud.setFecha_solicitada(rs.getString("fecha_solicitada"));
+				solicitud.setTipo_solicitud(rs.getString("tipo_solicitud"));
+				solicitud.setPuntualidad(rs.getInt("punt"));
+				solicitud.setCumplimiento(rs.getInt("cumplimiento"));
+				solicitud.setDiciplina(rs.getInt("diciplina"));
+				solicitud.setRespeto(rs.getInt("respeto_gral"));
+				solicitud.setMotivo(rs.getString("motivo"));
+							
+				File photo = new File(System.getProperty("user.dir")+"/tmp/tmp.jpg");
+				FileOutputStream fos = new FileOutputStream(photo);
+				
+		            byte[] buffer = new byte[1];
+		            InputStream is = rs.getBinaryStream("foto");
+		            while (is.read(buffer) > 0) {
+		                fos.write(buffer);
+		            }
+		            fos.close(); 
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return solicitud;
 	}
 }
