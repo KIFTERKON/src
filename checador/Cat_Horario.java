@@ -191,6 +191,9 @@ public class Cat_Horario extends Cat_Horario_base
 		panel.add(paneles).setBounds(10,20,825,400);
 		paneles.addTab("Horario 1", horario1);
 		
+//		se asigna hora cero al spinner y se le indica ke muestre solo la hora 
+		horasdefault();
+		
 		botonNuevoHorario();
 		
 ButtonGroup botonesAgrupados = new ButtonGroup();
@@ -264,9 +267,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnNuevo.addActionListener(nuevo);
 		txtNombre.addKeyListener(valida);
 		
+		txtFolio.addActionListener(buscarDirecto);
 		txtFolio.addKeyListener(action_buscar);
-		
-//		txtFolio.setEditable(false);
 		
 //		asigna el foco al JTextField deseado al arrancar la ventana
 		this.addWindowListener(new WindowAdapter() {
@@ -333,13 +335,9 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
             	btnFiltro.doClick();
             }
         });
-
-		
 	}	
-	
 
-	   public void preguntas()
-	   {
+	public void preguntas(){
 	     if(btnDomingo.isSelected()==true) { Descanso=7;}
 	     if (btnLunes.isSelected()==true){Descanso=1;}
 	     if (btnMartes.isSelected()==true){Descanso=2;}
@@ -347,12 +345,14 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	     if (btnJueves.isSelected()==true){Descanso=4;}
 	     if (btnViernes.isSelected()==true){Descanso=5;}
 	     if (btnSabado.isSelected()==true){Descanso=6;}
-	   }
+	 }
 	
 	@SuppressWarnings("deprecation")
 	public Cat_Horario(int folio)//String nom
 	{
 		getContenedor();
+		camposFalse();
+		txtFolio.requestFocus();
 		btnAceptar.setEnabled(false);
 		btnEditar.setEnabled(true);
 		ObjHorario buscar_horario = new ObjHorario().buscar(folio);
@@ -365,71 +365,68 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			
 //			ASIGNAR AL BOTON SELECCIONADO Y OCULTAR SU CAMPOS DE DIA DE DESCANSO
 			switch(buscar_horario.getDescanso()){
-			
-			case 7:	btnDomingo.setSelected(true);	 DomingoOculto();	break;
-			case 1:	btnLunes.setSelected(true);		 LunesOculto();		break;
-			case 2:	btnMartes.setSelected(true); 	 MartesOculto();	break;
-			case 3:	btnMiercoles.setSelected(true);  MiercolesOculto();	break;
-			case 4:	btnJueves.setSelected(true); 	 JuevesOculto();	break;
-			case 5:	btnViernes.setSelected(true); 	 ViernesOculto();	break;
-			case 6:	btnSabado.setSelected(true); 	 SabadoOculto();	break;
-			
+				case 7:	btnDomingo.setSelected(true);	 DomingoOculto();	break;
+				case 1:	btnLunes.setSelected(true);		 LunesOculto();		break;
+				case 2:	btnMartes.setSelected(true); 	 MartesOculto();	break;
+				case 3:	btnMiercoles.setSelected(true);  MiercolesOculto();	break;
+				case 4:	btnJueves.setSelected(true); 	 JuevesOculto();	break;
+				case 5:	btnViernes.setSelected(true); 	 ViernesOculto();	break;
+				case 6:	btnSabado.setSelected(true); 	 SabadoOculto();	break;
 			}
 			
-				switch(buscar_horario.getDiaDobla()){
-				
-						case 0:	rbNoDobla.setSelected(true);									break;
-						case 1:	rbLunes.setSelected(true);		rbNoDobla.setSelected(false);	break;
-						case 2:	rbMartes.setSelected(true);		rbNoDobla.setSelected(false);	break;
-						case 3:	rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 4:	rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
-						case 5: rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 6:	rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
-						case 7:	rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
-				}
-				switch(buscar_horario.getDiaDobla2()){
-						case 0:	rbNoDobla2.setSelected(true);									break;
-						case 1:	rbLunes2.setSelected(true);		rbNoDobla.setSelected(false);	break;
-						case 2:	rbMartes2.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 3:	rbMiercoles2.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 4:	rbJueves2.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 5: rbViernes2.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 6:	rbSabado2.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 7:	rbDomingo2.setSelected(true);	rbNoDobla.setSelected(false);	break;
-				}
-				switch(buscar_horario.getDiaDobla3()){
-						case 0:	rbNoDobla3.setSelected(true);									break;
-						case 1:	rbLunes3.setSelected(true);		rbNoDobla.setSelected(false);	break;
-						case 2:	rbMartes3.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 3:	rbMiercoles3.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 4:	rbJueves3.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 5:	rbViernes3.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 6:	rbSabado3.setSelected(true);	rbNoDobla.setSelected(false);	break;
-						case 7:	rbDomingo3.setSelected(true);	rbNoDobla.setSelected(false);	break;
-				}	
-				
+			switch(buscar_horario.getDiaDobla()){
+				case 0:	rbNoDobla.setSelected(true);									break;
+				case 1:	rbLunes.setSelected(true);		rbNoDobla.setSelected(false);	break;
+				case 2:	rbMartes.setSelected(true);		rbNoDobla.setSelected(false);	break;
+				case 3:	rbMiercoles.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 4:	rbJueves.setSelected(true);		rbNoDobla.setSelected(false);	break;
+				case 5: rbViernes.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 6:	rbSabado.setSelected(true);		rbNoDobla.setSelected(false);	break;
+				case 7:	rbDomingo.setSelected(true);	rbNoDobla.setSelected(false);	break;
 			}
+			switch(buscar_horario.getDiaDobla2()){
+				case 0:	rbNoDobla2.setSelected(true);									break;
+				case 1:	rbLunes2.setSelected(true);		rbNoDobla.setSelected(false);	break;
+				case 2:	rbMartes2.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 3:	rbMiercoles2.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 4:	rbJueves2.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 5: rbViernes2.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 6:	rbSabado2.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 7:	rbDomingo2.setSelected(true);	rbNoDobla.setSelected(false);	break;
+			}
+			switch(buscar_horario.getDiaDobla3()){
+				case 0:	rbNoDobla3.setSelected(true);									break;
+				case 1:	rbLunes3.setSelected(true);		rbNoDobla.setSelected(false);	break;
+				case 2:	rbMartes3.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 3:	rbMiercoles3.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 4:	rbJueves3.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 5:	rbViernes3.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 6:	rbSabado3.setSelected(true);	rbNoDobla.setSelected(false);	break;
+				case 7:	rbDomingo3.setSelected(true);	rbNoDobla.setSelected(false);	break;
+			}	
 			
-			if(buscar_horario.getRecesoDiarioExtra()==1){
+		}
+			
+		if(buscar_horario.getRecesoDiarioExtra()==1){
 				chbRecesoExtraDiario.setSelected(true);
 				chbRecesoExtraDiario.setBackground(Color.ORANGE);
 				chbRecesoExtraDiario.setForeground(Color.BLUE);
+		
+			}else{
+				chbRecesoExtraDiario.setSelected(false);
+				chbRecesoExtraDiario.setBackground(Color.GREEN);
+				chbRecesoExtraDiario.setForeground(Color.BLACK);
+				}
 			
-				}else{
-					chbRecesoExtraDiario.setSelected(false);
-					chbRecesoExtraDiario.setBackground(Color.GREEN);
-					chbRecesoExtraDiario.setForeground(Color.BLACK);
-					}
-			
-			if(buscar_horario.getHorarioDeposito()==1){
+		if(buscar_horario.getHorarioDeposito()==1){
 				chbHorarioDeposito.setSelected(true);
 				chbHorarioDeposito.setBackground(Color.ORANGE);
 				chbHorarioDeposito.setForeground(Color.BLUE);
-				}else{
-					chbHorarioDeposito.setSelected(false);
-					chbHorarioDeposito.setBackground(Color.GREEN);
-					chbHorarioDeposito.setForeground(Color.BLACK);
-					}
+			}else{
+				chbHorarioDeposito.setSelected(false);
+				chbHorarioDeposito.setBackground(Color.GREEN);
+				chbHorarioDeposito.setForeground(Color.BLACK);
+				}
 			
 //			DOMINGO
 			String[] domingoIn = buscar_horario.getDomingo1().split(":");
@@ -542,14 +539,13 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			
 			String[] sabadoRec = buscar_horario.getSabado5().split(":");
 			spSabado5.setValue(new Time(Integer.parseInt(sabadoRec[0]),Integer.parseInt(sabadoRec[1]),Integer.parseInt(sabadoRec[2])));
-						
 		}
-	
 	
 	public Cat_Horario()
 	{
 		pintarChb();
 		getContenedor();
+		camposFalse();
 		
 		btnAceptar.setEnabled(false);
 		btnEditar.setEnabled(false);
@@ -568,16 +564,23 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
                 }                        
             }
             @Override
-            public void keyPressed(KeyEvent e){
-                            
-                    if(e.getKeyCode()==KeyEvent.VK_ENTER){
-                    	dispose();
-                    	new Cat_Horario(Integer.parseInt(txtFolio.getText())).setVisible(true);
-                    }
-            }
+            public void keyPressed(KeyEvent e){}
             @Override
             public void keyReleased(KeyEvent e){}
     };
+	
+	ActionListener buscarDirecto = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			if(txtFolio.getText().equals("")){
+        		JOptionPane.showMessageDialog(null, "El folio es requerido","Aviso!", JOptionPane.INFORMATION_MESSAGE);
+        		return;
+        	}else{
+            	dispose();
+            	new Cat_Horario(Integer.parseInt(txtFolio.getText())).setVisible(true);
+        	}
+		}
+	};
 	
 	ActionListener pintarchbRecesoEx = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
@@ -835,55 +838,14 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	ActionListener deshacer = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
+			horasdefault();
 			resetear();
+			camposFalse();
 		}
 	};
 	
 	public void resetear()
 	{
-		 
-		spDomingo1.setValue(date);
-		spDomingo2.setValue(date);
-		spDomingo3.setValue(date);
-		spDomingo4.setValue(date);
-		spDomingo5.setValue(date);
-		
-		spLunes1.setValue(date);
-		spLunes2.setValue(date);
-		spLunes3.setValue(date);
-		spLunes4.setValue(date);
-		spLunes5.setValue(date);
-		
-		spMartes1.setValue(date);
-		spMartes2.setValue(date);
-		spMartes3.setValue(date);
-		spMartes4.setValue(date);
-		spMartes5.setValue(date);
-		
-		spMiercoles1.setValue(date);
-		spMiercoles2.setValue(date);
-		spMiercoles3.setValue(date);
-		spMiercoles4.setValue(date);
-		spMiercoles5.setValue(date);
-		
-		spJueves1.setValue(date);
-		spJueves2.setValue(date);
-		spJueves3.setValue(date);
-		spJueves4.setValue(date);
-		spJueves5.setValue(date);
-		
-		spViernes1.setValue(date);
-		spViernes2.setValue(date);
-		spViernes3.setValue(date);
-		spViernes4.setValue(date);
-		spViernes5.setValue(date);
-		
-		spSabado1.setValue(date);
-		spSabado2.setValue(date);
-		spSabado3.setValue(date);
-		spSabado4.setValue(date);
-		spSabado5.setValue(date);
-
 		DomingoVisible();
 		LunesVisible();
 		MartesVisible();
@@ -905,8 +867,88 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnAceptar.setEnabled(false);
 		btnEditar.setEnabled(false);
 		
+		txtFolio.requestFocus();
 	}
 	
+	@SuppressWarnings("deprecation")
+	public void horasdefault(){
+		spDomingo1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spDomingo1.setEditor(de1);
+		spDomingo2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spDomingo2.setEditor(de2);
+		spDomingo3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spDomingo3.setEditor(de3);
+		spDomingo4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spDomingo4.setEditor(de4);
+		spDomingo5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spDomingo5.setEditor(de5);
+		
+		spLunes1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spLunes1.setEditor(del1);
+		spLunes2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spLunes2.setEditor(del2);
+		spLunes3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spLunes3.setEditor(del3);
+		spLunes4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spLunes4.setEditor(del4);
+		spLunes5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spLunes5.setEditor(del5);
+		
+		spMartes1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spMartes1.setEditor(dem1);
+		spMartes2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spMartes2.setEditor(dem2);
+		spMartes3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spMartes3.setEditor(dem3);
+		spMartes4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spMartes4.setEditor(dem4);
+		spMartes5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spMartes5.setEditor(dem5);
+		
+		spMiercoles1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spMiercoles1.setEditor(demmi1);
+		spMiercoles2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spMiercoles2.setEditor(demmi2);
+		spMiercoles3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spMiercoles3.setEditor(demmi3);
+		spMiercoles4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spMiercoles4.setEditor(demmi4);
+		spMiercoles5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spMiercoles5.setEditor(demmi5);
+		
+		spJueves1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spJueves1.setEditor(dej1);
+		spJueves2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spJueves2.setEditor(dej2);
+		spJueves3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spJueves3.setEditor(dej3);
+		spJueves4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spJueves4.setEditor(dej4);
+		spJueves5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spJueves5.setEditor(dej5);
+		
+		spViernes1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spViernes1.setEditor(dev1);
+		spViernes2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spViernes2.setEditor(dev2);
+		spViernes3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spViernes3.setEditor(dev3);
+		spViernes4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spViernes4.setEditor(dev4);
+		spViernes5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spViernes5.setEditor(dev5);
+		
+		spSabado1.setValue(new Time(Integer.parseInt(inicioDefault[0]),Integer.parseInt(inicioDefault[1]),Integer.parseInt(inicioDefault[2])));
+		spSabado1.setEditor(des1);
+		spSabado2.setValue(new Time(Integer.parseInt(finDefault[0]),Integer.parseInt(finDefault[1]),Integer.parseInt(finDefault[2])));
+		spSabado2.setEditor(des2);
+		spSabado3.setValue(new Time(Integer.parseInt(entradaDefault[0]),Integer.parseInt(entradaDefault[1]),Integer.parseInt(entradaDefault[2])));
+		spSabado3.setEditor(des3);
+		spSabado4.setValue(new Time(Integer.parseInt(salidaDefault[0]),Integer.parseInt(salidaDefault[1]),Integer.parseInt(salidaDefault[2])));
+		spSabado4.setEditor(des4);
+		spSabado5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
+		spSabado5.setEditor(des5);
+	}
 	public void botonNuevoHorario(){
 		Obj_Configuracion_Sistema configs2 = new Obj_Configuracion_Sistema().buscar2();
 		if(configs2.isGuardar_horario()==true){
@@ -914,6 +956,192 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		}else{
 			btnNuevo.setEnabled(false);
 		}
+	}
+	
+	public void camposTrue(){
+		btnDomingo.setEnabled(true);                         
+		btnLunes.setEnabled(true);                           
+		btnMartes.setEnabled(true);                           
+		btnMiercoles.setEnabled(true);           
+		btnJueves.setEnabled(true);  
+		btnViernes.setEnabled(true);  
+		btnSabado.setEnabled(true);  
+		btnSD.setEnabled(true);  
+		
+		rbDomingo.setEnabled(true);
+		rbLunes.setEnabled(true);
+		rbMartes.setEnabled(true);
+		rbMiercoles.setEnabled(true);
+		rbJueves.setEnabled(true);
+		rbViernes.setEnabled(true);
+		rbSabado.setEnabled(true);
+		rbNoDobla.setEnabled(true);
+		
+		rbDomingo2.setEnabled(true);
+		rbLunes2.setEnabled(true);
+		rbMartes2.setEnabled(true);
+		rbMiercoles2.setEnabled(true);
+		rbJueves2.setEnabled(true);
+		rbViernes2.setEnabled(true);
+		rbSabado2.setEnabled(true);
+		rbNoDobla2.setEnabled(true);
+		
+		rbDomingo3.setEnabled(true);
+		rbLunes3.setEnabled(true);
+		rbMartes3.setEnabled(true);
+		rbMiercoles3.setEnabled(true);
+		rbJueves3.setEnabled(true);
+		rbViernes3.setEnabled(true);
+		rbSabado3.setEnabled(true);
+		rbNoDobla3.setEnabled(true);
+		                                                                   
+		btnNuevo.setEnabled(true);
+		txtFolio.setEnabled(true);
+		
+		btnIgual.setEnabled(true);
+		btnAceptar.setEnabled(true);
+		btnCancelar.setEnabled(true);
+		btnDeshacer.setEnabled(true);
+		btnFiltro.setEnabled(true);
+		btnEditar.setEnabled(true);
+
+		chbHorarioDeposito.setEnabled(true);
+		chbRecesoExtraDiario.setEnabled(true);
+		
+		spDomingo1.setEnabled(true);
+		spDomingo2.setEnabled(true);
+		spDomingo3.setEnabled(true);
+		spDomingo4.setEnabled(true);
+		spDomingo5.setEnabled(true);
+		
+		spLunes1.setEnabled(true);
+		spLunes2.setEnabled(true);
+		spLunes3.setEnabled(true);
+		spLunes4.setEnabled(true);
+		spLunes5.setEnabled(true);
+		
+		spMartes1.setEnabled(true);
+		spMartes2.setEnabled(true);
+		spMartes3.setEnabled(true);
+		spMartes4.setEnabled(true);
+		spMartes5.setEnabled(true);
+		
+		spMiercoles1.setEnabled(true);
+		spMiercoles2.setEnabled(true);
+		spMiercoles3.setEnabled(true);
+		spMiercoles4.setEnabled(true);
+		spMiercoles5.setEnabled(true);
+		
+		spJueves1.setEnabled(true);
+		spJueves2.setEnabled(true);
+		spJueves3.setEnabled(true);
+		spJueves4.setEnabled(true);
+		spJueves5.setEnabled(true);
+		
+		spViernes1.setEnabled(true);
+		spViernes2.setEnabled(true);
+		spViernes3.setEnabled(true);
+		spViernes4.setEnabled(true);
+		spViernes5.setEnabled(true);
+		
+		spSabado1.setEnabled(true);
+		spSabado2.setEnabled(true);
+		spSabado3.setEnabled(true);
+		spSabado4.setEnabled(true);
+		spSabado5.setEnabled(true);
+	}
+	
+	public void camposFalse(){
+		btnDomingo.setEnabled(false);                         
+		btnLunes.setEnabled(false);                           
+		btnMartes.setEnabled(false);                           
+		btnMiercoles.setEnabled(false);           
+		btnJueves.setEnabled(false);  
+		btnViernes.setEnabled(false);  
+		btnSabado.setEnabled(false);  
+		btnSD.setEnabled(false);  
+		
+		rbDomingo.setEnabled(false);
+		rbLunes.setEnabled(false);
+		rbMartes.setEnabled(false);
+		rbMiercoles.setEnabled(false);
+		rbJueves.setEnabled(false);
+		rbViernes.setEnabled(false);
+		rbSabado.setEnabled(false);
+		rbNoDobla.setEnabled(false);
+		
+		rbDomingo2.setEnabled(false);
+		rbLunes2.setEnabled(false);
+		rbMartes2.setEnabled(false);
+		rbMiercoles2.setEnabled(false);
+		rbJueves2.setEnabled(false);
+		rbViernes2.setEnabled(false);
+		rbSabado2.setEnabled(false);
+		rbNoDobla2.setEnabled(false);
+		
+		rbDomingo3.setEnabled(false);
+		rbLunes3.setEnabled(false);
+		rbMartes3.setEnabled(false);
+		rbMiercoles3.setEnabled(false);
+		rbJueves3.setEnabled(false);
+		rbViernes3.setEnabled(false);
+		rbSabado3.setEnabled(false);
+		rbNoDobla3.setEnabled(false);
+		                                                                   
+		btnNuevo.setEnabled(false);
+//		txtFolio.setEnabled(false);
+		
+		btnIgual.setEnabled(false);
+		btnAceptar.setEnabled(false);
+		btnCancelar.setEnabled(false);
+//		btnDeshacer.setEnabled(false);
+//		btnFiltro.setEnabled(false);
+		btnEditar.setEnabled(false);
+
+		chbHorarioDeposito.setEnabled(false);
+		chbRecesoExtraDiario.setEnabled(false);
+		
+		spDomingo1.setEnabled(false);
+		spDomingo2.setEnabled(false);
+		spDomingo3.setEnabled(false);
+		spDomingo4.setEnabled(false);
+		spDomingo5.setEnabled(false);
+		
+		spLunes1.setEnabled(false);
+		spLunes2.setEnabled(false);
+		spLunes3.setEnabled(false);
+		spLunes4.setEnabled(false);
+		spLunes5.setEnabled(false);
+		
+		spMartes1.setEnabled(false);
+		spMartes2.setEnabled(false);
+		spMartes3.setEnabled(false);
+		spMartes4.setEnabled(false);
+		spMartes5.setEnabled(false);
+		
+		spMiercoles1.setEnabled(false);
+		spMiercoles2.setEnabled(false);
+		spMiercoles3.setEnabled(false);
+		spMiercoles4.setEnabled(false);
+		spMiercoles5.setEnabled(false);
+		
+		spJueves1.setEnabled(false);
+		spJueves2.setEnabled(false);
+		spJueves3.setEnabled(false);
+		spJueves4.setEnabled(false);
+		spJueves5.setEnabled(false);
+		
+		spViernes1.setEnabled(false);
+		spViernes2.setEnabled(false);
+		spViernes3.setEnabled(false);
+		spViernes4.setEnabled(false);
+		spViernes5.setEnabled(false);
+		
+		spSabado1.setEnabled(false);
+		spSabado2.setEnabled(false);
+		spSabado3.setEnabled(false);
+		spSabado4.setEnabled(false);
+		spSabado5.setEnabled(false);
 	}
 	
 	ActionListener Guardar = new ActionListener() {
@@ -1104,6 +1332,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 										return;
 									}else{
 											if(horario_emp.Actualizar(Integer.parseInt(txtFolio.getText()))){
+												camposFalse();
 												btnEditar.setEnabled(true);
 												btnAceptar.setEnabled(false);
 												JOptionPane.showMessageDialog(null, "El registro se Actualizo exitosamente!" , "Exito al Actualizar!", JOptionPane.INFORMATION_MESSAGE);
@@ -1298,6 +1527,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 								}else{
 								
 									if(horario.Guardar()){
+										camposFalse();
 										btnEditar.setEnabled(true);
 										btnAceptar.setEnabled(false);
 										JOptionPane.showMessageDialog(null, "El registro se guardó exitosamente!" , "Exito al guardar!", JOptionPane.INFORMATION_MESSAGE);
@@ -1475,6 +1705,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 	ActionListener editar = new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) 
 		{
+			camposTrue();
 			btnAceptar.setEnabled(true);
 			btnEditar.setEnabled(false);
 		}

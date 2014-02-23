@@ -16,12 +16,14 @@ public class Obj_Permisos_Checador {
 	String motivo;
 	boolean status;
 	int descanso;
+	String tiempo_comida;
 	
 	public Obj_Permisos_Checador(){
 		
 		this.folio=0;	this.folio_empleado=0;	this.nombre_empleado="";	this.folio_usuario=0;	
 		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";				this.status=false;	
-		this.descanso=0; 
+		this.descanso=0;
+		this.tiempo_comida="";
 		
 	}
 	
@@ -95,6 +97,14 @@ public class Obj_Permisos_Checador {
 
 	public void setDescanso(int descanso) {
 		this.descanso = descanso;
+	}
+
+	public String getTiempo_comida() {
+		return tiempo_comida;
+	}
+
+	public void setTiempo_comida(String tiempo_comida) {
+		this.tiempo_comida = tiempo_comida;
 	}
 
 	public Obj_Permisos_Checador buscar(int folio){

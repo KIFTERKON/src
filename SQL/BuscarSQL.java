@@ -3671,10 +3671,11 @@ public class BuscarSQL {
 				permisoChecador.setFecha(rs.getString("fecha_permiso"));
 				
 				permisoChecador.setTipo_de_permiso(rs.getInt("tipo_de_permiso"));
+				permisoChecador.setDescanso(rs.getInt("trabajar_como_el_dia"));
+				permisoChecador.setTiempo_comida(rs.getString("tiempo_comida"));
 				permisoChecador.setMotivo(rs.getString("motivo"));
 				
 				permisoChecador.setStatus(rs.getInt("status")==1?true:false);
-				
 			}
 			
 		} catch (Exception e) {
@@ -4565,7 +4566,6 @@ public class BuscarSQL {
 		}
 		return horario;
 	}
-	
 			
 			/**buscamos los campos llenos del arduino**/
 			public Obj_Arduino Buscar_Arduino() throws SQLException{

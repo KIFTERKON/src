@@ -1,7 +1,6 @@
 package checador;
 
 import java.awt.Container;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -90,7 +89,17 @@ public class Cat_Horario_base  extends JFrame
 	
 	JTextField txtNombre = new JTextField();                                           
 	                               
-	Date date = new Date();	
+	//declarar variable de las horas que estaran por default
+	//crear spinner y asignarlo con la fecha y hora actual
+	//en el constructor cambiamos la fecha con la hora que requiera cada spinner
+    //y despues mostramos solo la hora en cada caso
+	String[] inicioDefault ="0:00:00".split(":");
+	String[] finDefault ="23:59:59".split(":");
+	
+	String[] entradaDefault ="8:00:00".split(":");
+	String[] salidaDefault ="20:00:00".split(":");
+	
+	String[] recesoDefault ="2:00:00".split(":");
 	
     //Domingo//                 
 	SpinnerDateModel sm1 =  new SpinnerDateModel();
