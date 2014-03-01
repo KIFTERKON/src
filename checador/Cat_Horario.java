@@ -9,6 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -354,9 +357,10 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		camposFalse();
 		txtFolio.requestFocus();
 		btnAceptar.setEnabled(false);
-		btnEditar.setEnabled(true);
-		ObjHorario buscar_horario = new ObjHorario().buscar(folio);
 		
+		CargarCajero();
+		
+		ObjHorario buscar_horario = new ObjHorario().buscar(folio);
 		
 		if(buscar_horario.getFolio() != 0){
 
@@ -551,6 +555,35 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		btnEditar.setEnabled(false);
 	}
 
+	@SuppressWarnings("unused")
+	public void CargarCajero()
+	{
+		  File archivo = null;
+ 	      FileReader fr = null;
+ 	      BufferedReader br = null;
+		 try {
+ 	         archivo = new File ("Config/users");
+ 	         fr = new FileReader (archivo);
+ 	         br = new BufferedReader(fr);
+ 	         String linea;
+ 	         
+ 	       boolean permiso_horario = new ObjHorario().Existe_permiso_horario(Integer.parseInt(br.readLine()));
+ 	       btnEditar.setEnabled(permiso_horario);
+
+		 }
+ 	      catch(Exception e){
+ 	         e.printStackTrace();
+ 	      }finally{
+ 	         try{                   
+ 	            if( null != fr ){  
+ 	               fr.close();    
+ 	            }                 
+ 	         }catch (Exception e2){
+ 	            e2.printStackTrace();
+ 	         }
+ 	      }
+	}
+	
 //buscar horario
 	KeyListener action_buscar = new KeyListener() {
             @Override
@@ -950,12 +983,9 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		spSabado5.setEditor(des5);
 	}
 	public void botonNuevoHorario(){
-		Obj_Configuracion_Sistema configs2 = new Obj_Configuracion_Sistema().buscar2();
-		if(configs2.isGuardar_horario()==true){
-			btnNuevo.setEnabled(true);
-		}else{
-			btnNuevo.setEnabled(false);
-		}
+		boolean configs2 = new Obj_Configuracion_Sistema().buscar_permiso();
+		System.out.println(configs2);
+		btnNuevo.setEnabled(configs2);
 	}
 	
 	public void camposTrue(){
@@ -995,7 +1025,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		rbSabado3.setEnabled(true);
 		rbNoDobla3.setEnabled(true);
 		                                                                   
-		btnNuevo.setEnabled(true);
 		txtFolio.setEnabled(true);
 		
 		btnIgual.setEnabled(true);
@@ -1088,14 +1117,9 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		rbSabado3.setEnabled(false);
 		rbNoDobla3.setEnabled(false);
 		                                                                   
-		btnNuevo.setEnabled(false);
-//		txtFolio.setEnabled(false);
-		
 		btnIgual.setEnabled(false);
 		btnAceptar.setEnabled(false);
 		btnCancelar.setEnabled(false);
-//		btnDeshacer.setEnabled(false);
-//		btnFiltro.setEnabled(false);
 		btnEditar.setEnabled(false);
 
 		chbHorarioDeposito.setEnabled(false);
@@ -1818,7 +1842,4 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 			}
 		}
 	};
-	
-	
-	
 }

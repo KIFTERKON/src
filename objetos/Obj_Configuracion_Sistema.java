@@ -91,6 +91,10 @@ public class Obj_Configuracion_Sistema {
 		}
 		return null; 
 	}
+	
+	public boolean buscar_permiso(){
+		return new BuscarSQL().permiso_nuevo(); 
+	}
 	public Obj_Configuracion_Sistema buscar2() {
 		try {
 			return new BuscarSQL().Configuracion_sistema2();
