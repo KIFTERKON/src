@@ -4861,4 +4861,49 @@ public class BuscarSQL {
 		}
 		return solicitud;
 	}
+	
+//	buscarHorario
+	public boolean Permiso_de_usuario_para_horario(int usuario){
+		String query = "exec sp_permiso_a_horarios "+usuario;
+		
+		boolean permiso = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				permiso = Boolean.parseBoolean(rs.getString("permiso").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return permiso;
+	}
+	
+	public boolean permiso_nuevo(){
+		String query = "select guardar_horario from tb_configuracion_sistema";
+		
+		boolean permiso_horario_n = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				permiso_horario_n = Boolean.parseBoolean(rs.getString("guardar_horario").trim());
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+			
+		return permiso_horario_n;
+	}
 }

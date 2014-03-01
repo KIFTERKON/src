@@ -88,13 +88,13 @@ public class ObjHorario
 		
 		this.horarioDeposito=0;
 		this.recesoDiarioExtra=0;
+		
 	}
 	
 
 	public int getFolio() {
 		return folio;
 	}
-
 
 	public void setFolio(int folio) {
 		this.folio = folio;
@@ -104,21 +104,17 @@ public class ObjHorario
 		return diaD;
 	}
 
-
 	public void setDiaD(String diaD) {
 		this.diaD = diaD;
 	}
-
 
 	public String getDiaL() {
 		return diaL;
 	}
 
-
 	public void setDiaL(String diaL) {
 		this.diaL = diaL;
 	}
-
 
 	public String getDiaM() {
 		return diaM;
@@ -129,7 +125,6 @@ public class ObjHorario
 		this.diaM = diaM;
 	}
 
-
 	public String getDiaMI() {
 		return diaMI;
 	}
@@ -139,36 +134,29 @@ public class ObjHorario
 		this.diaMI = diaMI;
 	}
 
-
 	public String getDiaJ() {
 		return diaJ;
 	}
-
 
 	public void setDiaJ(String diaJ) {
 		this.diaJ = diaJ;
 	}
 
-
 	public String getDiaV() {
 		return diaV;
 	}
-
 
 	public void setDiaV(String diaV) {
 		this.diaV = diaV;
 	}
 
-
 	public String getDiaS() {
 		return diaS;
 	}
 
-
 	public void setDiaS(String diaS) {
 		this.diaS = diaS;
 	}
-
 
 	public String getNombre() {
 		return nombre;
@@ -506,6 +494,7 @@ public class ObjHorario
 		this.recesoDiarioExtra = recesoDiarioExtra;
 	}
 
+	//buscar horario
 	public ObjHorario buscar(int folio){
 		try {
 			return new BuscarSQL().buscahorario(folio);
@@ -513,6 +502,10 @@ public class ObjHorario
 			e.printStackTrace();
 		}
 		return null; 
+	}
+//buscar si el empleado tiene permisos a la opcion de horairos
+	public boolean Existe_permiso_horario(int folio_usuario){
+		return new BuscarSQL().Permiso_de_usuario_para_horario(folio_usuario); 
 	}
 
 	public boolean Guardar(){
