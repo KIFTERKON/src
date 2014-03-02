@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Cumpleanios_Del_Mes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d8258e63-744e-469d-ae46-cb7e5889d344">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#FFFF99"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT		  tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado
+			, convert(varchar(20),tb_empleado.fecha_nacimiento,103) as fecha_nacimiento
+			, tb_establecimiento.nombre as establecimiento
+			, tb_puesto.nombre as puesto
+			, (CASE when tb_empleado.status = 1
+						then 'VIGENTE'
+					when tb_empleado.status = 2
+						then 'VACACIONES'
+					when tb_empleado.status = 3
+						then 'INCAPACIDAD'
+				END) as status
+FROM tb_empleado
+inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id
+inner join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
+where tb_empleado.status < 4
+and datepart(month,tb_empleado.fecha_nacimiento) = datepart(month,getdate())
+order by datepart(day,tb_empleado.fecha_nacimiento)]]>
+	</queryString>
+	<field name="empleado" class="java.lang.String"/>
+	<field name="fecha_nacimiento" class="java.lang.String"/>
+	<field name="establecimiento" class="java.lang.String"/>
+	<field name="puesto" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="130" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4b644a34-b313-4a41-bb7b-40265e3d2982" style="Title" x="30" y="1" width="288" height="123" forecolor="#339900"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Cumpleaños Del Mes]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="2f4fa75c-3413-4384-91f0-8e139ca5314c" x="349" y="1" width="205" height="129"/>
+				<imageExpression><![CDATA["C:\\SCOI\\imagen\\celebracion.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b3ff144b-c160-4492-aebd-1d9ae588fb25" style="Column header" x="0" y="0" width="198" height="15" forecolor="#FF3300"/>
+				<textElement/>
+				<text><![CDATA[Empleado]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="41cb5319-ffa9-41b6-ac10-a55c58ea0f89" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="c9bc25b8-e587-4c75-9bfc-0933e3e52702" style="Column header" x="198" y="0" width="100" height="16" forecolor="#FF3300"/>
+				<textElement/>
+				<text><![CDATA[Establecimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a7e4e2b9-6066-4140-b3c0-f7d48fa61a25" style="Column header" x="298" y="0" width="100" height="16" forecolor="#FF3300"/>
+				<textElement/>
+				<text><![CDATA[Puesto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a92cfbb7-ad72-4e7f-a02a-f37e92b46659" style="Column header" x="467" y="0" width="88" height="15" forecolor="#FF3300"/>
+				<textElement/>
+				<text><![CDATA[Cumpleaños]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="979e5b70-d76e-4f18-9d04-063a8991a5e1" style="Column header" x="398" y="0" width="69" height="16" forecolor="#FF3300"/>
+				<textElement/>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15">
+			<frame>
+				<reportElement uuid="2d7228bd-69c6-41ee-bc63-c930a69fb3f7" style="Row" mode="Opaque" x="0" y="0" width="555" height="15"/>
+				<textField>
+					<reportElement uuid="6206dd38-dd98-453d-be57-4ddb061bbd2f" x="198" y="0" width="100" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="38d78179-c6a3-4a5a-9625-8f12f781f62a" x="298" y="0" width="100" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puesto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e4176033-af79-472f-942b-36dd22c38bfb" x="398" y="0" width="69" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d57b0238-6e24-4a37-8a80-6a1278b4bbe0" x="467" y="0" width="88" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_nacimiento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="9c212d02-89f3-49d9-ab65-37d780addf61" x="0" y="0" width="197" height="15"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement uuid="dd29df30-4090-4728-b0ef-3ba988b0538c" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="f9916c2c-1506-47d7-aaa3-d095d9e825f2" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#000000" backcolor="#FFFF66"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="1df2a0cd-a2ef-4934-b592-4c91f90cfa34" style="Column header" x="533" y="0" width="40" height="20" forecolor="#FF3300"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="d7ed785b-f8f8-47a8-a225-0c37e8a31a7e" style="Column header" x="453" y="0" width="80" height="20" forecolor="#FF3300"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="23620bbd-0791-468e-a5da-5f45abaedf9e" style="Column header" x="22" y="1" width="197" height="20" forecolor="#FF3300"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

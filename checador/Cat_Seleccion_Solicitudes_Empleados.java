@@ -70,7 +70,7 @@ public class Cat_Seleccion_Solicitudes_Empleados extends JFrame {
 	JComboBox cmbEstablecimientos = new JComboBox(establecimientos);
 	
     public static DefaultTableModel tabla_model = new DefaultTableModel(
-    		null,	new String[]{"Solicitud","Empleado","Establecimiento","Solicitud"}){
+    		null,	new String[]{"Solicitud","Empleado","Establecimiento","Status Solicitud"}){
                     @SuppressWarnings("rawtypes")
                     Class[] types = new Class[]{
                                java.lang.Object.class,
@@ -353,17 +353,10 @@ public class Cat_Seleccion_Solicitudes_Empleados extends JFrame {
 		llenado_permisos.add(txtFolioSolicitud).setBounds(695,y,70,20);
 		
 		llenado_permisos.add(lblMovimiento).setBounds(20, 75, 550, 25);
-//		llenado_permisos.add(btnRegresar).setBounds(705, 15, 80, 20);
 			
 		llenado_permisos.add(lblCambio).setBounds(15,98,140,20);
 		llenado_permisos.add(txtCambio).setBounds(115,98,215,20);
 		
-////		llenado_permisos.add(cmbPuesto).setBounds(80,45,320,20);
-////		llenado_permisos.add(cmbDepartamento).setBounds(80,45,220,20);
-////		llenado_permisos.add(cmbTurno).setBounds(80,45,140,20);
-////		llenado_permisos.add(cmbDescanso).setBounds(80,45,140,20);
-////		llenado_permisos.add(cmbDobla).setBounds(80,45,140,20);
-//		
 		llenado_permisos.add(new JLabel("Fecha solicitada: ")).setBounds(345,98,100,20);
 		llenado_permisos.add(txtFechaSolicitada).setBounds(430,98,100,20);
 		llenado_permisos.add(Observasiones).setBounds(10, 120, 320, 150);

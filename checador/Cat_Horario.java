@@ -982,9 +982,9 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		spSabado5.setValue(new Time(Integer.parseInt(recesoDefault[0]),Integer.parseInt(recesoDefault[1]),Integer.parseInt(recesoDefault[2])));
 		spSabado5.setEditor(des5);
 	}
+	
 	public void botonNuevoHorario(){
 		boolean configs2 = new Obj_Configuracion_Sistema().buscar_permiso();
-		System.out.println(configs2);
 		btnNuevo.setEnabled(configs2);
 	}
 	
@@ -1564,7 +1564,6 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 						}
 					}
 			}
-			
 		}
 	};
 	
@@ -1578,14 +1577,10 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 						txtNombre.setText("");
 						txtNombre.requestFocus();
 						
-						rbNoDobla.setSelected(true);
-						rbNoDobla2.setSelected(true);
-						rbNoDobla3.setSelected(true);
+						camposTrue();
 						
 						chbHorarioDeposito.setSelected(false);
 						chbRecesoExtraDiario.setSelected(false);
-						
-						btnAceptar.setEnabled(true);
 						btnEditar.setEnabled(false);
 					}
 				}catch (SQLException e1) {

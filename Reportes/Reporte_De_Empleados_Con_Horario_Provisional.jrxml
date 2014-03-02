@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_De_Empleados_Con_Horario_Provisional" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6f4c9006-38e1-41a0-82d7-3ff82e973556">
-	<property name="ireport.zoom" value="1.3310000000000006"/>
-	<property name="ireport.x" value="44"/>
+	<property name="ireport.zoom" value="1.0263162364614133"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -15,15 +15,23 @@
 	</style>
 	<queryString>
 		<![CDATA[select tb_empleado.folio as folio,
-	tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado,
-	tb_establecimiento.nombre as establecimiento,
-	tb_puesto.nombre as puesto,
-	tb_departamento.departamento as departamento
+		tb_empleado.nombre+' '+tb_empleado.ap_paterno+' '+tb_empleado.ap_materno as empleado,
+		tb_establecimiento.nombre as establecimiento,
+		tb_puesto.nombre as puesto,
+		tb_departamento.departamento as departamento,
+		(CASE when tb_empleado.status=1
+				then 'VIGENTE'
+			when tb_empleado.status=2
+				then 'VACACIONES'
+			when tb_empleado.status=3
+				then 'INCAPACIDAD'
+		END) as status
 from tb_empleado
 inner join tb_establecimiento on tb_establecimiento.folio = tb_empleado.establecimiento_id
 inner join tb_puesto on tb_puesto.folio = tb_empleado.puesto_id
 inner join tb_departamento on tb_departamento.folio= tb_empleado.departamento
-where tb_empleado.status = 5
+where tb_empleado.horario=11
+and tb_empleado.status <4
 order by establecimiento,puesto,departamento,empleado]]>
 	</queryString>
 	<field name="folio" class="java.lang.Integer"/>
@@ -31,6 +39,7 @@ order by establecimiento,puesto,departamento,empleado]]>
 	<field name="establecimiento" class="java.lang.String"/>
 	<field name="puesto" class="java.lang.String"/>
 	<field name="departamento" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
 	<group name="Group2">
 		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
 	</group>
@@ -40,13 +49,13 @@ order by establecimiento,puesto,departamento,empleado]]>
 	<title>
 		<band height="132" splitType="Stretch">
 			<frame>
-				<reportElement uuid="4d357524-43c0-4058-9c3b-ca6c4d267da1" mode="Opaque" x="0" y="0" width="451" height="95" backcolor="#333333"/>
+				<reportElement uuid="4d357524-43c0-4058-9c3b-ca6c4d267da1" mode="Opaque" x="0" y="0" width="451" height="96" backcolor="#333333"/>
 				<staticText>
 					<reportElement uuid="6b73bd76-053e-4c38-bce5-41ed008812f4" style="Title" mode="Transparent" x="60" y="6" width="332" height="83"/>
 					<textElement textAlignment="Center">
 						<font size="32" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Reporte De Empleados No Contratables]]></text>
+					<text><![CDATA[Reporte De Empleados Con Horario Provisional]]></text>
 				</staticText>
 			</frame>
 			<frame>
@@ -63,8 +72,8 @@ order by establecimiento,puesto,departamento,empleado]]>
 				<reportElement uuid="a29cc102-2948-4e1d-b1c2-7d54d6a41d42" mode="Opaque" x="455" y="0" width="100" height="132" backcolor="#333333"/>
 			</rectangle>
 			<image>
-				<reportElement uuid="940ab318-5679-4723-b4ce-f2000401dd79" x="441" y="-3" width="134" height="134"/>
-				<imageExpression><![CDATA["C:\\SCOI\\imagen\\baja.png"]]></imageExpression>
+				<reportElement uuid="19d72dc2-11a1-4860-8c06-3c56785e8927" x="455" y="15" width="100" height="100"/>
+				<imageExpression><![CDATA["C:\\SCOI\\imagen\\correccion de horarios.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -72,41 +81,51 @@ order by establecimiento,puesto,departamento,empleado]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="40" splitType="Stretch">
+		<band height="27" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="998c96bd-d93c-4a82-bcff-cf4bb1d3185c" x="0" y="4" width="555" height="20" backcolor="#333333"/>
+			</rectangle>
 			<staticText>
-				<reportElement uuid="8e8bc53f-5b6b-40f0-b5dc-2417dffd4b65" x="473" y="20" width="81" height="20"/>
-				<textElement>
+				<reportElement uuid="8e8bc53f-5b6b-40f0-b5dc-2417dffd4b65" x="411" y="4" width="71" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Departamento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="68f9c31a-b769-4ac2-837a-2b0269318fb2" x="334" y="20" width="134" height="20"/>
-				<textElement>
+				<reportElement uuid="68f9c31a-b769-4ac2-837a-2b0269318fb2" x="291" y="4" width="116" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Puesto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="05ca70d3-4f24-4550-8777-cc944451b572" x="225" y="20" width="103" height="20"/>
-				<textElement>
+				<reportElement uuid="05ca70d3-4f24-4550-8777-cc944451b572" x="198" y="4" width="88" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Establecimiento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="844809a8-3630-4472-993a-9160eae9b011" x="44" y="20" width="176" height="20"/>
-				<textElement>
+				<reportElement uuid="844809a8-3630-4472-993a-9160eae9b011" x="34" y="4" width="159" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Empleado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1166f901-b9df-4423-89bd-83805ea28724" x="2" y="20" width="38" height="20"/>
-				<textElement>
+				<reportElement uuid="1166f901-b9df-4423-89bd-83805ea28724" x="2" y="4" width="28" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Folio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b2693dc5-d8ed-4fe9-9c04-aff2ea352dfc" x="486" y="4" width="65" height="20" forecolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -115,37 +134,42 @@ order by establecimiento,puesto,departamento,empleado]]>
 			<frame>
 				<reportElement uuid="73da416e-bb9a-4f3e-8821-951e7f03bec3" style="Row" mode="Opaque" x="0" y="0" width="555" height="18"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="33b39600-fc31-4f18-9a4e-fe6c7f10031b" style="Detail" positionType="Float" x="0" y="0" width="40" height="18"/>
+					<reportElement uuid="33b39600-fc31-4f18-9a4e-fe6c7f10031b" style="Detail" positionType="Float" x="0" y="0" width="30" height="18"/>
 					<textElement>
 						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{folio}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="a115f73d-1c29-4200-95b4-df567b2a4eff" style="Detail" positionType="Float" x="44" y="0" width="176" height="18"/>
+					<reportElement uuid="a115f73d-1c29-4200-95b4-df567b2a4eff" style="Detail" positionType="Float" x="34" y="0" width="159" height="18"/>
 					<textElement>
 						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{empleado}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="d131eeb9-95cc-4152-b73f-02f8a99f9d3b" style="Detail" positionType="Float" x="225" y="0" width="103" height="18"/>
+					<reportElement uuid="d131eeb9-95cc-4152-b73f-02f8a99f9d3b" style="Detail" positionType="Float" x="198" y="0" width="88" height="18"/>
 					<textElement>
 						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{establecimiento}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="806004ea-6f1e-4f25-b21e-f935310080c6" style="Detail" positionType="Float" x="334" y="0" width="134" height="18"/>
+					<reportElement uuid="806004ea-6f1e-4f25-b21e-f935310080c6" style="Detail" positionType="Float" x="291" y="0" width="116" height="18"/>
 					<textElement>
 						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{puesto}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="f822a66a-ea23-49be-9766-b4d07eaa8e13" x="473" y="0" width="81" height="18"/>
+					<reportElement uuid="f822a66a-ea23-49be-9766-b4d07eaa8e13" x="411" y="0" width="71" height="18"/>
 					<textElement/>
 					<textFieldExpression><![CDATA[$F{departamento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1b3b5482-b732-4b1f-97f9-8ee5f7905ba2" x="486" y="0" width="65" height="18"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

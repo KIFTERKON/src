@@ -104,6 +104,8 @@ import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
 import objetos.Obj_Tipo_Banco;
 import reporte.Reporte_de_Empleados_No_Contratables;
+import reporte.Reporte_De_Cumpleanios_Del_Mes;
+import reporte.Reporte_Horarios_Provisionales;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Empleado extends JFrame{
@@ -226,6 +228,10 @@ public class Cat_Empleado extends JFrame{
 	JButton btnStatus = new JButton();
 	JButton btnExaminar = new JButton("Examinar");
 	JButton btnCamara = new JButton(new ImageIcon("Iconos/camara_icon&16.png"));
+	
+	JButton btn_plantilla = new JButton("Plantilla");
+	JButton btn_horario_provisional = new JButton("H. Provisional");
+	
 	JButton btnCumpleaños_del_Mes = new JButton("Cumpleaños del Mes");
 	JButton btnIncontratables = new JButton("No contratables");
 	
@@ -341,6 +347,9 @@ public class Cat_Empleado extends JFrame{
 		panel.add(btnNuevo).setBounds(x+ancho+ancho+51,y,ancho-49,20);
 	
 		panel.add(btnFoto).setBounds(x*2+ancho*5,y-5,ancho+55,160);
+		
+		panel.add(btn_plantilla).setBounds(x+ancho*3,8,130,18);
+		panel.add(btn_horario_provisional).setBounds(x+ancho*4-10,8,130,18);
 		
 		panel.add(btnCumpleaños_del_Mes).setBounds(x+ancho*4+120,8,130,18);
 		panel.add(btnIncontratables).setBounds(x*2+ancho*3+ancho+230,8,130,18);
@@ -550,7 +559,12 @@ public class Cat_Empleado extends JFrame{
 		btnCamara.addActionListener(opFoto);
 		btnVerificar.addActionListener(opVerificar);
 		btnTrueFoto.addActionListener(opPresionFoto);
+		
 		btnIncontratables.addActionListener(Reporte_de_Empleados_No_Contratables);
+		btnCumpleaños_del_Mes.addActionListener(Reporte_De_Cumpleanios_Del_Mes);
+		btn_plantilla.addActionListener(opPlantilla);
+		btn_horario_provisional.addActionListener(opHorarioProvisional);
+		
 		btnExaminar.addActionListener(opExaminar);
 		btnHorarioNew.addActionListener(opGenerarHorairo);
 		btnHorario.addActionListener(opFiltroHorairo);
@@ -760,7 +774,6 @@ public class Cat_Empleado extends JFrame{
 					    
 					    in1.close();
 					    out1.close();
-					    
 						
 					    ImageIcon tmpIconDefault = new ImageIcon(System.getProperty("user.dir")+"/tmp/tmp.jpg");
 				         Icon iconoDefault = new ImageIcon(tmpIconDefault.getImage().getScaledInstance(btnFoto.getWidth(), btnFoto.getHeight(), Image.SCALE_DEFAULT));
@@ -1660,6 +1673,25 @@ public class Cat_Empleado extends JFrame{
 				new Reporte_de_Empleados_No_Contratables();
 		}
 	};
+	
+	ActionListener Reporte_De_Cumpleanios_Del_Mes = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+				new Reporte_De_Cumpleanios_Del_Mes();
+		}
+	};
+	
+	ActionListener opPlantilla = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+				new Cat_Plantilla().setVisible(true);
+		}
+	};
+	
+	ActionListener opHorarioProvisional = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			new Reporte_Horarios_Provisionales();
+		}
+	};
+	
 	ActionListener salir = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			dispose();
