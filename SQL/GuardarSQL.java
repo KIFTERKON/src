@@ -46,6 +46,7 @@ import objetos.Obj_Empleado;
 import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
+import objetos.Obj_Grupo_De_Vacaciones;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Mensajes;
 import objetos.Obj_Nivel_Critico;
@@ -2748,6 +2749,39 @@ public boolean Guardar_Horario(ObjHorario horario){
 			}finally{
 				try {
 					pstmt.close();
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+		
+		public boolean Guardar_Grupo_De_Vacaciones(Obj_Grupo_De_Vacaciones grupo){
+			String query = "exec sp_insert_grupo_de_vacaciones ?,?,?";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, grupo.getFolio());
+				pstmt.setString(2, grupo.getDescripcion().toUpperCase());
+				pstmt.setString(3, (grupo.isStatus())?"1":"0");
+				pstmt.executeUpdate();
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: "+e.getMessage());
+				if(con != null){
+					try{
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					}catch(SQLException ex){
+						System.out.println(ex.getMessage());
+					}
+				}
+				return false;
+			}finally{
+				try {
 					con.close();
 				} catch(SQLException e){
 					e.printStackTrace();
