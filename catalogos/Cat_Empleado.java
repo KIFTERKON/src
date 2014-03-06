@@ -1094,14 +1094,32 @@ public class Cat_Empleado extends JFrame{
 							}
 
 //					laboral
-							Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
-							empleado.setHorario(comboFolioHorario.getFolio());
+//							Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+//							empleado.setHorario(comboFolioHorario.getFolio());
+//							
+//							Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+//							empleado.setHorario2(comboFolioHorario2.getFolio());
+//							
+//							Obj_Horario_Empleado3 comboFolioHorario3 = new Obj_Horario_Empleado3().buscar_tur3(txtHorario3.getText());
+//							empleado.setHorario3(comboFolioHorario3.getFolio());
 							
-							Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
-							empleado.setHorario2(comboFolioHorario2.getFolio());
+							if(lblFolioHorario1.getText().equals("")){
+								empleado.setHorario(0);
+							}else{
+								empleado.setHorario(Integer.valueOf(lblFolioHorario1.getText()));
+							}
 							
-							Obj_Horario_Empleado3 comboFolioHorario3 = new Obj_Horario_Empleado3().buscar_tur3(txtHorario3.getText());
-							empleado.setHorario3(comboFolioHorario3.getFolio());
+							if(lblFolioHorario2.getText().equals("")){
+								empleado.setHorario2(0);
+							}else{
+								empleado.setHorario2(Integer.valueOf(lblFolioHorario2.getText()));
+							}
+							
+							if(lblFolioHorario3.getText().equals("")){
+								empleado.setHorario3(0);
+							}else{
+								empleado.setHorario3(Integer.valueOf(lblFolioHorario3.getText()));
+							}
 							
 							if(rbHorario.isSelected()==true){
 								empleado.setStatus_h1(1);
@@ -1217,6 +1235,8 @@ public class Cat_Empleado extends JFrame{
 								btnExaminar.setEnabled(false);
 								btnCamara.setEnabled(false);
 								txtHorario.setEnabled(false);
+								btnBuscar.setEnabled(true);
+								btnFiltro.setEnabled(true);
 								JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 							}else{
 								JOptionPane.showMessageDialog(null,"Error al intentar actualizar los datos","Aviso",JOptionPane.ERROR_MESSAGE);
@@ -1265,14 +1285,32 @@ public class Cat_Empleado extends JFrame{
 						}
 
 //				laboral
-						Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
-						empleado.setHorario(comboFolioHorario.getFolio());
+//						Obj_Horario_Empleado comboFolioHorario = new Obj_Horario_Empleado().buscar_tur(txtHorario.getText());
+//						empleado.setHorario(comboFolioHorario.getFolio());
+//						
+//						Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
+//						empleado.setHorario2(comboFolioHorario2.getFolio());
+//						
+//						Obj_Horario_Empleado3 comboFolioHorario3 = new Obj_Horario_Empleado3().buscar_tur3(txtHorario3.getText());
+//						empleado.setHorario3(comboFolioHorario3.getFolio());
 						
-						Obj_Horario_Empleado2 comboFolioHorario2 = new Obj_Horario_Empleado2().buscar_tur2(txtHorario2.getText());
-						empleado.setHorario2(comboFolioHorario2.getFolio());
+						if(lblFolioHorario1.getText().equals("")){
+							empleado.setHorario(0);
+						}else{
+							empleado.setHorario(Integer.valueOf(lblFolioHorario1.getText()));
+						}
 						
-						Obj_Horario_Empleado3 comboFolioHorario3 = new Obj_Horario_Empleado3().buscar_tur3(txtHorario3.getText());
-						empleado.setHorario3(comboFolioHorario3.getFolio());
+						if(lblFolioHorario2.getText().equals("")){
+							empleado.setHorario2(0);
+						}else{
+							empleado.setHorario2(Integer.valueOf(lblFolioHorario2.getText()));
+						}
+						
+						if(lblFolioHorario3.getText().equals("")){
+							empleado.setHorario3(0);
+						}else{
+							empleado.setHorario3(Integer.valueOf(lblFolioHorario3.getText()));
+						}
 						
 						if(rbHorario.isSelected()==true){
 							empleado.setStatus_h1(1);
@@ -1386,7 +1424,8 @@ public class Cat_Empleado extends JFrame{
 							btnExaminar.setEnabled(false);
 							btnCamara.setEnabled(false);
 							txtHorario.setEnabled(false);
-							
+							btnBuscar.setEnabled(true);
+							btnFiltro.setEnabled(true);							
 							JOptionPane.showMessageDialog(null,"El registro se guardó de forma segura","Aviso",JOptionPane.INFORMATION_MESSAGE);
 						}else{
 							JOptionPane.showMessageDialog(null, "Ocurrió un problema al almacenar el empleado", "Error", JOptionPane.ERROR_MESSAGE);

@@ -52,6 +52,7 @@ import objetos.Obj_Empleados_Cuadrantes;
 import objetos.Obj_Equipo_Trabajo;
 import objetos.Obj_Establecimiento;
 import objetos.Obj_Gen_Code_Bar;
+import objetos.Obj_Grupo_De_Vacaciones;
 import objetos.Obj_Horario_Empleado3;
 import objetos.Obj_Jefatura;
 import objetos.Obj_Mensajes;
@@ -4905,5 +4906,49 @@ public class BuscarSQL {
 		}
 			
 		return permiso_horario_n;
+	}
+	
+	public Obj_Grupo_De_Vacaciones Grupo_Nuevo() throws SQLException{
+		Obj_Grupo_De_Vacaciones grupo = new Obj_Grupo_De_Vacaciones();
+		String query = "select max(folio) as 'Maximo' from tb_grupo_de_vacaciones";
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				grupo.setFolio(rs.getInt("Maximo"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt!=null){stmt.close();}
+		}
+		return grupo;
+	}
+	
+	public Obj_Grupo_De_Vacaciones Grupo(int folio) throws SQLException{
+		Obj_Grupo_De_Vacaciones grupo = new Obj_Grupo_De_Vacaciones();
+		String query = "select * from tb_grupo_de_vacaciones where folio ="+ folio;
+		Statement stmt = null;
+		try {
+			stmt = con.conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				grupo.setFolio(rs.getInt("folio"));
+				grupo.setDescripcion(rs.getString("descripcion").trim());
+				grupo.setStatus(rs.getBoolean("status"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			if(stmt != null){stmt.close();}
+		}
+		return grupo;
 	}
 }

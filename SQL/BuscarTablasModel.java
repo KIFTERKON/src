@@ -612,6 +612,27 @@ public class BuscarTablasModel {
 	    return matriz; 
 	}
 	
+	public Object[][] tabla_grupo_vacaciones(){
+		String query_lista = "select * from tb_grupo_de_vacaciones";
+		Object[][] matriz = new Object[get_filas(query_lista)][2];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = "   "+rs.getString(1);
+				matriz[i][1] = "   "+rs.getString(2);
+//				matriz[i][2] = "   "+rs.getString(3);
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
+	
 	public boolean tablas_status(String nombre){
 		boolean varlor = false;
 		try {
