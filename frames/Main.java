@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import SQL.Connexion;
@@ -289,36 +290,43 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Permisos a Empleados")){
 						Permisos_Empleados.setEnabled(true);
 								}
-					if(permisos[i].equals("Reportes de Asistencia y Retardos del Dia")){
-						Reportes_del_Dia.setEnabled(true);
-								}
-					if(permisos[i].equals("Reporte General de Asistencia")){
-						Reportes_Checador_Gral.setEnabled(true);
-								}
-
-					
 					/* LISTA DE RAYA 
 					*		DEPARTAMENTO DE CORTES */
 					if(permisos[i].equals("Alimentación de Cortes"))
 						Departamento_Cortes_Alimentacion.setEnabled(false);
 					/* LISTA DE RAYA 
 					*		REPORTES */
+					if(permisos[i].equals("Reportes de Asistencia y Retardos del Dia")){
+						Reportes_del_Dia.setEnabled(true);
+								}
+					if(permisos[i].equals("Reporte General de Asistencia")){
+						Reportes_Checador_Gral.setEnabled(true);}
 					if(permisos[i].equals("Reporte Deducciones Por Inasistencia"))
 						Reporte_Deducciones_Inasistencia.setEnabled(true);
+					if(permisos[i].equals("Reporte de  Plantilla de Personal con Horario"))
+						Reporte_de_Plantilla_de_Personal_con_Horario.setEnabled(true);
+					
+					
 					if(permisos[i].equals("Reporte Depositos A Bancos"))
 						Reporte_Bancos.setEnabled(true);
 					if(permisos[i].equals("Reporte Fuente Sodas"))
 						Reporte_Fuente_Sodas.setEnabled(true);
 					if(permisos[i].equals("Reporte Lista de Firmas")){
 						Reporte_Lista_Firma.setEnabled(true);
-						btnListaFirma.setEnabled(true);
-					}
+						btnListaFirma.setEnabled(true);	}
 					if(permisos[i].equals("Reporte Lista de Raya"))
 						Reporte_Lista_Raya.setEnabled(true);
-					if(permisos[i].equals("Reporte Plantilla Activa"))
-						Reporte_Plantilla_Activa.setEnabled(true);
+	
 					if(permisos[i].equals("Reporte Prestamos"))
 						Reporte_Prestamos.setEnabled(true);
+					
+					/*SOLICITUDES*/	
+					if(permisos[i].equals("Revisión de Solicitudes por Consejo"))
+						Revision_de_Consejo.setEnabled(true);
+					if(permisos[i].equals("Revisión de Solicitudes por Jefe de Operaciones"))
+						Revision_de_Jefe_de_Operaciones.setEnabled(true);
+					if(permisos[i].equals("Solicitud de Empleados"))
+						Solicitud_de_Empleados.setEnabled(true);
 				}
 			}else{
 				Object[] permisos = new Obj_Main().Permisos(txtUsuario.getText());
@@ -516,34 +524,40 @@ public class Main extends InitButton {
 					if(permisos[i].equals("Permisos a Empleados")){
 						Permisos_Empleados.setEnabled(true);
 					            }
-					if(permisos[i].equals("Reportes de Asistencia y Retardos del Dia")){
-						Reportes_del_Dia.setEnabled(true);
-				              	}  
-					if(permisos[i].equals("Reporte General de Asistencia")){
-						Reportes_Checador_Gral.setEnabled(true);
-								}
+
 					/* LISTA DE RAYA 
 					*		DEPARTAMENTO DE CORTES */
 					if(permisos[i].equals("Alimentación de Cortes"))
 						Departamento_Cortes_Alimentacion.setEnabled(true);
 					/* LISTA DE RAYA 
 					*		REPORTES */
+					if(permisos[i].equals("Reportes de Asistencia y Retardos del Dia")){
+						Reportes_del_Dia.setEnabled(true); 	}  
+					if(permisos[i].equals("Reporte General de Asistencia")){
+						Reportes_Checador_Gral.setEnabled(true);}
 					if(permisos[i].equals("Reporte Deducciones Por Inasistencia"))
 						Reporte_Deducciones_Inasistencia.setEnabled(true);
+					if(permisos[i].equals("Reporte de  Plantilla de Personal con Horario"))
+						Reporte_de_Plantilla_de_Personal_con_Horario.setEnabled(true);				
+					
 					if(permisos[i].equals("Reporte Depositos A Bancos"))
 						Reporte_Bancos.setEnabled(true);
 					if(permisos[i].equals("Reporte Fuente Sodas"))
 						Reporte_Fuente_Sodas.setEnabled(true);
 					if(permisos[i].equals("Reporte Lista de Firmas")){
 						Reporte_Lista_Firma.setEnabled(true);
-						btnListaFirma.setEnabled(true);
-					}
+						btnListaFirma.setEnabled(true);	}
 					if(permisos[i].equals("Reporte Lista de Raya"))
 						Reporte_Lista_Raya.setEnabled(true);
-					if(permisos[i].equals("Reporte Plantilla Activa"))
-						Reporte_Plantilla_Activa.setEnabled(true);
 					if(permisos[i].equals("Reporte Prestamos"))
 						Reporte_Prestamos.setEnabled(true);
+					/*SOLICITUDES*/	
+					if(permisos[i].equals("Revisión de Solicitudes por Consejo"))
+						Revision_de_Consejo.setEnabled(true);
+					if(permisos[i].equals("Revisión de Solicitudes por Jefe de Operaciones"))
+						Revision_de_Jefe_de_Operaciones.setEnabled(true);
+					if(permisos[i].equals("Solicitud de Empleados"))
+						Solicitud_de_Empleados.setEnabled(true);
 				}
 			}
 		} catch (SQLException e) {

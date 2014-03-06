@@ -887,9 +887,7 @@ public class InitButton extends InitMenuBar{
 				Horarios.setEnabled(false);
 				Mensajes_Personales.setEnabled(false);
 				Permisos_Empleados.setEnabled(false);
-				Reportes_del_Dia.setEnabled(false);
-				Reportes_Checador_Gral.setEnabled(false);
-								
+
 			/* LISTA DE RAYA 
 			* 		COMPARACIONES */
 				Comparaciones_Listas_Fuente_Sodas.setEnabled(false);
@@ -899,15 +897,20 @@ public class InitButton extends InitMenuBar{
 					Departamento_Cortes_Alimentacion.setEnabled(false);
 			/* LISTA DE RAYA 
 			* 		REPORTES */
+					Reportes_del_Dia.setEnabled(false);
+					Reportes_Checador_Gral.setEnabled(false);
+					Reporte_de_Plantilla_de_Personal_con_Horario.setEnabled(false);
 				Reporte_Deducciones_Inasistencia.setEnabled(false);
 				Reporte_Bancos.setEnabled(false);
 				Reporte_Fuente_Sodas.setEnabled(false);
 				Reporte_Lista_Firma.setEnabled(false);
 				Reporte_Lista_Raya.setEnabled(false);
-				Reporte_Plantilla_Activa.setEnabled(false);
 				Reporte_Prestamos.setEnabled(false);
-				
-			txtFolio.setEditable(true);
+		   /*SOLICITUDES*/	
+				Revision_de_Consejo.setEnabled(false);
+				Revision_de_Jefe_de_Operaciones.setEnabled(false);
+				Solicitud_de_Empleados.setEnabled(false);
+		    txtFolio.setEditable(true);
 			txtContrasena.setEditable(true);
 			txtFolio.requestFocus();
 						
