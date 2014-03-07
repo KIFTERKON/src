@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Plantilla de Horarios" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ca0ec92-4868-4f8f-ac47-7bfb7cd837f3">
+	<property name="ireport.zoom" value="2.5937424601000147"/>
+	<property name="ireport.x" value="668"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT [tb_empleado].[folio]
+      ,[tb_empleado].[nombre]+' '+[tb_empleado].[ap_paterno]+' '+[tb_empleado].[ap_materno] as Nombre
+      ,case when [status_h1]=1
+               then(select nombre from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1
+               then(select nombre from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1
+               then(select nombre from tb_horarios where folio=tb_empleado.horario3)
+            end as Horario
+      ,Datename(dw,(case when [status_h1]=1
+               then(select descanso from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1
+               then(select descanso from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1
+               then(select descanso from tb_horarios where folio=tb_empleado.horario3)
+            end)-1) as descanso
+      ,case when [status_h1]=1
+               then(select descanso from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1
+               then(select descanso from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1
+               then(select descanso from tb_horarios where folio=tb_empleado.horario3)
+            end as dia_descanso
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>7
+              then(select convert(varchar(5),entradaD,108)+'-'+convert(varchar(5),salidaL,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>7
+              then(select convert(varchar(5),entradaD,108)+'-'+convert(varchar(5),salidaL,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>7
+              then(select convert(varchar(5),entradaD,108)+'-'+convert(varchar(5),salidaL,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Domingo
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>1
+              then(select convert(varchar(5),entradaL,108)+'-'+convert(varchar(5),salidaL,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>1
+              then(select convert(varchar(5),entradaL,108)+'-'+convert(varchar(5),salidaL,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>1
+              then(select convert(varchar(5),entradaL,108)+'-'+convert(varchar(5),salidaL,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Lunes
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>2
+              then(select convert(varchar(5),entradaM,108)+'-'+convert(varchar(5),salidaM,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>2
+              then(select convert(varchar(5),entradaM,108)+'-'+convert(varchar(5),salidaM,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>2
+              then(select convert(varchar(5),entradaM,108)+'-'+convert(varchar(5),salidaM,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Martes
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>3
+              then(select convert(varchar(5),entradaMi,108)+'-'+convert(varchar(5),salidaMi,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>3
+              then(select convert(varchar(5),entradaMi,108)+'-'+convert(varchar(5),salidaMi,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>3
+              then(select convert(varchar(5),entradaMi,108)+'-'+convert(varchar(5),salidaMi,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Miercoles
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>4
+              then(select convert(varchar(5),entradaJ,108)+'-'+convert(varchar(5),salidaJ,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>4
+              then(select convert(varchar(5),entradaJ,108)+'-'+convert(varchar(5),salidaJ,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>4
+              then(select convert(varchar(5),entradaJ,108)+'-'+convert(varchar(5),salidaJ,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Jueves
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>5
+              then(select convert(varchar(5),entradaV,108)+'-'+convert(varchar(5),salidaV,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>5
+              then(select convert(varchar(5),entradaV,108)+'-'+convert(varchar(5),salidaV,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>5
+              then(select convert(varchar(5),entradaV,108)+'-'+convert(varchar(5),salidaV,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Viernes
+      ,case when [status_h1]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>6
+              then(select convert(varchar(5),entradaS,108)+'-'+convert(varchar(5),salidaS,108) from tb_horarios where folio=tb_empleado.horario)
+            when [status_h2]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>6
+              then(select convert(varchar(5),entradaS,108)+'-'+convert(varchar(5),salidaS,108) from tb_horarios where folio=tb_empleado.horario2)
+            when [status_h3]=1 and(case when [status_h1]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario) when [status_h2]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario2)when [status_h3]=1 then(select descanso from tb_horarios where folio=tb_empleado.horario3) end)<>6
+              then(select convert(varchar(5),entradaS,108)+'-'+convert(varchar(5),salidaS,108) from tb_horarios where folio=tb_empleado.horario3)
+            else 'DESCANSO'
+              end as Sabado
+     ,case when((case when [status_h1]=1
+                        then(select Dobla from tb_horarios where folio=tb_empleado.horario)
+                      when [status_h2]=1
+                        then(select Dobla from tb_horarios where folio=tb_empleado.horario2)
+                      when [status_h3]=1
+                        then(select Dobla from tb_horarios where folio=tb_empleado.horario3)
+                      end)-1 )= (-1)
+               then 'No Dobla'
+            ELSE Datename(dw,(case when [status_h1]=1
+                                     then(select Dobla from tb_horarios where folio=tb_empleado.horario)
+                                   when [status_h2]=1
+                                     then(select Dobla from tb_horarios where folio=tb_empleado.horario2)
+                                   when [status_h3]=1
+                                     then(select Dobla from tb_horarios where folio=tb_empleado.horario3)
+                                    end)-1)
+             end as Dobla
+
+      ,case when [status_rotativo]=0
+               then 'NORMAL'
+            when [status_rotativo]=1
+               then '2 ROTATIVOS'
+            when [status_rotativo]=2
+               then '3 ROTATIVOS'
+            end as rotativo
+      ,tb_departamento.departamento as Departamento
+      ,tb_establecimiento.nombre as Establecimiento
+      ,tb_puesto.nombre as Puesto
+FROM [tb_empleado]
+	left outer join tb_establecimiento on tb_establecimiento.folio= [tb_empleado].establecimiento_id
+	left outer join tb_puesto on tb_puesto.folio= [tb_empleado].puesto_id
+	left outer join tb_departamento on tb_departamento.folio= [tb_empleado].departamento
+where [tb_empleado].status<3
+ORDER BY    tb_establecimiento.nombre,tb_departamento.departamento]]>
+	</queryString>
+	<field name="folio" class="java.lang.Integer"/>
+	<field name="Nombre" class="java.lang.String"/>
+	<field name="Horario" class="java.lang.String"/>
+	<field name="descanso" class="java.lang.String"/>
+	<field name="dia_descanso" class="java.lang.Integer"/>
+	<field name="Domingo" class="java.lang.String"/>
+	<field name="Lunes" class="java.lang.String"/>
+	<field name="Martes" class="java.lang.String"/>
+	<field name="Miercoles" class="java.lang.String"/>
+	<field name="Jueves" class="java.lang.String"/>
+	<field name="Viernes" class="java.lang.String"/>
+	<field name="Sabado" class="java.lang.String"/>
+	<field name="Dobla" class="java.lang.String"/>
+	<field name="rotativo" class="java.lang.String"/>
+	<field name="Departamento" class="java.lang.String"/>
+	<field name="Establecimiento" class="java.lang.String"/>
+	<field name="Puesto" class="java.lang.String"/>
+	<variable name="Empleados_Por_Estab" class="java.lang.Integer" resetType="Group" resetGroup="Establecimiento" calculation="Count">
+		<variableExpression><![CDATA[$F{Nombre}]]></variableExpression>
+	</variable>
+	<variable name="Cantidad_Departamentos" class="java.lang.Integer" resetType="Group" resetGroup="Establecimiento" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{Departamento}]]></variableExpression>
+	</variable>
+	<group name="Establecimiento" footerPosition="StackAtBottom">
+		<groupExpression><![CDATA[$F{Establecimiento}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement uuid="c28ff7fd-ecf5-4a9c-8886-19080c972bd2" mode="Opaque" x="0" y="3" width="352" height="24" forecolor="#B89F7D" backcolor="#000066"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="9fc35843-b11f-4729-a578-1b75f31b0dc6" style="SubTitle" x="2" y="0" width="350" height="24" forecolor="#FFFFFF" backcolor="#000033"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{Establecimiento}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="13">
+				<textField>
+					<reportElement uuid="5dbe2b0a-f6b8-4617-81f8-f2c586c89019" x="2" y="0" width="244" height="13"/>
+					<textElement/>
+					<textFieldExpression><![CDATA["Cantidad de Empleados del Establecimiento: "+$V{Empleados_Por_Estab}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="4b67bb81-8514-4611-8cab-7c9a87346ec9" x="309" y="0" width="165" height="13"/>
+					<textElement/>
+					<textFieldExpression><![CDATA["Cantidad de Departamentos: "+$V{Cantidad_Departamentos}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Departamento">
+		<groupExpression><![CDATA[$F{Departamento}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="939561f0-a589-491a-a75b-07fb74411266" positionType="Float" x="2" y="0" width="299" height="20" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Departamento}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="84c9c143-2563-4776-b481-47116ab56ddb" x="331" y="4" width="60" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[DOMINGO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2db0e561-2edf-4b1a-815f-7a3bfc62fc15" x="391" y="4" width="60" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[LUNES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4a3becee-ed79-491e-ad54-effd3fac5313" x="451" y="4" width="50" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[MARTES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6f27e468-e0f6-48a6-a789-30c2b21c68ca" x="511" y="4" width="60" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[MIERCOLES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ff06baff-c8c5-4b41-9960-3e7ae57514db" x="574" y="4" width="53" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[JUEVES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="789a4b14-e19e-4be5-9917-252159c75b8d" x="631" y="4" width="60" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[VIERNES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7f4714b5-8218-4977-859e-ff04d97fdfcf" x="691" y="4" width="60" height="15"/>
+					<textElement textAlignment="Left">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[SABADO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<frame>
+				<reportElement uuid="63080f10-8f6b-4845-89d1-7fb8caac014d" mode="Opaque" x="0" y="0" width="752" height="44" forecolor="#000066" backcolor="#000066"/>
+				<staticText>
+					<reportElement uuid="e13921a6-83ac-434c-bca4-d229d421582b" style="Title" x="0" y="0" width="426" height="41"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="28" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Plantilla de Personal con Horario]]></text>
+				</staticText>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="2e5e1b70-cb64-4a45-b22f-e6d037b4dd36" x="442" y="21" width="144" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement uuid="5027b485-ea91-48c1-a520-0bf57795b366" x="671" y="0" width="73" height="41"/>
+					<imageExpression><![CDATA["C:\\SCOI\\imagen\\Plantilla_de_Horarios.jpg"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</title>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<frame>
+				<reportElement uuid="53a275bb-e76d-4820-9dff-b123bb7e6b0f" style="Row" mode="Opaque" x="0" y="0" width="752" height="23"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="f012061a-6b3b-4612-b545-0758756cdc3e" style="Detail" positionType="Float" x="0" y="0" width="23" height="13"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{folio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="a3d2ee7b-2a41-4090-9107-aeb77602b509" style="Detail" positionType="Float" x="23" y="0" width="208" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="b5c5837c-a27d-453a-88e5-7307bcbbaf0b" style="Detail" positionType="Float" mode="Transparent" x="0" y="13" width="329" height="9"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Horario}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="867a4ba3-f6a4-4410-89ff-d92c7c2d3511" style="Detail" positionType="Float" x="331" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Domingo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="4b9e4585-792d-4fe6-a060-0fda600e3e1a" style="Detail" positionType="Float" x="391" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Lunes}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="8f72b58b-ab96-47fa-85d7-6773c1bec57f" style="Detail" positionType="Float" x="451" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Martes}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="dc3c3efa-8d34-4589-b0f8-c3d47bf34b84" style="Detail" positionType="Float" x="511" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Miercoles}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d33d5f70-000f-4740-b580-8c0321ecccdf" style="Detail" positionType="Float" x="571" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Jueves}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="7d1823d3-f084-4aa9-8e5b-8eebb834b754" style="Detail" positionType="Float" x="631" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Viernes}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="acefcf28-ea2e-4b0f-8b33-1664658f5a40" style="Detail" positionType="Float" x="691" y="0" width="60" height="13"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Sabado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="bed45ef7-73ad-4be7-a1cd-7e326c14bea3" style="Detail" positionType="Float" x="280" y="0" width="44" height="13"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["DB:"+$F{Dobla}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="13078cde-9079-43fd-a953-0fa8d2b9e671" style="Detail" positionType="Float" mode="Transparent" x="231" y="0" width="49" height="13"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["T.H.:"+$F{rotativo}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement uuid="020449da-c4e8-45d5-9289-0a3e4ffc8387" mode="Opaque" x="0" y="0" width="752" height="15" forecolor="#D0B48E" backcolor="#000066"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="68f13de8-448a-4ec6-b297-a8d9c18bc954" style="Column header" x="704" y="3" width="40" height="10" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="159f23d8-cea8-41e4-93f2-6cbe1ad9f564" style="Column header" x="624" y="3" width="80" height="10" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="6dd44a72-d4a1-48c1-bc87-923b041ef1b0" style="Column header" x="5" y="0" width="197" height="13" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -106,6 +106,7 @@ import objetos.Obj_Tipo_Banco;
 import reporte.Reporte_de_Empleados_No_Contratables;
 import reporte.Reporte_De_Cumpleanios_Del_Mes;
 import reporte.Reporte_Horarios_Provisionales;
+import reporte.Reporte_de_Plantilla_de_Personal_con_Horario;
 
 @SuppressWarnings({ "serial", "unchecked" })
 public class Cat_Empleado extends JFrame{
@@ -1721,7 +1722,7 @@ public class Cat_Empleado extends JFrame{
 	
 	ActionListener opPlantilla = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-				new Cat_Plantilla().setVisible(true);
+				new Reporte_de_Plantilla_de_Personal_con_Horario().setVisible(true);
 		}
 	};
 	

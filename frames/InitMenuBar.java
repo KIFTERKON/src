@@ -45,6 +45,9 @@ import checador.Cat_Permisos_Checador;
 import checador.Cat_Reporte_General_Asistencia_Por_Establecimiento;
 import checador.Cat_Reporte_Impresion_Gafetes;
 import checador.Cat_Reportes_Checador;
+import checador.Cat_Seleccion_Consejo;
+import checador.Cat_Seleccion_Jefe_De_Operaciones;
+import checador.Cat_Seleccion_Solicitudes_Empleados;
 
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
@@ -168,8 +171,8 @@ public class InitMenuBar extends Init{
 		        JMenuItem Cuadrantes_Reportes_Dinamico    = new JMenuItem("Reporte Dinamico de Cuadrantes", new ImageIcon("Iconos/reporte_icon&16.png"));
 		    JMenuItem Cuadrantes_Reportes_Usuario 	  = new JMenuItem("Reportes Usuario", new ImageIcon("Iconos/reporte_icon&16.png"));
 					
-	/* LISTA DE RAYA */
-	JMenu Lista_Raya = new JMenu("Lista de Raya");
+	    /* LISTA DE RAYA */
+	    JMenu Lista_Raya = new JMenu("Lista de Raya");
 		/* ALIMENTACION */
 		JMenu Alimentacion = new JMenu("Alimentación");
 			JMenuItem Alimentacion_Bancos 				  = new JMenuItem("Alimentación Bancos", new ImageIcon("Iconos/money_icon&16.png"));
@@ -201,35 +204,34 @@ public class InitMenuBar extends Init{
 	       	JMenuItem Horarios = new JMenuItem("Horarios");
 	       	JMenuItem Mensajes_Personales = new JMenuItem("Mensajes Personales a Empleados");
 	       	JMenuItem Permisos_Empleados = new JMenuItem("Permisos a Empleados");
-	       	JMenu Reportes_Checador = new JMenu("Reportes");
-	       	    JMenuItem Reportes_del_Dia = new JMenuItem("Reportes de Asistencia y Retardos del Dia");
-	         	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia"); 
-	         	         
-	         	
+
 	    /* LISTA DE RAYA CORTES */
 		JMenu Departamento_Cortes = new JMenu("Departamento de Cortes");
 			JMenuItem Departamento_Cortes_Alimentacion = new JMenuItem("Alimentación de Cortes");
 		/* REPORTES */
 		JMenu Reportes = new JMenu("Reportes");
-	     	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia",new ImageIcon("Iconos/reporte_icon&16.png"));
-	     	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos",new ImageIcon("Iconos/reporte_icon&16.png"));
+       	    JMenu Reportes_Checador = new JMenu("Checador");
+   	            JMenuItem Reportes_del_Dia = new JMenuItem("Reportes de Asistencia y Retardos del Dia",new ImageIcon("Iconos/reporte_icon&16.png"));
+            	JMenuItem Reportes_Checador_Gral = new JMenuItem("Reporte General de Asistencia",new ImageIcon("Iconos/reporte_icon&16.png")); 
+		      	JMenuItem Reporte_Deducciones_Inasistencia = new JMenuItem("Reporte Deducciones Por Inasistencia",new ImageIcon("Iconos/reporte_icon&16.png"));
+		      	JMenuItem Reporte_de_Plantilla_de_Personal_con_Horario= new JMenuItem("Reporte de  Plantilla de Personal con Horario",new ImageIcon("Iconos/reporte_icon&16.png"));
+		   	JMenuItem Reporte_Bancos = new JMenuItem("Reporte Depositos A Bancos",new ImageIcon("Iconos/reporte_icon&16.png"));
 	     	JMenuItem Reporte_Fuente_Sodas     = new JMenuItem("Reporte Fuente Sodas",new ImageIcon("Iconos/reporte_icon&16.png"));
 			JMenuItem Reporte_Lista_Firma 	   = new JMenuItem("Reporte Lista de Firmas",new ImageIcon("Iconos/reporte_icon&16.png"));
 			JMenuItem Reporte_Lista_Raya       = new JMenuItem("Reporte Lista de Raya",new ImageIcon("Iconos/reporte_icon&16.png"));
-			JMenuItem Reporte_Plantilla_Activa = new JMenuItem("Reporte Plantilla Activa",new ImageIcon("Iconos/reporte_icon&16.png"));
 			JMenuItem Reporte_Prestamos = new JMenuItem("Reporte Prestamos",new ImageIcon("Iconos/reporte_icon&16.png"));
-	
-	/* AYUDA */
-	JMenu Ayuda = new JMenu("Ayuda");
-		JMenuItem Ayuda_Acerca_de = new JMenuItem("Acerca de");		
-		
-	public InitMenuBar(){
-		this.setJMenuBar(miMenuTop());
-	}
-	
-	public JMenuBar miMenuTop(){
+		/*SOLICITUDES*/
+   	    JMenu Solicitudes = new JMenu("Solicitudes");
+   	        JMenuItem Revision_de_Consejo = new JMenuItem("Revisión de Solicitudes por Consejo");
+   	        JMenuItem Revision_de_Jefe_de_Operaciones = new JMenuItem("Revisión de Solicitudes por Jefe de Operaciones");
+   	        JMenuItem Solicitud_de_Empleados = new JMenuItem("Solicitud de Empleados");
+    	/* AYUDA */
+	    JMenu Ayuda = new JMenu("Ayuda");
+		    JMenuItem Ayuda_Acerca_de = new JMenuItem("Acerca de");		
+	   public InitMenuBar(){
+		  this.setJMenuBar(miMenuTop());}
+	   public JMenuBar miMenuTop(){
 		JMenuBar Barra = new JMenuBar();
-
 		/* ARCHIVO */
 		Archivo.setMnemonic(KeyEvent.VK_I);
 		Archivo.add(Cerrar);
@@ -471,13 +473,7 @@ public class InitMenuBar extends Init{
     		 Checador.add(Permisos_Empleados);
 		                Permisos_Empleados.addActionListener(Opciones);
 		                Permisos_Empleados.setEnabled(false);	
-		     Checador.add(Reportes_Checador);
-	         Reportes_Checador.add(Reportes_del_Dia);
-	                  Reportes_del_Dia.addActionListener(Opciones);
-	                  Reportes_del_Dia.setEnabled(false);	
-		         Reportes_Checador.add(Reportes_Checador_Gral);
-		                 Reportes_Checador_Gral.addActionListener(Opciones);
-		                 Reportes_Checador_Gral.setEnabled(false);	
+
 	                 
 		/* LISTA DE RAYA CORTES  */
 		Lista_Raya.add(Departamento_Cortes);
@@ -487,10 +483,21 @@ public class InitMenuBar extends Init{
 		/* LISTA DE RAYA 
 		* 		REPORTES */
 		Lista_Raya.add(Reportes);
-		    Reportes.add(Reporte_Deducciones_Inasistencia);
-		    	Reporte_Deducciones_Inasistencia.addActionListener(Opciones);
-		    	Reporte_Deducciones_Inasistencia.setEnabled(false);
-		    Reportes.add(Reporte_Bancos);
+		   Reportes.add(Reportes_Checador);
+               Reportes_Checador.add(Reportes_del_Dia);
+                      Reportes_del_Dia.addActionListener(Opciones);
+                      Reportes_del_Dia.setEnabled(false);	
+    		   Reportes_Checador.add(Reporte_de_Plantilla_de_Personal_con_Horario);
+				      Reporte_de_Plantilla_de_Personal_con_Horario.addActionListener(Opciones);
+				      Reporte_de_Plantilla_de_Personal_con_Horario.setEnabled(false);
+			   Reportes_Checador.add(Reporte_Deducciones_Inasistencia);
+			   	      Reporte_Deducciones_Inasistencia.addActionListener(Opciones);
+			       	  Reporte_Deducciones_Inasistencia.setEnabled(false);
+	           Reportes_Checador.add(Reportes_Checador_Gral);
+	                  Reportes_Checador_Gral.addActionListener(Opciones);
+	                  Reportes_Checador_Gral.setEnabled(false);	
+
+	        Reportes.add(Reporte_Bancos);
 		    	Reporte_Bancos.addActionListener(Opciones);
 		    	Reporte_Bancos.setEnabled(false);
 			Reportes.add(Reporte_Fuente_Sodas);
@@ -502,12 +509,20 @@ public class InitMenuBar extends Init{
 			Reportes.add(Reporte_Lista_Raya);
 				Reporte_Lista_Raya.addActionListener(Opciones);
 				Reporte_Lista_Raya.setEnabled(false);
-			Reportes.add(Reporte_Plantilla_Activa);
-				Reporte_Plantilla_Activa.addActionListener(Opciones);
-				Reporte_Plantilla_Activa.setEnabled(false);
 			Reportes.add(Reporte_Prestamos);
 				Reporte_Prestamos.addActionListener(Opciones);
-				Reporte_Prestamos.setEnabled(false);		
+				Reporte_Prestamos.setEnabled(false);	
+	    /*SOLICITUDES*/
+		 Lista_Raya.add(	Solicitudes);
+		    Solicitudes.add(Revision_de_Consejo);
+			    Revision_de_Consejo.addActionListener(Opciones);
+				Revision_de_Consejo.setEnabled(false);
+			Solicitudes.add(Revision_de_Jefe_de_Operaciones);
+			    Revision_de_Jefe_de_Operaciones.addActionListener(Opciones);
+			    Revision_de_Jefe_de_Operaciones.setEnabled(false);
+			Solicitudes.add(Solicitud_de_Empleados);
+			    Solicitud_de_Empleados.addActionListener(Opciones);
+			    Solicitud_de_Empleados.setEnabled(false);
 		/* AYUDA */
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 			Ayuda.add(Ayuda_Acerca_de);
@@ -591,7 +606,6 @@ public class InitMenuBar extends Init{
 				new Cat_Configuracion_Sistema().setVisible(true);
 			if(e.getActionCommand().equals("Configuración de Usuarios"))
 				new Cat_Usuario().setVisible(true);
-			
 			/* CONTABILIDAD */
 			if(e.getActionCommand().equals("Importar Auxiliar"))
 				System.out.println("Pendiente");
@@ -603,29 +617,23 @@ public class InitMenuBar extends Init{
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte de Apartados y Abonos en una Asignacion"))
 				new Cat_Reporte_BMS_Apartados().setVisible(true);
-	
-		
 			/* CUADRANTES 
 			 * 		ALIMENTACION */
 			if(e.getActionCommand().equals("Alimentación de Cuadrantes")){
 				Obj_Usuario usuario = new Obj_Usuario().LeerSession();
 				Obj_Alimentacion_Cuadrante datos_cuadrante = new Obj_Alimentacion_Cuadrante().buscarEmpleado(procesa_texto(usuario.getNombre_completo()));
-				
 				if(!datos_cuadrante.getEquipo_trabajo().equals("")){
 					new Cat_Alimentacion_Cuadrante(procesa_texto(usuario.getNombre_completo())).setVisible(true);
 				}else{
 					JOptionPane.showMessageDialog(null, "El usuario no tiene cuadrante", "Aviso!", JOptionPane.OK_CANCEL_OPTION);
 				}
-				
 			}
-				
 			if(e.getActionCommand().equals("Cuadrante"))
 				new Cat_Cuadrante().setVisible(true);
 			if(e.getActionCommand().equals("Empleados en Cuadrantes"))
 				new Cat_Empleados_Cuadrantes().setVisible(true);
 			if(e.getActionCommand().equals("Asignación de Actividades por Nivel Jerarquico"))
 				new Cat_Filtro_Empleado_Puesto_Dependiente().setVisible(true);
-			
 			/* CUADRANTES 
 			 * 		CATALOGO */
 			if(e.getActionCommand().equals("Actividades"))
@@ -650,17 +658,14 @@ public class InitMenuBar extends Init{
 				new Cat_Ponderacion().setVisible(true);
 			/* CUADRANTES 
 			 * 		REPORTES */
-			
 			if(e.getActionCommand().equals("Impresion de Cuadrante Personal"))
 				 new Cat_Reporte_Cuadrantes_Impresion_de_Cuadrantes_Usuario().setVisible(true);
-			
 			if(e.getActionCommand().equals("Reportes Directivo"))
 				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Dinamico de Cuadrantes"))
 				new Cat_Reporte_Cuadrantes().setVisible(true);
 			if(e.getActionCommand().equals("Reportes Usuario"))
 				System.out.println("Pendiente");
-				
 			/* LISTA DE RAYA 
 			 * 		ALIMENTACION */
 			if(e.getActionCommand().equals("Alimentación Bancos"))
@@ -713,17 +718,18 @@ public class InitMenuBar extends Init{
 				new Cat_Msj_Personal().setVisible(true);
 			if(e.getActionCommand().equals("Permisos a Empleados"))
 				new Cat_Permisos_Checador().setVisible(true);
-			if(e.getActionCommand().equals("Reportes de Asistencia y Retardos del Dia"))
-				new Cat_Reportes_Checador().setVisible(true);
-			if(e.getActionCommand().equals("Reporte General de Asistencia"))
-				new Cat_Reporte_General_Asistencia_Por_Establecimiento().setVisible(true);
-		
 			/* LISTA DE RAYA 
 			 * 		DEPARTAMENTO DE CORTES */
 			if(e.getActionCommand().equalsIgnoreCase("Alimentación de Cortes"))
 				new Cat_Filtro_Cortes().setVisible(true);
 			/* LISTA DE RAYA 
 			 * 		REPORTES */
+			if(e.getActionCommand().equals("Reportes de Asistencia y Retardos del Dia"))
+				new Cat_Reportes_Checador().setVisible(true);
+			if(e.getActionCommand().equals("Reporte General de Asistencia"))
+				new Cat_Reporte_General_Asistencia_Por_Establecimiento().setVisible(true);		
+ 	      	if(e.getActionCommand().equals("Reporte de  Plantilla de Personal con Horario"))
+ 	      		new reporte.Reporte_de_Plantilla_de_Personal_con_Horario().setVisible(true);
 			if(e.getActionCommand().equals("Reporte Depositos A Bancos"))
 				new reporte.Reporte_Bancos_Por_Estab();			
 			if(e.getActionCommand().equals("Reporte Deducciones Por Inasistencia"))
@@ -734,13 +740,15 @@ public class InitMenuBar extends Init{
 				new Cat_Lista_Pago().setVisible(true);
 			if(e.getActionCommand().equals("Reporte Lista de Raya"))
 				new Cat_Imprimir_LR().setVisible(true);
-			if(e.getActionCommand().equals("Reporte Plantilla Activa"))
-				System.out.println("Pendiente");
 			if(e.getActionCommand().equals("Reporte Prestamos"))
-				new reporte.Reporte_Prestamos();	
-
-			
+				new reporte.Reporte_Prestamos();
+			/*SOLICITUDES*/
+			if(e.getActionCommand().equals("Revisión de Solicitudes por Consejo"))
+				new Cat_Seleccion_Consejo().setVisible(true);
+			if(e.getActionCommand().equals("Revisión de Solicitudes por Jefe de Operaciones"))
+				new Cat_Seleccion_Jefe_De_Operaciones().setVisible(true);
+			if(e.getActionCommand().equals("Solicitud de Empleados"))
+				new Cat_Seleccion_Solicitudes_Empleados().setVisible(true);
 		}
 	};
-
 }
