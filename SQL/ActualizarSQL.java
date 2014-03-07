@@ -1583,6 +1583,21 @@ public class ActualizarSQL {
 			
 			// Actualiza el Cuadrante
 			pstmt = con.prepareStatement(query);
+			System.out.println("Actualizar->"+"Cuadrante: "+cuadrante.getCuadrante().toUpperCase());
+			System.out.println( cuadrante.getPerfil().toUpperCase());
+			System.out.println( cuadrante.getJefatura());
+			System.out.println( cuadrante.getNivel_gerarquico());
+			System.out.println( cuadrante.getEquipo_trabajo());
+			System.out.println( cuadrante.getEstablecimiento());
+			System.out.println( cuadrante.getDomingo());
+			System.out.println( cuadrante.getLunes());
+			System.out.println( cuadrante.getMartes());
+			System.out.println( cuadrante.getMiercoles());
+			System.out.println( cuadrante.getJueves());
+			System.out.println( cuadrante.getViernes());
+			System.out.println( cuadrante.getSabado());
+			System.out.println( cuadrante.getStatus());
+			System.out.println( cuadrante.getFolio());
 			
 			pstmt.setString(1, cuadrante.getCuadrante().toUpperCase());
 			pstmt.setString(2, cuadrante.getPerfil().toUpperCase());
@@ -1606,6 +1621,17 @@ public class ActualizarSQL {
 			pstmtTabla = con.prepareStatement(querytabla);
 			
 			for(int i=0; i<tabla.length; i++){
+				
+
+				System.out.println( cuadrante.getCuadrante().toUpperCase());
+				System.out.println( Integer.parseInt(tabla[i][0].toString().trim()));
+				System.out.println( tabla[i][1].toString().trim());
+				System.out.println( tabla[i][2].toString().trim());
+				System.out.println( Boolean.parseBoolean(tabla[i][3]) ? 1 : 0);
+				System.out.println( tabla[i][4]);
+				System.out.println( tabla[i][5]);
+				System.out.println( tabla[i][6]);
+				
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(3, tabla[i][1].toString().trim());

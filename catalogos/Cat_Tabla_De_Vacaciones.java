@@ -34,14 +34,17 @@ import javax.swing.table.TableRowSorter;
 import objetos.JTextFieldLimit;
 import objetos.Obj_Configuracion_Sistema;
 import objetos.Obj_Departamento;
+import objetos.Obj_Establecimiento;
+import objetos.Obj_Grupo_De_Vacaciones;
+import objetos.Obj_Tabla_De_Vacaciones;
 
 @SuppressWarnings("serial")
-public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
+public class Cat_Tabla_De_Vacaciones extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane panel = new JLayeredPane();
 	
-	String[] grupo ={"Seleccione un grupo","2","3"};
+	String[] grupo = new Obj_Tabla_De_Vacaciones().Combo_Grupo();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	JComboBox cmbGrupo = new JComboBox(grupo);
 	
@@ -53,13 +56,13 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 	JCheckBox chbStatus = new JCheckBox("Status");
 	
 //	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-	JButton btnSalir = new JButton("Salir");
-	JButton btnDeshacer = new JButton("Deshacer");
+	JButton btnActualizar = new JButton("Modificar");
+	JButton btnLimpiar = new JButton("Limpiar");
 	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
-	 public static DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Departamento().get_tabla_model_departamento(),
+	 public static DefaultTableModel tabla_model = new DefaultTableModel(null/*new Obj_Grupo_De_Vacaciones().get_tabla_model_grupo_de_vacaciones()*/,
 	            new String[]{"Grupo", "Años Trab.", "Tiempo (Dias)", "Prima Vacacional (%)"}){
 	                    
 	            @SuppressWarnings("rawtypes")
@@ -93,13 +96,13 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 		private TableRowSorter trsfiltro;
 		
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Cat_Configuracion_De_Grupos_Vacacionales(){
+	public Cat_Tabla_De_Vacaciones(){
 		
 		this.init_tabla();
 		
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Imagen/Toolbox.png"));
-		panel.setBorder(BorderFactory.createTitledBorder("Departamento"));
-		this.setTitle("Departamento");
+		panel.setBorder(BorderFactory.createTitledBorder("Grupo de vacaciones"));
+		this.setTitle("Tabla De Vacaciones");
 		
 		trsfiltro = new TableRowSorter(tabla_model); 
 		tabla.setRowSorter(trsfiltro);
@@ -118,24 +121,23 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 		panel.add(cmbGrupo).setBounds(ancho,y,ancho+50,20);
 //		panel.add(btnBuscar).setBounds(x+(ancho*2)+10,y,28,20);
 		
-		panel.add(chbStatus).setBounds(x+(ancho*2)+35,y,ancho-25,20);
+		panel.add(chbStatus).setBounds(x+(ancho*2)+75,y,ancho-25,20);
 		
 		panel.add(new JLabel("Años Trab:")).setBounds(x-25,y+=30,ancho,20);
 		panel.add(spAniosT).setBounds(ancho,y,60,20);
 		
-		panel.add(new JLabel("Dias Correspondientes:")).setBounds((ancho*2)-35,y,ancho+50,20);
-		panel.add(spDiasC).setBounds((ancho*3)+5,y,60,20);
+		panel.add(new JLabel("Dias Correspondientes:")).setBounds((ancho*2)-20,y,ancho+50,20);
+		panel.add(spDiasC).setBounds((ancho*3)+20,y,60,20);
 		
 		panel.add(new JLabel("Prima:")).setBounds(x-25,y+=30,80,20);
-		panel.add(txtPrima).setBounds(ancho,y,ancho+70,20);
+		panel.add(txtPrima).setBounds(ancho,y,ancho+10,20);
 		
-		panel.add(btnEditar).setBounds(x+(ancho*2)+30,y,90,20);
+		panel.add(btnEditar).setBounds(x+ancho+70,y,80,20);
+		panel.add(btnNuevo).setBounds(x+(ancho*2)+55,y,80,20);
 		
-		
-		panel.add(btnNuevo).setBounds(x-25,y+=30,90,20);
-		panel.add(btnGuardar).setBounds(x+ancho+70,y,90,20);
-		panel.add(btnDeshacer).setBounds(x+75,y,90,20);
-		panel.add(btnSalir).setBounds(x+(ancho*3)+30,y,90,20);
+		panel.add(btnLimpiar).setBounds(x+80,y+=30,80,20);
+		panel.add(btnActualizar).setBounds(x+ancho+70,y,80,20);
+		panel.add(btnGuardar).setBounds(x+(ancho*2)+55,y,80,20);
 		
 		panel.add(txtFolioFiltro).setBounds(x-25,150,42,20);
 		panel.add(txtDepartamentoFiltro).setBounds(x+16,150,80,20);
@@ -151,9 +153,9 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 		txtPrima.setDocument(new JTextFieldLimit(50));
 		
 		btnGuardar.addActionListener(guardar);
-		btnSalir.addActionListener(cerrar);
+		btnActualizar.addActionListener(cerrar);
 //		btnBuscar.addActionListener(buscar);
-		btnDeshacer.addActionListener(deshacer);
+		btnLimpiar.addActionListener(opLimpiar);
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
 		
@@ -164,7 +166,7 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 		
 		cont.add(panel);
 		
-		this.setSize(760,350);
+		this.setSize(405,350);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -455,7 +457,7 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 		}
 	};
 	
-	ActionListener deshacer = new ActionListener(){
+	ActionListener opLimpiar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			panelLimpiar();
 			panelEnabledFalse();
@@ -521,7 +523,7 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 	};
 	
 	public static void main(String [] arg){
-		new Cat_Configuracion_De_Grupos_Vacacionales().setVisible(true);
+		new Cat_Tabla_De_Vacaciones().setVisible(true);
 	}
 	
 }
