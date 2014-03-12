@@ -480,6 +480,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 	JButton btn_copiar_vienres_todos = new JButton("Copiar a Todos");
 	JButton btn_copiar_sabado_todos = new JButton("Copiar a Todos");
 	
+	int anchoMon = Toolkit.getDefaultToolkit().getScreenSize().width;
+    int ancho_nivel_critico=0;
 	public Cat_Cuadrante_Base(){
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("Iconos/cuadrante_icon&16.png"));
 		this.panel.setBorder(BorderFactory.createTitledBorder("Cuadrantes"));
@@ -520,8 +522,14 @@ public class Cat_Cuadrante_Base extends JFrame{
 			this.panel.add(chViernes).setBounds(295,y,70,20);
 			this.panel.add(chSabado).setBounds(368,y,70,20);
 		
-		this.panel.add(pestanas).setBounds(450,30,730, 500);
-		
+			if(anchoMon<=1024){
+				this.panel.add(pestanas).setBounds(450,30,525, 500);
+				ancho_nivel_critico=110;
+			}else{
+				this.panel.add(pestanas).setBounds(450,30,730, 500);
+				ancho_nivel_critico=145;
+			}
+			
 		this.pestanas.addTab("Domingo", pDomingo);
 		this.domingo();
 		this.pestanas.addTab("Lunes", pLunes);
@@ -602,7 +610,12 @@ public class Cat_Cuadrante_Base extends JFrame{
 		
 		this.todoFalse();
 		
-		this.setSize(1200,600);
+		if(anchoMon<=1024){
+			this.setSize(1000,600);
+		}else{
+			this.setSize(1200,600);
+		}
+		
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -623,18 +636,31 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pDomingo.setOpaque(true); 
 		this.pDomingo.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pDomingo.add(scrollDomingo).setBounds(15,50,690,405);
-
-		this.pDomingo.add(btnAgregarDomingo).setBounds(120,20,75,20);
-		
-		this.pDomingo.add(btnBajarDomingo).setBounds(200,20,40,20);
-		this.pDomingo.add(btnSubirDomingo).setBounds(255,20,40,20);
-		
-		this.pDomingo.add(btnRemoverDomingo).setBounds(300,20,75,20);
-		
-		this.pDomingo.add(btn_copiar_domingo_al_lunes).setBounds(380,20,125,20);
-		
-		this.pDomingo.add(btn_copiar_domingo_todos).setBounds(520,20,120,20);
+		if(anchoMon<=1024){
+			this.pDomingo.add(scrollDomingo).setBounds(15,50,490,405);
+			this.pDomingo.add(btnAgregarDomingo).setBounds(15,20,75,20);
+			
+			this.pDomingo.add(btnBajarDomingo).setBounds(95,20,40,20);
+			this.pDomingo.add(btnSubirDomingo).setBounds(135,20,40,20);
+			
+			this.pDomingo.add(btnRemoverDomingo).setBounds(180,20,75,20);
+			
+			this.pDomingo.add(btn_copiar_domingo_al_lunes).setBounds(260,20,125,20);
+			
+			this.pDomingo.add(btn_copiar_domingo_todos).setBounds(390,20,115,20);
+		}else{
+			this.pDomingo.add(scrollDomingo).setBounds(15,50,690,405);
+			this.pDomingo.add(btnAgregarDomingo).setBounds(120,20,75,20);
+			
+			this.pDomingo.add(btnBajarDomingo).setBounds(200,20,40,20);
+			this.pDomingo.add(btnSubirDomingo).setBounds(255,20,40,20);
+			
+			this.pDomingo.add(btnRemoverDomingo).setBounds(300,20,75,20);
+			
+			this.pDomingo.add(btn_copiar_domingo_al_lunes).setBounds(380,20,125,20);
+			
+			this.pDomingo.add(btn_copiar_domingo_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaDomingo.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaDomingo.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -643,14 +669,15 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaDomingo.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaDomingo.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaDomingo.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaDomingo.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaDomingo.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaDomingo.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaDomingo.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaDomingo.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaDomingo.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaDomingo.getColumnModel().getColumn(4).setMaxWidth(80);
 		this.tablaDomingo.getColumnModel().getColumn(4).setMinWidth(80);
 		this.tablaDomingo.getColumnModel().getColumn(5).setMaxWidth(80);
 		this.tablaDomingo.getColumnModel().getColumn(5).setMinWidth(80);
+		
 		
 		TableCellRenderer render = new TableCellRenderer() { 
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
@@ -752,18 +779,32 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pLunes.setOpaque(true); 
 		this.pLunes.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pLunes.add(scrollLunes).setBounds(15,50,690,405);
-		
-		this.pLunes.add(btnAgregarLunes).setBounds(120,20,75,20);
-		
-		this.pLunes.add(btnBajarLunes).setBounds(200,20,40,20);
-		this.pLunes.add(btnSubirLunes).setBounds(255,20,40,20);
-		
-		this.pLunes.add(btnRemoverLunes).setBounds(300,20,75,20);
-		
-		this.pLunes.add(btn_copiar_lunes_al_martes).setBounds(380,20,125,20);
-		
-		this.pLunes.add(btn_copiar_lunes_todos).setBounds(520,20,120,20);
+		if(anchoMon<=1024){
+			this.pLunes.add(scrollLunes).setBounds(15,50,490,405);
+			this.pLunes.add(btnAgregarLunes).setBounds(15,20,75,20);
+			
+			this.pLunes.add(btnBajarLunes).setBounds(95,20,40,20);
+			this.pLunes.add(btnSubirLunes).setBounds(135,20,40,20);
+			
+			this.pLunes.add(btnRemoverLunes).setBounds(180,20,75,20);
+			
+			this.pLunes.add(btn_copiar_lunes_al_martes).setBounds(260,20,125,20);
+			
+			this.pLunes.add(btn_copiar_lunes_todos).setBounds(390,20,115,20);
+		}else{
+			this.pLunes.add(scrollLunes).setBounds(15,50,690,405);
+			
+			this.pLunes.add(btnAgregarLunes).setBounds(120,20,75,20);
+			
+			this.pLunes.add(btnBajarLunes).setBounds(200,20,40,20);
+			this.pLunes.add(btnSubirLunes).setBounds(255,20,40,20);
+			
+			this.pLunes.add(btnRemoverLunes).setBounds(300,20,75,20);
+			
+			this.pLunes.add(btn_copiar_lunes_al_martes).setBounds(380,20,125,20);
+			
+			this.pLunes.add(btn_copiar_lunes_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaLunes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaLunes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -772,8 +813,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaLunes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaLunes.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaLunes.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaLunes.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaLunes.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaLunes.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaLunes.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaLunes.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaLunes.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaLunes.getColumnModel().getColumn(4).setMaxWidth(80);
@@ -881,18 +922,32 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pMarte.setOpaque(true); 
 		this.pMarte.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pMarte.add(scrollMartes).setBounds(15,50,690,405);
-		
-		this.pMarte.add(btnAgregarMartes).setBounds(120,20,75,20);
-		
-		this.pMarte.add(btnBajarMartes).setBounds(200,20,40,20);
-		this.pMarte.add(btnSubirMartes).setBounds(255,20,40,20);
-		
-		this.pMarte.add(btnRemoverMartes).setBounds(300,20,75,20);
-		
-		this.pMarte.add(btn_copiar_martes_al_miercoles).setBounds(380,20,125,20);
-		
-		this.pMarte.add(btn_copiar_martes_todos).setBounds(520,20,120,20);
+		if(anchoMon<=1024){
+			this.pMarte.add(scrollMartes).setBounds(15,50,490,405);
+			this.pMarte.add(btnAgregarMartes).setBounds(15,20,75,20);
+			
+			this.pMarte.add(btnBajarMartes).setBounds(95,20,40,20);
+			this.pMarte.add(btnSubirMartes).setBounds(135,20,40,20);
+			
+			this.pMarte.add(btnRemoverMartes).setBounds(180,20,75,20);
+			
+			this.pMarte.add(btn_copiar_martes_al_miercoles).setBounds(260,20,125,20);
+			
+			this.pMarte.add(btn_copiar_martes_todos).setBounds(390,20,115,20);
+		}else{
+			this.pMarte.add(scrollMartes).setBounds(15,50,690,405);
+			
+			this.pMarte.add(btnAgregarMartes).setBounds(120,20,75,20);
+			
+			this.pMarte.add(btnBajarMartes).setBounds(200,20,40,20);
+			this.pMarte.add(btnSubirMartes).setBounds(255,20,40,20);
+			
+			this.pMarte.add(btnRemoverMartes).setBounds(300,20,75,20);
+			
+			this.pMarte.add(btn_copiar_martes_al_miercoles).setBounds(380,20,125,20);
+			
+			this.pMarte.add(btn_copiar_martes_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaMartes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMartes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -901,8 +956,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaMartes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaMartes.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaMartes.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaMartes.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaMartes.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaMartes.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaMartes.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaMartes.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaMartes.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaMartes.getColumnModel().getColumn(4).setMaxWidth(80);
@@ -1010,18 +1065,32 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pMiercoles.setOpaque(true); 
 		this.pMiercoles.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pMiercoles.add(scrollMiercoles).setBounds(15,50,690,405);
-		
-		this.pMiercoles.add(btnAgregarMiercoles).setBounds(120,20,75,20);
-		
-		this.pMiercoles.add(btnBajarMiercoles).setBounds(200,20,40,20);
-		this.pMiercoles.add(btnSubirMiercoles).setBounds(255,20,40,20);
-		
-		this.pMiercoles.add(btnRemoverMiercoles).setBounds(300,20,75,20);
-		
-		this.pMiercoles.add(btn_copiar_miercoles_al_jueves).setBounds(380,20,125,20);
-		
-		this.pMiercoles.add(btn_copiar_miercoles_todos).setBounds(520,20,120,20);
+		if(anchoMon<=1024){
+			this.pMiercoles.add(scrollMiercoles).setBounds(15,50,490,405);
+			this.pMiercoles.add(btnAgregarMiercoles).setBounds(15,20,75,20);
+			
+			this.pMiercoles.add(btnBajarMiercoles).setBounds(95,20,40,20);
+			this.pMiercoles.add(btnSubirMiercoles).setBounds(135,20,40,20);
+			
+			this.pMiercoles.add(btnRemoverMiercoles).setBounds(180,20,75,20);
+			
+			this.pMiercoles.add(btn_copiar_miercoles_al_jueves).setBounds(260,20,125,20);
+			
+			this.pMiercoles.add(btn_copiar_miercoles_todos).setBounds(390,20,115,20);
+		}else{
+			this.pMiercoles.add(scrollMiercoles).setBounds(15,50,690,405);
+			
+			this.pMiercoles.add(btnAgregarMiercoles).setBounds(120,20,75,20);
+			
+			this.pMiercoles.add(btnBajarMiercoles).setBounds(200,20,40,20);
+			this.pMiercoles.add(btnSubirMiercoles).setBounds(255,20,40,20);
+			
+			this.pMiercoles.add(btnRemoverMiercoles).setBounds(300,20,75,20);
+			
+			this.pMiercoles.add(btn_copiar_miercoles_al_jueves).setBounds(380,20,125,20);
+			
+			this.pMiercoles.add(btn_copiar_miercoles_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaMiercoles.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaMiercoles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -1030,8 +1099,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaMiercoles.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaMiercoles.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaMiercoles.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaMiercoles.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaMiercoles.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaMiercoles.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaMiercoles.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaMiercoles.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaMiercoles.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaMiercoles.getColumnModel().getColumn(4).setMaxWidth(80);
@@ -1139,18 +1208,32 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pJueves.setOpaque(true); 
 		this.pJueves.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pJueves.add(scrollJueves).setBounds(15,50,690,405);
-		
-		this.pJueves.add(btnAgregarJueves).setBounds(120,20,75,20);
-		
-		this.pJueves.add(btnBajarJueves).setBounds(200,20,40,20);
-		this.pJueves.add(btnSubirJueves).setBounds(255,20,40,20);
-		
-		this.pJueves.add(btnRemoverJueves).setBounds(300,20,75,20);
-		
-		this.pJueves.add(btn_copiar_jueves_al_viernes).setBounds(380,20,125,20);
+		if(anchoMon<=1024){
+			this.pJueves.add(scrollJueves).setBounds(15,50,490,405);
+			this.pJueves.add(btnAgregarJueves).setBounds(15,20,75,20);
+			
+			this.pJueves.add(btnBajarJueves).setBounds(95,20,40,20);
+			this.pJueves.add(btnSubirJueves).setBounds(135,20,40,20);
+			
+			this.pJueves.add(btnRemoverJueves).setBounds(180,20,75,20);
+			
+			this.pJueves.add(btn_copiar_jueves_al_viernes).setBounds(260,20,125,20);
+			
+			this.pJueves.add(btn_copiar_jueves_todos).setBounds(390,20,115,20);
+		}else{
+			this.pJueves.add(scrollJueves).setBounds(15,50,690,405);
+			
+			this.pJueves.add(btnAgregarJueves).setBounds(120,20,75,20);
+			
+			this.pJueves.add(btnBajarJueves).setBounds(200,20,40,20);
+			this.pJueves.add(btnSubirJueves).setBounds(255,20,40,20);
+			
+			this.pJueves.add(btnRemoverJueves).setBounds(300,20,75,20);
+			
+			this.pJueves.add(btn_copiar_jueves_al_viernes).setBounds(380,20,125,20);
 
-		this.pJueves.add(btn_copiar_jueves_todos).setBounds(520,20,120,20);
+			this.pJueves.add(btn_copiar_jueves_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaJueves.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaJueves.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -1159,8 +1242,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaJueves.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaJueves.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaJueves.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaJueves.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaJueves.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaJueves.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaJueves.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaJueves.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaJueves.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaJueves.getColumnModel().getColumn(4).setMaxWidth(80);
@@ -1268,18 +1351,32 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pViernes.setOpaque(true); 
 		this.pViernes.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pViernes.add(scrollViernes).setBounds(15,50,690,405);
-		
-		this.pViernes.add(btnAgregarViernes).setBounds(120,20,75,20);
-		
-		this.pViernes.add(btnBajarViernes).setBounds(200,20,40,20);
-		this.pViernes.add(btnSubirViernes).setBounds(255,20,40,20);
-		
-		this.pViernes.add(btnRemoverViernes).setBounds(300,20,75,20);
-		
-		this.pViernes.add(btn_copiar_vienres_al_sabado).setBounds(380,20,125,20);
-		
-		this.pViernes.add(btn_copiar_vienres_todos).setBounds(520,20,120,20);
+		if(anchoMon<=1024){
+			this.pViernes.add(scrollViernes).setBounds(15,50,490,405);
+			this.pViernes.add(btnAgregarViernes).setBounds(15,20,75,20);
+			
+			this.pViernes.add(btnBajarViernes).setBounds(95,20,40,20);
+			this.pViernes.add(btnSubirViernes).setBounds(135,20,40,20);
+			
+			this.pViernes.add(btnRemoverViernes).setBounds(180,20,75,20);
+			
+			this.pViernes.add(btn_copiar_vienres_al_sabado).setBounds(260,20,125,20);
+			
+			this.pViernes.add(btn_copiar_vienres_todos).setBounds(390,20,115,20);
+		}else{
+			this.pViernes.add(scrollViernes).setBounds(15,50,690,405);
+			
+			this.pViernes.add(btnAgregarViernes).setBounds(120,20,75,20);
+			
+			this.pViernes.add(btnBajarViernes).setBounds(200,20,40,20);
+			this.pViernes.add(btnSubirViernes).setBounds(255,20,40,20);
+			
+			this.pViernes.add(btnRemoverViernes).setBounds(300,20,75,20);
+			
+			this.pViernes.add(btn_copiar_vienres_al_sabado).setBounds(380,20,125,20);
+			
+			this.pViernes.add(btn_copiar_vienres_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaViernes.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaViernes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -1288,8 +1385,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaViernes.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaViernes.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaViernes.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaViernes.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaViernes.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaViernes.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaViernes.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaViernes.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaViernes.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaViernes.getColumnModel().getColumn(4).setMaxWidth(80);
@@ -1397,18 +1494,32 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.pSabado.setOpaque(true); 
 		this.pSabado.setBackground(new Color(Integer.parseInt("EBEBEB",16)));
 		
-		this.pSabado.add(scrollSabado).setBounds(15,50,690,405);
-		
-		this.pSabado.add(btnAgregarSabado).setBounds(120,20,75,20);
-		
-		this.pSabado.add(btnBajarSabado).setBounds(200,20,40,20);
-		this.pSabado.add(btnSubirSabado).setBounds(255,20,40,20);
-		
-		this.pSabado.add(btnRemoverSabado).setBounds(300,20,75,20);
-		
-		this.pSabado.add(btn_copiar_sabado_al_domingo).setBounds(380,20,125,20);
-		
-		this.pSabado.add(btn_copiar_sabado_todos).setBounds(520,20,120,20);
+		if(anchoMon<=1024){
+			this.pSabado.add(scrollSabado).setBounds(15,50,490,405);
+			this.pSabado.add(btnAgregarSabado).setBounds(15,20,75,20);
+			
+			this.pSabado.add(btnBajarSabado).setBounds(95,20,40,20);
+			this.pSabado.add(btnSubirSabado).setBounds(135,20,40,20);
+			
+			this.pSabado.add(btnRemoverSabado).setBounds(180,20,75,20);
+			
+			this.pSabado.add(btn_copiar_sabado_al_domingo).setBounds(260,20,125,20);
+			
+			this.pSabado.add(btn_copiar_sabado_todos).setBounds(390,20,115,20);
+		}else{
+			this.pSabado.add(scrollSabado).setBounds(15,50,690,405);
+			
+			this.pSabado.add(btnAgregarSabado).setBounds(120,20,75,20);
+			
+			this.pSabado.add(btnBajarSabado).setBounds(200,20,40,20);
+			this.pSabado.add(btnSubirSabado).setBounds(255,20,40,20);
+			
+			this.pSabado.add(btnRemoverSabado).setBounds(300,20,75,20);
+			
+			this.pSabado.add(btn_copiar_sabado_al_domingo).setBounds(380,20,125,20);
+			
+			this.pSabado.add(btn_copiar_sabado_todos).setBounds(520,20,120,20);
+		}
 		
 		this.tablaSabado.getTableHeader().setReorderingAllowed(false) ;
 		this.tablaSabado.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -1417,8 +1528,8 @@ public class Cat_Cuadrante_Base extends JFrame{
 		this.tablaSabado.getColumnModel().getColumn(0).setMinWidth(60);
 		this.tablaSabado.getColumnModel().getColumn(1).setMaxWidth(620);
 		this.tablaSabado.getColumnModel().getColumn(1).setMinWidth(270);
-		this.tablaSabado.getColumnModel().getColumn(2).setMaxWidth(145);
-		this.tablaSabado.getColumnModel().getColumn(2).setMinWidth(145);
+		this.tablaSabado.getColumnModel().getColumn(2).setMaxWidth(ancho_nivel_critico);
+		this.tablaSabado.getColumnModel().getColumn(2).setMinWidth(ancho_nivel_critico);
 		this.tablaSabado.getColumnModel().getColumn(3).setMaxWidth(50);
 		this.tablaSabado.getColumnModel().getColumn(3).setMinWidth(50);
 		this.tablaSabado.getColumnModel().getColumn(4).setMaxWidth(80);

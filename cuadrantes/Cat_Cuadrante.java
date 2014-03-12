@@ -12,8 +12,7 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-
-
+import javax.swing.UIManager;
 
 import objetos.JTextFieldLimit;
 import objetos.Obj_Cuadrante;
@@ -56,9 +55,16 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 		this.panel.add(btnEditar).setBounds(x+=105, y, 80, 20);
 		this.panel.add(btnGuardar).setBounds(x+=105, y, 80, 20);
 		
-		this.panel.add(btnizquierda).setBounds(875, y-=500, 30,21);
-		this.panel.add(btnderecha).setBounds(910, y, 30, 21);
-		this.panel.add(btnSimilar).setBounds(950, y+1, 75, 20);
+		if(anchoMon<=1024){
+			this.panel.add(btnizquierda).setBounds(825, y-=500, 30,21);
+			this.panel.add(btnderecha).setBounds(860, y, 30, 21);
+			this.panel.add(btnSimilar).setBounds(900, y+1, 75, 20);
+		}else{
+			this.panel.add(btnizquierda).setBounds(875, y-=500, 30,21);
+			this.panel.add(btnderecha).setBounds(910, y, 30, 21);
+			this.panel.add(btnSimilar).setBounds(950, y+1, 75, 20);
+		}
+		
 		
 //		asigna el foco al JTextField deseado al arrancar la ventana
 		this.addWindowListener(new WindowAdapter() {
@@ -1444,4 +1450,14 @@ public class Cat_Cuadrante extends Cat_Cuadrante_Base {
 			}
 		}
 	};
+	
+	public static void main(String [] arg){
+		try{
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				new Cat_Cuadrante().setVisible(true);
+			}catch(Exception e){
+				System.err.println("Error :"+ e.getMessage());
+			}
+	}
 }

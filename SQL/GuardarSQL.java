@@ -59,6 +59,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Tabla_De_Vacaciones;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Usuario;
@@ -673,7 +674,7 @@ public class GuardarSQL {
 			pstmtTabla = con.prepareStatement(querytabla);
 				
 			for(int i=0; i<tabla.length; i++){
-				System.out.println("GuardarSQL-> "+"Guardar_Cuadrante_Tabla: "+cuadrante.getCuadrante().toUpperCase());
+
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(3, tabla[i][1].toString().trim().toUpperCase());
@@ -2782,6 +2783,88 @@ public boolean Guardar_Horario(ObjHorario horario){
 				return false;
 			}finally{
 				try {
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+		
+		public boolean Guardar_Grupo_De_Vacaciones(Obj_Tabla_De_Vacaciones grupo_vacaciones){
+//			cambiar procedimiento ( crear uno nuevo sp )
+			String query = "exec sp_insert_tabla_grupos_de_vacaciones ?,?,?,?";
+			
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				con.setAutoCommit(false);
+
+				int i=1;
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(i,		grupo_vacaciones.getGrupo().toUpperCase().trim());
+				pstmt.setInt(i+=1, 	grupo_vacaciones.getAnios_trabajados());
+				pstmt.setInt(i+=1,	grupo_vacaciones.getDias_correspondientes());
+				pstmt.setInt(i+=1,	grupo_vacaciones.getPrima_vacacional());
+				
+				pstmt.executeUpdate();
+				con.commit();
+				
+			} catch (Exception e) {
+				System.out.println("SQLException: " + e.getMessage());
+				if (con != null){
+					try {
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					} catch(SQLException ex) {
+						System.out.println(ex.getMessage());
+					}
+				} 
+				return false;
+			}finally{
+				try {
+					pstmt.close();
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+		
+		public boolean Remover_Grupo_De_Vacaciones(Obj_Tabla_De_Vacaciones grupo_vacaciones){
+
+			String query = "exec sp_delete_tabla_grupos_de_vacaciones ?,?,?,?";
+			
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				con.setAutoCommit(false);
+
+				int i=1;
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(i,		grupo_vacaciones.getGrupo().toUpperCase().trim());
+				pstmt.setInt(i+=1, 	grupo_vacaciones.getAnios_trabajados());
+				pstmt.setInt(i+=1,	grupo_vacaciones.getDias_correspondientes());
+				pstmt.setInt(i+=1,	grupo_vacaciones.getPrima_vacacional());
+				
+				pstmt.executeUpdate();
+				con.commit();
+				
+			} catch (Exception e) {
+				System.out.println("SQLException: " + e.getMessage());
+				if (con != null){
+					try {
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					} catch(SQLException ex) {
+						System.out.println(ex.getMessage());
+					}
+				} 
+				return false;
+			}finally{
+				try {
+					pstmt.close();
 					con.close();
 				} catch(SQLException e){
 					e.printStackTrace();

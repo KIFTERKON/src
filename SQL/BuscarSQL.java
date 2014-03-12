@@ -64,6 +64,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Tabla_De_Vacaciones;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Horario_Empleado;
@@ -4950,5 +4951,27 @@ public class BuscarSQL {
 			if(stmt != null){stmt.close();}
 		}
 		return grupo;
+	}
+	
+	public boolean Buscar_Grupo_De_Vacaciones(Obj_Tabla_De_Vacaciones grupo_vacacionesObj){
+		String query = "exec sp_existe_tabla_grupos_de_vacaciones "+grupo_vacacionesObj.getGrupo().toUpperCase().trim()+","+
+				grupo_vacacionesObj.getAnios_trabajados()+","+grupo_vacacionesObj.getDias_correspondientes()+","+
+				grupo_vacacionesObj.getPrima_vacacional()+";";
+		
+		boolean existe = false;
+		Statement s;
+		ResultSet rs;
+		
+		try {				
+			s = con.conexion().createStatement();
+			rs = s.executeQuery(query);
+			
+			while(rs.next()){
+				existe = Boolean.valueOf(rs.getString("existe").trim());
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return existe;
 	}
 }

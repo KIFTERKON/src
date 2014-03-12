@@ -8,12 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -27,15 +25,12 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 import objetos.JTextFieldLimit;
-import objetos.Obj_Configuracion_Sistema;
-import objetos.Obj_Departamento;
-import objetos.Obj_Establecimiento;
-import objetos.Obj_Grupo_De_Vacaciones;
 import objetos.Obj_Tabla_De_Vacaciones;
 
 @SuppressWarnings("serial")
@@ -53,17 +48,17 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 	JSpinner spAniosT;
 	JSpinner spDiasC;
 	
-	JCheckBox chbStatus = new JCheckBox("Status");
-	
-//	JButton btnBuscar = new JButton(new ImageIcon("imagen/buscar.png"));
-	JButton btnActualizar = new JButton("Modificar");
-	JButton btnLimpiar = new JButton("Limpiar");
-	JButton btnGuardar = new JButton("Guardar");
 	JButton btnEditar = new JButton("Editar");
 	JButton btnNuevo = new JButton("Nuevo");
 	
-	 public static DefaultTableModel tabla_model = new DefaultTableModel(null/*new Obj_Grupo_De_Vacaciones().get_tabla_model_grupo_de_vacaciones()*/,
-	            new String[]{"Grupo", "Años Trab.", "Tiempo (Dias)", "Prima Vacacional (%)"}){
+	JButton btnActualizar = new JButton("Modificar");
+	JButton btnGuardar = new JButton("Guardar");
+	JButton btnLimpiar = new JButton("Limpiar");
+	
+	JButton btnRemover = new JButton("Remover");
+	
+	 public static DefaultTableModel tabla_model = new DefaultTableModel(new Obj_Tabla_De_Vacaciones().get_tabla_rango_vacaciones(),
+	            new String[]{"Grupo", "Años Trab.", "Tiempo (Dias)", "Prima Vac. (%)"}){
 	                    
 	            @SuppressWarnings("rawtypes")
 	            Class[] types = new Class[]{
@@ -90,10 +85,17 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 		JTable tabla = new JTable(tabla_model);
 		JScrollPane panelScroll = new JScrollPane(tabla);
 	
-		JTextField txtFolioFiltro = new JTextField();
-		JTextField txtDepartamentoFiltro = new JTextField();
+		JTextField txtGrupoFiltro = new JTextField();
+		JTextField txtAniosFiltro = new JTextField();
 		@SuppressWarnings("rawtypes")
 		private TableRowSorter trsfiltro;
+		
+//		variables para actualizar
+		String grupo_vacaciones;
+		int dias;
+		int anios;
+		int prima;
+		
 		
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Cat_Tabla_De_Vacaciones(){
@@ -107,60 +109,59 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 		trsfiltro = new TableRowSorter(tabla_model); 
 		tabla.setRowSorter(trsfiltro);
 		
-		txtFolioFiltro.setToolTipText("Filtro Por Folio");
-		txtDepartamentoFiltro.setToolTipText("Filtro Por Departamento");
+		txtGrupoFiltro.setToolTipText("Filtro Por grupo");
+		txtAniosFiltro.setToolTipText("Filtro Por Año");
 		
 		spAniosT = new JSpinner(new SpinnerNumberModel( 1, 1, 80, 1 ));
 		spDiasC = new JSpinner( new SpinnerNumberModel( 7, 7, 80, 1 )); 
 		
 		int x = 45, y=30, ancho=100;
 		
-		chbStatus.setSelected(true);
 		
 		panel.add(new JLabel("Grupo:")).setBounds(x-25,y,ancho,20);
-		panel.add(cmbGrupo).setBounds(ancho,y,ancho+50,20);
-//		panel.add(btnBuscar).setBounds(x+(ancho*2)+10,y,28,20);
-		
-		panel.add(chbStatus).setBounds(x+(ancho*2)+75,y,ancho-25,20);
+		panel.add(cmbGrupo).setBounds(ancho-15,y,ancho+50,20);
+		panel.add(btnEditar).setBounds(x+ancho+93,y,70,20);
+		panel.add(btnNuevo).setBounds(x+(ancho*2)+65,y,70,20);
 		
 		panel.add(new JLabel("Años Trab:")).setBounds(x-25,y+=30,ancho,20);
-		panel.add(spAniosT).setBounds(ancho,y,60,20);
+		panel.add(spAniosT).setBounds(ancho-15,y,60,20);
 		
 		panel.add(new JLabel("Dias Correspondientes:")).setBounds((ancho*2)-20,y,ancho+50,20);
 		panel.add(spDiasC).setBounds((ancho*3)+20,y,60,20);
 		
 		panel.add(new JLabel("Prima:")).setBounds(x-25,y+=30,80,20);
-		panel.add(txtPrima).setBounds(ancho,y,ancho+10,20);
+		panel.add(txtPrima).setBounds(ancho-15,y,ancho-5,20);
+		panel.add(new JLabel("%")).setBounds((ancho*2)-17,y,80,20);
 		
-		panel.add(btnEditar).setBounds(x+ancho+70,y,80,20);
-		panel.add(btnNuevo).setBounds(x+(ancho*2)+55,y,80,20);
+		panel.add(btnGuardar).setBounds(x+ancho+60,y,80,20);
+		panel.add(btnActualizar).setBounds(x+(ancho*2)+45,y,90,20);
 		
-		panel.add(btnLimpiar).setBounds(x+80,y+=30,80,20);
-		panel.add(btnActualizar).setBounds(x+ancho+70,y,80,20);
-		panel.add(btnGuardar).setBounds(x+(ancho*2)+55,y,80,20);
+		panel.add(btnLimpiar).setBounds(x-25,y+=30,80,20);
 		
-		panel.add(txtFolioFiltro).setBounds(x-25,150,42,20);
-		panel.add(txtDepartamentoFiltro).setBounds(x+16,150,80,20);
+		panel.add(txtGrupoFiltro).setBounds(x-25,150,81,20);
+		panel.add(txtAniosFiltro).setBounds(x+56,150,70,20);
+		panel.add(btnRemover).setBounds(x+247,150,90,20);
 		panel.add(panelScroll).setBounds(x-25,150+20,ancho+263,135);
 		
-		botonNuevoDepartamento();
+		panelEnabledFalse();
 		
-		txtPrima.setEditable(false);
-		chbStatus.setEnabled(false);
-		
+		txtPrima.setEnabled(false);
 		btnEditar.setEnabled(false);
 		
 		txtPrima.setDocument(new JTextFieldLimit(50));
 		
 		btnGuardar.addActionListener(guardar);
-		btnActualizar.addActionListener(cerrar);
-//		btnBuscar.addActionListener(buscar);
+		btnActualizar.addActionListener(modificar);
+		btnRemover.addActionListener(remover);
+		
 		btnLimpiar.addActionListener(opLimpiar);
 		btnNuevo.addActionListener(nuevo);
 		btnEditar.addActionListener(editar);
 		
-		txtFolioFiltro.addKeyListener(opFiltroFolio);
-		txtDepartamentoFiltro.addKeyListener(opFiltroDepartamento);
+		txtGrupoFiltro.addKeyListener(opFiltroGrupo);
+		txtAniosFiltro.addKeyListener(opFiltroAnios);
+		
+		txtPrima.addKeyListener(valida_numerico);
 		
 		agregar(tabla);
 		
@@ -176,9 +177,9 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
     public void init_tabla(){
             this.tabla.getTableHeader().setReorderingAllowed(false) ;
             
-            		int x=40;
-                    int y=80;
-                    int z=100;
+            		int x=80;
+                    int y=70;
+                    int z=90;
                     this.tabla.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
                     
                     this.tabla.getColumnModel().getColumn(0).setMaxWidth(x);
@@ -187,23 +188,27 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
                     this.tabla.getColumnModel().getColumn(1).setMinWidth(y);
                     this.tabla.getColumnModel().getColumn(2).setMaxWidth(z);
                     this.tabla.getColumnModel().getColumn(2).setMinWidth(z);
-                    this.tabla.getColumnModel().getColumn(3).setMaxWidth(z+25);
-                    this.tabla.getColumnModel().getColumn(3).setMinWidth(z+25);
+                    this.tabla.getColumnModel().getColumn(3).setMaxWidth(z+15);
+                    this.tabla.getColumnModel().getColumn(3).setMinWidth(z+15);
             
-            TableCellRenderer render = new TableCellRenderer() { 
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-                    boolean hasFocus, int row, int column) { 
+                    TableCellRenderer render = new TableCellRenderer() { 
+	                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
+	                    		boolean hasFocus, int row, int column) { 
                             
-                            Component componente = null;
+	                    		Component componente = null;
                     
-                            switch(column){
+	                    		switch(column){
                                     case 0: 
                                             componente = new JLabel(value == null? "": value.toString());
                                             if(row%2==0){
                                                     ((JComponent) componente).setOpaque(true); 
                                                     componente.setBackground(new java.awt.Color(177,177,177));
                                             }
-                                            ((JLabel) componente).setHorizontalAlignment(SwingConstants.RIGHT);
+                                            if(table.getSelectedRow() == row){
+                    							((JComponent) componente).setOpaque(true); 
+                    							componente.setBackground(new java.awt.Color(186,143,73));
+                    						}
+                                            ((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
                                             break;
                                             
                                     case 1:
@@ -212,7 +217,11 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
                                                     ((JComponent) componente).setOpaque(true); 
                                                     componente.setBackground(new java.awt.Color(177,177,177));        
                                             }
-                                            ((JLabel) componente).setHorizontalAlignment(SwingConstants.LEFT);
+                                            if(table.getSelectedRow() == row){
+                    							((JComponent) componente).setOpaque(true); 
+                    							componente.setBackground(new java.awt.Color(186,143,73));
+                    						}
+                                            ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                             break;
                                             
                                     case 2: 
@@ -221,6 +230,10 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
                                                     ((JComponent) componente).setOpaque(true); 
                                                     componente.setBackground(new java.awt.Color(177,177,177));        
                                             }
+                                            if(table.getSelectedRow() == row){
+                    							((JComponent) componente).setOpaque(true); 
+                    							componente.setBackground(new java.awt.Color(186,143,73));
+                    						}
                                             ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                             break;
                                     case 3: 
@@ -229,36 +242,33 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
                                                 ((JComponent) componente).setOpaque(true); 
                                                 componente.setBackground(new java.awt.Color(177,177,177));        
                                         }
+                                        if(table.getSelectedRow() == row){
+                							((JComponent) componente).setOpaque(true); 
+                							componente.setBackground(new java.awt.Color(186,143,73));
+                						}
                                         ((JLabel) componente).setHorizontalAlignment(SwingConstants.CENTER);
                                         break;
-                            }
-                            return componente;
+	                    		}
+	                    		return componente;
                     } 
-            }; 
-            for(int i=0; i<tabla.getColumnCount(); i++){
-                    this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
-            }
-}
-	KeyListener opFiltroFolio = new KeyListener(){
+            	}; 
+	            for(int i=0; i<tabla.getColumnCount(); i++){
+	                    this.tabla.getColumnModel().getColumn(i).setCellRenderer(render); 
+	            }
+    		}
+	KeyListener opFiltroGrupo = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
-			trsfiltro.setRowFilter(RowFilter.regexFilter(txtFolioFiltro.getText(), 0));
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtGrupoFiltro.getText().toUpperCase(), 0));
 		}
-		public void keyTyped(KeyEvent arg0) {
-			char caracter = arg0.getKeyChar();
-			if(((caracter < '0') ||
-				(caracter > '9')) &&
-			    (caracter != KeyEvent.VK_BACK_SPACE)){
-				arg0.consume(); 
-			}	
-		}
+		public void keyTyped(KeyEvent arg0) {}
 		public void keyPressed(KeyEvent arg0) {}		
 	};
 	
-	KeyListener opFiltroDepartamento = new KeyListener(){
+	KeyListener opFiltroAnios = new KeyListener(){
 		@SuppressWarnings("unchecked")
 		public void keyReleased(KeyEvent arg0) {
-			trsfiltro.setRowFilter(RowFilter.regexFilter(txtDepartamentoFiltro.getText().toUpperCase().trim(), 1));
+			trsfiltro.setRowFilter(RowFilter.regexFilter(txtAniosFiltro.getText().toUpperCase().trim(), 1));
 		}
 		public void keyTyped(KeyEvent arg0) {}
 		public void keyPressed(KeyEvent arg0) {}		
@@ -270,82 +280,35 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 		}
 	};
 	
-	public void botonNuevoDepartamento(){
-		Obj_Configuracion_Sistema configs2 = new Obj_Configuracion_Sistema().buscar2();
-		if(configs2.isGuardar_departamento()==true){
-			btnNuevo.setEnabled(true);
-		}else{
-			btnNuevo.setEnabled(false);
-		}
-	}
-	
 	ActionListener editar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(cmbGrupo.getSelectedIndex()==0){
-				JOptionPane.showMessageDialog(null, "No hay registro que Editar","Error",JOptionPane.WARNING_MESSAGE);
-				return;
-			}else{
-				panelEnabledTrue();
-				cmbGrupo.setEditable(false);
-				btnEditar.setEnabled(false);
-				btnNuevo.setEnabled(true);
-				chbStatus.setEnabled(true);
-				btnEditar.setEnabled(false);
-			}
+			
+			btnEditar.setEnabled(false);
+			btnActualizar.setEnabled(true);
+			btnGuardar.setEnabled(false);
+			btnRemover.setEnabled(false);
+			
+			cmbGrupo.setEnabled(true);
+			spAniosT.setEnabled(true);
+			spDiasC.setEnabled(true);
+			txtPrima.setEnabled(true);
 		}
 	};
 	
-//	ActionListener buscar = new ActionListener(){
-//		public void actionPerformed(ActionEvent e){
-//			if(cmbGrupo.getSelectedIndex()==0){
-//				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);
-//				return;
-//			}else{
-//				try {
-//					Obj_Departamento departamento = new Obj_Departamento().buscar(1);
-//					if(departamento.getFolio() != 0){
-//						
-//						cmbGrupo.setSelectedIndex(1);
-//						txtPrima.setText(departamento.getDepartamento()+"");
-//						if(departamento.isStatus() == true){chbStatus.setSelected(true);}
-//						else{chbStatus.setSelected(false);}
-//						btnNuevo.setEnabled(false);
-//						btnEditar.setEnabled(true);
-//						panelEnabledFalse();
-//						cmbGrupo.setEditable(true);
-//						
-//					} else{
-//						JOptionPane.showMessageDialog(null, "El Registro no existe","Error",JOptionPane.WARNING_MESSAGE);
-//						return;
-//					}
-//				
-//				} catch (NumberFormatException e1) {
-//					e1.printStackTrace();
-//				} 			
-//			}
-//		}
-//	};
-	
 	ActionListener nuevo = new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
-			try {
-				Obj_Departamento turno = new Obj_Departamento().buscar_nuevo();
-				
-				if(turno.getFolio() != 0){
-					panelLimpiar();
-					panelEnabledTrue();
-					cmbGrupo.setEditable(false);
-					txtPrima.requestFocus();
-				}else{
-					panelLimpiar();
-					panelEnabledTrue();
-					cmbGrupo.setEditable(false);
-					txtPrima.requestFocus();
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			
+			panelLimpiar();
+			btnNuevo.setEnabled(false);
+			btnEditar.setEnabled(false);
+			btnActualizar.setEnabled(false);
+			btnGuardar.setEnabled(true);
+			btnRemover.setEnabled(false);
+			
+			cmbGrupo.setEnabled(true);
+			spAniosT.setEnabled(true);
+			spDiasC.setEnabled(true);
+			txtPrima.setEnabled(true);
 		}
 	};
 	
@@ -355,14 +318,23 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 	        	if(e.getClickCount()==1){
 	        		
 	        		int fila = tabla.getSelectedRow();
-	        		Object id = tabla.getValueAt(fila,0).toString().substring(3,tabla.getValueAt(fila,0).toString().length());
-	        
-	        		cmbGrupo.setSelectedIndex(1);
-	        		txtPrima.setText(tabla.getValueAt(fila,1).toString().substring(3,tabla.getValueAt(fila,1).toString().length()));
+	        		
+//	        		se cargan valores en las variables de la seleccion de la tabla
+	        		grupo_vacaciones = tabla.getValueAt(fila,0).toString().trim();
+	        		anios = Integer.valueOf(tabla.getValueAt(fila, 1).toString().trim());
+	        		dias = Integer.valueOf(tabla.getValueAt(fila, 2).toString().trim());
+	        		prima =  Integer.valueOf(tabla.getValueAt(fila, 3).toString().trim());
+	        		
+//	        		se cargan los valores en los campos de la fila seleccionada
+	        		cmbGrupo.setSelectedItem(tabla.getValueAt(fila,0).toString().trim());
+	        		spAniosT.setValue(Integer.valueOf(tabla.getValueAt(fila,1).toString().trim()));
+	        		spDiasC.setValue(Integer.valueOf(tabla.getValueAt(fila,2).toString().trim()));
+	        		txtPrima.setText(tabla.getValueAt(fila,3).toString().trim());
+	        		
+	        			panelEnabledFalse();
 						btnEditar.setEnabled(true);
-						chbStatus.setSelected(true);
-						
-						btnEditar.setEnabled(true);
+						btnRemover.setEnabled(true);
+						btnNuevo.setEnabled(true);
 	        	}
 	        }
         });
@@ -370,90 +342,180 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 	
 	ActionListener guardar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-			if(cmbGrupo.getSelectedIndex()==0){
-				JOptionPane.showMessageDialog(null, "El folio es requerido \n", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-			}else{			
-				try {
-					Obj_Departamento departamento = new Obj_Departamento().buscar(1);
+			
+			if(validaCampos()!="") {
+				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				
+				Obj_Tabla_De_Vacaciones tabla_vacaciones = new Obj_Tabla_De_Vacaciones();
+				
+				tabla_vacaciones.setGrupo(cmbGrupo.getSelectedItem().toString());
+				tabla_vacaciones.setAnios_trabajados( (int) spAniosT.getValue());
+				tabla_vacaciones.setDias_correspondientes( (int) spDiasC.getValue());
+				tabla_vacaciones.setPrima_vacacional( Integer.valueOf(txtPrima.getText()));
+				
+				if(tabla_vacaciones.buscar()){
 					
-					if(departamento.getFolio() ==1){
-						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
-							if(validaCampos()!="") {
-								JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-								return;
-							}else{
-								departamento.setDepartamento(txtPrima.getText());
-								departamento.setStatus(chbStatus.isSelected());
-								
-								if(departamento.actualizar(1)){
-									
-									while(tabla.getRowCount()>0){
-                                        tabla_model.removeRow(0);
-									}
-									
-									 Object [][] lista_tabla = new Obj_Departamento().get_tabla_model_departamento();
-				                        String[] fila = new String[9];
-				                                        for(int i=0; i<lista_tabla.length; i++){
-				                                                fila[0] = lista_tabla[i][0]+"";
-				                                                fila[1] = lista_tabla[i][1]+"";
-				                                                fila[2] = lista_tabla[i][2]+"";
-				                                                tabla_model.addRow(fila);
-				                                        }
-				                                        
-									JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-									panelLimpiar();
-									panelEnabledFalse();
-									cmbGrupo.setEditable(true);
-									return;
-									
-								}else{
-									JOptionPane.showMessageDialog(null, "El registro no se actualizó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-									return;
-								}
+						JOptionPane.showMessageDialog(null, "El registro ya existe", "Aviso !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+						
+				}else{
+						if(tabla_vacaciones.guardar()){
+							
+							while(tabla.getRowCount()>0){
+		                        tabla_model.removeRow(0);
 							}
+							
+			                Object [][] lista_tabla = new Obj_Tabla_De_Vacaciones().get_tabla_rango_vacaciones();
+		                    String[] fila = new String[4];
+		                    for(int i=0; i<lista_tabla.length; i++){
+		                            fila[0] = lista_tabla[i][0]+"";
+		                            fila[1] = lista_tabla[i][1]+"";
+		                            fila[2] = lista_tabla[i][2]+"";
+		                            fila[3] = lista_tabla[i][3]+"";
+		                            tabla_model.addRow(fila);
+		                    }
+							JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+							panelLimpiar();
+							panelEnabledFalse();
+							btnNuevo.setEnabled(true);
+							return;
 						}else{
+							JOptionPane.showMessageDialog(null, "El registro no se guardó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 							return;
 						}
-					}else{
-						if(validaCampos()!="") {
-							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n "+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				}
+			}
+		}
+	};
+	
+	ActionListener modificar = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			
+			if(validaCampos()!="") {
+				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				
+				Obj_Tabla_De_Vacaciones tabla_vacaciones = new Obj_Tabla_De_Vacaciones();
+				
+				tabla_vacaciones.setGrupo(cmbGrupo.getSelectedItem().toString());
+				tabla_vacaciones.setAnios_trabajados( (int) spAniosT.getValue());
+				tabla_vacaciones.setDias_correspondientes( (int) spDiasC.getValue());
+				tabla_vacaciones.setPrima_vacacional( Integer.valueOf(txtPrima.getText()));
+				
+				
+				if(tabla_vacaciones.buscar()){
+						
+						JOptionPane.showMessageDialog(null, "El registro ya existe", "Aviso !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+						return;
+						
+				}else{
+						if(tabla_vacaciones.actualizar(grupo_vacaciones,anios,dias,prima)){
+							
+							while(tabla.getRowCount()>0){
+		                        tabla_model.removeRow(0);
+							}
+							
+			                Object [][] lista_tabla = new Obj_Tabla_De_Vacaciones().get_tabla_rango_vacaciones();
+		                    String[] fila = new String[4];
+		                    for(int i=0; i<lista_tabla.length; i++){
+		                            fila[0] = lista_tabla[i][0]+"";
+		                            fila[1] = lista_tabla[i][1]+"";
+		                            fila[2] = lista_tabla[i][2]+"";
+		                            fila[3] = lista_tabla[i][3]+"";
+		                            tabla_model.addRow(fila);
+		                    }
+							JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+							panelLimpiar();
+							panelEnabledFalse();
+							btnNuevo.setEnabled(true);
 							return;
 						}else{
-							departamento.setFolio(1);
-							departamento.setDepartamento(txtPrima.getText());
-							departamento.setStatus(chbStatus.isSelected());
-							
-								if(departamento.guardar()){
-									
-									while(tabla.getRowCount()>0){
-                                        tabla_model.removeRow(0);
-									}
-									
-					                Object [][] lista_tabla = new Obj_Departamento().get_tabla_model_departamento();
-			                        String[] fila = new String[9];
-                                    for(int i=0; i<lista_tabla.length; i++){
-                                            fila[0] = lista_tabla[i][0]+"";
-                                            fila[1] = lista_tabla[i][1]+"";
-                                            fila[2] = lista_tabla[i][2]+"";
-                                            tabla_model.addRow(fila);
-                                    }
-									
-									JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-									panelLimpiar();
-									panelEnabledFalse();
-									cmbGrupo.setEditable(true);
-									return;
-									
-								}else{
-									JOptionPane.showMessageDialog(null, "El registro no se guardó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-									return;
-								}
-							}
+							JOptionPane.showMessageDialog(null, "El registro no se guardó,\nverifique si el registro existe en la tabla\nde lo contrario avise a Desarrollo Humano", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}
+				}
+			}
+		}
+	};
+	
+	ActionListener remover = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			
+			if(JOptionPane.showConfirmDialog(null, "Seguro que desea eliminar le registro?") == 0){
+
+				Obj_Tabla_De_Vacaciones tabla_vacaciones = new Obj_Tabla_De_Vacaciones();
+				
+				tabla_vacaciones.setGrupo(cmbGrupo.getSelectedItem().toString());
+				tabla_vacaciones.setAnios_trabajados( (int) spAniosT.getValue());
+				tabla_vacaciones.setDias_correspondientes( (int) spDiasC.getValue());
+				tabla_vacaciones.setPrima_vacacional( Integer.valueOf(txtPrima.getText()));
+				
+				if(tabla_vacaciones.remover()){
+					
+					while(tabla.getRowCount()>0){
+                        tabla_model.removeRow(0);
 					}
-				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
-				} 				
-			}			
+					
+	                Object [][] lista_tabla = new Obj_Tabla_De_Vacaciones().get_tabla_rango_vacaciones();
+                    String[] fila = new String[4];
+                    for(int i=0; i<lista_tabla.length; i++){
+                            fila[0] = lista_tabla[i][0]+"";
+                            fila[1] = lista_tabla[i][1]+"";
+                            fila[2] = lista_tabla[i][2]+"";
+                            fila[3] = lista_tabla[i][3]+"";
+                            tabla_model.addRow(fila);
+                    }
+					JOptionPane.showMessageDialog(null,"El registró a sido eliminado","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+					panelLimpiar();
+					panelEnabledFalse();
+					btnNuevo.setEnabled(true);
+					return;
+				}
+			}else{
+				return;
+			}
+			
+			if(validaCampos()!="") {
+				JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+				return;
+			}else{
+				
+				Obj_Tabla_De_Vacaciones tabla_vacaciones = new Obj_Tabla_De_Vacaciones();
+				
+				tabla_vacaciones.setGrupo(cmbGrupo.getSelectedItem().toString());
+				tabla_vacaciones.setAnios_trabajados( (int) spAniosT.getValue());
+				tabla_vacaciones.setDias_correspondientes( (int) spDiasC.getValue());
+				tabla_vacaciones.setPrima_vacacional( Integer.valueOf(txtPrima.getText()));
+				
+				if(tabla_vacaciones.guardar()){
+					
+					while(tabla.getRowCount()>0){
+                        tabla_model.removeRow(0);
+					}
+					
+	                Object [][] lista_tabla = new Obj_Tabla_De_Vacaciones().get_tabla_rango_vacaciones();
+                    String[] fila = new String[4];
+                    for(int i=0; i<lista_tabla.length; i++){
+                            fila[0] = lista_tabla[i][0]+"";
+                            fila[1] = lista_tabla[i][1]+"";
+                            fila[2] = lista_tabla[i][2]+"";
+                            fila[3] = lista_tabla[i][3]+"";
+                            tabla_model.addRow(fila);
+                    }
+					JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+					panelLimpiar();
+					panelEnabledFalse();
+					btnNuevo.setEnabled(true);
+					return;
+//					
+				}else{
+					JOptionPane.showMessageDialog(null, "El registro no se guardó,\nverifique si el registro existe en la tabla\nde lo contrario avise a Desarrollo Humano", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+					return;
+				}
+			}
 		}
 	};
 	
@@ -461,50 +523,45 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			panelLimpiar();
 			panelEnabledFalse();
-			cmbGrupo.setEditable(true);
 			btnNuevo.setEnabled(true);
-			btnEditar.setEnabled(true);
 		}
 	};
 	
 	public void panelLimpiar(){	
-		cmbGrupo.setSelectedIndex(1);
+		cmbGrupo.setSelectedIndex(0);
+		spAniosT.setValue(1);
+		spDiasC.setValue(7);
 		txtPrima.setText("");
 	}
 	
 	public void panelEnabledFalse(){
-		cmbGrupo.setEditable(false);
-		txtPrima.setEditable(false);
+		
+		cmbGrupo.setEnabled(false);
+		spDiasC.setEnabled(false);
+		spAniosT.setEnabled(false);
+		txtPrima.setEnabled(false);
+		
+		btnEditar.setEnabled(false);
+		btnGuardar.setEnabled(false);
+		btnActualizar.setEnabled(false);
+		btnRemover.setEnabled(false);
+		
 	}		
 	
 	public void panelEnabledTrue(){	
 		cmbGrupo.setEditable(true);
-		txtPrima.setEditable(true);
+		txtPrima.setEnabled(true);
 	}
 	
 	private String validaCampos(){
 		String error="";
-		if(txtPrima.getText().equals("")) 		error+= "Nombre\n";
+		if(cmbGrupo.getSelectedIndex()==0)		error+= "Seleccione un grupo\n";
+		if(txtPrima.getText().equals("")) 		error+= "Prima vacacional\n";
 				
 		return error;
 	}
-//	
-//	KeyListener buscar_action = new KeyListener() {
-//		@Override
-//		public void keyTyped(KeyEvent e){
-//		}
-//		@Override
-//		public void keyReleased(KeyEvent e) {	
-//		}
-//		@Override
-//		public void keyPressed(KeyEvent e) {
-//			if(e.getKeyCode()==KeyEvent.VK_ENTER){
-//				btnBuscar.doClick();
-//			}
-//		}
-//	};
 	
-	KeyListener numerico_action = new KeyListener() {
+	KeyListener valida_numerico = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			char caracter = e.getKeyChar();
@@ -523,7 +580,12 @@ public class Cat_Tabla_De_Vacaciones extends JFrame{
 	};
 	
 	public static void main(String [] arg){
-		new Cat_Tabla_De_Vacaciones().setVisible(true);
+		try{
+//		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Cat_Tabla_De_Vacaciones().setVisible(true);
+		}catch(Exception e){
+			System.err.println("Error :"+ e.getMessage());
+		}
 	}
-	
 }

@@ -2,8 +2,11 @@ package objetos;
 
 import java.sql.SQLException;
 
+import SQL.ActualizarSQL;
+import SQL.BuscarSQL;
 import SQL.BuscarTablasModel;
 import SQL.Cargar_Combo;
+import SQL.GuardarSQL;
 
 public class Obj_Tabla_De_Vacaciones {
 	
@@ -11,14 +14,14 @@ public class Obj_Tabla_De_Vacaciones {
 	int anios_trabajados;
 	int dias_correspondientes;
 	int prima_vacacional;
-	int status;
+//	int status;
 	
 	public Obj_Tabla_De_Vacaciones(){
 		this.grupo="";
 		this.anios_trabajados=0;
 		this.dias_correspondientes=0;
 		this.prima_vacacional=0;
-		this.status=0;
+//		this.status=0;
 	}
 
 	public String getGrupo() {
@@ -53,19 +56,32 @@ public class Obj_Tabla_De_Vacaciones {
 		this.prima_vacacional = prima_vacacional;
 	}
 
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	
+//	public int getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(int status) {
+//		this.status = status;
+//	}
+//	
 	public String[] Combo_Grupo(){
 		try {
 			return new Cargar_Combo().Grupo_De_Vacaciones("tb_grupo_de_vacaciones");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	return null; }
+		return null; 
+	}
+	
+	public Object[][] get_tabla_rango_vacaciones(){
+		return new BuscarTablasModel().tabla_model_rango_de_vacaciones();
+	}
+	
+	public boolean buscar(){return new BuscarSQL().Buscar_Grupo_De_Vacaciones(this);}
+	
+	public boolean guardar(){ return new GuardarSQL().Guardar_Grupo_De_Vacaciones(this); }
+	
+	public boolean actualizar(String grupo_vacaciones,int anios,int dias,int prima){ return new ActualizarSQL().Actualizar_Grupo_De_Vacaciones( this, grupo_vacaciones, anios, dias, prima); }
+	
+	public boolean remover(){ return new GuardarSQL().Remover_Grupo_De_Vacaciones(this); }
 }
