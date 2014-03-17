@@ -47,6 +47,7 @@ import objetos.Obj_Prestamo;
 import objetos.Obj_Puesto;
 import objetos.Obj_Rango_Prestamos;
 import objetos.Obj_Sueldo;
+import objetos.Obj_Tabla_De_Vacaciones;
 import objetos.Obj_Temporada;
 import objetos.Obj_Tipo_Banco;
 import objetos.Obj_Usuario;
@@ -1606,6 +1607,7 @@ public class ActualizarSQL {
 			pstmtTabla = con.prepareStatement(querytabla);
 			
 			for(int i=0; i<tabla.length; i++){
+				
 				pstmtTabla.setString(1, cuadrante.getCuadrante().toUpperCase());
 				pstmtTabla.setInt(2, Integer.parseInt(tabla[i][0].toString().trim()));
 				pstmtTabla.setString(3, tabla[i][1].toString().trim());
@@ -2239,6 +2241,49 @@ public class ActualizarSQL {
 					pstmt = con.prepareStatement(query);
 					pstmt.setString(1, grupo.getDescripcion().toUpperCase());
 					pstmt.setInt(2, (grupo.isStatus())?1:0);
+					pstmt.executeUpdate();
+					con.commit();
+				} catch (Exception e) {
+					System.out.println("SQLException: "+e.getMessage());
+					if(con != null){
+						try{
+							System.out.println("La transacción ha sido abortada");
+							con.rollback();
+						}catch(SQLException ex){
+							System.out.println(ex.getMessage());
+						}
+					}
+					return false;
+				}finally{
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}		
+				return true;
+			}
+			
+			public boolean Actualizar_Grupo_De_Vacaciones(Obj_Tabla_De_Vacaciones grupo_vacacionesObj,String grupo_vacaciones,int anios,int dias,int prima){
+
+				String query = "exec sp_update_tabla_grupos_de_vacaciones ?,?,?,?,?,?,?,?;";
+				Connection con = new Connexion().conexion();
+				PreparedStatement pstmt = null;
+				try {
+					con.setAutoCommit(false);
+					pstmt = con.prepareStatement(query);
+					
+					int i=1;
+					pstmt.setString(i,	grupo_vacacionesObj.getGrupo().toUpperCase().trim());
+					pstmt.setInt(i+=1, 	grupo_vacacionesObj.getAnios_trabajados());
+					pstmt.setInt(i+=1,	grupo_vacacionesObj.getDias_correspondientes());
+					pstmt.setInt(i+=1,	grupo_vacacionesObj.getPrima_vacacional());
+					
+					pstmt.setString(i+=1,	grupo_vacaciones.toUpperCase().trim());
+					pstmt.setInt(i+=1, 		anios);
+					pstmt.setInt(i+=1,		dias);
+					pstmt.setInt(i+=1,		prima);
+					
 					pstmt.executeUpdate();
 					con.commit();
 				} catch (Exception e) {

@@ -671,6 +671,28 @@ public class BuscarTablasModel {
 		}
 	    return matriz; 
 	}
+	
+	public Object[][] tabla_model_rango_de_vacaciones(){
+		String query_lista = "exec sp_select_tabla_de_rangos_de_vacaciones";
+		Object[][] matriz = new Object[get_filas(query_lista)][4];
+		try {
+			Statement stmt = new Connexion().conexion().createStatement();
+			ResultSet rs = stmt.executeQuery(query_lista);
+			
+			int i = 0;
+			while(rs.next()){
+				matriz[i][0] = "   "+rs.getString(1);
+				matriz[i][1] = "   "+rs.getInt(2);
+				matriz[i][2] = "   "+rs.getInt(3);
+				matriz[i][3] = "   "+rs.getInt(4);
+				i++;
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	    return matriz; 
+	}
 }
 
 
