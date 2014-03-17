@@ -47,7 +47,7 @@ import checador.Cat_Reporte_Impresion_Gafetes;
 import checador.Cat_Reportes_Checador;
 import checador.Cat_Seleccion_Consejo;
 import checador.Cat_Seleccion_Jefe_De_Operaciones;
-import checador.Cat_Seleccion_Solicitudes_Empleados;
+import checador.Cat_Solicitud_De_Empleados;
 
 import objetos.Obj_Alimentacion_Cuadrante;
 import objetos.Obj_Usuario;
@@ -71,6 +71,7 @@ import catalogos.Cat_Filtro_Cortes;
 import catalogos.Cat_Filtro_Diferiencia_Cortes;
 import catalogos.Cat_Filtro_Empleado_Directorio;
 import catalogos.Cat_Filtro_Prestamo;
+import catalogos.Cat_Grupos_De_Vacaciones;
 import catalogos.Cat_Imprimir_LR;
 import catalogos.Cat_Lista_Pago;
 import catalogos.Cat_Mantenimimiento_Base_de_Datos;
@@ -225,6 +226,9 @@ public class InitMenuBar extends Init{
    	        JMenuItem Revision_de_Consejo = new JMenuItem("Revisión de Solicitudes por Consejo");
    	        JMenuItem Revision_de_Jefe_de_Operaciones = new JMenuItem("Revisión de Solicitudes por Jefe de Operaciones");
    	        JMenuItem Solicitud_de_Empleados = new JMenuItem("Solicitud de Empleados");
+   	   /*VACACIONES*/
+   	     JMenu Vacaciones = new JMenu("Vacaciones");
+	        JMenuItem Grupos_de_Vacaciones = new JMenuItem("Grupos de Vacaciones");
     	/* AYUDA */
 	    JMenu Ayuda = new JMenu("Ayuda");
 		    JMenuItem Ayuda_Acerca_de = new JMenuItem("Acerca de");		
@@ -513,7 +517,7 @@ public class InitMenuBar extends Init{
 				Reporte_Prestamos.addActionListener(Opciones);
 				Reporte_Prestamos.setEnabled(false);	
 	    /*SOLICITUDES*/
-		 Lista_Raya.add(	Solicitudes);
+		 Lista_Raya.add(Solicitudes);
 		    Solicitudes.add(Revision_de_Consejo);
 			    Revision_de_Consejo.addActionListener(Opciones);
 				Revision_de_Consejo.setEnabled(false);
@@ -523,6 +527,11 @@ public class InitMenuBar extends Init{
 			Solicitudes.add(Solicitud_de_Empleados);
 			    Solicitud_de_Empleados.addActionListener(Opciones);
 			    Solicitud_de_Empleados.setEnabled(false);
+		/*VACACIONES*/
+		 Lista_Raya.add(Vacaciones);
+		    Vacaciones.add(Grupos_de_Vacaciones);	
+		    Grupos_de_Vacaciones.addActionListener(Opciones);
+		    Grupos_de_Vacaciones.setEnabled(false);
 		/* AYUDA */
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 			Ayuda.add(Ayuda_Acerca_de);
@@ -748,7 +757,11 @@ public class InitMenuBar extends Init{
 			if(e.getActionCommand().equals("Revisión de Solicitudes por Jefe de Operaciones"))
 				new Cat_Seleccion_Jefe_De_Operaciones().setVisible(true);
 			if(e.getActionCommand().equals("Solicitud de Empleados"))
-				new Cat_Seleccion_Solicitudes_Empleados().setVisible(true);
+				new Cat_Solicitud_De_Empleados().setVisible(true);
+			/*VACACIONES*/
+			if(e.getActionCommand().equals("Grupos de Vacaciones"))
+				new Cat_Grupos_De_Vacaciones().setVisible(true);
+
 		}
 	};
 }

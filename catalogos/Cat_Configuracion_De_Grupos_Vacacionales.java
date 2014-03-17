@@ -353,7 +353,8 @@ public class Cat_Configuracion_De_Grupos_Vacacionales extends JFrame{
 	        	if(e.getClickCount()==1){
 	        		
 	        		int fila = tabla.getSelectedRow();
-	        		Object id = tabla.getValueAt(fila,0).toString().substring(3,tabla.getValueAt(fila,0).toString().length());
+	        		@SuppressWarnings("unused")
+					Object id = tabla.getValueAt(fila,0).toString().substring(3,tabla.getValueAt(fila,0).toString().length());
 	        
 	        		cmbGrupo.setSelectedIndex(1);
 	        		txtPrima.setText(tabla.getValueAt(fila,1).toString().substring(3,tabla.getValueAt(fila,1).toString().length()));

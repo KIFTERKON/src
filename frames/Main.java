@@ -327,6 +327,9 @@ public class Main extends InitButton {
 						Revision_de_Jefe_de_Operaciones.setEnabled(true);
 					if(permisos[i].equals("Solicitud de Empleados"))
 						Solicitud_de_Empleados.setEnabled(true);
+					/*VACACIONES*/
+					if(permisos[i].equals("Grupos de Vacaciones"))
+						Grupos_de_Vacaciones.setEnabled(true);
 				}
 			}else{
 				Object[] permisos = new Obj_Main().Permisos(txtUsuario.getText());
@@ -558,6 +561,9 @@ public class Main extends InitButton {
 						Revision_de_Jefe_de_Operaciones.setEnabled(true);
 					if(permisos[i].equals("Solicitud de Empleados"))
 						Solicitud_de_Empleados.setEnabled(true);
+					/*VACACIONES*/
+					if(permisos[i].equals("Grupos de Vacaciones"))
+						Grupos_de_Vacaciones.setEnabled(true);
 				}
 			}
 		} catch (SQLException e) {

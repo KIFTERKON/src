@@ -910,6 +910,9 @@ public class InitButton extends InitMenuBar{
 				Revision_de_Consejo.setEnabled(false);
 				Revision_de_Jefe_de_Operaciones.setEnabled(false);
 				Solicitud_de_Empleados.setEnabled(false);
+		   /*VACACIONES*/	
+				Grupos_de_Vacaciones.setEnabled(false);
+				
 		    txtFolio.setEditable(true);
 			txtContrasena.setEditable(true);
 			txtFolio.requestFocus();
