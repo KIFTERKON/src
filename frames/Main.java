@@ -96,7 +96,7 @@ public class Main extends InitButton {
 			boolean finanzasBoolean = finanzas.isAutorizar();
 			
 			if((auditoriaBoolean == true)  || (finanzasBoolean == true)){
-				Object[] permisos = new Obj_Main().Permisos(txtUsuario.getText());
+				Object[] permisos = new Obj_Main().Permisos(Integer.valueOf(txtFolio.getText()));
 				for(int i=0; i<permisos.length; i++){
 	               /*AUDITORIA*/
 					if(permisos[i].equals("Reporte de Movimientos Operados"))
@@ -332,7 +332,7 @@ public class Main extends InitButton {
 						Grupos_de_Vacaciones.setEnabled(true);
 				}
 			}else{
-				Object[] permisos = new Obj_Main().Permisos(txtUsuario.getText());
+				Object[] permisos = new Obj_Main().Permisos (Integer.valueOf(txtFolio.getText()));
 				for(int i=0; i<permisos.length; i++){
 					
 		           /*AUDITORIA*/

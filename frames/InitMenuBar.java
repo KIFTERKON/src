@@ -93,9 +93,7 @@ public class InitMenuBar extends Init{
 	// DECLARAMOS EL OBJETO RUNTIME PARA EJECUTAR APLICACIONES
 	Runtime R = Runtime.getRuntime();
 	
-	/* ARCHIVO */
-	JMenu Archivo = new JMenu("Archivo");
-	JMenuItem Cerrar = new JMenuItem("Cerrar", new ImageIcon("foto/Salir.png"));
+
 	
     /* AUDITORIA */	
     JMenu Auditoria = new JMenu("Auditoria");
@@ -231,14 +229,18 @@ public class InitMenuBar extends Init{
 	        JMenuItem Grupos_de_Vacaciones = new JMenuItem("Grupos de Vacaciones");
     	/* AYUDA */
 	    JMenu Ayuda = new JMenu("Ayuda");
-		    JMenuItem Ayuda_Acerca_de = new JMenuItem("Acerca de");		
+		    JMenuItem Ayuda_Acerca_de = new JMenuItem("Acerca de");	
+		/* SALIR */
+	    JMenuItem Cerrar = new JMenuItem("Salir", new ImageIcon("imagen/delete.png"));
+//			JMenuItem Cerrar = new JMenuItem("Salir", new ImageIcon("foto/Salir.png"));
+			
 	   public InitMenuBar(){
 		  this.setJMenuBar(miMenuTop());}
 	   public JMenuBar miMenuTop(){
 		JMenuBar Barra = new JMenuBar();
 		/* ARCHIVO */
-		Archivo.setMnemonic(KeyEvent.VK_I);
-		Archivo.add(Cerrar);
+//		Cerrar.setMnemonic(KeyEvent.VK_I);
+//		Archivo.add(Cerrar);
 			Cerrar.addActionListener(Opciones);
 			
        /* AUDITORIA */
@@ -536,7 +538,7 @@ public class InitMenuBar extends Init{
 		Ayuda.setMnemonic(KeyEvent.VK_A);
 			Ayuda.add(Ayuda_Acerca_de);
 				
-		Barra.add(Archivo);
+		
 		Barra.add(Auditoria);
 		Barra.add(Catalogo);
 		Barra.add(Configuracion);
@@ -544,6 +546,7 @@ public class InitMenuBar extends Init{
 		Barra.add(Cuadrantes);
 		Barra.add(Lista_Raya);
 		Barra.add(Ayuda);
+		Barra.add(Cerrar);
 		
 		return Barra;
 	}
@@ -563,7 +566,7 @@ public class InitMenuBar extends Init{
 		public void actionPerformed(ActionEvent e){
 
 			/* ARCHIVO */
-			if(e.getActionCommand().equals("Cerrar")){
+			if(e.getActionCommand().equals("Salir")){
 				dispose();
 			
 			try {

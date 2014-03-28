@@ -6,9 +6,11 @@ public class Obj_Hora_Sincronizada {
 	private int hora;
 	private int minuto;
 	private int segundo;
-	
-	public Obj_Hora_Sincronizada(){
-		this.hora=0; this.minuto=0; this.segundo=0;
+
+	public Obj_Hora_Sincronizada() {
+		this.hora = 0;
+		this.minuto = 0;
+		this.segundo = 0;
 	}
 
 	public int getHora() {
@@ -34,8 +36,8 @@ public class Obj_Hora_Sincronizada {
 	public void setSegundo(int segundo) {
 		this.segundo = segundo;
 	}
-	
-	public int[] get_hora_minuto_segundo(){
+
+	public int[] get_hora_minuto_segundo() {
 		return new BuscarSQL().hora_minut_segundo();
 	}
 
