@@ -658,7 +658,7 @@ public class Cargar_Combo {
 	
 	@SuppressWarnings("unchecked")
 	public String[] Tipo_Banco(String tabla) throws SQLException{
-		String query = "select nombre from " + tabla;
+		String query = "select nombre from " + tabla +" where status_banco = 1";
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -682,12 +682,10 @@ public class Cargar_Combo {
 		String[] pila= new String[miVector.size()];
 		
 		while(i < miVector.size()){
-			
 			pila[i]= miVector.get(i).toString();
 			i++;
 		}
 		return pila;
-			
 	}
 	
 	
@@ -1031,6 +1029,5 @@ public class Cargar_Combo {
 					i++;
 				}
 				return pila;
-					
 			}
 }

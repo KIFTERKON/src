@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_General_de_Asistencia_Por_Establecimiento" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="24cc16d5-c483-4414-a6b0-717ab373dbf7">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DB_ADAPTER"/>
 	<property name="ireport.zoom" value="2.593742460100009"/>
@@ -69,7 +68,7 @@ SET @establecimiento=(SELECT convert(varchar(50),folio) FROM tb_establecimiento 
              when tb_permisos_checador.tipo_de_permiso=3 then 'Permiso Para Entrar Tarde'
              when tb_permisos_checador.tipo_de_permiso=4 then 'Permiso Para No Asistir Con Goce de Sueldo'
              when tb_permisos_checador.tipo_de_permiso=5 then 'Permiso Para No Asistir Sin Goce de Sueldo'
-          end  as tipo_de_Permiso
+	 end  as tipo_de_Permiso
          ,tb_permisos_checador.motivo
          ,CONVERT([varchar](20),@fecha_inicial,(113)) as fecha_inicial
          ,CONVERT([varchar](20),@fecha_final,(113)) as fecha_final

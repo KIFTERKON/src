@@ -29,6 +29,7 @@ import objetos.Obj_Actividades_Relacionadas;
 import objetos.Obj_Agregar_Submenus_Nuevos;
 import objetos.Obj_Alimentacion_Cortes;
 import objetos.Obj_Alimentacion_Cuadrante;
+import objetos.Obj_Alimentacion_De_Vacaciones;
 import objetos.Obj_Alimentacion_Denominacion;
 import objetos.Obj_Asignacion_Mensajes;
 import objetos.Obj_Asistencia_Puntualidad;
@@ -2865,6 +2866,40 @@ public boolean Guardar_Horario(ObjHorario horario){
 			}finally{
 				try {
 					pstmt.close();
+					con.close();
+				} catch(SQLException e){
+					e.printStackTrace();
+				}
+			}		
+			return true;
+		}
+		
+		public boolean Guardar_Vacaciones_Pasadas(Obj_Alimentacion_De_Vacaciones alimentacion){
+			String query = "exec sp_insert_departamento ?,?,?,?";
+			Connection con = new Connexion().conexion();
+			PreparedStatement pstmt = null;
+			try {
+				con.setAutoCommit(false);
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, alimentacion.getFolio_empleado());
+				pstmt.setString(2, alimentacion.getFecha_inicio());
+				pstmt.setString(3, alimentacion.getFecha_final());
+				pstmt.setInt(4, alimentacion.getProximas_vacaciones());
+				pstmt.executeUpdate();
+				con.commit();
+			} catch (Exception e) {
+				System.out.println("SQLException: "+e.getMessage());
+				if(con != null){
+					try{
+						System.out.println("La transacción ha sido abortada");
+						con.rollback();
+					}catch(SQLException ex){
+						System.out.println(ex.getMessage());
+					}
+				}
+				return false;
+			}finally{
+				try {
 					con.close();
 				} catch(SQLException e){
 					e.printStackTrace();

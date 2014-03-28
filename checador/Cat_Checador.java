@@ -708,7 +708,7 @@ public class Cat_Checador extends JFrame {
                         }
                         
                         Object [][] lista_tabla = new Obj_Traer_Checador().get_tabla_model();
-                        String[] fila = new String[9];
+                        String[] fila = new String[1];
                                 for(int i=0; i<lista_tabla.length; i++){
                                         fila[0] = lista_tabla[i][0]+"";
                                         fila[1] = lista_tabla[i][1]+"";

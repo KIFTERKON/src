@@ -11,6 +11,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
 
 import objetos.Obj_Bancos;
 
@@ -89,6 +92,9 @@ public class Cat_Bancos extends Cat_Root {
 	
 	public JTable tabla = new JTable(tabla_model);
 	public JScrollPane scroll_tabla = new JScrollPane(tabla);
+	
+	JButton btn_lay_out = new JButton(new ImageIcon("Iconos/PAG.png"));
+	JButton btn_123 = new JButton(new ImageIcon("Iconos/calendar_icon&16.png"));
     
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public TableRowSorter trsfiltro = new TableRowSorter(tabla_model); 
@@ -103,6 +109,8 @@ public class Cat_Bancos extends Cat_Root {
 		this.panel.add(chbNegativos).setBounds(920,35,120,20);
 		
 		this.panel.add(scroll_tabla).setBounds(30,60,1035,615);
+		this.panel.add(btn_lay_out).setBounds(1015,0,25,25);
+		this.panel.add(btn_123).setBounds(1040,0,25,25);
 		
 		this.panel.add(new JLabel("Total Banamex:")).setBounds(1080,70,100,20);
 		this.panel.add(txtBanamex).setBounds(1160,70,120,20);
@@ -124,8 +132,14 @@ public class Cat_Bancos extends Cat_Root {
 		this.init_tabla();
 		
 		this.btn_guardar.addActionListener(op_guardar);
+		this.btn_lay_out.addActionListener(op_lay_out);
+		this.btn_lay_out.addActionListener(null);
+		this.btn_123.addActionListener(null);
 		this.btn_refrescar.setVisible(false);
 			
+		btn_lay_out.setToolTipText("Generar Lay Out");
+		btn_123.setToolTipText("Comparacion");		
+		
 		this.txtFolio.addKeyListener(op_filtro_folio);
 		this.txtNombre_Completo.addKeyListener(op_filtro_nombre);
 		this.cmbEstablecimientos.addActionListener(op_filtro_establecimiento);
@@ -189,6 +203,12 @@ public class Cat_Bancos extends Cat_Root {
 					return;
 				}
 			}
+		}
+	};
+	
+    ActionListener op_lay_out = new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			new Cat_Lay_Out().setVisible(true);
 		}
 	};
 	

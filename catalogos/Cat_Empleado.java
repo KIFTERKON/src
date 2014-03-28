@@ -322,10 +322,10 @@ public class Cat_Empleado extends JFrame{
 		this.bgHorarios.add(rbHorario);
 		this.bgHorarios.add(rbHorario2);
 		this.bgHorarios.add(rbHorario3);
-
-		int x = 20, y=35, ancho=140;
-		
+	
 		this.txtCalendario.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
+		int x = 20, y=35, ancho=140;
+	
 		this.txtIngreso.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		this.txtIngresoImss.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
 		this.txtVencimientoLicencia.setIcon(new ImageIcon("Iconos/calendar_icon&16.png"));
@@ -572,7 +572,7 @@ public class Cat_Empleado extends JFrame{
 		btnHorario2.addActionListener(opFiltroHorairo2);
 		btnHorario3.addActionListener(opFiltroHorairo3);
 		
-		txtTarjetaNomina.addKeyListener(txtlogns);
+//		txtTarjetaNomina.addKeyListener(txtlogns);
 		
 		rbHorario.addActionListener(opRButton);
 		rbHorario2.addActionListener(opRButton);
@@ -588,6 +588,8 @@ public class Cat_Empleado extends JFrame{
 		
 		txtSalarioDiario.addKeyListener(validaNumericoSD);
 		txtSalarioDiarioIntegrado.addKeyListener(validaNumericoSDI);
+		
+		txtTarjetaNomina.addKeyListener(validaNumerico);
 //		cmbTurno.setRenderer(new MyComboBoxRenderer());
 		
 		cont.add(panel);
@@ -1795,28 +1797,28 @@ public class Cat_Empleado extends JFrame{
 								
 	};
 	
-	KeyListener txtlogns = new KeyListener() {
-		public void keyTyped(KeyEvent e) {
-			char caracter = e.getKeyChar();
-			if((caracter != KeyEvent.VK_BACK_SPACE) && (caracter != KeyEvent.VK_DELETE)){
-				int longitud = txtTarjetaNomina.getText().length();
-				String copas = txtTarjetaNomina.getText();
-				switch(longitud){
-					case 4 : txtTarjetaNomina.setText(copas+"-"); break;
-					case 9 : txtTarjetaNomina.setText(copas+"-"); break;
-					case 14 : txtTarjetaNomina.setText(copas+"-"); break;
-				}
-				if(((caracter < '0') ||
-						(caracter > '9'))){
-						e.consume(); 
-				}				
-			}
-		}
-		@Override
-		public void keyPressed(KeyEvent arg0) {}
-		@Override
-		public void keyReleased(KeyEvent arg0) {}
-	};
+//	KeyListener txtlogns = new KeyListener() {
+//		public void keyTyped(KeyEvent e) {
+//			char caracter = e.getKeyChar();
+//			if((caracter != KeyEvent.VK_BACK_SPACE) && (caracter != KeyEvent.VK_DELETE)){
+//				int longitud = txtTarjetaNomina.getText().length();
+//				String copas = txtTarjetaNomina.getText();
+//				switch(longitud){
+//					case 4 : txtTarjetaNomina.setText(copas+"-"); break;
+//					case 9 : txtTarjetaNomina.setText(copas+"-"); break;
+//					case 14 : txtTarjetaNomina.setText(copas+"-"); break;
+//				}
+//				if(((caracter < '0') ||
+//						(caracter > '9'))){
+//						e.consume(); 
+//				}				
+//			}
+//		}
+//		@Override
+//		public void keyPressed(KeyEvent arg0) {}
+//		@Override
+//		public void keyReleased(KeyEvent arg0) {}
+//	};
 	
 	KeyListener validaNumericoSD = new KeyListener() {
 		@Override
@@ -1899,6 +1901,23 @@ public class Cat_Empleado extends JFrame{
 		    	String texto = txtInfonavit.getText().toString();
 				if (texto.indexOf(".")>-1) e.consume();
 			}
+		}
+		@Override
+		public void keyPressed(KeyEvent e){}
+		@Override
+		public void keyReleased(KeyEvent e){}
+								
+	};
+	
+	KeyListener validaNumerico = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			char caracter = e.getKeyChar();
+			
+		    if((caracter < '0') ||	
+		    	(caracter > '9')){
+		    	e.consume();
+		    	}
 		}
 		@Override
 		public void keyPressed(KeyEvent e){}
@@ -2493,8 +2512,6 @@ public class Cat_Empleado extends JFrame{
                 	tabla.requestFocus();
                   }
               });
-			 
-			
 		}
 		private void agregar(final JTable tbl) {
 	        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2747,41 +2764,41 @@ public class Cat_Empleado extends JFrame{
 		    return scrol; 
 		}
 		
-		KeyListener validaCantidad = new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e){
-				char caracter = e.getKeyChar();				
-				if(((caracter < '0') ||	
-				    	(caracter > '9')) && 
-				    	(caracter != '.' )){
-				    	e.consume();
-				    	}
-			}
-			@Override
-			public void keyReleased(KeyEvent e) {	
-			}
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-			}	
-		};
-		
-		KeyListener validaNumericoConPunto = new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char caracter = e.getKeyChar();
-				
-			    if(((caracter < '0') ||	
-			    	(caracter > '9')) && 
-			    	(caracter != '.')){
-			    	e.consume();
-			    	}
-			}
-			@Override
-			public void keyPressed(KeyEvent e){}
-			@Override
-			public void keyReleased(KeyEvent e){}
-									
-		};
+//		KeyListener validaCantidad = new KeyListener() {
+//			@Override
+//			public void keyTyped(KeyEvent e){
+//				char caracter = e.getKeyChar();				
+//				if(((caracter < '0') ||	
+//				    	(caracter > '9')) && 
+//				    	(caracter != '.' )){
+//				    	e.consume();
+//				    	}
+//			}
+//			@Override
+//			public void keyReleased(KeyEvent e) {	
+//			}
+//			@Override
+//			public void keyPressed(KeyEvent arg0) {
+//			}	
+//		};
+//		
+//		KeyListener validaNumericoConPunto = new KeyListener() {
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				char caracter = e.getKeyChar();
+//				
+//			    if(((caracter < '0') ||	
+//			    	(caracter > '9')) && 
+//			    	(caracter != '.')){
+//			    	e.consume();
+//			    	}
+//			}
+//			@Override
+//			public void keyPressed(KeyEvent e){}
+//			@Override
+//			public void keyReleased(KeyEvent e){}
+//									
+//		};
 		
 		KeyListener seleccionEmpleadoconteclado = new KeyListener() {
 			@SuppressWarnings("static-access")
