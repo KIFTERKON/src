@@ -7,16 +7,21 @@ import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
 public class Obj_Mensaje_Personal {
-	
+
 	int folioMensaje;
 	String fechaInicial;
 	String fechaFin;
 	String asunto;
 	String mensaje;
 	boolean status;
-	
-	public Obj_Mensaje_Personal(){
-		folioMensaje=0;		fechaInicial="";	fechaFin="";	asunto="";		mensaje="";		status=false;
+
+	public Obj_Mensaje_Personal() {
+		folioMensaje = 0;
+		fechaInicial = "";
+		fechaFin = "";
+		asunto = "";
+		mensaje = "";
+		status = false;
 	}
 
 	public int getFolioMensaje() {
@@ -58,7 +63,7 @@ public class Obj_Mensaje_Personal {
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	
+
 	public boolean getStatus() {
 		return status;
 	}
@@ -67,15 +72,23 @@ public class Obj_Mensaje_Personal {
 		this.status = status;
 	}
 
-	public boolean guardar_mensaje(){ return new GuardarSQL().Guardar_Mensaje_Personal(this); }
-	
-	public boolean guardar_Empleado_Mensaje(String[] tabla){ return new GuardarSQL().Guardar_Empleado_Msj(this,tabla); }
-	
-	public boolean actualizar(int folio){ return new ActualizarSQL().mensajePersonal(this,folio); }
-	
-	public boolean actualizar2(String[] tabla){ return new ActualizarSQL().mensajePersonal2(this,tabla); }
-	
-	public int nuevoMensaje(){
+	public boolean guardar_mensaje() {
+		return new GuardarSQL().Guardar_Mensaje_Personal(this);
+	}
+
+	public boolean guardar_Empleado_Mensaje(String[] tabla) {
+		return new GuardarSQL().Guardar_Empleado_Msj(this, tabla);
+	}
+
+	public boolean actualizar(int folio) {
+		return new ActualizarSQL().mensajePersonal(this, folio);
+	}
+
+	public boolean actualizar2(String[] tabla) {
+		return new ActualizarSQL().mensajePersonal2(this, tabla);
+	}
+
+	public int nuevoMensaje() {
 		try {
 			return new BuscarSQL().NuevoMensajePersonal();
 		} catch (SQLException e) {
@@ -83,13 +96,13 @@ public class Obj_Mensaje_Personal {
 		}
 		return 1;
 	}
-	
-	public Obj_Mensaje_Personal buscar(int folio){
+
+	public Obj_Mensaje_Personal buscar(int folio) {
 		try {
 			return new BuscarSQL().buscar_mensaje(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null; 
+		return null;
 	}
 }

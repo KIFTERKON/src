@@ -6,91 +6,88 @@ import SQL.ActualizarSQL;
 import SQL.BuscarSQL;
 import SQL.GuardarSQL;
 
-public class ObjHorario 
-{
+public class ObjHorario {
 	int folio;
-	String nombre ;
-	String diaD,diaL,diaM,diaMI,diaJ,diaV,diaS;
-	String domingo1,domingo2,domingo3,domingo4,domingo5;
-	String lunes1,lunes2,lunes3,lunes4,lunes5;
-	String martes1,martes2,martes3,martes4,martes5;
-	String miercoles1,miercoles2,miercoles3,miercoles4,miercoles5;
-	String jueves1,jueves2,jueves3,jueves4,jueves5;
-	String viernes1,viernes2,viernes3,viernes4,viernes5;
-	String sabado1,sabado2,sabado3,sabado4,sabado5;
+	String nombre;
+	String diaD, diaL, diaM, diaMI, diaJ, diaV, diaS;
+	String domingo1, domingo2, domingo3, domingo4, domingo5;
+	String lunes1, lunes2, lunes3, lunes4, lunes5;
+	String martes1, martes2, martes3, martes4, martes5;
+	String miercoles1, miercoles2, miercoles3, miercoles4, miercoles5;
+	String jueves1, jueves2, jueves3, jueves4, jueves5;
+	String viernes1, viernes2, viernes3, viernes4, viernes5;
+	String sabado1, sabado2, sabado3, sabado4, sabado5;
 	int descanso;
 	int diaDobla;
 	int diaDobla2;
 	int diaDobla3;
-	
+
 	int horarioDeposito;
 	int recesoDiarioExtra;
-	
-	public ObjHorario()
-	{
-		this.folio=0;
-		this.nombre="";
-		
-		this.diaD="";
-		this.diaL="";
-		this.diaM="";
-		this.diaMI="";
-		this.diaJ="";
-		this.diaV="";
-		this.diaS="";
-		
-		this.domingo1="";
-		this.domingo2="";
-		this.domingo3="";
-		this.domingo4="";
-		this.domingo5="";
-		
-		this.lunes1="";
-		this.lunes2="";
-		this.lunes3="";
-		this.lunes4="";
-		this.lunes5="";
-		
-		this.martes1="";
-		this.martes2="";
-		this.martes3="";
-		this.martes4="";
-		this.martes5="";
-		
-		this.miercoles1="";
-		this.miercoles2="";
-		this.miercoles3="";
-		this.miercoles4="";
-		this.miercoles5="";
-		
-		this.jueves1="";
-		this.jueves2="";
-		this.jueves3="";
-		this.jueves4="";
-		this.jueves5="";
-		
-		this.viernes1="";
-		this.viernes2="";
-		this.viernes3="";
-		this.viernes4="";
-		this.viernes5="";
-		
-		this.sabado1="";
-		this.sabado2="";
-		this.sabado3="";
-		this.sabado4="";
-		this.sabado5="";
-		
-		this.descanso=0;
-		this.diaDobla=0;
-		this.diaDobla2=0;
-		this.diaDobla3=0;
-		
-		this.horarioDeposito=0;
-		this.recesoDiarioExtra=0;
-		
+
+	public ObjHorario() {
+		this.folio = 0;
+		this.nombre = "";
+
+		this.diaD = "";
+		this.diaL = "";
+		this.diaM = "";
+		this.diaMI = "";
+		this.diaJ = "";
+		this.diaV = "";
+		this.diaS = "";
+
+		this.domingo1 = "";
+		this.domingo2 = "";
+		this.domingo3 = "";
+		this.domingo4 = "";
+		this.domingo5 = "";
+
+		this.lunes1 = "";
+		this.lunes2 = "";
+		this.lunes3 = "";
+		this.lunes4 = "";
+		this.lunes5 = "";
+
+		this.martes1 = "";
+		this.martes2 = "";
+		this.martes3 = "";
+		this.martes4 = "";
+		this.martes5 = "";
+
+		this.miercoles1 = "";
+		this.miercoles2 = "";
+		this.miercoles3 = "";
+		this.miercoles4 = "";
+		this.miercoles5 = "";
+
+		this.jueves1 = "";
+		this.jueves2 = "";
+		this.jueves3 = "";
+		this.jueves4 = "";
+		this.jueves5 = "";
+
+		this.viernes1 = "";
+		this.viernes2 = "";
+		this.viernes3 = "";
+		this.viernes4 = "";
+		this.viernes5 = "";
+
+		this.sabado1 = "";
+		this.sabado2 = "";
+		this.sabado3 = "";
+		this.sabado4 = "";
+		this.sabado5 = "";
+
+		this.descanso = 0;
+		this.diaDobla = 0;
+		this.diaDobla2 = 0;
+		this.diaDobla3 = 0;
+
+		this.horarioDeposito = 0;
+		this.recesoDiarioExtra = 0;
+
 	}
-	
 
 	public int getFolio() {
 		return folio;
@@ -120,7 +117,6 @@ public class ObjHorario
 		return diaM;
 	}
 
-
 	public void setDiaM(String diaM) {
 		this.diaM = diaM;
 	}
@@ -128,7 +124,6 @@ public class ObjHorario
 	public String getDiaMI() {
 		return diaMI;
 	}
-
 
 	public void setDiaMI(String diaMI) {
 		this.diaMI = diaMI;
@@ -205,7 +200,7 @@ public class ObjHorario
 	public void setDomingo5(String domingo5) {
 		this.domingo5 = domingo5;
 	}
-	
+
 	public String getLunes1() {
 		return lunes1;
 	}
@@ -445,7 +440,7 @@ public class ObjHorario
 	public void setSabado5(String sabado5) {
 		this.sabado5 = sabado5;
 	}
-	
+
 	public int getDescanso() {
 		return descanso;
 	}
@@ -461,7 +456,7 @@ public class ObjHorario
 	public void setDiaDobla(int diaDobla) {
 		this.diaDobla = diaDobla;
 	}
-	
+
 	public int getDiaDobla2() {
 		return diaDobla2;
 	}
@@ -494,31 +489,34 @@ public class ObjHorario
 		this.recesoDiarioExtra = recesoDiarioExtra;
 	}
 
-	//buscar horario
-	public ObjHorario buscar(int folio){
+	// buscar horario
+	public ObjHorario buscar(int folio) {
 		try {
 			return new BuscarSQL().buscahorario(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null; 
-	}
-//buscar si el empleado tiene permisos a la opcion de horairos
-	public boolean Existe_permiso_horario(int folio_usuario){
-		return new BuscarSQL().Permiso_de_usuario_para_horario(folio_usuario); 
+		return null;
 	}
 
-	public boolean Guardar(){
+	// buscar si el empleado tiene permisos a la opcion de horairos
+	public boolean Existe_permiso_horario(int folio_usuario) {
+		return new BuscarSQL().Permiso_de_usuario_para_horario(folio_usuario);
+	}
+
+	public boolean Guardar() {
 		return new GuardarSQL().Guardar_Horario(this);
 	}
-	
-	public boolean Existe(int folio){ 
+
+	public boolean Existe(int folio) {
 		return new BuscarSQL().HorarioExiste(folio);
 	}
-	
-	public boolean Actualizar(int folio){
-		return new ActualizarSQL().Horario(this,folio); 
-		}
-	
-	public ObjHorario buscar_nuevo() throws SQLException{ return new BuscarSQL().Horario_Nuevo(); }
+
+	public boolean Actualizar(int folio) {
+		return new ActualizarSQL().Horario(this, folio);
+	}
+
+	public ObjHorario buscar_nuevo() throws SQLException {
+		return new BuscarSQL().Horario_Nuevo();
+	}
 }

@@ -12,19 +12,29 @@ public class Obj_Solicitud_De_Empleados {
 	int folio_cambio;
 	String cambio_a;
 	String fecha_solicitada;
-	int temp_fijo;	
+	int temp_fijo;
 	float cantidad_solicitada;
 	int puntualidad_y_asistencia;
-	int cumplimiento_de_tareas;	
+	int cumplimiento_de_tareas;
 	int diciplina;
-	int respeto_y_trato_general;	
+	int respeto_y_trato_general;
 	String motivo;
-	
-	public Obj_Solicitud_De_Empleados(){
-		this.folio_empleado=0;			this.usuario="";				this.folio_permiso=0;		  this.folio_solicitud=0;	
-		this.folio_cambio=0;			this.cambio_a="";				this.fecha_solicitada="";	  this.temp_fijo=0;
-		this.cantidad_solicitada=0;		this.puntualidad_y_asistencia=0;this.cumplimiento_de_tareas=0;this.diciplina=0;
-		this.respeto_y_trato_general=0;	this.motivo="";
+
+	public Obj_Solicitud_De_Empleados() {
+		this.folio_empleado = 0;
+		this.usuario = "";
+		this.folio_permiso = 0;
+		this.folio_solicitud = 0;
+		this.folio_cambio = 0;
+		this.cambio_a = "";
+		this.fecha_solicitada = "";
+		this.temp_fijo = 0;
+		this.cantidad_solicitada = 0;
+		this.puntualidad_y_asistencia = 0;
+		this.cumplimiento_de_tareas = 0;
+		this.diciplina = 0;
+		this.respeto_y_trato_general = 0;
+		this.motivo = "";
 	}
 
 	public int getFolio_empleado() {
@@ -139,8 +149,13 @@ public class Obj_Solicitud_De_Empleados {
 		this.motivo = motivo;
 	}
 
-	public boolean guardar(){ return new GuardarSQL().Guardar_Solicitud(this); }
-	
-	public boolean actualizar(int folioSolicitud,int status){ return new ActualizarSQL().status_solicitud_empleados(folioSolicitud,status); }
-	
+	public boolean guardar() {
+		return new GuardarSQL().Guardar_Solicitud(this);
+	}
+
+	public boolean actualizar(int folioSolicitud, int status) {
+		return new ActualizarSQL().status_solicitud_empleados(folioSolicitud,
+				status);
+	}
+
 }

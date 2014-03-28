@@ -91,7 +91,43 @@ INNER JOIN   transacciones ON facremtick.transaccion = transacciones.transaccion
 INNER JOIN   cajeros ON cajeros.cajero=facremtick.cajero
 LEFT OUTER JOIN  asignaciones_cajeros ON asignaciones_cajeros.folio=facremtick.folio_cajero
 where  facremtick.status <> 'C' and facremtick.cond_pago = '4' AND facremtick.folio_cajero=@asignacion and abonos_clientes.status='V' and abonos_clientes.fecha>=asignaciones_cajeros.fecha_inicial and abonos_clientes.fecha<=asignaciones_cajeros.fecha_liquidacion
-order by  facremtick.folio asc,abonos_clientes.fecha asc]]>
+
+
+UNION ALL
+(SELECT     facremtick.folio AS Ticket
+          ,datos_apartados_mercancia.entregar_a as Cliente_Apartado
+          ,datos_apartados_mercancia.domicilio as Domicilio
+          ,datos_apartados_mercancia.telefono as ApartadoN
+          ,CONVERT (VARCHAR(20),facremtick.fecha,103) AS Fecha_del_Apartado
+          ,facremtick.total as Total_Apartado
+          ,''AS Fecha_Abono
+          ,''AS Primer_Abono
+          ,''AS Primer_Saldo
+          ,facremtick.abonos as Total_Abonos_Actual
+          ,facremtick.saldo as Saldo_Actual
+          ,''AS Dias_Pago
+          ,CONVERT (VARCHAR(20),datos_apartados_mercancia.fecha_estimada_entrega ,103)  as Fecha_Limite_del_Apartado
+          ,case when datos_apartados_mercancia.fecha_entregado>'16/11/2064 00:00:00'
+                then  'No Entregado Aún'
+                else  CONVERT (VARCHAR(20),datos_apartados_mercancia.fecha_entregado ,103)
+                end AS Fecha_de_Entrega
+          ,datos_apartados_mercancia.entregado_a AS Persona_Que_Recibio_Apartado
+          ,datos_apartados_mercancia.notas as Notas
+          ,cajeros.nombre as Cajero
+          ,cajeros.cod_estab as Num_Estab
+          ,@asignacion as Asignacion
+          ,convert(varchar(20),asignaciones_cajeros.fecha_liquidacion,103) as Fecha_Liquidacion
+          ,facremtick.factura as Factura
+
+FROM         facremtick with(nolock)
+INNER JOIN   datos_apartados_mercancia ON datos_apartados_mercancia.folio = facremtick.folio AND datos_apartados_mercancia.transaccion = facremtick.transaccion
+INNER JOIN   clientes ON facremtick.cod_cte = clientes.cod_cte
+LEFT OUTER JOIN   transacciones ON facremtick.transaccion = transacciones.transaccion
+INNER JOIN   cajeros ON cajeros.cajero=facremtick.cajero
+LEFT OUTER JOIN  asignaciones_cajeros ON asignaciones_cajeros.folio=facremtick.folio_cajero
+where  facremtick.status <> 'C' and facremtick.cond_pago = '4' AND facremtick.folio_cajero=@asignacion and facremtick.abonos=0)
+
+order by  facremtick.folio asc,Fecha_Abono asc]]>
 	</queryString>
 	<field name="Ticket" class="java.lang.String"/>
 	<field name="Cliente_Apartado" class="java.lang.String"/>

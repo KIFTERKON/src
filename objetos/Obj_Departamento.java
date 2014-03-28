@@ -52,23 +52,6 @@ public class Obj_Departamento {
 		this.status = status;
 	}
 
-//	public Obj_Horario_Empleado buscar_tur(String nombre){
-//		try{
-//			return new BuscarSQL().Turn_buscar(nombre); 
-//		} catch(SQLException e){
-//			
-//		}
-//		return null;
-//	}
-//	
-//	public Obj_Horario_Empleado buscar_tur(int folio){
-//		try{
-//			return new BuscarSQL().Turn_buscar(folio); 
-//		} catch(SQLException e){
-//			
-//		}
-//		return null;
-//	}
 	
 	public Obj_Departamento buscar_nuevo() throws SQLException{ return new BuscarSQL().Departamento_Nuevo(); }
 	
@@ -84,15 +67,6 @@ public class Obj_Departamento {
 		}
 		return null; 
 	}
-//	para asignar lista a cmbDepartamento en empleado
-//	public String[] Combo_Turno(){ 
-//		try {
-//			return new Cargar_Combo().Turno("tb_horarios");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null; 
-//	}
 	
 	public Obj_Departamento buscar_departamento(int folio){
 		try{

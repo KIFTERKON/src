@@ -7,7 +7,7 @@ import SQL.BuscarSQL;
 
 public class Obj_Main {
 	
-	public Object[] Permisos(String nombre_completo) throws SQLException{
-		return new BuscarSQL().Permisos(nombre_completo);
+	public Object[] Permisos(int folio) throws SQLException{
+		return new BuscarSQL().Permisos(folio);
 	}
 }

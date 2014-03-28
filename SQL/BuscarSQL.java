@@ -1316,7 +1316,7 @@ public class BuscarSQL {
 	
 	public Obj_Usuario Usuario(int folio) throws SQLException{
 		Obj_Usuario usuario = new Obj_Usuario();
-		String query = "select * from tb_usuario where folio ="+folio;
+		String query = "exec sp_select_usuario_login "+folio;
 		Statement stmt = null;
 		try {
 			stmt = con.conexion().createStatement();
@@ -2653,8 +2653,8 @@ public class BuscarSQL {
 		return resultado; 
 	}
 	
-	public Object[] Permisos(String nombre_completo){
-		String query = "exec sp_select_usuario_permisos_false '"+nombre_completo+"'";
+	public Object[] Permisos(int folio){
+		String query = "exec sp_select_usuario_permisos_false_por_folio "+folio;
 		String[] permisos = new String[getFilas(query)];
 		Statement s;
 		ResultSet rs;

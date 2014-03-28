@@ -17,16 +17,22 @@ public class Obj_Permisos_Checador {
 	boolean status;
 	int descanso;
 	String tiempo_comida;
-	
-	public Obj_Permisos_Checador(){
-		
-		this.folio=0;	this.folio_empleado=0;	this.nombre_empleado="";	this.folio_usuario=0;	
-		this.fecha="";	this.tipo_de_permiso=0;	this.motivo="";				this.status=false;	
-		this.descanso=0;
-		this.tiempo_comida="";
-		
+
+	public Obj_Permisos_Checador() {
+
+		this.folio = 0;
+		this.folio_empleado = 0;
+		this.nombre_empleado = "";
+		this.folio_usuario = 0;
+		this.fecha = "";
+		this.tipo_de_permiso = 0;
+		this.motivo = "";
+		this.status = false;
+		this.descanso = 0;
+		this.tiempo_comida = "";
+
 	}
-	
+
 	public int getFolio() {
 		return folio;
 	}
@@ -107,29 +113,33 @@ public class Obj_Permisos_Checador {
 		this.tiempo_comida = tiempo_comida;
 	}
 
-	public Obj_Permisos_Checador buscar(int folio){
+	public Obj_Permisos_Checador buscar(int folio) {
 		try {
 			return new BuscarSQL().buscar_permiso(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null; 
+		return null;
 	}
-	
-	public Obj_Permisos_Checador ComparacionFecha(String fecha){
+
+	public Obj_Permisos_Checador ComparacionFecha(String fecha) {
 		try {
 			return new BuscarSQL().comparacionDeFecha(fecha);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null; 
+		return null;
 	}
-	
-	public boolean guardar_permiso(){ return new GuardarSQL().Guardar_Permiso_Checador(this); }
-	
-	public boolean actualizar(int folio){ return new ActualizarSQL().permiso(this,folio); }
-	
-	public int nuevoPermiso(){
+
+	public boolean guardar_permiso() {
+		return new GuardarSQL().Guardar_Permiso_Checador(this);
+	}
+
+	public boolean actualizar(int folio) {
+		return new ActualizarSQL().permiso(this, folio);
+	}
+
+	public int nuevoPermiso() {
 		try {
 			return new BuscarSQL().NuevoPermisoChecador();
 		} catch (SQLException e) {
@@ -137,6 +147,7 @@ public class Obj_Permisos_Checador {
 		}
 		return 1;
 	}
-	
-//	public boolean buscarYborraPermiso(int folio){ return new GuardarSQL().buscarBorrarPermiso(folio); }
+
+	// public boolean buscarYborraPermiso(int folio){ return new
+	// GuardarSQL().buscarBorrarPermiso(folio); }
 }

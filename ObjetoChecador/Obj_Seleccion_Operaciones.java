@@ -6,18 +6,18 @@ import java.sql.SQLException;
 import SQL.BuscarSQL;
 
 public class Obj_Seleccion_Operaciones {
-	
+
 	int folio_solicitud;
 	int folio_empleado;
 	String nombre_empleado;
-	
+
 	String establecimiento;
 	String puesto;
 	String descanso;
 	String dobla;
 	String status;
 	String telefono;
-	
+
 	String nombre_encargado;
 	String sopeca;
 	String cambio;
@@ -29,15 +29,28 @@ public class Obj_Seleccion_Operaciones {
 	int respeto;
 	String motivo;
 	File foto;
-	
-	public Obj_Seleccion_Operaciones(){
-		this.folio_solicitud=0;		this.folio_empleado=0;		this.nombre_empleado="";	
-		this.establecimiento="";	this.puesto="";				this.descanso="";
-		this.status="";				this.telefono="";
-		this.dobla="";				this.nombre_encargado="";	this.sopeca="";			
-		this.cambio="";				this.fecha_solicitada="";	this.tipo_solicitud="";		
-		this.puntualidad=0;			this.cumplimiento=0;		this.diciplina=0;
-		this.respeto=0;				this.motivo="";				this.foto=null;
+
+	public Obj_Seleccion_Operaciones() {
+		this.folio_solicitud = 0;
+		this.folio_empleado = 0;
+		this.nombre_empleado = "";
+		this.establecimiento = "";
+		this.puesto = "";
+		this.descanso = "";
+		this.status = "";
+		this.telefono = "";
+		this.dobla = "";
+		this.nombre_encargado = "";
+		this.sopeca = "";
+		this.cambio = "";
+		this.fecha_solicitada = "";
+		this.tipo_solicitud = "";
+		this.puntualidad = 0;
+		this.cumplimiento = 0;
+		this.diciplina = 0;
+		this.respeto = 0;
+		this.motivo = "";
+		this.foto = null;
 	}
 
 	public int getFolio_solicitud() {
@@ -199,13 +212,13 @@ public class Obj_Seleccion_Operaciones {
 	public void setFoto(File foto) {
 		this.foto = foto;
 	}
-	
-	public Obj_Seleccion_Operaciones buscar(int folio){ 
+
+	public Obj_Seleccion_Operaciones buscar(int folio) {
 		try {
 			return new BuscarSQL().Solicitud_empleado(folio);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	return null; 
+		return null;
 	}
 }
