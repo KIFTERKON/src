@@ -1,5 +1,7 @@
 package catalogos;
 
+import izagar.Cat_IZAGAR_Selecionar_Nomina_Para_Netos;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -133,8 +135,8 @@ public class Cat_Bancos extends Cat_Root {
 		
 		this.btn_guardar.addActionListener(op_guardar);
 		this.btn_lay_out.addActionListener(op_lay_out);
-		this.btn_lay_out.addActionListener(null);
-		this.btn_123.addActionListener(null);
+		this.btn_123.addActionListener(op_123);
+		
 		this.btn_refrescar.setVisible(false);
 			
 		btn_lay_out.setToolTipText("Generar Lay Out");
@@ -211,6 +213,12 @@ public class Cat_Bancos extends Cat_Root {
 			new Cat_Lay_Out().setVisible(true);
 		}
 	};
+	
+	   ActionListener op_123 = new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new Cat_IZAGAR_Selecionar_Nomina_Para_Netos().setVisible(true);
+			}
+		};
 	
 	private Object[][] tabla_guardar(){
 		Object[][] matriz = new Object[tabla.getRowCount()][6];
