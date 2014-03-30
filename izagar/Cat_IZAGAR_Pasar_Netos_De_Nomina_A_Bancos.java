@@ -3,6 +3,10 @@ package izagar;
 
 import java.awt.Container;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -162,12 +166,13 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 		while(tablanomina.getRowCount()>0){	modelonomina.removeRow(0);	}
 //		llenar arreglo desde funcion
 		Object[][] getTablaNomina = getTablanetosnominaBMS(folio_nomina);
-		 String[] fila = new String[3];
+		Object[] fila = new Object[4];
 //		 llenar tablanomina
          for(int i=0; i<getTablaNomina.length; i++){
                  fila[0] = getTablaNomina[i][0]+"";
                  fila[1] = getTablaNomina[i][1]+"";
                  fila[2] = getTablaNomina[i][2]+"";
+                 fila[3] = getTablaNomina[i][3];
                  modelonomina.addRow(fila); }
 
         trsfiltro = new TableRowSorter(modeloFiltro); 
@@ -207,14 +212,14 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 		tablaconciliados.getColumnModel().getColumn(2).setMinWidth(115);
 		tablaconciliados.getColumnModel().getColumn(3).setMaxWidth(115);
 		tablaconciliados.getColumnModel().getColumn(3).setMinWidth(115);
-		tablaconciliados.getColumnModel().getColumn(4).setMaxWidth(115);
-		tablaconciliados.getColumnModel().getColumn(4).setMinWidth(115);
+		tablaconciliados.getColumnModel().getColumn(4).setMaxWidth(200);
+		tablaconciliados.getColumnModel().getColumn(4).setMinWidth(200);
 		tablaconciliados.getColumnModel().getColumn(5).setMaxWidth(40);
 		tablaconciliados.getColumnModel().getColumn(5).setMinWidth(40);
 		
     	campo.add(scroll).setBounds(15,40,480,300);
 		campo.add(scrollAsignado).setBounds(510,40,480,300);
-		campo.add(scrollconciliados).setBounds(15,400,975,300);
+		campo.add(scrollconciliados).setBounds(15,400,900,300);
 	
      	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,12 +228,66 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 		setSize(1024,768);
 		setResizable(false);
 		setLocationRelativeTo(null);
-//		btnAgregar.addActionListener(Opcion_Agregar_Auto);
+		btnAgregar.addActionListener(OpAgregar);
 		
 		guarda_auto_netos_nomina_po_empleado_temp(folio_nomina);
-		
-	}
 
+//		fincion para seleccionar solo un registro a la ves en la tabla de SCOI-----------------------------------------------------------
+        tablaFiltro.addMouseListener(new MouseListener() {
+			public void mousePressed(MouseEvent e) {
+				int fila = tablaFiltro.getSelectedRow();
+				int columna = tablaFiltro.getSelectedColumn();
+				
+				for(int i=0; i<=tablaFiltro.getRowCount()-1; i++){
+					tablaFiltro.setValueAt(false, i, 3);
+				}
+				if(columna==5){
+					tablaconciliados.setValueAt(true, fila, columna);
+				}
+			}
+			public void mouseClicked(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+		});
+//		fincion para seleccionar solo un registro a la ves en la tabla de NOMINA----------------------------------------------------------- 
+        tablanomina.addMouseListener(new MouseListener() {
+			public void mousePressed(MouseEvent e) {
+				int fila = tablanomina.getSelectedRow();
+				int columna = tablanomina.getSelectedColumn();
+				
+				for(int i=0; i<=tablanomina.getRowCount()-1; i++){
+					tablanomina.setValueAt(false, i, 3);
+				}
+				if(columna==5){
+					tablaconciliados.setValueAt(true, fila, columna);
+				}
+			}
+			public void mouseClicked(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+		});
+//		fincion para seleccionar solo un registro a la ves en la tabla CONCILIADOS-------------------------------------------------------
+        tablaconciliados.addMouseListener(new MouseListener() {
+			public void mousePressed(MouseEvent e) {
+				int fila = tablaconciliados.getSelectedRow();
+				int columna = tablaconciliados.getSelectedColumn();
+				
+				for(int i=0; i<=tablaconciliados.getRowCount()-1; i++){
+					tablaconciliados.setValueAt(false, i, 5);
+				}
+				if(columna==5){
+					tablaconciliados.setValueAt(true, fila, columna);
+				}
+			}
+			public void mouseClicked(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+		});
+	}
+	
   //GUARDADO AUTOMATICO DE LA NOMINA TECLEADA//  
   public void guarda_auto_netos_nomina_po_empleado_temp(String folio_nomina){
 				
@@ -247,18 +306,19 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 							
 //							llenado tabla exportacion de bm completa despues de guardarlos en scoi
 							Object[][] getTablaNomina = getTablanetosnomina_guardados_scoi(folio_nomina);
-							 String[] fila = new String[3];
+							Object[] fila = new Object[4];
 //							 vuelve a llenar tablanomina desde el scoi
 					         for(int i=0; i<getTablaNomina.length; i++){
 					                 fila[0] = getTablaNomina[i][0]+"";
 					                 fila[1] = getTablaNomina[i][1]+"";
 					                 fila[2] = getTablaNomina[i][2]+"";
+					                 fila[3] = Boolean.valueOf(getTablaNomina[i][3].toString().trim());
 					                 modelonomina.addRow(fila);}
 					         
 					         
 //					  		llenado tabla conciliados
 					      	Object[][] getTablaconciliados = getTablaconciliados(folio_nomina);
-					      	String[] fila2 = new String[5];
+					      	Object[] fila2 = new Object[5];
 //					 		 llenar tabla conciliados
 					         for(int i=0; i<getTablaconciliados.length; i++){
 					                 fila2[0] = getTablaconciliados[i][0]+"";
@@ -266,18 +326,20 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 					                 fila2[2] = getTablaconciliados[i][2]+"";
 					                 fila2[3] = getTablaconciliados[i][3]+"";
 					                 fila2[4] = getTablaconciliados[i][4]+"";
+//					                 fila2[5] = Boolean.valueOf(getTablaNomina[i][5].toString().trim());
 					                 modeloconciliados.addRow(fila2);} 
 					         
 					         
 					         
 //					  		llenado tabla faltantes de conciliar
 					      	Object[][] getTablaFiltro = getTablaempleadoscoi(folio_nomina);
-					      	String[] fila1 = new String[3];
+					      	Object[] fila1 = new Object[4];
 //					 		 llenar tabla empleado scoi
 					         for(int i=0; i<getTablaFiltro.length; i++){
 					                 fila1[0] = getTablaFiltro[i][0]+"";
 					                 fila1[1] = getTablaFiltro[i][1]+"";
 					                 fila1[2] = getTablaFiltro[i][2]+"";
+					                 fila1[3] = Boolean.valueOf(getTablaNomina[i][3].toString().trim());
 					                 modeloFiltro.addRow(fila1);    }
 						}else{
 							JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar guardar la tabla liquidaciones","Error",JOptionPane.ERROR_MESSAGE);
@@ -372,7 +434,8 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 				Matriz_nomina_neto_bms[i][0] = "   "+rs2.getString(1).trim();
 				Matriz_nomina_neto_bms[i][1] = "   "+rs2.getString(2).trim();
 				Matriz_nomina_neto_bms[i][2] = "   "+rs2.getString(3).trim();
-				Matriz_nomina_neto_bms[i][3] = Boolean.valueOf(rs2.getString(4).trim());
+//				Matriz_nomina_neto_bms[i][3] = Boolean.valueOf(rs2.getString(4).trim());
+				Matriz_nomina_neto_bms[i][3] = false;
 								i++;
 			}
 		} catch (SQLException e1) {
@@ -408,7 +471,8 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 				MatrizFiltro[i][0] = "   "+rs.getString(1).trim();
 				MatrizFiltro[i][1] = "   "+rs.getString(2).trim();
 				MatrizFiltro[i][2] = "   "+rs.getString(3).trim();
-				MatrizFiltro[i][3] = Boolean.valueOf(rs.getString(4).trim());
+//				MatrizFiltro[i][3] = Boolean.valueOf(rs.getString(4).trim());
+				MatrizFiltro[i][3] = false;
 				i++;
 			}
 		} catch (SQLException e1) {
@@ -446,7 +510,8 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 					Matriz_Conciliados[i][2] = "   "+rs.getString(3).trim();
 					Matriz_Conciliados[i][3] = "   "+rs.getString(4).trim();
 					Matriz_Conciliados[i][4] = "   "+rs.getString(5).trim();
-					Matriz_Conciliados[i][5] = Boolean.valueOf(rs.getString(6).trim());
+//					Matriz_Conciliados[i][5] = Boolean.valueOf(rs.getString(6).trim());
+					Matriz_Conciliados[i][5] = false;
 									i++;
 				}
 			} catch (SQLException e1) {
@@ -498,7 +563,46 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 
 		}
 	 	
-	 	
+	 	ActionListener OpAgregar = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				boolean filaSeleccionadaSCOI=false;
+				int numeroFilaSCOI=0;
+				
+				boolean filaSeleccionadaNOMINA=false;
+				int numeroFilaNOMINA=0;
+				
+				for(int i=0; i<tablaFiltro.getRowCount(); i++){
+//					System.out.println(tablaFiltro.getValueAt(i, 0));
+//					System.out.println(tablaFiltro.getValueAt(i, 1));
+//					System.out.println(tablaFiltro.getValueAt(i, 2));
+//					System.out.println(tablaFiltro.getValueAt(i, 3));
+					if(tablaFiltro.getValueAt(i, 3).toString().trim().equals("true")){
+						filaSeleccionadaSCOI=true;
+						numeroFilaSCOI=i;
+						break;
+					}
+				}
+				
+				for(int i=0; i<tablanomina.getRowCount(); i++){
+					if(tablanomina.getValueAt(i, 3).toString().trim().equals("true")){
+						filaSeleccionadaNOMINA=true;
+						numeroFilaNOMINA=i;
+						break;
+					}
+				}
+				
+				if(filaSeleccionadaSCOI && filaSeleccionadaNOMINA){
+					System.out.println(tablaFiltro.getValueAt(numeroFilaSCOI, 0));
+					
+					System.out.println(tablanomina.getValueAt(numeroFilaNOMINA, 0));
+					System.out.println(tablanomina.getValueAt(numeroFilaNOMINA, 2));
+				}else{
+					JOptionPane.showMessageDialog(null,"Debe Seleccionar Un Registro En Tabla SCOI\ny Uno De La Tabla NOMINA", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+			}
+		};
    	
 	
 //	public static void main(String args[]){
