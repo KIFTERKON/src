@@ -928,4 +928,42 @@ public boolean IZAGAR_insert_Netos_Nominas_Temp(Object[][] tabla){
 	}		
 	return true;
 	}
+
+public boolean IZAGAR_insert_Netos_Nominas_Temp_individual(int folio_empleado,int nomina,float neto){
+	String query = "exec IZAGAR_insert_Netos_Nominas_Temp "+folio_empleado+","+nomina+","+neto+";";
+	Connection con = new Connexion().conexion();
+	
+	try {
+		PreparedStatement pstmt = con.prepareStatement(query);
+		con.setAutoCommit(false);
+		
+//		for(int i=0; i<tabla.length; i++){
+//			pstmt.setString(1, tabla[i][0].toString().trim());
+//			pstmt.setString(2, tabla[i][1].toString().trim());
+//			pstmt.setString(3, tabla[i][2].toString().trim());
+//			;
+//		
+//		}
+		pstmt.executeUpdate();
+		con.commit();
+	} catch (Exception e) {
+		System.out.println("SQLException: "+e.getMessage());
+		if(con != null){
+			try{
+				System.out.println("La transacción ha sido abortada");
+				con.rollback();
+			}catch(SQLException ex){
+				System.out.println(ex.getMessage());
+			}
+		}
+		return false;
+	}finally{
+		try {
+			con.close();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}		
+	return true;
+	}
 }
