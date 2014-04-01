@@ -30,6 +30,8 @@ public class Cat_Root extends JFrame {
 	public JButton btn_guardar = new JButton(new ImageIcon("Iconos/save_icon&16.png"));
 	public JButton btn_refrescar = new JButton(new ImageIcon("Iconos/refresh_icon&16.png"));
 	
+	public JButton btn_salir = new JButton();
+	
 	public Cat_Root(){
 		
 		this.panel.add(menu_toolbar).setBounds(0,0,150,25);
@@ -44,5 +46,4 @@ public class Cat_Root extends JFrame {
 		this.btn_guardar.setToolTipText("Guardar");
 		
 	}
-	
 }

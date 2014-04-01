@@ -7,16 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
@@ -44,21 +41,8 @@ public class Cat_IZAGAR_Selecionar_Nomina_Para_Netos extends JFrame{
 		txtFolionomina.addKeyListener(valida_numerico);
 		cont.add(campo);
     	btnconsultanomina.addActionListener(buscar);
-    	
-//      EJECUTA EL BOTON CONSULTANOMINA CON UN ENTER
-        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-           KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "filtro");
-        
-        getRootPane().getActionMap().put("filtro", new AbstractAction(){
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-            	btnconsultanomina.doClick();
-            }
-        });
-        
-			}
-	
+    	txtFolionomina.addActionListener(buscar);
+	}
   	
 	KeyListener valida_numerico = new KeyListener() {
 		@Override
@@ -83,7 +67,9 @@ public class Cat_IZAGAR_Selecionar_Nomina_Para_Netos extends JFrame{
 				try {				 	
 					new Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos(txtFolionomina.getText()).setVisible(true);
 					dispose();
-				} catch (NumberFormatException e1) { e1.printStackTrace(); } 			
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace(); 
+				} 			
 			}
 		}
 	};

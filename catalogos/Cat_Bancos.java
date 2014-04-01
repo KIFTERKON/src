@@ -28,12 +28,13 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
 
+
+
 import objetos.Obj_Bancos;
 
 @SuppressWarnings("serial")
 public class Cat_Bancos extends Cat_Root {
-
-	private JCheckBox chbHabilitarBanamex = new JCheckBox("Habilitar");
+	private JCheckBox chbHabilitarBanamex = new JCheckBox("Habilitar");	
 	private JCheckBox chbHabilitarBanorte = new JCheckBox("Habilitar");
 	private JCheckBox chbNegativos = new JCheckBox("Valores Negativos");
 	
@@ -64,7 +65,7 @@ public class Cat_Bancos extends Cat_Root {
         	 	case 1 : return false; 
         	 	case 2 : return false; 
         	 	case 3 :
-    	 			if(chbHabilitarBanamex.isSelected()){
+    	 	if(chbHabilitarBanamex.isSelected()){
     	 				if(tabla_model.getValueAt(fila,4).toString().length() != 0){
     	 					return false;
     	 				}else{
@@ -72,7 +73,7 @@ public class Cat_Bancos extends Cat_Root {
     	 				}        	 				
     	 			 }else{
     	 				 return false;
-    	 			 }        	 			
+    	 			}        	 			
         	 	case 4 : 
     	 			if(chbHabilitarBanorte.isSelected()){
     	 				if(tabla_model.getValueAt(fila,3).toString().length() != 0){
@@ -114,6 +115,8 @@ public class Cat_Bancos extends Cat_Root {
 		this.panel.add(btn_lay_out).setBounds(1015,0,25,25);
 		this.panel.add(btn_123).setBounds(1040,0,25,25);
 		
+		this.panel.add(btn_salir).setBounds(1140,0,25,25);
+		
 		this.panel.add(new JLabel("Total Banamex:")).setBounds(1080,70,100,20);
 		this.panel.add(txtBanamex).setBounds(1160,70,120,20);
 		this.txtBanamex.setEditable(false);
@@ -136,6 +139,7 @@ public class Cat_Bancos extends Cat_Root {
 		this.btn_guardar.addActionListener(op_guardar);
 		this.btn_lay_out.addActionListener(op_lay_out);
 		this.btn_123.addActionListener(op_123);
+		this.btn_salir.addActionListener(op_salir);
 		
 		this.btn_refrescar.setVisible(false);
 			
@@ -168,6 +172,11 @@ public class Cat_Bancos extends Cat_Root {
 		public void windowActivated(WindowEvent e) {}
 	};
 	
+	 ActionListener op_salir = new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+	 };
     ActionListener op_guardar = new ActionListener() {
 		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent arg0) {
@@ -427,5 +436,9 @@ public class Cat_Bancos extends Cat_Root {
 			}		
 		}
 		return valor;
+	}
+
+	public static void main (String [] arg) {
+		new Cat_Bancos().setVisible(true);
 	}
 }
