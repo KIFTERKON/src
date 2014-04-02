@@ -645,14 +645,9 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 				
 				
 //				System.out.println("count tabla desde Izagar "+new Cat_Bancos().tabla.getRowCount());
-				new Cat_Bancos().dispose();
+//				new Cat_Bancos().dispose();
 //				dispose();
 //				new Cat_Bancos().btn_salir.doClick();
-//				new Cat_Bancos().setVisible(true);
-				
-
-				
-				
 				
 				
 				

@@ -22,6 +22,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -721,6 +722,17 @@ public class Cat_Checador extends JFrame {
                                         fila[8] = lista_tabla[i][8]+"";
                                         tabla_model.addRow(fila);
                                 }
+//   apartado para configurar el uso de la pantalla de avisos--------------------------------
+                                JDialog frame = new JDialog();
+                    			
+                    		    frame.setUndecorated(true);
+                    		    new Cat_Avisos_Checador(frame);
+                          
+                    		    frame.setVisible(true);
+                                
+// -------------------------------------------------------------------------------------------
+                                
+                                
                 }else{
                 	lblSemaforoRojo.setEnabled(true);
                     lblSemaforoVerde.setEnabled(false);

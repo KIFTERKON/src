@@ -356,5 +356,8 @@ public class Cat_Mensajes extends JFrame
 		public void keyPressed(KeyEvent arg0) {
 		}
 	};
-	
+	public static void main(String [] arg){
+		new Cat_Mensajes().setVisible(true);
+	}
+
 }

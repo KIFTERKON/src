@@ -551,8 +551,8 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
 		getContenedor();
 		camposFalse();
 		
-		btnAceptar.setEnabled(false);
-		btnEditar.setEnabled(false);
+//		btnAceptar.setEnabled(false);
+//		btnEditar.setEnabled(false);
 	}
 
 	@SuppressWarnings("unused")
@@ -568,6 +568,7 @@ ButtonGroup RBAgrupados3 = new ButtonGroup();
  	         String linea;
  	         
  	       boolean permiso_horario = new ObjHorario().Existe_permiso_horario(Integer.parseInt(br.readLine()));
+ 	       System.out.println(permiso_horario);
  	       btnEditar.setEnabled(permiso_horario);
 
 		 }
