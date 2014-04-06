@@ -24,8 +24,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import catalogos.Cat_Bancos;
-
 import Objetos_IZAGAR.Obj_IZAGAR_Netos_Nominas;
 import SQL.Connexion;
 
@@ -38,7 +36,7 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 	Object[][] Matriz_nomina_neto_bms ;
 	Object[][] Matriz_Conciliados;
 	JButton btnAgregar = new JButton("Traspaso Por Nombre");
-	JButton btnAplicar = new JButton("Aplicar");
+	public JButton btnAplicar = new JButton("Aplicar");
 
 	
 //TABLA PENDIENTES DE CONCILIAR SCOI-----------------------------------------------------------------------------------------
@@ -226,14 +224,13 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 		campo.add(btnAgregar).setBounds(225,30,140,20);
 		campo.add(btnAplicar).setBounds(375,30,80,20);
 		
-//		btnAplicar.setEnabled(false);
+		btnAplicar.setEnabled(false);
 		
 		cont.add(campo);
 		setSize(935,735);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		btnAgregar.addActionListener(OpAgregar);
-		btnAplicar.addActionListener(OpAplicar);
 		
 		guarda_auto_netos_nomina_po_empleado_temp(folio_nomina);
 
@@ -638,35 +635,6 @@ public class Cat_IZAGAR_Pasar_Netos_De_Nomina_A_Bancos  extends JFrame{
 			}
 		};
 		
-	 	ActionListener OpAplicar = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				
-				
-				
-//				System.out.println("count tabla desde Izagar "+new Cat_Bancos().tabla.getRowCount());
-//				new Cat_Bancos().dispose();
-//				dispose();
-//				new Cat_Bancos().btn_salir.doClick();
-				
-				
-				
-				
-				
-//				if(new Obj_IZAGAR_Netos_Nominas().guardar_totales_deposito_nomina_bancos()){
-////					dispose();
-////					REFRESCAR TABLA DE BANCOS AUTOMATICO
-//					
-//					JOptionPane.showMessageDialog(null,"El Transpaso Se a Realizado Exitosamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-//					return;
-//				}else{
-//					JOptionPane.showMessageDialog(null,"No Se A Realizado El Transpaso", "Error", JOptionPane.WARNING_MESSAGE);
-//					return;
-//				}
-			}
-		};
-   	
-	
 //	public static void main(String args[]){
 //		try{
 //			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

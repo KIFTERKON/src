@@ -17,8 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -29,7 +27,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -42,11 +39,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import org.aspectj.ajdt.internal.compiler.ast.AddAtAspectJAnnotationsVisitor;
-
 import objetos.JTextFieldLimit;
 import objetos.Obj_Alimentacion_De_Vacaciones;
-import objetos.Obj_Empleado;
 
 import SQL.Connexion;
 
@@ -241,6 +235,8 @@ public class Cat_Alimentacion_De_Vacaciones extends JFrame {
 			System.out.print("adfkjssdg");
 		}
 	};
+	
+	
 	
 	//Filtro Empleado
 	public class Filtro_Permiso_Empleado extends JFrame{

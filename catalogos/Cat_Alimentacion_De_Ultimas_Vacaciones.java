@@ -98,6 +98,8 @@ public class Cat_Alimentacion_De_Ultimas_Vacaciones extends JFrame{
 		txtFolioEmpleado.addActionListener(opFiltro);
 		btnFiltro.addActionListener(opFiltro);
 		
+		btnGuardar.addActionListener(opGuardar);
+		
 		btnLimpiar.addActionListener(opLimpiar);
 		txtFolioEmpleado.addKeyListener(valida_numerico);
 		txtVacacionesProximas.addKeyListener(valida_numerico);
@@ -164,7 +166,7 @@ public class Cat_Alimentacion_De_Ultimas_Vacaciones extends JFrame{
 	
 	ActionListener opGuardar = new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				
+//				cambiar por valida campos
 				if(txtEmpleado.getText().equals("")){
 					JOptionPane.showMessageDialog(null, "Seleccione Un Empleado", "Aviso", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
 					return;
@@ -173,54 +175,80 @@ public class Cat_Alimentacion_De_Ultimas_Vacaciones extends JFrame{
 					Obj_Alimentacion_De_Vacaciones alimentacion = new Obj_Alimentacion_De_Vacaciones().buscar_empleado_para_vacaciones(Integer.valueOf(txtFolioEmpleado.getText()));
 					if(alimentacion.getFolio_empleado() == Integer.parseInt(txtFolioEmpleado.getText())){
 						
-						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
+//						if(JOptionPane.showConfirmDialog(null, "El registro ya existe, ¿desea cambiarlo?") == 0){
+//							
+//							if(validaCampos()!="") {
+//								JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+//								return;
+//							}else{
+////								codigo para actualizar
+//								
+//								alimentacion.setFolio_empleado(Integer.valueOf(txtFolioEmpleado.getText()));
+//								alimentacion.setFecha_inicio(new SimpleDateFormat("dd/MM/yyyy").format(fechaInicio.getDate()));
+//								alimentacion.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(fechaFinal.getDate()));
+//								alimentacion.setAnios_a_disfrutar(Integer.valueOf(txtVacacionesProximas.getText()));
+////								actializar			
+////									if(departamento.actualizar()){
+////										
+//										
+////										JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+////										panelLimpiar();
+////										panelEnabledFalse();
+////										txtFolio.setEditable(true);
+////										txtFolio.requestFocus();
+////										return;
+//								
+////									}else{
+////										JOptionPane.showMessageDialog(null, "El registro no se actualizó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+////										return;
+////									}
+//							}
+//							
+//						}else{
+//							return;
+//						}
+					}else{
+						
+						if(validaCampos()!="") {
+							JOptionPane.showMessageDialog(null, "los siguientes campos son requeridos:\n"+validaCampos(), "Error al guardar registro", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+							return;
+						}else{
+//							codigo para guardar
+							
 							alimentacion.setFolio_empleado(Integer.valueOf(txtFolioEmpleado.getText()));
 							alimentacion.setFecha_inicio(new SimpleDateFormat("dd/MM/yyyy").format(fechaInicio.getDate()));
 							alimentacion.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(fechaFinal.getDate()));
 							alimentacion.setAnios_a_disfrutar(Integer.valueOf(txtVacacionesProximas.getText()));
-//							actializar			
-//								if(departamento.actualizar()){
-//									
-									
-//									JOptionPane.showMessageDialog(null,"El registró se actualizó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-//									panelLimpiar();
-//									panelEnabledFalse();
-//									txtFolio.setEditable(true);
-//									txtFolio.requestFocus();
-//									return;
+//							guardar			
+							if(alimentacion.guardar_ultimas_vacaciones()){
 							
-//								}else{
-//									JOptionPane.showMessageDialog(null, "El registro no se actualizó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-//									return;
-//								}
-							
-						}else{
-							return;
+								limpiar();
+								txtFolioEmpleado.requestFocus();
+								JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
+								return;
+					
+							}else{
+								JOptionPane.showMessageDialog(null, "El registro no se guardó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
+								return;
+							}
 						}
-					}else{
-						alimentacion.setFolio_empleado(Integer.valueOf(txtFolioEmpleado.getText()));
-						alimentacion.setFecha_inicio(new SimpleDateFormat("dd/MM/yyyy").format(fechaInicio.getDate()));
-						alimentacion.setFecha_final(new SimpleDateFormat("dd/MM/yyyy").format(fechaFinal.getDate()));
-						alimentacion.setAnios_a_disfrutar(Integer.valueOf(txtVacacionesProximas.getText()));
-//						guardar			
-						if(alimentacion.guardar_ultimas_vacaciones()){
-						
-						
-//							JOptionPane.showMessageDialog(null,"El registró se guardó de forma segura","Aviso",JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//Exito.png"));
-//							panelLimpiar();
-//							panelEnabledFalse();
-//							txtFolio.setEditable(true);
-//							txtFolio.requestFocus();
-//							return;
-				
-						}else{
-							JOptionPane.showMessageDialog(null, "El registro no se guardó", "Error !!!", JOptionPane.WARNING_MESSAGE,new ImageIcon("Iconos//critica.png"));
-							return;
-						}
+
 					}
 				}		
 			}
 		};
+		
+		private String validaCampos(){
+			String error="";
+			String fechaInicioNull = fechaInicio.getDate()+"";
+			String fechaFinNull = fechaFinal.getDate()+"";
+			
+			if(txtEmpleado.getText().equals(""))error += "Seleccione Un Empleado\n";
+			if(fechaInicioNull.equals("null"))error += "Fecha Inicial\n";	
+			if(fechaFinNull.equals("null"))error += "Fecha Final\n";
+			
+			return error;
+		}
 	
 	KeyListener valida_numerico = new KeyListener() {
 		public void keyTyped(KeyEvent e) {

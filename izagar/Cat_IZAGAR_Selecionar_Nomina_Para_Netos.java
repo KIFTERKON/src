@@ -21,9 +21,9 @@ public class Cat_IZAGAR_Selecionar_Nomina_Para_Netos extends JFrame{
 	
 	Container cont = getContentPane();
 	JLayeredPane campo = new JLayeredPane();
-	JTextField txtFolionomina = new JTextField();
- 	JTextField txtNombre_Completo = new JTextField();
-	JButton btnconsultanomina = new JButton("Buscar");
+	public JTextField txtFolionomina = new JTextField();
+ 	public JTextField txtNombre_Completo = new JTextField();
+	public JButton btnconsultanomina = new JButton("Buscar");
 
 	
  	public Cat_IZAGAR_Selecionar_Nomina_Para_Netos() {
@@ -58,7 +58,7 @@ public class Cat_IZAGAR_Selecionar_Nomina_Para_Netos extends JFrame{
 		public void keyReleased(KeyEvent e){}
 	};
 	
-	ActionListener buscar = new ActionListener(){
+	public ActionListener buscar = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
 			if(txtFolionomina.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Ingrese el No. de Folio","Error",JOptionPane.WARNING_MESSAGE);

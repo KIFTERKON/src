@@ -26,6 +26,6 @@ public class Obj_MD5 {
 		}
 	} 
 	public static void main(String []arg){
-		cryptMD5("162","izagar");
+		cryptMD5("1811","izagar");
 	}
 }
